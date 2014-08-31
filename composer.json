@@ -1,0 +1,24 @@
+{
+    "name": "brick/date-time",
+    "description": "Date and time library",
+    "type": "library",
+    "keywords": [
+        "Brick",
+        "Date",
+        "Time"
+    ],
+    "license": "MIT",
+    "require": {
+        "php": ">=5.5.10"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "*",
+        "satooshi/php-coveralls": "dev-master"
+    },
+    "autoload": {
+        "psr-4": {
+            "Brick\\DateTime\\": "src/",
+            "Brick\\DateTime\\Tests\\": "tests/"
+        }
+    }
+}
