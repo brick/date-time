@@ -3,6 +3,9 @@ Brick\DateTime
 
 A powerful set of immutable classes to work with dates and times.
 
+[![Build Status](https://secure.travis-ci.org/brick/date-time.png)](http://travis-ci.org/brick/date-time)
+[![Coverage Status](https://coveralls.io/repos/brick/date-time/badge.png)](https://coveralls.io/r/brick/date-time)
+
 Introduction
 ------------
 
