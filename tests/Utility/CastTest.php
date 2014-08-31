@@ -1,6 +1,6 @@
 <?php
 
-namespace Brick\Tests\DateTime\Utility;
+namespace Brick\DateTime\Tests\Utility;
 
 use Brick\DateTime\Utility\Cast;
 

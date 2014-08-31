@@ -1,6 +1,6 @@
 <?php
 
-namespace Brick\Tests\DateTime;
+namespace Brick\DateTime\Tests;
 
 use Brick\DateTime\Clock\Clock;
 use Brick\DateTime\Clock\FixedClock;

@@ -1,8 +1,8 @@
 <?php
 
-namespace Brick\Tests\DateTime\Clock;
+namespace Brick\DateTime\Tests\Clock;
 
-use Brick\Tests\DateTime\AbstractTestCase;
+use Brick\DateTime\Tests\AbstractTestCase;
 use Brick\DateTime\Clock\FixedClock;
 use Brick\DateTime\Clock\OffsetClock;
 use Brick\DateTime\Duration;
