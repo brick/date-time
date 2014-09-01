@@ -7,12 +7,10 @@ use Brick\DateTime\Utility\Time;
 use Brick\DateTime\Utility\Cast;
 
 /**
- * Represents a point in time, with a 1 second precision.
+ * Represents a point in time, with a nanosecond precision.
  *
  * Instant represents the computer view of the timeline. It unambiguously represents a point in time,
- * without any calendar concept of date, time or time zone.
- *
- * Instant is easily and unambiguously persistable as an integer. It is not very meaningful to humans,
+ * without any calendar concept of date, time or time zone. It is not very meaningful to humans,
  * but can be converted to a `ZonedDateTime` by providing a time zone.
  */
 class Instant extends ReadableInstant

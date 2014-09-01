@@ -5,7 +5,7 @@ namespace Brick\DateTime;
 use Brick\DateTime\Utility\Cast;
 
 /**
- * Represents a month.
+ * Represents a month-of-year such as January.
  */
 class Month
 {
