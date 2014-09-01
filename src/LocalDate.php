@@ -286,24 +286,6 @@ class LocalDate
     }
 
     /**
-     * Resolves the date, resolving days past the end of month.
-     *
-     * @param integer $year  The year to represent, validated as an integer from MIN_YEAR to MAX_YEAR.
-     * @param integer $month The month-of-year to represent, validated as an integer from 1 to 12.
-     * @param integer $day   The day-of-month to represent, validated as an integer from 1 to 31.
-     *
-     * @return LocalDate
-     */
-    private function resolvePreviousValid($year, $month, $day)
-    {
-        if ($day > 28) {
-            $day = min($day, YearMonth::of($year, $month)->getLengthOfMonth());
-        }
-
-        return new LocalDate($year, $month, $day);
-    }
-
-    /**
      * Returns a copy of this LocalDate with the year altered.
      *
      * If the day-of-month is invalid for the year, it will be changed to the last valid day of the month.
@@ -560,6 +542,46 @@ class LocalDate
     }
 
     /**
+     * Calculates the period between this date and another date.
+     *
+     * This calculates the period between the two dates in terms of years, months and days.
+     * The result will be negative if the end is before the start.
+     * The negative sign will be the same in each of year, month and day.
+     *
+     * The start date is included, but the end date is not.
+     * The period is calculated by removing complete months, then calculating
+     * the remaining number of days, adjusting to ensure that both have the same sign.
+     * The number of months is then normalized into years and months based on a 12 month year.
+     * A month is considered to be complete if the end day-of-month is greater
+     * than or equal to the start day-of-month.
+     *
+     * For example, from `2010-01-15` to `2011-03-18` is 1 year, 2 months and 3 days.
+     *
+     * @param LocalDate $endDateExclusive
+     *
+     * @return Period
+     */
+    public function until(LocalDate $endDateExclusive)
+    {
+        $totalMonths = $endDateExclusive->getProlepticMonth() - $this->getProlepticMonth();
+        $days = $endDateExclusive->day - $this->day;
+
+        if ($totalMonths > 0 && $days < 0) {
+            $totalMonths--;
+            $calcDate = $this->plusMonths($totalMonths);
+            $days = $endDateExclusive->toEpochDay() - $calcDate->toEpochDay();
+        } elseif ($totalMonths < 0 && $days > 0) {
+            $totalMonths++;
+            $days -= $endDateExclusive->getLengthOfMonth();
+        }
+
+        $years = Math::div($totalMonths, 12);
+        $months = $totalMonths % 12;
+
+        return Period::of($years, $months, $days);
+    }
+
+    /**
      * Returns a local date-time formed from this date at the specified time.
      *
      * @param LocalTime $time
@@ -578,7 +600,27 @@ class LocalDate
      */
     public function isLeapYear()
     {
-        return Year::of($this->year)->isLeap();
+        return Field\Year::isLeap($this->year);
+    }
+
+    /**
+     * Returns the length of the year represented by this date.
+     *
+     * @return integer The length of the year in days.
+     */
+    public function getLengthOfYear()
+    {
+        return $this->isLeapYear() ? 366 : 365;
+    }
+
+    /**
+     * Returns the length of the month represented by this date.
+     *
+     * @return integer The length of the month in days.
+     */
+    public function getLengthOfMonth()
+    {
+        return Field\MonthOfYear::getLength($this->month, $this->year);
     }
 
     /**
@@ -638,5 +680,31 @@ class LocalDate
         $datetime->setDate($this->year, $this->month, $this->day);
 
         return $formatter->format($datetime);
+    }
+
+    /**
+     * Resolves the date, resolving days past the end of month.
+     *
+     * @param integer $year  The year to represent, validated as an integer from MIN_YEAR to MAX_YEAR.
+     * @param integer $month The month-of-year to represent, validated as an integer from 1 to 12.
+     * @param integer $day   The day-of-month to represent, validated as an integer from 1 to 31.
+     *
+     * @return LocalDate
+     */
+    private function resolvePreviousValid($year, $month, $day)
+    {
+        if ($day > 28) {
+            $day = min($day, YearMonth::of($year, $month)->getLengthOfMonth());
+        }
+
+        return new LocalDate($year, $month, $day);
+    }
+
+    /**
+     * @return boolean
+     */
+    private function getProlepticMonth()
+    {
+        return $this->year * 12 + $this->month - 1;
     }
 }

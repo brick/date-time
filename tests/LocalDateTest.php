@@ -680,7 +680,127 @@ class LocalDateTest extends AbstractTestCase
             [2013, 1, 1, 365, 2012, 1, 2],
             [2013, 1, 1, 366, 2012, 1, 1],
             [2013, 1, 1, 367, 2011, 12, 31],
-            [2013, 1, 1, 1000, 2010, 4, 7]
+            [2013, 1, 1, 1000, 2010, 4, 7],
+        ];
+    }
+
+    /**
+     * @dataProvider providerUntil
+     *
+     * @param integer $y1 The year of the 1st date.
+     * @param integer $m1 The month of the 1st date.
+     * @param integer $d1 The day of the 1st date.
+     * @param integer $y2 The year of the 2nd date.
+     * @param integer $m2 The month of the 2nd date.
+     * @param integer $d2 The day of the 2nd date.
+     * @param integer $y  The expected number of years in the period.
+     * @param integer $m  The expected number of months in the period.
+     * @param integer $d  The expected number of days in the period.
+     */
+    public function testUntil($y1, $m1, $d1, $y2, $m2, $d2, $y, $m, $d)
+    {
+        $date1 = LocalDate::of($y1, $m1, $d1);
+        $date2 = LocalDate::of($y2, $m2, $d2);
+
+        $this->assertPeriodEquals($y, $m, $d, $date1->until($date2));
+    }
+
+    /**
+     * @return array
+     */
+    public function providerUntil()
+    {
+        return [
+            [2010, 1, 15, 2010, 1, 15, 0, 0, 0],
+            [2010, 1, 15, 2010, 1, 18, 0, 0, 3],
+            [2010, 1, 15, 2010, 3, 15, 0, 2, 0],
+            [2010, 1, 15, 2010, 3, 18, 0, 2, 3],
+            [2010, 1, 15, 2011, 1, 15, 1, 0, 0],
+            [2010, 1, 15, 2011, 1, 18, 1, 0, 3],
+            [2010, 1, 15, 2011, 3, 15, 1, 2, 0],
+            [2010, 1, 15, 2011, 3, 18, 1, 2, 3],
+            [2010, 1, 18, 2010, 1, 15, 0, 0, -3],
+            [2010, 1, 18, 2010, 1, 18, 0, 0, 0],
+            [2010, 1, 18, 2010, 3, 15, 0, 1, 25],
+            [2010, 1, 18, 2010, 3, 18, 0, 2, 0],
+            [2010, 1, 18, 2011, 1, 15, 0, 11, 28],
+            [2010, 1, 18, 2011, 1, 18, 1, 0, 0],
+            [2010, 1, 18, 2011, 3, 15, 1, 1, 25],
+            [2010, 1, 18, 2011, 3, 18, 1, 2, 0],
+            [2010, 3, 15, 2010, 1, 15, 0, -2, 0],
+            [2010, 3, 15, 2010, 1, 18, 0, -1, -28],
+            [2010, 3, 15, 2010, 3, 15, 0, 0, 0],
+            [2010, 3, 15, 2010, 3, 18, 0, 0, 3],
+            [2010, 3, 15, 2011, 1, 15, 0, 10, 0],
+            [2010, 3, 15, 2011, 1, 18, 0, 10, 3],
+            [2010, 3, 15, 2011, 3, 15, 1, 0, 0],
+            [2010, 3, 15, 2011, 3, 18, 1, 0, 3],
+            [2010, 3, 18, 2010, 1, 15, 0, -2, -3],
+            [2010, 3, 18, 2010, 1, 18, 0, -2, 0],
+            [2010, 3, 18, 2010, 3, 15, 0, 0, -3],
+            [2010, 3, 18, 2010, 3, 18, 0, 0, 0],
+            [2010, 3, 18, 2011, 1, 15, 0, 9, 28],
+            [2010, 3, 18, 2011, 1, 18, 0, 10, 0],
+            [2010, 3, 18, 2011, 3, 15, 0, 11, 25],
+            [2010, 3, 18, 2011, 3, 18, 1, 0, 0],
+            [2011, 1, 15, 2010, 1, 15, -1, 0, 0],
+            [2011, 1, 15, 2010, 1, 18, 0, -11, -28],
+            [2011, 1, 15, 2010, 3, 15, 0, -10, 0],
+            [2011, 1, 15, 2010, 3, 18, 0, -9, -28],
+            [2011, 1, 15, 2011, 1, 15, 0, 0, 0],
+            [2011, 1, 15, 2011, 1, 18, 0, 0, 3],
+            [2011, 1, 15, 2011, 3, 15, 0, 2, 0],
+            [2011, 1, 15, 2011, 3, 18, 0, 2, 3],
+            [2011, 1, 18, 2010, 1, 15, -1, 0, -3],
+            [2011, 1, 18, 2010, 1, 18, -1, 0, 0],
+            [2011, 1, 18, 2010, 3, 15, 0, -10, -3],
+            [2011, 1, 18, 2010, 3, 18, 0, -10, 0],
+            [2011, 1, 18, 2011, 1, 15, 0, 0, -3],
+            [2011, 1, 18, 2011, 1, 18, 0, 0, 0],
+            [2011, 1, 18, 2011, 3, 15, 0, 1, 25],
+            [2011, 1, 18, 2011, 3, 18, 0, 2, 0],
+            [2011, 3, 15, 2010, 1, 15, -1, -2, 0],
+            [2011, 3, 15, 2010, 1, 18, -1, -1, -28],
+            [2011, 3, 15, 2010, 3, 15, -1, 0, 0],
+            [2011, 3, 15, 2010, 3, 18, 0, -11, -28],
+            [2011, 3, 15, 2011, 1, 15, 0, -2, 0],
+            [2011, 3, 15, 2011, 1, 18, 0, -1, -28],
+            [2011, 3, 15, 2011, 3, 15, 0, 0, 0],
+            [2011, 3, 15, 2011, 3, 18, 0, 0, 3],
+            [2011, 3, 18, 2010, 1, 15, -1, -2, -3],
+            [2011, 3, 18, 2010, 1, 18, -1, -2, 0],
+            [2011, 3, 18, 2010, 3, 15, -1, 0, -3],
+            [2011, 3, 18, 2010, 3, 18, -1, 0, 0],
+            [2011, 3, 18, 2011, 1, 15, 0, -2, -3],
+            [2011, 3, 18, 2011, 1, 18, 0, -2, 0],
+            [2011, 3, 18, 2011, 3, 15, 0, 0, -3],
+            [2011, 3, 18, 2011, 3, 18, 0, 0, 0],
+
+            [2012, 1, 18, 2012, 3, 15, 0, 1, 26],
+            [2012, 1, 18, 2013, 1, 15, 0, 11, 28],
+            [2012, 1, 18, 2013, 3, 15, 1, 1, 25],
+            [2012, 3, 15, 2012, 1, 18, 0, -1, -28],
+            [2012, 3, 18, 2013, 1, 15, 0, 9, 28],
+            [2012, 3, 18, 2013, 3, 15, 0, 11, 25],
+            [2013, 1, 15, 2012, 1, 18, 0, -11, -28],
+            [2013, 1, 15, 2012, 3, 18, 0, -9, -28],
+            [2013, 1, 18, 2013, 3, 15, 0, 1, 25],
+            [2013, 3, 15, 2012, 1, 18, -1, -1, -28],
+            [2013, 3, 15, 2012, 3, 18, 0, -11, -28],
+            [2013, 3, 15, 2013, 1, 18, 0, -1, -28],
+
+            [2011, 1, 18, 2011, 3, 15, 0, 1, 25],
+            [2011, 1, 18, 2012, 1, 15, 0, 11, 28],
+            [2011, 1, 18, 2012, 3, 15, 1, 1, 26],
+            [2011, 3, 15, 2011, 1, 18, 0, -1, -28],
+            [2011, 3, 18, 2012, 1, 15, 0, 9, 28],
+            [2011, 3, 18, 2012, 3, 15, 0, 11, 26],
+            [2012, 1, 15, 2011, 1, 18, 0, -11, -28],
+            [2012, 1, 15, 2011, 3, 18, 0, -9, -28],
+            [2012, 1, 18, 2012, 3, 15, 0, 1, 26],
+            [2012, 3, 15, 2011, 1, 18, -1, -1, -28],
+            [2012, 3, 15, 2011, 3, 18, 0, -11, -28],
+            [2012, 3, 15, 2012, 1, 18, 0, -1, -28],
         ];
     }
 
@@ -688,6 +808,85 @@ class LocalDateTest extends AbstractTestCase
     {
         $localDateTime = LocalDate::of(1, 2, 3)->atTime(LocalTime::of(4, 5, 6, 7));
         $this->assertLocalDateTimeEquals(1, 2, 3, 4, 5, 6, 7, $localDateTime);
+    }
+
+    /**
+     * @dataProvider providerIsLeapYear
+     *
+     * @param integer $y      The year of the date to test.
+     * @param integer $m      The month of the date to test (should not matter).
+     * @param integer $d      The day of the date to test (should not matter).
+     * @param integer $isLeap Whether the year is a leap year.
+     */
+    public function testIsLeapYear($y, $m, $d, $isLeap)
+    {
+        $this->assertSame($isLeap, LocalDate::of($y, $m, $d)->isLeapYear());
+    }
+
+    /**
+     * @dataProvider providerIsLeapYear
+     *
+     * @param integer $y      The year of the date to test.
+     * @param integer $m      The month of the date to test (should not matter).
+     * @param integer $d      The day of the date to test (should not matter).
+     * @param integer $isLeap Whether the year is a leap year.
+     */
+    public function testGetLengthOfYear($y, $m, $d, $isLeap)
+    {
+        $this->assertSame($isLeap ? 366 : 365, LocalDate::of($y, $m, $d)->getLengthOfYear());
+    }
+
+    /**
+     * @return array
+     */
+    public function providerIsLeapYear()
+    {
+        return [
+            [1600, 1, 11, true],
+            [1700, 2, 12, false],
+            [1800, 3, 13, false],
+            [1900, 4, 14, false],
+            [1999, 5, 15, false],
+            [2000, 6, 16, true],
+            [2004, 7, 17, true],
+            [2007, 8, 18, false],
+            [2008, 9, 18, true]
+        ];
+    }
+
+    /**
+     * @dataProvider providerGetLengthOfMonth
+     *
+     * @param integer $y      The year of the date to test.
+     * @param integer $m      The month of the date to test.
+     * @param integer $d      The day of the date to test (should not matter).
+     * @param integer $length The length of the month.
+     */
+    public function testGetLengthOfMonth($y, $m, $d, $length)
+    {
+        $this->assertSame($length, LocalDate::of($y, $m, $d)->getLengthOfMonth());
+    }
+
+    /**
+     * @return array
+     */
+    public function providerGetLengthOfMonth()
+    {
+        return [
+            [2000,  1,  2, 31],
+            [2000,  2,  3, 29],
+            [2001,  2,  3, 28],
+            [2002,  3,  4, 31],
+            [2003,  4,  5, 30],
+            [2004,  5,  6, 31],
+            [2004,  6,  7, 30],
+            [2004,  7,  8, 31],
+            [2004,  8,  9, 31],
+            [2004,  9, 10, 30],
+            [2004, 10, 11, 31],
+            [2004, 11, 12, 30],
+            [2004, 12, 13, 31],
+        ];
     }
 
     /**
