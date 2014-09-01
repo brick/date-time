@@ -46,7 +46,7 @@ class Month
      *
      * @return Month The cached Month instance.
      */
-    private function get($value)
+    private static function get($value)
     {
         static $values;
 
