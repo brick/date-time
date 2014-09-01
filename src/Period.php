@@ -156,7 +156,7 @@ class Period
         list (, $sign, $years, $months, $weeks, $days) = $matches;
 
         if ($years === '' && $months === '' && $weeks === '' && $days === '') {
-                throw Parser\DateTimeParseException::invalidPeriod($text);
+            throw Parser\DateTimeParseException::invalidPeriod($text);
         }
 
         $years  = (int) $years;
