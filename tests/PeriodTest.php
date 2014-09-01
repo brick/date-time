@@ -3,6 +3,7 @@
 namespace Brick\DateTime\Tests;
 
 use Brick\DateTime\Period;
+use Brick\DateTime\LocalDate;
 
 /**
  * Unit tests for class Period.
@@ -102,6 +103,15 @@ class PeriodTest extends AbstractTestCase
             ['P0D0D'],
             ['PT0D1S']
         ];
+    }
+
+    /**
+     * Extensive testing is done in LocalDate::until().
+     */
+    public function testBetween()
+    {
+        $period = Period::between(LocalDate::of(2010, 1, 15), LocalDate::of(2011, 3, 18));
+        $this->assertPeriodEquals(1, 2, 3, $period);
     }
 
     public function testPlusYears()

@@ -176,16 +176,27 @@ class Period
     }
 
     /**
-     * Returns a Period consisting of the number of years, months and days between two LocalDateTime instances.
+     * Returns a Period consisting of the number of years, months, and days between two dates.
      *
-     * @param LocalDateTime $startInclusive
-     * @param LocalDateTime $endExclusive
+     * The start date is included, but the end date is not.
+     * The period is calculated by removing complete months, then calculating
+     * the remaining number of days, adjusting to ensure that both have the same sign.
+     * The number of months is then split into years and months based on a 12 month year.
+     * A month is considered if the end day-of-month is greater than or equal to the start day-of-month.
+     *
+     * For example, from `2010-01-15` to `2011-03-18` is one year, two months and three days.
+     *
+     * The result of this method can be a negative period if the end is before the start.
+     * The negative sign will be the same in each of year, month and day.
+     *
+     * @param LocalDate $startInclusive
+     * @param LocalDate $endExclusive
      *
      * @return Period
      */
-    public static function between(LocalDateTime $startInclusive, LocalDateTime $endExclusive)
+    public static function between(LocalDate $startInclusive, LocalDate $endExclusive)
     {
-        // @todo
+        return $startInclusive->until($endExclusive);
     }
 
     /**
