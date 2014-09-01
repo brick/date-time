@@ -5,7 +5,6 @@ namespace Brick\DateTime;
 use Brick\DateTime\Parser\DateTimeParseException;
 use Brick\DateTime\Parser\DateTimeParser;
 use Brick\DateTime\Parser\DateTimeParseResult;
-use Brick\DateTime\Parser\DateTimeParsers;
 use Brick\DateTime\Parser\IsoParsers;
 
 /**

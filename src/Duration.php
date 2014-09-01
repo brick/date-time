@@ -3,7 +3,6 @@
 namespace Brick\DateTime;
 
 use Brick\DateTime\Utility\Math;
-use Brick\DateTime\Utility\Time;
 use Brick\DateTime\Utility\Cast;
 
 /**
