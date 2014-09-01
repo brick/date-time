@@ -2,31 +2,46 @@
 
 namespace Brick\DateTime\Tests;
 
+use Brick\DateTime\LocalDate;
 use Brick\DateTime\LocalTime;
+use Brick\DateTime\TimeZoneOffset;
 
 /**
  * Unit tests for class LocalTime.
  */
 class LocalTimeTest extends AbstractTestCase
 {
-    public function testMidnight()
+    public function testOf()
     {
-        $this->assertLocalTimeEquals(0, 0, 0, 0, LocalTime::midnight());
+        $this->assertLocalTimeEquals(12, 34, 56, 123456789, LocalTime::of(12, 34, 56, 123456789));
     }
 
-    public function testNoon()
+    /**
+     * @dataProvider providerOfInvalidTimeThrowsException
+     * @expectedException \Brick\DateTime\DateTimeException
+     *
+     * @param integer $hour
+     * @param integer $minute
+     * @param integer $second
+     */
+    public function testOfInvalidTimeThrowsException($hour, $minute, $second)
     {
-        $this->assertLocalTimeEquals(12, 0, 0, 0, LocalTime::noon());
+        LocalTime::of($hour, $minute, $second);
     }
 
-    public function testMin()
+    /**
+     * @return array
+     */
+    public function providerOfInvalidTimeThrowsException()
     {
-        $this->assertLocalTimeEquals(0, 0, 0, 0, LocalTime::min());
-    }
-
-    public function testMax()
-    {
-        $this->assertLocalTimeEquals(23, 59, 59, 999999999, LocalTime::max());
+        return [
+            [-1, 0, 0],
+            [24, 0, 0],
+            [0, -1, 0],
+            [0, 60, 0],
+            [0, 0, -1],
+            [0, 0, 60]
+        ];
     }
 
     /**
@@ -39,8 +54,8 @@ class LocalTimeTest extends AbstractTestCase
      */
     public function testOfSecondOfDay($secondOfDay, $hour, $minute, $second)
     {
-        $localTime = LocalTime::ofSecondOfDay($secondOfDay, 123456789);
-        $this->assertLocalTimeEquals($hour, $minute, $second, 123456789, $localTime);
+        $localTime = LocalTime::ofSecondOfDay($secondOfDay, 123);
+        $this->assertLocalTimeEquals($hour, $minute, $second, 123, $localTime);
     }
 
     /**
@@ -157,51 +172,695 @@ class LocalTimeTest extends AbstractTestCase
     }
 
     /**
-     * @dataProvider providerOfInvalidTimeThrowsException
-     * @expectedException \Brick\DateTime\DateTimeException
+     * @dataProvider providerNow
      *
-     * @param integer $hour
-     * @param integer $minute
-     * @param integer $second
+     * @param integer $second The second to set the clock to.
+     * @param integer $nano   The nanosecond adjustment to the clock.
+     * @param integer $offset The time-zone offset to get the time at.
+     * @param integer $h      The expected hour.
+     * @param integer $m      The expected minute.
+     * @param integer $s      The expected second.
+     * @param integer $n      The expected nano.
      */
-    public function testOfInvalidTimeThrowsException($hour, $minute, $second)
+    public function testNow($second, $nano, $offset, $h, $m, $s, $n)
     {
-        LocalTime::of($hour, $minute, $second);
+        $this->setClockTime($second, $nano);
+        $timeZone = TimeZoneOffset::ofTotalSeconds($offset);
+        $this->assertLocalTimeEquals($h, $m, $s, $n, LocalTime::now($timeZone));
     }
 
     /**
      * @return array
      */
-    public function providerOfInvalidTimeThrowsException()
+    public function providerNow()
     {
         return [
-            [-1, 0, 0],
-            [24, 0, 0],
-            [0, -1, 0],
-            [0, 60, 0],
-            [0, 0, -1],
-            [0, 0, 60]
+            [1409574896, 0, 0, 12, 34, 56, 0],
+            [1409574896, 123, 0, 12, 34, 56, 123],
+            [1409574896, 0, 3600, 13, 34, 56, 0],
+            [1409574896, 123456, 5400, 14, 4, 56, 123456]
         ];
     }
 
-    public function testGetHourMinuteSecond()
+    public function testMidnight()
     {
-        $date = LocalTime::of(23, 29, 59);
-
-        $this->assertSame(23, $date->getHour());
-        $this->assertSame(29, $date->getMinute());
-        $this->assertSame(59, $date->getSecond());
+        $this->assertLocalTimeEquals(0, 0, 0, 0, LocalTime::midnight());
     }
 
-    public function testCompare()
+    public function testNoon()
     {
-        $a = LocalTime::of(12, 30, 45);
-        $b = LocalTime::of(23, 30, 00);
+        $this->assertLocalTimeEquals(12, 0, 0, 0, LocalTime::noon());
+    }
 
-        $this->assertLessThan(0, $a->compareTo($b));
-        $this->assertGreaterThan(0, $b->compareTo($a));
-        $this->assertSame(0, $a->compareTo($a));
-        $this->assertSame(0, $b->compareTo($b));
+    public function testMin()
+    {
+        $this->assertLocalTimeEquals(0, 0, 0, 0, LocalTime::min());
+    }
+
+    public function testMax()
+    {
+        $this->assertLocalTimeEquals(23, 59, 59, 999999999, LocalTime::max());
+    }
+
+    public function testWithHour()
+    {
+        $this->assertLocalTimeEquals(23, 34, 56, 789, LocalTime::of(12, 34, 56, 789)->withHour(23));
+    }
+
+    public function testWithMinute()
+    {
+        $this->assertLocalTimeEquals(12, 59, 56, 789, LocalTime::of(12, 34, 56, 789)->withMinute(59));
+    }
+
+    public function testWithSecond()
+    {
+        $this->assertLocalTimeEquals(12, 34, 59, 789, LocalTime::of(12, 34, 56, 789)->withSecond(59));
+    }
+
+    public function testWithNano()
+    {
+        $this->assertLocalTimeEquals(12, 34, 56, 999999, LocalTime::of(12, 34, 56, 789)->withNano(999999));
+    }
+
+    public function testWithSameValueReturnsThis()
+    {
+        $time = LocalTime::of(12, 34, 56, 789);
+
+        $this->assertSame($time, $time->withHour(12));
+        $this->assertSame($time, $time->withMinute(34));
+        $this->assertSame($time, $time->withSecond(56));
+        $this->assertSame($time, $time->withNano(789));
+    }
+
+    /**
+     * @dataProvider providerPlusHours
+     *
+     * @param integer $h  The base hour.
+     * @param integer $d  The number of hours to add.
+     * @param integer $eh The expected result hour.
+     */
+    public function testPlusHours($h, $d, $eh)
+    {
+        $result = LocalTime::of($h, 34, 56, 789)->plusHours($d);
+        $this->assertLocalTimeEquals($eh, 34, 56, 789, $result);
+    }
+
+    /**
+     * @dataProvider providerPlusHours
+     *
+     * @param integer $h  The base hour.
+     * @param integer $d  The number of hours to add.
+     * @param integer $eh The expected result hour.
+     */
+    public function testMinusHours($h, $d, $eh)
+    {
+        $result = LocalTime::of($h, 34, 56, 789)->minusHours(-$d);
+        $this->assertLocalTimeEquals($eh, 34, 56, 789, $result);
+    }
+
+    /**
+     * @return array
+     */
+    public function providerPlusHours()
+    {
+        return [
+            [0, -25, 23],
+            [0, -24, 0],
+            [0, -23, 1],
+            [0, -1, 23],
+            [0, 0, 0],
+            [0, 1, 1],
+            [0, 23, 23],
+            [0, 24, 0],
+            [0, 25, 1],
+            [12, -25, 11],
+            [12, -24, 12],
+            [12, -23, 13],
+            [12, -1, 11],
+            [12, 0, 12],
+            [12, 1, 13],
+            [12, 23, 11],
+            [12, 24, 12],
+            [12, 25, 13],
+            [23, -25, 22],
+            [23, -24, 23],
+            [23, -23, 0],
+            [23, -1, 22],
+            [23, 0, 23],
+            [23, 1, 0],
+            [23, 23, 22],
+            [23, 24, 23],
+            [23, 25, 0]
+        ];
+    }
+
+    /**
+     * @dataProvider providerPlusMinutes
+     *
+     * @param integer $h  The base hour.
+     * @param integer $m  The base minute.
+     * @param integer $d  The number of minutes to add.
+     * @param integer $eh The expected result hour.
+     * @param integer $em The expected result minute.
+     */
+    public function testPlusMinutes($h, $m, $d, $eh, $em)
+    {
+        $result = LocalTime::of($h, $m, 56, 789)->plusMinutes($d);
+        $this->assertLocalTimeEquals($eh, $em, 56, 789, $result);
+    }
+
+    /**
+     * @dataProvider providerPlusMinutes
+     *
+     * @param integer $h  The base hour.
+     * @param integer $m  The base minute.
+     * @param integer $d  The number of minutes to add.
+     * @param integer $eh The expected result hour.
+     * @param integer $em The expected result minute.
+     */
+    public function testMinusMinutes($h, $m, $d, $eh, $em)
+    {
+        $result = LocalTime::of($h, $m, 56, 789)->minusMinutes(-$d);
+        $this->assertLocalTimeEquals($eh, $em, 56, 789, $result);
+    }
+
+    /**
+     * @return array
+     */
+    public function providerPlusMinutes()
+    {
+        return [
+            [0, 0, -1441, 23, 59],
+            [0, 0, -1440, 0, 0],
+            [0, 0, -1439, 0, 1],
+            [0, 0, -61, 22, 59],
+            [0, 0, -60, 23, 0],
+            [0, 0, -59, 23, 1],
+            [0, 0, -1, 23, 59],
+            [0, 0, 0, 0, 0],
+            [0, 0, 1, 0, 1],
+            [0, 0, 59, 0, 59],
+            [0, 0, 60, 1, 0],
+            [0, 0, 61, 1, 1],
+            [0, 0, 1439, 23, 59],
+            [0, 0, 1440, 0, 0],
+            [0, 0, 1441, 0, 1],
+            [12, 45, -1441, 12, 44],
+            [12, 45, -1440, 12, 45],
+            [12, 45, -1439, 12, 46],
+            [12, 45, -766, 23, 59],
+            [12, 45, -765, 0, 0],
+            [12, 45, -764, 0, 1],
+            [12, 45, -1, 12, 44],
+            [12, 45, 0, 12, 45],
+            [12, 45, 1, 12, 46],
+            [12, 45, 674, 23, 59],
+            [12, 45, 675, 0, 0],
+            [12, 45, 676, 0, 1],
+            [12, 45, 1439, 12, 44],
+            [12, 45, 1440, 12, 45],
+            [12, 45, 1441, 12, 46],
+            [23, 59, -1441, 23, 58],
+            [23, 59, -1440, 23, 59],
+            [23, 59, -1439, 0, 0],
+            [23, 59, -61, 22, 58],
+            [23, 59, -60, 22, 59],
+            [23, 59, -59, 23, 0],
+            [23, 59, -1, 23, 58],
+            [23, 59, 0, 23, 59],
+            [23, 59, 1, 0, 0],
+            [23, 59, 59, 0, 58],
+            [23, 59, 60, 0, 59],
+            [23, 59, 61, 1, 0],
+            [23, 59, 1439, 23, 58],
+            [23, 59, 1440, 23, 59],
+            [23, 59, 1441, 0, 0]
+        ];
+    }
+
+    /**
+     * @dataProvider providerPlusSeconds
+     *
+     * @param integer $h  The base hour.
+     * @param integer $m  The base minute.
+     * @param integer $s  The base second.
+     * @param integer $d  The number of seconds to add.
+     * @param integer $eh The expected result hour.
+     * @param integer $em The expected result minute.
+     * @param integer $es The expected result second.
+     */
+    public function testPlusSeconds($h, $m, $s, $d, $eh, $em, $es)
+    {
+        $result = LocalTime::of($h, $m, $s, 123456789)->plusSeconds($d);
+        $this->assertLocalTimeEquals($eh, $em, $es, 123456789, $result);
+    }
+
+    /**
+     * @dataProvider providerPlusSeconds
+     *
+     * @param integer $h  The base hour.
+     * @param integer $m  The base minute.
+     * @param integer $s  The base second.
+     * @param integer $d  The number of seconds to add.
+     * @param integer $eh The expected result hour.
+     * @param integer $em The expected result minute.
+     * @param integer $es The expected result second.
+     */
+    public function testMinusSeconds($h, $m, $s, $d, $eh, $em, $es)
+    {
+        $result = LocalTime::of($h, $m, $s, 123456789)->minusSeconds(-$d);
+        $this->assertLocalTimeEquals($eh, $em, $es, 123456789, $result);
+    }
+
+    /**
+     * @return array
+     */
+    public function providerPlusSeconds()
+    {
+        return [
+            [0, 0, 0, -86401, 23, 59, 59],
+            [0, 0, 0, -86400, 0, 0, 0],
+            [0, 0, 0, -86399, 0, 0, 1],
+            [0, 0, 0, -3601, 22, 59, 59],
+            [0, 0, 0, -3600, 23, 0, 0],
+            [0, 0, 0, -3599, 23, 0, 1],
+            [0, 0, 0, -61, 23, 58, 59],
+            [0, 0, 0, -60, 23, 59, 0],
+            [0, 0, 0, -59, 23, 59, 1],
+            [0, 0, 0, -1, 23, 59, 59],
+            [0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 1, 0, 0, 1],
+            [0, 0, 0, 59, 0, 0, 59],
+            [0, 0, 0, 60, 0, 1, 0],
+            [0, 0, 0, 61, 0, 1, 1],
+            [0, 0, 0, 3599, 0, 59, 59],
+            [0, 0, 0, 3600, 1, 0, 0],
+            [0, 0, 0, 3601, 1, 0, 1],
+            [0, 0, 0, 86399, 23, 59, 59],
+            [0, 0, 0, 86400, 0, 0, 0],
+            [0, 0, 0, 86401, 0, 0, 1],
+            [15, 30, 45, -86401, 15, 30, 44],
+            [15, 30, 45, -86400, 15, 30, 45],
+            [15, 30, 45, -86399, 15, 30, 46],
+            [15, 30, 45, -55846, 23, 59, 59],
+            [15, 30, 45, -55845, 0, 0, 0],
+            [15, 30, 45, -55844, 0, 0, 1],
+            [15, 30, 45, -1, 15, 30, 44],
+            [15, 30, 45, 0, 15, 30, 45],
+            [15, 30, 45, 1, 15, 30, 46],
+            [15, 30, 45, 30554, 23, 59, 59],
+            [15, 30, 45, 30555, 0, 0, 0],
+            [15, 30, 45, 30556, 0, 0, 1],
+            [15, 30, 45, 86399, 15, 30, 44],
+            [15, 30, 45, 86400, 15, 30, 45],
+            [15, 30, 45, 86401, 15, 30, 46],
+            [23, 59, 59, -86401, 23, 59, 58],
+            [23, 59, 59, -86400, 23, 59, 59],
+            [23, 59, 59, -86399, 0, 0, 0],
+            [23, 59, 59, -3601, 22, 59, 58],
+            [23, 59, 59, -3600, 22, 59, 59],
+            [23, 59, 59, -3599, 23, 0, 0],
+            [23, 59, 59, -61, 23, 58, 58],
+            [23, 59, 59, -60, 23, 58, 59],
+            [23, 59, 59, -59, 23, 59, 0],
+            [23, 59, 59, -1, 23, 59, 58],
+            [23, 59, 59, 0, 23, 59, 59],
+            [23, 59, 59, 1, 0, 0, 0],
+            [23, 59, 59, 59, 0, 0, 58],
+            [23, 59, 59, 60, 0, 0, 59],
+            [23, 59, 59, 61, 0, 1, 0],
+            [23, 59, 59, 3599, 0, 59, 58],
+            [23, 59, 59, 3600, 0, 59, 59],
+            [23, 59, 59, 3601, 1, 0, 0],
+            [23, 59, 59, 86399, 23, 59, 58],
+            [23, 59, 59, 86400, 23, 59, 59],
+            [23, 59, 59, 86401, 0, 0, 0],
+        ];
+    }
+
+    /**
+     * @dataProvider providerPlusNanos
+     *
+     * @param integer $h  The base hour.
+     * @param integer $m  The base minute.
+     * @param integer $s  The base second.
+     * @param integer $n  The base nanosecond.
+     * @param integer $d  The nanoseconds to add.
+     * @param integer $eh The expected result hour.
+     * @param integer $em The expected result minute.
+     * @param integer $es The expected result second.
+     * @param integer $en The expected result nanosecond.
+     */
+    public function testPlusNanos($h, $m, $s, $n, $d, $eh, $em, $es, $en)
+    {
+        $result = LocalTime::of($h, $m, $s, $n)->plusNanos($d);
+        $this->assertLocalTimeEquals($eh, $em, $es, $en, $result);
+    }
+
+    /**
+     * @dataProvider providerPlusNanos
+     *
+     * @param integer $h  The base hour.
+     * @param integer $m  The base minute.
+     * @param integer $s  The base second.
+     * @param integer $n  The base nanosecond.
+     * @param integer $d  The nanoseconds to add.
+     * @param integer $eh The expected result hour.
+     * @param integer $em The expected result minute.
+     * @param integer $es The expected result second.
+     * @param integer $en The expected result nanosecond.
+     */
+    public function testMinusNanos($h, $m, $s, $n, $d, $eh, $em, $es, $en)
+    {
+        $result = LocalTime::of($h, $m, $s, $n)->minusNanos(-$d);
+        $this->assertLocalTimeEquals($eh, $em, $es, $en, $result);
+    }
+
+    /**
+     * @return array
+     */
+    public function providerPlusNanos()
+    {
+        return [
+            [0, 0, 1, 123, -2100000123, 23, 59, 58, 900000000],
+            [0, 0, 1, 123, -1000000124, 23, 59, 59, 999999999],
+            [0, 0, 1, 123, -1000000123, 0, 0, 0, 0],
+            [0, 0, 1, 123, -124, 0, 0, 0, 999999999],
+            [0, 0, 1, 123, -123, 0, 0, 1, 0],
+            [0, 0, 1, 123, -1, 0, 0, 1, 122],
+            [0, 0, 1, 123, 0, 0, 0, 1, 123],
+            [0, 0, 1, 123, 1, 0, 0, 1, 124],
+            [0, 0, 1, 123, 123, 0, 0, 1, 246],
+            [0, 0, 1, 123, 999999877, 0, 0, 2, 0],
+            [0, 0, 1, 123, 1999999878, 0, 0, 3, 1],
+            [23, 59, 58, 987654321, -1987654321, 23, 59, 57, 0],
+            [23, 59, 58, 987654321, -987654322, 23, 59, 57, 999999999],
+            [23, 59, 58, 987654321, -987654321, 23, 59, 58, 0],
+            [23, 59, 58, 987654321, -987654320, 23, 59, 58, 1],
+            [23, 59, 58, 987654321, -1, 23, 59, 58, 987654320],
+            [23, 59, 58, 987654321, 0, 23, 59, 58, 987654321],
+            [23, 59, 58, 987654321, 1, 23, 59, 58, 987654322],
+            [23, 59, 58, 987654321, 123456789, 23, 59, 59, 111111110],
+            [23, 59, 58, 987654321, 1987654321, 0, 0, 0, 975308642],
+            [23, 59, 58, 987654321, 2123456789, 0, 0, 1, 111111110]
+        ];
+    }
+
+    /**
+     * @dataProvider providerCompareTo
+     *
+     * @param integer $h1  The hour of the 1st time.
+     * @param integer $m1  The minute of the 1st time.
+     * @param integer $s1  The second of the 1st time.
+     * @param integer $n1  The nano of the 1st time.
+     * @param integer $h2  The hour of the 2nd time.
+     * @param integer $m2  The minute of the 2nd time.
+     * @param integer $s2  The second of the 2nd time.
+     * @param integer $n2  The nano of the 2nd time.
+     * @param integer $cmp The comparison value.
+     */
+    public function testCompareTo($h1, $m1, $s1, $n1, $h2, $m2, $s2, $n2, $cmp)
+    {
+        $t1 = LocalTime::of($h1, $m1, $s1, $n1);
+        $t2 = LocalTime::of($h2, $m2, $s2, $n2);
+
+        $this->assertSame($cmp, $t1->compareTo($t2));
+        $this->assertSame($cmp === 0, $t1->isEqualTo($t2));
+        $this->assertSame($cmp === -1, $t1->isBefore($t2));
+        $this->assertSame($cmp === 1, $t1->isAfter($t2));
+    }
+
+    /**
+     * @return array
+     */
+    public function providerCompareTo()
+    {
+        return [
+            [0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 99, -1],
+            [0, 0, 0, 0, 0, 0, 59, 0, -1],
+            [0, 0, 0, 0, 0, 0, 59, 99, -1],
+            [0, 0, 0, 0, 0, 59, 0, 0, -1],
+            [0, 0, 0, 0, 0, 59, 0, 99, -1],
+            [0, 0, 0, 0, 0, 59, 59, 0, -1],
+            [0, 0, 0, 0, 0, 59, 59, 99, -1],
+            [0, 0, 0, 0, 23, 0, 0, 0, -1],
+            [0, 0, 0, 0, 23, 0, 0, 99, -1],
+            [0, 0, 0, 0, 23, 0, 59, 0, -1],
+            [0, 0, 0, 0, 23, 0, 59, 99, -1],
+            [0, 0, 0, 0, 23, 59, 0, 0, -1],
+            [0, 0, 0, 0, 23, 59, 0, 99, -1],
+            [0, 0, 0, 0, 23, 59, 59, 0, -1],
+            [0, 0, 0, 0, 23, 59, 59, 99, -1],
+            [0, 0, 0, 99, 0, 0, 0, 0, 1],
+            [0, 0, 0, 99, 0, 0, 0, 99, 0],
+            [0, 0, 0, 99, 0, 0, 59, 0, -1],
+            [0, 0, 0, 99, 0, 0, 59, 99, -1],
+            [0, 0, 0, 99, 0, 59, 0, 0, -1],
+            [0, 0, 0, 99, 0, 59, 0, 99, -1],
+            [0, 0, 0, 99, 0, 59, 59, 0, -1],
+            [0, 0, 0, 99, 0, 59, 59, 99, -1],
+            [0, 0, 0, 99, 23, 0, 0, 0, -1],
+            [0, 0, 0, 99, 23, 0, 0, 99, -1],
+            [0, 0, 0, 99, 23, 0, 59, 0, -1],
+            [0, 0, 0, 99, 23, 0, 59, 99, -1],
+            [0, 0, 0, 99, 23, 59, 0, 0, -1],
+            [0, 0, 0, 99, 23, 59, 0, 99, -1],
+            [0, 0, 0, 99, 23, 59, 59, 0, -1],
+            [0, 0, 0, 99, 23, 59, 59, 99, -1],
+            [0, 0, 59, 0, 0, 0, 0, 0, 1],
+            [0, 0, 59, 0, 0, 0, 0, 99, 1],
+            [0, 0, 59, 0, 0, 0, 59, 0, 0],
+            [0, 0, 59, 0, 0, 0, 59, 99, -1],
+            [0, 0, 59, 0, 0, 59, 0, 0, -1],
+            [0, 0, 59, 0, 0, 59, 0, 99, -1],
+            [0, 0, 59, 0, 0, 59, 59, 0, -1],
+            [0, 0, 59, 0, 0, 59, 59, 99, -1],
+            [0, 0, 59, 0, 23, 0, 0, 0, -1],
+            [0, 0, 59, 0, 23, 0, 0, 99, -1],
+            [0, 0, 59, 0, 23, 0, 59, 0, -1],
+            [0, 0, 59, 0, 23, 0, 59, 99, -1],
+            [0, 0, 59, 0, 23, 59, 0, 0, -1],
+            [0, 0, 59, 0, 23, 59, 0, 99, -1],
+            [0, 0, 59, 0, 23, 59, 59, 0, -1],
+            [0, 0, 59, 0, 23, 59, 59, 99, -1],
+            [0, 0, 59, 99, 0, 0, 0, 0, 1],
+            [0, 0, 59, 99, 0, 0, 0, 99, 1],
+            [0, 0, 59, 99, 0, 0, 59, 0, 1],
+            [0, 0, 59, 99, 0, 0, 59, 99, 0],
+            [0, 0, 59, 99, 0, 59, 0, 0, -1],
+            [0, 0, 59, 99, 0, 59, 0, 99, -1],
+            [0, 0, 59, 99, 0, 59, 59, 0, -1],
+            [0, 0, 59, 99, 0, 59, 59, 99, -1],
+            [0, 0, 59, 99, 23, 0, 0, 0, -1],
+            [0, 0, 59, 99, 23, 0, 0, 99, -1],
+            [0, 0, 59, 99, 23, 0, 59, 0, -1],
+            [0, 0, 59, 99, 23, 0, 59, 99, -1],
+            [0, 0, 59, 99, 23, 59, 0, 0, -1],
+            [0, 0, 59, 99, 23, 59, 0, 99, -1],
+            [0, 0, 59, 99, 23, 59, 59, 0, -1],
+            [0, 0, 59, 99, 23, 59, 59, 99, -1],
+            [0, 59, 0, 0, 0, 0, 0, 0, 1],
+            [0, 59, 0, 0, 0, 0, 0, 99, 1],
+            [0, 59, 0, 0, 0, 0, 59, 0, 1],
+            [0, 59, 0, 0, 0, 0, 59, 99, 1],
+            [0, 59, 0, 0, 0, 59, 0, 0, 0],
+            [0, 59, 0, 0, 0, 59, 0, 99, -1],
+            [0, 59, 0, 0, 0, 59, 59, 0, -1],
+            [0, 59, 0, 0, 0, 59, 59, 99, -1],
+            [0, 59, 0, 0, 23, 0, 0, 0, -1],
+            [0, 59, 0, 0, 23, 0, 0, 99, -1],
+            [0, 59, 0, 0, 23, 0, 59, 0, -1],
+            [0, 59, 0, 0, 23, 0, 59, 99, -1],
+            [0, 59, 0, 0, 23, 59, 0, 0, -1],
+            [0, 59, 0, 0, 23, 59, 0, 99, -1],
+            [0, 59, 0, 0, 23, 59, 59, 0, -1],
+            [0, 59, 0, 0, 23, 59, 59, 99, -1],
+            [0, 59, 0, 99, 0, 0, 0, 0, 1],
+            [0, 59, 0, 99, 0, 0, 0, 99, 1],
+            [0, 59, 0, 99, 0, 0, 59, 0, 1],
+            [0, 59, 0, 99, 0, 0, 59, 99, 1],
+            [0, 59, 0, 99, 0, 59, 0, 0, 1],
+            [0, 59, 0, 99, 0, 59, 0, 99, 0],
+            [0, 59, 0, 99, 0, 59, 59, 0, -1],
+            [0, 59, 0, 99, 0, 59, 59, 99, -1],
+            [0, 59, 0, 99, 23, 0, 0, 0, -1],
+            [0, 59, 0, 99, 23, 0, 0, 99, -1],
+            [0, 59, 0, 99, 23, 0, 59, 0, -1],
+            [0, 59, 0, 99, 23, 0, 59, 99, -1],
+            [0, 59, 0, 99, 23, 59, 0, 0, -1],
+            [0, 59, 0, 99, 23, 59, 0, 99, -1],
+            [0, 59, 0, 99, 23, 59, 59, 0, -1],
+            [0, 59, 0, 99, 23, 59, 59, 99, -1],
+            [0, 59, 59, 0, 0, 0, 0, 0, 1],
+            [0, 59, 59, 0, 0, 0, 0, 99, 1],
+            [0, 59, 59, 0, 0, 0, 59, 0, 1],
+            [0, 59, 59, 0, 0, 0, 59, 99, 1],
+            [0, 59, 59, 0, 0, 59, 0, 0, 1],
+            [0, 59, 59, 0, 0, 59, 0, 99, 1],
+            [0, 59, 59, 0, 0, 59, 59, 0, 0],
+            [0, 59, 59, 0, 0, 59, 59, 99, -1],
+            [0, 59, 59, 0, 23, 0, 0, 0, -1],
+            [0, 59, 59, 0, 23, 0, 0, 99, -1],
+            [0, 59, 59, 0, 23, 0, 59, 0, -1],
+            [0, 59, 59, 0, 23, 0, 59, 99, -1],
+            [0, 59, 59, 0, 23, 59, 0, 0, -1],
+            [0, 59, 59, 0, 23, 59, 0, 99, -1],
+            [0, 59, 59, 0, 23, 59, 59, 0, -1],
+            [0, 59, 59, 0, 23, 59, 59, 99, -1],
+            [0, 59, 59, 99, 0, 0, 0, 0, 1],
+            [0, 59, 59, 99, 0, 0, 0, 99, 1],
+            [0, 59, 59, 99, 0, 0, 59, 0, 1],
+            [0, 59, 59, 99, 0, 0, 59, 99, 1],
+            [0, 59, 59, 99, 0, 59, 0, 0, 1],
+            [0, 59, 59, 99, 0, 59, 0, 99, 1],
+            [0, 59, 59, 99, 0, 59, 59, 0, 1],
+            [0, 59, 59, 99, 0, 59, 59, 99, 0],
+            [0, 59, 59, 99, 23, 0, 0, 0, -1],
+            [0, 59, 59, 99, 23, 0, 0, 99, -1],
+            [0, 59, 59, 99, 23, 0, 59, 0, -1],
+            [0, 59, 59, 99, 23, 0, 59, 99, -1],
+            [0, 59, 59, 99, 23, 59, 0, 0, -1],
+            [0, 59, 59, 99, 23, 59, 0, 99, -1],
+            [0, 59, 59, 99, 23, 59, 59, 0, -1],
+            [0, 59, 59, 99, 23, 59, 59, 99, -1],
+            [23, 0, 0, 0, 0, 0, 0, 0, 1],
+            [23, 0, 0, 0, 0, 0, 0, 99, 1],
+            [23, 0, 0, 0, 0, 0, 59, 0, 1],
+            [23, 0, 0, 0, 0, 0, 59, 99, 1],
+            [23, 0, 0, 0, 0, 59, 0, 0, 1],
+            [23, 0, 0, 0, 0, 59, 0, 99, 1],
+            [23, 0, 0, 0, 0, 59, 59, 0, 1],
+            [23, 0, 0, 0, 0, 59, 59, 99, 1],
+            [23, 0, 0, 0, 23, 0, 0, 0, 0],
+            [23, 0, 0, 0, 23, 0, 0, 99, -1],
+            [23, 0, 0, 0, 23, 0, 59, 0, -1],
+            [23, 0, 0, 0, 23, 0, 59, 99, -1],
+            [23, 0, 0, 0, 23, 59, 0, 0, -1],
+            [23, 0, 0, 0, 23, 59, 0, 99, -1],
+            [23, 0, 0, 0, 23, 59, 59, 0, -1],
+            [23, 0, 0, 0, 23, 59, 59, 99, -1],
+            [23, 0, 0, 99, 0, 0, 0, 0, 1],
+            [23, 0, 0, 99, 0, 0, 0, 99, 1],
+            [23, 0, 0, 99, 0, 0, 59, 0, 1],
+            [23, 0, 0, 99, 0, 0, 59, 99, 1],
+            [23, 0, 0, 99, 0, 59, 0, 0, 1],
+            [23, 0, 0, 99, 0, 59, 0, 99, 1],
+            [23, 0, 0, 99, 0, 59, 59, 0, 1],
+            [23, 0, 0, 99, 0, 59, 59, 99, 1],
+            [23, 0, 0, 99, 23, 0, 0, 0, 1],
+            [23, 0, 0, 99, 23, 0, 0, 99, 0],
+            [23, 0, 0, 99, 23, 0, 59, 0, -1],
+            [23, 0, 0, 99, 23, 0, 59, 99, -1],
+            [23, 0, 0, 99, 23, 59, 0, 0, -1],
+            [23, 0, 0, 99, 23, 59, 0, 99, -1],
+            [23, 0, 0, 99, 23, 59, 59, 0, -1],
+            [23, 0, 0, 99, 23, 59, 59, 99, -1],
+            [23, 0, 59, 0, 0, 0, 0, 0, 1],
+            [23, 0, 59, 0, 0, 0, 0, 99, 1],
+            [23, 0, 59, 0, 0, 0, 59, 0, 1],
+            [23, 0, 59, 0, 0, 0, 59, 99, 1],
+            [23, 0, 59, 0, 0, 59, 0, 0, 1],
+            [23, 0, 59, 0, 0, 59, 0, 99, 1],
+            [23, 0, 59, 0, 0, 59, 59, 0, 1],
+            [23, 0, 59, 0, 0, 59, 59, 99, 1],
+            [23, 0, 59, 0, 23, 0, 0, 0, 1],
+            [23, 0, 59, 0, 23, 0, 0, 99, 1],
+            [23, 0, 59, 0, 23, 0, 59, 0, 0],
+            [23, 0, 59, 0, 23, 0, 59, 99, -1],
+            [23, 0, 59, 0, 23, 59, 0, 0, -1],
+            [23, 0, 59, 0, 23, 59, 0, 99, -1],
+            [23, 0, 59, 0, 23, 59, 59, 0, -1],
+            [23, 0, 59, 0, 23, 59, 59, 99, -1],
+            [23, 0, 59, 99, 0, 0, 0, 0, 1],
+            [23, 0, 59, 99, 0, 0, 0, 99, 1],
+            [23, 0, 59, 99, 0, 0, 59, 0, 1],
+            [23, 0, 59, 99, 0, 0, 59, 99, 1],
+            [23, 0, 59, 99, 0, 59, 0, 0, 1],
+            [23, 0, 59, 99, 0, 59, 0, 99, 1],
+            [23, 0, 59, 99, 0, 59, 59, 0, 1],
+            [23, 0, 59, 99, 0, 59, 59, 99, 1],
+            [23, 0, 59, 99, 23, 0, 0, 0, 1],
+            [23, 0, 59, 99, 23, 0, 0, 99, 1],
+            [23, 0, 59, 99, 23, 0, 59, 0, 1],
+            [23, 0, 59, 99, 23, 0, 59, 99, 0],
+            [23, 0, 59, 99, 23, 59, 0, 0, -1],
+            [23, 0, 59, 99, 23, 59, 0, 99, -1],
+            [23, 0, 59, 99, 23, 59, 59, 0, -1],
+            [23, 0, 59, 99, 23, 59, 59, 99, -1],
+            [23, 59, 0, 0, 0, 0, 0, 0, 1],
+            [23, 59, 0, 0, 0, 0, 0, 99, 1],
+            [23, 59, 0, 0, 0, 0, 59, 0, 1],
+            [23, 59, 0, 0, 0, 0, 59, 99, 1],
+            [23, 59, 0, 0, 0, 59, 0, 0, 1],
+            [23, 59, 0, 0, 0, 59, 0, 99, 1],
+            [23, 59, 0, 0, 0, 59, 59, 0, 1],
+            [23, 59, 0, 0, 0, 59, 59, 99, 1],
+            [23, 59, 0, 0, 23, 0, 0, 0, 1],
+            [23, 59, 0, 0, 23, 0, 0, 99, 1],
+            [23, 59, 0, 0, 23, 0, 59, 0, 1],
+            [23, 59, 0, 0, 23, 0, 59, 99, 1],
+            [23, 59, 0, 0, 23, 59, 0, 0, 0],
+            [23, 59, 0, 0, 23, 59, 0, 99, -1],
+            [23, 59, 0, 0, 23, 59, 59, 0, -1],
+            [23, 59, 0, 0, 23, 59, 59, 99, -1],
+            [23, 59, 0, 99, 0, 0, 0, 0, 1],
+            [23, 59, 0, 99, 0, 0, 0, 99, 1],
+            [23, 59, 0, 99, 0, 0, 59, 0, 1],
+            [23, 59, 0, 99, 0, 0, 59, 99, 1],
+            [23, 59, 0, 99, 0, 59, 0, 0, 1],
+            [23, 59, 0, 99, 0, 59, 0, 99, 1],
+            [23, 59, 0, 99, 0, 59, 59, 0, 1],
+            [23, 59, 0, 99, 0, 59, 59, 99, 1],
+            [23, 59, 0, 99, 23, 0, 0, 0, 1],
+            [23, 59, 0, 99, 23, 0, 0, 99, 1],
+            [23, 59, 0, 99, 23, 0, 59, 0, 1],
+            [23, 59, 0, 99, 23, 0, 59, 99, 1],
+            [23, 59, 0, 99, 23, 59, 0, 0, 1],
+            [23, 59, 0, 99, 23, 59, 0, 99, 0],
+            [23, 59, 0, 99, 23, 59, 59, 0, -1],
+            [23, 59, 0, 99, 23, 59, 59, 99, -1],
+            [23, 59, 59, 0, 0, 0, 0, 0, 1],
+            [23, 59, 59, 0, 0, 0, 0, 99, 1],
+            [23, 59, 59, 0, 0, 0, 59, 0, 1],
+            [23, 59, 59, 0, 0, 0, 59, 99, 1],
+            [23, 59, 59, 0, 0, 59, 0, 0, 1],
+            [23, 59, 59, 0, 0, 59, 0, 99, 1],
+            [23, 59, 59, 0, 0, 59, 59, 0, 1],
+            [23, 59, 59, 0, 0, 59, 59, 99, 1],
+            [23, 59, 59, 0, 23, 0, 0, 0, 1],
+            [23, 59, 59, 0, 23, 0, 0, 99, 1],
+            [23, 59, 59, 0, 23, 0, 59, 0, 1],
+            [23, 59, 59, 0, 23, 0, 59, 99, 1],
+            [23, 59, 59, 0, 23, 59, 0, 0, 1],
+            [23, 59, 59, 0, 23, 59, 0, 99, 1],
+            [23, 59, 59, 0, 23, 59, 59, 0, 0],
+            [23, 59, 59, 0, 23, 59, 59, 99, -1],
+            [23, 59, 59, 99, 0, 0, 0, 0, 1],
+            [23, 59, 59, 99, 0, 0, 0, 99, 1],
+            [23, 59, 59, 99, 0, 0, 59, 0, 1],
+            [23, 59, 59, 99, 0, 0, 59, 99, 1],
+            [23, 59, 59, 99, 0, 59, 0, 0, 1],
+            [23, 59, 59, 99, 0, 59, 0, 99, 1],
+            [23, 59, 59, 99, 0, 59, 59, 0, 1],
+            [23, 59, 59, 99, 0, 59, 59, 99, 1],
+            [23, 59, 59, 99, 23, 0, 0, 0, 1],
+            [23, 59, 59, 99, 23, 0, 0, 99, 1],
+            [23, 59, 59, 99, 23, 0, 59, 0, 1],
+            [23, 59, 59, 99, 23, 0, 59, 99, 1],
+            [23, 59, 59, 99, 23, 59, 0, 0, 1],
+            [23, 59, 59, 99, 23, 59, 0, 99, 1],
+            [23, 59, 59, 99, 23, 59, 59, 0, 1],
+            [23, 59, 59, 99, 23, 59, 59, 99, 0],
+        ];
+    }
+
+    public function testAtDate()
+    {
+        $time = LocalTime::of(12, 34, 56, 789);
+        $date = LocalDate::of(2014, 11, 30);
+
+        $this->assertLocalDateTimeEquals(2014, 11, 30, 12, 34, 56, 789, $time->atDate($date));
     }
 
     /**
@@ -264,358 +923,29 @@ class LocalTimeTest extends AbstractTestCase
         ];
     }
 
-    /**
-     * @dataProvider providerPlusHours
-     *
-     * @param integer $hoursToAdd
-     * @param integer $expectedHour
-     */
-    public function testPlusHours($hoursToAdd, $expectedHour)
-    {
-        $time = LocalTime::of(14, 0);
-
-        $actual = $time->plusHours($hoursToAdd);
-        $expected = LocalTime::of($expectedHour, 0);
-
-        $this->assertTrue($actual->isEqualTo($expected));
-    }
-
-    /**
-     * @return array
-     */
-    public function providerPlusHours()
-    {
-        return [
-            [-25, 13],
-            [-24, 14],
-            [-23, 15],
-            [-15, 23],
-            [-14, 0],
-            [-13, 1],
-            [-1, 13],
-            [0, 14],
-            [1, 15],
-            [9, 23],
-            [10, 0],
-            [11, 1],
-            [23, 13],
-            [24, 14],
-            [25, 15]
-        ];
-    }
-
-    /**
-     * @dataProvider providerPlusMinutes
-     *
-     * @param integer $minutesToAdd
-     * @param integer $expectedHour
-     * @param integer $expectedMinute
-     */
-    public function testPlusMinutes($minutesToAdd, $expectedHour, $expectedMinute)
-    {
-        $time = LocalTime::of(12, 45);
-
-        $actual = $time->plusMinutes($minutesToAdd);
-        $expected = LocalTime::of($expectedHour, $expectedMinute);
-
-        $this->assertTrue($actual->isEqualTo($expected));
-    }
-
-    /**
-     * @return array
-     */
-    public function providerPlusMinutes()
-    {
-        return [
-            [-1441, 12, 44],
-            [-1440, 12, 45],
-            [-1439, 12, 46],
-            [-766, 23, 59],
-            [-765, 0, 0],
-            [-764, 0, 1],
-            [-1, 12, 44],
-            [0, 12, 45],
-            [1, 12, 46],
-            [674, 23, 59],
-            [675, 0, 0],
-            [676, 0, 1],
-            [1439, 12, 44],
-            [1440, 12, 45],
-            [1441, 12, 46]
-        ];
-    }
-
-    /**
-     * @dataProvider providerPlusSeconds
-     *
-     * @param integer $secondsToAdd
-     * @param integer $expectedHour
-     * @param integer $expectedMinute
-     * @param integer $expectedSecond
-     */
-    public function testPlusSeconds($secondsToAdd, $expectedHour, $expectedMinute, $expectedSecond)
-    {
-        $time = LocalTime::of(15, 30, 45);
-
-        $actual = $time->plusSeconds($secondsToAdd);
-        $expected = LocalTime::of($expectedHour, $expectedMinute, $expectedSecond);
-
-        $this->assertTrue($actual->isEqualTo($expected));
-    }
-
-    /**
-     * @return array
-     */
-    public function providerPlusSeconds()
-    {
-        return [
-            [-86401, 15, 30, 44],
-            [-86400, 15, 30, 45],
-            [-86399, 15, 30, 46],
-            [-55846, 23, 59, 59],
-            [-55845, 0, 0, 0],
-            [-55844, 0, 0, 1],
-            [-1, 15, 30, 44],
-            [0, 15, 30, 45],
-            [1, 15, 30, 46],
-            [30554, 23, 59, 59],
-            [30555, 0, 0, 0],
-            [30556, 0, 0, 1],
-            [86399, 15, 30, 44],
-            [86400, 15, 30, 45],
-            [86401, 15, 30, 46]
-        ];
-    }
-
-    /**
-     * @dataProvider providerPlusNanos
-     *
-     * @param integer $h  The base hour.
-     * @param integer $m  The base minute.
-     * @param integer $s  The base second.
-     * @param integer $n  The base nanosecond.
-     * @param integer $d  The nanoseconds to add.
-     * @param integer $eh The expected hour.
-     * @param integer $em The expected minute.
-     * @param integer $es The expected second.
-     * @param integer $en The expected nanosecond.
-     */
-    public function testPlusNanos($h, $m, $s, $n, $d, $eh, $em, $es, $en)
-    {
-        $time = LocalTime::of($h, $m, $s, $n)->plusNanos($d);
-
-        $this->assertSame($eh, $time->getHour());
-        $this->assertSame($em, $time->getMinute());
-        $this->assertSame($es, $time->getSecond());
-        $this->assertSame($en, $time->getNano());
-    }
-
-    /**
-     * @return array
-     */
-    public function providerPlusNanos()
-    {
-        return [
-            [0, 0, 1, 123, -2100000123, 23, 59, 58, 900000000],
-            [0, 0, 1, 123, -1000000124, 23, 59, 59, 999999999],
-            [0, 0, 1, 123, -1000000123, 0, 0, 0, 0],
-            [0, 0, 1, 123, -124, 0, 0, 0, 999999999],
-            [0, 0, 1, 123, -123, 0, 0, 1, 0],
-            [0, 0, 1, 123, -1, 0, 0, 1, 122],
-            [0, 0, 1, 123, 0, 0, 0, 1, 123],
-            [0, 0, 1, 123, 1, 0, 0, 1, 124],
-            [0, 0, 1, 123, 123, 0, 0, 1, 246],
-            [0, 0, 1, 123, 999999877, 0, 0, 2, 0],
-            [0, 0, 1, 123, 1999999878, 0, 0, 3, 1],
-            [23, 59, 58, 987654321, -1987654321, 23, 59, 57, 0],
-            [23, 59, 58, 987654321, -987654322, 23, 59, 57, 999999999],
-            [23, 59, 58, 987654321, -987654321, 23, 59, 58, 0],
-            [23, 59, 58, 987654321, -987654320, 23, 59, 58, 1],
-            [23, 59, 58, 987654321, -1, 23, 59, 58, 987654320],
-            [23, 59, 58, 987654321, 0, 23, 59, 58, 987654321],
-            [23, 59, 58, 987654321, 1, 23, 59, 58, 987654322],
-            [23, 59, 58, 987654321, 123456789, 23, 59, 59, 111111110],
-            [23, 59, 58, 987654321, 1987654321, 0, 0, 0, 975308642],
-            [23, 59, 58, 987654321, 2123456789, 0, 0, 1, 111111110]
-        ];
-    }
-
-    /**
-     * @dataProvider providerMinusHours
-     *
-     * @param integer $hoursToSubtract
-     * @param integer $expectedHour
-     */
-    public function testMinusHours($hoursToSubtract, $expectedHour)
-    {
-        $time = LocalTime::of(14, 0);
-
-        $actual = $time->minusHours($hoursToSubtract);
-        $expected = LocalTime::of($expectedHour, 0);
-
-        $this->assertTrue($actual->isEqualTo($expected));
-    }
-
-    /**
-     * @return array
-     */
-    public function providerMinusHours()
-    {
-        return [
-            [-25, 15],
-            [-24, 14],
-            [-23, 13],
-            [-11, 1],
-            [-10, 0],
-            [-9, 23],
-            [-1, 15],
-            [0, 14],
-            [1, 13],
-            [13, 1],
-            [14, 0],
-            [15, 23],
-            [23, 15],
-            [24, 14],
-            [25, 13]
-        ];
-    }
-
-    /**
-     * @dataProvider providerMinusMinutes
-     *
-     * @param integer $minutesToSubtract
-     * @param integer $expectedHour
-     * @param integer $expectedMinute
-     */
-    public function testMinusMinutes($minutesToSubtract, $expectedHour, $expectedMinute)
-    {
-        $time = LocalTime::of(12, 45);
-
-        $actual = $time->minusMinutes($minutesToSubtract);
-        $expected = LocalTime::of($expectedHour, $expectedMinute);
-
-        $this->assertTrue($actual->isEqualTo($expected));
-    }
-
-    /**
-     * @return array
-     */
-    public function providerMinusMinutes()
-    {
-        return [
-            [-1441, 12, 46],
-            [-1440, 12, 45],
-            [-1439, 12, 44],
-            [-676, 0, 1],
-            [-675, 0, 0],
-            [-674, 23, 59],
-            [-1, 12, 46],
-            [0, 12, 45],
-            [1, 12, 44],
-            [764, 0, 1],
-            [765, 0, 0],
-            [766, 23, 59],
-            [1439, 12, 46],
-            [1440, 12, 45],
-            [1441, 12, 44]
-        ];
-    }
-
-    /**
-     * @dataProvider providerMinusSeconds
-     *
-     * @param integer $secondsToSubtract
-     * @param integer $expectedHour
-     * @param integer $expectedMinute
-     * @param integer $expectedSecond
-     */
-    public function testMinusSeconds($secondsToSubtract, $expectedHour, $expectedMinute, $expectedSecond)
-    {
-        $time = LocalTime::of(15, 30, 45);
-
-        $actual = $time->minusSeconds($secondsToSubtract);
-        $expected = LocalTime::of($expectedHour, $expectedMinute, $expectedSecond);
-
-        $this->assertTrue($actual->isEqualTo($expected));
-    }
-
-    /**
-     * @return array
-     */
-    public function providerMinusSeconds()
-    {
-        return [
-            [-86401, 15, 30, 46],
-            [-86400, 15, 30, 45],
-            [-86399, 15, 30, 44],
-            [-30556, 0, 0, 1],
-            [-30555, 0, 0, 0],
-            [-30554, 23, 59, 59],
-            [-1, 15, 30, 46],
-            [0, 15, 30, 45],
-            [1, 15, 30, 44],
-            [55844, 0, 0, 1],
-            [55845, 0, 0, 0],
-            [55846, 23, 59, 59],
-            [86399, 15, 30, 46],
-            [86400, 15, 30, 45],
-            [86401, 15, 30, 44]
-        ];
-    }
-
-    /**
-     * @dataProvider providerMinusNanos
-     *
-     * @param integer $h  The base hour.
-     * @param integer $m  The base minute.
-     * @param integer $s  The base second.
-     * @param integer $n  The base nanosecond.
-     * @param integer $d  The nanoseconds to add.
-     * @param integer $eh The expected hour.
-     * @param integer $em The expected minute.
-     * @param integer $es The expected second.
-     * @param integer $en The expected nanosecond.
-     */
-    public function testMinusNanos($h, $m, $s, $n, $d, $eh, $em, $es, $en)
-    {
-        $time = LocalTime::of($h, $m, $s, $n)->minusNanos($d);
-
-        $this->assertSame($eh, $time->getHour());
-        $this->assertSame($em, $time->getMinute());
-        $this->assertSame($es, $time->getSecond());
-        $this->assertSame($en, $time->getNano());
-    }
-
-    /**
-     * @return array
-     */
-    public function providerMinusNanos()
-    {
-        return [
-            [0, 0, 0, 1, 1999999999, 23, 59, 58, 2],
-            [0, 0, 0, 1, 999999999, 23, 59, 59, 2],
-            [0, 0, 0, 1, 1, 0, 0, 0, 0],
-            [0, 0, 0, 1, 0, 0, 0, 0, 1],
-            [0, 0, 0, 1, -1, 0, 0, 0, 2],
-            [0, 0, 0, 1, 999999999, 23, 59, 59, 2],
-            [0, 0, 0, 1, 1999999999, 23, 59, 58, 2],
-            [23, 59, 59, 999999999, 1999999999, 23, 59, 58, 0],
-            [23, 59, 59, 999999999, 999999999, 23, 59, 59, 0],
-            [23, 59, 59, 999999999, 1, 23, 59, 59, 999999998],
-            [23, 59, 59, 999999999, 0, 23, 59, 59, 999999999],
-            [23, 59, 59, 999999999, -1, 0, 0, 0, 0],
-            [23, 59, 59, 999999999, -999999999, 0, 0, 0, 999999998],
-            [23, 59, 59, 999999999, -1999999999, 0, 0, 1, 999999998]
-        ];
-    }
-
     public function testMinMaxOf()
     {
         $a = LocalTime::of(11, 45);
         $b = LocalTime::of(14, 30);
         $c = LocalTime::of(17, 15);
 
-        $this->assertTrue(LocalTime::minOf([$a, $b, $c])->isEqualTo($a));
-        $this->assertTrue(LocalTime::maxOf([$a, $b, $c])->isEqualTo($c));
+        $this->assertSame($a, LocalTime::minOf([$a, $b, $c]));
+        $this->assertSame($c, LocalTime::maxOf([$a, $b, $c]));
+    }
+
+    /**
+     * @expectedException \Brick\DateTime\DateTimeException
+     */
+    public function testMinOfEmptyArrayThrowsException()
+    {
+        LocalTime::minOf([]);
+    }
+
+    /**
+     * @expectedException \Brick\DateTime\DateTimeException
+     */
+    public function testMaxOfEmptyArrayThrowsException()
+    {
+        LocalTime::maxOf([]);
     }
 }

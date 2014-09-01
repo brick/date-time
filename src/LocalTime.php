@@ -100,6 +100,32 @@ class LocalTime
     }
 
     /**
+     * Creates a LocalTime instance from a number of seconds since midnight.
+     *
+     * @param integer $secondOfDay  The second-of-day, from 0 to 86,399.
+     * @param integer $nanoOfSecond The nano-of-second, from 0 to 999,999,999.
+     *
+     * @return LocalTime
+     *
+     * @throws DateTimeException
+     */
+    public static function ofSecondOfDay($secondOfDay, $nanoOfSecond = 0)
+    {
+        $secondOfDay = Cast::toInteger($secondOfDay);
+        $nanoOfSecond = Cast::toInteger($nanoOfSecond);
+
+        Field\SecondOfDay::check($secondOfDay);
+        Field\NanoOfSecond::check($nanoOfSecond);
+
+        $hours = Math::div($secondOfDay, self::SECONDS_PER_HOUR);
+        $secondOfDay -= $hours * self::SECONDS_PER_HOUR;
+        $minutes = Math::div($secondOfDay, self::SECONDS_PER_MINUTE);
+        $secondOfDay -= $minutes * self::SECONDS_PER_MINUTE;
+
+        return new LocalTime($hours, $minutes, $secondOfDay, $nanoOfSecond);
+    }
+
+    /**
      * @param DateTimeParseResult $result
      *
      * @return LocalTime
@@ -137,31 +163,6 @@ class LocalTime
         }
 
         return LocalTime::from($parser->parse($text));
-    }
-
-    /**
-     * Creates a LocalTime instance from a number of seconds since midnight.
-     *
-     * @param integer $secondOfDay
-     * @param integer $nanoOfSecond
-     *
-     * @return LocalTime
-     * @throws DateTimeException
-     */
-    public static function ofSecondOfDay($secondOfDay, $nanoOfSecond = 0)
-    {
-        $secondOfDay = Cast::toInteger($secondOfDay);
-        $nanoOfSecond = Cast::toInteger($nanoOfSecond);
-
-        Field\SecondOfDay::check($secondOfDay);
-        Field\NanoOfSecond::check($nanoOfSecond);
-
-        $hours = Math::div($secondOfDay, self::SECONDS_PER_HOUR);
-        $secondOfDay -= $hours * self::SECONDS_PER_HOUR;
-        $minutes = Math::div($secondOfDay, self::SECONDS_PER_MINUTE);
-        $secondOfDay -= $minutes * self::SECONDS_PER_MINUTE;
-
-        return new LocalTime($hours, $minutes, $secondOfDay, $nanoOfSecond);
     }
 
     /**
@@ -552,7 +553,7 @@ class LocalTime
     }
 
     /**
-     * Returns a local date-time formed from this time at the specified date.
+     * Combines this time with a date to create a LocalDateTime.
      *
      * @param LocalDate $date
      *
