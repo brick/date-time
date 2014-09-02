@@ -15,6 +15,9 @@
         "phpunit/phpunit": "*",
         "satooshi/php-coveralls": "dev-master"
     },
+    "suggest": {
+        "ext-timezonedb": "This PECL extension provides up-to-date timezone information"
+    },
     "autoload": {
         "psr-4": {
             "Brick\\DateTime\\": "src/",
