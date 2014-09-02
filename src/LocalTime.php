@@ -11,7 +11,6 @@ use Brick\DateTime\Parser\DateTimeParseResult;
 use Brick\DateTime\Parser\IsoParsers;
 use Brick\DateTime\Utility\Math;
 use Brick\DateTime\Utility\Cast;
-use Brick\Locale\Locale;
 
 /**
  * A time without a time-zone in the ISO-8601 calendar system, such as 10:15:30.
@@ -606,25 +605,6 @@ class LocalTime
         $nanos = rtrim(sprintf('%09u', $this->nano), '0');
 
         return sprintf('%02u:%02u:%02u.%s', $this->hour, $this->minute, $this->second, $nanos);
-    }
-
-    /**
-     * @todo only supports HH:MM right now. Automatically switch between HH:MM & HH:MM:SS depending on SS==00?
-     * @todo same for nanos?
-     *
-     * @param \Brick\Locale\Locale $locale
-     *
-     * @return string
-     */
-    public function format(Locale $locale)
-    {
-        $formatter = new \IntlDateFormatter((string) $locale, \IntlDateFormatter::NONE, \IntlDateFormatter::SHORT);
-        $formatter->setTimeZone('UTC');
-
-        $datetime = new \DateTime(null, new \DateTimeZone('UTC'));
-        $datetime->setTime($this->hour, $this->minute, $this->second);
-
-        return $formatter->format($datetime);
     }
 
     /**

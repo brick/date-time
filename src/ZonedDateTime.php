@@ -6,7 +6,6 @@ use Brick\DateTime\Parser\DateTimeParseException;
 use Brick\DateTime\Parser\DateTimeParser;
 use Brick\DateTime\Parser\DateTimeParseResult;
 use Brick\DateTime\Parser\IsoParsers;
-use Brick\Locale\Locale;
 
 /**
  * A date-time with a time-zone in the ISO-8601 calendar system.
@@ -706,15 +705,5 @@ class ZonedDateTime extends ReadableInstant
         }
 
         return $string;
-    }
-
-    /**
-     * @param \Brick\Locale\Locale $locale
-     *
-     * @return string
-     */
-    public function format(Locale $locale)
-    {
-        return $this->getDateTime()->format($locale);
     }
 }

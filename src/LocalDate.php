@@ -8,7 +8,6 @@ use Brick\DateTime\Parser\DateTimeParseException;
 use Brick\DateTime\Parser\IsoParsers;
 use Brick\DateTime\Utility\Math;
 use Brick\DateTime\Utility\Cast;
-use Brick\Locale\Locale;
 
 /**
  * A date without a time-zone in the ISO-8601 calendar system, such as `2007-12-03`.
@@ -664,22 +663,6 @@ class LocalDate
         $pattern = ($this->year < 0 ? '%05d' : '%04d') . '-%02d-%02d';
 
         return sprintf($pattern, $this->year, $this->month, $this->day);
-    }
-
-    /**
-     * @param \Brick\Locale\Locale $locale
-     *
-     * @return string
-     */
-    public function format(Locale $locale)
-    {
-        $formatter = new \IntlDateFormatter((string) $locale, \IntlDateFormatter::SHORT, \IntlDateFormatter::NONE);
-        $formatter->setTimeZone('UTC');
-
-        $datetime = new \DateTime(null, new \DateTimeZone('UTC'));
-        $datetime->setDate($this->year, $this->month, $this->day);
-
-        return $formatter->format($datetime);
     }
 
     /**
