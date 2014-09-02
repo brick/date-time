@@ -229,7 +229,11 @@ class LocalDateTime
      */
     public function withDate(LocalDate $date)
     {
-        return $this->with($date, $this->time);
+        if ($date->isEqualTo($this->date)) {
+            return $this;
+        }
+
+        return new LocalDateTime($date, $this->time);
     }
 
     /**
@@ -241,7 +245,11 @@ class LocalDateTime
      */
     public function withTime(LocalTime $time)
     {
-        return $this->with($this->date, $time);
+        if ($time->isEqualTo($this->time)) {
+            return $this;
+        }
+
+        return new LocalDateTime($this->date, $time);
     }
 
     /**
