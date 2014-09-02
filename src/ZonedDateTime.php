@@ -43,7 +43,8 @@ class ZonedDateTime extends ReadableInstant
      * A native DateTime object to perform some of the calculations.
      *
      * DateTime does not support fractions of seconds, so this object is the equivalent
-     * of this ZonedDateTime with the fraction truncated.
+     * of this ZonedDateTime with the fraction truncated. It also does not have a time-zone region
+     * attached, just the time-zone offset.
      *
      * @var \DateTime
      */
@@ -66,24 +67,50 @@ class ZonedDateTime extends ReadableInstant
     }
 
     /**
-     * @param LocalDateTime       $dateTime
-     * @param TimeZone            $timeZone
-     * @param TimeZoneOffset|null $preferredOffset
+     * Creates a ZonedDateTime from a LocalDateTime and a TimeZone.
+     *
+     * This resolves the local date-time to an instant on the time-line.
+     *
+     * When a TimeZoneOffset is used, the local date-time can be converted to an instant without ambiguity.
+     *
+     * When a TimeZoneRegion is used, Daylight Saving Time can make the conversion more complex.
+     * There are 3 cases:
+     *
+     * - Normal: there is only one valid offset for the date-time, and the conversion is as straightforward as
+     *   when using a TimeZoneOffset. This is the case for the vast majority of the year.
+     * - Gap: there is no valid offset for the date-time. This is when the clock jumps forward typically due to
+     *   a DST transition from "winter" to "summer". In-between the two times of the transition, the date-times
+     *   are not valid.
+     * - Overlap: there are two valid offets for the date-time. This is when the clock is set back typically due to
+     *   a DST transition from "summer" to "winter". In-between the two times of the transition, the date-times
+     *   can be resolved to two different offsets, representing two different instants on the time-line.
+     *
+     * The strategy for resolving gaps and overlaps is the following:
+     *
+     * - If the local date-time falls in the middle of a gap, then the resulting date-time will be shifted forward
+     *   by the length of the gap, and the later offset, typically "summer" time, will be used.
+     * - If the local date-time falls in the middle of an overlap, then the offset closest to UTC will be used.
+     *
+     * @param LocalDateTime $dateTime
+     * @param TimeZone      timeZone
      *
      * @return ZonedDateTime
-     *
-     * @todo preferredOffset
      */
-    public static function of(LocalDateTime $dateTime, TimeZone $timeZone, TimeZoneOffset $preferredOffset = null)
+    public static function of(LocalDateTime $dateTime, TimeZone $timeZone)
     {
         $dtz = $timeZone->toDateTimeZone();
-        $dt = new \DateTime((string) $dateTime, $dtz);
+        $dt = new \DateTime((string) $dateTime->withNano(0), $dtz);
 
         if ($timeZone instanceof TimeZoneOffset) {
             $timeZoneOffset = $timeZone;
         } else {
-            $timeZoneOffset = TimeZoneOffset::ofTotalSeconds($dtz->getOffset($dt));
+            $timeZoneOffset = TimeZoneOffset::ofTotalSeconds($dt->getOffset());
         }
+
+        // The time can be affected if the date-time is not valid for the given time-zone due to a DST transition,
+        // so we have to re-compute the local date-time from the DateTime object.
+        // DateTime does not support fractions of seconds, so we just copy the nano back from the original date-time.
+        $dateTime = LocalDateTime::parse($dt->format('Y-m-d\TH:i:s'))->withNano($dateTime->getNano());
 
         return new ZonedDateTime($dateTime, $timeZoneOffset, $timeZone, $dt);
     }
