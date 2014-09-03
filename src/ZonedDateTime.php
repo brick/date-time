@@ -337,6 +337,14 @@ class ZonedDateTime extends ReadableInstant
     }
 
     /**
+     * @return integer
+     */
+    public function getNano()
+    {
+        return $this->localDateTime->getNano();
+    }
+
+    /**
      * Returns the time-zone, region or offset.
      *
      * @return TimeZone
