@@ -7,6 +7,7 @@ use Brick\DateTime\Clock\FixedClock;
 use Brick\DateTime\Instant;
 use Brick\DateTime\LocalDate;
 use Brick\DateTime\LocalTime;
+use Brick\DateTime\Period;
 use Brick\DateTime\TimeZone;
 use Brick\DateTime\Year;
 
@@ -137,7 +138,7 @@ class LocalDateTest extends AbstractTestCase
      */
     public function testNow($epochSecond, $timeZone, $year, $month, $day)
     {
-        Clock::setDefault(new FixedClock(Instant::of($epochSecond)));
+        $this->setClockTime($epochSecond);
         $this->assertLocalDateIs($year, $month, $day, LocalDate::now(TimeZone::parse($timeZone)));
     }
 
@@ -174,7 +175,7 @@ class LocalDateTest extends AbstractTestCase
      */
     public function testGetDayOfWeek($year, $month, $day, $dayOfWeek)
     {
-        $this->assertSame($dayOfWeek, LocalDate::of($year, $month, $day)->getDayOfWeek()->getValue());
+        $this->assertDayOfWeekIs($dayOfWeek, LocalDate::of($year, $month, $day)->getDayOfWeek());
     }
 
     /**
@@ -324,6 +325,28 @@ class LocalDateTest extends AbstractTestCase
     }
 
     /**
+     * @dataProvider providerWithInvalidYearThrowsException
+     * @expectedException \Brick\DateTime\DateTimeException
+     *
+     * @param integer $invalidYear The year to test.
+     */
+    public function testWithInvalidYearThrowsException($invalidYear)
+    {
+        LocalDate::of(2001, 2, 3)->withYear($invalidYear);
+    }
+
+    /**
+     * @return array
+     */
+    public function providerWithInvalidYearThrowsException()
+    {
+        return [
+            [-1000000],
+            [1000000]
+        ];
+    }
+
+    /**
      * @dataProvider providerWithMonth
      *
      * @param integer $year        The base year.
@@ -358,6 +381,28 @@ class LocalDateTest extends AbstractTestCase
             [2008, 3, 31, 11, 30],
             [2007, 3, 31, 12, 31],
             [2008, 4, 30, 12, 30]
+        ];
+    }
+
+    /**
+     * @dataProvider providerWithInvalidYearThrowsException
+     * @expectedException \Brick\DateTime\DateTimeException
+     *
+     * @param integer $invalidMonth The month to test.
+     */
+    public function testWithInvalidMonthThrowsException($invalidMonth)
+    {
+        LocalDate::of(2001, 2, 3)->atTime(LocalTime::of(4, 5, 6))->withMonth($invalidMonth);
+    }
+
+    /**
+     * @return array
+     */
+    public function providerWithInvalidMonthThrowsException()
+    {
+        return [
+            [0],
+            [13]
         ];
     }
 
@@ -413,6 +458,68 @@ class LocalDateTest extends AbstractTestCase
             [2007, 2, 1, 29],
             [2008, 2, 1, 30],
             [2009, 4, 1, 31]
+        ];
+    }
+
+    /**
+     * @dataProvider providerPlusPeriod
+     *
+     * @param integer $y  The year of the base date.
+     * @param integer $m  The month of the base date.
+     * @param integer $d  The day of the base date.
+     * @param integer $py The number of years in the period.
+     * @param integer $pm The number of months in the period.
+     * @param integer $pd The number of days in the period.
+     * @param integer $ey The expected year of the result date.
+     * @param integer $em The expected month of the result date.
+     * @param integer $ed The expected day of the result date.
+     */
+    public function testPlusPeriod($y, $m, $d, $py, $pm, $pd, $ey, $em, $ed)
+    {
+        $date = LocalDate::of($y, $m, $d);
+        $period = Period::of($py, $pm, $pd);
+
+        $this->assertLocalDateIs($ey, $em, $ed, $date->plusPeriod($period));
+    }
+
+    /**
+     * @dataProvider providerPlusPeriod
+     *
+     * @param integer $y  The year of the base date.
+     * @param integer $m  The month of the base date.
+     * @param integer $d  The day of the base date.
+     * @param integer $py The number of years in the period.
+     * @param integer $pm The number of months in the period.
+     * @param integer $pd The number of days in the period.
+     * @param integer $ey The expected year of the result date.
+     * @param integer $em The expected month of the result date.
+     * @param integer $ed The expected day of the result date.
+     */
+    public function testMinusPeriod($y, $m, $d, $py, $pm, $pd, $ey, $em, $ed)
+    {
+        $date = LocalDate::of($y, $m, $d);
+        $period = Period::of($py, $pm, $pd);
+
+        $this->assertLocalDateIs($ey, $em, $ed, $date->minusPeriod($period->negated()));
+    }
+
+    /**
+     * @return array
+     */
+    public function providerPlusPeriod()
+    {
+        return [
+            [2001, 2, 3,  0,   0,   0, 2001,  2,  3],
+            [2001, 2, 3,  0,   0,   1, 2001,  2,  4],
+            [2001, 2, 3,  0,   0,  -1, 2001,  2,  2],
+            [2001, 2, 3,  0,   1,   0, 2001,  3,  3],
+            [2001, 2, 3,  0,  -1,   0, 2001,  1,  3],
+            [2001, 2, 3,  1,   0,   0, 2002,  2,  3],
+            [2001, 2, 3, -1,   0,   0, 2000,  2,  3],
+            [2001, 2, 3,  0,   0,  30, 2001,  3,  5],
+            [2001, 2, 3,  0,  30,  50, 2003,  9, 22],
+            [2001, 2, 3,  0,   0, -30, 2001,  1,  4],
+            [2001, 2, 3,  0, -30, -50, 1998,  6, 14]
         ];
     }
 

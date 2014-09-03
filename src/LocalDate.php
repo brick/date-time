@@ -292,6 +292,8 @@ class LocalDate
      * @param integer $year
      *
      * @return LocalDate
+     *
+     * @throws DateTimeException If the year is outside the valid range.
      */
     public function withYear($year)
     {
@@ -308,6 +310,8 @@ class LocalDate
 
     /**
      * Returns a copy of this LocalDate with the month-of-year altered.
+     *
+     * If the day-of-month is invalid for the month and year, it will be changed to the last valid day of the month.
      *
      * @param integer $month
      *
@@ -337,7 +341,7 @@ class LocalDate
      *
      * @return LocalDate
      *
-     * @throws DateTimeException If day is invalid for the current year and month.
+     * @throws DateTimeException If the day is invalid for the current year and month.
      */
     public function withDay($day)
     {
@@ -350,6 +354,21 @@ class LocalDate
         Field\DayOfMonth::check($day, $this->month, $this->year);
 
         return new LocalDate($this->year, $this->month, $day);
+    }
+
+    /**
+     * Returns a copy of this LocalDate with the specified Period added.
+     *
+     * @param Period $period
+     *
+     * @return LocalDate
+     */
+    public function plusPeriod(Period $period)
+    {
+        return $this
+            ->plusYears($period->getYears())
+            ->plusMonths($period->getMonths())
+            ->plusDays($period->getDays());
     }
 
     /**
@@ -429,6 +448,21 @@ class LocalDate
         }
 
         return LocalDate::ofEpochDay($this->toEpochDay() + $days);
+    }
+
+    /**
+     * Returns a copy of this LocalDate with the specified Period subtracted.
+     *
+     * @param Period $period
+     *
+     * @return LocalDate
+     */
+    public function minusPeriod(Period $period)
+    {
+        return $this
+            ->minusYears($period->getYears())
+            ->minusMonths($period->getMonths())
+            ->minusDays($period->getDays());
     }
 
     /**
