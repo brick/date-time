@@ -43,8 +43,7 @@ class ZonedDateTime extends ReadableInstant
      * A native DateTime object to perform some of the calculations.
      *
      * DateTime does not support fractions of seconds, so this object is the equivalent
-     * of this ZonedDateTime with the fraction truncated. It also does not have a time-zone region
-     * attached, just the time-zone offset.
+     * of this ZonedDateTime with the fraction truncated.
      *
      * @var \DateTime
      */
@@ -76,14 +75,15 @@ class ZonedDateTime extends ReadableInstant
      * When a TimeZoneRegion is used, Daylight Saving Time can make the conversion more complex.
      * There are 3 cases:
      *
-     * - Normal: there is only one valid offset for the date-time, and the conversion is as straightforward as
-     *   when using a TimeZoneOffset. This is the case for the vast majority of the year.
-     * - Gap: there is no valid offset for the date-time. This is when the clock jumps forward typically due to
-     *   a DST transition from "winter" to "summer". In-between the two times of the transition, the date-times
-     *   are not valid.
-     * - Overlap: there are two valid offets for the date-time. This is when the clock is set back typically due to
-     *   a DST transition from "summer" to "winter". In-between the two times of the transition, the date-times
-     *   can be resolved to two different offsets, representing two different instants on the time-line.
+     * - Normal: when there is only one valid offset for the date-time. The conversion is then as straightforward
+     *   as when using a TimeZoneOffset. This is fortunately the case for the vast majority of the year.
+     * - Gap: when there is no valid offset for the date-time. This happens when the clock jumps forward
+     *   typically due to a DST transition from "winter" to "summer". The date-times between the two times
+     *   of the transition do not exist.
+     * - Overlap: when there are two valid offets for the date-time. This happens when the clock is set back
+     *   typically due to a DST transition from "summer" to "winter". The date-times between the two times
+     *   of the transition can be resolved to two different offsets, representing two different instants
+     *   on the time-line.
      *
      * The strategy for resolving gaps and overlaps is the following:
      *
