@@ -2,6 +2,7 @@
 
 namespace Brick\DateTime\Tests;
 
+use Brick\DateTime\Duration;
 use Brick\DateTime\LocalDate;
 use Brick\DateTime\LocalDateTime;
 use Brick\DateTime\LocalTime;
@@ -623,7 +624,7 @@ class LocalDateTimeTest extends AbstractTestCase
     }
 
     /**
-     * @dataProvider providerPlusPeriod
+     * @dataProvider providerPeriod
      *
      * @param integer $y  The year of the base date.
      * @param integer $m  The month of the base date.
@@ -644,7 +645,7 @@ class LocalDateTimeTest extends AbstractTestCase
     }
 
     /**
-     * @dataProvider providerPlusPeriod
+     * @dataProvider providerPeriod
      *
      * @param integer $y  The year of the base date.
      * @param integer $m  The month of the base date.
@@ -667,7 +668,7 @@ class LocalDateTimeTest extends AbstractTestCase
     /**
      * @return array
      */
-    public function providerPlusPeriod()
+    public function providerPeriod()
     {
         return [
             [2001, 2, 3,  0,   0,   0, 2001,  2,  3],
@@ -681,6 +682,59 @@ class LocalDateTimeTest extends AbstractTestCase
             [2001, 2, 3,  0,  30,  50, 2003,  9, 22],
             [2001, 2, 3,  0,   0, -30, 2001,  1,  4],
             [2001, 2, 3,  0, -30, -50, 1998,  6, 14]
+        ];
+    }
+
+    /**
+     * @dataProvider providerDuration
+     *
+     * @param integer $ds The seconds of the duration.
+     * @param integer $dn The nano adjustment of the duration.
+     * @param integer $y  The expected year.
+     * @param integer $m  The expected month.
+     * @param integer $d  The expected day.
+     * @param integer $h  The exepected hour.
+     * @param integer $i  The expected minute.
+     * @param integer $s  The expected second.
+     * @param integer $n  The expected nano.
+     */
+    public function testPlusDuration($ds, $dn, $y, $m, $d, $h, $i, $s, $n)
+    {
+        $localDateTime = LocalDate::of(2001, 2, 3)->atTime(LocalTime::of(4, 5, 6, 123456789));
+        $duration = Duration::ofSeconds($ds, $dn);
+        $this->assertLocalDateTimeIs($y, $m, $d, $h, $i, $s, $n, $localDateTime->plusDuration($duration));
+    }
+
+    /**
+     * @dataProvider providerDuration
+     *
+     * @param integer $ds The seconds of the duration.
+     * @param integer $dn The nano adjustment of the duration.
+     * @param integer $y  The expected year.
+     * @param integer $m  The expected month.
+     * @param integer $d  The expected day.
+     * @param integer $h  The exepected hour.
+     * @param integer $i  The expected minute.
+     * @param integer $s  The expected second.
+     * @param integer $n  The expected nano.
+     */
+    public function testMinusDuration($ds, $dn, $y, $m, $d, $h, $i, $s, $n)
+    {
+        $localDateTime = LocalDate::of(2001, 2, 3)->atTime(LocalTime::of(4, 5, 6, 123456789));
+        $duration = Duration::ofSeconds(-$ds, -$dn);
+        $this->assertLocalDateTimeIs($y, $m, $d, $h, $i, $s, $n, $localDateTime->minusDuration($duration));
+    }
+
+    /**
+     * @return array
+     */
+    public function providerDuration()
+    {
+        return [
+            [123456, 2000000000, 2001, 2, 4, 14, 22, 44, 123456789],
+            [7654321, 1999999999, 2001, 5, 2, 18, 17, 9, 123456788],
+            [-654321, -987654321, 2001, 1, 26, 14, 19, 44, 135802468],
+            [-7654321, 2013456789, 2000, 11, 6, 13, 53, 7, 136913578]
         ];
     }
 

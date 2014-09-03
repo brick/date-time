@@ -356,6 +356,20 @@ class LocalDateTime
     }
 
     /**
+     * Returns a copy of this LocalDateTime with the specific Duration added.
+     *
+     * @param Duration $duration
+     *
+     * @return LocalDateTime
+     */
+    public function plusDuration(Duration $duration)
+    {
+        $days = Math::floorDiv($duration->getSeconds(), LocalTime::SECONDS_PER_DAY);
+
+        return $this->with($this->date->plusDays($days), $this->time->plusDuration($duration));
+    }
+
+    /**
      * Returns a copy of this LocalDateTime with the specified period in years added.
      *
      * @param integer $years
@@ -485,6 +499,18 @@ class LocalDateTime
     public function minusPeriod(Period $period)
     {
         return $this->with($this->date->minusPeriod($period), $this->time);
+    }
+
+    /**
+     * Returns a copy of this LocalDateTime with the specific Duration subtracted.
+     *
+     * @param Duration $duration
+     *
+     * @return LocalDateTime
+     */
+    public function minusDuration(Duration $duration)
+    {
+        return $this->plusDuration($duration->negated());
     }
 
     /**
