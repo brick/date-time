@@ -419,24 +419,6 @@ class ZonedDateTimeTest extends AbstractTestCase
         ];
     }
 
-    public function testCreateFromLocalDate()
-    {
-        $date = LocalDate::of(2012, 6, 30);
-        $datetime = ZonedDateTime::createFromDate($date, TimeZone::parse('America/Los_Angeles'));
-        $this->assertTrue($datetime->getDate()->isEqualTo($date));
-        $this->assertSame(1341039600, $datetime->getInstant()->getEpochSecond());
-    }
-
-    public function testCreateFromDateAndTime()
-    {
-        $date = LocalDate::of(2012, 6, 30);
-        $time = LocalTime::of(12, 34, 56);
-        $datetime = ZonedDateTime::createFromDateAndTime($date, $time, TimeZone::parse('America/Los_Angeles'));
-        $this->assertTrue($datetime->getDate()->isEqualTo($date));
-        $this->assertTrue($datetime->getTime()->isEqualTo($time));
-        $this->assertSame(1341084896, $datetime->getInstant()->getEpochSecond());
-    }
-
     public function testChangeTimeZone()
     {
         $timezone1 = TimeZone::parse('UTC');

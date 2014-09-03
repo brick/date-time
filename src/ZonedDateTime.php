@@ -214,35 +214,6 @@ class ZonedDateTime extends ReadableInstant
     }
 
     /**
-     * Creates a ZonedDateTime on the specific date & time zone, at midnight.
-     *
-     * @param LocalDate $date     The date.
-     * @param TimeZone  $timeZone The time zone.
-     *
-     * @return ZonedDateTime
-     */
-    public static function createFromDate(LocalDate $date, TimeZone $timeZone)
-    {
-        return ZonedDateTime::createFromDateAndTime($date, LocalTime::midnight(), $timeZone);
-    }
-
-    /**
-     * Creates a ZonedDateTime on the specific date, time & time zone.
-     *
-     * @param LocalDate $date     The date.
-     * @param LocalTime $time     The time.
-     * @param TimeZone  $timeZone The time zone.
-     *
-     * @return ZonedDateTime
-     *
-     * @todo fromLocalDateTime() ? fromLocal() ? ofLocal() ? of()?
-     */
-    public static function createFromDateAndTime(LocalDate $date, LocalTime $time, TimeZone $timeZone)
-    {
-        return ZonedDateTime::of(LocalDateTime::ofDateTime($date, $time), $timeZone);
-    }
-
-    /**
      * Returns the `LocalDateTime` part of this `ZonedDateTime`.
      *
      * @return LocalDateTime
