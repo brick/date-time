@@ -21,7 +21,7 @@ class MonthDayTest extends AbstractTestCase
      */
     public function testOf($month, $day)
     {
-        $this->assertMonthDayEquals($month, $day, MonthDay::of($month, $day));
+        $this->assertMonthDayIs($month, $day, MonthDay::of($month, $day));
     }
 
     /**
@@ -91,7 +91,7 @@ class MonthDayTest extends AbstractTestCase
      */
     public function testParse($text, $month, $day)
     {
-        $this->assertMonthDayEquals($month, $day, MonthDay::parse($text));
+        $this->assertMonthDayIs($month, $day, MonthDay::parse($text));
     }
 
     /**
@@ -174,7 +174,7 @@ class MonthDayTest extends AbstractTestCase
     {
         $previousClock = Clock::setDefault(new FixedClock(Instant::of($epochSecond)));
 
-        $this->assertMonthDayEquals($month, $day, MonthDay::now(TimeZone::parse($timeZone)));
+        $this->assertMonthDayIs($month, $day, MonthDay::now(TimeZone::parse($timeZone)));
 
         Clock::setDefault($previousClock);
     }
@@ -325,8 +325,8 @@ class MonthDayTest extends AbstractTestCase
         $monthDay = MonthDay::of($month, $day);
         $newMonthDay = $monthDay->withMonth($newMonth);
 
-        $this->assertMonthDayEquals($month, $day, $monthDay);
-        $this->assertMonthDayEquals($newMonth, $expectedDay, $newMonthDay);
+        $this->assertMonthDayIs($month, $day, $monthDay);
+        $this->assertMonthDayIs($newMonth, $expectedDay, $newMonthDay);
     }
 
     /**
@@ -390,8 +390,8 @@ class MonthDayTest extends AbstractTestCase
         $monthDay = MonthDay::of($month, $day);
         $newMonthDay = $monthDay->withDay($newDay);
 
-        $this->assertMonthDayEquals($month, $day, $monthDay);
-        $this->assertMonthDayEquals($month, $newDay, $newMonthDay);
+        $this->assertMonthDayIs($month, $day, $monthDay);
+        $this->assertMonthDayIs($month, $newDay, $newMonthDay);
     }
 
     /**
@@ -465,7 +465,7 @@ class MonthDayTest extends AbstractTestCase
      */
     public function testAtYear($month, $day, $year, $expectedDay)
     {
-        $this->assertLocalDateEquals($year, $month, $expectedDay, MonthDay::of($month, $day)->atYear($year));
+        $this->assertLocalDateIs($year, $month, $expectedDay, MonthDay::of($month, $day)->atYear($year));
     }
 
     /**

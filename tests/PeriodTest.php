@@ -12,32 +12,32 @@ class PeriodTest extends AbstractTestCase
 {
     public function testOf()
     {
-        $this->assertPeriodEquals(1, 2, 3, Period::of(1, 2, 3));
+        $this->assertPeriodIs(1, 2, 3, Period::of(1, 2, 3));
     }
 
     public function testOfYears()
     {
-        $this->assertPeriodEquals(11, 0, 0, Period::ofYears(11));
+        $this->assertPeriodIs(11, 0, 0, Period::ofYears(11));
     }
 
     public function testOfMonths()
     {
-        $this->assertPeriodEquals(0, 11, 0, Period::ofMonths(11));
+        $this->assertPeriodIs(0, 11, 0, Period::ofMonths(11));
     }
 
     public function testOfWeeks()
     {
-        $this->assertPeriodEquals(0, 0, 77, Period::ofWeeks(11));
+        $this->assertPeriodIs(0, 0, 77, Period::ofWeeks(11));
     }
 
     public function testOfDays()
     {
-        $this->assertPeriodEquals(0, 0, 11, Period::ofDays(11));
+        $this->assertPeriodIs(0, 0, 11, Period::ofDays(11));
     }
 
     public function testZero()
     {
-        $this->assertPeriodEquals(0, 0, 0, Period::zero());
+        $this->assertPeriodIs(0, 0, 0, Period::zero());
     }
 
     /**
@@ -50,7 +50,7 @@ class PeriodTest extends AbstractTestCase
      */
     public function testParse($text, $years, $months, $days)
     {
-        $this->assertPeriodEquals($years, $months, $days, Period::parse($text));
+        $this->assertPeriodIs($years, $months, $days, Period::parse($text));
     }
 
     /**
@@ -114,22 +114,22 @@ class PeriodTest extends AbstractTestCase
     public function testBetween()
     {
         $period = Period::between(LocalDate::of(2010, 1, 15), LocalDate::of(2011, 3, 18));
-        $this->assertPeriodEquals(1, 2, 3, $period);
+        $this->assertPeriodIs(1, 2, 3, $period);
     }
 
     public function testWithYears()
     {
-        $this->assertPeriodEquals(9, 2, 3, Period::of(1, 2, 3)->withYears(9));
+        $this->assertPeriodIs(9, 2, 3, Period::of(1, 2, 3)->withYears(9));
     }
 
     public function testWithMonths()
     {
-        $this->assertPeriodEquals(1, 9, 3, Period::of(1, 2, 3)->withMonths(9));
+        $this->assertPeriodIs(1, 9, 3, Period::of(1, 2, 3)->withMonths(9));
     }
 
     public function testWithDays()
     {
-        $this->assertPeriodEquals(1, 2, 9, Period::of(1, 2, 3)->withDays(9));
+        $this->assertPeriodIs(1, 2, 9, Period::of(1, 2, 3)->withDays(9));
     }
 
     public function testWithSameValuesReturnsThis()
@@ -143,17 +143,17 @@ class PeriodTest extends AbstractTestCase
 
     public function testPlusYears()
     {
-        $this->assertPeriodEquals(11, 2, 3, Period::of(1, 2, 3)->plusYears(10));
+        $this->assertPeriodIs(11, 2, 3, Period::of(1, 2, 3)->plusYears(10));
     }
 
     public function testPlusMonths()
     {
-        $this->assertPeriodEquals(1, 12, 3, Period::of(1, 2, 3)->plusMonths(10));
+        $this->assertPeriodIs(1, 12, 3, Period::of(1, 2, 3)->plusMonths(10));
     }
 
     public function testPlusDays()
     {
-        $this->assertPeriodEquals(1, 2, 13, Period::of(1, 2, 3)->plusDays(10));
+        $this->assertPeriodIs(1, 2, 13, Period::of(1, 2, 3)->plusDays(10));
     }
 
     public function testPlusZeroReturnsThis()
@@ -167,17 +167,17 @@ class PeriodTest extends AbstractTestCase
 
     public function testMinusYears()
     {
-        $this->assertPeriodEquals(-1, 2, 3, Period::of(1, 2, 3)->minusYears(2));
+        $this->assertPeriodIs(-1, 2, 3, Period::of(1, 2, 3)->minusYears(2));
     }
 
     public function testMinusMonths()
     {
-        $this->assertPeriodEquals(1, -2, 3, Period::of(1, 2, 3)->minusMonths(4));
+        $this->assertPeriodIs(1, -2, 3, Period::of(1, 2, 3)->minusMonths(4));
     }
 
     public function testMinusDays()
     {
-        $this->assertPeriodEquals(1, 2, -3, Period::of(1, 2, 3)->minusDays(6));
+        $this->assertPeriodIs(1, 2, -3, Period::of(1, 2, 3)->minusDays(6));
     }
 
     public function testMinusZeroReturnsThis()
@@ -191,7 +191,7 @@ class PeriodTest extends AbstractTestCase
 
     public function testMultipliedBy()
     {
-        $this->assertPeriodEquals(-2, -4, -6, Period::of(1, 2, 3)->multipliedBy(-2));
+        $this->assertPeriodIs(-2, -4, -6, Period::of(1, 2, 3)->multipliedBy(-2));
     }
 
     public function testMultipliedByOneReturnsThis()
@@ -202,7 +202,7 @@ class PeriodTest extends AbstractTestCase
 
     public function testNegated()
     {
-        $this->assertPeriodEquals(-7, -8, -9, Period::of(7, 8, 9)->negated());
+        $this->assertPeriodIs(-7, -8, -9, Period::of(7, 8, 9)->negated());
     }
 
     public function testZeroNegatedReturnsThis()
@@ -222,7 +222,7 @@ class PeriodTest extends AbstractTestCase
      */
     public function testNormalized($y, $m, $d, $ny, $nm)
     {
-        $this->assertPeriodEquals($ny, $nm, $d, Period::of($y, $m, $d)->normalized());
+        $this->assertPeriodIs($ny, $nm, $d, Period::of($y, $m, $d)->normalized());
     }
 
     /**

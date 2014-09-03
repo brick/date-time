@@ -13,7 +13,7 @@ class LocalTimeTest extends AbstractTestCase
 {
     public function testOf()
     {
-        $this->assertLocalTimeEquals(12, 34, 56, 123456789, LocalTime::of(12, 34, 56, 123456789));
+        $this->assertLocalTimeIs(12, 34, 56, 123456789, LocalTime::of(12, 34, 56, 123456789));
     }
 
     /**
@@ -55,7 +55,7 @@ class LocalTimeTest extends AbstractTestCase
     public function testOfSecondOfDay($secondOfDay, $hour, $minute, $second)
     {
         $localTime = LocalTime::ofSecondOfDay($secondOfDay, 123);
-        $this->assertLocalTimeEquals($hour, $minute, $second, 123, $localTime);
+        $this->assertLocalTimeIs($hour, $minute, $second, 123, $localTime);
     }
 
     /**
@@ -186,7 +186,7 @@ class LocalTimeTest extends AbstractTestCase
     {
         $this->setClockTime($second, $nano);
         $timeZone = TimeZoneOffset::ofTotalSeconds($offset);
-        $this->assertLocalTimeEquals($h, $m, $s, $n, LocalTime::now($timeZone));
+        $this->assertLocalTimeIs($h, $m, $s, $n, LocalTime::now($timeZone));
     }
 
     /**
@@ -204,42 +204,42 @@ class LocalTimeTest extends AbstractTestCase
 
     public function testMidnight()
     {
-        $this->assertLocalTimeEquals(0, 0, 0, 0, LocalTime::midnight());
+        $this->assertLocalTimeIs(0, 0, 0, 0, LocalTime::midnight());
     }
 
     public function testNoon()
     {
-        $this->assertLocalTimeEquals(12, 0, 0, 0, LocalTime::noon());
+        $this->assertLocalTimeIs(12, 0, 0, 0, LocalTime::noon());
     }
 
     public function testMin()
     {
-        $this->assertLocalTimeEquals(0, 0, 0, 0, LocalTime::min());
+        $this->assertLocalTimeIs(0, 0, 0, 0, LocalTime::min());
     }
 
     public function testMax()
     {
-        $this->assertLocalTimeEquals(23, 59, 59, 999999999, LocalTime::max());
+        $this->assertLocalTimeIs(23, 59, 59, 999999999, LocalTime::max());
     }
 
     public function testWithHour()
     {
-        $this->assertLocalTimeEquals(23, 34, 56, 789, LocalTime::of(12, 34, 56, 789)->withHour(23));
+        $this->assertLocalTimeIs(23, 34, 56, 789, LocalTime::of(12, 34, 56, 789)->withHour(23));
     }
 
     public function testWithMinute()
     {
-        $this->assertLocalTimeEquals(12, 59, 56, 789, LocalTime::of(12, 34, 56, 789)->withMinute(59));
+        $this->assertLocalTimeIs(12, 59, 56, 789, LocalTime::of(12, 34, 56, 789)->withMinute(59));
     }
 
     public function testWithSecond()
     {
-        $this->assertLocalTimeEquals(12, 34, 59, 789, LocalTime::of(12, 34, 56, 789)->withSecond(59));
+        $this->assertLocalTimeIs(12, 34, 59, 789, LocalTime::of(12, 34, 56, 789)->withSecond(59));
     }
 
     public function testWithNano()
     {
-        $this->assertLocalTimeEquals(12, 34, 56, 999999, LocalTime::of(12, 34, 56, 789)->withNano(999999));
+        $this->assertLocalTimeIs(12, 34, 56, 999999, LocalTime::of(12, 34, 56, 789)->withNano(999999));
     }
 
     public function testWithSameValueReturnsThis()
@@ -262,7 +262,7 @@ class LocalTimeTest extends AbstractTestCase
     public function testPlusHours($h, $d, $eh)
     {
         $result = LocalTime::of($h, 34, 56, 789)->plusHours($d);
-        $this->assertLocalTimeEquals($eh, 34, 56, 789, $result);
+        $this->assertLocalTimeIs($eh, 34, 56, 789, $result);
     }
 
     /**
@@ -275,7 +275,7 @@ class LocalTimeTest extends AbstractTestCase
     public function testMinusHours($h, $d, $eh)
     {
         $result = LocalTime::of($h, 34, 56, 789)->minusHours(-$d);
-        $this->assertLocalTimeEquals($eh, 34, 56, 789, $result);
+        $this->assertLocalTimeIs($eh, 34, 56, 789, $result);
     }
 
     /**
@@ -326,7 +326,7 @@ class LocalTimeTest extends AbstractTestCase
     public function testPlusMinutes($h, $m, $d, $eh, $em)
     {
         $result = LocalTime::of($h, $m, 56, 789)->plusMinutes($d);
-        $this->assertLocalTimeEquals($eh, $em, 56, 789, $result);
+        $this->assertLocalTimeIs($eh, $em, 56, 789, $result);
     }
 
     /**
@@ -341,7 +341,7 @@ class LocalTimeTest extends AbstractTestCase
     public function testMinusMinutes($h, $m, $d, $eh, $em)
     {
         $result = LocalTime::of($h, $m, 56, 789)->minusMinutes(-$d);
-        $this->assertLocalTimeEquals($eh, $em, 56, 789, $result);
+        $this->assertLocalTimeIs($eh, $em, 56, 789, $result);
     }
 
     /**
@@ -412,7 +412,7 @@ class LocalTimeTest extends AbstractTestCase
     public function testPlusSeconds($h, $m, $s, $d, $eh, $em, $es)
     {
         $result = LocalTime::of($h, $m, $s, 123456789)->plusSeconds($d);
-        $this->assertLocalTimeEquals($eh, $em, $es, 123456789, $result);
+        $this->assertLocalTimeIs($eh, $em, $es, 123456789, $result);
     }
 
     /**
@@ -429,7 +429,7 @@ class LocalTimeTest extends AbstractTestCase
     public function testMinusSeconds($h, $m, $s, $d, $eh, $em, $es)
     {
         $result = LocalTime::of($h, $m, $s, 123456789)->minusSeconds(-$d);
-        $this->assertLocalTimeEquals($eh, $em, $es, 123456789, $result);
+        $this->assertLocalTimeIs($eh, $em, $es, 123456789, $result);
     }
 
     /**
@@ -514,7 +514,7 @@ class LocalTimeTest extends AbstractTestCase
     public function testPlusNanos($h, $m, $s, $n, $d, $eh, $em, $es, $en)
     {
         $result = LocalTime::of($h, $m, $s, $n)->plusNanos($d);
-        $this->assertLocalTimeEquals($eh, $em, $es, $en, $result);
+        $this->assertLocalTimeIs($eh, $em, $es, $en, $result);
     }
 
     /**
@@ -533,7 +533,7 @@ class LocalTimeTest extends AbstractTestCase
     public function testMinusNanos($h, $m, $s, $n, $d, $eh, $em, $es, $en)
     {
         $result = LocalTime::of($h, $m, $s, $n)->minusNanos(-$d);
-        $this->assertLocalTimeEquals($eh, $em, $es, $en, $result);
+        $this->assertLocalTimeIs($eh, $em, $es, $en, $result);
     }
 
     /**
@@ -860,7 +860,7 @@ class LocalTimeTest extends AbstractTestCase
         $time = LocalTime::of(12, 34, 56, 789);
         $date = LocalDate::of(2014, 11, 30);
 
-        $this->assertLocalDateTimeEquals(2014, 11, 30, 12, 34, 56, 789, $time->atDate($date));
+        $this->assertLocalDateTimeIs(2014, 11, 30, 12, 34, 56, 789, $time->atDate($date));
     }
 
     /**

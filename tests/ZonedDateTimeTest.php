@@ -16,15 +16,6 @@ use Brick\DateTime\ZonedDateTime;
 class ZonedDateTimeTest extends AbstractTestCase
 {
     /**
-     * @param TimeZone $expected
-     * @param TimeZone $actual
-     */
-    private function assertTimeZoneEquals(TimeZone $expected, TimeZone $actual)
-    {
-        $this->assertTrue($actual->isEqualTo($expected), "$actual != $expected");
-    }
-
-    /**
      * @dataProvider providerOf
      *
      * @param string  $localDateTime The local date-time as a string.
@@ -45,10 +36,10 @@ class ZonedDateTimeTest extends AbstractTestCase
         $zonedDateTime = ZonedDateTime::of($localDateTime, $timeZone);
 
         $this->assertInstanceOf(ZonedDateTime::class, $zonedDateTime);
-        $this->assertTrue($zonedDateTime->getDateTime()->isEqualTo(LocalDateTime::parse($expectedDateTime)));
 
+        $this->assertLocalDateTimeEquals($expectedDateTime, $zonedDateTime->getDateTime());
         $this->assertTimeZoneEquals($timeZone, $zonedDateTime->getTimeZone());
-        $this->assertTimeZoneEquals(TimeZoneOffset::parse($offset), $zonedDateTime->getTimeZoneOffset());
+        $this->assertTimeZoneEquals($offset, $zonedDateTime->getTimeZoneOffset());
 
         $this->assertSame($epochSecond, $zonedDateTime->getEpochSecond());
         $this->assertSame($nanoOfSecond, $zonedDateTime->getNano());

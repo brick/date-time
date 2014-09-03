@@ -12,7 +12,7 @@ class LocalDateRangeTest extends AbstractTestCase
 {
     public function testOf()
     {
-        $this->assertLocalDateRangeEquals(2001, 2, 3, 2004, 5, 6, LocalDateRange::of(
+        $this->assertLocalDateRangeIs(2001, 2, 3, 2004, 5, 6, LocalDateRange::of(
             LocalDate::of(2001, 2, 3),
             LocalDate::of(2004, 5, 6)
         ));
@@ -32,7 +32,7 @@ class LocalDateRangeTest extends AbstractTestCase
     public function testParse()
     {
         $range = LocalDateRange::parse('2008-01-01/2009-12-31');
-        $this->assertLocalDateRangeEquals(2008, 1, 1, 2009, 12, 31, $range);
+        $this->assertLocalDateRangeIs(2008, 1, 1, 2009, 12, 31, $range);
     }
 
     /**

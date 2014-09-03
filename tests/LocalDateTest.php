@@ -17,7 +17,7 @@ class LocalDateTest extends AbstractTestCase
 {
     public function testOf()
     {
-        $this->assertLocalDateEquals(2007, 7, 15, LocalDate::of(2007, 7, 15));
+        $this->assertLocalDateIs(2007, 7, 15, LocalDate::of(2007, 7, 15));
     }
 
     /**
@@ -86,7 +86,7 @@ class LocalDateTest extends AbstractTestCase
      */
     public function testOfEpochDay($epochDay, $year, $month, $day)
     {
-        $this->assertLocalDateEquals($year, $month, $day, LocalDate::ofEpochDay($epochDay));
+        $this->assertLocalDateIs($year, $month, $day, LocalDate::ofEpochDay($epochDay));
     }
 
     /**
@@ -138,7 +138,7 @@ class LocalDateTest extends AbstractTestCase
     public function testNow($epochSecond, $timeZone, $year, $month, $day)
     {
         Clock::setDefault(new FixedClock(Instant::of($epochSecond)));
-        $this->assertLocalDateEquals($year, $month, $day, LocalDate::now(TimeZone::parse($timeZone)));
+        $this->assertLocalDateIs($year, $month, $day, LocalDate::now(TimeZone::parse($timeZone)));
     }
 
     /**
@@ -156,12 +156,12 @@ class LocalDateTest extends AbstractTestCase
 
     public function testMin()
     {
-        $this->assertLocalDateEquals(Year::MIN_VALUE, 1, 1, LocalDate::min());
+        $this->assertLocalDateIs(Year::MIN_VALUE, 1, 1, LocalDate::min());
     }
 
     public function testMax()
     {
-        $this->assertLocalDateEquals(Year::MAX_VALUE, 12, 31, LocalDate::max());
+        $this->assertLocalDateIs(Year::MAX_VALUE, 12, 31, LocalDate::max());
     }
 
     /**
@@ -220,7 +220,7 @@ class LocalDateTest extends AbstractTestCase
      */
     public function testOfYearDay($year, $month, $day, $dayOfYear)
     {
-        $this->assertLocalDateEquals($year, $month, $day, LocalDate::ofYearDay($year, $dayOfYear));
+        $this->assertLocalDateIs($year, $month, $day, LocalDate::ofYearDay($year, $dayOfYear));
     }
 
     /**
@@ -305,7 +305,7 @@ class LocalDateTest extends AbstractTestCase
     public function testWithYear($year, $month, $day, $newYear, $expectedDay)
     {
         $localDate = LocalDate::of($year, $month, $day)->withYear($newYear);
-        $this->assertLocalDateEquals($newYear, $month, $expectedDay, $localDate);
+        $this->assertLocalDateIs($newYear, $month, $expectedDay, $localDate);
     }
 
     /**
@@ -335,7 +335,7 @@ class LocalDateTest extends AbstractTestCase
     public function testWithMonth($year, $month, $day, $newMonth, $expectedDay)
     {
         $localDate = LocalDate::of($year, $month, $day)->withMonth($newMonth);
-        $this->assertLocalDateEquals($year, $newMonth, $expectedDay, $localDate);
+        $this->assertLocalDateIs($year, $newMonth, $expectedDay, $localDate);
     }
 
     /**
@@ -372,7 +372,7 @@ class LocalDateTest extends AbstractTestCase
     public function testWithDay($year, $month, $day, $newDay)
     {
         $localDate = LocalDate::of($year, $month, $day)->withDay($newDay);
-        $this->assertLocalDateEquals($year, $month, $newDay, $localDate);
+        $this->assertLocalDateIs($year, $month, $newDay, $localDate);
     }
 
     /**
@@ -429,7 +429,7 @@ class LocalDateTest extends AbstractTestCase
      */
     public function testPlusYears($y, $m, $d, $ay, $ey, $em, $ed)
     {
-        $this->assertLocalDateEquals($ey, $em, $ed, LocalDate::of($y, $m, $d)->plusYears($ay));
+        $this->assertLocalDateIs($ey, $em, $ed, LocalDate::of($y, $m, $d)->plusYears($ay));
     }
 
     /**
@@ -459,7 +459,7 @@ class LocalDateTest extends AbstractTestCase
      */
     public function testPlusMonths($y, $m, $d, $am, $ey, $em, $ed)
     {
-        $this->assertLocalDateEquals($ey, $em, $ed, LocalDate::of($y, $m, $d)->plusMonths($am));
+        $this->assertLocalDateIs($ey, $em, $ed, LocalDate::of($y, $m, $d)->plusMonths($am));
     }
 
     /**
@@ -498,7 +498,7 @@ class LocalDateTest extends AbstractTestCase
      */
     public function testPlusWeeks($y, $m, $d, $aw, $ey, $em, $ed)
     {
-        $this->assertLocalDateEquals($ey, $em, $ed, LocalDate::of($y, $m, $d)->plusWeeks($aw));
+        $this->assertLocalDateIs($ey, $em, $ed, LocalDate::of($y, $m, $d)->plusWeeks($aw));
     }
 
     /**
@@ -530,7 +530,7 @@ class LocalDateTest extends AbstractTestCase
      */
     public function testPlusDays($y, $m, $d, $ad, $ey, $em, $ed)
     {
-        $this->assertLocalDateEquals($ey, $em, $ed, LocalDate::of($y, $m, $d)->plusDays($ad));
+        $this->assertLocalDateIs($ey, $em, $ed, LocalDate::of($y, $m, $d)->plusDays($ad));
     }
 
     /**
@@ -563,7 +563,7 @@ class LocalDateTest extends AbstractTestCase
      */
     public function tesMinusYears($y, $m, $d, $sy, $ey, $em, $ed)
     {
-        $this->assertLocalDateEquals($ey, $em, $ed, LocalDate::of($y, $m, $d)->minusYears($sy));
+        $this->assertLocalDateIs($ey, $em, $ed, LocalDate::of($y, $m, $d)->minusYears($sy));
     }
 
     /**
@@ -593,7 +593,7 @@ class LocalDateTest extends AbstractTestCase
      */
     public function testMinusMonths($y, $m, $d, $sm, $ey, $em, $ed)
     {
-        $this->assertLocalDateEquals($ey, $em, $ed, LocalDate::of($y, $m, $d)->minusMonths($sm));
+        $this->assertLocalDateIs($ey, $em, $ed, LocalDate::of($y, $m, $d)->minusMonths($sm));
     }
 
     /**
@@ -632,7 +632,7 @@ class LocalDateTest extends AbstractTestCase
      */
     public function testMinusWeeks($y, $m, $d, $sw, $ey, $em, $ed)
     {
-        $this->assertLocalDateEquals($ey, $em, $ed, LocalDate::of($y, $m, $d)->minusWeeks($sw));
+        $this->assertLocalDateIs($ey, $em, $ed, LocalDate::of($y, $m, $d)->minusWeeks($sw));
     }
 
     /**
@@ -664,7 +664,7 @@ class LocalDateTest extends AbstractTestCase
      */
     public function testMinusDays($y, $m, $d, $sd, $ey, $em, $ed)
     {
-        $this->assertLocalDateEquals($ey, $em, $ed, LocalDate::of($y, $m, $d)->minusDays($sd));
+        $this->assertLocalDateIs($ey, $em, $ed, LocalDate::of($y, $m, $d)->minusDays($sd));
     }
 
     /**
@@ -702,7 +702,7 @@ class LocalDateTest extends AbstractTestCase
         $date1 = LocalDate::of($y1, $m1, $d1);
         $date2 = LocalDate::of($y2, $m2, $d2);
 
-        $this->assertPeriodEquals($y, $m, $d, $date1->until($date2));
+        $this->assertPeriodIs($y, $m, $d, $date1->until($date2));
     }
 
     /**
@@ -807,7 +807,7 @@ class LocalDateTest extends AbstractTestCase
     public function testAtTime()
     {
         $localDateTime = LocalDate::of(1, 2, 3)->atTime(LocalTime::of(4, 5, 6, 7));
-        $this->assertLocalDateTimeEquals(1, 2, 3, 4, 5, 6, 7, $localDateTime);
+        $this->assertLocalDateTimeIs(1, 2, 3, 4, 5, 6, 7, $localDateTime);
     }
 
     /**

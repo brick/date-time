@@ -14,6 +14,6 @@ class FixedClockTest extends AbstractTestCase
     public function testFixedClock()
     {
         $clock = new FixedClock(Instant::of(123456789, 987654321));
-        $this->assertReadableInstantEquals(123456789, 987654321, $clock->getTime());
+        $this->assertReadableInstantIs(123456789, 987654321, $clock->getTime());
     }
 }

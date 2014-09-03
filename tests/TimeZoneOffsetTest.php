@@ -19,7 +19,7 @@ class TimeZoneOffsetTest extends AbstractTestCase
      */
     public function testOf($hours, $minutes, $seconds, $totalSeconds)
     {
-        $this->assertTimeZoneOffsetEquals($totalSeconds, TimeZoneOffset::of($hours, $minutes, $seconds));
+        $this->assertTimeZoneOffsetIs($totalSeconds, TimeZoneOffset::of($hours, $minutes, $seconds));
     }
 
     /**
@@ -103,7 +103,7 @@ class TimeZoneOffsetTest extends AbstractTestCase
      */
     public function testOfTotalSeconds($totalSeconds)
     {
-        $this->assertTimeZoneOffsetEquals($totalSeconds, TimeZoneOffset::ofTotalSeconds($totalSeconds));
+        $this->assertTimeZoneOffsetIs($totalSeconds, TimeZoneOffset::ofTotalSeconds($totalSeconds));
     }
 
     /**
@@ -144,7 +144,7 @@ class TimeZoneOffsetTest extends AbstractTestCase
 
     public function testUtc()
     {
-        $this->assertTimeZoneOffsetEquals(0, TimeZoneOffset::utc());
+        $this->assertTimeZoneOffsetIs(0, TimeZoneOffset::utc());
     }
 
     /**
@@ -155,7 +155,7 @@ class TimeZoneOffsetTest extends AbstractTestCase
      */
     public function testParse($text, $totalSeconds)
     {
-        $this->assertTimeZoneOffsetEquals($totalSeconds, TimeZoneOffset::parse($text));
+        $this->assertTimeZoneOffsetIs($totalSeconds, TimeZoneOffset::parse($text));
     }
 
     /**

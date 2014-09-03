@@ -27,7 +27,7 @@ class OffsetClockTest extends AbstractTestCase
         $baseClock = new FixedClock(Instant::of($second, $nano));
         $clock = new OffsetClock($baseClock, Duration::parse($duration));
 
-        $this->assertReadableInstantEquals($expectedSecond, $expectedNano, $clock->getTime());
+        $this->assertReadableInstantIs($expectedSecond, $expectedNano, $clock->getTime());
     }
 
     /**

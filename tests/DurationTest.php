@@ -12,7 +12,7 @@ class DurationTest extends AbstractTestCase
 {
     public function testZero()
     {
-        $this->assertDurationEquals(0, 0, Duration::zero());
+        $this->assertDurationIs(0, 0, Duration::zero());
     }
 
     /**
@@ -26,7 +26,7 @@ class DurationTest extends AbstractTestCase
     public function testOfSeconds($seconds, $nanoAdjustment, $expectedSeconds, $expectedNanos)
     {
         $duration = Duration::ofSeconds($seconds, $nanoAdjustment);
-        $this->assertDurationEquals($expectedSeconds, $expectedNanos, $duration);
+        $this->assertDurationIs($expectedSeconds, $expectedNanos, $duration);
     }
 
     /**
@@ -82,7 +82,7 @@ class DurationTest extends AbstractTestCase
         $i1 = Instant::of($seconds1, $nanos1);
         $i2 = Instant::of($seconds2, $nanos2);
 
-        $this->assertDurationEquals($seconds, $nanos, Duration::between($i1, $i2));
+        $this->assertDurationIs($seconds, $nanos, Duration::between($i1, $i2));
     }
 
     /**
@@ -118,7 +118,7 @@ class DurationTest extends AbstractTestCase
      */
     public function testParse($text, $seconds, $nanos)
     {
-        $this->assertDurationEquals($seconds, $nanos, Duration::parse($text));
+        $this->assertDurationIs($seconds, $nanos, Duration::parse($text));
     }
 
     /**
@@ -433,7 +433,7 @@ class DurationTest extends AbstractTestCase
         $duration1 = Duration::ofSeconds($s1, $n1);
         $duration2 = Duration::ofSeconds($s2, $n2);
 
-        $this->assertDurationEquals($s, $n, $duration1->plus($duration2));
+        $this->assertDurationIs($s, $n, $duration1->plus($duration2));
     }
 
     /**
@@ -451,7 +451,7 @@ class DurationTest extends AbstractTestCase
         $duration1 = Duration::ofSeconds($s1, $n1);
         $duration2 = Duration::ofSeconds(-$s2, -$n2);
 
-        $this->assertDurationEquals($s, $n, $duration1->minus($duration2));
+        $this->assertDurationIs($s, $n, $duration1->minus($duration2));
     }
 
     /**
@@ -529,7 +529,7 @@ class DurationTest extends AbstractTestCase
     public function testPlusSeconds($seconds, $nanos, $secondsToAdd, $expectedSeconds, $expectedNanos)
     {
         $duration = Duration::ofSeconds($seconds, $nanos)->plusSeconds($secondsToAdd);
-        $this->assertDurationEquals($expectedSeconds, $expectedNanos, $duration);
+        $this->assertDurationIs($expectedSeconds, $expectedNanos, $duration);
     }
 
     /**
@@ -571,7 +571,7 @@ class DurationTest extends AbstractTestCase
     public function testPlusMinutes($seconds, $minutesToAdd, $expectedSeconds)
     {
         $duration = Duration::ofSeconds($seconds)->plusMinutes($minutesToAdd);
-        $this->assertDurationEquals($expectedSeconds, 0, $duration);
+        $this->assertDurationIs($expectedSeconds, 0, $duration);
     }
 
     /**
@@ -606,7 +606,7 @@ class DurationTest extends AbstractTestCase
     public function testPlusHours($seconds, $hoursToAdd, $expectedSeconds)
     {
         $duration = Duration::ofSeconds($seconds)->plusHours($hoursToAdd);
-        $this->assertDurationEquals($expectedSeconds, 0, $duration);
+        $this->assertDurationIs($expectedSeconds, 0, $duration);
     }
 
     /**
@@ -641,7 +641,7 @@ class DurationTest extends AbstractTestCase
     public function testPlusDays($seconds, $daysToAdd, $expectedSeconds)
     {
         $duration = Duration::ofSeconds($seconds)->plusDays($daysToAdd);
-        $this->assertDurationEquals($expectedSeconds, 0, $duration);
+        $this->assertDurationIs($expectedSeconds, 0, $duration);
     }
 
     /**
@@ -676,7 +676,7 @@ class DurationTest extends AbstractTestCase
     public function testMinusSeconds($seconds, $secondsToSubtract, $expectedSeconds)
     {
         $duration = Duration::ofSeconds($seconds)->minusSeconds($secondsToSubtract);
-        $this->assertDurationEquals($expectedSeconds, 0, $duration);
+        $this->assertDurationIs($expectedSeconds, 0, $duration);
     }
 
     /**
@@ -714,7 +714,7 @@ class DurationTest extends AbstractTestCase
     public function testMinusMinutes($seconds, $minutesToSubtract, $expectedSeconds)
     {
         $duration = Duration::ofSeconds($seconds)->minusMinutes($minutesToSubtract);
-        $this->assertDurationEquals($expectedSeconds, 0, $duration);
+        $this->assertDurationIs($expectedSeconds, 0, $duration);
     }
 
     /**
@@ -749,7 +749,7 @@ class DurationTest extends AbstractTestCase
     public function testMinusHours($seconds, $hoursToSubtract, $expectedSeconds)
     {
         $duration = Duration::ofSeconds($seconds)->minusHours($hoursToSubtract);
-        $this->assertDurationEquals($expectedSeconds, 0, $duration);
+        $this->assertDurationIs($expectedSeconds, 0, $duration);
     }
 
     /**
@@ -784,7 +784,7 @@ class DurationTest extends AbstractTestCase
     public function testMinusDays($seconds, $daysToSubtract, $expectedSeconds)
     {
         $duration = Duration::ofSeconds($seconds)->minusDays($daysToSubtract);
-        $this->assertDurationEquals($expectedSeconds, 0, $duration);
+        $this->assertDurationIs($expectedSeconds, 0, $duration);
     }
 
     /**
@@ -814,7 +814,7 @@ class DurationTest extends AbstractTestCase
         for ($seconds = -3; $seconds <= 3; $seconds++) {
             for ($multiplicand = -3; $multiplicand <= 3; $multiplicand++) {
                 $duration = Duration::ofSeconds($seconds)->multipliedBy($multiplicand);
-                $this->assertDurationEquals($seconds * $multiplicand, 0, $duration);
+                $this->assertDurationIs($seconds * $multiplicand, 0, $duration);
             }
         }
     }
@@ -843,7 +843,7 @@ class DurationTest extends AbstractTestCase
     public function testDividedBy($seconds, $nanos, $divisor, $expectedSeconds, $expectedNanos)
     {
         $duration = Duration::ofSeconds($seconds, $nanos)->dividedBy($divisor);
-        $this->assertDurationEquals($expectedSeconds, $expectedNanos, $duration);
+        $this->assertDurationIs($expectedSeconds, $expectedNanos, $duration);
     }
 
     /**
@@ -924,7 +924,7 @@ class DurationTest extends AbstractTestCase
     public function testNegated($seconds, $nanos, $expectedSeconds, $expectedNanos)
     {
         $duration = Duration::ofSeconds($seconds, $nanos);
-        $this->assertDurationEquals($expectedSeconds, $expectedNanos, $duration->negated());
+        $this->assertDurationIs($expectedSeconds, $expectedNanos, $duration->negated());
     }
 
     /**
@@ -947,7 +947,7 @@ class DurationTest extends AbstractTestCase
     {
         for ($seconds = -3; $seconds <= 3; $seconds++) {
             $duration = Duration::ofSeconds($seconds)->abs();
-            $this->assertDurationEquals(abs($seconds), 0, $duration);
+            $this->assertDurationIs(abs($seconds), 0, $duration);
         }
     }
 

@@ -15,7 +15,7 @@ class YearMonthTest extends AbstractTestCase
 {
     public function testOf()
     {
-        $this->assertYearMonthEquals(2007, 7, YearMonth::of(2007, 7));
+        $this->assertYearMonthIs(2007, 7, YearMonth::of(2007, 7));
     }
 
     /**
@@ -27,7 +27,7 @@ class YearMonthTest extends AbstractTestCase
      */
     public function testParse($text, $year, $month)
     {
-        $this->assertYearMonthEquals($year, $month, YearMonth::parse($text));
+        $this->assertYearMonthIs($year, $month, YearMonth::parse($text));
     }
 
     /**
@@ -104,7 +104,7 @@ class YearMonthTest extends AbstractTestCase
     {
         $previousClock = Clock::setDefault(new FixedClock(Instant::of($epochSecond)));
 
-        $this->assertYearMonthEquals($year, $month, YearMonth::now(TimeZone::parse($timeZone)));
+        $this->assertYearMonthIs($year, $month, YearMonth::now(TimeZone::parse($timeZone)));
 
         Clock::setDefault($previousClock);
     }
@@ -301,17 +301,17 @@ class YearMonthTest extends AbstractTestCase
 
     public function testWithYear()
     {
-        $this->assertYearMonthEquals(2001, 5, YearMonth::of(2000, 5)->withYear(2001));
+        $this->assertYearMonthIs(2001, 5, YearMonth::of(2000, 5)->withYear(2001));
     }
 
     public function testWithMonth()
     {
-        $this->assertYearMonthEquals(2000, 12, YearMonth::of(2000, 1)->withMonth(12));
+        $this->assertYearMonthIs(2000, 12, YearMonth::of(2000, 1)->withMonth(12));
     }
 
     public function testAtDay()
     {
-        $this->assertLocalDateEquals(2001, 2, 3, YearMonth::of(2001, 02)->atDay(3));
+        $this->assertLocalDateIs(2001, 2, 3, YearMonth::of(2001, 02)->atDay(3));
     }
 
     public function testToString()

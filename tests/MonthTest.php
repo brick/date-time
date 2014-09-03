@@ -43,7 +43,7 @@ class MonthTest extends AbstractTestCase
 
     public function testOf()
     {
-        $this->assertMonthEquals(8, Month::of(8));
+        $this->assertMonthIs(8, Month::of(8));
     }
 
     /**
@@ -74,7 +74,7 @@ class MonthTest extends AbstractTestCase
         $currentMonth = Month::JANUARY;
 
         foreach (Month::getAll() as $month) {
-            $this->assertMonthEquals($currentMonth, $month);
+            $this->assertMonthIs($currentMonth, $month);
             $currentMonth++;
         }
     }
@@ -272,7 +272,7 @@ class MonthTest extends AbstractTestCase
      */
     public function testPlus($month, $plusMonths, $expectedMonth)
     {
-        $this->assertMonthEquals($expectedMonth, Month::of($month)->plus($plusMonths));
+        $this->assertMonthIs($expectedMonth, Month::of($month)->plus($plusMonths));
     }
 
     /**
@@ -284,7 +284,7 @@ class MonthTest extends AbstractTestCase
      */
     public function testMinus($month, $plusMonths, $expectedMonth)
     {
-        $this->assertMonthEquals($expectedMonth, Month::of($month)->minus(-$plusMonths));
+        $this->assertMonthIs($expectedMonth, Month::of($month)->minus(-$plusMonths));
     }
 
     /**

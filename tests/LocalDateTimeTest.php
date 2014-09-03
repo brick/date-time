@@ -13,7 +13,7 @@ class LocalDateTimeTest extends AbstractTestCase
     public function testOf()
     {
         $dateTime = LocalDateTime::of(2001, 12, 23, 12, 34, 56, 987654321);
-        $this->assertLocalDateTimeEquals(2001, 12, 23, 12, 34, 56, 987654321, $dateTime);
+        $this->assertLocalDateTimeIs(2001, 12, 23, 12, 34, 56, 987654321, $dateTime);
     }
 
     /**
@@ -30,7 +30,7 @@ class LocalDateTimeTest extends AbstractTestCase
      */
     public function testParse($t, $y, $m, $d, $h, $i, $s, $n)
     {
-        $this->assertLocalDateTimeEquals($y, $m, $d, $h, $i, $s, $n, LocalDateTime::parse($t));
+        $this->assertLocalDateTimeIs($y, $m, $d, $h, $i, $s, $n, LocalDateTime::parse($t));
     }
 
     /**
@@ -478,7 +478,7 @@ class LocalDateTimeTest extends AbstractTestCase
     public function testAtTimeZone($dateTime, $timeZone, $epochSeconds, $nanos)
     {
         $zonedDateTime = LocalDateTime::parse($dateTime)->atTimeZone(TimeZone::parse($timeZone));
-        $this->assertReadableInstantEquals($epochSeconds, $nanos, $zonedDateTime);
+        $this->assertReadableInstantIs($epochSeconds, $nanos, $zonedDateTime);
     }
 
     /**

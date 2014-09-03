@@ -27,7 +27,7 @@ namespace Brick\DateTime\Tests\Clock
         {
             $clock = new SystemClock();
 
-            $this->assertReadableInstantEquals(14079491701, 555276000, $clock->getTime());
+            $this->assertReadableInstantIs(14079491701, 555276000, $clock->getTime());
         }
     }
 }

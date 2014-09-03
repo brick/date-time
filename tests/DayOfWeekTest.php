@@ -40,7 +40,7 @@ class DayOfWeekTest extends AbstractTestCase
 
     public function testOf()
     {
-        $this->assertDayOfWeekEquals(5, DayOfWeek::of(5));
+        $this->assertDayOfWeekIs(5, DayOfWeek::of(5));
     }
 
     /**
@@ -76,7 +76,7 @@ class DayOfWeekTest extends AbstractTestCase
     public function testNow($epochSecond, $timeZone, $expectedDayOfWeek)
     {
         $this->setClockTime($epochSecond);
-        $this->assertDayOfWeekEquals($expectedDayOfWeek, DayOfWeek::now(TimeZone::parse($timeZone)));
+        $this->assertDayOfWeekIs($expectedDayOfWeek, DayOfWeek::now(TimeZone::parse($timeZone)));
     }
 
     /**
@@ -133,7 +133,7 @@ class DayOfWeekTest extends AbstractTestCase
      */
     public function testPlus($dayOfWeek, $plusDays, $expectedDayOfWeek)
     {
-        $this->assertDayOfWeekEquals($expectedDayOfWeek, DayOfWeek::of($dayOfWeek)->plus($plusDays));
+        $this->assertDayOfWeekIs($expectedDayOfWeek, DayOfWeek::of($dayOfWeek)->plus($plusDays));
     }
 
     /**
@@ -145,7 +145,7 @@ class DayOfWeekTest extends AbstractTestCase
      */
     public function testMinus($dayOfWeek, $plusDays, $expectedDayOfWeek)
     {
-        $this->assertDayOfWeekEquals($expectedDayOfWeek, DayOfWeek::of($dayOfWeek)->minus(-$plusDays));
+        $this->assertDayOfWeekIs($expectedDayOfWeek, DayOfWeek::of($dayOfWeek)->minus(-$plusDays));
     }
 
     /**
