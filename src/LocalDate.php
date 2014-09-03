@@ -459,10 +459,7 @@ class LocalDate
      */
     public function minusPeriod(Period $period)
     {
-        return $this
-            ->minusYears($period->getYears())
-            ->minusMonths($period->getMonths())
-            ->minusDays($period->getDays());
+        return $this->plusPeriod($period->negated());
     }
 
     /**

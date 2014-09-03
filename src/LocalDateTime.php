@@ -236,9 +236,13 @@ class LocalDateTime
     /**
      * Returns a copy of this LocalDateTime with the year altered.
      *
+     * If the day-of-month is invalid for the year, it will be changed to the last valid day of the month.
+     *
      * @param integer $year
      *
      * @return LocalDateTime
+     *
+     * @throws DateTimeException If the year is outside the valid range.
      */
     public function withYear($year)
     {
@@ -248,9 +252,13 @@ class LocalDateTime
     /**
      * Returns a copy of this LocalDateTime with the month-of-year altered.
      *
+     * If the day-of-month is invalid for the month and year, it will be changed to the last valid day of the month.
+     *
      * @param integer $month
      *
      * @return LocalDateTime
+     *
+     * @throws DateTimeException If the month is invalid.
      */
     public function withMonth($month)
     {
@@ -260,9 +268,13 @@ class LocalDateTime
     /**
      * Returns a copy of this LocalDateTime with the day-of-month altered.
      *
+     * If the resulting date is invalid, an exception is thrown.
+     *
      * @param integer $day
      *
      * @return LocalDateTime
+     *
+     * @throws DateTimeException If the day is invalid for the current year and month.
      */
     public function withDay($day)
     {
@@ -275,6 +287,8 @@ class LocalDateTime
      * @param integer $hour
      *
      * @return LocalDateTime
+     *
+     * @throws DateTimeException If the hour is invalid.
      */
     public function withHour($hour)
     {
@@ -338,10 +352,7 @@ class LocalDateTime
      */
     public function plusPeriod(Period $period)
     {
-        return $this
-            ->plusYears($period->getYears())
-            ->plusMonths($period->getMonths())
-            ->plusDays($period->getDays());
+        return $this->with($this->date->plusPeriod($period), $this->time);
     }
 
     /**
@@ -473,7 +484,7 @@ class LocalDateTime
      */
     public function minusPeriod(Period $period)
     {
-        return $this->plusPeriod($period->negated());
+        return $this->with($this->date->minusPeriod($period), $this->time);
     }
 
     /**

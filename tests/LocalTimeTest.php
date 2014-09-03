@@ -222,24 +222,176 @@ class LocalTimeTest extends AbstractTestCase
         $this->assertLocalTimeIs(23, 59, 59, 999999999, LocalTime::max());
     }
 
-    public function testWithHour()
+    /**
+     * @dataProvider providerWithHour
+     *
+     * @param integer $hour The new hour.
+     */
+    public function testWithHour($hour)
     {
-        $this->assertLocalTimeIs(23, 34, 56, 789, LocalTime::of(12, 34, 56, 789)->withHour(23));
+        $this->assertLocalTimeIs($hour, 34, 56, 789, LocalTime::of(12, 34, 56, 789)->withHour($hour));
     }
 
-    public function testWithMinute()
+    /**
+     * @return array
+     */
+    public function providerWithHour()
     {
-        $this->assertLocalTimeIs(12, 59, 56, 789, LocalTime::of(12, 34, 56, 789)->withMinute(59));
+        return [
+            [12],
+            [23]
+        ];
     }
 
-    public function testWithSecond()
+    /**
+     * @dataProvider providerWithInvalidHourThrowsException
+     * @expectedException \Brick\DateTime\DateTimeException
+     *
+     * @param integer $invalidHour
+     */
+    public function testWithInvalidHourThrowsException($invalidHour)
     {
-        $this->assertLocalTimeIs(12, 34, 59, 789, LocalTime::of(12, 34, 56, 789)->withSecond(59));
+        LocalTime::of(12, 34, 56)->withHour($invalidHour);
     }
 
-    public function testWithNano()
+    /**
+     * @return array
+     */
+    public function providerWithInvalidHourThrowsException()
     {
-        $this->assertLocalTimeIs(12, 34, 56, 999999, LocalTime::of(12, 34, 56, 789)->withNano(999999));
+        return [
+            [-1],
+            [24]
+        ];
+    }
+
+    /**
+     * @dataProvider providerWithMinute
+     *
+     * @param integer $minute The new minute.
+     */
+    public function testWithMinute($minute)
+    {
+        $this->assertLocalTimeIs(12, $minute, 56, 789, LocalTime::of(12, 34, 56, 789)->withMinute($minute));
+    }
+
+    /**
+     * @return array
+     */
+    public function providerWithMinute()
+    {
+        return [
+            [34],
+            [45]
+        ];
+    }
+
+    /**
+     * @dataProvider providerWithInvalidMinuteThrowsException
+     * @expectedException \Brick\DateTime\DateTimeException
+     *
+     * @param integer $invalidMinute
+     */
+    public function testWithInvalidMinuteThrowsException($invalidMinute)
+    {
+        LocalTime::of(12, 34, 56)->withMinute($invalidMinute);
+    }
+
+    /**
+     * @return array
+     */
+    public function providerWithInvalidMinuteThrowsException()
+    {
+        return [
+            [-1],
+            [60]
+        ];
+    }
+
+    /**
+     * @dataProvider providerWithSecond
+     *
+     * @param integer $second The new second.
+     */
+    public function testWithSecond($second)
+    {
+        $this->assertLocalTimeIs(12, 34, $second, 789, LocalTime::of(12, 34, 56, 789)->withSecond($second));
+    }
+
+    /**
+     * @return array
+     */
+    public function providerWithSecond()
+    {
+        return [
+            [56],
+            [45]
+        ];
+    }
+
+    /**
+     * @dataProvider providerWithInvalidSecondThrowsException
+     * @expectedException \Brick\DateTime\DateTimeException
+     *
+     * @param integer $invalidSecond
+     */
+    public function testWithInvalidSecondThrowsException($invalidSecond)
+    {
+        LocalTime::of(12, 34, 56)->withSecond($invalidSecond);
+    }
+
+    /**
+     * @return array
+     */
+    public function providerWithInvalidSecondThrowsException()
+    {
+        return [
+            [-1],
+            [60]
+        ];
+    }
+
+    /**
+     * @dataProvider providerWithNano
+     *
+     * @param integer $nano The new nano.
+     */
+    public function testWithNano($nano)
+    {
+        $this->assertLocalTimeIs(12, 34, 56, $nano, LocalTime::of(12, 34, 56, 789)->withNano($nano));
+    }
+
+    /**
+     * @return array
+     */
+    public function providerWithNano()
+    {
+        return [
+            [789],
+            [123456]
+        ];
+    }
+
+    /**
+     * @dataProvider providerWithInvalidNanoThrowsException
+     * @expectedException \Brick\DateTime\DateTimeException
+     *
+     * @param integer $invalidNano
+     */
+    public function testWithInvalidNanoThrowsException($invalidNano)
+    {
+        LocalTime::of(12, 34, 56)->withNano($invalidNano);
+    }
+
+    /**
+     * @return array
+     */
+    public function providerWithInvalidNanoThrowsException()
+    {
+        return [
+            [-1],
+            [1000000000]
+        ];
     }
 
     public function testWithSameValueReturnsThis()
