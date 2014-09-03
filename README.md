@@ -9,10 +9,9 @@ A powerful set of immutable classes to work with dates and times.
 Introduction
 ------------
 
-Although PHP has a native `DateTime` class, it lacks many simple concepts such as `LocalDate`, `LocalTime`, etc.
-It is also limited to a 1 second precision, whereas this API offers up to a nanosecond precision.
+This library builds an extensive API on top of the native PHP date-time classes, and adds missing concepts such as `LocalDate`, `LocalTime`, `YearMonth`, `MonthDay`, etc. It adds a nanosecond precision to times, usually limited to a 1 second precision.
 
-The classes follow the ISO 8601 standard for representing date and time objects.
+The classes follow the [ISO 8601](http://en.wikipedia.org/wiki/ISO_8601) standard for representing date and time concepts.
 
 This component follows an important part of the JSR 310 (Date and Time API) specification from Java.
 Don't expect an exact match of class and method names though, as a number of differences exist for technical or practical reasons.
