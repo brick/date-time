@@ -560,7 +560,7 @@ class LocalTime
      */
     public function atDate(LocalDate $date)
     {
-        return LocalDateTime::ofDateTime($date, $this);
+        return LocalDateTime::of($date, $this);
     }
 
     /**

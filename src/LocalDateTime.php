@@ -44,28 +44,9 @@ class LocalDateTime
      *
      * @return LocalDateTime
      */
-    public static function ofDateTime(LocalDate $date, LocalTime $time)
+    public static function of(LocalDate $date, LocalTime $time)
     {
         return new LocalDateTime($date, $time);
-    }
-
-    /**
-     * @param integer $year
-     * @param integer $month
-     * @param integer $day
-     * @param integer $hour
-     * @param integer $minute
-     * @param integer $second
-     * @param integer $nano
-     *
-     * @return LocalDateTime
-     */
-    public static function of($year, $month, $day, $hour, $minute, $second = 0, $nano = 0)
-    {
-        return new LocalDateTime(
-            LocalDate::of($year, $month, $day),
-            LocalTime::of($hour, $minute, $second, $nano)
-        );
     }
 
     /**

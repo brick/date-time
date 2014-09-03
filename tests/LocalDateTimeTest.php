@@ -2,7 +2,9 @@
 
 namespace Brick\DateTime\Tests;
 
+use Brick\DateTime\LocalDate;
 use Brick\DateTime\LocalDateTime;
+use Brick\DateTime\LocalTime;
 use Brick\DateTime\TimeZone;
 
 /**
@@ -12,8 +14,10 @@ class LocalDateTimeTest extends AbstractTestCase
 {
     public function testOf()
     {
-        $dateTime = LocalDateTime::of(2001, 12, 23, 12, 34, 56, 987654321);
-        $this->assertLocalDateTimeIs(2001, 12, 23, 12, 34, 56, 987654321, $dateTime);
+        $date = LocalDate::of(2001, 12, 23);
+        $time = LocalTime::of(12, 34, 56, 987654321);
+
+        $this->assertLocalDateTimeIs(2001, 12, 23, 12, 34, 56, 987654321, LocalDateTime::of($date, $time));
     }
 
     /**
