@@ -117,7 +117,21 @@ final class IsoParsers
         return $parser = (new PatternParserBuilder())
             ->append(self::localDate())
             ->appendLiteral('/')
-            ->append(self::localDate())
+
+            ->startGroup()
+                ->startGroup()
+                    ->append(self::localDate())
+                ->endGroup()
+            ->appendOr()
+                ->startGroup()
+                    ->startOptional()
+                        ->appendCapturePattern(MonthOfYear::PATTERN, MonthOfYear::NAME)
+                        ->appendLiteral('-')
+                    ->endOptional()
+                    ->appendCapturePattern(DayOfMonth::PATTERN, DayOfMonth::NAME)
+                ->endGroup()
+            ->endGroup()
+
             ->toParser();
     }
 

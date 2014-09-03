@@ -61,6 +61,10 @@ class LocalDateRange implements \IteratorAggregate, \Countable
     }
 
     /**
+     * Obtains an instance of `LocalDateRange` from a set of date-time fields.
+     *
+     * This method is only useful to parsers.
+     *
      * @param DateTimeParseResult $result
      *
      * @return LocalDateRange
@@ -70,18 +74,31 @@ class LocalDateRange implements \IteratorAggregate, \Countable
      */
     public static function from(DateTimeParseResult $result)
     {
-        return LocalDateRange::of(
-            LocalDate::from($result),
-            LocalDate::from($result)
-        );
+        $startDate = LocalDate::from($result);
+
+        if ($result->hasField(Field\MonthOfYear::NAME)) {
+            if ($result->hasField(Field\Year::NAME)) {
+                $endDate = LocalDate::from($result);
+            } else {
+                $endDate = MonthDay::from($result)->atYear($startDate->getYear());
+            }
+        } else {
+            $endDate = $startDate->withDay((int) $result->getField(Field\DayOfMonth::NAME));
+        }
+
+        return LocalDateRange::of($startDate, $endDate);
     }
 
     /**
      * Obtains an instance of `LocalDateRange` from a text string.
      *
-     * @todo support partial ends such as `2008-02-15/03-14`
+     * Partial representations are allowed; for example, the following representations are equivalent:
      *
-     * @param string              $text   The text to parse, such as `2014-01-01/2014-12-31`.
+     * - `2001-02-03/2001-02-04`
+     * - `2001-02-03/02-04`
+     * - `2001-02-03/04`
+     *
+     * @param string              $text   The text to parse.
      * @param DateTimeParser|null $parser The parser to use, defaults to the ISO 8601 parser.
      *
      * @return LocalDateRange

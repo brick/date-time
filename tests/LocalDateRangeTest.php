@@ -29,18 +29,62 @@ class LocalDateRangeTest extends AbstractTestCase
         );
     }
 
-    public function testParse()
+    /**
+     * @dataProvider providerParse
+     *
+     * @param string  $text The text to parse.
+     * @param integer $y1   The expected start year.
+     * @param integer $m1   The expected start month.
+     * @param integer $d1   The expected start day.
+     * @param integer $y2   The expected end year.
+     * @param integer $m2   The expected end month.
+     * @param integer $d2   The expected end day.
+     */
+    public function testParse($text, $y1, $m1, $d1, $y2, $m2, $d2)
     {
-        $range = LocalDateRange::parse('2008-01-01/2009-12-31');
-        $this->assertLocalDateRangeIs(2008, 1, 1, 2009, 12, 31, $range);
+        $this->assertLocalDateRangeIs($y1, $m1, $d1, $y2, $m2, $d2, LocalDateRange::parse($text));
     }
 
     /**
-     * @expectedException \Brick\DateTime\Parser\DateTimeParseException
+     * @return array
      */
-    public function testParseInvalidRangeThrowsException()
+    public function providerParse()
     {
-        LocalDateRange::parse('2010-01-01');
+        return [
+            ['2001-02-03/04', 2001, 2, 3, 2001, 2, 4],
+            ['2001-02-03/04-05', 2001, 2, 3, 2001, 4, 5],
+            ['2001-02-03/2004-05-06', 2001, 2, 3, 2004, 5, 6]
+        ];
+    }
+
+    /**
+     * @dataProvider providerParseInvalidRangeThrowsException
+     * @expectedException \Brick\DateTime\Parser\DateTimeParseException
+     *
+     * @param string $text The invalid text parse.
+     */
+    public function testParseInvalidRangeThrowsException($text)
+    {
+        LocalDateRange::parse($text);
+    }
+
+    /**
+     * @return array
+     */
+    public function providerParseInvalidRangeThrowsException()
+    {
+        return [
+            ['2001-02-03'],
+            ['2001-02-03/'],
+            ['2001-02-03/2004'],
+            ['2001-02-03/2004-'],
+            ['2001-02-03/2004-05'],
+            ['2001-02-03/2004-05-'],
+            ['2001-02-03/-04-05'],
+            ['2001-02-03/-04'],
+            ['2001-02-03/04-'],
+            [' 2001-02-03/04']
+        ];
     }
 
     /**
