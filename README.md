@@ -37,6 +37,13 @@ Requirements
 This library requires PHP 5.5.10 or higher.
 Earlier versions of PHP 5.5 will suffer from [this bug](https://bugs.php.net/bug.php?id=45528).
 
+### HHVM support
+
+HHVM support is in the works, we are waiting for the HHVM team to fix these bugs:
+
+- #3637 [DateTimeZone constructor does not accept time-zone offsets](https://github.com/facebook/hhvm/issues/3637)
+- #3650 [DateTime complains about default timezone even when a timezone is given explictly](https://github.com/facebook/hhvm/issues/3650)
+
 Overview
 --------
 
