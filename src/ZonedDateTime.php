@@ -116,6 +116,38 @@ class ZonedDateTime extends ReadableInstant
     }
 
     /**
+     * Creates a ZonedDateTime from an instant and a time zone.
+     *
+     * This resolves the instant to a date and time without ambiguity.
+     *
+     * @param Instant  $instant  The instant.
+     * @param TimeZone $timeZone The time zone.
+     *
+     * @return ZonedDateTime
+     */
+    public static function ofInstant(Instant $instant, TimeZone $timeZone)
+    {
+        $dateTimeZone = $timeZone->toDateTimeZone();
+
+        // We need to pass a DateTimeZone to avoid a PHP warning...
+        $dateTime = new \DateTime('@' . $instant->getEpochSecond(), $dateTimeZone);
+
+        // ... but this DateTimeZone is ignored because of the timestamp, so we set it again.
+        $dateTime->setTimezone($dateTimeZone);
+
+        $localDateTime = LocalDateTime::parse($dateTime->format('Y-m-d\TH:i:s'));
+        $localDateTime = $localDateTime->withNano($instant->getNano());
+
+        if ($timeZone instanceof TimeZoneOffset) {
+            $timeZoneOffset = $timeZone;
+        } else {
+            $timeZoneOffset = TimeZoneOffset::ofTotalSeconds($dateTimeZone->getOffset($dateTime));
+        }
+
+        return new ZonedDateTime($localDateTime, $timeZoneOffset, $timeZone, $dateTime);
+    }
+
+    /**
      * Creates a DateTime representing the current time, in the given time zone.
      *
      * @param TimeZone $timeZone
@@ -181,36 +213,6 @@ class ZonedDateTime extends ReadableInstant
         }
 
         return ZonedDateTime::from($parser->parse($text));
-    }
-
-    /**
-     * Creates a ZonedDateTime from an instant and a time zone.
-     *
-     * @param Instant  $instant  The instant.
-     * @param TimeZone $timeZone The time zone.
-     *
-     * @return ZonedDateTime
-     */
-    public static function ofInstant(Instant $instant, TimeZone $timeZone)
-    {
-        $dateTimeZone = $timeZone->toDateTimeZone();
-
-        // We need to pass a DateTimeZone to avoid a PHP warning...
-        $dateTime = new \DateTime('@' . $instant->getEpochSecond(), $dateTimeZone);
-
-        // ... but this DateTimeZone is ignored because of the timestamp, so we set it again.
-        $dateTime->setTimezone($dateTimeZone);
-
-        $localDateTime = LocalDateTime::parse($dateTime->format('Y-m-d\TH:i:s'));
-        $localDateTime = $localDateTime->withNano($instant->getNano());
-
-        if ($timeZone instanceof TimeZoneOffset) {
-            $timeZoneOffset = $timeZone;
-        } else {
-            $timeZoneOffset = TimeZoneOffset::ofTotalSeconds($dateTimeZone->getOffset($dateTime));
-        }
-
-        return new ZonedDateTime($localDateTime, $timeZoneOffset, $timeZone, $dateTime);
     }
 
     /**
