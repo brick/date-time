@@ -9,8 +9,6 @@ use Brick\DateTime\Utility\Cast;
  * Represents a duration of time measured in seconds.
  *
  * This class is immutable.
- *
- * @todo format() method to output something like 3 hours, 4 minutes and 30 seconds
  */
 class Duration
 {
