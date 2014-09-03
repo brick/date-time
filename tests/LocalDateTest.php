@@ -462,7 +462,7 @@ class LocalDateTest extends AbstractTestCase
     }
 
     /**
-     * @dataProvider providerPlusPeriod
+     * @dataProvider providerPeriod
      *
      * @param integer $y  The year of the base date.
      * @param integer $m  The month of the base date.
@@ -483,7 +483,7 @@ class LocalDateTest extends AbstractTestCase
     }
 
     /**
-     * @dataProvider providerPlusPeriod
+     * @dataProvider providerPeriod
      *
      * @param integer $y  The year of the base date.
      * @param integer $m  The month of the base date.
@@ -498,15 +498,15 @@ class LocalDateTest extends AbstractTestCase
     public function testMinusPeriod($y, $m, $d, $py, $pm, $pd, $ey, $em, $ed)
     {
         $date = LocalDate::of($y, $m, $d);
-        $period = Period::of($py, $pm, $pd);
+        $period = Period::of(-$py, -$pm, -$pd);
 
-        $this->assertLocalDateIs($ey, $em, $ed, $date->minusPeriod($period->negated()));
+        $this->assertLocalDateIs($ey, $em, $ed, $date->minusPeriod($period));
     }
 
     /**
      * @return array
      */
-    public function providerPlusPeriod()
+    public function providerPeriod()
     {
         return [
             [2001, 2, 3,  0,   0,   0, 2001,  2,  3],

@@ -333,6 +333,22 @@ class LocalTime
     }
 
     /**
+     * Returns a copy of this LocalTime with the specific duration added.
+     *
+     * The calculation wraps around midnight.
+     *
+     * @param Duration $duration
+     *
+     * @return LocalTime
+     */
+    public function plusDuration(Duration $duration)
+    {
+        return $this
+            ->plusSeconds($duration->getSeconds())
+            ->plusNanos($duration->getNanos());
+    }
+
+    /**
      * Returns a copy of this LocalTime with the specified period in hours added.
      *
      * This adds the specified number of hours to this time, returning a new time.
@@ -449,6 +465,20 @@ class LocalTime
         }
 
         return $this->withNano($nano)->plusSeconds($diffSeconds);
+    }
+
+    /**
+     * Returns a copy of this LocalTime with the specific duration subtracted.
+     *
+     * The calculation wraps around midnight.
+     *
+     * @param Duration $duration
+     *
+     * @return LocalTime
+     */
+    public function minusDuration(Duration $duration)
+    {
+        return $this->plusDuration($duration->negated());
     }
 
     /**

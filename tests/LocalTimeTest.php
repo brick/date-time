@@ -2,6 +2,7 @@
 
 namespace Brick\DateTime\Tests;
 
+use Brick\DateTime\Duration;
 use Brick\DateTime\LocalDate;
 use Brick\DateTime\LocalTime;
 use Brick\DateTime\TimeZoneOffset;
@@ -394,14 +395,59 @@ class LocalTimeTest extends AbstractTestCase
         ];
     }
 
-    public function testWithSameValueReturnsThis()
+    /**
+     * @dataProvider providerDuration
+     *
+     * @param integer $h  The base hour.
+     * @param integer $m  The base minute.
+     * @param integer $s  The base second.
+     * @param integer $n  The base nano.
+     * @param integer $ds The number of seconds in the duration.
+     * @param integer $dn The nano adjustment of the duration.
+     * @param integer $eh The expected hour of the result time.
+     * @param integer $em The expected minute of the result time.
+     * @param integer $es The expected second of the result time.
+     * @param integer $en The expected nano of the result time.
+     */
+    public function testPlusDuration($h, $m, $s, $n, $ds, $dn, $eh, $em, $es, $en)
     {
-        $time = LocalTime::of(12, 34, 56, 789);
+        $localTime = LocalTime::of($h, $m, $s, $n);
+        $duration = Duration::ofSeconds($ds, $dn);
+        $this->assertLocalTimeIs($eh, $em, $es, $en, $localTime->plusDuration($duration));
+    }
 
-        $this->assertSame($time, $time->withHour(12));
-        $this->assertSame($time, $time->withMinute(34));
-        $this->assertSame($time, $time->withSecond(56));
-        $this->assertSame($time, $time->withNano(789));
+    /**
+     * @dataProvider providerDuration
+     *
+     * @param integer $h  The base hour.
+     * @param integer $m  The base minute.
+     * @param integer $s  The base second.
+     * @param integer $n  The base nano.
+     * @param integer $ds The number of seconds in the duration.
+     * @param integer $dn The nano adjustment of the duration.
+     * @param integer $eh The expected hour of the result time.
+     * @param integer $em The expected minute of the result time.
+     * @param integer $es The expected second of the result time.
+     * @param integer $en The expected nano of the result time.
+     */
+    public function testMinusDuration($h, $m, $s, $n, $ds, $dn, $eh, $em, $es, $en)
+    {
+        $localTime = LocalTime::of($h, $m, $s, $n);
+        $duration = Duration::ofSeconds(-$ds, -$dn);
+        $this->assertLocalTimeIs($eh, $em, $es, $en, $localTime->MinusDuration($duration));
+    }
+
+    /**
+     * @return array
+     */
+    public function providerDuration()
+    {
+        return [
+            [12, 34, 56, 123456789, 123, 456, 12, 36, 59, 123457245],
+            [12, 34, 56, 123456789, -123, -456, 12, 32, 53, 123456333],
+            [12, 34, 56, 987654321, 123456, 987654321, 22, 52, 33, 975308642],
+            [12, 34, 56, 987654321, -123456, -987654321, 2, 17, 20, 0]
+        ];
     }
 
     /**
