@@ -1041,6 +1041,84 @@ class DurationTest extends AbstractTestCase
     }
 
     /**
+     * @dataProvider providerGetTotalMillis
+     *
+     * @param integer $seconds        The duration in seconds.
+     * @param integer $nanos          The nanoseconds adjustment to the duration.
+     * @param integer $expectedMillis The expected total number of milliseconds.
+     */
+    public function testGetTotalMillis($seconds, $nanos, $expectedMillis)
+    {
+        $duration = Duration::ofSeconds($seconds, $nanos);
+        $this->assertSame($expectedMillis, $duration->getTotalMillis());
+    }
+
+    /**
+     * @return array
+     */
+    public function providerGetTotalMillis()
+    {
+        return [
+            [-123, 456000001, -122544],
+            [-123, 456999999, -122544],
+            [ 123, 456000001,  123456],
+            [ 123, 456999999,  123456]
+        ];
+    }
+
+    /**
+     * @dataProvider providerGetTotalMicros
+     *
+     * @param integer $seconds        The duration in seconds.
+     * @param integer $nanos          The nanoseconds adjustment to the duration.
+     * @param integer $expectedMicros The expected total number of microseconds.
+     */
+    public function testGetTotalMicros($seconds, $nanos, $expectedMicros)
+    {
+        $duration = Duration::ofSeconds($seconds, $nanos);
+        $this->assertSame($expectedMicros, $duration->getTotalMicros());
+    }
+
+    /**
+     * @return array
+     */
+    public function providerGetTotalMicros()
+    {
+        return [
+            [-123, 456789001, -122543211],
+            [-123, 456789999, -122543211],
+            [ 123, 456789001,  123456789],
+            [ 123, 456789999,  123456789]
+        ];
+    }
+
+    /**
+     * @dataProvider providerGetTotalNanos
+     *
+     * @param integer $seconds       The duration in seconds.
+     * @param integer $nanos         The nanoseconds adjustment to the duration.
+     * @param integer $expectedNanos The expected total number of nanoseconds.
+     */
+    public function testGetTotalNanos($seconds, $nanos, $expectedNanos)
+    {
+        $duration = Duration::ofSeconds($seconds, $nanos);
+        $this->assertSame($expectedNanos, $duration->getTotalNanos());
+    }
+
+    /**
+     * @return array
+     */
+    public function providerGetTotalNanos()
+    {
+        return [
+            [-2, 000000001, -1999999999],
+            [-2, 999999999, -1000000001],
+            [ 1, 000000001,  1000000001],
+            [ 1, 999999999,  1999999999]
+        ];
+    }
+
+    /**
      * @dataProvider providerToString
      *
      * @param integer $seconds

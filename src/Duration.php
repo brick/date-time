@@ -611,6 +611,47 @@ class Duration
     }
 
     /**
+     * Returns the total number of milliseconds in this Duration.
+     *
+     * The result is rounded towards negative infinity.
+     *
+     * @return integer
+     */
+    public function getTotalMillis()
+    {
+        $millis = $this->seconds * 1000;
+        $millis += Math::div($this->nanos, 1000000);
+
+        return $millis;
+    }
+
+    /**
+     * Returns the total number of microseconds in this Duration.
+     *
+     * The result is rounded towards negative infinity.
+     *
+     * @return integer
+     */
+    public function getTotalMicros()
+    {
+        $micros = $this->seconds * 1000000;
+        $micros += Math::div($this->nanos, 1000);
+
+        return $micros;
+    }
+
+    /**
+     * @return integer
+     */
+    public function getTotalNanos()
+    {
+        $nanos = $this->seconds * 1000000000;
+        $nanos += $this->nanos;
+
+        return $nanos;
+    }
+
+    /**
      * Returns an ISO-8601 string representation of this duration.
      *
      * The format of the returned string will be PTnHnMn.nS, where n is
