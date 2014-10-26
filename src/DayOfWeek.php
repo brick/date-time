@@ -9,7 +9,7 @@ use Brick\DateTime\Utility\Cast;
  *
  * This class is immutable.
  */
-class DayOfWeek
+class DayOfWeek implements DateTimeAccessor
 {
     const MONDAY    = 1;
     const TUESDAY   = 2;
@@ -168,6 +168,20 @@ class DayOfWeek
         $days = Cast::toInteger($days);
 
         return $this->plus(- $days);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getField($field)
+    {
+        switch ($field) {
+            case Field\DayOfWeek::NAME:
+                return $this->dayOfWeek;
+
+            default:
+                return null;
+        }
     }
 
     /**

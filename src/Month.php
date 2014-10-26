@@ -7,7 +7,7 @@ use Brick\DateTime\Utility\Cast;
 /**
  * Represents a month-of-year such as January.
  */
-class Month
+class Month implements DateTimeAccessor
 {
     const JANUARY   = 1;
     const FEBRUARY  = 2;
@@ -267,6 +267,20 @@ class Month
         $months = Cast::toInteger($months);
 
         return $this->plus(- $months);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getField($field)
+    {
+        switch ($field) {
+            case Field\MonthOfYear::NAME:
+                return $this->month;
+
+            default:
+                return null;
+        }
     }
 
     /**

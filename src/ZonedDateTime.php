@@ -702,6 +702,22 @@ class ZonedDateTime extends ReadableInstant
     }
 
     /**
+     * {@inheritdoc}
+     */
+    public function hasField($field)
+    {
+        return $this->localDateTime->hasField($field);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getField($field)
+    {
+        return $this->localDateTime->getField($field);
+    }
+
+    /**
      * @return string
      */
     public function __toString()

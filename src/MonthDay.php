@@ -11,7 +11,7 @@ use Brick\DateTime\Utility\Cast;
 /**
  * A month-day in the ISO-8601 calendar system, such as `--12-03`.
  */
-class MonthDay
+class MonthDay implements DateTimeAccessor
 {
     /**
      * The month-of-year, from 1 to 12.
@@ -274,6 +274,23 @@ class MonthDay
     public function atYear($year)
     {
         return LocalDate::of($year, $this->month, $this->isValidYear($year) ? $this->day : 28);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getField($field)
+    {
+        switch ($field) {
+            case Field\MonthOfYear::NAME:
+                return $this->month;
+
+            case Field\DayOfMonth::NAME:
+                return $this->day;
+
+            default:
+                return null;
+        }
     }
 
     /**

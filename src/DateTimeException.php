@@ -18,7 +18,18 @@ class DateTimeException extends \RuntimeException
      */
     public static function fieldNotInRange($field, $value, $min, $max)
     {
-        return new DateTimeException("Invalid $field: $value is not in the range $min to $max");
+        return new DateTimeException("Invalid $field: $value is not in the range $min to $max.");
+    }
+
+    /**
+     * @param DateTimeAccessor $accessor
+     * @param string           $field
+     *
+     * @return DateTimeException
+     */
+    public static function unsupportedField(DateTimeAccessor $accessor, $field)
+    {
+        return new DateTimeException(sprintf('Field %s is not supported by %s.', $field, get_class($accessor)));
     }
 
     /**

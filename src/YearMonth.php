@@ -11,7 +11,7 @@ use Brick\DateTime\Utility\Cast;
 /**
  * Represents the combination of a year and a month.
  */
-class YearMonth
+class YearMonth implements DateTimeAccessor
 {
     /**
      * The year, from MIN_YEAR to MAX_YEAR.
@@ -261,6 +261,23 @@ class YearMonth
     public function atDay($day)
     {
         return LocalDate::of($this->year, $this->month, $day);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getField($field)
+    {
+        switch ($field) {
+            case Field\Year::NAME:
+                return $this->year;
+
+            case Field\MonthOfYear::NAME:
+                return $this->month;
+
+            default:
+                return null;
+        }
     }
 
     /**

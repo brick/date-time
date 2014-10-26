@@ -14,7 +14,7 @@ use Brick\DateTime\Utility\Cast;
  *
  * This class is immutable.
  */
-class LocalDate
+class LocalDate implements DateTimeAccessor
 {
     /**
      * The minimum supported year for instances of `LocalDate`, -999,999.
@@ -682,6 +682,26 @@ class LocalDate
         }
 
         return $total - self::DAYS_0000_TO_1970;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getField($field)
+    {
+        switch ($field) {
+            case Field\Year::NAME:
+                return $this->year;
+
+            case Field\MonthOfYear::NAME:
+                return $this->month;
+
+            case Field\DayOfMonth::NAME:
+                return $this->day;
+
+            default:
+                return null;
+        }
     }
 
     /**

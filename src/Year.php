@@ -2,12 +2,13 @@
 
 namespace Brick\DateTime;
 
+use Brick\DateTime\Field;
 use Brick\DateTime\Utility\Cast;
 
 /**
  * Represents a year in the proleptic calendar.
  */
-class Year
+class Year implements DateTimeAccessor
 {
     const MIN_VALUE = LocalDate::MIN_YEAR;
     const MAX_VALUE = LocalDate::MAX_YEAR;
@@ -248,6 +249,20 @@ class Year
     public function atMonthDay(MonthDay $monthDay)
     {
         return $monthDay->atYear($this->year);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getField($field)
+    {
+        switch ($field) {
+            case Field\Year::NAME:
+                return $this->year;
+
+            default:
+                return null;
+        }
     }
 
     /**

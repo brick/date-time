@@ -14,7 +14,7 @@ use Brick\DateTime\Utility\Cast;
  *
  * This class is immutable.
  */
-class LocalDateTime
+class LocalDateTime implements DateTimeAccessor
 {
     /**
      * @var LocalDate
@@ -712,6 +712,20 @@ class LocalDateTime
     public function isAfter(LocalDateTime $that)
     {
         return $this->compareTo($that) === 1;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getField($field)
+    {
+        $value = $this->date->getField($field);
+
+        if ($value !== null) {
+            return $value;
+        }
+
+        return $this->time->getField($field);
     }
 
     /**
