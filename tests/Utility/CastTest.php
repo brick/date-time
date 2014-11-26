@@ -28,7 +28,9 @@ class CastTest extends \PHPUnit_Framework_TestCase
         return [
             [123, 123],
             [123.0, 123],
-            ["123", 123],
+            [1e2, 100],
+            ['123', 123],
+            ['0123', 123],
         ];
     }
 
@@ -51,8 +53,12 @@ class CastTest extends \PHPUnit_Framework_TestCase
         return [
             [1.5],
             [1e30],
-            ["123abc"],
-            ["abc123"],
+            [''],
+            [' 123'],
+            ['123 '],
+            ['123abc'],
+            ['abc123'],
+            ['999999999999999999999999999']
         ];
     }
 }
