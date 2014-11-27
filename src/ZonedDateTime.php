@@ -13,7 +13,7 @@ use Brick\DateTime\Parser\IsoParsers;
  * A ZonedDateTime can be viewed as a LocalDateTime along with a time zone
  * and targets a specific point in time.
  */
-class ZonedDateTime extends ReadableInstant
+class ZonedDateTime extends ReadableInstant implements DateTimeAccessor
 {
     /**
      * The local date-time.
@@ -699,14 +699,6 @@ class ZonedDateTime extends ReadableInstant
     public function minusSeconds($seconds)
     {
         return $this->plusSeconds(- $seconds);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function hasField($field)
-    {
-        return $this->localDateTime->hasField($field);
     }
 
     /**
