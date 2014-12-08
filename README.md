@@ -41,7 +41,7 @@ Earlier versions of PHP 5.5 will suffer from [this bug](https://bugs.php.net/bug
 HHVM support is in the works, we are waiting for the HHVM team to fix these bugs:
 
 - #3637 [DateTimeZone constructor does not accept time-zone offsets](https://github.com/facebook/hhvm/issues/3637)
-- #3650 [DateTime complains about default timezone even when a timezone is given explictly](https://github.com/facebook/hhvm/issues/3650)
+- ~~#3650 [DateTime complains about default timezone even when a timezone is given explictly](https://github.com/facebook/hhvm/issues/3650)~~
 - #3651 [Incompatible handling of date-times during DST transitions](https://github.com/facebook/hhvm/issues/3651)
 
 Overview
