@@ -276,6 +276,18 @@ class Instant extends ReadableInstant
     }
 
     /**
+     * Returns a ZonedDateTime formed from this instant and the specified time-zone.
+     *
+     * @param TimeZone $timeZone
+     *
+     * @return ZonedDateTime
+     */
+    public function atTimeZone(TimeZone $timeZone)
+    {
+        return ZonedDateTime::ofInstant($this, $timeZone);
+    }
+
+    /**
      * @return string
      */
     public function __toString()
