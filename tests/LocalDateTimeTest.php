@@ -3,6 +3,7 @@
 namespace Brick\DateTime\Tests;
 
 use Brick\DateTime\Duration;
+use Brick\DateTime\Field\Year;
 use Brick\DateTime\LocalDate;
 use Brick\DateTime\LocalDateTime;
 use Brick\DateTime\LocalTime;
@@ -154,6 +155,42 @@ class LocalDateTimeTest extends AbstractTestCase
             ['2014-01-01T00:60:00'],
             ['2014-01-01T00:00:60'],
         ];
+    }
+
+    public function testMin()
+    {
+        $this->assertLocalDateTimeIs(Year::MIN_VALUE, 1, 1, 0, 0, 0, 0, LocalDateTime::min());
+    }
+
+    public function testMax()
+    {
+        $this->assertLocalDateTimeIs(Year::MAX_VALUE, 12, 31, 23, 59, 59, 999999999, LocalDateTime::max());
+    }
+
+    public function testMinMaxOf()
+    {
+        $a = LocalDateTime::parse('2003-12-31T12:30:00');
+        $b = LocalDateTime::parse('2005-12-31T23:59:59.999999999');
+        $c = LocalDateTime::parse('2006-07-12T05:22:11');
+
+        $this->assertSame($a, LocalDateTime::minOf($a, $b, $c));
+        $this->assertSame($c, LocalDateTime::maxOf($a, $b, $c));
+    }
+
+    /**
+     * @expectedException \Brick\DateTime\DateTimeException
+     */
+    public function testMinOfZeroElementsThrowsException()
+    {
+        LocalDateTime::minOf();
+    }
+
+    /**
+     * @expectedException \Brick\DateTime\DateTimeException
+     */
+    public function testMaxOfZeroElementsThrowsException()
+    {
+        LocalDateTime::maxOf();
     }
 
     /**

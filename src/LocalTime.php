@@ -213,6 +213,58 @@ class LocalTime implements DateTimeAccessor
     }
 
     /**
+     * Returns the smallest LocalTime among the given values.
+     *
+     * @param LocalTime ... $times The LocalTime objects to compare.
+     *
+     * @return LocalTime The earliest LocalTime object.
+     *
+     * @throws DateTimeException If the array is empty.
+     */
+    public static function minOf(LocalTime ... $times)
+    {
+        if (! $times) {
+            throw new DateTimeException(__METHOD__ . ' does not accept less than 1 parameter.');
+        }
+
+        $min = LocalTime::max();
+
+        foreach ($times as $time) {
+            if ($time->isBefore($min)) {
+                $min = $time;
+            }
+        }
+
+        return $min;
+    }
+
+    /**
+     * Returns the highest LocalTime among the given values.
+     *
+     * @param LocalTime ... $times The LocalTime objects to compare.
+     *
+     * @return LocalTime The latest LocalTime object.
+     *
+     * @throws DateTimeException If the array is empty.
+     */
+    public static function maxOf(LocalTime ... $times)
+    {
+        if (! $times) {
+            throw new DateTimeException(__METHOD__ . ' does not accept less than 1 parameter.');
+        }
+
+        $max = LocalTime::min();
+
+        foreach ($times as $time) {
+            if ($time->isAfter($max)) {
+                $max = $time;
+            }
+        }
+
+        return $max;
+    }
+
+    /**
      * @return integer
      */
     public function getHour()
@@ -658,57 +710,5 @@ class LocalTime implements DateTimeAccessor
         $nanos = rtrim(sprintf('%09u', $this->nano), '0');
 
         return sprintf('%02u:%02u:%02u.%s', $this->hour, $this->minute, $this->second, $nanos);
-    }
-
-    /**
-     * Returns the smallest LocalTime of an array.
-     *
-     * @param LocalTime ... $times The LocalTime objects to compare.
-     *
-     * @return LocalTime The earliest LocalTime object.
-     *
-     * @throws DateTimeException If the array is empty.
-     */
-    public static function minOf(LocalTime ... $times)
-    {
-        if (! $times) {
-            throw new DateTimeException(__METHOD__ . ' does not accept less than 1 parameter.');
-        }
-
-        $min = LocalTime::max();
-
-        foreach ($times as $time) {
-            if ($time->isBefore($min)) {
-                $min = $time;
-            }
-        }
-
-        return $min;
-    }
-
-    /**
-     * Returns the highest LocalTime of an array.
-     *
-     * @param LocalTime ... $times The LocalTime objects to compare.
-     *
-     * @return LocalTime The latest LocalTime object.
-     *
-     * @throws DateTimeException If the array is empty.
-     */
-    public static function maxOf(LocalTime ... $times)
-    {
-        if (! $times) {
-            throw new DateTimeException(__METHOD__ . ' does not accept less than 1 parameter.');
-        }
-
-        $max = LocalTime::min();
-
-        foreach ($times as $time) {
-            if ($time->isAfter($max)) {
-                $max = $time;
-            }
-        }
-
-        return $max;
     }
 }

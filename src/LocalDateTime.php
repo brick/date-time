@@ -96,6 +96,78 @@ class LocalDateTime implements DateTimeAccessor
     }
 
     /**
+     * Returns the smallest possible value for LocalDateTime.
+     *
+     * @return LocalDateTime
+     */
+    public static function min()
+    {
+        return new LocalDateTime(LocalDate::min(), LocalTime::min());
+    }
+
+    /**
+     * Returns the highest possible value for LocalDateTime.
+     *
+     * @return LocalDateTime
+     */
+    public static function max()
+    {
+        return new LocalDateTime(LocalDate::max(), LocalTime::max());
+    }
+
+    /**
+     * Returns the smallest LocalDateTime among the given values.
+     *
+     * @param LocalDateTime ... $times The LocalDateTime objects to compare.
+     *
+     * @return LocalDateTime The earliest LocalDateTime object.
+     *
+     * @throws DateTimeException If the array is empty.
+     */
+    public static function minOf(LocalDateTime ... $times)
+    {
+        if (! $times) {
+            throw new DateTimeException(__METHOD__ . ' does not accept less than 1 parameter.');
+        }
+
+        $min = LocalDateTime::max();
+
+        foreach ($times as $time) {
+            if ($time->isBefore($min)) {
+                $min = $time;
+            }
+        }
+
+        return $min;
+    }
+
+    /**
+     * Returns the highest LocalDateTime among the given values.
+     *
+     * @param LocalDateTime ... $times The LocalDateTime objects to compare.
+     *
+     * @return LocalDateTime The latest LocalDateTime object.
+     *
+     * @throws DateTimeException If the array is empty.
+     */
+    public static function maxOf(LocalDateTime ... $times)
+    {
+        if (! $times) {
+            throw new DateTimeException(__METHOD__ . ' does not accept less than 1 parameter.');
+        }
+
+        $max = LocalDateTime::min();
+
+        foreach ($times as $time) {
+            if ($time->isAfter($max)) {
+                $max = $time;
+            }
+        }
+
+        return $max;
+    }
+
+    /**
      * @return LocalDate
      */
     public function getDate()
