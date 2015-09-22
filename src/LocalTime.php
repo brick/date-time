@@ -663,16 +663,16 @@ class LocalTime implements DateTimeAccessor
     /**
      * Returns the smallest LocalTime of an array.
      *
-     * @param LocalTime[] $times An array of LocalTime objects.
+     * @param LocalTime ... $times The LocalTime objects to compare.
      *
-     * @return LocalTime The smallest LocalTime object.
+     * @return LocalTime The earliest LocalTime object.
      *
      * @throws DateTimeException If the array is empty.
      */
-    public static function minOf(array $times)
+    public static function minOf(LocalTime ... $times)
     {
-        if (count($times) == 0) {
-            throw new DateTimeException('LocalTime::minOf() does not accept less than 1 parameter');
+        if (! $times) {
+            throw new DateTimeException(__METHOD__ . ' does not accept less than 1 parameter.');
         }
 
         $min = LocalTime::max();
@@ -689,16 +689,16 @@ class LocalTime implements DateTimeAccessor
     /**
      * Returns the highest LocalTime of an array.
      *
-     * @param LocalTime[] $times An array of LocalTime objects.
+     * @param LocalTime ... $times The LocalTime objects to compare.
      *
-     * @return LocalTime The highest LocalTime object.
+     * @return LocalTime The latest LocalTime object.
      *
      * @throws DateTimeException If the array is empty.
      */
-    public static function maxOf(array $times)
+    public static function maxOf(LocalTime ... $times)
     {
-        if (count($times) == 0) {
-            throw new DateTimeException('LocalTime::maxOf() does not accept less than 1 parameter');
+        if (! $times) {
+            throw new DateTimeException(__METHOD__ . ' does not accept less than 1 parameter.');
         }
 
         $max = LocalTime::min();
