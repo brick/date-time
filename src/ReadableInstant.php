@@ -77,6 +77,18 @@ abstract class ReadableInstant
     }
 
     /**
+     * Returns whether this instant is after or equal to another.
+     *
+     * @param ReadableInstant $that
+     *
+     * @return boolean
+     */
+    public function isAfterOrEqualTo(ReadableInstant $that)
+    {
+        return $this->compareTo($that) >= 0;
+    }
+
+    /**
      * Returns whether this instant is before another.
      *
      * @param ReadableInstant $that
@@ -86,6 +98,40 @@ abstract class ReadableInstant
     public function isBefore(ReadableInstant $that)
     {
         return $this->compareTo($that) === -1;
+    }
+
+    /**
+     * Returns whether this instant is before or equal to another.
+     *
+     * @param ReadableInstant $that
+     *
+     * @return boolean
+     */
+    public function isBeforeOrEqualTo(ReadableInstant $that)
+    {
+        return $this->compareTo($that) <= 0;
+    }
+
+    /**
+     * @param ReadableInstant $from
+     * @param ReadableInstant $to
+     *
+     * @return boolean
+     */
+    public function isBetweenInclusive(ReadableInstant $from, ReadableInstant $to)
+    {
+        return $this->isAfterOrEqualTo($from) && $this->isBeforeOrEqualTo($to);
+    }
+
+    /**
+     * @param ReadableInstant $from
+     * @param ReadableInstant $to
+     *
+     * @return boolean
+     */
+    public function isBetweenExclusive(ReadableInstant $from, ReadableInstant $to)
+    {
+        return $this->isAfter($from) && $this->isBefore($to);
     }
 
     /**
