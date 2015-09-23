@@ -620,7 +620,7 @@ class LocalDate implements DateTimeAccessor
      */
     public function atTime(LocalTime $time)
     {
-        return LocalDateTime::of($this, $time);
+        return new LocalDateTime($this, $time);
     }
 
     /**

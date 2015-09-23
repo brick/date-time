@@ -27,25 +27,35 @@ class LocalDateTime implements DateTimeAccessor
     private $time;
 
     /**
-     * Private constructor. Use a factory method to obtain an instance.
+     * Class constructor.
      *
      * @param LocalDate $date
      * @param LocalTime $time
      */
-    private function __construct(LocalDate $date, LocalTime $time)
+    public function __construct(LocalDate $date, LocalTime $time)
     {
         $this->date = $date;
         $this->time = $time;
     }
 
     /**
-     * @param LocalDate $date
-     * @param LocalTime $time
+     * @param integer $year   The year, from MIN_YEAR to MAX_YEAR.
+     * @param integer $month  The month-of-year, from 1 (January) to 12 (December).
+     * @param integer $day    The day-of-month, from 1 to 31.
+     * @param integer $hour   The hour-of-day, from 0 to 23.
+     * @param integer $minute The minute-of-hour, from 0 to 59.
+     * @param integer $second The second-of-minute, from 0 to 59.
+     * @param integer $nano   The nano-of-second, from 0 to 999,999,999.
      *
      * @return LocalDateTime
+     *
+     * @throws DateTimeException If the date or time is not valid.
      */
-    public static function of(LocalDate $date, LocalTime $time)
+    public static function of($year, $month, $day, $hour = 0, $minute = 0, $second = 0, $nano = 0)
     {
+        $date = LocalDate::of($year, $month, $day);
+        $time = LocalTime::of($hour, $minute, $second, $nano);
+
         return new LocalDateTime($date, $time);
     }
 

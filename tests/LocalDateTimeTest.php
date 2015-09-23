@@ -21,7 +21,7 @@ class LocalDateTimeTest extends AbstractTestCase
         $date = LocalDate::of(2001, 12, 23);
         $time = LocalTime::of(12, 34, 56, 987654321);
 
-        $this->assertLocalDateTimeIs(2001, 12, 23, 12, 34, 56, 987654321, LocalDateTime::of($date, $time));
+        $this->assertLocalDateTimeIs(2001, 12, 23, 12, 34, 56, 987654321, new LocalDateTime($date, $time));
     }
 
     /**
@@ -203,10 +203,8 @@ class LocalDateTimeTest extends AbstractTestCase
      */
     public function testGetDayOfWeek($year, $month, $day, $dayOfWeek)
     {
-        $date = LocalDate::of($year, $month, $day);
-        $time = LocalTime::of(15, 30, 45);
-
-        $this->assertDayOfWeekIs($dayOfWeek, LocalDateTime::of($date, $time)->getDayOfWeek());
+        $dateTime = LocalDateTime::of($year, $month, $day, 15, 30, 45);
+        $this->assertDayOfWeekIs($dayOfWeek, $dateTime->getDayOfWeek());
     }
 
     /**
