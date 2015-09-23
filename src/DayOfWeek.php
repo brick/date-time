@@ -24,16 +24,16 @@ class DayOfWeek implements DateTimeAccessor
      *
      * @var integer
      */
-    private $dayOfWeek;
+    private $value;
 
     /**
      * Private constructor. Use a factory method to obtain an instance.
      *
-     * @param integer $dayOfWeek The day-of-week value, validated as an integer from 1 to 7.
+     * @param integer $value The day-of-week value, validated as an integer from 1 to 7.
      */
-    private function __construct($dayOfWeek)
+    private function __construct($value)
     {
-        $this->dayOfWeek = $dayOfWeek;
+        $this->value = $value;
     }
 
     /**
@@ -111,7 +111,7 @@ class DayOfWeek implements DateTimeAccessor
      */
     public function getValue()
     {
-        return $this->dayOfWeek;
+        return $this->value;
     }
 
     /**
@@ -123,7 +123,7 @@ class DayOfWeek implements DateTimeAccessor
      */
     public function is($dayOfWeek)
     {
-        return $this->dayOfWeek == $dayOfWeek;
+        return $this->value === (int) $dayOfWeek;
     }
 
     /**
@@ -139,7 +139,7 @@ class DayOfWeek implements DateTimeAccessor
      */
     public function isEqualTo(DayOfWeek $that)
     {
-        return $this->dayOfWeek === $that->dayOfWeek;
+        return $this->value === $that->value;
     }
 
     /**
@@ -153,7 +153,7 @@ class DayOfWeek implements DateTimeAccessor
     {
         $days = Cast::toInteger($days);
 
-        return DayOfWeek::get((((($this->dayOfWeek - 1 + $days) % 7) + 7) % 7) + 1);
+        return DayOfWeek::get((((($this->value - 1 + $days) % 7) + 7) % 7) + 1);
     }
 
     /**
@@ -177,7 +177,7 @@ class DayOfWeek implements DateTimeAccessor
     {
         switch ($field) {
             case Field\DayOfWeek::NAME:
-                return $this->dayOfWeek;
+                return $this->value;
 
             default:
                 return null;
@@ -199,6 +199,6 @@ class DayOfWeek implements DateTimeAccessor
             5 => 'Friday',
             6 => 'Saturday',
             7 => 'Sunday'
-        ][$this->dayOfWeek];
+        ][$this->value];
     }
 }
