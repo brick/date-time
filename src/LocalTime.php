@@ -610,6 +610,30 @@ class LocalTime implements DateTimeAccessor
     }
 
     /**
+     * Checks if this LocalTime is less than the specified time.
+     *
+     * @param LocalTime $that The time to compare to.
+     *
+     * @return boolean
+     */
+    public function isBefore(LocalTime $that)
+    {
+        return $this->compareTo($that) === -1;
+    }
+
+    /**
+     * Checks if this LocalTime is less than the specified time.
+     *
+     * @param LocalTime $that The time to compare to.
+     *
+     * @return boolean
+     */
+    public function isBeforeOrEqualTo(LocalTime $that)
+    {
+        return $this->compareTo($that) <= 0;
+    }
+
+    /**
      * Checks if this LocalTime is greater than the specified time.
      *
      * @param LocalTime $that The time to compare to.
@@ -622,15 +646,15 @@ class LocalTime implements DateTimeAccessor
     }
 
     /**
-     * Checks if this LocalTime is less than the specified time.
+     * Checks if this LocalTime is greater than the specified time.
      *
      * @param LocalTime $that The time to compare to.
      *
      * @return boolean
      */
-    public function isBefore(LocalTime $that)
+    public function isAfterOrEqualTo(LocalTime $that)
     {
-        return $this->compareTo($that) === -1;
+        return $this->compareTo($that) >= 0;
     }
 
     /**
