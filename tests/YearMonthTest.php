@@ -314,6 +314,124 @@ class YearMonthTest extends AbstractTestCase
         $this->assertLocalDateIs(2001, 2, 3, YearMonth::of(2001, 02)->atDay(3));
     }
 
+    /**
+     * @dataProvider providerPlusYears
+     *
+     * @param int $year
+     * @param int $month
+     * @param int $plusYears
+     * @param int $expectedYear
+     * @param int $expectedMonth
+     */
+    public function testPlusYears($year, $month, $plusYears, $expectedYear, $expectedMonth)
+    {
+        $yearMonth = YearMonth::of($year, $month);
+        $this->assertYearMonthIs($expectedYear, $expectedMonth, $yearMonth->plusYears($plusYears));
+    }
+
+    /**
+     * @return array
+     */
+    public function providerPlusYears()
+    {
+        return [
+            [2003, 11, 7, 2010, 11],
+            [1999, 3, -99, 1900, 3],
+        ];
+    }
+
+    /**
+     * @dataProvider providerMinusYears
+     *
+     * @param int $year
+     * @param int $month
+     * @param int $plusYears
+     * @param int $expectedYear
+     * @param int $expectedMonth
+     */
+    public function testMinusYears($year, $month, $plusYears, $expectedYear, $expectedMonth)
+    {
+        $yearMonth = YearMonth::of($year, $month);
+        $this->assertYearMonthIs($expectedYear, $expectedMonth, $yearMonth->minusYears($plusYears));
+    }
+
+    /**
+     * @return array
+     */
+    public function providerMinusYears()
+    {
+        return [
+            [2003, 11, 7, 1996, 11],
+            [1999, 3, -99, 2098, 3],
+        ];
+    }
+
+    /**
+     * @dataProvider providerPlusMonths
+     *
+     * @param int $year
+     * @param int $month
+     * @param int $plusMonths
+     * @param int $expectedYear
+     * @param int $expectedMonth
+     */
+    public function testPlusMonths($year, $month, $plusMonths, $expectedYear, $expectedMonth)
+    {
+        $yearMonth = YearMonth::of($year, $month);
+        $this->assertYearMonthIs($expectedYear, $expectedMonth, $yearMonth->plusMonths($plusMonths));
+    }
+
+    /**
+     * @return array
+     */
+    public function providerPlusMonths()
+    {
+        return [
+            [2015, 11, -12, 2014, 11],
+            [2015, 11, -11, 2014, 12],
+            [2015, 11, -10, 2015, 1],
+            [2015, 11, -1, 2015, 10],
+            [2015, 11, 0, 2015, 11],
+            [2015, 11, 1, 2015, 12],
+            [2015, 11, 2, 2016, 1],
+            [1963, 1, -4813, 1561, 12],
+            [1789, 10, 7939, 2451, 5],
+        ];
+    }
+
+    /**
+     * @dataProvider providerMinusMonths
+     *
+     * @param int $year
+     * @param int $month
+     * @param int $plusMonths
+     * @param int $expectedYear
+     * @param int $expectedMonth
+     */
+    public function testMinusMonths($year, $month, $plusMonths, $expectedYear, $expectedMonth)
+    {
+        $yearMonth = YearMonth::of($year, $month);
+        $this->assertYearMonthIs($expectedYear, $expectedMonth, $yearMonth->minusMonths($plusMonths));
+    }
+
+    /**
+     * @return array
+     */
+    public function providerMinusMonths()
+    {
+        return [
+            [2015, 11, -2, 2016, 1],
+            [2015, 11, -1, 2015, 12],
+            [2015, 11, 0, 2015, 11],
+            [2015, 11, 1, 2015, 10],
+            [2015, 11, 10, 2015, 1],
+            [2015, 11, 11, 2014, 12],
+            [2015, 11, 12, 2014, 11],
+            [1963, 1, -4813, 2364, 2],
+            [1789, 10, 7939, 1128, 3],
+        ];
+    }
+
     public function testToString()
     {
         $this->assertSame('2013-09', (string) YearMonth::of(2013, 9));

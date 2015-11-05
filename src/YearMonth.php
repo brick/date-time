@@ -7,6 +7,7 @@ use Brick\DateTime\Parser\DateTimeParser;
 use Brick\DateTime\Parser\DateTimeParseResult;
 use Brick\DateTime\Parser\IsoParsers;
 use Brick\DateTime\Utility\Cast;
+use Brick\DateTime\Utility\Math;
 
 /**
  * Represents the combination of a year and a month.
@@ -261,6 +262,67 @@ class YearMonth implements DateTimeAccessor
     public function atDay($day)
     {
         return LocalDate::of($this->year, $this->month, $day);
+    }
+
+    /**
+     * Returns a copy of this YearMonth with the specified period in years added.
+     *
+     * @param integer $years
+     *
+     * @return YearMonth
+     */
+    public function plusYears($years)
+    {
+        $years = Cast::toInteger($years);
+
+        if ($years === 0) {
+            return $this;
+        }
+
+        return $this->withYear($this->year + $years);
+    }
+
+    /**
+     * Returns a copy of this YearMonth with the specified period in months added.
+     *
+     * @param integer $months
+     *
+     * @return YearMonth
+     */
+    public function plusMonths($months)
+    {
+        $month = $this->month + $months - 1;
+
+        $yearDiff = Math::floorDiv($month, 12);
+        $month = Math::floorMod($month, 12) + 1;
+
+        $year = $this->year + $yearDiff;
+
+        return new YearMonth($year, $month);
+    }
+
+    /**
+     * Returns a copy of this YearMonth with the specified period in years subtracted.
+     *
+     * @param integer $years
+     *
+     * @return YearMonth
+     */
+    public function minusYears($years)
+    {
+        return $this->plusYears(- $years);
+    }
+
+    /**
+     * Returns a copy of this YearMonth with the specified period in months subtracted.
+     *
+     * @param integer $months
+     *
+     * @return YearMonth
+     */
+    public function minusMonths($months)
+    {
+        return $this->plusMonths(- $months);
     }
 
     /**
