@@ -66,6 +66,36 @@ class TimeZoneRegion extends TimeZone
     }
 
     /**
+     * Returns all the available time-zone identifiers.
+     *
+     * @param bool $includeObsolete Whether to include obsolete time-zone identifiers. Defaults to false.
+     *
+     * @return string[] An array of time-zone identifiers.
+     */
+    public static function getAllIdentifiers($includeObsolete = false)
+    {
+        return \DateTimeZone::listIdentifiers(
+            $includeObsolete
+            ? \DateTimeZone::ALL_WITH_BC
+            : \DateTimeZone::ALL
+        );
+    }
+
+    /**
+     * Returns the time-zone identifiers for the given country.
+     *
+     * If the country code is not known, an empty array is returned.
+     *
+     * @param string $countryCode The ISO 3166-1 two-letter country code.
+     *
+     * @return string[] An array of time-zone identifiers.
+     */
+    public static function getIdentifiersForCountry($countryCode)
+    {
+        return \DateTimeZone::listIdentifiers(\DateTimeZone::PER_COUNTRY, $countryCode);
+    }
+
+    /**
      * Parses a region id, such as 'Europe/London'.
      *
      * @param string               $text

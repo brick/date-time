@@ -70,6 +70,83 @@ class TimeZoneRegionTest extends AbstractTestCase
     }
 
     /**
+     * @dataProvider providerGetAllTimeZones
+     *
+     * @param bool $includeObsolete
+     */
+    public function testGetAllTimeZones($includeObsolete)
+    {
+        $identifiers = TimeZoneRegion::getAllIdentifiers($includeObsolete);
+        $this->assertGreaterThan(1, count($identifiers));
+
+        $expectedIdentifiers = [
+            'UTC',
+            'Europe/London',
+            'America/Los_Angeles',
+        ];
+
+        $expectedObsoleteIdentifiers = [
+            'CET',
+            'US/Alaska',
+            'Mexico/General',
+        ];
+
+        foreach ($expectedIdentifiers as $identifier) {
+            $this->assertContains($identifier, $identifiers);
+        }
+
+        foreach ($expectedObsoleteIdentifiers as $identifier) {
+            if ($includeObsolete) {
+                $this->assertContains($identifier, $identifiers);
+            } else {
+                $this->assertNotContains($identifier, $identifiers);
+            }
+        }
+    }
+
+    /**
+     * @return array
+     */
+    public function providerGetAllTimeZones()
+    {
+        return [
+            [false],
+            [true],
+        ];
+    }
+
+    /**
+     * @dataProvider providerGetTimeZonesForCountry
+     *
+     * @param string    $countryCode
+     * @param string ...$expectedIdentifiers
+     */
+    public function testGetTimeZonesForCountry($countryCode, ...$expectedIdentifiers)
+    {
+        $identifiers = TimeZoneRegion::getIdentifiersForCountry($countryCode);
+
+        $this->assertSame($expectedIdentifiers, $identifiers);
+    }
+
+    /**
+     * @return array
+     */
+    public function providerGetTimeZonesForCountry()
+    {
+        return [
+            ['FR', 'Europe/Paris'],
+            ['GB', 'Europe/London'],
+            ['DE', 'Europe/Berlin', 'Europe/Busingen'],
+            ['CH', 'Europe/Zurich'],
+            ['PL', 'Europe/Warsaw'],
+            ['ES', 'Africa/Ceuta', 'Atlantic/Canary', 'Europe/Madrid'],
+            ['IT', 'Europe/Rome'],
+            ['CN', 'Asia/Shanghai', 'Asia/Urumqi'],
+            ['RE', 'Indian/Reunion'],
+        ];
+    }
+
+    /**
      * @dataProvider providerGetOffset
      *
      * @param string  $region         The time-zone region.
