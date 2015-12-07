@@ -442,6 +442,18 @@ class ZonedDateTime extends ReadableInstant implements DateTimeAccessor
     }
 
     /**
+     * Returns a copy of this ZonedDateTime with the nano-of-second altered.
+     *
+     * @param integer $nano
+     *
+     * @return ZonedDateTime
+     */
+    public function withNano($nano)
+    {
+        return ZonedDateTime::of($this->localDateTime->withNano($nano), $this->timeZone);
+    }
+
+    /**
      * Returns a copy of this `ZonedDateTime` with a different time-zone,
      * retaining the local date-time if possible.
      *
