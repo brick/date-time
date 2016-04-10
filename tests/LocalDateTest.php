@@ -1019,4 +1019,30 @@ class LocalDateTest extends AbstractTestCase
             [-2, 1, 1, '-0002-01-01']
         ];
     }
+
+    public function testMinMaxOf()
+    {
+        $a = LocalDate::of(2015, 9, 30);
+        $b = LocalDate::of(2016, 7, 31);
+        $c = LocalDate::of(2017, 2, 1);
+
+        $this->assertSame($a, LocalDate::minOf($a, $b, $c));
+        $this->assertSame($c, LocalDate::maxOf($a, $b, $c));
+    }
+
+    /**
+     * @expectedException \Brick\DateTime\DateTimeException
+     */
+    public function testMinOfZeroElementsThrowsException()
+    {
+        LocalDate::minOf();
+    }
+
+    /**
+     * @expectedException \Brick\DateTime\DateTimeException
+     */
+    public function testMaxOfZeroElementsThrowsException()
+    {
+        LocalDate::maxOf();
+    }
 }

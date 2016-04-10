@@ -243,6 +243,58 @@ class LocalDate implements DateTimeAccessor
     }
 
     /**
+     * Returns the smallest LocalDate among the given values.
+     *
+     * @param LocalDate ... $dates The LocalDate objects to compare.
+     *
+     * @return LocalDate The earliest LocalDate object.
+     *
+     * @throws DateTimeException If the array is empty.
+     */
+    public static function minOf(LocalDate ... $dates)
+    {
+        if (! $dates) {
+            throw new DateTimeException(__METHOD__ . ' does not accept less than 1 parameter.');
+        }
+
+        $min = LocalDate::max();
+
+        foreach ($dates as $time) {
+            if ($time->isBefore($min)) {
+                $min = $time;
+            }
+        }
+
+        return $min;
+    }
+
+    /**
+     * Returns the highest LocalDate among the given values.
+     *
+     * @param LocalDate ... $dates The LocalDate objects to compare.
+     *
+     * @return LocalDate The latest LocalDate object.
+     *
+     * @throws DateTimeException If the array is empty.
+     */
+    public static function maxOf(LocalDate ... $dates)
+    {
+        if (! $dates) {
+            throw new DateTimeException(__METHOD__ . ' does not accept less than 1 parameter.');
+        }
+
+        $max = LocalDate::min();
+
+        foreach ($dates as $time) {
+            if ($time->isAfter($max)) {
+                $max = $time;
+            }
+        }
+
+        return $max;
+    }
+
+    /**
      * @return integer
      */
     public function getYear()
