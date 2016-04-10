@@ -43,7 +43,7 @@ HHVM support is in the works, we are waiting for the HHVM team to fix these bugs
 - #3637 [DateTimeZone constructor does not accept time-zone offsets](https://github.com/facebook/hhvm/issues/3637)
 - ~~#3650 [DateTime complains about default timezone even when a timezone is given explictly](https://github.com/facebook/hhvm/issues/3650)~~
 - ~~#3651 [Incompatible handling of date-times during DST transitions](https://github.com/facebook/hhvm/issues/3651)~~
-- #4858 [Type hinting variadic arguments](https://github.com/facebook/hhvm/issues/4858)
+- #6954 [Typed variadics not supported in PHP code](https://github.com/facebook/hhvm/issues/6954)
 
 Overview
 --------
