@@ -33,8 +33,7 @@ Just define the following requirement in your `composer.json` file:
 Requirements
 ------------
 
-This library requires PHP 5.5.10 or higher.
-Earlier versions of PHP 5.5 will suffer from [this bug](https://bugs.php.net/bug.php?id=45528).
+This library requires PHP 5.6 or PHP 7.
 
 ### HHVM support
 
