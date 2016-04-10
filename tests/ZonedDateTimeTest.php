@@ -3,9 +3,7 @@
 namespace Brick\DateTime\Tests;
 
 use Brick\DateTime\Instant;
-use Brick\DateTime\LocalDate;
 use Brick\DateTime\LocalDateTime;
-use Brick\DateTime\LocalTime;
 use Brick\DateTime\TimeZone;
 use Brick\DateTime\TimeZoneOffset;
 use Brick\DateTime\ZonedDateTime;

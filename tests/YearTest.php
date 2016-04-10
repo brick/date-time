@@ -2,8 +2,6 @@
 
 namespace Brick\DateTime\Tests;
 
-use Brick\DateTime\Clock\Clock;
-use Brick\DateTime\Clock\FixedClock;
 use Brick\DateTime\MonthDay;
 use Brick\DateTime\TimeZone;
 use Brick\DateTime\Year;

@@ -2,9 +2,6 @@
 
 namespace Brick\DateTime\Tests;
 
-use Brick\DateTime\Clock\Clock;
-use Brick\DateTime\Clock\FixedClock;
-use Brick\DateTime\Instant;
 use Brick\DateTime\LocalDate;
 use Brick\DateTime\LocalTime;
 use Brick\DateTime\Period;
