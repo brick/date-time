@@ -113,7 +113,7 @@ class LocalDate implements DateTimeAccessor
 
         $isLeap = Field\Year::isLeap($year);
 
-        $monthOfYear = Month::of(Math::div($dayOfYear - 1, 31) + 1);
+        $monthOfYear = Month::of(intdiv($dayOfYear - 1, 31) + 1);
         $monthEnd = $monthOfYear->getFirstDayOfYear($isLeap) + $monthOfYear->getLength($isLeap) - 1;
 
         if ($dayOfYear > $monthEnd) {
@@ -180,25 +180,25 @@ class LocalDate implements DateTimeAccessor
         $adjust = 0;
         if ($zeroDay < 0) {
             // Adjust negative years to positive for calculation.
-            $adjustCycles = Math::div(($zeroDay + 1), self::DAYS_PER_CYCLE) - 1;
+            $adjustCycles = intdiv(($zeroDay + 1), self::DAYS_PER_CYCLE) - 1;
             $adjust = $adjustCycles * 400;
             $zeroDay += -$adjustCycles * self::DAYS_PER_CYCLE;
         }
-        $yearEst = Math::div(400 * $zeroDay + 591, self::DAYS_PER_CYCLE);
-        $doyEst = $zeroDay - (365 * $yearEst + Math::div($yearEst, 4) - Math::div($yearEst, 100) + Math::div($yearEst, 400));
+        $yearEst = intdiv(400 * $zeroDay + 591, self::DAYS_PER_CYCLE);
+        $doyEst = $zeroDay - (365 * $yearEst + intdiv($yearEst, 4) - intdiv($yearEst, 100) + intdiv($yearEst, 400));
         if ($doyEst < 0) {
             // Fix estimate.
             $yearEst--;
-            $doyEst = $zeroDay - (365 * $yearEst + Math::div($yearEst, 4) - Math::div($yearEst, 100) + Math::div($yearEst, 400));
+            $doyEst = $zeroDay - (365 * $yearEst + intdiv($yearEst, 4) - intdiv($yearEst, 100) + intdiv($yearEst, 400));
         }
         $yearEst += $adjust; // Reset any negative year.
         $marchDoy0 = $doyEst;
 
         // Convert march-based values back to January-based.
-        $marchMonth0 = Math::div($marchDoy0 * 5 + 2, 153);
+        $marchMonth0 = intdiv($marchDoy0 * 5 + 2, 153);
         $month = ($marchMonth0 + 2) % 12 + 1;
-        $dom = $marchDoy0 - Math::div($marchMonth0 * 306 + 5, 10) + 1;
-        $yearEst += Math::div($marchMonth0, 10);
+        $dom = $marchDoy0 - intdiv($marchMonth0 * 306 + 5, 10) + 1;
+        $yearEst += intdiv($marchMonth0, 10);
 
         // Check year now we are certain it is correct.
         Field\Year::check($yearEst);
@@ -677,7 +677,7 @@ class LocalDate implements DateTimeAccessor
             $days -= $endDateExclusive->getLengthOfMonth();
         }
 
-        $years = Math::div($totalMonths, 12);
+        $years = intdiv($totalMonths, 12);
         $months = $totalMonths % 12;
 
         return Period::of($years, $months, $days);
@@ -738,12 +738,12 @@ class LocalDate implements DateTimeAccessor
         $total = 365 * $y;
 
         if ($y >= 0) {
-            $total += Math::div($y + 3, 4) - Math::div($y + 99, 100) + Math::div($y + 399, 400);
+            $total += intdiv($y + 3, 4) - intdiv($y + 99, 100) + intdiv($y + 399, 400);
         } else {
-            $total -= Math::div($y, -4) - Math::div($y, -100) + Math::div($y, -400);
+            $total -= intdiv($y, -4) - intdiv($y, -100) + intdiv($y, -400);
         }
 
-        $total += Math::div(367 * $m - 362, 12);
+        $total += intdiv(367 * $m - 362, 12);
         $total += $this->day - 1;
 
         if ($m > 2) {

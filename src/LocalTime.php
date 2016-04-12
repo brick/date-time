@@ -116,9 +116,9 @@ class LocalTime implements DateTimeAccessor
         Field\SecondOfDay::check($secondOfDay);
         Field\NanoOfSecond::check($nanoOfSecond);
 
-        $hours = Math::div($secondOfDay, self::SECONDS_PER_HOUR);
+        $hours = intdiv($secondOfDay, self::SECONDS_PER_HOUR);
         $secondOfDay -= $hours * self::SECONDS_PER_HOUR;
-        $minutes = Math::div($secondOfDay, self::SECONDS_PER_MINUTE);
+        $minutes = intdiv($secondOfDay, self::SECONDS_PER_MINUTE);
         $secondOfDay -= $minutes * self::SECONDS_PER_MINUTE;
 
         return new LocalTime($hours, $minutes, $secondOfDay, $nanoOfSecond);
@@ -452,7 +452,7 @@ class LocalTime implements DateTimeAccessor
             return $this;
         }
 
-        $hour = Math::div($newMofd, self::MINUTES_PER_HOUR);
+        $hour = intdiv($newMofd, self::MINUTES_PER_HOUR);
         $minute = $newMofd % self::MINUTES_PER_HOUR;
 
         return new LocalTime($hour, $minute, $this->second, $this->nano);
@@ -480,8 +480,8 @@ class LocalTime implements DateTimeAccessor
             return $this;
         }
 
-        $hour = Math::div($newSofd, self::SECONDS_PER_HOUR);
-        $minute = Math::div($newSofd, self::SECONDS_PER_MINUTE) % self::MINUTES_PER_HOUR;
+        $hour = intdiv($newSofd, self::SECONDS_PER_HOUR);
+        $minute = intdiv($newSofd, self::SECONDS_PER_MINUTE) % self::MINUTES_PER_HOUR;
         $second = $newSofd % self::SECONDS_PER_MINUTE;
 
         return new LocalTime($hour, $minute, $second, $this->nano);

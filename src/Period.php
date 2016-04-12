@@ -425,7 +425,7 @@ class Period
     {
         $totalMonths = $this->years * LocalTime::MONTHS_PER_YEAR + $this->months;
 
-        $splitYears = Math::div($totalMonths, 12);
+        $splitYears = intdiv($totalMonths, 12);
         $splitMonths = $totalMonths % 12;
 
         if ($splitYears === $this->years || $splitMonths === $this->months) {

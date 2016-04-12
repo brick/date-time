@@ -484,11 +484,15 @@ class Duration
             $nanos -= LocalTime::NANOS_PER_SECOND;
         }
 
-        $seconds = Math::div($seconds, $divisor, $remainder);
-        $nanos = Math::div($nanos, $divisor, $r1);
+        $remainder = $seconds % $divisor;
+        $seconds = intdiv($seconds, $divisor);
 
-        $nanos += $remainder * Math::div(LocalTime::NANOS_PER_SECOND, $divisor, $r2);
-        $nanos += Math::div($r1 + $remainder * $r2, $divisor);
+        $r1 = $nanos % $divisor;
+        $nanos = intdiv($nanos, $divisor);
+
+        $r2 = LocalTime::NANOS_PER_SECOND % $divisor;
+        $nanos += $remainder * intdiv(LocalTime::NANOS_PER_SECOND, $divisor);
+        $nanos += intdiv($r1 + $remainder * $r2, $divisor);
 
         if ($nanos < 0) {
             $seconds--;
@@ -620,7 +624,7 @@ class Duration
     public function getTotalMillis()
     {
         $millis = $this->seconds * 1000;
-        $millis += Math::div($this->nanos, 1000000);
+        $millis += intdiv($this->nanos, 1000000);
 
         return $millis;
     }
@@ -635,7 +639,7 @@ class Duration
     public function getTotalMicros()
     {
         $micros = $this->seconds * 1000000;
-        $micros += Math::div($this->nanos, 1000);
+        $micros += intdiv($this->nanos, 1000);
 
         return $micros;
     }
@@ -680,8 +684,8 @@ class Duration
             $nanos = LocalTime::NANOS_PER_SECOND - $nanos;
         }
 
-        $hours = Math::div($seconds, LocalTime::SECONDS_PER_HOUR);
-        $minutes = Math::div($seconds % LocalTime::SECONDS_PER_HOUR, LocalTime::SECONDS_PER_MINUTE);
+        $hours = intdiv($seconds, LocalTime::SECONDS_PER_HOUR);
+        $minutes = intdiv($seconds % LocalTime::SECONDS_PER_HOUR, LocalTime::SECONDS_PER_MINUTE);
         $seconds = $seconds % LocalTime::SECONDS_PER_MINUTE;
 
         $string = 'PT';
