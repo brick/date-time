@@ -319,6 +319,14 @@ class LocalDate implements DateTimeAccessor
     }
 
     /**
+     * @return YearMonth
+     */
+    public function getYearMonth()
+    {
+        return YearMonth::of($this->year, $this->month);
+    }
+
+    /**
      * @return DayOfWeek
      */
     public function getDayOfWeek()

@@ -163,6 +163,30 @@ class LocalDateTest extends AbstractTestCase
     }
 
     /**
+     * @dataProvider providerGetYearMonth
+     *
+     * @param integer $year
+     * @param integer $month
+     * @param integer $day
+     */
+    public function testGetYearMonth($year, $month, $day)
+    {
+        $this->assertYearMonthIs($year, $month, LocalDate::of($year, $month, $day)->getYearMonth());
+    }
+
+    /**
+     * @return array
+     */
+    public function providerGetYearMonth()
+    {
+        return [
+            [2001, 2, 28],
+            [2002, 3, 1],
+            [2018, 12, 31],
+        ];
+    }
+
+    /**
      * @dataProvider providerDayOfWeek
      *
      * @param integer $year      The year to test.
