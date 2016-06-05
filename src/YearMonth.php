@@ -205,9 +205,29 @@ class YearMonth implements DateTimeAccessor
      *
      * @return boolean
      */
+    public function isBeforeOrEqualTo(YearMonth $that)
+    {
+        return $this->compareTo($that) <= 0;
+    }
+
+    /**
+     * @param YearMonth $that
+     *
+     * @return boolean
+     */
     public function isAfter(YearMonth $that)
     {
         return $this->compareTo($that) === 1;
+    }
+
+    /**
+     * @param YearMonth $that
+     *
+     * @return boolean
+     */
+    public function isAfterOrEqualTo(YearMonth $that)
+    {
+        return $this->compareTo($that) >= 0;
     }
 
     /**
