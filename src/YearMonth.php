@@ -271,6 +271,22 @@ class YearMonth implements DateTimeAccessor
     }
 
     /**
+     * @return LocalDate
+     */
+    public function getFirstDay()
+    {
+        return $this->atDay(1);
+    }
+
+    /**
+     * @return LocalDate
+     */
+    public function getLastDay()
+    {
+        return $this->atDay($this->getLengthOfMonth());
+    }
+
+    /**
      * Combines this year-month with a day-of-month to create a LocalDate.
      *
      * @param integer $day The day-of-month to use, valid for the year-month.

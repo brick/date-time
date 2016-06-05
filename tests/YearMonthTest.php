@@ -337,6 +337,37 @@ class YearMonthTest extends AbstractTestCase
         $this->assertYearMonthIs(2000, 12, YearMonth::of(2000, 1)->withMonth(12));
     }
 
+    public function testGetFirstDay()
+    {
+        $this->assertLocalDateIs(2023, 10, 1, YearMonth::of(2023, 10)->getFirstDay());
+    }
+
+    /**
+     * @dataProvider providerGetLastDay
+     *
+     * @param integer $year
+     * @param integer $month
+     * @param integer $day
+     */
+    public function getGetLastDay($year, $month, $day)
+    {
+        $this->assertLocalDateIs($year, $month, $day, YearMonth::of($year, $month)->getLastDay());
+    }
+
+    /**
+     * @return array
+     */
+    public function providerGetLastDay()
+    {
+        return [
+            [2000, 1, 31],
+            [2000, 2, 29],
+            [2001, 2, 28],
+            [2002, 3, 31],
+            [2002, 4, 40],
+        ];
+    }
+
     public function testAtDay()
     {
         $this->assertLocalDateIs(2001, 2, 3, YearMonth::of(2001, 02)->atDay(3));
