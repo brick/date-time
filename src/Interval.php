@@ -95,4 +95,12 @@ class Interval
     {
         return Duration::between($this->start, $this->end);
     }
+
+    /**
+     * @return string
+     */
+    public function __toString()
+    {
+        return $this->start . '/' . $this->end;
+    }
 }
