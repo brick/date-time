@@ -10,6 +10,75 @@ use Brick\DateTime\Interval;
  */
 class IntervalTest extends AbstractTestCase
 {
+    public function testGetStartEnd()
+    {
+        $start = Instant::of(2000000000, 987654321);
+        $end = Instant::of(2000000009, 123456789);
+
+        $interval = new Interval($start, $end);
+
+        $this->assertReadableInstantIs(2000000000, 987654321, $interval->getStart());
+        $this->assertReadableInstantIs(2000000009, 123456789, $interval->getEnd());
+    }
+
+    /**
+     * @depends testGetStartEnd
+     */
+    public function testWithStart()
+    {
+        $interval = new Interval(
+            Instant::of(2000000000),
+            Instant::of(2000000001)
+        );
+
+        $newInterval = $interval->withStart(Instant::of(1999999999, 999999999));
+
+        $this->assertNotSame($newInterval, $interval);
+
+        // ensure that the original isn't changed
+        $this->assertReadableInstantIs(2000000000, 0, $interval->getStart());
+        $this->assertReadableInstantIs(2000000001, 0, $interval->getEnd());
+
+        // test the new instance
+        $this->assertReadableInstantIs(1999999999, 999999999, $newInterval->getStart());
+        $this->assertReadableInstantIs(2000000001, 0, $newInterval->getEnd());
+    }
+
+    /**
+     * @depends testGetStartEnd
+     */
+    public function testWithEnd()
+    {
+        $interval = new Interval(
+            Instant::of(2000000000),
+            Instant::of(2000000001)
+        );
+
+        $newInterval = $interval->withEnd(Instant::of(2000000002, 222222222));
+
+        $this->assertNotSame($newInterval, $interval);
+
+        // ensure that the original isn't changed
+        $this->assertReadableInstantIs(2000000000, 0, $interval->getStart());
+        $this->assertReadableInstantIs(2000000001, 0, $interval->getEnd());
+
+        // test the new instance
+        $this->assertReadableInstantIs(2000000000, 0, $newInterval->getStart());
+        $this->assertReadableInstantIs(2000000002, 222222222, $newInterval->getEnd());
+    }
+
+    public function testGetDuration()
+    {
+        $interval = new Interval(
+            Instant::of(1999999999, 555555),
+            Instant::of(2000000001, 111)
+        );
+
+        $duration = $interval->getDuration();
+
+        $this->assertDurationIs(1, 999444556, $duration);
+    }
+
     public function testToString()
     {
         $interval = new Interval(
