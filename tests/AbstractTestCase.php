@@ -20,10 +20,12 @@ use Brick\DateTime\TimeZoneOffset;
 use Brick\DateTime\Year;
 use Brick\DateTime\YearMonth;
 
+use PHPUnit\Framework\TestCase;
+
 /**
  * Base class for DateTime tests.
  */
-abstract class AbstractTestCase extends \PHPUnit_Framework_TestCase
+abstract class AbstractTestCase extends TestCase
 {
     /**
      * @param integer $epochSecond    The epoch second.

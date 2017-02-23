@@ -4,10 +4,12 @@ namespace Brick\DateTime\Tests\Utility;
 
 use Brick\DateTime\Utility\Math;
 
+use PHPUnit\Framework\TestCase;
+
 /**
  * Unit tests for the Math utility class.
  */
-class MathTest extends \PHPUnit_Framework_TestCase
+class MathTest extends TestCase
 {
     /**
      * @dataProvider providerFloorDiv

@@ -4,10 +4,12 @@ namespace Brick\DateTime\Tests\Utility;
 
 use Brick\DateTime\Utility\Cast;
 
+use PHPUnit\Framework\TestCase;
+
 /**
  * Unit tests for the Cast utility class.
  */
-class CastTest extends \PHPUnit_Framework_TestCase
+class CastTest extends TestCase
 {
     /**
      * @dataProvider providerToInteger
