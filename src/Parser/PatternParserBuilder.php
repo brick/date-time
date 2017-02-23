@@ -122,7 +122,7 @@ class PatternParserBuilder
     }
 
     /**
-     * @return string
+     * @return PatternParser
      */
     public function toParser()
     {
