@@ -29,6 +29,6 @@ class DateTimeException extends \RuntimeException
      */
     public static function unknownTimeZoneRegion(string $region) : self
     {
-        return new self(sprintf('Unknown time zone region "%s".', $region));
+        return new self(\sprintf('Unknown time zone region "%s".', $region));
     }
 }

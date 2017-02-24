@@ -51,7 +51,7 @@ class DateTimeParseResult
         $value = $this->getOptionalField($name);
 
         if ($value === '') {
-            throw new DateTimeParseException(sprintf('Field %s is not present in the parsed result.', $name));
+            throw new DateTimeParseException(\sprintf('Field %s is not present in the parsed result.', $name));
         }
 
         return $value;
@@ -68,7 +68,7 @@ class DateTimeParseResult
     {
         if (isset($this->fields[$name])) {
             if ($this->fields[$name]) {
-                return array_shift($this->fields[$name]);
+                return \array_shift($this->fields[$name]);
             }
         }
 

@@ -260,9 +260,9 @@ abstract class AbstractTestCase extends TestCase
     private function export(array $values)
     {
         foreach ($values as & $value) {
-            $value = var_export($value, true);
+            $value = \var_export($value, true);
         }
 
-        return '(' . implode(', ', $values) . ')';
+        return '(' . \implode(', ', $values) . ')';
     }
 }

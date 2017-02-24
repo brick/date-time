@@ -85,7 +85,7 @@ class Duration
             ')?' .
             '()$/i';
 
-        if (preg_match($pattern, $text, $matches) !== 1) {
+        if (\preg_match($pattern, $text, $matches) !== 1) {
             throw Parser\DateTimeParseException::invalidDuration($text);
         }
 
@@ -100,7 +100,7 @@ class Duration
         $allNegative = ($sign === '-');
         $secondsNegative = ($seconds !== '' && $seconds[0] === '-');
 
-        $nanos = str_pad($nanos, 9, '0', STR_PAD_RIGHT);
+        $nanos = \str_pad($nanos, 9, '0', \STR_PAD_RIGHT);
 
         $days    = (int) $days;
         $hours   = (int) $hours;
@@ -461,14 +461,14 @@ class Duration
         }
 
         $remainder = $seconds % $divisor;
-        $seconds = intdiv($seconds, $divisor);
+        $seconds = \intdiv($seconds, $divisor);
 
         $r1 = $nanos % $divisor;
-        $nanos = intdiv($nanos, $divisor);
+        $nanos = \intdiv($nanos, $divisor);
 
         $r2 = LocalTime::NANOS_PER_SECOND % $divisor;
-        $nanos += $remainder * intdiv(LocalTime::NANOS_PER_SECOND, $divisor);
-        $nanos += intdiv($r1 + $remainder * $r2, $divisor);
+        $nanos += $remainder * \intdiv(LocalTime::NANOS_PER_SECOND, $divisor);
+        $nanos += \intdiv($r1 + $remainder * $r2, $divisor);
 
         if ($nanos < 0) {
             $seconds--;
@@ -600,7 +600,7 @@ class Duration
     public function getTotalMillis() : int
     {
         $millis = $this->seconds * 1000;
-        $millis += intdiv($this->nanos, 1000000);
+        $millis += \intdiv($this->nanos, 1000000);
 
         return $millis;
     }
@@ -615,7 +615,7 @@ class Duration
     public function getTotalMicros() : int
     {
         $micros = $this->seconds * 1000000;
-        $micros += intdiv($this->nanos, 1000);
+        $micros += \intdiv($this->nanos, 1000);
 
         return $micros;
     }
@@ -660,8 +660,8 @@ class Duration
             $nanos = LocalTime::NANOS_PER_SECOND - $nanos;
         }
 
-        $hours = intdiv($seconds, LocalTime::SECONDS_PER_HOUR);
-        $minutes = intdiv($seconds % LocalTime::SECONDS_PER_HOUR, LocalTime::SECONDS_PER_MINUTE);
+        $hours = \intdiv($seconds, LocalTime::SECONDS_PER_HOUR);
+        $minutes = \intdiv($seconds % LocalTime::SECONDS_PER_HOUR, LocalTime::SECONDS_PER_MINUTE);
         $seconds = $seconds % LocalTime::SECONDS_PER_MINUTE;
 
         $string = 'PT';
@@ -680,7 +680,7 @@ class Duration
         $string .= (($seconds === 0 && $negative) ? '-0' : $seconds);
 
         if ($nanos !== 0) {
-            $string .= '.' . rtrim(sprintf('%09d', $nanos), '0');
+            $string .= '.' . \rtrim(\sprintf('%09d', $nanos), '0');
         }
 
         return $string . 'S';

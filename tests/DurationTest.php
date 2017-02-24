@@ -554,9 +554,9 @@ class DurationTest extends AbstractTestCase
             [1, 0,  0,  1, 0],
             [1, 0,  1,  2, 0],
 
-            [~PHP_INT_MAX, 0, PHP_INT_MAX, -1, 0],
-            [PHP_INT_MAX, 0, ~PHP_INT_MAX, -1, 0],
-            [PHP_INT_MAX, 0, 0, PHP_INT_MAX, 0],
+            [~\PHP_INT_MAX, 0, \PHP_INT_MAX, -1, 0],
+            [\PHP_INT_MAX, 0, ~\PHP_INT_MAX, -1, 0],
+            [\PHP_INT_MAX, 0, 0, \PHP_INT_MAX, 0],
 
             [-1, -5,  2, 0,  999999995],
             [ 1,  5, -2, -1, 5],
@@ -690,19 +690,19 @@ class DurationTest extends AbstractTestCase
             [0, 0, 0],
             [0, 1, -1],
             [0, -1, 1],
-            [0, PHP_INT_MAX, - PHP_INT_MAX],
-            [0, ~PHP_INT_MAX + 1, PHP_INT_MAX],
+            [0, \PHP_INT_MAX, - \PHP_INT_MAX],
+            [0, ~\PHP_INT_MAX + 1, \PHP_INT_MAX],
             [1, 0, 1],
             [1, 1, 0],
             [1, -1, 2],
-            [1, PHP_INT_MAX - 1, - PHP_INT_MAX + 2],
-            [1, ~PHP_INT_MAX + 2, PHP_INT_MAX],
-            [1, PHP_INT_MAX, - PHP_INT_MAX + 1],
+            [1, \PHP_INT_MAX - 1, - \PHP_INT_MAX + 2],
+            [1, ~\PHP_INT_MAX + 2, \PHP_INT_MAX],
+            [1, \PHP_INT_MAX, - \PHP_INT_MAX + 1],
             [-1, 0, -1],
             [-1, 1, -2],
             [-1, -1, 0],
-            [-1, PHP_INT_MAX, ~PHP_INT_MAX],
-            [-1, ~PHP_INT_MAX + 1, PHP_INT_MAX - 1]
+            [-1, \PHP_INT_MAX, ~\PHP_INT_MAX],
+            [-1, ~\PHP_INT_MAX + 1, \PHP_INT_MAX - 1]
         ];
     }
 
@@ -823,14 +823,14 @@ class DurationTest extends AbstractTestCase
 
     public function testMultipliedByMax()
     {
-        $duration = Duration::ofSeconds(1)->multipliedBy(PHP_INT_MAX);
-        $this->assertTrue($duration->isEqualTo(Duration::ofSeconds(PHP_INT_MAX)));
+        $duration = Duration::ofSeconds(1)->multipliedBy(\PHP_INT_MAX);
+        $this->assertTrue($duration->isEqualTo(Duration::ofSeconds(\PHP_INT_MAX)));
     }
 
     public function testMultipliedByMin()
     {
-        $duration = Duration::ofSeconds(1)->multipliedBy(~ PHP_INT_MAX);
-        $this->assertTrue($duration->isEqualTo(Duration::ofSeconds(~ PHP_INT_MAX)));
+        $duration = Duration::ofSeconds(1)->multipliedBy(~ \PHP_INT_MAX);
+        $this->assertTrue($duration->isEqualTo(Duration::ofSeconds(~ \PHP_INT_MAX)));
     }
 
     /**
@@ -949,7 +949,7 @@ class DurationTest extends AbstractTestCase
     {
         for ($seconds = -3; $seconds <= 3; $seconds++) {
             $duration = Duration::ofSeconds($seconds)->abs();
-            $this->assertDurationIs(abs($seconds), 0, $duration);
+            $this->assertDurationIs(\abs($seconds), 0, $duration);
         }
     }
 
@@ -979,9 +979,9 @@ class DurationTest extends AbstractTestCase
      */
     private function doTestComparisons(array $durations)
     {
-        for ($i = 0; $i < count($durations); $i++) {
+        for ($i = 0; $i < \count($durations); $i++) {
             $a = $durations[$i];
-            for ($j = 0; $j < count($durations); $j++) {
+            for ($j = 0; $j < \count($durations); $j++) {
                 $b = $durations[$j];
                 if ($i < $j) {
                     $this->assertLessThan(0, $a->compareTo($b), $a . ' <=> ' . $b);
