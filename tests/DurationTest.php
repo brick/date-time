@@ -979,9 +979,11 @@ class DurationTest extends AbstractTestCase
      */
     private function doTestComparisons(array $durations)
     {
-        for ($i = 0; $i < \count($durations); $i++) {
+        $count = \count($durations);
+
+        for ($i = 0; $i < $count; $i++) {
             $a = $durations[$i];
-            for ($j = 0; $j < \count($durations); $j++) {
+            for ($j = 0; $j < $count; $j++) {
                 $b = $durations[$j];
                 if ($i < $j) {
                     $this->assertLessThan(0, $a->compareTo($b), $a . ' <=> ' . $b);
