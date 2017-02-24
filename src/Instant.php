@@ -232,14 +232,6 @@ class Instant
     }
 
     /**
-     * {@inheritdoc}
-     */
-    public function getInstant() : Instant
-    {
-        return $this;
-    }
-
-    /**
      * @return int
      */
     public function getEpochSecond() : int
@@ -260,9 +252,9 @@ class Instant
      *
      * @param Instant $that
      *
-     * @return integer [-1,0,1] If this instant is before, on, or after the given instant.
+     * @return int [-1,0,1] If this instant is before, on, or after the given instant.
      */
-    public function compareTo(Instant $that)
+    public function compareTo(Instant $that) : int
     {
         $seconds = $this->getEpochSecond() - $that->getEpochSecond();
 
@@ -284,9 +276,9 @@ class Instant
      *
      * @param Instant $that
      *
-     * @return boolean
+     * @return bool
      */
-    public function isEqualTo(Instant $that)
+    public function isEqualTo(Instant $that) : bool
     {
         return $this->compareTo($that) === 0;
     }
@@ -296,9 +288,9 @@ class Instant
      *
      * @param Instant $that
      *
-     * @return boolean
+     * @return bool
      */
-    public function isAfter(Instant $that)
+    public function isAfter(Instant $that) : bool
     {
         return $this->compareTo($that) === 1;
     }
@@ -308,9 +300,9 @@ class Instant
      *
      * @param Instant $that
      *
-     * @return boolean
+     * @return bool
      */
-    public function isAfterOrEqualTo(Instant $that)
+    public function isAfterOrEqualTo(Instant $that) : bool
     {
         return $this->compareTo($that) >= 0;
     }
@@ -320,9 +312,9 @@ class Instant
      *
      * @param Instant $that
      *
-     * @return boolean
+     * @return bool
      */
-    public function isBefore(Instant $that)
+    public function isBefore(Instant $that) : bool
     {
         return $this->compareTo($that) === -1;
     }
@@ -332,9 +324,9 @@ class Instant
      *
      * @param Instant $that
      *
-     * @return boolean
+     * @return bool
      */
-    public function isBeforeOrEqualTo(Instant $that)
+    public function isBeforeOrEqualTo(Instant $that) : bool
     {
         return $this->compareTo($that) <= 0;
     }
@@ -343,9 +335,9 @@ class Instant
      * @param Instant $from
      * @param Instant $to
      *
-     * @return boolean
+     * @return bool
      */
-    public function isBetweenInclusive(Instant $from, Instant $to)
+    public function isBetweenInclusive(Instant $from, Instant $to) : bool
     {
         return $this->isAfterOrEqualTo($from) && $this->isBeforeOrEqualTo($to);
     }
@@ -354,9 +346,9 @@ class Instant
      * @param Instant $from
      * @param Instant $to
      *
-     * @return boolean
+     * @return bool
      */
-    public function isBetweenExclusive(Instant $from, Instant $to)
+    public function isBetweenExclusive(Instant $from, Instant $to) : bool
     {
         return $this->isAfter($from) && $this->isBefore($to);
     }
@@ -364,9 +356,9 @@ class Instant
     /**
      * Returns whether this instant is in the future.
      *
-     * @return boolean
+     * @return bool
      */
-    public function isFuture()
+    public function isFuture() : bool
     {
         return $this->isAfter(Instant::now());
     }
@@ -374,9 +366,9 @@ class Instant
     /**
      * Returns whether this instant is in the past.
      *
-     * @return boolean
+     * @return bool
      */
-    public function isPast()
+    public function isPast() : bool
     {
         return $this->isBefore(Instant::now());
     }

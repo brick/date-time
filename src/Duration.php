@@ -212,9 +212,6 @@ class Duration
      */
     public static function between(Instant $startInclusive, Instant $endExclusive) : Duration
     {
-        $startInclusive = $startInclusive->getInstant();
-        $endExclusive = $endExclusive->getInstant();
-
         $seconds = $endExclusive->getEpochSecond() - $startInclusive->getEpochSecond();
         $nanos = $endExclusive->getNano() - $startInclusive->getNano();
 

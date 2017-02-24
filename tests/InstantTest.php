@@ -466,12 +466,6 @@ class InstantTest extends AbstractTestCase
         ];
     }
 
-    public function testGetInstant()
-    {
-        $instant = Instant::of(987654321, 123456789);
-        $this->assertSame($instant, $instant->getInstant());
-    }
-
     /**
      * @dataProvider providerToString
      *
