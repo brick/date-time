@@ -436,7 +436,7 @@ class LocalTimeTest extends AbstractTestCase
     {
         $localTime = LocalTime::of($h, $m, $s, $n);
         $duration = Duration::ofSeconds(-$ds, -$dn);
-        $this->assertLocalTimeIs($eh, $em, $es, $en, $localTime->MinusDuration($duration));
+        $this->assertLocalTimeIs($eh, $em, $es, $en, $localTime->minusDuration($duration));
     }
 
     /**

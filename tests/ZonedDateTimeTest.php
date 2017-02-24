@@ -427,14 +427,14 @@ class ZonedDateTimeTest extends AbstractTestCase
         $datetime1 = ZonedDateTime::ofInstant(Instant::of(1000000000), $timezone1);
         $datetime2 = $datetime1->withTimeZoneSameInstant($timezone2);
 
-        $this->assertSame($timezone1, $datetime1->getTimezone());
-        $this->assertSame($timezone2, $datetime2->getTimezone());
+        $this->assertSame($timezone1, $datetime1->getTimeZone());
+        $this->assertSame($timezone2, $datetime2->getTimeZone());
         $this->assertSame('2001-09-08T18:46:40', (string) $datetime2->getDateTime());
 
         $datetime2 = $datetime1->withTimeZoneSameLocal($timezone2);
 
-        $this->assertSame($timezone1, $datetime1->getTimezone());
-        $this->assertSame($timezone2, $datetime2->getTimezone());
+        $this->assertSame($timezone1, $datetime1->getTimeZone());
+        $this->assertSame($timezone2, $datetime2->getTimeZone());
         $this->assertSame('2001-09-09T01:46:40', (string) $datetime2->getDateTime());
     }
 }
