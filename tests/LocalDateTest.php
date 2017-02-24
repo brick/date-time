@@ -90,6 +90,14 @@ class LocalDateTest extends AbstractTestCase
     }
 
     /**
+     * @expectedException \Brick\DateTime\DateTimeException
+     */
+    public function testOfEpochDayOutOfRangeThrowsException()
+    {
+        LocalDate::ofEpochDay(500000000);
+    }
+
+    /**
      * @dataProvider providerEpochDay
      *
      * @param int $epochDay The expected epoch day.
