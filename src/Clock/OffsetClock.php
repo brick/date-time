@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Brick\DateTime\Clock;
 
 use Brick\DateTime\Duration;

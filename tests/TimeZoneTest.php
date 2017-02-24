@@ -1,6 +1,9 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Brick\DateTime\Tests;
+
 use Brick\DateTime\TimeZone;
 use Brick\DateTime\TimeZoneOffset;
 use Brick\DateTime\TimeZoneRegion;

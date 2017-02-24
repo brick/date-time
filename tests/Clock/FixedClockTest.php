@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Brick\DateTime\Tests\Clock;
 
 use Brick\DateTime\Tests\AbstractTestCase;
