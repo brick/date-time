@@ -18,10 +18,10 @@ class SystemClock extends Clock
      */
     public function getTime() : Instant
     {
-        list ($fraction, $epochSecond) = explode(' ', microtime());
+        list ($fraction, $epochSecond) = \explode(' ', microtime());
 
         $epochSecond    = (int) $epochSecond;
-        $nanoAdjustment = 10 * (int) substr($fraction, 2, 8);
+        $nanoAdjustment = 10 * (int) \substr($fraction, 2, 8);
 
         return Instant::of($epochSecond, $nanoAdjustment);
     }

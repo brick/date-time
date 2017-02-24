@@ -52,8 +52,8 @@ class PatternParser implements DateTimeParser
     {
         $pattern = '/^' . $this->pattern . '$/';
 
-        if (preg_match($pattern, $text, $matches) !== 1) {
-            throw new DateTimeParseException(sprintf('Failed to parse "%s".', $text));
+        if (\preg_match($pattern, $text, $matches) !== 1) {
+            throw new DateTimeParseException(\sprintf('Failed to parse "%s".', $text));
         }
 
         $result = new DateTimeParseResult();

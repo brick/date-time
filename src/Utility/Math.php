@@ -21,7 +21,7 @@ final class Math
      */
     public static function floorDiv(int $a, int $b) : int
     {
-        $r = intdiv($a, $b);
+        $r = \intdiv($a, $b);
 
         // If the signs are different and modulo not zero, round down.
         if (($a ^ $b) < 0 && ($r * $b !== $a)) {

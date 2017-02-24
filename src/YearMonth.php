@@ -377,6 +377,6 @@ class YearMonth implements DateTimeAccessor
      */
     public function __toString() : string
     {
-        return sprintf('%02u-%02u', $this->year, $this->month);
+        return \sprintf('%02u-%02u', $this->year, $this->month);
     }
 }

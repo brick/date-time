@@ -18,13 +18,13 @@ class OffsetClockTest extends AbstractTestCase
     /**
      * @dataProvider providerOffsetClock
      *
-     * @param integer $second         The epoch second to set the base clock to.
-     * @param integer $nano           The nano to set the base clock to.
-     * @param string  $duration       A parsable duration string.
-     * @param integer $expectedSecond The expected epoch second returned by the clock.
-     * @param integer $expectedNano   The expected nano returned by the clock.
+     * @param int    $second         The epoch second to set the base clock to.
+     * @param int    $nano           The nano to set the base clock to.
+     * @param string $duration       A parsable duration string.
+     * @param int    $expectedSecond The expected epoch second returned by the clock.
+     * @param int    $expectedNano   The expected nano returned by the clock.
      */
-    public function testOffsetClock($second, $nano, $duration, $expectedSecond, $expectedNano)
+    public function testOffsetClock(int $second, int $nano, string $duration, int $expectedSecond, int $expectedNano)
     {
         $baseClock = new FixedClock(Instant::of($second, $nano));
         $clock = new OffsetClock($baseClock, Duration::parse($duration));
@@ -35,7 +35,7 @@ class OffsetClockTest extends AbstractTestCase
     /**
      * @return array
      */
-    public function providerOffsetClock()
+    public function providerOffsetClock() : array
     {
         return [
             [1000, 0, 'PT0.5S', 1000, 500000000],

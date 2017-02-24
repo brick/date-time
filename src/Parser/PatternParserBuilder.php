@@ -32,7 +32,7 @@ class PatternParserBuilder
     public function append(PatternParser $parser) : self
     {
         $this->pattern .= $parser->getPattern();
-        $this->fields = array_merge($this->fields, $parser->getFields());
+        $this->fields = \array_merge($this->fields, $parser->getFields());
 
         return $this;
     }
@@ -44,7 +44,7 @@ class PatternParserBuilder
      */
     public function appendLiteral(string $literal) : self
     {
-        $this->pattern .= preg_quote($literal, '/');
+        $this->pattern .= \preg_quote($literal, '/');
 
         return $this;
     }
@@ -79,7 +79,7 @@ class PatternParserBuilder
      */
     public function endOptional() : self
     {
-        if (array_pop($this->stack) !== 'O') {
+        if (\array_pop($this->stack) !== 'O') {
             throw new \RuntimeException('Cannot call endOptional() without a call to startOptional() first.');
         }
 
@@ -104,7 +104,7 @@ class PatternParserBuilder
      */
     public function endGroup() : self
     {
-        if (array_pop($this->stack) !== 'G') {
+        if (\array_pop($this->stack) !== 'G') {
             throw new \RuntimeException('Cannot call endGroup() without a call to startGroup() first.');
         }
 

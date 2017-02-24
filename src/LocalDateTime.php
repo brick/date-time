@@ -714,9 +714,9 @@ class LocalDateTime implements DateTimeAccessor
     private function plusWithOverflow(int $hours, int $minutes, int $seconds, int $nanos, int $sign) : LocalDateTime
     {
         $totDays =
-            intdiv($hours, LocalTime::HOURS_PER_DAY) +
-            intdiv($minutes, LocalTime::MINUTES_PER_DAY) +
-            intdiv($seconds, LocalTime::SECONDS_PER_DAY);
+            \intdiv($hours, LocalTime::HOURS_PER_DAY) +
+            \intdiv($minutes, LocalTime::MINUTES_PER_DAY) +
+            \intdiv($seconds, LocalTime::SECONDS_PER_DAY);
         $totDays *= $sign;
 
         $totSeconds =

@@ -292,6 +292,6 @@ class MonthDay implements DateTimeAccessor
      */
     public function __toString() : string
     {
-        return sprintf('--%02d-%02d', $this->month, $this->day);
+        return \sprintf('--%02d-%02d', $this->month, $this->day);
     }
 }

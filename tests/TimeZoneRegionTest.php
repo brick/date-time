@@ -78,7 +78,7 @@ class TimeZoneRegionTest extends AbstractTestCase
     public function testGetAllTimeZones($includeObsolete)
     {
         $identifiers = TimeZoneRegion::getAllIdentifiers($includeObsolete);
-        $this->assertGreaterThan(1, count($identifiers));
+        $this->assertGreaterThan(1, \count($identifiers));
 
         $expectedIdentifiers = [
             'UTC',

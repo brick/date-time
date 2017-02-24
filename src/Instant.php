@@ -96,7 +96,7 @@ class Instant extends ReadableInstant
      */
     public static function min() : Instant
     {
-        return new Instant(~ PHP_INT_MAX, 0);
+        return new Instant(~ \PHP_INT_MAX, 0);
     }
 
     /**
@@ -108,7 +108,7 @@ class Instant extends ReadableInstant
      */
     public static function max() : Instant
     {
-        return new Instant(PHP_INT_MAX, 999999999);
+        return new Instant(\PHP_INT_MAX, 999999999);
     }
 
     /**

@@ -109,9 +109,9 @@ class LocalTime implements DateTimeAccessor
         Field\SecondOfDay::check($secondOfDay);
         Field\NanoOfSecond::check($nanoOfSecond);
 
-        $hours = intdiv($secondOfDay, self::SECONDS_PER_HOUR);
+        $hours = \intdiv($secondOfDay, self::SECONDS_PER_HOUR);
         $secondOfDay -= $hours * self::SECONDS_PER_HOUR;
-        $minutes = intdiv($secondOfDay, self::SECONDS_PER_MINUTE);
+        $minutes = \intdiv($secondOfDay, self::SECONDS_PER_MINUTE);
         $secondOfDay -= $minutes * self::SECONDS_PER_MINUTE;
 
         return new LocalTime($hours, $minutes, $secondOfDay, $nanoOfSecond);
@@ -132,7 +132,7 @@ class LocalTime implements DateTimeAccessor
         $second   = $result->getOptionalField(SecondOfMinute::NAME);
         $fraction = $result->getOptionalField(Field\FractionOfSecond::NAME);
 
-        $nano = substr($fraction . '000000000', 0, 9);
+        $nano = \substr($fraction . '000000000', 0, 9);
 
         return LocalTime::of((int) $hour, (int) $minute, (int) $second, (int) $nano);
     }
@@ -433,7 +433,7 @@ class LocalTime implements DateTimeAccessor
             return $this;
         }
 
-        $hour = intdiv($newMofd, self::MINUTES_PER_HOUR);
+        $hour = \intdiv($newMofd, self::MINUTES_PER_HOUR);
         $minute = $newMofd % self::MINUTES_PER_HOUR;
 
         return new LocalTime($hour, $minute, $this->second, $this->nano);
@@ -459,8 +459,8 @@ class LocalTime implements DateTimeAccessor
             return $this;
         }
 
-        $hour = intdiv($newSofd, self::SECONDS_PER_HOUR);
-        $minute = intdiv($newSofd, self::SECONDS_PER_MINUTE) % self::MINUTES_PER_HOUR;
+        $hour = \intdiv($newSofd, self::SECONDS_PER_HOUR);
+        $minute = \intdiv($newSofd, self::SECONDS_PER_MINUTE) % self::MINUTES_PER_HOUR;
         $second = $newSofd % self::SECONDS_PER_MINUTE;
 
         return new LocalTime($hour, $minute, $second, $this->nano);
@@ -702,14 +702,14 @@ class LocalTime implements DateTimeAccessor
     {
         if ($this->nano === 0) {
             if ($this->second === 0) {
-                return sprintf('%02u:%02u', $this->hour, $this->minute);
+                return \sprintf('%02u:%02u', $this->hour, $this->minute);
             } else {
-                return sprintf('%02u:%02u:%02u', $this->hour, $this->minute, $this->second);
+                return \sprintf('%02u:%02u:%02u', $this->hour, $this->minute, $this->second);
             }
         }
 
-        $nanos = rtrim(sprintf('%09u', $this->nano), '0');
+        $nanos = \rtrim(\sprintf('%09u', $this->nano), '0');
 
-        return sprintf('%02u:%02u:%02u.%s', $this->hour, $this->minute, $this->second, $nanos);
+        return \sprintf('%02u:%02u:%02u.%s', $this->hour, $this->minute, $this->second, $nanos);
     }
 }

@@ -136,7 +136,7 @@ class Period
             '(?:([\-\+]?[0-9]+)D)?' .
             '()$/i';
 
-        if (preg_match($pattern, $text, $matches) !== 1) {
+        if (\preg_match($pattern, $text, $matches) !== 1) {
             throw Parser\DateTimeParseException::invalidPeriod($text);
         }
 
@@ -392,7 +392,7 @@ class Period
     {
         $totalMonths = $this->years * LocalTime::MONTHS_PER_YEAR + $this->months;
 
-        $splitYears = intdiv($totalMonths, 12);
+        $splitYears = \intdiv($totalMonths, 12);
         $splitMonths = $totalMonths % 12;
 
         if ($splitYears === $this->years || $splitMonths === $this->months) {
@@ -432,7 +432,7 @@ class Period
      */
     public function toDateInterval() : \DateInterval
     {
-        return \DateInterval::createFromDateString(sprintf(
+        return \DateInterval::createFromDateString(\sprintf(
             '%d years %d months %d days',
             $this->years,
             $this->months,
