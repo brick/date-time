@@ -726,25 +726,15 @@ class ZonedDateTime implements DateTimeAccessor
     /**
      * Compares this ZonedDateTime with another.
      *
+     * The comparison is performed on the instant.
+     *
      * @param ZonedDateTime $that
      *
-     * @return integer [-1,0,1] If this instant is before, on, or after the given instant.
+     * @return int [-1,0,1] If this zoned date-time is before, on, or after the given one.
      */
-    public function compareTo(ZonedDateTime $that)
+    public function compareTo(ZonedDateTime $that) : int
     {
-        $seconds = $this->getEpochSecond() - $that->getEpochSecond();
-
-        if ($seconds !== 0) {
-            return $seconds > 0 ? 1 : -1;
-        }
-
-        $nanos = $this->getNano() - $that->getNano();
-
-        if ($nanos !== 0) {
-            return $nanos > 0 ? 1 : -1;
-        }
-
-        return 0;
+        return $this->getInstant()->compareTo($that->getInstant());
     }
 
     /**
@@ -752,9 +742,9 @@ class ZonedDateTime implements DateTimeAccessor
      *
      * @param ZonedDateTime $that
      *
-     * @return boolean
+     * @return bool
      */
-    public function isEqualTo(ZonedDateTime $that)
+    public function isEqualTo(ZonedDateTime $that) : bool
     {
         return $this->compareTo($that) === 0;
     }
@@ -764,9 +754,9 @@ class ZonedDateTime implements DateTimeAccessor
      *
      * @param ZonedDateTime $that
      *
-     * @return boolean
+     * @return bool
      */
-    public function isAfter(ZonedDateTime $that)
+    public function isAfter(ZonedDateTime $that) : bool
     {
         return $this->compareTo($that) === 1;
     }
@@ -776,9 +766,9 @@ class ZonedDateTime implements DateTimeAccessor
      *
      * @param ZonedDateTime $that
      *
-     * @return boolean
+     * @return bool
      */
-    public function isAfterOrEqualTo(ZonedDateTime $that)
+    public function isAfterOrEqualTo(ZonedDateTime $that) : bool
     {
         return $this->compareTo($that) >= 0;
     }
@@ -788,9 +778,9 @@ class ZonedDateTime implements DateTimeAccessor
      *
      * @param ZonedDateTime $that
      *
-     * @return boolean
+     * @return bool
      */
-    public function isBefore(ZonedDateTime $that)
+    public function isBefore(ZonedDateTime $that) : bool
     {
         return $this->compareTo($that) === -1;
     }
@@ -800,9 +790,9 @@ class ZonedDateTime implements DateTimeAccessor
      *
      * @param ZonedDateTime $that
      *
-     * @return boolean
+     * @return bool
      */
-    public function isBeforeOrEqualTo(ZonedDateTime $that)
+    public function isBeforeOrEqualTo(ZonedDateTime $that) : bool
     {
         return $this->compareTo($that) <= 0;
     }
@@ -811,9 +801,9 @@ class ZonedDateTime implements DateTimeAccessor
      * @param ZonedDateTime $from
      * @param ZonedDateTime $to
      *
-     * @return boolean
+     * @return bool
      */
-    public function isBetweenInclusive(ZonedDateTime $from, ZonedDateTime $to)
+    public function isBetweenInclusive(ZonedDateTime $from, ZonedDateTime $to) : bool
     {
         return $this->isAfterOrEqualTo($from) && $this->isBeforeOrEqualTo($to);
     }
@@ -822,9 +812,9 @@ class ZonedDateTime implements DateTimeAccessor
      * @param ZonedDateTime $from
      * @param ZonedDateTime $to
      *
-     * @return boolean
+     * @return bool
      */
-    public function isBetweenExclusive(ZonedDateTime $from, ZonedDateTime $to)
+    public function isBetweenExclusive(ZonedDateTime $from, ZonedDateTime $to) : bool
     {
         return $this->isAfter($from) && $this->isBefore($to);
     }
