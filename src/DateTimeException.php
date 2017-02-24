@@ -23,17 +23,6 @@ class DateTimeException extends \RuntimeException
     }
 
     /**
-     * @param DateTimeAccessor $accessor
-     * @param string           $field
-     *
-     * @return DateTimeException
-     */
-    public static function unsupportedField(DateTimeAccessor $accessor, string $field) : self
-    {
-        return new DateTimeException(sprintf('Field %s is not supported by %s.', $field, get_class($accessor)));
-    }
-
-    /**
      * @param string $region
      *
      * @return DateTimeException
