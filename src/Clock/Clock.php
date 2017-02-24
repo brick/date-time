@@ -16,7 +16,7 @@ abstract class Clock
      *
      * @var Clock|null
      */
-    private static $default = null;
+    private static $default;
 
     /**
      * Sets the default clock.

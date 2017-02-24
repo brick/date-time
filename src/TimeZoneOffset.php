@@ -26,7 +26,7 @@ class TimeZoneOffset extends TimeZone
      *
      * @var string|null
      */
-    private $id = null;
+    private $id;
 
     /**
      * Private constructor. Use a factory method to obtain an instance.
