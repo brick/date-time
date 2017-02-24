@@ -17,7 +17,7 @@ class OffsetClock extends Clock
      *
      * @var Clock
      */
-    private $default;
+    private $referenceClock;
 
     /**
      * The offset to apply to the clock.
@@ -29,13 +29,13 @@ class OffsetClock extends Clock
     /**
      * Class constructor.
      *
-     * @param Clock    $clock  The reference clock.
-     * @param Duration $offset The offset to apply to the clock.
+     * @param Clock    $referenceClock The reference clock.
+     * @param Duration $offset         The offset to apply to the clock.
      */
-    public function __construct(Clock $clock, Duration $offset)
+    public function __construct(Clock $referenceClock, Duration $offset)
     {
-        $this->default  = $clock;
-        $this->offset = $offset;
+        $this->referenceClock = $referenceClock;
+        $this->offset         = $offset;
     }
 
     /**
@@ -43,6 +43,6 @@ class OffsetClock extends Clock
      */
     public function getTime() : Instant
     {
-        return $this->default->getTime()->plus($this->offset);
+        return $this->referenceClock->getTime()->plus($this->offset);
     }
 }
