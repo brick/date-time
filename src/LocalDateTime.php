@@ -384,6 +384,8 @@ class LocalDateTime
      * @param int $minute
      *
      * @return LocalDateTime
+     *
+     * @throws DateTimeException If the minute-of-hour if not valid.
      */
     public function withMinute(int $minute) : LocalDateTime
     {
@@ -396,6 +398,8 @@ class LocalDateTime
      * @param int $second
      *
      * @return LocalDateTime
+     *
+     * @throws DateTimeException If the second-of-minute if not valid.
      */
     public function withSecond(int $second) : LocalDateTime
     {
@@ -408,6 +412,8 @@ class LocalDateTime
      * @param int $nano
      *
      * @return LocalDateTime
+     *
+     * @throws DateTimeException If the nano-of-second if not valid.
      */
     public function withNano(int $nano) : LocalDateTime
     {
@@ -458,6 +464,8 @@ class LocalDateTime
      * @param int $years
      *
      * @return LocalDateTime
+     *
+     * @throws DateTimeException If the resulting year is out of range.
      */
     public function plusYears(int $years) : LocalDateTime
     {

@@ -32,7 +32,7 @@ class Interval
      * @param \Brick\DateTime\Instant $startInclusive The start instant, inclusive.
      * @param \Brick\DateTime\Instant $endExclusive   The end instant, exclusive.
      *
-     * @throws \Brick\DateTime\DateTimeException
+     * @throws DateTimeException If the end instant is before the start instant.
      */
     public function __construct(Instant $startInclusive, Instant $endExclusive)
     {
@@ -70,6 +70,8 @@ class Interval
      * @param \Brick\DateTime\Instant $start
      *
      * @return \Brick\DateTime\Interval
+     *
+     * @throws DateTimeException If the given start instant is after the current end instant.
      */
     public function withStart(Instant $start) : Interval
     {
@@ -82,6 +84,8 @@ class Interval
      * @param \Brick\DateTime\Instant $end
      *
      * @return \Brick\DateTime\Interval
+     *
+     * @throws DateTimeException If the given end instant is before the current start instant.
      */
     public function withEnd(Instant $end) : Interval
     {

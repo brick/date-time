@@ -60,6 +60,8 @@ class DayOfWeek
      * @param int $dayOfWeek The day-of-week value, from 1 (Monday) to 7 (Sunday).
      *
      * @return DayOfWeek The DayOfWeek instance.
+     *
+     * @throws DateTimeException If the day-of-week is not valid.
      */
     public static function of(int $dayOfWeek) : DayOfWeek
     {

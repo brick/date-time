@@ -99,6 +99,8 @@ class LocalDate
      * @param int $dayOfYear The day-of-year, from 1 to 366.
      *
      * @return LocalDate
+     *
+     * @throws DateTimeException If either value is not valid.
      */
     public static function ofYearDay(int $year, int $dayOfYear) : LocalDate
     {
@@ -165,6 +167,8 @@ class LocalDate
      * @param int $epochDay
      *
      * @return LocalDate
+     *
+     * @throws DateTimeException If the resulting date has a year out of range.
      */
     public static function ofEpochDay(int $epochDay) : LocalDate
     {
@@ -428,6 +432,8 @@ class LocalDate
      * @param int $years
      *
      * @return LocalDate
+     *
+     * @throws DateTimeException If the resulting year is out of range.
      */
     public function plusYears(int $years) : LocalDate
     {

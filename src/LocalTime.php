@@ -472,6 +472,8 @@ class LocalTime
      * @param int $nanos The seconds to add, may be negative.
      *
      * @return LocalTime A LocalTime based on this time with the nanoseconds added.
+     *
+     * @throws DateTimeException
      */
     public function plusNanos(int $nanos) : LocalTime
     {

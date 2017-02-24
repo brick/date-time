@@ -438,6 +438,8 @@ class Duration
      * @param int $divisor
      *
      * @return \Brick\DateTime\Duration
+     *
+     * @throws DateTimeException If the divisor is zero.
      */
     public function dividedBy(int $divisor) : Duration
     {

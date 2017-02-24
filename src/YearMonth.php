@@ -234,6 +234,8 @@ class YearMonth
      * @param int $year
      *
      * @return YearMonth
+     *
+     * @throws DateTimeException If the year is not valid.
      */
     public function withYear(int $year) : YearMonth
     {
@@ -252,6 +254,8 @@ class YearMonth
      * @param int $month
      *
      * @return YearMonth
+     *
+     * @throws DateTimeException If the month-of-year is not valid.
      */
     public function withMonth(int $month) : YearMonth
     {

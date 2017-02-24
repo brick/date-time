@@ -35,6 +35,8 @@ class Year
      * @param int $year
      *
      * @return Year
+     *
+     * @throws DateTimeException If the year is out of range.
      */
     public static function of(int $year) : Year
     {
