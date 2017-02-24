@@ -2,8 +2,6 @@
 
 namespace Brick\DateTime;
 
-use Brick\DateTime\Utility\Math;
-
 /**
  * Represents a duration of time measured in seconds.
  *
