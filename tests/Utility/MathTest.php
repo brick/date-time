@@ -16,11 +16,11 @@ class MathTest extends TestCase
     /**
      * @dataProvider providerFloorDiv
      *
-     * @param integer $a        The dividend.
-     * @param integer $b        The divisor.
-     * @param integer $expected The expected floor division result.
+     * @param int $a        The dividend.
+     * @param int $b        The divisor.
+     * @param int $expected The expected floor division result.
      */
-    public function testFloorDiv($a, $b, $expected)
+    public function testFloorDiv(int $a, int $b, int $expected)
     {
         $this->assertSame($expected, Math::floorDiv($a, $b));
     }
@@ -28,7 +28,7 @@ class MathTest extends TestCase
     /**
      * @return array
      */
-    public function providerFloorDiv()
+    public function providerFloorDiv() : array
     {
         return [
             [ 3,  2,  1],
@@ -41,11 +41,11 @@ class MathTest extends TestCase
     /**
      * @dataProvider providerFloorMod
      *
-     * @param integer $a        The dividend.
-     * @param integer $b        The divisor.
-     * @param integer $expected The expected floor modulus result.
+     * @param int $a        The dividend.
+     * @param int $b        The divisor.
+     * @param int $expected The expected floor modulus result.
      */
-    public function testFloorMod($a, $b, $expected)
+    public function testFloorMod(int $a, int $b, int $expected)
     {
         $this->assertSame($expected, Math::floorMod($a, $b));
     }
@@ -53,7 +53,7 @@ class MathTest extends TestCase
     /**
      * @return array
      */
-    public function providerFloorMod()
+    public function providerFloorMod() : array
     {
         return [
             [ 3,  2,  1],

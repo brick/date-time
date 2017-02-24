@@ -15,12 +15,12 @@ class TimeZoneOffsetTest extends AbstractTestCase
     /**
      * @dataProvider providerOf
      *
-     * @param integer $hours        The hours part of the offset.
-     * @param integer $minutes      The minutes part of the offset.
-     * @param integer $seconds      The seconds part of the offset.
-     * @param integer $totalSeconds The expected total number of seconds.
+     * @param int $hours        The hours part of the offset.
+     * @param int $minutes      The minutes part of the offset.
+     * @param int $seconds      The seconds part of the offset.
+     * @param int $totalSeconds The expected total number of seconds.
      */
-    public function testOf($hours, $minutes, $seconds, $totalSeconds)
+    public function testOf(int $hours, int $minutes, int $seconds, int $totalSeconds)
     {
         $this->assertTimeZoneOffsetIs($totalSeconds, TimeZoneOffset::of($hours, $minutes, $seconds));
     }
@@ -28,7 +28,7 @@ class TimeZoneOffsetTest extends AbstractTestCase
     /**
      * @return array
      */
-    public function providerOf()
+    public function providerOf() : array
     {
         return [
             [0, 0, 0, 0],
@@ -62,11 +62,11 @@ class TimeZoneOffsetTest extends AbstractTestCase
      * @dataProvider providerOfInvalidValuesThrowsException
      * @expectedException \Brick\DateTime\DateTimeException
      *
-     * @param integer $hours
-     * @param integer $minutes
-     * @param integer $seconds
+     * @param int $hours
+     * @param int $minutes
+     * @param int $seconds
      */
-    public function testOfInvalidValuesThrowsException($hours, $minutes, $seconds)
+    public function testOfInvalidValuesThrowsException(int $hours, int $minutes, int $seconds)
     {
         TimeZoneOffset::of($hours, $minutes, $seconds);
     }
@@ -74,7 +74,7 @@ class TimeZoneOffsetTest extends AbstractTestCase
     /**
      * @return array
      */
-    public function providerOfInvalidValuesThrowsException()
+    public function providerOfInvalidValuesThrowsException() : array
     {
         return [
             [0, 0, 60],
@@ -102,9 +102,9 @@ class TimeZoneOffsetTest extends AbstractTestCase
     /**
      * @dataProvider providerTotalSeconds
      *
-     * @param integer $totalSeconds
+     * @param int $totalSeconds
      */
-    public function testOfTotalSeconds($totalSeconds)
+    public function testOfTotalSeconds(int $totalSeconds)
     {
         $this->assertTimeZoneOffsetIs($totalSeconds, TimeZoneOffset::ofTotalSeconds($totalSeconds));
     }
@@ -112,7 +112,7 @@ class TimeZoneOffsetTest extends AbstractTestCase
     /**
      * @return array
      */
-    public function providerTotalSeconds()
+    public function providerTotalSeconds() : array
     {
         return [
             [-64800],
@@ -127,9 +127,9 @@ class TimeZoneOffsetTest extends AbstractTestCase
      * @dataProvider providerOfInvalidTotalSecondsThrowsException
      * @expectedException \Brick\DateTime\DateTimeException
      *
-     * @param integer $totalSeconds
+     * @param int $totalSeconds
      */
-    public function testOfInvalidTotalSecondsThrowsException($totalSeconds)
+    public function testOfInvalidTotalSecondsThrowsException(int $totalSeconds)
     {
         TimeZoneOffset::ofTotalSeconds($totalSeconds);
     }
@@ -137,7 +137,7 @@ class TimeZoneOffsetTest extends AbstractTestCase
     /**
      * @return array
      */
-    public function providerOfInvalidTotalSecondsThrowsException()
+    public function providerOfInvalidTotalSecondsThrowsException() : array
     {
         return [
             [-64801],
@@ -153,10 +153,10 @@ class TimeZoneOffsetTest extends AbstractTestCase
     /**
      * @dataProvider providerParse
      *
-     * @param string  $text         The text to parse.
-     * @param integer $totalSeconds The expected total offset seconds.
+     * @param string $text         The text to parse.
+     * @param int    $totalSeconds The expected total offset seconds.
      */
-    public function testParse($text, $totalSeconds)
+    public function testParse(string $text, int $totalSeconds)
     {
         $this->assertTimeZoneOffsetIs($totalSeconds, TimeZoneOffset::parse($text));
     }
@@ -164,7 +164,7 @@ class TimeZoneOffsetTest extends AbstractTestCase
     /**
      * @return array
      */
-    public function providerParse()
+    public function providerParse() : array
     {
         return [
             ['+00:00', 0],
@@ -188,7 +188,7 @@ class TimeZoneOffsetTest extends AbstractTestCase
      *
      * @param string $text
      */
-    public function testParseInvalidStringThrowsException($text)
+    public function testParseInvalidStringThrowsException(string $text)
     {
         TimeZoneOffset::parse($text);
     }
@@ -196,7 +196,7 @@ class TimeZoneOffsetTest extends AbstractTestCase
     /**
      * @return array
      */
-    public function providerParseInvalidStringThrowsException()
+    public function providerParseInvalidStringThrowsException() : array
     {
         return [
             [''],
@@ -216,7 +216,7 @@ class TimeZoneOffsetTest extends AbstractTestCase
      *
      * @param string $text
      */
-    public function testParseInvalidValueThrowsException($text)
+    public function testParseInvalidValueThrowsException(string $text)
     {
         TimeZoneOffset::parse($text);
     }
@@ -224,7 +224,7 @@ class TimeZoneOffsetTest extends AbstractTestCase
     /**
      * @return array
      */
-    public function providerParseValueStringThrowsException()
+    public function providerParseValueStringThrowsException() : array
     {
         return [
             ['+18:00:01'],
@@ -239,10 +239,10 @@ class TimeZoneOffsetTest extends AbstractTestCase
     /**
      * @dataProvider providerGetId
      *
-     * @param integer $totalSeconds The total offset seconds.
-     * @param string  $expectedId   The expected id.
+     * @param int    $totalSeconds The total offset seconds.
+     * @param string $expectedId   The expected id.
      */
-    public function testGetId($totalSeconds, $expectedId)
+    public function testGetId(int $totalSeconds, string $expectedId)
     {
         $this->assertSame($expectedId, TimeZoneOffset::ofTotalSeconds($totalSeconds)->getId());
     }
@@ -250,10 +250,10 @@ class TimeZoneOffsetTest extends AbstractTestCase
     /**
      * @dataProvider providerGetId
      *
-     * @param integer $totalSeconds The total offset seconds.
-     * @param string  $string       The expected string.
+     * @param int    $totalSeconds The total offset seconds.
+     * @param string $string       The expected string.
      */
-    public function testToString($totalSeconds, $string)
+    public function testToString(int $totalSeconds, string $string)
     {
         $this->assertSame($string, (string) TimeZoneOffset::ofTotalSeconds($totalSeconds));
     }
@@ -261,7 +261,7 @@ class TimeZoneOffsetTest extends AbstractTestCase
     /**
      * @return array
      */
-    public function providerGetId()
+    public function providerGetId() : array
     {
         return [
             [0, 'Z'],

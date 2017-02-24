@@ -17,12 +17,12 @@ class InstantTest extends AbstractTestCase
     /**
      * @dataProvider providerOf
      *
-     * @param integer $seconds         The duration in seconds.
-     * @param integer $nanoAdjustment  The nanoseconds adjustement to the duration.
-     * @param integer $expectedSeconds The expected adjusted duration seconds.
-     * @param integer $expectedNanos   The expected adjusted duration nanoseconds.
+     * @param int $seconds         The duration in seconds.
+     * @param int $nanoAdjustment  The nanoseconds adjustement to the duration.
+     * @param int $expectedSeconds The expected adjusted duration seconds.
+     * @param int $expectedNanos   The expected adjusted duration nanoseconds.
      */
-    public function testOf($seconds, $nanoAdjustment, $expectedSeconds, $expectedNanos)
+    public function testOf(int $seconds, int $nanoAdjustment, int $expectedSeconds, int $expectedNanos)
     {
         $duration = Instant::of($seconds, $nanoAdjustment);
 
@@ -33,7 +33,7 @@ class InstantTest extends AbstractTestCase
     /**
      * @return array
      */
-    public function providerOf()
+    public function providerOf() : array
     {
         return [
             [3, 1, 3, 1],
@@ -71,14 +71,14 @@ class InstantTest extends AbstractTestCase
     /**
      * @dataProvider providerPlus
      *
-     * @param integer $second         The base second.
-     * @param integer $nano           The base nano-of-second.
-     * @param integer $plusSeconds    The seconds of the duration to add.
-     * @param integer $plusNanos      The nanos of the duration to add.
-     * @param integer $expectedSecond The expected second of the result.
-     * @param integer $expectedNano   The expected nano of the result.
+     * @param int $second         The base second.
+     * @param int $nano           The base nano-of-second.
+     * @param int $plusSeconds    The seconds of the duration to add.
+     * @param int $plusNanos      The nanos of the duration to add.
+     * @param int $expectedSecond The expected second of the result.
+     * @param int $expectedNano   The expected nano of the result.
      */
-    public function testPlus($second, $nano, $plusSeconds, $plusNanos, $expectedSecond, $expectedNano)
+    public function testPlus(int $second, int $nano, int $plusSeconds, int $plusNanos, int $expectedSecond, int $expectedNano)
     {
         $result = Instant::of($second, $nano)->plus(Duration::ofSeconds($plusSeconds, $plusNanos));
         $this->assertInstantIs($expectedSecond, $expectedNano, $result);
@@ -87,14 +87,14 @@ class InstantTest extends AbstractTestCase
     /**
      * @dataProvider providerPlus
      *
-     * @param integer $second         The base second.
-     * @param integer $nano           The base nano-of-second.
-     * @param integer $plusSeconds    The seconds of the duration to add.
-     * @param integer $plusNanos      The nanos of the duration to add.
-     * @param integer $expectedSecond The expected second of the result.
-     * @param integer $expectedNano   The expected nano of the result.
+     * @param int $second         The base second.
+     * @param int $nano           The base nano-of-second.
+     * @param int $plusSeconds    The seconds of the duration to add.
+     * @param int $plusNanos      The nanos of the duration to add.
+     * @param int $expectedSecond The expected second of the result.
+     * @param int $expectedNano   The expected nano of the result.
      */
-    public function testMinus($second, $nano, $plusSeconds, $plusNanos, $expectedSecond, $expectedNano)
+    public function testMinus(int $second, int $nano, int $plusSeconds, int $plusNanos, int $expectedSecond, int $expectedNano)
     {
         $result = Instant::of($second, $nano)->minus(Duration::ofSeconds(-$plusSeconds, -$plusNanos));
         $this->assertInstantIs($expectedSecond, $expectedNano, $result);
@@ -103,7 +103,7 @@ class InstantTest extends AbstractTestCase
     /**
      * @return array
      */
-    public function providerPlus()
+    public function providerPlus() : array
     {
         return [
             [123456, 789, 0, 0, 123456, 789],
@@ -117,12 +117,12 @@ class InstantTest extends AbstractTestCase
     /**
      * @dataProvider providerPlusSeconds
      *
-     * @param integer $second         The base second.
-     * @param integer $nano           The base nano-of-second.
-     * @param integer $plusSeconds    The number of seconds to add.
-     * @param integer $expectedSecond The expected second of the result.
+     * @param int $second         The base second.
+     * @param int $nano           The base nano-of-second.
+     * @param int $plusSeconds    The number of seconds to add.
+     * @param int $expectedSecond The expected second of the result.
      */
-    public function testPlusSeconds($second, $nano, $plusSeconds, $expectedSecond)
+    public function testPlusSeconds(int $second, int $nano, int $plusSeconds, int $expectedSecond)
     {
         $result = Instant::of($second, $nano)->plusSeconds($plusSeconds);
         $this->assertInstantIs($expectedSecond, $nano, $result);
@@ -131,12 +131,12 @@ class InstantTest extends AbstractTestCase
     /**
      * @dataProvider providerPlusSeconds
      *
-     * @param integer $second         The base second.
-     * @param integer $nano           The base nano-of-second.
-     * @param integer $plusSeconds    The number of seconds to add.
-     * @param integer $expectedSecond The expected second of the result.
+     * @param int $second         The base second.
+     * @param int $nano           The base nano-of-second.
+     * @param int $plusSeconds    The number of seconds to add.
+     * @param int $expectedSecond The expected second of the result.
      */
-    public function testMinusSeconds($second, $nano, $plusSeconds, $expectedSecond)
+    public function testMinusSeconds(int $second, int $nano, int $plusSeconds, int $expectedSecond)
     {
         $result = Instant::of($second, $nano)->minusSeconds(-$plusSeconds);
         $this->assertInstantIs($expectedSecond, $nano, $result);
@@ -145,7 +145,7 @@ class InstantTest extends AbstractTestCase
     /**
      * @return array
      */
-    public function providerPlusSeconds()
+    public function providerPlusSeconds() : array
     {
         return [
             [123456, 789, 0, 123456, 789],
@@ -161,12 +161,12 @@ class InstantTest extends AbstractTestCase
     /**
      * @dataProvider providerPlusMinutes
      *
-     * @param integer $second         The base second.
-     * @param integer $nano           The base nano-of-second.
-     * @param integer $plusMinutes    The number of minutes to add.
-     * @param integer $expectedSecond The expected second of the result.
+     * @param int $second         The base second.
+     * @param int $nano           The base nano-of-second.
+     * @param int $plusMinutes    The number of minutes to add.
+     * @param int $expectedSecond The expected second of the result.
      */
-    public function testPlusMinutes($second, $nano, $plusMinutes, $expectedSecond)
+    public function testPlusMinutes(int $second, int $nano, int $plusMinutes, int $expectedSecond)
     {
         $result = Instant::of($second, $nano)->plusMinutes($plusMinutes);
         $this->assertInstantIs($expectedSecond, $nano, $result);
@@ -175,12 +175,12 @@ class InstantTest extends AbstractTestCase
     /**
      * @dataProvider providerPlusMinutes
      *
-     * @param integer $second         The base second.
-     * @param integer $nano           The base nano-of-second.
-     * @param integer $plusMinutes    The number of minutes to add.
-     * @param integer $expectedSecond The expected second of the result.
+     * @param int $second         The base second.
+     * @param int $nano           The base nano-of-second.
+     * @param int $plusMinutes    The number of minutes to add.
+     * @param int $expectedSecond The expected second of the result.
      */
-    public function testMinusMinutes($second, $nano, $plusMinutes, $expectedSecond)
+    public function testMinusMinutes(int $second, int $nano, int $plusMinutes, int $expectedSecond)
     {
         $result = Instant::of($second, $nano)->minusMinutes(-$plusMinutes);
         $this->assertInstantIs($expectedSecond, $nano, $result);
@@ -189,7 +189,7 @@ class InstantTest extends AbstractTestCase
     /**
      * @return array
      */
-    public function providerPlusMinutes()
+    public function providerPlusMinutes() : array
     {
         return [
             [123456, 789, 0, 123456, 789],
@@ -205,12 +205,12 @@ class InstantTest extends AbstractTestCase
     /**
      * @dataProvider providerPlusHours
      *
-     * @param integer $second         The base second.
-     * @param integer $nano           The base nano-of-second.
-     * @param integer $plusHours      The number of hours to add.
-     * @param integer $expectedSecond The expected second of the result.
+     * @param int $second         The base second.
+     * @param int $nano           The base nano-of-second.
+     * @param int $plusHours      The number of hours to add.
+     * @param int $expectedSecond The expected second of the result.
      */
-    public function testPlusHours($second, $nano, $plusHours, $expectedSecond)
+    public function testPlusHours(int $second, int $nano, int $plusHours, int $expectedSecond)
     {
         $result = Instant::of($second, $nano)->plusHours($plusHours);
         $this->assertInstantIs($expectedSecond, $nano, $result);
@@ -219,12 +219,12 @@ class InstantTest extends AbstractTestCase
     /**
      * @dataProvider providerPlusHours
      *
-     * @param integer $second         The base second.
-     * @param integer $nano           The base nano-of-second.
-     * @param integer $plusHours      The number of hours to add.
-     * @param integer $expectedSecond The expected second of the result.
+     * @param int $second         The base second.
+     * @param int $nano           The base nano-of-second.
+     * @param int $plusHours      The number of hours to add.
+     * @param int $expectedSecond The expected second of the result.
      */
-    public function testMinusHours($second, $nano, $plusHours, $expectedSecond)
+    public function testMinusHours(int $second, int $nano, int $plusHours, int $expectedSecond)
     {
         $result = Instant::of($second, $nano)->minusHours(-$plusHours);
         $this->assertInstantIs($expectedSecond, $nano, $result);
@@ -233,7 +233,7 @@ class InstantTest extends AbstractTestCase
     /**
      * @return array
      */
-    public function providerPlusHours()
+    public function providerPlusHours() : array
     {
         return [
             [123456, 789, 0, 123456, 789],
@@ -249,12 +249,12 @@ class InstantTest extends AbstractTestCase
     /**
      * @dataProvider providerPlusDays
      *
-     * @param integer $second         The base second.
-     * @param integer $nano           The base nano-of-second.
-     * @param integer $plusDays       The number of days to add.
-     * @param integer $expectedSecond The expected second of the result.
+     * @param int $second         The base second.
+     * @param int $nano           The base nano-of-second.
+     * @param int $plusDays       The number of days to add.
+     * @param int $expectedSecond The expected second of the result.
      */
-    public function testPlusDays($second, $nano, $plusDays, $expectedSecond)
+    public function testPlusDays(int $second, int $nano, int $plusDays, int $expectedSecond)
     {
         $result = Instant::of($second, $nano)->plusDays($plusDays);
         $this->assertInstantIs($expectedSecond, $nano, $result);
@@ -263,12 +263,12 @@ class InstantTest extends AbstractTestCase
     /**
      * @dataProvider providerPlusDays
      *
-     * @param integer $second         The base second.
-     * @param integer $nano           The base nano-of-second.
-     * @param integer $plusDays       The number of days to add.
-     * @param integer $expectedSecond The expected second of the result.
+     * @param int $second         The base second.
+     * @param int $nano           The base nano-of-second.
+     * @param int $plusDays       The number of days to add.
+     * @param int $expectedSecond The expected second of the result.
      */
-    public function testMinusDays($second, $nano, $plusDays, $expectedSecond)
+    public function testMinusDays(int $second, int $nano, int $plusDays, int $expectedSecond)
     {
         $result = Instant::of($second, $nano)->minusDays(-$plusDays);
         $this->assertInstantIs($expectedSecond, $nano, $result);
@@ -277,7 +277,7 @@ class InstantTest extends AbstractTestCase
     /**
      * @return array
      */
-    public function providerPlusDays()
+    public function providerPlusDays() : array
     {
         return [
             [123456, 789, 0, 123456, 789],
@@ -293,13 +293,13 @@ class InstantTest extends AbstractTestCase
     /**
      * @dataProvider providerCompareTo
      *
-     * @param integer $s1  The epoch second of the 1st instant.
-     * @param integer $n1  The nanosecond adjustment of the 1st instant.
-     * @param integer $s2  The epoch second of the 2nd instant.
-     * @param integer $n2  The nanosecond adjustment of the 2nd instant.
-     * @param integer $cmp The expected comparison value.
+     * @param int $s1  The epoch second of the 1st instant.
+     * @param int $n1  The nanosecond adjustment of the 1st instant.
+     * @param int $s2  The epoch second of the 2nd instant.
+     * @param int $n2  The nanosecond adjustment of the 2nd instant.
+     * @param int $cmp The expected comparison value.
      */
-    public function testCompareTo($s1, $n1, $s2, $n2, $cmp)
+    public function testCompareTo(int $s1, int $n1, int $s2, int $n2, int $cmp)
     {
         $this->assertSame($cmp, Instant::of($s1, $n1)->compareTo(Instant::of($s2, $n2)));
     }
@@ -307,13 +307,13 @@ class InstantTest extends AbstractTestCase
     /**
      * @dataProvider providerCompareTo
      *
-     * @param integer $s1  The epoch second of the 1st instant.
-     * @param integer $n1  The nanosecond adjustment of the 1st instant.
-     * @param integer $s2  The epoch second of the 2nd instant.
-     * @param integer $n2  The nanosecond adjustment of the 2nd instant.
-     * @param integer $cmp The comparison value.
+     * @param int $s1  The epoch second of the 1st instant.
+     * @param int $n1  The nanosecond adjustment of the 1st instant.
+     * @param int $s2  The epoch second of the 2nd instant.
+     * @param int $n2  The nanosecond adjustment of the 2nd instant.
+     * @param int $cmp The comparison value.
      */
-    public function testIsEqualTo($s1, $n1, $s2, $n2, $cmp)
+    public function testIsEqualTo(int $s1, int $n1, int $s2, int $n2, int $cmp)
     {
         $this->assertSame($cmp === 0, Instant::of($s1, $n1)->isEqualTo(Instant::of($s2, $n2)));
     }
@@ -321,13 +321,13 @@ class InstantTest extends AbstractTestCase
     /**
      * @dataProvider providerCompareTo
      *
-     * @param integer $s1  The epoch second of the 1st instant.
-     * @param integer $n1  The nanosecond adjustment of the 1st instant.
-     * @param integer $s2  The epoch second of the 2nd instant.
-     * @param integer $n2  The nanosecond adjustment of the 2nd instant.
-     * @param integer $cmp The comparison value.
+     * @param int $s1  The epoch second of the 1st instant.
+     * @param int $n1  The nanosecond adjustment of the 1st instant.
+     * @param int $s2  The epoch second of the 2nd instant.
+     * @param int $n2  The nanosecond adjustment of the 2nd instant.
+     * @param int $cmp The comparison value.
      */
-    public function testIsAfter($s1, $n1, $s2, $n2, $cmp)
+    public function testIsAfter(int $s1, int $n1, int $s2, int $n2, int $cmp)
     {
         $this->assertSame($cmp === 1, Instant::of($s1, $n1)->isAfter(Instant::of($s2, $n2)));
     }
@@ -335,13 +335,13 @@ class InstantTest extends AbstractTestCase
     /**
      * @dataProvider providerCompareTo
      *
-     * @param integer $s1  The epoch second of the 1st instant.
-     * @param integer $n1  The nanosecond adjustment of the 1st instant.
-     * @param integer $s2  The epoch second of the 2nd instant.
-     * @param integer $n2  The nanosecond adjustment of the 2nd instant.
-     * @param integer $cmp The comparison value.
+     * @param int $s1  The epoch second of the 1st instant.
+     * @param int $n1  The nanosecond adjustment of the 1st instant.
+     * @param int $s2  The epoch second of the 2nd instant.
+     * @param int $n2  The nanosecond adjustment of the 2nd instant.
+     * @param int $cmp The comparison value.
      */
-    public function testIsBefore($s1, $n1, $s2, $n2, $cmp)
+    public function testIsBefore(int $s1, int $n1, int $s2, int $n2, int $cmp)
     {
         $this->assertSame($cmp === -1, Instant::of($s1, $n1)->isBefore(Instant::of($s2, $n2)));
     }
@@ -349,13 +349,13 @@ class InstantTest extends AbstractTestCase
     /**
      * @dataProvider providerCompareTo
      *
-     * @param integer $testSecond The second of the test instant.
-     * @param integer $testNano   The nanosecond adjustment to the test instant.
-     * @param integer $nowSecond  The second of the current time.
-     * @param integer $nowNano    The nanosecond adjustment to the current time.
-     * @param integer $cmp        The comparison value.
+     * @param int $testSecond The second of the test instant.
+     * @param int $testNano   The nanosecond adjustment to the test instant.
+     * @param int $nowSecond  The second of the current time.
+     * @param int $nowNano    The nanosecond adjustment to the current time.
+     * @param int $cmp        The comparison value.
      */
-    public function testIsFuture($testSecond, $testNano, $nowSecond, $nowNano, $cmp)
+    public function testIsFuture(int $testSecond, int $testNano, int $nowSecond, int $nowNano, int $cmp)
     {
         Clock::setDefault(new FixedClock(Instant::of($nowSecond, $nowNano)));
         $this->assertSame($cmp === 1, Instant::of($testSecond, $testNano)->isFuture());
@@ -364,13 +364,13 @@ class InstantTest extends AbstractTestCase
     /**
      * @dataProvider providerCompareTo
      *
-     * @param integer $testSecond The second of the test instant.
-     * @param integer $testNano   The nanosecond adjustment to the test instant.
-     * @param integer $nowSecond  The second of the current time.
-     * @param integer $nowNano    The nanosecond adjustment to the current time.
-     * @param integer $cmp        The comparison value.
+     * @param int $testSecond The second of the test instant.
+     * @param int $testNano   The nanosecond adjustment to the test instant.
+     * @param int $nowSecond  The second of the current time.
+     * @param int $nowNano    The nanosecond adjustment to the current time.
+     * @param int $cmp        The comparison value.
      */
-    public function testIsPast($testSecond, $testNano, $nowSecond, $nowNano, $cmp)
+    public function testIsPast(int $testSecond, int $testNano, int $nowSecond, int $nowNano, int $cmp)
     {
         Clock::setDefault(new FixedClock(Instant::of($nowSecond, $nowNano)));
         $this->assertSame($cmp === -1, Instant::of($testSecond, $testNano)->isPast());
@@ -379,7 +379,7 @@ class InstantTest extends AbstractTestCase
     /**
      * @return array
      */
-    public function providerCompareTo()
+    public function providerCompareTo() : array
     {
         return [
             [-1, -1, -1, -1,  0],
@@ -475,11 +475,11 @@ class InstantTest extends AbstractTestCase
     /**
      * @dataProvider providerToString
      *
-     * @param integer $epochSecond    The epoch second to test.
-     * @param integer $nano           The nano adjustment to the epoch second.
-     * @param string  $expectedString The expected string output.
+     * @param int    $epochSecond    The epoch second to test.
+     * @param int    $nano           The nano adjustment to the epoch second.
+     * @param string $expectedString The expected string output.
      */
-    public function testToString($epochSecond, $nano, $expectedString)
+    public function testToString(int $epochSecond, int $nano, string $expectedString)
     {
         $this->assertSame($expectedString, (string) Instant::of($epochSecond, $nano));
     }
@@ -487,7 +487,7 @@ class InstantTest extends AbstractTestCase
     /**
      * @return array
      */
-    public function providerToString()
+    public function providerToString() : array
     {
         return [
             [-2000000000, 0, '1906-08-16T20:26:40Z'],

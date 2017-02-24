@@ -18,10 +18,10 @@ class MonthDayTest extends AbstractTestCase
     /**
      * @dataProvider providerOf
      *
-     * @param integer $month
-     * @param integer $day
+     * @param int $month
+     * @param int $day
      */
-    public function testOf($month, $day)
+    public function testOf(int $month, int $day)
     {
         $this->assertMonthDayIs($month, $day, MonthDay::of($month, $day));
     }
@@ -29,7 +29,7 @@ class MonthDayTest extends AbstractTestCase
     /**
      * @return array
      */
-    public function providerOf()
+    public function providerOf() : array
     {
         return [
             [1, 1],
@@ -52,10 +52,10 @@ class MonthDayTest extends AbstractTestCase
      * @dataProvider providerOfThrowsExceptionOnInvalidMonthDay
      * @expectedException \Brick\DateTime\DateTimeException
      *
-     * @param integer $month
-     * @param integer $day
+     * @param int $month
+     * @param int $day
      */
-    public function testOfThrowsExceptionOnInvalidMonthDay($month, $day)
+    public function testOfThrowsExceptionOnInvalidMonthDay(int $month, int $day)
     {
         MonthDay::of($month, $day);
     }
@@ -63,7 +63,7 @@ class MonthDayTest extends AbstractTestCase
     /**
      * @return array
      */
-    public function providerOfThrowsExceptionOnInvalidMonthDay()
+    public function providerOfThrowsExceptionOnInvalidMonthDay() : array
     {
         return [
             [0, 1],
@@ -87,11 +87,11 @@ class MonthDayTest extends AbstractTestCase
     /**
      * @dataProvider providerParse
      *
-     * @param string  $text  The text to parse.
-     * @param integer $month The expected month.
-     * @param integer $day   The expected day.
+     * @param string $text  The text to parse.
+     * @param int    $month The expected month.
+     * @param int    $day   The expected day.
      */
-    public function testParse($text, $month, $day)
+    public function testParse(string $text, int $month, int $day)
     {
         $this->assertMonthDayIs($month, $day, MonthDay::parse($text));
     }
@@ -99,7 +99,7 @@ class MonthDayTest extends AbstractTestCase
     /**
      * @return array
      */
-    public function providerParse()
+    public function providerParse() : array
     {
         return [
             ['--01-01', 1, 1],
@@ -114,7 +114,7 @@ class MonthDayTest extends AbstractTestCase
      *
      * @param string $text
      */
-    public function testParseInvalidStringThrowsException($text)
+    public function testParseInvalidStringThrowsException(string $text)
     {
         MonthDay::parse($text);
     }
@@ -122,7 +122,7 @@ class MonthDayTest extends AbstractTestCase
     /**
      * @return array
      */
-    public function providerParseInvalidStringThrowsException()
+    public function providerParseInvalidStringThrowsException() : array
     {
         return [
             ['01-01'],
@@ -146,7 +146,7 @@ class MonthDayTest extends AbstractTestCase
      *
      * @param string $text
      */
-    public function testParseInvalidDateThrowsException($text)
+    public function testParseInvalidDateThrowsException(string $text)
     {
         MonthDay::parse($text);
     }
@@ -154,7 +154,7 @@ class MonthDayTest extends AbstractTestCase
     /**
      * @return array
      */
-    public function providerParseInvalidDateThrowsException()
+    public function providerParseInvalidDateThrowsException() : array
     {
         return [
             ['--00-01'],
@@ -167,12 +167,12 @@ class MonthDayTest extends AbstractTestCase
     /**
      * @dataProvider providerNow
      *
-     * @param integer $epochSecond The epoch second.
-     * @param string  $timeZone    The time-zone.
-     * @param integer $month       The expected month.
-     * @param integer $day         The expected day.
+     * @param int    $epochSecond The epoch second.
+     * @param string $timeZone    The time-zone.
+     * @param int    $month       The expected month.
+     * @param int    $day         The expected day.
      */
-    public function testNow($epochSecond, $timeZone, $month, $day)
+    public function testNow(int $epochSecond, string $timeZone, int $month, int $day)
     {
         $previousClock = Clock::setDefault(new FixedClock(Instant::of($epochSecond)));
 
@@ -184,7 +184,7 @@ class MonthDayTest extends AbstractTestCase
     /**
      * @return array
      */
-    public function providerNow()
+    public function providerNow() : array
     {
         return [
             [946684799, '+00:00', 12, 31],
@@ -197,13 +197,13 @@ class MonthDayTest extends AbstractTestCase
     /**
      * @dataProvider providerCompareTo
      *
-     * @param integer $m1     The month of the base month-day.
-     * @param integer $d1     The day of the base month-day.
-     * @param integer $m2     The month of the month-day to compare to.
-     * @param integer $d2     The day of the month-day to compare to.
-     * @param integer $result The expected result.
+     * @param int $m1     The month of the base month-day.
+     * @param int $d1     The day of the base month-day.
+     * @param int $m2     The month of the month-day to compare to.
+     * @param int $d2     The day of the month-day to compare to.
+     * @param int $result The expected result.
      */
-    public function testCompareTo($m1, $d1, $m2, $d2, $result)
+    public function testCompareTo(int $m1, int $d1, int $m2, int $d2, int $result)
     {
         $this->assertSame($result, MonthDay::of($m1, $d1)->compareTo(MonthDay::of($m2, $d2)));
     }
@@ -211,13 +211,13 @@ class MonthDayTest extends AbstractTestCase
     /**
      * @dataProvider providerCompareTo
      *
-     * @param integer $m1     The month of the base month-day.
-     * @param integer $d1     The day of the base month-day.
-     * @param integer $m2     The month of the month-day to compare to.
-     * @param integer $d2     The day of the month-day to compare to.
-     * @param integer $result The expected result.
+     * @param int $m1     The month of the base month-day.
+     * @param int $d1     The day of the base month-day.
+     * @param int $m2     The month of the month-day to compare to.
+     * @param int $d2     The day of the month-day to compare to.
+     * @param int $result The expected result.
      */
-    public function testIsEqualTo($m1, $d1, $m2, $d2, $result)
+    public function testIsEqualTo(int $m1, int $d1, int $m2, int $d2, int $result)
     {
         $this->assertSame($result == 0, MonthDay::of($m1, $d1)->isEqualTo(MonthDay::of($m2, $d2)));
     }
@@ -225,13 +225,13 @@ class MonthDayTest extends AbstractTestCase
     /**
      * @dataProvider providerCompareTo
      *
-     * @param integer $m1     The month of the base month-day.
-     * @param integer $d1     The day of the base month-day.
-     * @param integer $m2     The month of the month-day to compare to.
-     * @param integer $d2     The day of the month-day to compare to.
-     * @param integer $result The expected result.
+     * @param int $m1     The month of the base month-day.
+     * @param int $d1     The day of the base month-day.
+     * @param int $m2     The month of the month-day to compare to.
+     * @param int $d2     The day of the month-day to compare to.
+     * @param int $result The expected result.
      */
-    public function testIsBefore($m1, $d1, $m2, $d2, $result)
+    public function testIsBefore(int $m1, int $d1, int $m2, int $d2, int $result)
     {
         $this->assertSame($result == -1, MonthDay::of($m1, $d1)->isBefore(MonthDay::of($m2, $d2)));
     }
@@ -239,13 +239,13 @@ class MonthDayTest extends AbstractTestCase
     /**
      * @dataProvider providerCompareTo
      *
-     * @param integer $m1     The month of the base month-day.
-     * @param integer $d1     The day of the base month-day.
-     * @param integer $m2     The month of the month-day to compare to.
-     * @param integer $d2     The day of the month-day to compare to.
-     * @param integer $result The expected result.
+     * @param int $m1     The month of the base month-day.
+     * @param int $d1     The day of the base month-day.
+     * @param int $m2     The month of the month-day to compare to.
+     * @param int $d2     The day of the month-day to compare to.
+     * @param int $result The expected result.
      */
-    public function testIsAfter($m1, $d1, $m2, $d2, $result)
+    public function testIsAfter(int $m1, int $d1, int $m2, int $d2, int $result)
     {
         $this->assertSame($result == 1, MonthDay::of($m1, $d1)->isAfter(MonthDay::of($m2, $d2)));
     }
@@ -253,7 +253,7 @@ class MonthDayTest extends AbstractTestCase
     /**
      * @return array
      */
-    public function providerCompareTo()
+    public function providerCompareTo() : array
     {
         return [
             [1, 1, 1, 1,  0],
@@ -278,12 +278,12 @@ class MonthDayTest extends AbstractTestCase
     /**
      * @dataProvider providerIsValidYear
      *
-     * @param integer $month   The month of the month-day to test.
-     * @param integer $day     The day of the month-day to test.
-     * @param integer $year    The year to test against.
-     * @param boolean $isValid The expected result.
+     * @param int  $month   The month of the month-day to test.
+     * @param int  $day     The day of the month-day to test.
+     * @param int  $year    The year to test against.
+     * @param bool $isValid The expected result.
      */
-    public function testIsValidYear($month, $day, $year, $isValid)
+    public function testIsValidYear(int $month, int $day, int $year, bool $isValid)
     {
         $this->assertSame($isValid, MonthDay::of($month, $day)->isValidYear($year));
     }
@@ -291,7 +291,7 @@ class MonthDayTest extends AbstractTestCase
     /**
      * @return array
      */
-    public function providerIsValidYear()
+    public function providerIsValidYear() : array
     {
         return [
             [1, 1, 2000, true],
@@ -317,12 +317,12 @@ class MonthDayTest extends AbstractTestCase
     /**
      * @dataProvider providerWithMonth
      *
-     * @param integer $month       The month of the base month-day to test.
-     * @param integer $day         The day of base the month-day to test.
-     * @param integer $newMonth    The new month to apply.
-     * @param integer $expectedDay The expected day of the resulting month-day.
+     * @param int $month       The month of the base month-day to test.
+     * @param int $day         The day of base the month-day to test.
+     * @param int $newMonth    The new month to apply.
+     * @param int $expectedDay The expected day of the resulting month-day.
      */
-    public function testWithMonth($month, $day, $newMonth, $expectedDay)
+    public function testWithMonth(int $month, int $day, int $newMonth, int $expectedDay)
     {
         $monthDay = MonthDay::of($month, $day);
         $newMonthDay = $monthDay->withMonth($newMonth);
@@ -334,7 +334,7 @@ class MonthDayTest extends AbstractTestCase
     /**
      * @return array
      */
-    public function providerWithMonth()
+    public function providerWithMonth() : array
     {
         return [
             [1, 1, 1, 1],
@@ -360,11 +360,11 @@ class MonthDayTest extends AbstractTestCase
      * @dataProvider providerWithInvalidMonthThrowsException
      * @expectedException \Brick\DateTime\DateTimeException
      *
-     * @param integer $month    The month of the base month-day to test.
-     * @param integer $day      The day of base the month-day to test.
-     * @param integer $newMonth The new month to apply.
+     * @param int $month    The month of the base month-day to test.
+     * @param int $day      The day of base the month-day to test.
+     * @param int $newMonth The new month to apply.
      */
-    public function testWithInvalidMonthThrowsException($month, $day, $newMonth)
+    public function testWithInvalidMonthThrowsException(int $month, int $day, int $newMonth)
     {
         MonthDay::of($month, $day)->withMonth($newMonth);
     }
@@ -372,7 +372,7 @@ class MonthDayTest extends AbstractTestCase
     /**
      * @return array
      */
-    public function providerWithInvalidMonthThrowsException()
+    public function providerWithInvalidMonthThrowsException() : array
     {
         return [
             [1, 1, 0],
@@ -383,11 +383,11 @@ class MonthDayTest extends AbstractTestCase
     /**
      * @dataProvider providerWithDay
      *
-     * @param integer $month  The month of the base month-day to test.
-     * @param integer $day    The day of base the month-day to test.
-     * @param integer $newDay The new day to apply.
+     * @param int $month  The month of the base month-day to test.
+     * @param int $day    The day of base the month-day to test.
+     * @param int $newDay The new day to apply.
      */
-    public function testWithDay($month, $day, $newDay)
+    public function testWithDay(int $month, int $day, int $newDay)
     {
         $monthDay = MonthDay::of($month, $day);
         $newMonthDay = $monthDay->withDay($newDay);
@@ -399,7 +399,7 @@ class MonthDayTest extends AbstractTestCase
     /**
      * @return array
      */
-    public function providerWithDay()
+    public function providerWithDay() : array
     {
         return [
             [1, 1, 31],
@@ -415,11 +415,11 @@ class MonthDayTest extends AbstractTestCase
      * @dataProvider providerWithInvalidDayThrowsException
      * @expectedException \Brick\DateTime\DateTimeException
      *
-     * @param integer $month    The month of the base month-day to test.
-     * @param integer $day      The day of base the month-day to test.
-     * @param integer $newDay   The new day to apply.
+     * @param int $month    The month of the base month-day to test.
+     * @param int $day      The day of base the month-day to test.
+     * @param int $newDay   The new day to apply.
      */
-    public function testWithInvalidDayThrowsException($month, $day, $newDay)
+    public function testWithInvalidDayThrowsException(int $month, int $day, int $newDay)
     {
         MonthDay::of($month, $day)->withDay($newDay);
     }
@@ -427,7 +427,7 @@ class MonthDayTest extends AbstractTestCase
     /**
      * @return array
      */
-    public function providerWithInvalidDayThrowsException()
+    public function providerWithInvalidDayThrowsException() : array
     {
         return [
             [12, 31, 32],
@@ -460,12 +460,12 @@ class MonthDayTest extends AbstractTestCase
     /**
      * @dataProvider providerAtYear
      *
-     * @param integer $month       The month of the base month-day.
-     * @param integer $day         The day of the base month-day.
-     * @param integer $year        The year to combine with the month-day.
-     * @param integer $expectedDay The expected day of the resulting date.
+     * @param int $month       The month of the base month-day.
+     * @param int $day         The day of the base month-day.
+     * @param int $year        The year to combine with the month-day.
+     * @param int $expectedDay The expected day of the resulting date.
      */
-    public function testAtYear($month, $day, $year, $expectedDay)
+    public function testAtYear(int $month, int $day, int $year, int $expectedDay)
     {
         $this->assertLocalDateIs($year, $month, $expectedDay, MonthDay::of($month, $day)->atYear($year));
     }
@@ -473,7 +473,7 @@ class MonthDayTest extends AbstractTestCase
     /**
      * @return array
      */
-    public function providerAtYear()
+    public function providerAtYear() : array
     {
         return [
             [1, 31, 2000, 31],
@@ -489,9 +489,9 @@ class MonthDayTest extends AbstractTestCase
      * @dataProvider providerAtInvalidYearThrowsException
      * @expectedException \Brick\DateTime\DateTimeException
      *
-     * @param integer $year
+     * @param int $year
      */
-    public function testAtInvalidYearThrowsException($year)
+    public function testAtInvalidYearThrowsException(int $year)
     {
         MonthDay::of(1, 1)->atYear($year);
     }
@@ -499,7 +499,7 @@ class MonthDayTest extends AbstractTestCase
     /**
      * @return array
      */
-    public function providerAtInvalidYearThrowsException()
+    public function providerAtInvalidYearThrowsException() : array
     {
         return [
             [-1234567890],
@@ -510,11 +510,11 @@ class MonthDayTest extends AbstractTestCase
     /**
      * @dataProvider providerToString
      *
-     * @param integer $month  The month of the month-day to test.
-     * @param integer $day    The day of the month-day to test.
-     * @param string  $string The expected result string.
+     * @param int    $month  The month of the month-day to test.
+     * @param int    $day    The day of the month-day to test.
+     * @param string $string The expected result string.
      */
-    public function testToString($month, $day, $string)
+    public function testToString(int $month, int $day, string $string)
     {
         $this->assertSame($string, (string) MonthDay::of($month, $day));
     }
@@ -522,7 +522,7 @@ class MonthDayTest extends AbstractTestCase
     /**
      * @return array
      */
-    public function providerToString()
+    public function providerToString() : array
     {
         return [
             [1, 1, '--01-01'],

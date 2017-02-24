@@ -34,15 +34,15 @@ class LocalDateRangeTest extends AbstractTestCase
     /**
      * @dataProvider providerParse
      *
-     * @param string  $text The text to parse.
-     * @param integer $y1   The expected start year.
-     * @param integer $m1   The expected start month.
-     * @param integer $d1   The expected start day.
-     * @param integer $y2   The expected end year.
-     * @param integer $m2   The expected end month.
-     * @param integer $d2   The expected end day.
+     * @param string $text The text to parse.
+     * @param int    $y1   The expected start year.
+     * @param int    $m1   The expected start month.
+     * @param int    $d1   The expected start day.
+     * @param int    $y2   The expected end year.
+     * @param int    $m2   The expected end month.
+     * @param int    $d2   The expected end day.
      */
-    public function testParse($text, $y1, $m1, $d1, $y2, $m2, $d2)
+    public function testParse(string $text, int $y1, int $m1, int $d1, int $y2, int $m2, int $d2)
     {
         $this->assertLocalDateRangeIs($y1, $m1, $d1, $y2, $m2, $d2, LocalDateRange::parse($text));
     }
@@ -50,7 +50,7 @@ class LocalDateRangeTest extends AbstractTestCase
     /**
      * @return array
      */
-    public function providerParse()
+    public function providerParse() : array
     {
         return [
             ['2001-02-03/04', 2001, 2, 3, 2001, 2, 4],
@@ -65,7 +65,7 @@ class LocalDateRangeTest extends AbstractTestCase
      *
      * @param string $text The invalid text parse.
      */
-    public function testParseInvalidRangeThrowsException($text)
+    public function testParseInvalidRangeThrowsException(string $text)
     {
         LocalDateRange::parse($text);
     }
@@ -73,7 +73,7 @@ class LocalDateRangeTest extends AbstractTestCase
     /**
      * @return array
      */
-    public function providerParseInvalidRangeThrowsException()
+    public function providerParseInvalidRangeThrowsException() : array
     {
         return [
             ['2001-02-03'],
@@ -92,10 +92,10 @@ class LocalDateRangeTest extends AbstractTestCase
     /**
      * @dataProvider providerIsEqualTo
      *
-     * @param string  $testRange The string representation of the range to test.
-     * @param boolean $isEqual   Whether this range is expected to be equal to our range.
+     * @param string $testRange The string representation of the range to test.
+     * @param bool   $isEqual   Whether this range is expected to be equal to our range.
      */
-    public function testIsEqualTo($testRange, $isEqual)
+    public function testIsEqualTo(string $testRange, bool $isEqual)
     {
         $this->assertSame($isEqual, LocalDateRange::of(
             LocalDate::of(2001, 2, 3),
@@ -106,7 +106,7 @@ class LocalDateRangeTest extends AbstractTestCase
     /**
      * @return array
      */
-    public function providerIsEqualTo()
+    public function providerIsEqualTo() : array
     {
         return [
             ['2001-02-03/2004-05-06', true],
@@ -122,11 +122,11 @@ class LocalDateRangeTest extends AbstractTestCase
     /**
      * @dataProvider providerContains
      *
-     * @param string  $range
-     * @param string  $date
-     * @param boolean $contains
+     * @param string $range
+     * @param string $date
+     * @param bool   $contains
      */
-    public function testContains($range, $date, $contains)
+    public function testContains(string $range, string $date, bool $contains)
     {
         $this->assertSame($contains, LocalDateRange::parse($range)->contains(LocalDate::parse($date)));
     }
@@ -134,7 +134,7 @@ class LocalDateRangeTest extends AbstractTestCase
     /**
      * @return array
      */
-    public function providerContains()
+    public function providerContains() : array
     {
         return [
             ['2001-02-03/2004-05-06', '2001-02-02', false],
@@ -169,10 +169,10 @@ class LocalDateRangeTest extends AbstractTestCase
     /**
      * @dataProvider providerCount
      *
-     * @param string  $range The date range string representation.
-     * @param integer $count The expected day count.
+     * @param string $range The date range string representation.
+     * @param int    $count The expected day count.
      */
-    public function testCount($range, $count)
+    public function testCount(string $range, int $count)
     {
         $this->assertCount($count, LocalDateRange::parse($range));
     }
@@ -180,7 +180,7 @@ class LocalDateRangeTest extends AbstractTestCase
     /**
      * @return array
      */
-    public function providerCount()
+    public function providerCount() : array
     {
         return [
             ['2010-01-01/2010-01-01', 1],

@@ -24,11 +24,11 @@ class LocalDateTest extends AbstractTestCase
      * @dataProvider providerOfInvalidDateThrowsException
      * @expectedException \Brick\DateTime\DateTimeException
      *
-     * @param integer $year  The year of the invalid date.
-     * @param integer $month The month of the invalid date.
-     * @param integer $day   The day of the invalid date.
+     * @param int $year  The year of the invalid date.
+     * @param int $month The month of the invalid date.
+     * @param int $day   The day of the invalid date.
      */
-    public function testOfInvalidDateThrowsException($year, $month, $day)
+    public function testOfInvalidDateThrowsException(int $year, int $month, int $day)
     {
         LocalDate::of($year, $month, $day);
     }
@@ -36,7 +36,7 @@ class LocalDateTest extends AbstractTestCase
     /**
      * @return array
      */
-    public function providerOfInvalidDateThrowsException()
+    public function providerOfInvalidDateThrowsException() : array
     {
         return [
             [2007, 2, 29],
@@ -54,10 +54,10 @@ class LocalDateTest extends AbstractTestCase
      * @dataProvider providerOfInvalidYearDayThrowsException
      * @expectedException \Brick\DateTime\DateTimeException
      *
-     * @param integer $year      The year.
-     * @param integer $dayOfYear The day-of-year.
+     * @param int $year      The year.
+     * @param int $dayOfYear The day-of-year.
      */
-    public function testOfInvalidYearDayThrowsException($year, $dayOfYear)
+    public function testOfInvalidYearDayThrowsException(int $year, int $dayOfYear)
     {
         LocalDate::ofYearDay($year, $dayOfYear);
     }
@@ -65,7 +65,7 @@ class LocalDateTest extends AbstractTestCase
     /**
      * @return array
      */
-    public function providerOfInvalidYearDayThrowsException()
+    public function providerOfInvalidYearDayThrowsException() : array
     {
         return [
             [2007, 366],
@@ -79,12 +79,12 @@ class LocalDateTest extends AbstractTestCase
     /**
      * @dataProvider providerEpochDay
      *
-     * @param integer $epochDay The epoch day.
-     * @param integer $year     The expected year.
-     * @param integer $month    The expected month.
-     * @param integer $day      The expected day.
+     * @param int $epochDay The epoch day.
+     * @param int $year     The expected year.
+     * @param int $month    The expected month.
+     * @param int $day      The expected day.
      */
-    public function testOfEpochDay($epochDay, $year, $month, $day)
+    public function testOfEpochDay(int $epochDay, int $year, int $month, int $day)
     {
         $this->assertLocalDateIs($year, $month, $day, LocalDate::ofEpochDay($epochDay));
     }
@@ -92,12 +92,12 @@ class LocalDateTest extends AbstractTestCase
     /**
      * @dataProvider providerEpochDay
      *
-     * @param integer $epochDay The expected epoch day.
-     * @param integer $year     The year.
-     * @param integer $month    The month.
-     * @param integer $day      The day.
+     * @param int $epochDay The expected epoch day.
+     * @param int $year     The year.
+     * @param int $month    The month.
+     * @param int $day      The day.
      */
-    public function testToEpochDay($epochDay, $year, $month, $day)
+    public function testToEpochDay(int $epochDay, int $year, int $month, int $day)
     {
         $this->assertSame($epochDay, LocalDate::of($year, $month, $day)->toEpochDay());
     }
@@ -105,7 +105,7 @@ class LocalDateTest extends AbstractTestCase
     /**
      * @return array
      */
-    public function providerEpochDay()
+    public function providerEpochDay() : array
     {
         return [
             [-1000000, -768,  2,  4],
@@ -129,13 +129,13 @@ class LocalDateTest extends AbstractTestCase
     /**
      * @dataProvider providerNow
      *
-     * @param integer $epochSecond The epoch second to set the clock to.
-     * @param string  $timeZone    The time-zone to get the date in.
-     * @param integer $year        The expected year.
-     * @param integer $month       The expected month.
-     * @param integer $day         The expected day.
+     * @param int    $epochSecond The epoch second to set the clock to.
+     * @param string $timeZone    The time-zone to get the date in.
+     * @param int    $year        The expected year.
+     * @param int    $month       The expected month.
+     * @param int    $day         The expected day.
      */
-    public function testNow($epochSecond, $timeZone, $year, $month, $day)
+    public function testNow(int $epochSecond, string $timeZone, int $year, int $month, int $day)
     {
         $this->setClockTime($epochSecond);
         $this->assertLocalDateIs($year, $month, $day, LocalDate::now(TimeZone::parse($timeZone)));
@@ -144,7 +144,7 @@ class LocalDateTest extends AbstractTestCase
     /**
      * @return array
      */
-    public function providerNow()
+    public function providerNow() : array
     {
         return [
             [0, '-01:00', 1969, 12, 31],
@@ -167,11 +167,11 @@ class LocalDateTest extends AbstractTestCase
     /**
      * @dataProvider providerGetYearMonth
      *
-     * @param integer $year
-     * @param integer $month
-     * @param integer $day
+     * @param int $year
+     * @param int $month
+     * @param int $day
      */
-    public function testGetYearMonth($year, $month, $day)
+    public function testGetYearMonth(int $year, int $month, int $day)
     {
         $this->assertYearMonthIs($year, $month, LocalDate::of($year, $month, $day)->getYearMonth());
     }
@@ -179,7 +179,7 @@ class LocalDateTest extends AbstractTestCase
     /**
      * @return array
      */
-    public function providerGetYearMonth()
+    public function providerGetYearMonth() : array
     {
         return [
             [2001, 2, 28],
@@ -191,12 +191,12 @@ class LocalDateTest extends AbstractTestCase
     /**
      * @dataProvider providerDayOfWeek
      *
-     * @param integer $year      The year to test.
-     * @param integer $month     The month to test.
-     * @param integer $day       The day-of-month to test.
-     * @param integer $dayOfWeek The expected day-of-week number.
+     * @param int $year      The year to test.
+     * @param int $month     The month to test.
+     * @param int $day       The day-of-month to test.
+     * @param int $dayOfWeek The expected day-of-week number.
      */
-    public function testGetDayOfWeek($year, $month, $day, $dayOfWeek)
+    public function testGetDayOfWeek(int $year, int $month, int $day, int $dayOfWeek)
     {
         $this->assertDayOfWeekIs($dayOfWeek, LocalDate::of($year, $month, $day)->getDayOfWeek());
     }
@@ -204,7 +204,7 @@ class LocalDateTest extends AbstractTestCase
     /**
      * @return array
      */
-    public function providerDayOfWeek()
+    public function providerDayOfWeek() : array
     {
         return [
             [2000, 1, 3, 1],
@@ -237,12 +237,12 @@ class LocalDateTest extends AbstractTestCase
     /**
      * @dataProvider providerDayOfYear
      *
-     * @param integer $year      The year.
-     * @param integer $month     The expected month.
-     * @param integer $day       The expected day.
-     * @param integer $dayOfYear The day-of-year.
+     * @param int $year      The year.
+     * @param int $month     The expected month.
+     * @param int $day       The expected day.
+     * @param int $dayOfYear The day-of-year.
      */
-    public function testOfYearDay($year, $month, $day, $dayOfYear)
+    public function testOfYearDay(int $year, int $month, int $day, int $dayOfYear)
     {
         $this->assertLocalDateIs($year, $month, $day, LocalDate::ofYearDay($year, $dayOfYear));
     }
@@ -250,12 +250,12 @@ class LocalDateTest extends AbstractTestCase
     /**
      * @dataProvider providerDayOfYear
      *
-     * @param integer $year      The year to test.
-     * @param integer $month     The month to test.
-     * @param integer $day       The day-of-month to test.
-     * @param integer $dayOfYear The expected day-of-year number.
+     * @param int $year      The year to test.
+     * @param int $month     The month to test.
+     * @param int $day       The day-of-month to test.
+     * @param int $dayOfYear The expected day-of-year number.
      */
-    public function testGetDayOfYear($year, $month, $day, $dayOfYear)
+    public function testGetDayOfYear(int $year, int $month, int $day, int $dayOfYear)
     {
         $this->assertSame($dayOfYear, LocalDate::of($year, $month, $day)->getDayOfYear());
     }
@@ -263,7 +263,7 @@ class LocalDateTest extends AbstractTestCase
     /**
      * @return array
      */
-    public function providerDayOfYear()
+    public function providerDayOfYear() : array
     {
         return [
             [2000, 1, 1, 1],
@@ -320,13 +320,13 @@ class LocalDateTest extends AbstractTestCase
     /**
      * @dataProvider providerWithYear
      *
-     * @param integer $year        The base year.
-     * @param integer $month       The base month.
-     * @param integer $day         The base day-of-month.
-     * @param integer $newYear     The new year.
-     * @param integer $expectedDay The expected day-of-month of the resulting date.
+     * @param int $year        The base year.
+     * @param int $month       The base month.
+     * @param int $day         The base day-of-month.
+     * @param int $newYear     The new year.
+     * @param int $expectedDay The expected day-of-month of the resulting date.
      */
-    public function testWithYear($year, $month, $day, $newYear, $expectedDay)
+    public function testWithYear(int $year, int $month, int $day, int $newYear, int $expectedDay)
     {
         $localDate = LocalDate::of($year, $month, $day)->withYear($newYear);
         $this->assertLocalDateIs($newYear, $month, $expectedDay, $localDate);
@@ -335,7 +335,7 @@ class LocalDateTest extends AbstractTestCase
     /**
      * @return array
      */
-    public function providerWithYear()
+    public function providerWithYear() : array
     {
         return [
             [2007, 3, 31, 2008, 31],
@@ -351,9 +351,9 @@ class LocalDateTest extends AbstractTestCase
      * @dataProvider providerWithInvalidYearThrowsException
      * @expectedException \Brick\DateTime\DateTimeException
      *
-     * @param integer $invalidYear The year to test.
+     * @param int $invalidYear The year to test.
      */
-    public function testWithInvalidYearThrowsException($invalidYear)
+    public function testWithInvalidYearThrowsException(int $invalidYear)
     {
         LocalDate::of(2001, 2, 3)->withYear($invalidYear);
     }
@@ -361,7 +361,7 @@ class LocalDateTest extends AbstractTestCase
     /**
      * @return array
      */
-    public function providerWithInvalidYearThrowsException()
+    public function providerWithInvalidYearThrowsException() : array
     {
         return [
             [-1000000],
@@ -372,13 +372,13 @@ class LocalDateTest extends AbstractTestCase
     /**
      * @dataProvider providerWithMonth
      *
-     * @param integer $year        The base year.
-     * @param integer $month       The base month.
-     * @param integer $day         The base day-of-month.
-     * @param integer $newMonth    The new month.
-     * @param integer $expectedDay The expected day-of-month of the resulting date.
+     * @param int $year        The base year.
+     * @param int $month       The base month.
+     * @param int $day         The base day-of-month.
+     * @param int $newMonth    The new month.
+     * @param int $expectedDay The expected day-of-month of the resulting date.
      */
-    public function testWithMonth($year, $month, $day, $newMonth, $expectedDay)
+    public function testWithMonth(int $year, int $month, int $day, int $newMonth, int $expectedDay)
     {
         $localDate = LocalDate::of($year, $month, $day)->withMonth($newMonth);
         $this->assertLocalDateIs($year, $newMonth, $expectedDay, $localDate);
@@ -387,7 +387,7 @@ class LocalDateTest extends AbstractTestCase
     /**
      * @return array
      */
-    public function providerWithMonth()
+    public function providerWithMonth() : array
     {
         return [
             [2007, 3, 31, 2, 28],
@@ -411,9 +411,9 @@ class LocalDateTest extends AbstractTestCase
      * @dataProvider providerWithInvalidYearThrowsException
      * @expectedException \Brick\DateTime\DateTimeException
      *
-     * @param integer $invalidMonth The month to test.
+     * @param int $invalidMonth The month to test.
      */
-    public function testWithInvalidMonthThrowsException($invalidMonth)
+    public function testWithInvalidMonthThrowsException(int $invalidMonth)
     {
         LocalDate::of(2001, 2, 3)->atTime(LocalTime::of(4, 5, 6))->withMonth($invalidMonth);
     }
@@ -421,7 +421,7 @@ class LocalDateTest extends AbstractTestCase
     /**
      * @return array
      */
-    public function providerWithInvalidMonthThrowsException()
+    public function providerWithInvalidMonthThrowsException() : array
     {
         return [
             [0],
@@ -432,12 +432,12 @@ class LocalDateTest extends AbstractTestCase
     /**
      * @dataProvider providerWithDay
      *
-     * @param integer $year   The base year.
-     * @param integer $month  The base month.
-     * @param integer $day    The base day-of-month.
-     * @param integer $newDay The new day-of-month.
+     * @param int $year   The base year.
+     * @param int $month  The base month.
+     * @param int $day    The base day-of-month.
+     * @param int $newDay The new day-of-month.
      */
-    public function testWithDay($year, $month, $day, $newDay)
+    public function testWithDay(int $year, int $month, int $day, int $newDay)
     {
         $localDate = LocalDate::of($year, $month, $day)->withDay($newDay);
         $this->assertLocalDateIs($year, $month, $newDay, $localDate);
@@ -446,7 +446,7 @@ class LocalDateTest extends AbstractTestCase
     /**
      * @return array
      */
-    public function providerWithDay()
+    public function providerWithDay() : array
     {
         return [
             [2007, 6, 2, 2],
@@ -460,12 +460,12 @@ class LocalDateTest extends AbstractTestCase
      * @dataProvider providerWithInvalidDayThrowsException
      * @expectedException \Brick\DateTime\DateTimeException
      *
-     * @param integer $year   The base year.
-     * @param integer $month  The base month.
-     * @param integer $day    The base day-of-month.
-     * @param integer $newDay The new day-of-month.
+     * @param int $year   The base year.
+     * @param int $month  The base month.
+     * @param int $day    The base day-of-month.
+     * @param int $newDay The new day-of-month.
      */
-    public function testWithInvalidDayThrowsException($year, $month, $day, $newDay)
+    public function testWithInvalidDayThrowsException(int $year, int $month, int $day, int $newDay)
     {
         LocalDate::of($year, $month, $day)->withDay($newDay);
     }
@@ -473,7 +473,7 @@ class LocalDateTest extends AbstractTestCase
     /**
      * @return array
      */
-    public function providerWithInvalidDayThrowsException()
+    public function providerWithInvalidDayThrowsException() : array
     {
         return [
             [2007, 1, 1, 0],
@@ -487,17 +487,17 @@ class LocalDateTest extends AbstractTestCase
     /**
      * @dataProvider providerPeriod
      *
-     * @param integer $y  The year of the base date.
-     * @param integer $m  The month of the base date.
-     * @param integer $d  The day of the base date.
-     * @param integer $py The number of years in the period.
-     * @param integer $pm The number of months in the period.
-     * @param integer $pd The number of days in the period.
-     * @param integer $ey The expected year of the result date.
-     * @param integer $em The expected month of the result date.
-     * @param integer $ed The expected day of the result date.
+     * @param int $y  The year of the base date.
+     * @param int $m  The month of the base date.
+     * @param int $d  The day of the base date.
+     * @param int $py The number of years in the period.
+     * @param int $pm The number of months in the period.
+     * @param int $pd The number of days in the period.
+     * @param int $ey The expected year of the result date.
+     * @param int $em The expected month of the result date.
+     * @param int $ed The expected day of the result date.
      */
-    public function testPlusPeriod($y, $m, $d, $py, $pm, $pd, $ey, $em, $ed)
+    public function testPlusPeriod(int $y, int $m, int $d, int $py, int $pm, int $pd, int $ey, int $em, int $ed)
     {
         $date = LocalDate::of($y, $m, $d);
         $period = Period::of($py, $pm, $pd);
@@ -508,17 +508,17 @@ class LocalDateTest extends AbstractTestCase
     /**
      * @dataProvider providerPeriod
      *
-     * @param integer $y  The year of the base date.
-     * @param integer $m  The month of the base date.
-     * @param integer $d  The day of the base date.
-     * @param integer $py The number of years in the period.
-     * @param integer $pm The number of months in the period.
-     * @param integer $pd The number of days in the period.
-     * @param integer $ey The expected year of the result date.
-     * @param integer $em The expected month of the result date.
-     * @param integer $ed The expected day of the result date.
+     * @param int $y  The year of the base date.
+     * @param int $m  The month of the base date.
+     * @param int $d  The day of the base date.
+     * @param int $py The number of years in the period.
+     * @param int $pm The number of months in the period.
+     * @param int $pd The number of days in the period.
+     * @param int $ey The expected year of the result date.
+     * @param int $em The expected month of the result date.
+     * @param int $ed The expected day of the result date.
      */
-    public function testMinusPeriod($y, $m, $d, $py, $pm, $pd, $ey, $em, $ed)
+    public function testMinusPeriod(int $y, int $m, int $d, int $py, int $pm, int $pd, int $ey, int $em, int $ed)
     {
         $date = LocalDate::of($y, $m, $d);
         $period = Period::of(-$py, -$pm, -$pd);
@@ -529,7 +529,7 @@ class LocalDateTest extends AbstractTestCase
     /**
      * @return array
      */
-    public function providerPeriod()
+    public function providerPeriod() : array
     {
         return [
             [2001, 2, 3,  0,   0,   0, 2001,  2,  3],
@@ -549,15 +549,15 @@ class LocalDateTest extends AbstractTestCase
     /**
      * @dataProvider providerPlusYears
      *
-     * @param integer $y  The base year.
-     * @param integer $m  The base month.
-     * @param integer $d  The base day.
-     * @param integer $ay The number of years to add.
-     * @param integer $ey The expected resulting year.
-     * @param integer $em The expected resulting month.
-     * @param integer $ed The expected resulting day.
+     * @param int $y  The base year.
+     * @param int $m  The base month.
+     * @param int $d  The base day.
+     * @param int $ay The number of years to add.
+     * @param int $ey The expected resulting year.
+     * @param int $em The expected resulting month.
+     * @param int $ed The expected resulting day.
      */
-    public function testPlusYears($y, $m, $d, $ay, $ey, $em, $ed)
+    public function testPlusYears(int $y, int $m, int $d, int $ay, int $ey, int $em, int $ed)
     {
         $this->assertLocalDateIs($ey, $em, $ed, LocalDate::of($y, $m, $d)->plusYears($ay));
     }
@@ -565,7 +565,7 @@ class LocalDateTest extends AbstractTestCase
     /**
      * @return array
      */
-    public function providerPlusYears()
+    public function providerPlusYears() : array
     {
         return [
             [2014, 1, 2, 0, 2014, 1, 2],
@@ -579,15 +579,15 @@ class LocalDateTest extends AbstractTestCase
     /**
      * @dataProvider providerPlusMonths
      *
-     * @param integer $y  The base year.
-     * @param integer $m  The base month.
-     * @param integer $d  The base day.
-     * @param integer $am The number of months to add.
-     * @param integer $ey The expected resulting year.
-     * @param integer $em The expected resulting month.
-     * @param integer $ed The expected resulting day.
+     * @param int $y  The base year.
+     * @param int $m  The base month.
+     * @param int $d  The base day.
+     * @param int $am The number of months to add.
+     * @param int $ey The expected resulting year.
+     * @param int $em The expected resulting month.
+     * @param int $ed The expected resulting day.
      */
-    public function testPlusMonths($y, $m, $d, $am, $ey, $em, $ed)
+    public function testPlusMonths(int $y, int $m, int $d, int $am, int $ey, int $em, int $ed)
     {
         $this->assertLocalDateIs($ey, $em, $ed, LocalDate::of($y, $m, $d)->plusMonths($am));
     }
@@ -595,7 +595,7 @@ class LocalDateTest extends AbstractTestCase
     /**
      * @return array
      */
-    public function providerPlusMonths()
+    public function providerPlusMonths() : array
     {
         return [
             [2014, 1, 2, 0, 2014, 1, 2],
@@ -618,15 +618,15 @@ class LocalDateTest extends AbstractTestCase
     /**
      * @dataProvider providerPlusWeeks
      *
-     * @param integer $y  The base year.
-     * @param integer $m  The base month.
-     * @param integer $d  The base day.
-     * @param integer $aw The number of weeks to add.
-     * @param integer $ey The expected resulting year.
-     * @param integer $em The expected resulting month.
-     * @param integer $ed The expected resulting day.
+     * @param int $y  The base year.
+     * @param int $m  The base month.
+     * @param int $d  The base day.
+     * @param int $aw The number of weeks to add.
+     * @param int $ey The expected resulting year.
+     * @param int $em The expected resulting month.
+     * @param int $ed The expected resulting day.
      */
-    public function testPlusWeeks($y, $m, $d, $aw, $ey, $em, $ed)
+    public function testPlusWeeks(int $y, int $m, int $d, int $aw, int $ey, int $em, int $ed)
     {
         $this->assertLocalDateIs($ey, $em, $ed, LocalDate::of($y, $m, $d)->plusWeeks($aw));
     }
@@ -634,7 +634,7 @@ class LocalDateTest extends AbstractTestCase
     /**
      * @return array
      */
-    public function providerPlusWeeks()
+    public function providerPlusWeeks() : array
     {
         return [
             [2014, 7, 31, 0, 2014, 7, 31],
@@ -650,15 +650,15 @@ class LocalDateTest extends AbstractTestCase
     /**
      * @dataProvider providerPlusDays
      *
-     * @param integer $y  The base year.
-     * @param integer $m  The base month.
-     * @param integer $d  The base day.
-     * @param integer $ad The number of days to add.
-     * @param integer $ey The expected resulting year.
-     * @param integer $em The expected resulting month.
-     * @param integer $ed The expected resulting day.
+     * @param int $y  The base year.
+     * @param int $m  The base month.
+     * @param int $d  The base day.
+     * @param int $ad The number of days to add.
+     * @param int $ey The expected resulting year.
+     * @param int $em The expected resulting month.
+     * @param int $ed The expected resulting day.
      */
-    public function testPlusDays($y, $m, $d, $ad, $ey, $em, $ed)
+    public function testPlusDays(int $y, int $m, int $d, int $ad, int $ey, int $em, int $ed)
     {
         $this->assertLocalDateIs($ey, $em, $ed, LocalDate::of($y, $m, $d)->plusDays($ad));
     }
@@ -666,7 +666,7 @@ class LocalDateTest extends AbstractTestCase
     /**
      * @return array
      */
-    public function providerPlusDays()
+    public function providerPlusDays() : array
     {
         return [
             [2014, 1, 2, 0, 2014, 1, 2],
@@ -683,15 +683,15 @@ class LocalDateTest extends AbstractTestCase
     /**
      * @dataProvider providerMinusYears
      *
-     * @param integer $y  The base year.
-     * @param integer $m  The base month.
-     * @param integer $d  The base day.
-     * @param integer $sy The number of years to subtract.
-     * @param integer $ey The expected resulting year.
-     * @param integer $em The expected resulting month.
-     * @param integer $ed The expected resulting day.
+     * @param int $y  The base year.
+     * @param int $m  The base month.
+     * @param int $d  The base day.
+     * @param int $sy The number of years to subtract.
+     * @param int $ey The expected resulting year.
+     * @param int $em The expected resulting month.
+     * @param int $ed The expected resulting day.
      */
-    public function tesMinusYears($y, $m, $d, $sy, $ey, $em, $ed)
+    public function tesMinusYears(int $y, int $m, int $d, int $sy, int $ey, int $em, int $ed)
     {
         $this->assertLocalDateIs($ey, $em, $ed, LocalDate::of($y, $m, $d)->minusYears($sy));
     }
@@ -699,7 +699,7 @@ class LocalDateTest extends AbstractTestCase
     /**
      * @return array
      */
-    public function providerMinusYears()
+    public function providerMinusYears() : array
     {
         return [
             [2014, 1, 2, 0, 2014, 1, 2],
@@ -713,15 +713,15 @@ class LocalDateTest extends AbstractTestCase
     /**
      * @dataProvider providerMinusMonths
      *
-     * @param integer $y  The base year.
-     * @param integer $m  The base month.
-     * @param integer $d  The base day.
-     * @param integer $sm The number of months to subtract.
-     * @param integer $ey The expected resulting year.
-     * @param integer $em The expected resulting month.
-     * @param integer $ed The expected resulting day.
+     * @param int $y  The base year.
+     * @param int $m  The base month.
+     * @param int $d  The base day.
+     * @param int $sm The number of months to subtract.
+     * @param int $ey The expected resulting year.
+     * @param int $em The expected resulting month.
+     * @param int $ed The expected resulting day.
      */
-    public function testMinusMonths($y, $m, $d, $sm, $ey, $em, $ed)
+    public function testMinusMonths(int $y, int $m, int $d, int $sm, int $ey, int $em, int $ed)
     {
         $this->assertLocalDateIs($ey, $em, $ed, LocalDate::of($y, $m, $d)->minusMonths($sm));
     }
@@ -729,7 +729,7 @@ class LocalDateTest extends AbstractTestCase
     /**
      * @return array
      */
-    public function providerMinusMonths()
+    public function providerMinusMonths() : array
     {
         return [
             [2014, 1, 2, 0, 2014, 1, 2],
@@ -752,15 +752,15 @@ class LocalDateTest extends AbstractTestCase
     /**
      * @dataProvider providerMinusWeeks
      *
-     * @param integer $y  The base year.
-     * @param integer $m  The base month.
-     * @param integer $d  The base day.
-     * @param integer $sw The number of weeks to subtract.
-     * @param integer $ey The expected resulting year.
-     * @param integer $em The expected resulting month.
-     * @param integer $ed The expected resulting day.
+     * @param int $y  The base year.
+     * @param int $m  The base month.
+     * @param int $d  The base day.
+     * @param int $sw The number of weeks to subtract.
+     * @param int $ey The expected resulting year.
+     * @param int $em The expected resulting month.
+     * @param int $ed The expected resulting day.
      */
-    public function testMinusWeeks($y, $m, $d, $sw, $ey, $em, $ed)
+    public function testMinusWeeks(int $y, int $m, int $d, int $sw, int $ey, int $em, int $ed)
     {
         $this->assertLocalDateIs($ey, $em, $ed, LocalDate::of($y, $m, $d)->minusWeeks($sw));
     }
@@ -768,7 +768,7 @@ class LocalDateTest extends AbstractTestCase
     /**
      * @return array
      */
-    public function providerMinusWeeks()
+    public function providerMinusWeeks() : array
     {
         return [
             [2014, 7, 31, 0, 2014, 7, 31],
@@ -784,15 +784,15 @@ class LocalDateTest extends AbstractTestCase
     /**
      * @dataProvider providerMinusDays
      *
-     * @param integer $y  The base year.
-     * @param integer $m  The base month.
-     * @param integer $d  The base day.
-     * @param integer $sd The number of days to subtract.
-     * @param integer $ey The expected resulting year.
-     * @param integer $em The expected resulting month.
-     * @param integer $ed The expected resulting day.
+     * @param int $y  The base year.
+     * @param int $m  The base month.
+     * @param int $d  The base day.
+     * @param int $sd The number of days to subtract.
+     * @param int $ey The expected resulting year.
+     * @param int $em The expected resulting month.
+     * @param int $ed The expected resulting day.
      */
-    public function testMinusDays($y, $m, $d, $sd, $ey, $em, $ed)
+    public function testMinusDays(int $y, int $m, int $d, int $sd, int $ey, int $em, int $ed)
     {
         $this->assertLocalDateIs($ey, $em, $ed, LocalDate::of($y, $m, $d)->minusDays($sd));
     }
@@ -800,7 +800,7 @@ class LocalDateTest extends AbstractTestCase
     /**
      * @return array
      */
-    public function providerMinusDays()
+    public function providerMinusDays() : array
     {
         return [
             [2014, 1, 2, 0, 2014, 1, 2],
@@ -817,17 +817,17 @@ class LocalDateTest extends AbstractTestCase
     /**
      * @dataProvider providerUntil
      *
-     * @param integer $y1 The year of the 1st date.
-     * @param integer $m1 The month of the 1st date.
-     * @param integer $d1 The day of the 1st date.
-     * @param integer $y2 The year of the 2nd date.
-     * @param integer $m2 The month of the 2nd date.
-     * @param integer $d2 The day of the 2nd date.
-     * @param integer $y  The expected number of years in the period.
-     * @param integer $m  The expected number of months in the period.
-     * @param integer $d  The expected number of days in the period.
+     * @param int $y1 The year of the 1st date.
+     * @param int $m1 The month of the 1st date.
+     * @param int $d1 The day of the 1st date.
+     * @param int $y2 The year of the 2nd date.
+     * @param int $m2 The month of the 2nd date.
+     * @param int $d2 The day of the 2nd date.
+     * @param int $y  The expected number of years in the period.
+     * @param int $m  The expected number of months in the period.
+     * @param int $d  The expected number of days in the period.
      */
-    public function testUntil($y1, $m1, $d1, $y2, $m2, $d2, $y, $m, $d)
+    public function testUntil(int $y1, int $m1, int $d1, int $y2, int $m2, int $d2, int $y, int $m, int $d)
     {
         $date1 = LocalDate::of($y1, $m1, $d1);
         $date2 = LocalDate::of($y2, $m2, $d2);
@@ -838,7 +838,7 @@ class LocalDateTest extends AbstractTestCase
     /**
      * @return array
      */
-    public function providerUntil()
+    public function providerUntil() : array
     {
         return [
             [2010, 1, 15, 2010, 1, 15, 0, 0, 0],
@@ -943,12 +943,12 @@ class LocalDateTest extends AbstractTestCase
     /**
      * @dataProvider providerIsLeapYear
      *
-     * @param integer $y      The year of the date to test.
-     * @param integer $m      The month of the date to test (should not matter).
-     * @param integer $d      The day of the date to test (should not matter).
-     * @param integer $isLeap Whether the year is a leap year.
+     * @param int  $y      The year of the date to test.
+     * @param int  $m      The month of the date to test (should not matter).
+     * @param int  $d      The day of the date to test (should not matter).
+     * @param bool $isLeap Whether the year is a leap year.
      */
-    public function testIsLeapYear($y, $m, $d, $isLeap)
+    public function testIsLeapYear(int $y, int $m, int $d, bool $isLeap)
     {
         $this->assertSame($isLeap, LocalDate::of($y, $m, $d)->isLeapYear());
     }
@@ -956,12 +956,12 @@ class LocalDateTest extends AbstractTestCase
     /**
      * @dataProvider providerIsLeapYear
      *
-     * @param integer $y      The year of the date to test.
-     * @param integer $m      The month of the date to test (should not matter).
-     * @param integer $d      The day of the date to test (should not matter).
-     * @param integer $isLeap Whether the year is a leap year.
+     * @param int  $y      The year of the date to test.
+     * @param int  $m      The month of the date to test (should not matter).
+     * @param int  $d      The day of the date to test (should not matter).
+     * @param bool $isLeap Whether the year is a leap year.
      */
-    public function testGetLengthOfYear($y, $m, $d, $isLeap)
+    public function testGetLengthOfYear(int $y, int $m, int $d, bool $isLeap)
     {
         $this->assertSame($isLeap ? 366 : 365, LocalDate::of($y, $m, $d)->getLengthOfYear());
     }
@@ -969,7 +969,7 @@ class LocalDateTest extends AbstractTestCase
     /**
      * @return array
      */
-    public function providerIsLeapYear()
+    public function providerIsLeapYear() : array
     {
         return [
             [1600, 1, 11, true],
@@ -987,12 +987,12 @@ class LocalDateTest extends AbstractTestCase
     /**
      * @dataProvider providerGetLengthOfMonth
      *
-     * @param integer $y      The year of the date to test.
-     * @param integer $m      The month of the date to test.
-     * @param integer $d      The day of the date to test (should not matter).
-     * @param integer $length The length of the month.
+     * @param int $y      The year of the date to test.
+     * @param int $m      The month of the date to test.
+     * @param int $d      The day of the date to test (should not matter).
+     * @param int $length The length of the month.
      */
-    public function testGetLengthOfMonth($y, $m, $d, $length)
+    public function testGetLengthOfMonth(int $y, int $m, int $d, int $length)
     {
         $this->assertSame($length, LocalDate::of($y, $m, $d)->getLengthOfMonth());
     }
@@ -1000,7 +1000,7 @@ class LocalDateTest extends AbstractTestCase
     /**
      * @return array
      */
-    public function providerGetLengthOfMonth()
+    public function providerGetLengthOfMonth() : array
     {
         return [
             [2000,  1,  2, 31],
@@ -1022,12 +1022,12 @@ class LocalDateTest extends AbstractTestCase
     /**
      * @dataProvider providerToString
      *
-     * @param integer $year     The year.
-     * @param integer $month    The month.
-     * @param integer $day      The day-of-month.
-     * @param string  $expected The expected result string.
+     * @param int    $year     The year.
+     * @param int    $month    The month.
+     * @param int    $day      The day-of-month.
+     * @param string $expected The expected result string.
      */
-    public function testToString($year, $month, $day, $expected)
+    public function testToString(int $year, int $month, int $day, string $expected)
     {
         $this->assertSame($expected, (string) LocalDate::of($year, $month, $day));
     }
@@ -1035,7 +1035,7 @@ class LocalDateTest extends AbstractTestCase
     /**
      * @return array
      */
-    public function providerToString()
+    public function providerToString() : array
     {
         return [
             [999, 1, 2, '0999-01-02'],

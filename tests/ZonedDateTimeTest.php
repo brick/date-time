@@ -18,14 +18,14 @@ class ZonedDateTimeTest extends AbstractTestCase
     /**
      * @dataProvider providerOf
      *
-     * @param string  $localDateTime The local date-time as a string.
-     * @param string  $timeZone      The time-zone as a string.
-     * @param string  $offset        The expected time-zone offset of the result zoned date-time.
-     * @param integer $shift         The expected shift applied to the date-time (when in a gap), in seconds.
-     * @param integer $epochSecond   The expected epoch-second the result zoned date-time resolves to.
-     * @param integer $nanoOfSecond  The expected nano-of-second of the result zoned date-time.
+     * @param string $localDateTime The local date-time as a string.
+     * @param string $timeZone      The time-zone as a string.
+     * @param string $offset        The expected time-zone offset of the result zoned date-time.
+     * @param int    $shift         The expected shift applied to the date-time (when in a gap), in seconds.
+     * @param int    $epochSecond   The expected epoch-second the result zoned date-time resolves to.
+     * @param int    $nanoOfSecond  The expected nano-of-second of the result zoned date-time.
      */
-    public function testOf($localDateTime, $timeZone, $offset, $shift, $epochSecond, $nanoOfSecond)
+    public function testOf(string $localDateTime, string $timeZone, string $offset, int $shift, int $epochSecond, int $nanoOfSecond)
     {
         $localDateTime = LocalDateTime::parse($localDateTime);
         $timeZone = TimeZone::parse($timeZone);
@@ -48,7 +48,7 @@ class ZonedDateTimeTest extends AbstractTestCase
     /**
      * @return array
      */
-    public function providerOf()
+    public function providerOf() : array
     {
         return [
             // WITH OFFSET FROM UTC
@@ -321,7 +321,7 @@ class ZonedDateTimeTest extends AbstractTestCase
      * @param string $formattedDatetime
      * @param string $timeZone
      */
-    public function testOfInstant($formattedDatetime, $timeZone)
+    public function testOfInstant(string $formattedDatetime, string $timeZone)
     {
         $instant = Instant::of(1000000000);
         $zonedDateTime = ZonedDateTime::ofInstant($instant, TimeZone::parse($timeZone));
@@ -333,7 +333,7 @@ class ZonedDateTimeTest extends AbstractTestCase
     /**
      * @return array
      */
-    public function providerOfInstant()
+    public function providerOfInstant() : array
     {
         return [
             ['2001-09-09T01:46:40', 'UTC'],
@@ -350,7 +350,7 @@ class ZonedDateTimeTest extends AbstractTestCase
      * @param string $offset The expected time-zone offset.
      * @param string $zone   The expected time-zone, should be the same as offset when no region is specified.
      */
-    public function testParse($text, $date, $time, $offset, $zone)
+    public function testParse(string $text, string $date, string $time, string $offset, string $zone)
     {
         $zonedDateTime = ZonedDateTime::parse($text);
 
@@ -363,7 +363,7 @@ class ZonedDateTimeTest extends AbstractTestCase
     /**
      * @return array
      */
-    public function providerParse()
+    public function providerParse() : array
     {
         return [
             ['2001-02-03T01:02Z', '2001-02-03', '01:02', 'Z', 'Z'],
@@ -385,7 +385,7 @@ class ZonedDateTimeTest extends AbstractTestCase
      *
      * @param string $text
      */
-    public function testParseInvalidStringThrowsException($text)
+    public function testParseInvalidStringThrowsException(string $text)
     {
         ZonedDateTime::parse($text);
     }
@@ -393,7 +393,7 @@ class ZonedDateTimeTest extends AbstractTestCase
     /**
      * @return array
      */
-    public function providerParseInvalidStringThrowsException()
+    public function providerParseInvalidStringThrowsException() : array
     {
         return [
             [''],

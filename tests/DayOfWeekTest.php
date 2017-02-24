@@ -16,10 +16,10 @@ class DayOfWeekTest extends AbstractTestCase
     /**
      * @dataProvider providerConstants
      *
-     * @param integer $expectedValue     The expected value of the constant.
-     * @param integer $dayOfWeekConstant The day-of-week constant.
+     * @param int $expectedValue     The expected value of the constant.
+     * @param int $dayOfWeekConstant The day-of-week constant.
      */
-    public function testConstants($expectedValue, $dayOfWeekConstant)
+    public function testConstants(int $expectedValue, int $dayOfWeekConstant)
     {
         $this->assertSame($expectedValue, $dayOfWeekConstant);
     }
@@ -27,7 +27,7 @@ class DayOfWeekTest extends AbstractTestCase
     /**
      * @return array
      */
-    public function providerConstants()
+    public function providerConstants() : array
     {
         return [
             [1, DayOfWeek::MONDAY],
@@ -49,9 +49,9 @@ class DayOfWeekTest extends AbstractTestCase
      * @dataProvider providerOfInvalidDayOfWeekThrowsException
      * @expectedException \Brick\DateTime\DateTimeException
      *
-     * @param integer $dayOfWeek
+     * @param int $dayOfWeek
      */
-    public function testOfInvalidDayOfWeekThrowsException($dayOfWeek)
+    public function testOfInvalidDayOfWeekThrowsException(int $dayOfWeek)
     {
         DayOfWeek::of($dayOfWeek);
     }
@@ -59,7 +59,7 @@ class DayOfWeekTest extends AbstractTestCase
     /**
      * @return array
      */
-    public function providerOfInvalidDayOfWeekThrowsException()
+    public function providerOfInvalidDayOfWeekThrowsException() : array
     {
         return [
             [-1],
@@ -71,11 +71,11 @@ class DayOfWeekTest extends AbstractTestCase
     /**
      * @dataProvider providerNow
      *
-     * @param integer $epochSecond       The epoch second to set the clock time to.
-     * @param string  $timeZone          The time-zone to get the current day-of-week in.
-     * @param integer $expectedDayOfWeek The expected day-of-week, from 1 to 7.
+     * @param int    $epochSecond       The epoch second to set the clock time to.
+     * @param string $timeZone          The time-zone to get the current day-of-week in.
+     * @param int    $expectedDayOfWeek The expected day-of-week, from 1 to 7.
      */
-    public function testNow($epochSecond, $timeZone, $expectedDayOfWeek)
+    public function testNow(int $epochSecond, string $timeZone, int $expectedDayOfWeek)
     {
         $this->setClockTime($epochSecond);
         $this->assertDayOfWeekIs($expectedDayOfWeek, DayOfWeek::now(TimeZone::parse($timeZone)));
@@ -84,7 +84,7 @@ class DayOfWeekTest extends AbstractTestCase
     /**
      * @return array
      */
-    public function providerNow()
+    public function providerNow() : array
     {
         return [
             [1388534399, '-01:00', DayOfWeek::TUESDAY],
@@ -129,11 +129,11 @@ class DayOfWeekTest extends AbstractTestCase
     /**
      * @dataProvider providerPlus
      *
-     * @param integer $dayOfWeek         The base day-of-week value.
-     * @param integer $plusDays          The number of days to add.
-     * @param integer $expectedDayOfWeek The expected day-of-week value, from 1 to 7.
+     * @param int $dayOfWeek         The base day-of-week value.
+     * @param int $plusDays          The number of days to add.
+     * @param int $expectedDayOfWeek The expected day-of-week value, from 1 to 7.
      */
-    public function testPlus($dayOfWeek, $plusDays, $expectedDayOfWeek)
+    public function testPlus(int $dayOfWeek, int $plusDays, int $expectedDayOfWeek)
     {
         $this->assertDayOfWeekIs($expectedDayOfWeek, DayOfWeek::of($dayOfWeek)->plus($plusDays));
     }
@@ -141,11 +141,11 @@ class DayOfWeekTest extends AbstractTestCase
     /**
      * @dataProvider providerPlus
      *
-     * @param integer $dayOfWeek         The base day-of-week value.
-     * @param integer $plusDays          The number of days to add.
-     * @param integer $expectedDayOfWeek The expected day-of-week value, from 1 to 7.
+     * @param int $dayOfWeek         The base day-of-week value.
+     * @param int $plusDays          The number of days to add.
+     * @param int $expectedDayOfWeek The expected day-of-week value, from 1 to 7.
      */
-    public function testMinus($dayOfWeek, $plusDays, $expectedDayOfWeek)
+    public function testMinus(int $dayOfWeek, int $plusDays, int $expectedDayOfWeek)
     {
         $this->assertDayOfWeekIs($expectedDayOfWeek, DayOfWeek::of($dayOfWeek)->minus(-$plusDays));
     }
@@ -153,7 +153,7 @@ class DayOfWeekTest extends AbstractTestCase
     /**
      * @return \Generator
      */
-    public function providerPlus()
+    public function providerPlus() : \Generator
     {
         for ($dayOfWeek = DayOfWeek::MONDAY; $dayOfWeek <= DayOfWeek::SUNDAY; $dayOfWeek++) {
             for ($plusDays = -15; $plusDays <= 15; $plusDays++) {
@@ -176,10 +176,10 @@ class DayOfWeekTest extends AbstractTestCase
      *
      * @dataProvider providerGetDayOfWeekFromLocalDate
      *
-     * @param string  $localDate The local date to test, as a string.
-     * @param integer $dayOfWeek The day-of-week number that matches the local date.
+     * @param string $localDate The local date to test, as a string.
+     * @param int    $dayOfWeek The day-of-week number that matches the local date.
      */
-    public function testGetDayOfWeekFromLocalDate($localDate, $dayOfWeek)
+    public function testGetDayOfWeekFromLocalDate(string $localDate, int $dayOfWeek)
     {
         $localDate = LocalDate::parse($localDate);
         $dayOfWeek = DayOfWeek::of($dayOfWeek);
@@ -190,7 +190,7 @@ class DayOfWeekTest extends AbstractTestCase
     /**
      * @return array
      */
-    public function providerGetDayOfWeekFromLocalDate()
+    public function providerGetDayOfWeekFromLocalDate() : array
     {
         return [
             ['2000-01-01', DayOfWeek::SATURDAY],
@@ -212,10 +212,10 @@ class DayOfWeekTest extends AbstractTestCase
     /**
      * @dataProvider providerToString
      *
-     * @param integer $dayOfWeek    The day-of-week value, from 1 to 7.
-     * @param string  $expectedName The expected name.
+     * @param int    $dayOfWeek    The day-of-week value, from 1 to 7.
+     * @param string $expectedName The expected name.
      */
-    public function testToString($dayOfWeek, $expectedName)
+    public function testToString(int $dayOfWeek, string $expectedName)
     {
         $this->assertSame($expectedName, (string) DayOfWeek::of($dayOfWeek));
     }
@@ -223,7 +223,7 @@ class DayOfWeekTest extends AbstractTestCase
     /**
      * @return array
      */
-    public function providerToString()
+    public function providerToString() : array
     {
         return [
             [DayOfWeek::MONDAY,    'Monday'],

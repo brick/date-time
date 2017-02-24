@@ -14,7 +14,7 @@ class StopwatchTest extends AbstractTestCase
     /**
      * @return Stopwatch
      */
-    public function testNew()
+    public function testNew() : Stopwatch
     {
         $stopwatch = new Stopwatch();
 
@@ -32,7 +32,7 @@ class StopwatchTest extends AbstractTestCase
      *
      * @return Stopwatch
      */
-    public function testStart(Stopwatch $stopwatch)
+    public function testStart(Stopwatch $stopwatch) : Stopwatch
     {
         $this->setClockTime(1000, 1);
 
@@ -52,7 +52,7 @@ class StopwatchTest extends AbstractTestCase
      *
      * @return Stopwatch
      */
-    public function testElapsedTimeWhileRunning(Stopwatch $stopwatch)
+    public function testElapsedTimeWhileRunning(Stopwatch $stopwatch) : Stopwatch
     {
         $this->setClockTime(2000, 0);
 
@@ -70,7 +70,7 @@ class StopwatchTest extends AbstractTestCase
      *
      * @return Stopwatch
      */
-    public function testStop(Stopwatch $stopwatch)
+    public function testStop(Stopwatch $stopwatch) : Stopwatch
     {
         $this->setClockTime(3000, 2);
 
@@ -90,7 +90,7 @@ class StopwatchTest extends AbstractTestCase
      *
      * @return Stopwatch
      */
-    public function testFrozenAfterStop(Stopwatch $stopwatch)
+    public function testFrozenAfterStop(Stopwatch $stopwatch) : Stopwatch
     {
         $this->setClockTime(4000, 9);
 
@@ -108,7 +108,7 @@ class StopwatchTest extends AbstractTestCase
      *
      * @return Stopwatch
      */
-    public function testRestart(Stopwatch $stopwatch)
+    public function testRestart(Stopwatch $stopwatch) : Stopwatch
     {
         $this->setClockTime(5000, 9);
 
@@ -128,7 +128,7 @@ class StopwatchTest extends AbstractTestCase
      *
      * @return Stopwatch
      */
-    public function testElapsedTimeWhileRunningAfterRestart(Stopwatch $stopwatch)
+    public function testElapsedTimeWhileRunningAfterRestart(Stopwatch $stopwatch) : Stopwatch
     {
         $this->setClockTime(5001, 10);
 
@@ -146,7 +146,7 @@ class StopwatchTest extends AbstractTestCase
      *
      * @return Stopwatch
      */
-    public function testStopAgain(Stopwatch $stopwatch)
+    public function testStopAgain(Stopwatch $stopwatch) : Stopwatch
     {
         $this->setClockTime(5002, 20);
 

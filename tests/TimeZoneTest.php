@@ -20,7 +20,7 @@ class TimeZoneTest extends AbstractTestCase
      * @param string $class The expected class name.
      * @param string $id    The expected id.
      */
-    public function testParse($text, $class, $id)
+    public function testParse(string $text, string $class, string $id)
     {
         $timeZone = TimeZone::parse($text);
 
@@ -31,7 +31,7 @@ class TimeZoneTest extends AbstractTestCase
     /**
      * @return array
      */
-    public function providerParse()
+    public function providerParse() : array
     {
         return [
             ['Z', TimeZoneOffset::class, 'Z'],
@@ -49,7 +49,7 @@ class TimeZoneTest extends AbstractTestCase
      *
      * @param string $text
      */
-    public function testParseInvalidStringThrowsException($text)
+    public function testParseInvalidStringThrowsException(string $text)
     {
         TimeZone::parse($text);
     }
@@ -57,7 +57,7 @@ class TimeZoneTest extends AbstractTestCase
     /**
      * @return array
      */
-    public function providerParseInvalidStringThrowsException()
+    public function providerParseInvalidStringThrowsException() : array
     {
         return [
             [''],
@@ -82,7 +82,7 @@ class TimeZoneTest extends AbstractTestCase
      *
      * @param string $tz The time-zone name.
      */
-    public function testFromDateTimeZone($tz)
+    public function testFromDateTimeZone(string $tz)
     {
         $dateTimeZone = new \DateTimeZone($tz);
         $this->assertSame($tz, TimeZone::fromDateTimeZone($dateTimeZone)->getId());
@@ -91,7 +91,7 @@ class TimeZoneTest extends AbstractTestCase
     /**
      * @return array
      */
-    public function providerFromDateTimeZone()
+    public function providerFromDateTimeZone() : array
     {
         return [
             ['Z'],

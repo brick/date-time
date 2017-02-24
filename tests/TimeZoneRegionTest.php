@@ -23,7 +23,7 @@ class TimeZoneRegionTest extends AbstractTestCase
      *
      * @param string $region
      */
-    public function testOfInvalidRegionThrowsException($region)
+    public function testOfInvalidRegionThrowsException(string $region)
     {
         TimeZoneRegion::of($region);
     }
@@ -31,7 +31,7 @@ class TimeZoneRegionTest extends AbstractTestCase
     /**
      * @return array
      */
-    public function providerOfInvalidRegionThrowsException()
+    public function providerOfInvalidRegionThrowsException() : array
     {
         return [
             [''],
@@ -54,7 +54,7 @@ class TimeZoneRegionTest extends AbstractTestCase
      *
      * @param string $text
      */
-    public function testParseInvalidStringThrowsException($text)
+    public function testParseInvalidStringThrowsException(string $text)
     {
         TimeZoneRegion::parse($text);
     }
@@ -62,7 +62,7 @@ class TimeZoneRegionTest extends AbstractTestCase
     /**
      * @return array
      */
-    public function providerParseInvalidStringThrowsException()
+    public function providerParseInvalidStringThrowsException() : array
     {
         return [
             [''],
@@ -75,7 +75,7 @@ class TimeZoneRegionTest extends AbstractTestCase
      *
      * @param bool $includeObsolete
      */
-    public function testGetAllTimeZones($includeObsolete)
+    public function testGetAllTimeZones(bool $includeObsolete)
     {
         $identifiers = TimeZoneRegion::getAllIdentifiers($includeObsolete);
         $this->assertGreaterThan(1, \count($identifiers));
@@ -108,7 +108,7 @@ class TimeZoneRegionTest extends AbstractTestCase
     /**
      * @return array
      */
-    public function providerGetAllTimeZones()
+    public function providerGetAllTimeZones() : array
     {
         return [
             [false],
@@ -119,10 +119,10 @@ class TimeZoneRegionTest extends AbstractTestCase
     /**
      * @dataProvider providerGetTimeZonesForCountry
      *
-     * @param string    $countryCode
-     * @param string ...$expectedIdentifiers
+     * @param string   $countryCode
+     * @param string[] $expectedIdentifiers
      */
-    public function testGetTimeZonesForCountry($countryCode, ...$expectedIdentifiers)
+    public function testGetTimeZonesForCountry(string $countryCode, string ...$expectedIdentifiers)
     {
         $identifiers = TimeZoneRegion::getIdentifiersForCountry($countryCode);
 
@@ -132,7 +132,7 @@ class TimeZoneRegionTest extends AbstractTestCase
     /**
      * @return array
      */
-    public function providerGetTimeZonesForCountry()
+    public function providerGetTimeZonesForCountry() : array
     {
         return [
             ['FR', 'Europe/Paris'],
@@ -150,11 +150,11 @@ class TimeZoneRegionTest extends AbstractTestCase
     /**
      * @dataProvider providerGetOffset
      *
-     * @param string  $region         The time-zone region.
-     * @param integer $epochSecond    The instant to test.
-     * @param integer $expectedOffset The expected offset in seconds.
+     * @param string $region         The time-zone region.
+     * @param int    $epochSecond    The instant to test.
+     * @param int    $expectedOffset The expected offset in seconds.
      */
-    public function testGetOffset($region, $epochSecond, $expectedOffset)
+    public function testGetOffset(string $region, int $epochSecond, int $expectedOffset)
     {
         $actualOffset = TimeZoneRegion::of($region)->getOffset(Instant::of($epochSecond));
         $this->assertSame($expectedOffset, $actualOffset);
@@ -163,7 +163,7 @@ class TimeZoneRegionTest extends AbstractTestCase
     /**
      * @return array
      */
-    public function providerGetOffset()
+    public function providerGetOffset() : array
     {
         return [
             ['Europe/London', 1419984000,    0],
