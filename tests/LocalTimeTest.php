@@ -788,6 +788,8 @@ class LocalTimeTest extends AbstractTestCase
         $this->assertSame($cmp === 0, $t1->isEqualTo($t2));
         $this->assertSame($cmp === -1, $t1->isBefore($t2));
         $this->assertSame($cmp === 1, $t1->isAfter($t2));
+        $this->assertSame($cmp <= 0, $t1->isBeforeOrEqualTo($t2));
+        $this->assertSame($cmp >= 0, $t1->isAfterOrEqualTo($t2));
     }
 
     /**

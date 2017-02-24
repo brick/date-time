@@ -341,9 +341,37 @@ class InstantTest extends AbstractTestCase
      * @param int $n2  The nanosecond adjustment of the 2nd instant.
      * @param int $cmp The comparison value.
      */
+    public function testIsAfterOrEqualTo(int $s1, int $n1, int $s2, int $n2, int $cmp)
+    {
+        $this->assertSame($cmp >= 0, Instant::of($s1, $n1)->isAfterOrEqualTo(Instant::of($s2, $n2)));
+    }
+
+    /**
+     * @dataProvider providerCompareTo
+     *
+     * @param int $s1  The epoch second of the 1st instant.
+     * @param int $n1  The nanosecond adjustment of the 1st instant.
+     * @param int $s2  The epoch second of the 2nd instant.
+     * @param int $n2  The nanosecond adjustment of the 2nd instant.
+     * @param int $cmp The comparison value.
+     */
     public function testIsBefore(int $s1, int $n1, int $s2, int $n2, int $cmp)
     {
         $this->assertSame($cmp === -1, Instant::of($s1, $n1)->isBefore(Instant::of($s2, $n2)));
+    }
+
+    /**
+     * @dataProvider providerCompareTo
+     *
+     * @param int $s1  The epoch second of the 1st instant.
+     * @param int $n1  The nanosecond adjustment of the 1st instant.
+     * @param int $s2  The epoch second of the 2nd instant.
+     * @param int $n2  The nanosecond adjustment of the 2nd instant.
+     * @param int $cmp The comparison value.
+     */
+    public function testIsBeforeOrEqualTo(int $s1, int $n1, int $s2, int $n2, int $cmp)
+    {
+        $this->assertSame($cmp <= 0, Instant::of($s1, $n1)->isBeforeOrEqualTo(Instant::of($s2, $n2)));
     }
 
     /**

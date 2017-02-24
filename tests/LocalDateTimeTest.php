@@ -1205,38 +1205,6 @@ class LocalDateTimeTest extends AbstractTestCase
     }
 
     /**
-     * @dataProvider providerIsEqualTo
-     *
-     * @param string $dateTime1 The base date-time.
-     * @param string $dateTime2 The date-time to compare to.
-     * @param bool   $isEqual   The expected result.
-     */
-    public function testIsEqualTo(string $dateTime1, string $dateTime2, bool $isEqual)
-    {
-        $dateTime1 = LocalDateTime::parse($dateTime1);
-        $dateTime2 = LocalDateTime::parse($dateTime2);
-
-        $this->assertSame($isEqual, $dateTime1->isEqualTo($dateTime2));
-    }
-
-    /**
-     * @return array
-     */
-    public function providerIsEqualTo() : array
-    {
-        return [
-            ['2001-01-01T11:11:11.1', '2001-01-01T11:11:11.1', true],
-            ['2001-01-01T01:01:01.1', '2009-01-01T01:01:01.1', false],
-            ['2001-01-01T01:01:01.1', '2001-09-01T01:01:01.1', false],
-            ['2001-01-01T01:01:01.1', '2001-01-09T01:01:01.1', false],
-            ['2001-01-01T01:01:01.1', '2001-01-01T09:01:01.1', false],
-            ['2001-01-01T01:01:01.1', '2001-01-01T01:09:01.1', false],
-            ['2001-01-01T01:01:01.1', '2001-01-01T01:01:09.1', false],
-            ['2001-01-01T01:01:01.1', '2001-01-01T01:01:01.9', false],
-        ];
-    }
-
-    /**
      * @dataProvider providerCompareTo
      *
      * @param string $dateTime1 The base date-time.
@@ -1249,6 +1217,12 @@ class LocalDateTimeTest extends AbstractTestCase
         $dateTime2 = LocalDateTime::parse($dateTime2);
 
         $this->assertSame($result, $dateTime1->compareTo($dateTime2));
+
+        $this->assertSame($result === 0, $dateTime1->isEqualTo($dateTime2));
+        $this->assertSame($result === 1, $dateTime1->isAfter($dateTime2));
+        $this->assertSame($result === -1, $dateTime1->isBefore($dateTime2));
+        $this->assertSame($result >= 0, $dateTime1->isAfterOrEqualTo($dateTime2));
+        $this->assertSame($result <= 0, $dateTime1->isBeforeOrEqualTo($dateTime2));
     }
 
     /**
@@ -1273,63 +1247,5 @@ class LocalDateTimeTest extends AbstractTestCase
             ['9999-12-31T23:59:59.0', '0000-01-01T00:00:00.9',  1],
             ['0000-01-01T00:00:00.9', '9999-12-31T23:59:59.0', -1],
         ];
-    }
-
-    /**
-     * @dataProvider providerIsBefore
-     *
-     * @param string $dateTime1 The base date-time.
-     * @param string $dateTime2 The date-time to compare to.
-     * @param bool   $isBefore  The expected result.
-     */
-    public function testIsBefore(string $dateTime1, string $dateTime2, bool $isBefore)
-    {
-        $dateTime1 = LocalDateTime::parse($dateTime1);
-        $dateTime2 = LocalDateTime::parse($dateTime2);
-
-        $this->assertSame($isBefore, $dateTime1->isBefore($dateTime2));
-    }
-
-    /**
-     * @return array
-     */
-    public function providerIsBefore() : array
-    {
-        $data = $this->providerCompareTo();
-
-        foreach ($data as & $values) {
-            $values[2] = ($values[2] == -1);
-        }
-
-        return $data;
-    }
-
-    /**
-     * @dataProvider providerIsAfter
-     *
-     * @param string $dateTime1 The base date-time.
-     * @param string $dateTime2 The date-time to compare to.
-     * @param bool   $isAfter   The expected result.
-     */
-    public function testIsAfter(string $dateTime1, string $dateTime2, bool $isAfter)
-    {
-        $dateTime1 = LocalDateTime::parse($dateTime1);
-        $dateTime2 = LocalDateTime::parse($dateTime2);
-
-        $this->assertSame($isAfter, $dateTime1->isAfter($dateTime2));
-    }
-
-    /**
-     * @return array
-     */
-    public function providerIsAfter() : array
-    {
-        $data = $this->providerCompareTo();
-
-        foreach ($data as & $values) {
-            $values[2] = ($values[2] == 1);
-        }
-
-        return $data;
     }
 }

@@ -1020,6 +1020,44 @@ class LocalDateTest extends AbstractTestCase
     }
 
     /**
+     * @dataProvider providerCompareTo
+     *
+     * @param string $date1 The first date.
+     * @param string $date2 The second date.
+     * @param int    $cmp   The comparison value.
+     */
+    public function testCompareTo(string $date1, string $date2, int $cmp)
+    {
+        $date1 = LocalDate::parse($date1);
+        $date2 = LocalDate::parse($date2);
+
+        $this->assertSame($cmp, $date1->compareTo($date2));
+        $this->assertSame($cmp === 0, $date1->isEqualTo($date2));
+        $this->assertSame($cmp === -1, $date1->isBefore($date2));
+        $this->assertSame($cmp === 1, $date1->isAfter($date2));
+        $this->assertSame($cmp <= 0, $date1->isBeforeOrEqualTo($date2));
+        $this->assertSame($cmp >= 0, $date1->isAfterOrEqualTo($date2));
+    }
+
+    /**
+     * @return array
+     */
+    public function providerCompareTo() : array
+    {
+        return [
+            ['2015-01-01', '2014-12-31', 1],
+            ['2015-01-01', '2015-01-01', 0],
+            ['2015-01-01', '2015-01-02', -1],
+            ['2016-02-05', '2016-01-01', 1],
+            ['2016-02-05', '2016-01-31', 1],
+            ['2016-02-05', '2016-02-04', 1],
+            ['2016-02-05', '2016-02-05', 0],
+            ['2016-02-05', '2016-02-06', -1],
+            ['2016-02-05', '2016-03-01', -1],
+        ];
+    }
+
+    /**
      * @dataProvider providerToString
      *
      * @param int    $year     The year.

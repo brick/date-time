@@ -437,4 +437,49 @@ class ZonedDateTimeTest extends AbstractTestCase
         $this->assertSame($timezone2, $datetime2->getTimeZone());
         $this->assertSame('2001-09-09T01:46:40', (string) $datetime2->getDateTime());
     }
+
+    /**
+     * @dataProvider providerCompareTo
+     *
+     * @param string $z1  The first zoned date-time.
+     * @param string $z2  The second zoned date-time.
+     * @param int    $cmp The comparison value.
+     */
+    public function testCompareTo(string $z1, string $z2, int $cmp)
+    {
+        $z1 = ZonedDateTime::parse($z1);
+        $z2 = ZonedDateTime::parse($z2);
+
+        $this->assertSame($cmp, $z1->compareTo($z2));
+        $this->assertSame($cmp === 0, $z1->isEqualTo($z2));
+        $this->assertSame($cmp === -1, $z1->isBefore($z2));
+        $this->assertSame($cmp === 1, $z1->isAfter($z2));
+        $this->assertSame($cmp <= 0, $z1->isBeforeOrEqualTo($z2));
+        $this->assertSame($cmp >= 0, $z1->isAfterOrEqualTo($z2));
+
+        $this->assertSame(-$cmp, $z2->compareTo($z1));
+        $this->assertSame($cmp === 0, $z2->isEqualTo($z1));
+        $this->assertSame($cmp === 1, $z2->isBefore($z1));
+        $this->assertSame($cmp === -1, $z2->isAfter($z1));
+        $this->assertSame($cmp >= 0, $z2->isBeforeOrEqualTo($z1));
+        $this->assertSame($cmp <= 0, $z2->isAfterOrEqualTo($z1));
+    }
+
+    /**
+     * @return array
+     */
+    public function providerCompareTo() : array
+    {
+        return [
+            ['2020-06-06T14:30:30Z', '2014-12-31T23:59:59.999Z', 1],
+            ['2020-06-06T14:30:30Z', '2020-06-06T14:30:30+00:00', 0],
+            ['2020-06-06T14:30:30Z', '2020-06-06T14:29:29.999999999+00:00', 1],
+            ['2020-06-06T14:30:30Z', '2020-06-06T14:30:30.000000000+00:00', 0],
+            ['2020-06-06T14:30:30Z', '2020-06-06T14:30:30.000000001+00:00', -1],
+            ['2020-06-06T14:30:30Z', '2020-06-06T15:30:30+01:00', 0],
+            ['2020-06-06T14:30:30Z', '2020-06-06T16:00:30+01:30', 0],
+            ['2020-06-06T14:30:30Z', '2020-06-06T15:30:30+02:00', 1],
+            ['2020-06-06T14:30:30Z', '2020-06-06T13:30:30-02:00', -1],
+        ];
+    }
 }
