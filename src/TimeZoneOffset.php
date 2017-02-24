@@ -6,7 +6,6 @@ use Brick\DateTime\Parser\DateTimeParseException;
 use Brick\DateTime\Parser\DateTimeParser;
 use Brick\DateTime\Parser\DateTimeParseResult;
 use Brick\DateTime\Parser\IsoParsers;
-use Brick\DateTime\Utility\Cast;
 
 /**
  * A time-zone offset from Greenwich/UTC, such as `+02:00`.
@@ -52,10 +51,6 @@ class TimeZoneOffset extends TimeZone
      */
     public static function of($hours, $minutes = 0, $seconds = 0)
     {
-        $hours = Cast::toInteger($hours);
-        $minutes = Cast::toInteger($minutes);
-        $seconds = Cast::toInteger($seconds);
-
         Field\TimeZoneOffsetHour::check($hours);
         Field\TimeZoneOffsetMinute::check($minutes);
         Field\TimeZoneOffsetSecond::check($seconds);
@@ -91,8 +86,6 @@ class TimeZoneOffset extends TimeZone
      */
     public static function ofTotalSeconds($totalSeconds)
     {
-        $totalSeconds = Cast::toInteger($totalSeconds);
-
         Field\TimeZoneOffsetTotalSeconds::check($totalSeconds);
 
         return new TimeZoneOffset($totalSeconds);

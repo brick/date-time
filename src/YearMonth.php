@@ -6,7 +6,6 @@ use Brick\DateTime\Parser\DateTimeParseException;
 use Brick\DateTime\Parser\DateTimeParser;
 use Brick\DateTime\Parser\DateTimeParseResult;
 use Brick\DateTime\Parser\IsoParsers;
-use Brick\DateTime\Utility\Cast;
 use Brick\DateTime\Utility\Math;
 
 /**
@@ -52,9 +51,6 @@ class YearMonth implements DateTimeAccessor
      */
     public static function of($year, $month)
     {
-        $year  = Cast::toInteger($year);
-        $month = Cast::toInteger($month);
-
         Field\Year::check($year);
         Field\MonthOfYear::check($month);
 
@@ -239,8 +235,6 @@ class YearMonth implements DateTimeAccessor
      */
     public function withYear($year)
     {
-        $year = Cast::toInteger($year);
-
         if ($year === $this->year) {
             return $this;
         }
@@ -259,8 +253,6 @@ class YearMonth implements DateTimeAccessor
      */
     public function withMonth($month)
     {
-        $month = Cast::toInteger($month);
-
         if ($month === $this->month) {
             return $this;
         }
@@ -309,8 +301,6 @@ class YearMonth implements DateTimeAccessor
      */
     public function plusYears($years)
     {
-        $years = Cast::toInteger($years);
-
         if ($years === 0) {
             return $this;
         }

@@ -2,8 +2,6 @@
 
 namespace Brick\DateTime;
 
-use Brick\DateTime\Utility\Cast;
-
 /**
  * Represents a month-of-year such as January.
  */
@@ -68,8 +66,6 @@ class Month implements DateTimeAccessor
      */
     public static function of($value)
     {
-        $value = Cast::toInteger($value);
-
         Field\MonthOfYear::check($value);
 
         return Month::get($value);
@@ -247,8 +243,6 @@ class Month implements DateTimeAccessor
      */
     public function plus($months)
     {
-        $months = Cast::toInteger($months);
-
         return Month::get((((($this->month - 1 + $months) % 12) + 12) % 12) + 1);
     }
 
@@ -264,8 +258,6 @@ class Month implements DateTimeAccessor
      */
     public function minus($months)
     {
-        $months = Cast::toInteger($months);
-
         return $this->plus(- $months);
     }
 

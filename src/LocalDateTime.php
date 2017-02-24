@@ -7,7 +7,6 @@ use Brick\DateTime\Parser\DateTimeParser;
 use Brick\DateTime\Parser\DateTimeParseResult;
 use Brick\DateTime\Parser\IsoParsers;
 use Brick\DateTime\Utility\Math;
-use Brick\DateTime\Utility\Cast;
 
 /**
  * A date-time without a time-zone in the ISO-8601 calendar system, such as 2007-12-03T10:15:30.
@@ -508,8 +507,6 @@ class LocalDateTime implements DateTimeAccessor
      */
     public function plusHours($hours)
     {
-        $hours = Cast::toInteger($hours);
-
         if ($hours === 0) {
             return $this;
         }
@@ -526,8 +523,6 @@ class LocalDateTime implements DateTimeAccessor
      */
     public function plusMinutes($minutes)
     {
-        $minutes = Cast::toInteger($minutes);
-
         if ($minutes === 0) {
             return $this;
         }
@@ -544,8 +539,6 @@ class LocalDateTime implements DateTimeAccessor
      */
     public function plusSeconds($seconds)
     {
-        $seconds = Cast::toInteger($seconds);
-
         if ($seconds === 0) {
             return $this;
         }
@@ -562,8 +555,6 @@ class LocalDateTime implements DateTimeAccessor
      */
     public function plusNanos($nanos)
     {
-        $nanos = Cast::toInteger($nanos);
-
         if ($nanos === 0) {
             return $this;
         }
@@ -652,8 +643,6 @@ class LocalDateTime implements DateTimeAccessor
      */
     public function minusHours($hours)
     {
-        $hours = Cast::toInteger($hours);
-
         if ($hours === 0) {
             return $this;
         }
@@ -670,8 +659,6 @@ class LocalDateTime implements DateTimeAccessor
      */
     public function minusMinutes($minutes)
     {
-        $minutes = Cast::toInteger($minutes);
-
         if ($minutes === 0) {
             return $this;
         }
@@ -688,8 +675,6 @@ class LocalDateTime implements DateTimeAccessor
      */
     public function minusSeconds($seconds)
     {
-        $seconds = Cast::toInteger($seconds);
-
         if ($seconds === 0) {
             return $this;
         }
@@ -706,8 +691,6 @@ class LocalDateTime implements DateTimeAccessor
      */
     public function minusNanos($nanos)
     {
-        $nanos = Cast::toInteger($nanos);
-
         if ($nanos === 0) {
             return $this;
         }

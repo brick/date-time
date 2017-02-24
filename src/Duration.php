@@ -3,7 +3,6 @@
 namespace Brick\DateTime;
 
 use Brick\DateTime\Utility\Math;
-use Brick\DateTime\Utility\Cast;
 
 /**
  * Represents a duration of time measured in seconds.
@@ -153,9 +152,6 @@ class Duration
      */
     public static function ofSeconds($seconds, $nanoAdjustment = 0)
     {
-        $seconds = Cast::toInteger($seconds);
-        $nanoAdjustment = Cast::toInteger($nanoAdjustment);
-
         $nanoseconds = $nanoAdjustment % LocalTime::NANOS_PER_SECOND;
         $seconds += ($nanoAdjustment - $nanoseconds) / LocalTime::NANOS_PER_SECOND;
 
@@ -176,7 +172,7 @@ class Duration
      */
     public static function ofMinutes($minutes)
     {
-        return new Duration(60 * Cast::toInteger($minutes));
+        return new Duration(60 * $minutes);
     }
 
     /**
@@ -188,7 +184,7 @@ class Duration
      */
     public static function ofHours($hours)
     {
-        return new Duration(3600 * Cast::toInteger($hours));
+        return new Duration(3600 * $hours);
     }
 
     /**
@@ -200,7 +196,7 @@ class Duration
      */
     public static function ofDays($days)
     {
-        return new Duration(86400 * Cast::toInteger($days));
+        return new Duration(86400 * $days);
     }
 
     /**
@@ -308,8 +304,6 @@ class Duration
      */
     public function plusSeconds($seconds)
     {
-        $seconds = Cast::toInteger($seconds);
-
         if ($seconds === 0) {
             return $this;
         }
@@ -326,8 +320,6 @@ class Duration
      */
     public function plusMinutes($minutes)
     {
-        $minutes = Cast::toInteger($minutes);
-
         return $this->plusSeconds($minutes * LocalTime::SECONDS_PER_MINUTE);
     }
 
@@ -340,8 +332,6 @@ class Duration
      */
     public function plusHours($hours)
     {
-        $hours = Cast::toInteger($hours);
-
         return $this->plusSeconds($hours * LocalTime::SECONDS_PER_HOUR);
     }
 
@@ -354,8 +344,6 @@ class Duration
      */
     public function plusDays($days)
     {
-        $days = Cast::toInteger($days);
-
         return $this->plusSeconds($days * LocalTime::SECONDS_PER_DAY);
     }
 
@@ -384,8 +372,6 @@ class Duration
      */
     public function minusSeconds($seconds)
     {
-        $seconds = Cast::toInteger($seconds);
-
         return $this->plusSeconds(-$seconds);
     }
 
@@ -398,8 +384,6 @@ class Duration
      */
     public function minusMinutes($minutes)
     {
-        $minutes = Cast::toInteger($minutes);
-
         return $this->plusMinutes(-$minutes);
     }
 
@@ -412,8 +396,6 @@ class Duration
      */
     public function minusHours($hours)
     {
-        $hours = Cast::toInteger($hours);
-
         return $this->plusHours(-$hours);
     }
 
@@ -426,8 +408,6 @@ class Duration
      */
     public function minusDays($days)
     {
-        $days = Cast::toInteger($days);
-
         return $this->plusDays(-$days);
     }
 
@@ -440,8 +420,6 @@ class Duration
      */
     public function multipliedBy($multiplicand)
     {
-        $multiplicand = Cast::toInteger($multiplicand);
-
         if ($multiplicand === 1) {
             return $this;
         }
@@ -466,8 +444,6 @@ class Duration
      */
     public function dividedBy($divisor)
     {
-        $divisor = Cast::toInteger($divisor);
-
         if ($divisor === 0) {
             throw new DateTimeException('Cannot divide a Duration by zero.');
         }

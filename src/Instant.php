@@ -3,7 +3,6 @@
 namespace Brick\DateTime;
 
 use Brick\DateTime\Clock\Clock;
-use Brick\DateTime\Utility\Cast;
 
 /**
  * Represents a point in time, with a nanosecond precision.
@@ -61,18 +60,15 @@ class Instant extends ReadableInstant
      */
     public static function of($epochSecond, $nanoAdjustment = 0)
     {
-        $seconds = Cast::toInteger($epochSecond);
-        $nanoAdjustment = Cast::toInteger($nanoAdjustment);
-
         $nanos = $nanoAdjustment % LocalTime::NANOS_PER_SECOND;
-        $seconds += ($nanoAdjustment - $nanos) / LocalTime::NANOS_PER_SECOND;
+        $epochSecond += ($nanoAdjustment - $nanos) / LocalTime::NANOS_PER_SECOND;
 
         if ($nanos < 0) {
             $nanos += LocalTime::NANOS_PER_SECOND;
-            $seconds--;
+            $epochSecond--;
         }
 
-        return new Instant($seconds, $nanos);
+        return new Instant($epochSecond, $nanos);
     }
 
     /**
@@ -158,8 +154,6 @@ class Instant extends ReadableInstant
      */
     public function plusSeconds($seconds)
     {
-        $seconds = Cast::toInteger($seconds);
-
         if ($seconds === 0) {
             return $this;
         }
@@ -174,8 +168,6 @@ class Instant extends ReadableInstant
      */
     public function minusSeconds($seconds)
     {
-        $seconds = Cast::toInteger($seconds);
-
         return $this->plusSeconds(-$seconds);
     }
 
@@ -186,8 +178,6 @@ class Instant extends ReadableInstant
      */
     public function plusMinutes($minutes)
     {
-        $minutes = Cast::toInteger($minutes);
-
         return $this->plusSeconds($minutes * LocalTime::SECONDS_PER_MINUTE);
     }
 
@@ -198,8 +188,6 @@ class Instant extends ReadableInstant
      */
     public function minusMinutes($minutes)
     {
-        $minutes = Cast::toInteger($minutes);
-
         return $this->plusMinutes(-$minutes);
     }
 
@@ -210,8 +198,6 @@ class Instant extends ReadableInstant
      */
     public function plusHours($hours)
     {
-        $hours = Cast::toInteger($hours);
-
         return $this->plusSeconds($hours * LocalTime::SECONDS_PER_HOUR);
     }
 
@@ -222,8 +208,6 @@ class Instant extends ReadableInstant
      */
     public function minusHours($hours)
     {
-        $hours = Cast::toInteger($hours);
-
         return $this->plusHours(-$hours);
     }
 
@@ -234,8 +218,6 @@ class Instant extends ReadableInstant
      */
     public function plusDays($days)
     {
-        $days = Cast::toInteger($days);
-
         return $this->plusSeconds($days * LocalTime::SECONDS_PER_DAY);
     }
 
@@ -246,8 +228,6 @@ class Instant extends ReadableInstant
      */
     public function minusDays($days)
     {
-        $days = Cast::toInteger($days);
-
         return $this->plusDays(-$days);
     }
 

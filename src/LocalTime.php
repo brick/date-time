@@ -10,7 +10,6 @@ use Brick\DateTime\Parser\DateTimeParser;
 use Brick\DateTime\Parser\DateTimeParseResult;
 use Brick\DateTime\Parser\IsoParsers;
 use Brick\DateTime\Utility\Math;
-use Brick\DateTime\Utility\Cast;
 
 /**
  * A time without a time-zone in the ISO-8601 calendar system, such as 10:15:30.
@@ -85,11 +84,6 @@ class LocalTime implements DateTimeAccessor
      */
     public static function of($hour, $minute, $second = 0, $nano = 0)
     {
-        $hour   = Cast::toInteger($hour);
-        $minute = Cast::toInteger($minute);
-        $second = Cast::toInteger($second);
-        $nano   = Cast::toInteger($nano);
-
         Field\HourOfDay::check($hour);
         Field\MinuteOfHour::check($minute);
         Field\SecondOfMinute::check($second);
@@ -110,9 +104,6 @@ class LocalTime implements DateTimeAccessor
      */
     public static function ofSecondOfDay($secondOfDay, $nanoOfSecond = 0)
     {
-        $secondOfDay = Cast::toInteger($secondOfDay);
-        $nanoOfSecond = Cast::toInteger($nanoOfSecond);
-
         Field\SecondOfDay::check($secondOfDay);
         Field\NanoOfSecond::check($nanoOfSecond);
 
@@ -307,8 +298,6 @@ class LocalTime implements DateTimeAccessor
      */
     public function withHour($hour)
     {
-        $hour = Cast::toInteger($hour);
-
         if ($hour === $this->hour) {
             return $this;
         }
@@ -329,8 +318,6 @@ class LocalTime implements DateTimeAccessor
      */
     public function withMinute($minute)
     {
-        $minute = Cast::toInteger($minute);
-
         if ($minute === $this->minute) {
             return $this;
         }
@@ -351,8 +338,6 @@ class LocalTime implements DateTimeAccessor
      */
     public function withSecond($second)
     {
-        $second = Cast::toInteger($second);
-
         if ($second === $this->second) {
             return $this;
         }
@@ -373,8 +358,6 @@ class LocalTime implements DateTimeAccessor
      */
     public function withNano($nano)
     {
-        $nano = Cast::toInteger($nano);
-
         if ($nano === $this->nano) {
             return $this;
         }
@@ -414,8 +397,6 @@ class LocalTime implements DateTimeAccessor
      */
     public function plusHours($hours)
     {
-        $hours = Cast::toInteger($hours);
-
         if ($hours === 0) {
             return $this;
         }
@@ -439,8 +420,6 @@ class LocalTime implements DateTimeAccessor
      */
     public function plusMinutes($minutes)
     {
-        $minutes = Cast::toInteger($minutes);
-
         if ($minutes === 0) {
             return $this;
         }
@@ -467,8 +446,6 @@ class LocalTime implements DateTimeAccessor
      */
     public function plusSeconds($seconds)
     {
-        $seconds = Cast::toInteger($seconds);
-
         if ($seconds === 0) {
             return $this;
         }
@@ -496,8 +473,6 @@ class LocalTime implements DateTimeAccessor
      */
     public function plusNanos($nanos)
     {
-        $nanos = Cast::toInteger($nanos);
-
         if ($nanos === 0) {
             return $this;
         }

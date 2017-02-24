@@ -2,7 +2,6 @@
 
 namespace Brick\DateTime;
 
-use Brick\DateTime\Utility\Cast;
 use Brick\DateTime\Utility\Math;
 
 /**
@@ -52,11 +51,7 @@ class Period
      */
     public static function of($years, $months, $days)
     {
-        return new Period(
-            Cast::toInteger($years),
-            Cast::toInteger($months),
-            Cast::toInteger($days)
-        );
+        return new Period($years, $months, $days);
     }
 
     /**
@@ -66,8 +61,6 @@ class Period
      */
     public static function ofYears($years)
     {
-        $years = Cast::toInteger($years);
-
         return new Period($years, 0, 0);
     }
 
@@ -78,8 +71,6 @@ class Period
      */
     public static function ofMonths($months)
     {
-        $months = Cast::toInteger($months);
-
         return new Period(0, $months, 0);
     }
 
@@ -90,8 +81,6 @@ class Period
      */
     public static function ofWeeks($weeks)
     {
-        $weeks = Cast::toInteger($weeks);
-
         return new Period(0, 0, $weeks * LocalTime::DAYS_PER_WEEK);
     }
 
@@ -102,8 +91,6 @@ class Period
      */
     public static function ofDays($days)
     {
-        $days = Cast::toInteger($days);
-
         return new Period(0, 0, $days);
     }
 
@@ -230,8 +217,6 @@ class Period
      */
     public function withYears($years)
     {
-        $years = Cast::toInteger($years);
-
         if ($years === $this->years) {
             return $this;
         }
@@ -246,8 +231,6 @@ class Period
      */
     public function withMonths($months)
     {
-        $months = Cast::toInteger($months);
-
         if ($months === $this->months) {
             return $this;
         }
@@ -262,8 +245,6 @@ class Period
      */
     public function withDays($days)
     {
-        $days = Cast::toInteger($days);
-
         if ($days === $this->days) {
             return $this;
         }
@@ -278,8 +259,6 @@ class Period
      */
     public function plusYears($years)
     {
-        $years = Cast::toInteger($years);
-
         if ($years === 0) {
             return $this;
         }
@@ -294,8 +273,6 @@ class Period
      */
     public function plusMonths($months)
     {
-        $months = Cast::toInteger($months);
-
         if ($months === 0) {
             return $this;
         }
@@ -310,8 +287,6 @@ class Period
      */
     public function plusDays($days)
     {
-        $days = Cast::toInteger($days);
-
         if ($days === 0) {
             return $this;
         }
@@ -326,8 +301,6 @@ class Period
      */
     public function minusYears($years)
     {
-        $years = Cast::toInteger($years);
-
         if ($years === 0) {
             return $this;
         }
@@ -342,8 +315,6 @@ class Period
      */
     public function minusMonths($months)
     {
-        $months = Cast::toInteger($months);
-
         if ($months === 0) {
             return $this;
         }
@@ -358,8 +329,6 @@ class Period
      */
     public function minusDays($days)
     {
-        $days = Cast::toInteger($days);
-
         if ($days === 0) {
             return $this;
         }
@@ -376,8 +345,6 @@ class Period
      */
     public function multipliedBy($scalar)
     {
-        $scalar = Cast::toInteger($scalar);
-
         if ($scalar === 1) {
             return $this;
         }

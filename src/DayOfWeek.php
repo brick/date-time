@@ -2,8 +2,6 @@
 
 namespace Brick\DateTime;
 
-use Brick\DateTime\Utility\Cast;
-
 /**
  * A day-of-week, such as Tuesday.
  *
@@ -65,8 +63,6 @@ class DayOfWeek implements DateTimeAccessor
      */
     public static function of($dayOfWeek)
     {
-        $dayOfWeek = Cast::toInteger($dayOfWeek);
-
         Field\DayOfWeek::check($dayOfWeek);
 
         return DayOfWeek::get($dayOfWeek);
@@ -151,8 +147,6 @@ class DayOfWeek implements DateTimeAccessor
      */
     public function plus($days)
     {
-        $days = Cast::toInteger($days);
-
         return DayOfWeek::get((((($this->value - 1 + $days) % 7) + 7) % 7) + 1);
     }
 
@@ -165,8 +159,6 @@ class DayOfWeek implements DateTimeAccessor
      */
     public function minus($days)
     {
-        $days = Cast::toInteger($days);
-
         return $this->plus(- $days);
     }
 

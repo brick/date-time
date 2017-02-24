@@ -6,7 +6,6 @@ use Brick\DateTime\Parser\DateTimeParseException;
 use Brick\DateTime\Parser\DateTimeParser;
 use Brick\DateTime\Parser\DateTimeParseResult;
 use Brick\DateTime\Parser\IsoParsers;
-use Brick\DateTime\Utility\Cast;
 
 /**
  * A month-day in the ISO-8601 calendar system, such as `--12-03`.
@@ -51,9 +50,6 @@ class MonthDay implements DateTimeAccessor
      */
     public static function of($month, $day)
     {
-        $month = Cast::toInteger($month);
-        $day   = Cast::toInteger($day);
-
         Field\MonthOfYear::check($month);
         Field\DayOfMonth::check($day, $month);
 
@@ -220,8 +216,6 @@ class MonthDay implements DateTimeAccessor
      */
     public function withMonth($month)
     {
-        $month = Cast::toInteger($month);
-
         if ($month === $this->month) {
             return $this;
         }
@@ -246,8 +240,6 @@ class MonthDay implements DateTimeAccessor
      */
     public function withDay($day)
     {
-        $day = Cast::toInteger($day);
-
         if ($day === $this->day) {
             return $this;
         }

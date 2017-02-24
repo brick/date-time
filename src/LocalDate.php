@@ -7,7 +7,6 @@ use Brick\DateTime\Parser\DateTimeParseResult;
 use Brick\DateTime\Parser\DateTimeParseException;
 use Brick\DateTime\Parser\IsoParsers;
 use Brick\DateTime\Utility\Math;
-use Brick\DateTime\Utility\Cast;
 
 /**
  * A date without a time-zone in the ISO-8601 calendar system, such as `2007-12-03`.
@@ -84,10 +83,6 @@ class LocalDate implements DateTimeAccessor
      */
     public static function of($year, $month, $day)
     {
-        $year = Cast::toInteger($year);
-        $month = Cast::toInteger($month);
-        $day = Cast::toInteger($day);
-
         Field\Year::check($year);
         Field\MonthOfYear::check($month);
         Field\DayOfMonth::check($day, $month, $year);
@@ -105,9 +100,6 @@ class LocalDate implements DateTimeAccessor
      */
     public static function ofYearDay($year, $dayOfYear)
     {
-        $year = Cast::toInteger($year);
-        $dayOfYear = Cast::toInteger($dayOfYear);
-
         Field\Year::check($year);
         Field\DayOfYear::check($dayOfYear, $year);
 
@@ -357,8 +349,6 @@ class LocalDate implements DateTimeAccessor
      */
     public function withYear($year)
     {
-        $year = Cast::toInteger($year);
-
         if ($year === $this->year) {
             return $this;
         }
@@ -381,8 +371,6 @@ class LocalDate implements DateTimeAccessor
      */
     public function withMonth($month)
     {
-        $month = Cast::toInteger($month);
-
         if ($month === $this->month) {
             return $this;
         }
@@ -405,8 +393,6 @@ class LocalDate implements DateTimeAccessor
      */
     public function withDay($day)
     {
-        $day = Cast::toInteger($day);
-
         if ($day === $this->day) {
             return $this;
         }
@@ -443,8 +429,6 @@ class LocalDate implements DateTimeAccessor
      */
     public function plusYears($years)
     {
-        $years = Cast::toInteger($years);
-
         if ($years === 0) {
             return $this;
         }
@@ -483,8 +467,6 @@ class LocalDate implements DateTimeAccessor
      */
     public function plusWeeks($weeks)
     {
-        $weeks = Cast::toInteger($weeks);
-
         if ($weeks === 0) {
             return $this;
         }
@@ -501,8 +483,6 @@ class LocalDate implements DateTimeAccessor
      */
     public function plusDays($days)
     {
-        $days = Cast::toInteger($days);
-
         if ($days === 0) {
             return $this;
         }

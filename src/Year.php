@@ -3,7 +3,6 @@
 namespace Brick\DateTime;
 
 use Brick\DateTime\Field;
-use Brick\DateTime\Utility\Cast;
 
 /**
  * Represents a year in the proleptic calendar.
@@ -37,8 +36,6 @@ class Year implements DateTimeAccessor
      */
     public static function of($year)
     {
-        $year = Cast::toInteger($year);
-
         Field\Year::check($year);
 
         return new Year($year);
@@ -113,8 +110,6 @@ class Year implements DateTimeAccessor
      */
     public function plus($years)
     {
-        $years = Cast::toInteger($years);
-
         if ($years === 0) {
             return $this;
         }
@@ -139,8 +134,6 @@ class Year implements DateTimeAccessor
      */
     public function minus($years)
     {
-        $years = Cast::toInteger($years);
-
         if ($years === 0) {
             return $this;
         }
