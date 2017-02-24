@@ -18,7 +18,7 @@ use Brick\DateTime\Utility\Math;
  *
  * This class is immutable.
  */
-class LocalTime implements DateTimeAccessor
+class LocalTime
 {
     const MONTHS_PER_YEAR    = 12;
     const DAYS_PER_WEEK      = 7;
@@ -658,29 +658,6 @@ class LocalTime implements DateTimeAccessor
         return $this->hour * self::SECONDS_PER_HOUR
             + $this->minute * self::SECONDS_PER_MINUTE
             + $this->second;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getField(string $field)
-    {
-        switch ($field) {
-            case Field\HourOfDay::NAME:
-                return $this->hour;
-
-            case Field\MinuteOfHour::NAME:
-                return $this->minute;
-
-            case Field\SecondOfMinute::NAME:
-                return $this->second;
-
-            case Field\NanoOfSecond::NAME:
-                return $this->nano;
-
-            default:
-                return null;
-        }
     }
 
     /**

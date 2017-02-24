@@ -15,7 +15,7 @@ use Brick\DateTime\Parser\IsoParsers;
  * A ZonedDateTime can be viewed as a LocalDateTime along with a time zone
  * and targets a specific point in time.
  */
-class ZonedDateTime implements DateTimeAccessor
+class ZonedDateTime
 {
     /**
      * The local date-time.
@@ -837,14 +837,6 @@ class ZonedDateTime implements DateTimeAccessor
     public function isPast()
     {
         return $this->getInstant()->isPast();
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getField(string $field)
-    {
-        return $this->localDateTime->getField($field);
     }
 
     /**

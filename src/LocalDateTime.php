@@ -15,7 +15,7 @@ use Brick\DateTime\Utility\Math;
  *
  * This class is immutable.
  */
-class LocalDateTime implements DateTimeAccessor
+class LocalDateTime
 {
     /**
      * @var LocalDate
@@ -799,20 +799,6 @@ class LocalDateTime implements DateTimeAccessor
     public function isAfterOrEqualTo(LocalDateTime $that) : bool
     {
         return $this->compareTo($that) >= 0;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getField(string $field)
-    {
-        $value = $this->date->getField($field);
-
-        if ($value !== null) {
-            return $value;
-        }
-
-        return $this->time->getField($field);
     }
 
     /**

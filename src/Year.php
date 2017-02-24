@@ -9,7 +9,7 @@ use Brick\DateTime\Field;
 /**
  * Represents a year in the proleptic calendar.
  */
-class Year implements DateTimeAccessor
+class Year
 {
     const MIN_VALUE = LocalDate::MIN_YEAR;
     const MAX_VALUE = LocalDate::MAX_YEAR;
@@ -244,20 +244,6 @@ class Year implements DateTimeAccessor
     public function atMonthDay(MonthDay $monthDay) : LocalDate
     {
         return $monthDay->atYear($this->year);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getField(string $field)
-    {
-        switch ($field) {
-            case Field\Year::NAME:
-                return $this->year;
-
-            default:
-                return null;
-        }
     }
 
     /**

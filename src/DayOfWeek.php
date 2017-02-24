@@ -9,7 +9,7 @@ namespace Brick\DateTime;
  *
  * This class is immutable.
  */
-class DayOfWeek implements DateTimeAccessor
+class DayOfWeek
 {
     const MONDAY    = 1;
     const TUESDAY   = 2;
@@ -160,20 +160,6 @@ class DayOfWeek implements DateTimeAccessor
     public function minus(int $days) : DayOfWeek
     {
         return $this->plus(- $days);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getField(string $field)
-    {
-        switch ($field) {
-            case Field\DayOfWeek::NAME:
-                return $this->value;
-
-            default:
-                return null;
-        }
     }
 
     /**

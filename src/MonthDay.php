@@ -12,7 +12,7 @@ use Brick\DateTime\Parser\IsoParsers;
 /**
  * A month-day in the ISO-8601 calendar system, such as `--12-03`.
  */
-class MonthDay implements DateTimeAccessor
+class MonthDay
 {
     /**
      * The month-of-year, from 1 to 12.
@@ -268,23 +268,6 @@ class MonthDay implements DateTimeAccessor
     public function atYear(int $year) : LocalDate
     {
         return LocalDate::of($year, $this->month, $this->isValidYear($year) ? $this->day : 28);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getField(string $field)
-    {
-        switch ($field) {
-            case Field\MonthOfYear::NAME:
-                return $this->month;
-
-            case Field\DayOfMonth::NAME:
-                return $this->day;
-
-            default:
-                return null;
-        }
     }
 
     /**

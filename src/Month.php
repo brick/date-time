@@ -7,7 +7,7 @@ namespace Brick\DateTime;
 /**
  * Represents a month-of-year such as January.
  */
-class Month implements DateTimeAccessor
+class Month
 {
     const JANUARY   = 1;
     const FEBRUARY  = 2;
@@ -261,20 +261,6 @@ class Month implements DateTimeAccessor
     public function minus(int $months) : Month
     {
         return $this->plus(- $months);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getField(string $field)
-    {
-        switch ($field) {
-            case Field\MonthOfYear::NAME:
-                return $this->month;
-
-            default:
-                return null;
-        }
     }
 
     /**

@@ -13,7 +13,7 @@ use Brick\DateTime\Utility\Math;
 /**
  * Represents the combination of a year and a month.
  */
-class YearMonth implements DateTimeAccessor
+class YearMonth
 {
     /**
      * The year, from MIN_YEAR to MAX_YEAR.
@@ -351,23 +351,6 @@ class YearMonth implements DateTimeAccessor
     public function minusMonths(int $months) : YearMonth
     {
         return $this->plusMonths(- $months);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getField(string $field)
-    {
-        switch ($field) {
-            case Field\Year::NAME:
-                return $this->year;
-
-            case Field\MonthOfYear::NAME:
-                return $this->month;
-
-            default:
-                return null;
-        }
     }
 
     /**
