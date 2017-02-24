@@ -30,10 +30,8 @@ final class DayOfYear
             throw DateTimeException::fieldNotInRange(self::NAME, $dayOfYear, 1, 366);
         }
 
-        if ($dayOfYear === 366 && $year !== null) {
-            if (! Year::isLeap($year)) {
-                throw new DateTimeException("Invalid day-of-year 366 as $year is not a leap year");
-            }
+        if ($dayOfYear === 366 && $year !== null && ! Year::isLeap($year)) {
+            throw new DateTimeException("Invalid day-of-year 366 as $year is not a leap year");
         }
     }
 }
