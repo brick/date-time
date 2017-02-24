@@ -16,7 +16,6 @@ use Brick\DateTime\LocalTime;
 use Brick\DateTime\Month;
 use Brick\DateTime\MonthDay;
 use Brick\DateTime\Period;
-use Brick\DateTime\ReadableInstant;
 use Brick\DateTime\TimeZone;
 use Brick\DateTime\TimeZoneOffset;
 use Brick\DateTime\Year;
@@ -39,11 +38,11 @@ abstract class AbstractTestCase extends TestCase
     }
 
     /**
-     * @param integer         $epochSecond The expected epoch second.
-     * @param integer         $nano        The expected nanosecond adjustment.
-     * @param ReadableInstant $instant     The instant to test.
+     * @param integer $epochSecond The expected epoch second.
+     * @param integer $nano        The expected nanosecond adjustment.
+     * @param Instant $instant     The instant to test.
      */
-    protected function assertReadableInstantIs($epochSecond, $nano, ReadableInstant $instant)
+    protected function assertInstantIs($epochSecond, $nano, Instant $instant)
     {
         $this->compare([$epochSecond, $nano], [
             $instant->getEpochSecond(),

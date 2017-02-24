@@ -13,7 +13,7 @@ use Brick\DateTime\Clock\Clock;
  * without any calendar concept of date, time or time zone. It is not very meaningful to humans,
  * but can be converted to a `ZonedDateTime` by providing a time zone.
  */
-class Instant extends ReadableInstant
+class Instant
 {
     /**
      * The number of seconds since the epoch of 1970-01-01T00:00:00Z.
@@ -253,6 +253,132 @@ class Instant extends ReadableInstant
     public function getNano() : int
     {
         return $this->nano;
+    }
+
+    /**
+     * Compares this instant with another.
+     *
+     * @param Instant $that
+     *
+     * @return integer [-1,0,1] If this instant is before, on, or after the given instant.
+     */
+    public function compareTo(Instant $that)
+    {
+        $seconds = $this->getEpochSecond() - $that->getEpochSecond();
+
+        if ($seconds !== 0) {
+            return $seconds > 0 ? 1 : -1;
+        }
+
+        $nanos = $this->getNano() - $that->getNano();
+
+        if ($nanos !== 0) {
+            return $nanos > 0 ? 1 : -1;
+        }
+
+        return 0;
+    }
+
+    /**
+     * Returns whether this instant equals another.
+     *
+     * @param Instant $that
+     *
+     * @return boolean
+     */
+    public function isEqualTo(Instant $that)
+    {
+        return $this->compareTo($that) === 0;
+    }
+
+    /**
+     * Returns whether this instant is after another.
+     *
+     * @param Instant $that
+     *
+     * @return boolean
+     */
+    public function isAfter(Instant $that)
+    {
+        return $this->compareTo($that) === 1;
+    }
+
+    /**
+     * Returns whether this instant is after or equal to another.
+     *
+     * @param Instant $that
+     *
+     * @return boolean
+     */
+    public function isAfterOrEqualTo(Instant $that)
+    {
+        return $this->compareTo($that) >= 0;
+    }
+
+    /**
+     * Returns whether this instant is before another.
+     *
+     * @param Instant $that
+     *
+     * @return boolean
+     */
+    public function isBefore(Instant $that)
+    {
+        return $this->compareTo($that) === -1;
+    }
+
+    /**
+     * Returns whether this instant is before or equal to another.
+     *
+     * @param Instant $that
+     *
+     * @return boolean
+     */
+    public function isBeforeOrEqualTo(Instant $that)
+    {
+        return $this->compareTo($that) <= 0;
+    }
+
+    /**
+     * @param Instant $from
+     * @param Instant $to
+     *
+     * @return boolean
+     */
+    public function isBetweenInclusive(Instant $from, Instant $to)
+    {
+        return $this->isAfterOrEqualTo($from) && $this->isBeforeOrEqualTo($to);
+    }
+
+    /**
+     * @param Instant $from
+     * @param Instant $to
+     *
+     * @return boolean
+     */
+    public function isBetweenExclusive(Instant $from, Instant $to)
+    {
+        return $this->isAfter($from) && $this->isBefore($to);
+    }
+
+    /**
+     * Returns whether this instant is in the future.
+     *
+     * @return boolean
+     */
+    public function isFuture()
+    {
+        return $this->isAfter(Instant::now());
+    }
+
+    /**
+     * Returns whether this instant is in the past.
+     *
+     * @return boolean
+     */
+    public function isPast()
+    {
+        return $this->isBefore(Instant::now());
     }
 
     /**

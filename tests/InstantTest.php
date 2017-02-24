@@ -49,23 +49,23 @@ class InstantTest extends AbstractTestCase
 
     public function testEpoch()
     {
-        $this->assertReadableInstantIs(0, 0, Instant::epoch());
+        $this->assertInstantIs(0, 0, Instant::epoch());
     }
 
     public function testNow()
     {
         Clock::setDefault(new FixedClock(Instant::of(123456789, 987654321)));
-        $this->assertReadableInstantIs(123456789, 987654321, Instant::now());
+        $this->assertInstantIs(123456789, 987654321, Instant::now());
     }
 
     public function testMin()
     {
-        $this->assertReadableInstantIs(~\PHP_INT_MAX, 0, Instant::min());
+        $this->assertInstantIs(~\PHP_INT_MAX, 0, Instant::min());
     }
 
     public function testMax()
     {
-        $this->assertReadableInstantIs(\PHP_INT_MAX, 999999999, Instant::max());
+        $this->assertInstantIs(\PHP_INT_MAX, 999999999, Instant::max());
     }
 
     /**
@@ -81,7 +81,7 @@ class InstantTest extends AbstractTestCase
     public function testPlus($second, $nano, $plusSeconds, $plusNanos, $expectedSecond, $expectedNano)
     {
         $result = Instant::of($second, $nano)->plus(Duration::ofSeconds($plusSeconds, $plusNanos));
-        $this->assertReadableInstantIs($expectedSecond, $expectedNano, $result);
+        $this->assertInstantIs($expectedSecond, $expectedNano, $result);
     }
 
     /**
@@ -97,7 +97,7 @@ class InstantTest extends AbstractTestCase
     public function testMinus($second, $nano, $plusSeconds, $plusNanos, $expectedSecond, $expectedNano)
     {
         $result = Instant::of($second, $nano)->minus(Duration::ofSeconds(-$plusSeconds, -$plusNanos));
-        $this->assertReadableInstantIs($expectedSecond, $expectedNano, $result);
+        $this->assertInstantIs($expectedSecond, $expectedNano, $result);
     }
 
     /**
@@ -125,7 +125,7 @@ class InstantTest extends AbstractTestCase
     public function testPlusSeconds($second, $nano, $plusSeconds, $expectedSecond)
     {
         $result = Instant::of($second, $nano)->plusSeconds($plusSeconds);
-        $this->assertReadableInstantIs($expectedSecond, $nano, $result);
+        $this->assertInstantIs($expectedSecond, $nano, $result);
     }
 
     /**
@@ -139,7 +139,7 @@ class InstantTest extends AbstractTestCase
     public function testMinusSeconds($second, $nano, $plusSeconds, $expectedSecond)
     {
         $result = Instant::of($second, $nano)->minusSeconds(-$plusSeconds);
-        $this->assertReadableInstantIs($expectedSecond, $nano, $result);
+        $this->assertInstantIs($expectedSecond, $nano, $result);
     }
 
     /**
@@ -169,7 +169,7 @@ class InstantTest extends AbstractTestCase
     public function testPlusMinutes($second, $nano, $plusMinutes, $expectedSecond)
     {
         $result = Instant::of($second, $nano)->plusMinutes($plusMinutes);
-        $this->assertReadableInstantIs($expectedSecond, $nano, $result);
+        $this->assertInstantIs($expectedSecond, $nano, $result);
     }
 
     /**
@@ -183,7 +183,7 @@ class InstantTest extends AbstractTestCase
     public function testMinusMinutes($second, $nano, $plusMinutes, $expectedSecond)
     {
         $result = Instant::of($second, $nano)->minusMinutes(-$plusMinutes);
-        $this->assertReadableInstantIs($expectedSecond, $nano, $result);
+        $this->assertInstantIs($expectedSecond, $nano, $result);
     }
 
     /**
@@ -213,7 +213,7 @@ class InstantTest extends AbstractTestCase
     public function testPlusHours($second, $nano, $plusHours, $expectedSecond)
     {
         $result = Instant::of($second, $nano)->plusHours($plusHours);
-        $this->assertReadableInstantIs($expectedSecond, $nano, $result);
+        $this->assertInstantIs($expectedSecond, $nano, $result);
     }
 
     /**
@@ -227,7 +227,7 @@ class InstantTest extends AbstractTestCase
     public function testMinusHours($second, $nano, $plusHours, $expectedSecond)
     {
         $result = Instant::of($second, $nano)->minusHours(-$plusHours);
-        $this->assertReadableInstantIs($expectedSecond, $nano, $result);
+        $this->assertInstantIs($expectedSecond, $nano, $result);
     }
 
     /**
@@ -257,7 +257,7 @@ class InstantTest extends AbstractTestCase
     public function testPlusDays($second, $nano, $plusDays, $expectedSecond)
     {
         $result = Instant::of($second, $nano)->plusDays($plusDays);
-        $this->assertReadableInstantIs($expectedSecond, $nano, $result);
+        $this->assertInstantIs($expectedSecond, $nano, $result);
     }
 
     /**
@@ -271,7 +271,7 @@ class InstantTest extends AbstractTestCase
     public function testMinusDays($second, $nano, $plusDays, $expectedSecond)
     {
         $result = Instant::of($second, $nano)->minusDays(-$plusDays);
-        $this->assertReadableInstantIs($expectedSecond, $nano, $result);
+        $this->assertInstantIs($expectedSecond, $nano, $result);
     }
 
     /**

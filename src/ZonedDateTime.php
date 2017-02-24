@@ -15,7 +15,7 @@ use Brick\DateTime\Parser\IsoParsers;
  * A ZonedDateTime can be viewed as a LocalDateTime along with a time zone
  * and targets a specific point in time.
  */
-class ZonedDateTime extends ReadableInstant implements DateTimeAccessor
+class ZonedDateTime implements DateTimeAccessor
 {
     /**
      * The local date-time.
@@ -314,9 +314,17 @@ class ZonedDateTime extends ReadableInstant implements DateTimeAccessor
     /**
      * @return int
      */
+    public function getEpochSecond() : int
+    {
+        return $this->getInstant()->getEpochSecond();
+    }
+
+    /**
+     * @return int
+     */
     public function getNano() : int
     {
-        return $this->localDateTime->getNano();
+        return $this->getInstant()->getNano();
     }
 
     /**
@@ -713,6 +721,132 @@ class ZonedDateTime extends ReadableInstant implements DateTimeAccessor
     public function minusSeconds(int $seconds) : ZonedDateTime
     {
         return $this->plusSeconds(- $seconds);
+    }
+
+    /**
+     * Compares this ZonedDateTime with another.
+     *
+     * @param ZonedDateTime $that
+     *
+     * @return integer [-1,0,1] If this instant is before, on, or after the given instant.
+     */
+    public function compareTo(ZonedDateTime $that)
+    {
+        $seconds = $this->getEpochSecond() - $that->getEpochSecond();
+
+        if ($seconds !== 0) {
+            return $seconds > 0 ? 1 : -1;
+        }
+
+        $nanos = $this->getNano() - $that->getNano();
+
+        if ($nanos !== 0) {
+            return $nanos > 0 ? 1 : -1;
+        }
+
+        return 0;
+    }
+
+    /**
+     * Returns whether this ZonedDateTime equals another.
+     *
+     * @param ZonedDateTime $that
+     *
+     * @return boolean
+     */
+    public function isEqualTo(ZonedDateTime $that)
+    {
+        return $this->compareTo($that) === 0;
+    }
+
+    /**
+     * Returns whether this ZonedDateTime is after another.
+     *
+     * @param ZonedDateTime $that
+     *
+     * @return boolean
+     */
+    public function isAfter(ZonedDateTime $that)
+    {
+        return $this->compareTo($that) === 1;
+    }
+
+    /**
+     * Returns whether this ZonedDateTime is after or equal to another.
+     *
+     * @param ZonedDateTime $that
+     *
+     * @return boolean
+     */
+    public function isAfterOrEqualTo(ZonedDateTime $that)
+    {
+        return $this->compareTo($that) >= 0;
+    }
+
+    /**
+     * Returns whether this ZonedDateTime is before another.
+     *
+     * @param ZonedDateTime $that
+     *
+     * @return boolean
+     */
+    public function isBefore(ZonedDateTime $that)
+    {
+        return $this->compareTo($that) === -1;
+    }
+
+    /**
+     * Returns whether this ZonedDateTime is before or equal to another.
+     *
+     * @param ZonedDateTime $that
+     *
+     * @return boolean
+     */
+    public function isBeforeOrEqualTo(ZonedDateTime $that)
+    {
+        return $this->compareTo($that) <= 0;
+    }
+
+    /**
+     * @param ZonedDateTime $from
+     * @param ZonedDateTime $to
+     *
+     * @return boolean
+     */
+    public function isBetweenInclusive(ZonedDateTime $from, ZonedDateTime $to)
+    {
+        return $this->isAfterOrEqualTo($from) && $this->isBeforeOrEqualTo($to);
+    }
+
+    /**
+     * @param ZonedDateTime $from
+     * @param ZonedDateTime $to
+     *
+     * @return boolean
+     */
+    public function isBetweenExclusive(ZonedDateTime $from, ZonedDateTime $to)
+    {
+        return $this->isAfter($from) && $this->isBefore($to);
+    }
+
+    /**
+     * Returns whether this ZonedDateTime is in the future.
+     *
+     * @return boolean
+     */
+    public function isFuture()
+    {
+        return $this->getInstant()->isFuture();
+    }
+
+    /**
+     * Returns whether this ZonedDateTime is in the past.
+     *
+     * @return boolean
+     */
+    public function isPast()
+    {
+        return $this->getInstant()->isPast();
     }
 
     /**

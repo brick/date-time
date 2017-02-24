@@ -127,7 +127,7 @@ class TimeZoneRegion extends TimeZone
     /**
      * {@inheritdoc}
      */
-    public function getOffset(ReadableInstant $instant) : int
+    public function getOffset(Instant $instant) : int
     {
         $dateTime = new \DateTime('@' . $instant->getEpochSecond(), new \DateTimeZone('UTC'));
 

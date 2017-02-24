@@ -29,7 +29,7 @@ namespace Brick\DateTime\Tests\Clock
         {
             $clock = new SystemClock();
 
-            $this->assertReadableInstantIs(14079491701, 555276000, $clock->getTime());
+            $this->assertInstantIs(14079491701, 555276000, $clock->getTime());
         }
     }
 }

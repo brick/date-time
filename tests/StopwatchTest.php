@@ -38,7 +38,7 @@ class StopwatchTest extends AbstractTestCase
 
         $stopwatch->start();
 
-        $this->assertReadableInstantIs(1000, 1, $stopwatch->getStartTime());
+        $this->assertInstantIs(1000, 1, $stopwatch->getStartTime());
         $this->assertTrue($stopwatch->isRunning());
         $this->assertDurationIs(0, 0, $stopwatch->getElapsedTime());
 
@@ -56,7 +56,7 @@ class StopwatchTest extends AbstractTestCase
     {
         $this->setClockTime(2000, 0);
 
-        $this->assertReadableInstantIs(1000, 1, $stopwatch->getStartTime());
+        $this->assertInstantIs(1000, 1, $stopwatch->getStartTime());
         $this->assertTrue($stopwatch->isRunning());
         $this->assertDurationIs(999, 999999999, $stopwatch->getElapsedTime());
 
@@ -114,7 +114,7 @@ class StopwatchTest extends AbstractTestCase
 
         $stopwatch->start();
 
-        $this->assertReadableInstantIs(5000, 9, $stopwatch->getStartTime());
+        $this->assertInstantIs(5000, 9, $stopwatch->getStartTime());
         $this->assertTrue($stopwatch->isRunning());
         $this->assertDurationIs(2000, 1, $stopwatch->getElapsedTime());
 
@@ -132,7 +132,7 @@ class StopwatchTest extends AbstractTestCase
     {
         $this->setClockTime(5001, 10);
 
-        $this->assertReadableInstantIs(5000, 9, $stopwatch->getStartTime());
+        $this->assertInstantIs(5000, 9, $stopwatch->getStartTime());
         $this->assertTrue($stopwatch->isRunning());
         $this->assertDurationIs(2001, 2, $stopwatch->getElapsedTime());
 

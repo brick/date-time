@@ -19,8 +19,8 @@ class IntervalTest extends AbstractTestCase
 
         $interval = new Interval($start, $end);
 
-        $this->assertReadableInstantIs(2000000000, 987654321, $interval->getStart());
-        $this->assertReadableInstantIs(2000000009, 123456789, $interval->getEnd());
+        $this->assertInstantIs(2000000000, 987654321, $interval->getStart());
+        $this->assertInstantIs(2000000009, 123456789, $interval->getEnd());
     }
 
     /**
@@ -38,12 +38,12 @@ class IntervalTest extends AbstractTestCase
         $this->assertNotSame($newInterval, $interval);
 
         // ensure that the original isn't changed
-        $this->assertReadableInstantIs(2000000000, 0, $interval->getStart());
-        $this->assertReadableInstantIs(2000000001, 0, $interval->getEnd());
+        $this->assertInstantIs(2000000000, 0, $interval->getStart());
+        $this->assertInstantIs(2000000001, 0, $interval->getEnd());
 
         // test the new instance
-        $this->assertReadableInstantIs(1999999999, 999999999, $newInterval->getStart());
-        $this->assertReadableInstantIs(2000000001, 0, $newInterval->getEnd());
+        $this->assertInstantIs(1999999999, 999999999, $newInterval->getStart());
+        $this->assertInstantIs(2000000001, 0, $newInterval->getEnd());
     }
 
     /**
@@ -61,12 +61,12 @@ class IntervalTest extends AbstractTestCase
         $this->assertNotSame($newInterval, $interval);
 
         // ensure that the original isn't changed
-        $this->assertReadableInstantIs(2000000000, 0, $interval->getStart());
-        $this->assertReadableInstantIs(2000000001, 0, $interval->getEnd());
+        $this->assertInstantIs(2000000000, 0, $interval->getStart());
+        $this->assertInstantIs(2000000001, 0, $interval->getEnd());
 
         // test the new instance
-        $this->assertReadableInstantIs(2000000000, 0, $newInterval->getStart());
-        $this->assertReadableInstantIs(2000000002, 222222222, $newInterval->getEnd());
+        $this->assertInstantIs(2000000000, 0, $newInterval->getStart());
+        $this->assertInstantIs(2000000002, 222222222, $newInterval->getEnd());
     }
 
     public function testGetDuration()
