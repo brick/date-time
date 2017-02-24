@@ -44,7 +44,7 @@ class PatternParserBuilder
      */
     public function appendLiteral(string $literal) : self
     {
-        $this->pattern .= preg_quote($literal);
+        $this->pattern .= preg_quote($literal, '/');
 
         return $this;
     }

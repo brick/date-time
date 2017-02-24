@@ -17,5 +17,5 @@ class TimeZoneRegion
     /**
      * The regular expression pattern matching the region name.
      */
-    const PATTERN = '[A-Za-z0-9/_\-]+';
+    const PATTERN = '[A-Za-z0-9\/_\-]+';
 }
