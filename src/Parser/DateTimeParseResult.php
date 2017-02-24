@@ -68,9 +68,7 @@ class DateTimeParseResult
     {
         if (isset($this->fields[$name])) {
             if ($this->fields[$name]) {
-                $result = array_shift($this->fields[$name]);
-
-                return $result;
+                return array_shift($this->fields[$name]);
             }
         }
 
