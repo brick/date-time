@@ -10,84 +10,84 @@ namespace Brick\DateTime;
 class Period
 {
     /**
-     * @var integer
+     * @var int
      */
     private $years;
 
     /**
-     * @var integer
+     * @var int
      */
     private $months;
 
     /**
-     * @var integer
+     * @var int
      */
     private $days;
 
     /**
      * Private constructor. Use of() to obtain an instance.
      *
-     * @param integer $years   The number of years, validated as an integer.
-     * @param integer $months  The number of months, validated as an integer.
-     * @param integer $days    The number of days, validated as an integer.
+     * @param int $years  The number of years.
+     * @param int $months The number of months.
+     * @param int $days   The number of days.
      */
-    private function __construct($years, $months, $days)
+    private function __construct(int $years, int $months, int $days)
     {
-        $this->years   = $years;
-        $this->months  = $months;
-        $this->days    = $days;
+        $this->years  = $years;
+        $this->months = $months;
+        $this->days   = $days;
     }
 
     /**
      * Creates a Period based on years, months, days, hours, minutes and seconds.
      *
-     * @param integer $years   The number of years.
-     * @param integer $months  The number of months.
-     * @param integer $days    The number of days.
+     * @param int $years  The number of years.
+     * @param int $months The number of months.
+     * @param int $days   The number of days.
      *
      * @return Period
      */
-    public static function of($years, $months, $days)
+    public static function of(int $years, int $months, int $days) : Period
     {
         return new Period($years, $months, $days);
     }
 
     /**
-     * @param integer $years
+     * @param int $years
      *
      * @return Period
      */
-    public static function ofYears($years)
+    public static function ofYears(int $years) : Period
     {
         return new Period($years, 0, 0);
     }
 
     /**
-     * @param integer $months
+     * @param int $months
      *
      * @return Period
      */
-    public static function ofMonths($months)
+    public static function ofMonths(int $months) : Period
     {
         return new Period(0, $months, 0);
     }
 
     /**
-     * @param integer $weeks
+     * @param int $weeks
      *
      * @return Period
      */
-    public static function ofWeeks($weeks)
+    public static function ofWeeks(int $weeks) : Period
     {
         return new Period(0, 0, $weeks * LocalTime::DAYS_PER_WEEK);
     }
 
     /**
-     * @param integer $days
+     * @param int $days
      *
      * @return Period
      */
-    public static function ofDays($days)
+    public static function ofDays(int $days) : Period
     {
         return new Period(0, 0, $days);
     }
@@ -97,7 +97,7 @@ class Period
      *
      * @return Period
      */
-    public static function zero()
+    public static function zero() : Period
     {
         return new Period(0, 0, 0);
     }
@@ -122,7 +122,7 @@ class Period
      *
      * @throws \Brick\DateTime\Parser\DateTimeParseException
      */
-    public static function parse($text)
+    public static function parse(string $text) : Period
     {
         $pattern =
             '/^' .
@@ -179,41 +179,41 @@ class Period
      *
      * @return Period
      */
-    public static function between(LocalDate $startInclusive, LocalDate $endExclusive)
+    public static function between(LocalDate $startInclusive, LocalDate $endExclusive) : Period
     {
         return $startInclusive->until($endExclusive);
     }
 
     /**
-     * @return integer
+     * @return int
      */
-    public function getYears()
+    public function getYears() : int
     {
         return $this->years;
     }
 
     /**
-     * @return integer
+     * @return int
      */
-    public function getMonths()
+    public function getMonths() : int
     {
         return $this->months;
     }
 
     /**
-     * @return integer
+     * @return int
      */
-    public function getDays()
+    public function getDays() : int
     {
         return $this->days;
     }
 
     /**
-     * @param integer $years
+     * @param int $years
      *
      * @return Period
      */
-    public function withYears($years)
+    public function withYears(int $years) : Period
     {
         if ($years === $this->years) {
             return $this;
@@ -223,11 +223,11 @@ class Period
     }
 
     /**
-     * @param integer $months
+     * @param int $months
      *
      * @return Period
      */
-    public function withMonths($months)
+    public function withMonths(int $months) : Period
     {
         if ($months === $this->months) {
             return $this;
@@ -237,11 +237,11 @@ class Period
     }
 
     /**
-     * @param integer $days
+     * @param int $days
      *
      * @return Period
      */
-    public function withDays($days)
+    public function withDays(int $days) : Period
     {
         if ($days === $this->days) {
             return $this;
@@ -251,11 +251,11 @@ class Period
     }
 
     /**
-     * @param integer $years
+     * @param int $years
      *
      * @return Period
      */
-    public function plusYears($years)
+    public function plusYears(int $years) : Period
     {
         if ($years === 0) {
             return $this;
@@ -265,11 +265,11 @@ class Period
     }
 
     /**
-     * @param integer $months
+     * @param int $months
      *
      * @return Period
      */
-    public function plusMonths($months)
+    public function plusMonths(int $months) : Period
     {
         if ($months === 0) {
             return $this;
@@ -279,11 +279,11 @@ class Period
     }
 
     /**
-     * @param integer $days
+     * @param int $days
      *
      * @return Period
      */
-    public function plusDays($days)
+    public function plusDays(int $days) : Period
     {
         if ($days === 0) {
             return $this;
@@ -293,11 +293,11 @@ class Period
     }
 
     /**
-     * @param integer $years
+     * @param int $years
      *
      * @return Period
      */
-    public function minusYears($years)
+    public function minusYears(int $years) : Period
     {
         if ($years === 0) {
             return $this;
@@ -307,11 +307,11 @@ class Period
     }
 
     /**
-     * @param integer $months
+     * @param int $months
      *
      * @return Period
      */
-    public function minusMonths($months)
+    public function minusMonths(int $months) : Period
     {
         if ($months === 0) {
             return $this;
@@ -321,11 +321,11 @@ class Period
     }
 
     /**
-     * @param integer $days
+     * @param int $days
      *
      * @return Period
      */
-    public function minusDays($days)
+    public function minusDays(int $days) : Period
     {
         if ($days === 0) {
             return $this;
@@ -337,11 +337,11 @@ class Period
     /**
      * Returns a new Period with each value multiplied by the given scalar.
      *
-     * @param integer $scalar
+     * @param int $scalar
      *
      * @return Period
      */
-    public function multipliedBy($scalar)
+    public function multipliedBy(int $scalar) : Period
     {
         if ($scalar === 1) {
             return $this;
@@ -359,7 +359,7 @@ class Period
      *
      * @return Period
      */
-    public function negated()
+    public function negated() : Period
     {
         if ($this->isZero()) {
             return $this;
@@ -386,7 +386,7 @@ class Period
      *
      * @return Period
      */
-    public function normalized()
+    public function normalized() : Period
     {
         $totalMonths = $this->years * LocalTime::MONTHS_PER_YEAR + $this->months;
 
@@ -401,9 +401,9 @@ class Period
     }
 
     /**
-     * @return boolean
+     * @return bool
      */
-    public function isZero()
+    public function isZero() : bool
     {
         return $this->years === 0 && $this->months === 0 && $this->days === 0;
     }
@@ -411,9 +411,9 @@ class Period
     /**
      * @param Period $that
      *
-     * @return boolean
+     * @return bool
      */
-    public function isEqualTo(Period $that)
+    public function isEqualTo(Period $that) : bool
     {
         return $this->years === $that->years
             && $this->months === $that->months
@@ -428,7 +428,7 @@ class Period
      *
      * @return \DateInterval
      */
-    public function toDateInterval()
+    public function toDateInterval() : \DateInterval
     {
         return \DateInterval::createFromDateString(sprintf(
             '%d years %d months %d days',
@@ -441,7 +441,7 @@ class Period
     /**
      * @return string
      */
-    public function __toString()
+    public function __toString() : string
     {
         if ($this->isZero()) {
             return 'P0D';

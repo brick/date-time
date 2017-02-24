@@ -15,26 +15,26 @@ class Year implements DateTimeAccessor
     /**
      * The year being represented.
      *
-     * @var integer
+     * @var int
      */
     private $year;
 
     /**
      * Class constructor.
      *
-     * @param integer $year The year to represent, validated.
+     * @param int $year The year to represent, validated.
      */
-    private function __construct($year)
+    private function __construct(int $year)
     {
         $this->year = $year;
     }
 
     /**
-     * @param integer $year
+     * @param int $year
      *
      * @return Year
      */
-    public static function of($year)
+    public static function of(int $year) : Year
     {
         Field\Year::check($year);
 
@@ -46,15 +46,15 @@ class Year implements DateTimeAccessor
      *
      * @return Year
      */
-    public static function now(TimeZone $timeZone)
+    public static function now(TimeZone $timeZone) : Year
     {
         return new Year(LocalDate::now($timeZone)->getYear());
     }
 
     /**
-     * @return integer
+     * @return int
      */
-    public function getValue()
+    public function getValue() : int
     {
         return $this->year;
     }
@@ -70,9 +70,9 @@ class Year implements DateTimeAccessor
      * The calculation is proleptic - applying the same rules into the far future and far past.
      * This is historically inaccurate, but is correct for the ISO-8601 standard.
      *
-     * @return boolean
+     * @return bool
      */
-    public function isLeap()
+    public function isLeap() : bool
     {
         return Field\Year::isLeap($this->year);
     }
@@ -80,9 +80,9 @@ class Year implements DateTimeAccessor
     /**
      * @param MonthDay $monthDay
      *
-     * @return boolean
+     * @return bool
      */
-    public function isValidMonthDay(MonthDay $monthDay)
+    public function isValidMonthDay(MonthDay $monthDay) : bool
     {
         return $monthDay->isValidYear($this->year);
     }
@@ -90,9 +90,9 @@ class Year implements DateTimeAccessor
     /**
      * Returns the length of this year in days.
      *
-     * @return integer The length of this year in days, 365 or 366.
+     * @return int The length of this year in days, 365 or 366.
      */
-    public function getLength()
+    public function getLength() : int
     {
         return $this->isLeap() ? 366 : 365;
     }
@@ -102,13 +102,13 @@ class Year implements DateTimeAccessor
      *
      * This instance is immutable and unaffected by this method call.
      *
-     * @param integer $years The years to add, may be negative.
+     * @param int $years The years to add, may be negative.
      *
      * @return Year A Year based on this year with the period added.
      *
      * @throws DateTimeException If the resulting year exceeds the supported range.
      */
-    public function plus($years)
+    public function plus(int $years) : Year
     {
         if ($years === 0) {
             return $this;
@@ -126,13 +126,13 @@ class Year implements DateTimeAccessor
      *
      * This instance is immutable and unaffected by this method call.
      *
-     * @param integer $years The years to subtract, may be negative.
+     * @param int $years The years to subtract, may be negative.
      *
      * @return Year A Year based on this year with the period subtracted.
      *
      * @throws DateTimeException If the resulting year exceeds the supported range.
      */
-    public function minus($years)
+    public function minus(int $years) : Year
     {
         if ($years === 0) {
             return $this;
@@ -150,9 +150,9 @@ class Year implements DateTimeAccessor
      *
      * @param Year $that The year to compare to.
      *
-     * @return integer [-1, 0, 1] If this year is before, equal to, or after the given year.
+     * @return int [-1, 0, 1] If this year is before, equal to, or after the given year.
      */
-    public function compareTo(Year $that)
+    public function compareTo(Year $that) : int
     {
         if ($this->year > $that->year) {
             return 1;
@@ -170,9 +170,9 @@ class Year implements DateTimeAccessor
      *
      * @param Year $that The year to compare to.
      *
-     * @return boolean True if this year is equal to the given year, false otherwise.
+     * @return bool True if this year is equal to the given year, false otherwise.
      */
-    public function isEqualTo(Year $that)
+    public function isEqualTo(Year $that) : bool
     {
         return $this->year === $that->year;
     }
@@ -182,9 +182,9 @@ class Year implements DateTimeAccessor
      *
      * @param Year $that The year to compare to.
      *
-     * @return boolean True if this year is after the given year, false otherwise.
+     * @return bool True if this year is after the given year, false otherwise.
      */
-    public function isAfter(Year $that)
+    public function isAfter(Year $that) : bool
     {
         return $this->year > $that->year;
     }
@@ -194,9 +194,9 @@ class Year implements DateTimeAccessor
      *
      * @param Year $that The year to compare to.
      *
-     * @return boolean True if this year is before the given year, false otherwise.
+     * @return bool True if this year is before the given year, false otherwise.
      */
-    public function isBefore(Year $that)
+    public function isBefore(Year $that) : bool
     {
         return $this->year < $that->year;
     }
@@ -204,13 +204,13 @@ class Year implements DateTimeAccessor
     /**
      * Combines this year with a day-of-year to create a LocalDate.
      *
-     * @param integer $dayOfYear The day-of-year to use, from 1 to 366.
+     * @param int $dayOfYear The day-of-year to use, from 1 to 366.
      *
      * @return LocalDate
      *
      * @throws DateTimeException If the day-of-year is invalid for this year.
      */
-    public function atDay($dayOfYear)
+    public function atDay(int $dayOfYear) : LocalDate
     {
         return LocalDate::ofYearDay($this->year, $dayOfYear);
     }
@@ -218,13 +218,13 @@ class Year implements DateTimeAccessor
     /**
      * Combines this year with a month to create a YearMonth.
      *
-     * @param integer $month The month-of-year to use, from 1 to 12.
+     * @param int $month The month-of-year to use, from 1 to 12.
      *
      * @return YearMonth
      *
      * @throws DateTimeException If the month is invalid.
      */
-    public function atMonth($month)
+    public function atMonth(int $month) : YearMonth
     {
         return YearMonth::of($this->year, $month);
     }
@@ -239,7 +239,7 @@ class Year implements DateTimeAccessor
      *
      * @return LocalDate
      */
-    public function atMonthDay(MonthDay $monthDay)
+    public function atMonthDay(MonthDay $monthDay) : LocalDate
     {
         return $monthDay->atYear($this->year);
     }
@@ -247,7 +247,7 @@ class Year implements DateTimeAccessor
     /**
      * {@inheritdoc}
      */
-    public function getField($field)
+    public function getField(string $field)
     {
         switch ($field) {
             case Field\Year::NAME:
@@ -261,7 +261,7 @@ class Year implements DateTimeAccessor
     /**
      * @return string
      */
-    public function __toString()
+    public function __toString() : string
     {
         return (string) $this->year;
     }

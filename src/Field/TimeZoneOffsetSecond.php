@@ -20,13 +20,13 @@ class TimeZoneOffsetSecond
     const PATTERN = SecondOfMinute::PATTERN;
 
     /**
-     * @param integer $offsetSecond The offset-second to check, validated as an integer.
+     * @param int $offsetSecond The offset-second to check.
      *
      * @return void
      *
      * @throws DateTimeException If the offset-second is not valid.
      */
-    public static function check($offsetSecond)
+    public static function check(int $offsetSecond)
     {
         if ($offsetSecond < -59 || $offsetSecond > 59) {
             throw DateTimeException::fieldNotInRange(self::NAME, $offsetSecond, -59, 59);

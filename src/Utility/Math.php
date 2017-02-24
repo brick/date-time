@@ -12,17 +12,17 @@ final class Math
     /**
      * Returns the largest integer value that is less than or equal to the algebraic quotient.
      *
-     * @param integer $a The first argument, validated as an integer.
-     * @param integer $b The second argument, validated as a non-zero integer.
+     * @param int $a The first argument.
+     * @param int $b The second argument, non-zero.
      *
-     * @return integer
+     * @return int
      */
-    public static function floorDiv($a, $b)
+    public static function floorDiv(int $a, int $b) : int
     {
         $r = intdiv($a, $b);
 
         // If the signs are different and modulo not zero, round down.
-        if (($a ^ $b) < 0 && ($r * $b != $a)) {
+        if (($a ^ $b) < 0 && ($r * $b !== $a)) {
             $r--;
         }
 
@@ -35,12 +35,12 @@ final class Math
      * The relationship between floorDiv and floorMod is such that:
      * floorDiv(x, y) * y + floorMod(x, y) == x
      *
-     * @param integer $a The first argument, validated as an integer.
-     * @param integer $b The second argument, validated as a non-zero integer.
+     * @param int $a The first argument.
+     * @param int $b The second argument, non-zero.
      *
-     * @return integer
+     * @return int
      */
-    public static function floorMod($a, $b)
+    public static function floorMod(int $a, int $b) : int
     {
         return (($a % $b) + $b) % $b;
     }

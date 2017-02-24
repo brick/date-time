@@ -30,13 +30,13 @@ final class Year
     const MAX_VALUE = 999999;
 
     /**
-     * @param integer $year The year to check, validated as an integer.
+     * @param int $year The year to check.
      *
      * @return void
      *
      * @throws DateTimeException If the year is not valid.
      */
-    public static function check($year)
+    public static function check(int $year)
     {
         if ($year < self::MIN_VALUE || $year > self::MAX_VALUE) {
             throw DateTimeException::fieldNotInRange(self::NAME, $year, self::MIN_VALUE, self::MAX_VALUE);
@@ -44,11 +44,11 @@ final class Year
     }
 
     /**
-     * @param integer $year The year, fully validated.
+     * @param int $year The year, validated.
      *
-     * @return boolean
+     * @return bool
      */
-    public static function isLeap($year)
+    public static function isLeap(int $year) : bool
     {
         return (($year & 3) === 0) && (($year % 100) !== 0 || ($year % 400) === 0);
     }

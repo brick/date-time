@@ -22,13 +22,13 @@ class TimeZoneOffsetTotalSeconds
     const MAX_SECONDS = 64800;
 
     /**
-     * @param integer $offsetSeconds The offset-seconds to check, validated as an integer.
+     * @param int $offsetSeconds The offset-seconds to check.
      *
      * @return void
      *
      * @throws DateTimeException If the offset-seconds is not valid.
      */
-    public static function check($offsetSeconds)
+    public static function check(int $offsetSeconds)
     {
         if ($offsetSeconds < -self::MAX_SECONDS || $offsetSeconds > self::MAX_SECONDS) {
             throw DateTimeException::fieldNotInRange(self::NAME, $offsetSeconds, -self::MAX_SECONDS, self::MAX_SECONDS);

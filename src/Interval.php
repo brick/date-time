@@ -47,7 +47,7 @@ class Interval
      *
      * @return \Brick\DateTime\ReadableInstant
      */
-    public function getStart()
+    public function getStart() : ReadableInstant
     {
         return $this->start;
     }
@@ -57,7 +57,7 @@ class Interval
      *
      * @return \Brick\DateTime\ReadableInstant
      */
-    public function getEnd()
+    public function getEnd() : ReadableInstant
     {
         return $this->end;
     }
@@ -69,7 +69,7 @@ class Interval
      *
      * @return \Brick\DateTime\Interval
      */
-    public function withStart(ReadableInstant $start)
+    public function withStart(ReadableInstant $start) : Interval
     {
         return new Interval($start, $this->end);
     }
@@ -81,7 +81,7 @@ class Interval
      *
      * @return \Brick\DateTime\Interval
      */
-    public function withEnd(ReadableInstant $end)
+    public function withEnd(ReadableInstant $end) : Interval
     {
         return new Interval($this->start, $end);
     }
@@ -91,7 +91,7 @@ class Interval
      *
      * @return \Brick\DateTime\Duration
      */
-    public function getDuration()
+    public function getDuration() : Duration
     {
         return Duration::between($this->start, $this->end);
     }
@@ -99,7 +99,7 @@ class Interval
     /**
      * @return string
      */
-    public function __toString()
+    public function __toString() : string
     {
         return $this->start . '/' . $this->end;
     }

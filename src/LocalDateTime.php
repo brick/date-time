@@ -38,19 +38,19 @@ class LocalDateTime implements DateTimeAccessor
     }
 
     /**
-     * @param integer $year   The year, from MIN_YEAR to MAX_YEAR.
-     * @param integer $month  The month-of-year, from 1 (January) to 12 (December).
-     * @param integer $day    The day-of-month, from 1 to 31.
-     * @param integer $hour   The hour-of-day, from 0 to 23.
-     * @param integer $minute The minute-of-hour, from 0 to 59.
-     * @param integer $second The second-of-minute, from 0 to 59.
-     * @param integer $nano   The nano-of-second, from 0 to 999,999,999.
+     * @param int $year   The year, from MIN_YEAR to MAX_YEAR.
+     * @param int $month  The month-of-year, from 1 (January) to 12 (December).
+     * @param int $day    The day-of-month, from 1 to 31.
+     * @param int $hour   The hour-of-day, from 0 to 23.
+     * @param int $minute The minute-of-hour, from 0 to 59.
+     * @param int $second The second-of-minute, from 0 to 59.
+     * @param int $nano   The nano-of-second, from 0 to 999,999,999.
      *
      * @return LocalDateTime
      *
      * @throws DateTimeException If the date or time is not valid.
      */
-    public static function of($year, $month, $day, $hour = 0, $minute = 0, $second = 0, $nano = 0)
+    public static function of(int $year, int $month, int $day, int $hour = 0, int $minute = 0, int $second = 0, int $nano = 0) : LocalDateTime
     {
         $date = LocalDate::of($year, $month, $day);
         $time = LocalTime::of($hour, $minute, $second, $nano);
@@ -63,7 +63,7 @@ class LocalDateTime implements DateTimeAccessor
      *
      * @return LocalDateTime
      */
-    public static function now(TimeZone $timeZone)
+    public static function now(TimeZone $timeZone) : LocalDateTime
     {
         return ZonedDateTime::now($timeZone)->getDateTime();
     }
@@ -76,7 +76,7 @@ class LocalDateTime implements DateTimeAccessor
      * @throws DateTimeException      If the date-time is not valid.
      * @throws DateTimeParseException If required fields are missing from the result.
      */
-    public static function from(DateTimeParseResult $result)
+    public static function from(DateTimeParseResult $result) : LocalDateTime
     {
         return new LocalDateTime(
             LocalDate::from($result),
@@ -95,7 +95,7 @@ class LocalDateTime implements DateTimeAccessor
      * @throws DateTimeException      If the date-time is not valid.
      * @throws DateTimeParseException If the text string does not follow the expected format.
      */
-    public static function parse($text, DateTimeParser $parser = null)
+    public static function parse(string $text, DateTimeParser $parser = null) : LocalDateTime
     {
         if (! $parser) {
             $parser = IsoParsers::localDateTime();
@@ -109,7 +109,7 @@ class LocalDateTime implements DateTimeAccessor
      *
      * @return LocalDateTime
      */
-    public static function min()
+    public static function min() : LocalDateTime
     {
         return new LocalDateTime(LocalDate::min(), LocalTime::min());
     }
@@ -119,7 +119,7 @@ class LocalDateTime implements DateTimeAccessor
      *
      * @return LocalDateTime
      */
-    public static function max()
+    public static function max() : LocalDateTime
     {
         return new LocalDateTime(LocalDate::max(), LocalTime::max());
     }
@@ -127,13 +127,13 @@ class LocalDateTime implements DateTimeAccessor
     /**
      * Returns the smallest LocalDateTime among the given values.
      *
-     * @param LocalDateTime ... $times The LocalDateTime objects to compare.
+     * @param LocalDateTime[] $times The LocalDateTime objects to compare.
      *
      * @return LocalDateTime The earliest LocalDateTime object.
      *
      * @throws DateTimeException If the array is empty.
      */
-    public static function minOf(LocalDateTime ... $times)
+    public static function minOf(LocalDateTime ...$times) : LocalDateTime
     {
         if (! $times) {
             throw new DateTimeException(__METHOD__ . ' does not accept less than 1 parameter.');
@@ -153,13 +153,13 @@ class LocalDateTime implements DateTimeAccessor
     /**
      * Returns the highest LocalDateTime among the given values.
      *
-     * @param LocalDateTime ... $times The LocalDateTime objects to compare.
+     * @param LocalDateTime[] $times The LocalDateTime objects to compare.
      *
      * @return LocalDateTime The latest LocalDateTime object.
      *
      * @throws DateTimeException If the array is empty.
      */
-    public static function maxOf(LocalDateTime ... $times)
+    public static function maxOf(LocalDateTime ...$times) : LocalDateTime
     {
         if (! $times) {
             throw new DateTimeException(__METHOD__ . ' does not accept less than 1 parameter.');
@@ -179,7 +179,7 @@ class LocalDateTime implements DateTimeAccessor
     /**
      * @return LocalDate
      */
-    public function getDate()
+    public function getDate() : LocalDate
     {
         return $this->date;
     }
@@ -187,31 +187,31 @@ class LocalDateTime implements DateTimeAccessor
     /**
      * @return LocalTime
      */
-    public function getTime()
+    public function getTime() : LocalTime
     {
         return $this->time;
     }
 
     /**
-     * @return integer
+     * @return int
      */
-    public function getYear()
+    public function getYear() : int
     {
         return $this->date->getYear();
     }
 
     /**
-     * @return integer
+     * @return int
      */
-    public function getMonth()
+    public function getMonth() : int
     {
         return $this->date->getMonth();
     }
 
     /**
-     * @return integer
+     * @return int
      */
-    public function getDay()
+    public function getDay() : int
     {
         return $this->date->getDay();
     }
@@ -219,47 +219,47 @@ class LocalDateTime implements DateTimeAccessor
     /**
      * @return DayOfWeek
      */
-    public function getDayOfWeek()
+    public function getDayOfWeek() : DayOfWeek
     {
         return $this->date->getDayOfWeek();
     }
 
     /**
-     * @return integer
+     * @return int
      */
-    public function getDayOfYear()
+    public function getDayOfYear() : int
     {
         return $this->date->getDayOfYear();
     }
 
     /**
-     * @return integer
+     * @return int
      */
-    public function getHour()
+    public function getHour() : int
     {
         return $this->time->getHour();
     }
 
     /**
-     * @return integer
+     * @return int
      */
-    public function getMinute()
+    public function getMinute() : int
     {
         return $this->time->getMinute();
     }
 
     /**
-     * @return integer
+     * @return int
      */
-    public function getSecond()
+    public function getSecond() : int
     {
         return $this->time->getSecond();
     }
 
     /**
-     * @return integer
+     * @return int
      */
-    public function getNano()
+    public function getNano() : int
     {
         return $this->time->getNano();
     }
@@ -273,7 +273,7 @@ class LocalDateTime implements DateTimeAccessor
      *
      * @return LocalDateTime
      */
-    private function with(LocalDate $date, LocalTime $time)
+    private function with(LocalDate $date, LocalTime $time) : LocalDateTime
     {
         if ($date->isEqualTo($this->date) && $time->isEqualTo($this->time)) {
             return $this;
@@ -289,7 +289,7 @@ class LocalDateTime implements DateTimeAccessor
      *
      * @return LocalDateTime
      */
-    public function withDate(LocalDate $date)
+    public function withDate(LocalDate $date) : LocalDateTime
     {
         if ($date->isEqualTo($this->date)) {
             return $this;
@@ -305,7 +305,7 @@ class LocalDateTime implements DateTimeAccessor
      *
      * @return LocalDateTime
      */
-    public function withTime(LocalTime $time)
+    public function withTime(LocalTime $time) : LocalDateTime
     {
         if ($time->isEqualTo($this->time)) {
             return $this;
@@ -319,13 +319,13 @@ class LocalDateTime implements DateTimeAccessor
      *
      * If the day-of-month is invalid for the year, it will be changed to the last valid day of the month.
      *
-     * @param integer $year
+     * @param int $year
      *
      * @return LocalDateTime
      *
      * @throws DateTimeException If the year is outside the valid range.
      */
-    public function withYear($year)
+    public function withYear(int $year) : LocalDateTime
     {
         return $this->with($this->date->withYear($year), $this->time);
     }
@@ -335,13 +335,13 @@ class LocalDateTime implements DateTimeAccessor
      *
      * If the day-of-month is invalid for the month and year, it will be changed to the last valid day of the month.
      *
-     * @param integer $month
+     * @param int $month
      *
      * @return LocalDateTime
      *
      * @throws DateTimeException If the month is invalid.
      */
-    public function withMonth($month)
+    public function withMonth(int $month) : LocalDateTime
     {
         return $this->with($this->date->withMonth($month), $this->time);
     }
@@ -351,13 +351,13 @@ class LocalDateTime implements DateTimeAccessor
      *
      * If the resulting date is invalid, an exception is thrown.
      *
-     * @param integer $day
+     * @param int $day
      *
      * @return LocalDateTime
      *
      * @throws DateTimeException If the day is invalid for the current year and month.
      */
-    public function withDay($day)
+    public function withDay(int $day) : LocalDateTime
     {
         return $this->with($this->date->withDay($day), $this->time);
     }
@@ -365,13 +365,13 @@ class LocalDateTime implements DateTimeAccessor
     /**
      * Returns a copy of this LocalDateTime with the hour-of-day altered.
      *
-     * @param integer $hour
+     * @param int $hour
      *
      * @return LocalDateTime
      *
      * @throws DateTimeException If the hour is invalid.
      */
-    public function withHour($hour)
+    public function withHour(int $hour) : LocalDateTime
     {
         return $this->with($this->date, $this->time->withHour($hour));
     }
@@ -379,11 +379,11 @@ class LocalDateTime implements DateTimeAccessor
     /**
      * Returns a copy of this LocalDateTime with the minute-of-hour altered.
      *
-     * @param integer $minute
+     * @param int $minute
      *
      * @return LocalDateTime
      */
-    public function withMinute($minute)
+    public function withMinute(int $minute) : LocalDateTime
     {
         return $this->with($this->date, $this->time->withMinute($minute));
     }
@@ -391,11 +391,11 @@ class LocalDateTime implements DateTimeAccessor
     /**
      * Returns a copy of this LocalDateTime with the second-of-minute altered.
      *
-     * @param integer $second
+     * @param int $second
      *
      * @return LocalDateTime
      */
-    public function withSecond($second)
+    public function withSecond(int $second) : LocalDateTime
     {
         return $this->with($this->date, $this->time->withSecond($second));
     }
@@ -403,11 +403,11 @@ class LocalDateTime implements DateTimeAccessor
     /**
      * Returns a copy of this LocalDateTime with the nano-of-second altered.
      *
-     * @param integer $nano
+     * @param int $nano
      *
      * @return LocalDateTime
      */
-    public function withNano($nano)
+    public function withNano(int $nano) : LocalDateTime
     {
         return $this->with($this->date, $this->time->withNano($nano));
     }
@@ -419,7 +419,7 @@ class LocalDateTime implements DateTimeAccessor
      *
      * @return ZonedDateTime The zoned date-time formed from this date-time.
      */
-    public function atTimeZone(TimeZone $zone)
+    public function atTimeZone(TimeZone $zone) : ZonedDateTime
     {
         return ZonedDateTime::of($this, $zone);
     }
@@ -431,7 +431,7 @@ class LocalDateTime implements DateTimeAccessor
      *
      * @return LocalDateTime
      */
-    public function plusPeriod(Period $period)
+    public function plusPeriod(Period $period) : LocalDateTime
     {
         return $this->with($this->date->plusPeriod($period), $this->time);
     }
@@ -443,7 +443,7 @@ class LocalDateTime implements DateTimeAccessor
      *
      * @return LocalDateTime
      */
-    public function plusDuration(Duration $duration)
+    public function plusDuration(Duration $duration) : LocalDateTime
     {
         $days = Math::floorDiv($duration->getSeconds(), LocalTime::SECONDS_PER_DAY);
 
@@ -453,11 +453,11 @@ class LocalDateTime implements DateTimeAccessor
     /**
      * Returns a copy of this LocalDateTime with the specified period in years added.
      *
-     * @param integer $years
+     * @param int $years
      *
      * @return LocalDateTime
      */
-    public function plusYears($years)
+    public function plusYears(int $years) : LocalDateTime
     {
         return $this->with($this->date->plusYears($years), $this->time);
     }
@@ -465,11 +465,11 @@ class LocalDateTime implements DateTimeAccessor
     /**
      * Returns a copy of this LocalDateTime with the specified period in months added.
      *
-     * @param integer $months
+     * @param int $months
      *
      * @return LocalDateTime
      */
-    public function plusMonths($months)
+    public function plusMonths(int $months) : LocalDateTime
     {
         return $this->with($this->date->plusMonths($months), $this->time);
     }
@@ -477,11 +477,11 @@ class LocalDateTime implements DateTimeAccessor
     /**
      * Returns a copy of this LocalDateTime with the specified period in weeks added.
      *
-     * @param integer $weeks
+     * @param int $weeks
      *
      * @return LocalDateTime
      */
-    public function plusWeeks($weeks)
+    public function plusWeeks(int $weeks) : LocalDateTime
     {
         return $this->with($this->date->plusWeeks($weeks), $this->time);
     }
@@ -489,11 +489,11 @@ class LocalDateTime implements DateTimeAccessor
     /**
      * Returns a copy of this LocalDateTime with the specified period in days added.
      *
-     * @param integer $days
+     * @param int $days
      *
      * @return LocalDateTime
      */
-    public function plusDays($days)
+    public function plusDays(int $days) : LocalDateTime
     {
         return $this->with($this->date->plusDays($days), $this->time);
     }
@@ -501,11 +501,11 @@ class LocalDateTime implements DateTimeAccessor
     /**
      * Returns a copy of this LocalDateTime with the specified period in hours added.
      *
-     * @param integer $hours
+     * @param int $hours
      *
      * @return LocalDateTime
      */
-    public function plusHours($hours)
+    public function plusHours(int $hours) : LocalDateTime
     {
         if ($hours === 0) {
             return $this;
@@ -517,11 +517,11 @@ class LocalDateTime implements DateTimeAccessor
     /**
      * Returns a copy of this LocalDateTime with the specified period in minutes added.
      *
-     * @param integer $minutes
+     * @param int $minutes
      *
      * @return LocalDateTime
      */
-    public function plusMinutes($minutes)
+    public function plusMinutes(int $minutes) : LocalDateTime
     {
         if ($minutes === 0) {
             return $this;
@@ -533,11 +533,11 @@ class LocalDateTime implements DateTimeAccessor
     /**
      * Returns a copy of this LocalDateTime with the specified period in seconds added.
      *
-     * @param integer $seconds
+     * @param int $seconds
      *
      * @return LocalDateTime
      */
-    public function plusSeconds($seconds)
+    public function plusSeconds(int $seconds) : LocalDateTime
     {
         if ($seconds === 0) {
             return $this;
@@ -549,11 +549,11 @@ class LocalDateTime implements DateTimeAccessor
     /**
      * Returns a copy of this LocalDateTime with the specified period in nanoseconds added.
      *
-     * @param integer $nanos
+     * @param int $nanos
      *
      * @return LocalDateTime
      */
-    public function plusNanos($nanos)
+    public function plusNanos(int $nanos) : LocalDateTime
     {
         if ($nanos === 0) {
             return $this;
@@ -569,7 +569,7 @@ class LocalDateTime implements DateTimeAccessor
      *
      * @return LocalDateTime
      */
-    public function minusPeriod(Period $period)
+    public function minusPeriod(Period $period) : LocalDateTime
     {
         return $this->with($this->date->minusPeriod($period), $this->time);
     }
@@ -581,7 +581,7 @@ class LocalDateTime implements DateTimeAccessor
      *
      * @return LocalDateTime
      */
-    public function minusDuration(Duration $duration)
+    public function minusDuration(Duration $duration) : LocalDateTime
     {
         return $this->plusDuration($duration->negated());
     }
@@ -589,11 +589,11 @@ class LocalDateTime implements DateTimeAccessor
     /**
      * Returns a copy of this LocalDateTime with the specified period in years subtracted.
      *
-     * @param integer $years
+     * @param int $years
      *
      * @return LocalDateTime
      */
-    public function minusYears($years)
+    public function minusYears(int $years) : LocalDateTime
     {
         return $this->with($this->date->minusYears($years), $this->time);
     }
@@ -601,11 +601,11 @@ class LocalDateTime implements DateTimeAccessor
     /**
      * Returns a copy of this LocalDateTime with the specified period in months subtracted.
      *
-     * @param integer $months
+     * @param int $months
      *
      * @return LocalDateTime
      */
-    public function minusMonths($months)
+    public function minusMonths(int $months) : LocalDateTime
     {
         return $this->with($this->date->minusMonths($months), $this->time);
     }
@@ -613,11 +613,11 @@ class LocalDateTime implements DateTimeAccessor
     /**
      * Returns a copy of this LocalDateTime with the specified period in weeks subtracted.
      *
-     * @param integer $weeks
+     * @param int $weeks
      *
      * @return LocalDateTime
      */
-    public function minusWeeks($weeks)
+    public function minusWeeks(int $weeks) : LocalDateTime
     {
         return $this->with($this->date->minusWeeks($weeks), $this->time);
     }
@@ -625,11 +625,11 @@ class LocalDateTime implements DateTimeAccessor
     /**
      * Returns a copy of this LocalDateTime with the specified period in days subtracted.
      *
-     * @param integer $days
+     * @param int $days
      *
      * @return LocalDateTime
      */
-    public function minusDays($days)
+    public function minusDays(int $days) : LocalDateTime
     {
         return $this->with($this->date->minusDays($days), $this->time);
     }
@@ -637,11 +637,11 @@ class LocalDateTime implements DateTimeAccessor
     /**
      * Returns a copy of this LocalDateTime with the specified period in hours subtracted.
      *
-     * @param integer $hours
+     * @param int $hours
      *
      * @return LocalDateTime
      */
-    public function minusHours($hours)
+    public function minusHours(int $hours) : LocalDateTime
     {
         if ($hours === 0) {
             return $this;
@@ -653,11 +653,11 @@ class LocalDateTime implements DateTimeAccessor
     /**
      * Returns a copy of this LocalDateTime with the specified period in minutes subtracted.
      *
-     * @param integer $minutes
+     * @param int $minutes
      *
      * @return LocalDateTime
      */
-    public function minusMinutes($minutes)
+    public function minusMinutes(int $minutes) : LocalDateTime
     {
         if ($minutes === 0) {
             return $this;
@@ -669,11 +669,11 @@ class LocalDateTime implements DateTimeAccessor
     /**
      * Returns a copy of this LocalDateTime with the specified period in seconds subtracted.
      *
-     * @param integer $seconds
+     * @param int $seconds
      *
      * @return LocalDateTime
      */
-    public function minusSeconds($seconds)
+    public function minusSeconds(int $seconds) : LocalDateTime
     {
         if ($seconds === 0) {
             return $this;
@@ -685,11 +685,11 @@ class LocalDateTime implements DateTimeAccessor
     /**
      * Returns a copy of this LocalDateTime with the specified period in nanoseconds subtracted.
      *
-     * @param integer $nanos
+     * @param int $nanos
      *
      * @return LocalDateTime
      */
-    public function minusNanos($nanos)
+    public function minusNanos(int $nanos) : LocalDateTime
     {
         if ($nanos === 0) {
             return $this;
@@ -701,15 +701,15 @@ class LocalDateTime implements DateTimeAccessor
     /**
      * Returns a copy of this `LocalDateTime` with the specified period added.
      *
-     * @param integer $hours   The hours to add, validated as an integer. May be negative.
-     * @param integer $minutes The minutes to add, validated as an integer. May be negative.
-     * @param integer $seconds The seconds to add, validated as an integer. May be negative.
-     * @param integer $nanos   The nanos to add, validated as an integer. May be negative.
-     * @param integer $sign    The sign, validated as an integer of value `1` to add or `-1` to subtract.
+     * @param int $hours   The hours to add. May be negative.
+     * @param int $minutes The minutes to add. May be negative.
+     * @param int $seconds The seconds to add. May be negative.
+     * @param int $nanos   The nanos to add. May be negative.
+     * @param int $sign    The sign, validated as `1` to add or `-1` to subtract.
      *
      * @return LocalDateTime The combined result.
      */
-    private function plusWithOverflow($hours, $minutes, $seconds, $nanos, $sign)
+    private function plusWithOverflow(int $hours, int $minutes, int $seconds, int $nanos, int $sign) : LocalDateTime
     {
         $totDays =
             intdiv($hours, LocalTime::HOURS_PER_DAY) +
@@ -742,9 +742,9 @@ class LocalDateTime implements DateTimeAccessor
      *
      * @param LocalDateTime $that The date-time to compare to.
      *
-     * @return integer [-1,0,1] If this date-time is before, on, or after the given date-time.
+     * @return int [-1,0,1] If this date-time is before, on, or after the given date-time.
      */
-    public function compareTo(LocalDateTime $that)
+    public function compareTo(LocalDateTime $that) : int
     {
         return $this->date->compareTo($that->date) ?: $this->time->compareTo($that->time);
     }
@@ -752,9 +752,9 @@ class LocalDateTime implements DateTimeAccessor
     /**
      * @param LocalDateTime $that
      *
-     * @return boolean
+     * @return bool
      */
-    public function isEqualTo(LocalDateTime $that)
+    public function isEqualTo(LocalDateTime $that) : bool
     {
         return $this->compareTo($that) === 0;
     }
@@ -762,9 +762,9 @@ class LocalDateTime implements DateTimeAccessor
     /**
      * @param LocalDateTime $that
      *
-     * @return boolean
+     * @return bool
      */
-    public function isBefore(LocalDateTime $that)
+    public function isBefore(LocalDateTime $that) : bool
     {
         return $this->compareTo($that) === -1;
     }
@@ -772,9 +772,9 @@ class LocalDateTime implements DateTimeAccessor
     /**
      * @param LocalDateTime $that
      *
-     * @return boolean
+     * @return bool
      */
-    public function isBeforeOrEqualTo(LocalDateTime $that)
+    public function isBeforeOrEqualTo(LocalDateTime $that) : bool
     {
         return $this->compareTo($that) <= 0;
     }
@@ -782,9 +782,9 @@ class LocalDateTime implements DateTimeAccessor
     /**
      * @param LocalDateTime $that
      *
-     * @return boolean
+     * @return bool
      */
-    public function isAfter(LocalDateTime $that)
+    public function isAfter(LocalDateTime $that) : bool
     {
         return $this->compareTo($that) === 1;
     }
@@ -792,9 +792,9 @@ class LocalDateTime implements DateTimeAccessor
     /**
      * @param LocalDateTime $that
      *
-     * @return boolean
+     * @return bool
      */
-    public function isAfterOrEqualTo(LocalDateTime $that)
+    public function isAfterOrEqualTo(LocalDateTime $that) : bool
     {
         return $this->compareTo($that) >= 0;
     }
@@ -802,7 +802,7 @@ class LocalDateTime implements DateTimeAccessor
     /**
      * {@inheritdoc}
      */
-    public function getField($field)
+    public function getField(string $field)
     {
         $value = $this->date->getField($field);
 
@@ -816,7 +816,7 @@ class LocalDateTime implements DateTimeAccessor
     /**
      * @return string
      */
-    public function __toString()
+    public function __toString() : string
     {
         return $this->date . 'T' . $this->time;
     }

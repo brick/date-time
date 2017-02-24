@@ -38,32 +38,32 @@ class LocalDate implements DateTimeAccessor
     /**
      * The year.
      *
-     * @var integer
+     * @var int
      */
     private $year;
 
     /**
      * The month-of-year.
      *
-     * @var integer
+     * @var int
      */
     private $month;
 
     /**
      * The day-of-month.
      *
-     * @var integer
+     * @var int
      */
     private $day;
 
     /**
      * Private constructor. Use of() to obtain an instance.
      *
-     * @param integer $year  The year, validated as an integer from MIN_YEAR to MAX_YEAR.
-     * @param integer $month The month-of-year, validated as an integer from 1 to 12.
-     * @param integer $day   The day-of-month, validated as an integer from 1 to 31, valid for the year-month.
+     * @param int $year  The year, validated from MIN_YEAR to MAX_YEAR.
+     * @param int $month The month-of-year, validated from 1 to 12.
+     * @param int $day   The day-of-month, validated from 1 to 31, valid for the year-month.
      */
-    private function __construct($year, $month, $day)
+    private function __construct(int $year, int $month, int $day)
     {
         $this->year  = $year;
         $this->month = $month;
@@ -73,15 +73,15 @@ class LocalDate implements DateTimeAccessor
     /**
      * Obtains an instance of `LocalDate` from a year, month and day.
      *
-     * @param integer $year  The year, from MIN_YEAR to MAX_YEAR.
-     * @param integer $month The month-of-year, from 1 (January) to 12 (December).
-     * @param integer $day   The day-of-month, from 1 to 31.
+     * @param int $year  The year, from MIN_YEAR to MAX_YEAR.
+     * @param int $month The month-of-year, from 1 (January) to 12 (December).
+     * @param int $day   The day-of-month, from 1 to 31.
      *
      * @return LocalDate The LocalDate instance.
      *
      * @throws DateTimeException If the date is not valid.
      */
-    public static function of($year, $month, $day)
+    public static function of(int $year, int $month, int $day) : LocalDate
     {
         Field\Year::check($year);
         Field\MonthOfYear::check($month);
@@ -93,12 +93,12 @@ class LocalDate implements DateTimeAccessor
     /**
      * Obtains an instance of `LocalDate` from a year and day-of-year.
      *
-     * @param integer $year      The year, from MIN_YEAR to MAX_YEAR.
-     * @param integer $dayOfYear The day-of-year, from 1 to 366.
+     * @param int $year      The year, from MIN_YEAR to MAX_YEAR.
+     * @param int $dayOfYear The day-of-year, from 1 to 366.
      *
      * @return LocalDate
      */
-    public static function ofYearDay($year, $dayOfYear)
+    public static function ofYearDay(int $year, int $dayOfYear) : LocalDate
     {
         Field\Year::check($year);
         Field\DayOfYear::check($dayOfYear, $year);
@@ -125,7 +125,7 @@ class LocalDate implements DateTimeAccessor
      * @throws DateTimeException      If the date is not valid.
      * @throws DateTimeParseException If required fields are missing from the result.
      */
-    public static function from(DateTimeParseResult $result)
+    public static function from(DateTimeParseResult $result) : LocalDate
     {
         $year  = (int) $result->getField(Field\Year::NAME);
         $month = (int) $result->getField(Field\MonthOfYear::NAME);
@@ -145,7 +145,7 @@ class LocalDate implements DateTimeAccessor
      * @throws DateTimeException      If the date is not valid.
      * @throws DateTimeParseException If the text string does not follow the expected format.
      */
-    public static function parse($text, DateTimeParser $parser = null)
+    public static function parse(string $text, DateTimeParser $parser = null) : LocalDate
     {
         if (! $parser) {
             $parser = IsoParsers::localDate();
@@ -160,11 +160,11 @@ class LocalDate implements DateTimeAccessor
      * The Epoch Day count is a simple incrementing count of days
      * where day 0 is 1970-01-01. Negative numbers represent earlier days.
      *
-     * @param integer $epochDay
+     * @param int $epochDay
      *
      * @return LocalDate
      */
-    public static function ofEpochDay($epochDay)
+    public static function ofEpochDay(int $epochDay) : LocalDate
     {
         $zeroDay = $epochDay + self::DAYS_0000_TO_1970;
         // Find the march-based year.
@@ -205,7 +205,7 @@ class LocalDate implements DateTimeAccessor
      *
      * @return LocalDate
      */
-    public static function now(TimeZone $timeZone)
+    public static function now(TimeZone $timeZone) : LocalDate
     {
         return ZonedDateTime::now($timeZone)->getDate();
     }
@@ -217,7 +217,7 @@ class LocalDate implements DateTimeAccessor
      *
      * @return LocalDate
      */
-    public static function min()
+    public static function min() : LocalDate
     {
         return LocalDate::of(self::MIN_YEAR, 1, 1);
     }
@@ -229,7 +229,7 @@ class LocalDate implements DateTimeAccessor
      *
      * @return LocalDate
      */
-    public static function max()
+    public static function max() : LocalDate
     {
         return LocalDate::of(self::MAX_YEAR, 12, 31);
     }
@@ -237,13 +237,13 @@ class LocalDate implements DateTimeAccessor
     /**
      * Returns the smallest LocalDate among the given values.
      *
-     * @param LocalDate ... $dates The LocalDate objects to compare.
+     * @param LocalDate[] $dates The LocalDate objects to compare.
      *
      * @return LocalDate The earliest LocalDate object.
      *
      * @throws DateTimeException If the array is empty.
      */
-    public static function minOf(LocalDate ... $dates)
+    public static function minOf(LocalDate ...$dates) : LocalDate
     {
         if (! $dates) {
             throw new DateTimeException(__METHOD__ . ' does not accept less than 1 parameter.');
@@ -263,13 +263,13 @@ class LocalDate implements DateTimeAccessor
     /**
      * Returns the highest LocalDate among the given values.
      *
-     * @param LocalDate ... $dates The LocalDate objects to compare.
+     * @param LocalDate[] $dates The LocalDate objects to compare.
      *
      * @return LocalDate The latest LocalDate object.
      *
      * @throws DateTimeException If the array is empty.
      */
-    public static function maxOf(LocalDate ... $dates)
+    public static function maxOf(LocalDate ...$dates) : LocalDate
     {
         if (! $dates) {
             throw new DateTimeException(__METHOD__ . ' does not accept less than 1 parameter.');
@@ -287,25 +287,25 @@ class LocalDate implements DateTimeAccessor
     }
 
     /**
-     * @return integer
+     * @return int
      */
-    public function getYear()
+    public function getYear() : int
     {
         return $this->year;
     }
 
     /**
-     * @return integer
+     * @return int
      */
-    public function getMonth()
+    public function getMonth() : int
     {
         return $this->month;
     }
 
     /**
-     * @return integer
+     * @return int
      */
-    public function getDay()
+    public function getDay() : int
     {
         return $this->day;
     }
@@ -313,7 +313,7 @@ class LocalDate implements DateTimeAccessor
     /**
      * @return YearMonth
      */
-    public function getYearMonth()
+    public function getYearMonth() : YearMonth
     {
         return YearMonth::of($this->year, $this->month);
     }
@@ -321,7 +321,7 @@ class LocalDate implements DateTimeAccessor
     /**
      * @return DayOfWeek
      */
-    public function getDayOfWeek()
+    public function getDayOfWeek() : DayOfWeek
     {
         return DayOfWeek::of(Math::floorMod($this->toEpochDay() + 3, 7) + 1);
     }
@@ -329,9 +329,9 @@ class LocalDate implements DateTimeAccessor
     /**
      * Returns the day-of-year, from 1 to 365, or 366 in a leap year.
      *
-     * @return integer
+     * @return int
      */
-    public function getDayOfYear()
+    public function getDayOfYear() : int
     {
         return Month::of($this->month)->getFirstDayOfYear($this->isLeapYear()) + $this->day - 1;
     }
@@ -341,13 +341,13 @@ class LocalDate implements DateTimeAccessor
      *
      * If the day-of-month is invalid for the year, it will be changed to the last valid day of the month.
      *
-     * @param integer $year
+     * @param int $year
      *
      * @return LocalDate
      *
      * @throws DateTimeException If the year is outside the valid range.
      */
-    public function withYear($year)
+    public function withYear(int $year) : LocalDate
     {
         if ($year === $this->year) {
             return $this;
@@ -363,13 +363,13 @@ class LocalDate implements DateTimeAccessor
      *
      * If the day-of-month is invalid for the month and year, it will be changed to the last valid day of the month.
      *
-     * @param integer $month
+     * @param int $month
      *
      * @return LocalDate
      *
      * @throws DateTimeException If the month is invalid.
      */
-    public function withMonth($month)
+    public function withMonth(int $month) : LocalDate
     {
         if ($month === $this->month) {
             return $this;
@@ -385,13 +385,13 @@ class LocalDate implements DateTimeAccessor
      *
      * If the resulting date is invalid, an exception is thrown.
      *
-     * @param integer $day
+     * @param int $day
      *
      * @return LocalDate
      *
      * @throws DateTimeException If the day is invalid for the current year and month.
      */
-    public function withDay($day)
+    public function withDay(int $day) : LocalDate
     {
         if ($day === $this->day) {
             return $this;
@@ -409,7 +409,7 @@ class LocalDate implements DateTimeAccessor
      *
      * @return LocalDate
      */
-    public function plusPeriod(Period $period)
+    public function plusPeriod(Period $period) : LocalDate
     {
         return $this
             ->plusYears($period->getYears())
@@ -423,11 +423,11 @@ class LocalDate implements DateTimeAccessor
      * If the day-of-month is invalid for the resulting year and month,
      * it will be changed to the last valid day of the month.
      *
-     * @param integer $years
+     * @param int $years
      *
      * @return LocalDate
      */
-    public function plusYears($years)
+    public function plusYears(int $years) : LocalDate
     {
         if ($years === 0) {
             return $this;
@@ -442,11 +442,11 @@ class LocalDate implements DateTimeAccessor
      * If the day-of-month is invalid for the resulting year and month,
      * it will be changed to the last valid day of the month.
      *
-     * @param integer $months
+     * @param int $months
      *
      * @return LocalDate
      */
-    public function plusMonths($months)
+    public function plusMonths(int $months) : LocalDate
     {
         $month = $this->month + $months - 1;
 
@@ -461,11 +461,11 @@ class LocalDate implements DateTimeAccessor
     /**
      * Returns a copy of this LocalDate with the specified period in weeks added.
      *
-     * @param integer $weeks
+     * @param int $weeks
      *
      * @return LocalDate
      */
-    public function plusWeeks($weeks)
+    public function plusWeeks(int $weeks) : LocalDate
     {
         if ($weeks === 0) {
             return $this;
@@ -477,11 +477,11 @@ class LocalDate implements DateTimeAccessor
     /**
      * Returns a copy of this LocalDate with the specified period in days added.
      *
-     * @param integer $days
+     * @param int $days
      *
      * @return LocalDate
      */
-    public function plusDays($days)
+    public function plusDays(int $days) : LocalDate
     {
         if ($days === 0) {
             return $this;
@@ -497,7 +497,7 @@ class LocalDate implements DateTimeAccessor
      *
      * @return LocalDate
      */
-    public function minusPeriod(Period $period)
+    public function minusPeriod(Period $period) : LocalDate
     {
         return $this->plusPeriod($period->negated());
     }
@@ -505,11 +505,11 @@ class LocalDate implements DateTimeAccessor
     /**
      * Returns a copy of this LocalDate with the specified period in years subtracted.
      *
-     * @param integer $years
+     * @param int $years
      *
      * @return LocalDate
      */
-    public function minusYears($years)
+    public function minusYears(int $years) : LocalDate
     {
         return $this->plusYears(- $years);
     }
@@ -517,11 +517,11 @@ class LocalDate implements DateTimeAccessor
     /**
      * Returns a copy of this LocalDate with the specified period in months subtracted.
      *
-     * @param integer $months
+     * @param int $months
      *
      * @return LocalDate
      */
-    public function minusMonths($months)
+    public function minusMonths(int $months) : LocalDate
     {
         return $this->plusMonths(- $months);
     }
@@ -529,23 +529,23 @@ class LocalDate implements DateTimeAccessor
     /**
      * Returns a copy of this LocalDate with the specified period in weeks subtracted.
      *
-     * @param integer $eeks
+     * @param int $weeks
      *
      * @return LocalDate
      */
-    public function minusWeeks($eeks)
+    public function minusWeeks(int $weeks) : LocalDate
     {
-        return $this->plusWeeks(- $eeks);
+        return $this->plusWeeks(- $weeks);
     }
 
     /**
      * Returns a copy of this LocalDate with the specified period in days subtracted.
      *
-     * @param integer $days
+     * @param int $days
      *
      * @return LocalDate
      */
-    public function minusDays($days)
+    public function minusDays(int $days) : LocalDate
     {
         return $this->plusDays(- $days);
     }
@@ -555,9 +555,9 @@ class LocalDate implements DateTimeAccessor
      *
      * @param LocalDate $that
      *
-     * @return integer [-1,0,1] If this date is before, on, or after the given date.
+     * @return int [-1,0,1] If this date is before, on, or after the given date.
      */
-    public function compareTo(LocalDate $that)
+    public function compareTo(LocalDate $that) : int
     {
         if ($this->year < $that->year) {
             return -1;
@@ -584,9 +584,9 @@ class LocalDate implements DateTimeAccessor
     /**
      * @param LocalDate $that
      *
-     * @return boolean
+     * @return bool
      */
-    public function isEqualTo(LocalDate $that)
+    public function isEqualTo(LocalDate $that) : bool
     {
         return $this->compareTo($that) === 0;
     }
@@ -594,9 +594,9 @@ class LocalDate implements DateTimeAccessor
     /**
      * @param LocalDate $that
      *
-     * @return boolean
+     * @return bool
      */
-    public function isBefore(LocalDate $that)
+    public function isBefore(LocalDate $that) : bool
     {
         return $this->compareTo($that) === -1;
     }
@@ -604,9 +604,9 @@ class LocalDate implements DateTimeAccessor
     /**
      * @param LocalDate $that
      *
-     * @return boolean
+     * @return bool
      */
-    public function isBeforeOrEqualTo(LocalDate $that)
+    public function isBeforeOrEqualTo(LocalDate $that) : bool
     {
         return $this->compareTo($that) <= 0;
     }
@@ -614,9 +614,9 @@ class LocalDate implements DateTimeAccessor
     /**
      * @param LocalDate $that
      *
-     * @return boolean
+     * @return bool
      */
-    public function isAfter(LocalDate $that)
+    public function isAfter(LocalDate $that) : bool
     {
         return $this->compareTo($that) === 1;
     }
@@ -624,9 +624,9 @@ class LocalDate implements DateTimeAccessor
     /**
      * @param LocalDate $that
      *
-     * @return boolean
+     * @return bool
      */
-    public function isAfterOrEqualTo(LocalDate $that)
+    public function isAfterOrEqualTo(LocalDate $that) : bool
     {
         return $this->compareTo($that) >= 0;
     }
@@ -651,7 +651,7 @@ class LocalDate implements DateTimeAccessor
      *
      * @return Period
      */
-    public function until(LocalDate $endDateExclusive)
+    public function until(LocalDate $endDateExclusive) : Period
     {
         $totalMonths = $endDateExclusive->getProlepticMonth() - $this->getProlepticMonth();
         $days = $endDateExclusive->day - $this->day;
@@ -678,7 +678,7 @@ class LocalDate implements DateTimeAccessor
      *
      * @return LocalDateTime
      */
-    public function atTime(LocalTime $time)
+    public function atTime(LocalTime $time) : LocalDateTime
     {
         return new LocalDateTime($this, $time);
     }
@@ -686,9 +686,9 @@ class LocalDate implements DateTimeAccessor
     /**
      * Checks if the year is a leap year, according to the ISO proleptic calendar system rules.
      *
-     * @return boolean
+     * @return bool
      */
-    public function isLeapYear()
+    public function isLeapYear() : bool
     {
         return Field\Year::isLeap($this->year);
     }
@@ -696,9 +696,9 @@ class LocalDate implements DateTimeAccessor
     /**
      * Returns the length of the year represented by this date.
      *
-     * @return integer The length of the year in days.
+     * @return int The length of the year in days.
      */
-    public function getLengthOfYear()
+    public function getLengthOfYear() : int
     {
         return $this->isLeapYear() ? 366 : 365;
     }
@@ -706,9 +706,9 @@ class LocalDate implements DateTimeAccessor
     /**
      * Returns the length of the month represented by this date.
      *
-     * @return integer The length of the month in days.
+     * @return int The length of the month in days.
      */
-    public function getLengthOfMonth()
+    public function getLengthOfMonth() : int
     {
         return Field\MonthOfYear::getLength($this->month, $this->year);
     }
@@ -716,9 +716,9 @@ class LocalDate implements DateTimeAccessor
     /**
      * Returns the number of days since the UNIX epoch of 1st January 1970.
      *
-     * @return integer
+     * @return int
      */
-    public function toEpochDay()
+    public function toEpochDay() : int
     {
         $y = $this->year;
         $m = $this->month;
@@ -747,7 +747,7 @@ class LocalDate implements DateTimeAccessor
     /**
      * {@inheritdoc}
      */
-    public function getField($field)
+    public function getField(string $field)
     {
         switch ($field) {
             case Field\Year::NAME:
@@ -769,7 +769,7 @@ class LocalDate implements DateTimeAccessor
      *
      * @return string
      */
-    public function __toString()
+    public function __toString() : string
     {
         $pattern = ($this->year < 0 ? '%05d' : '%04d') . '-%02d-%02d';
 
@@ -779,13 +779,13 @@ class LocalDate implements DateTimeAccessor
     /**
      * Resolves the date, resolving days past the end of month.
      *
-     * @param integer $year  The year to represent, validated as an integer from MIN_YEAR to MAX_YEAR.
-     * @param integer $month The month-of-year to represent, validated as an integer from 1 to 12.
-     * @param integer $day   The day-of-month to represent, validated as an integer from 1 to 31.
+     * @param int $year  The year to represent, validated from MIN_YEAR to MAX_YEAR.
+     * @param int $month The month-of-year to represent, validated from 1 to 12.
+     * @param int $day   The day-of-month to represent, validated from 1 to 31.
      *
      * @return LocalDate
      */
-    private function resolvePreviousValid($year, $month, $day)
+    private function resolvePreviousValid(int $year, int $month, int $day) : LocalDate
     {
         if ($day > 28) {
             $day = min($day, YearMonth::of($year, $month)->getLengthOfMonth());
@@ -795,9 +795,9 @@ class LocalDate implements DateTimeAccessor
     }
 
     /**
-     * @return boolean
+     * @return int
      */
-    private function getProlepticMonth()
+    private function getProlepticMonth() : int
     {
         return $this->year * 12 + $this->month - 1;
     }

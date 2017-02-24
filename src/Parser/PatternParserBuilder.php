@@ -25,9 +25,9 @@ class PatternParserBuilder
     /**
      * @param PatternParser $parser
      *
-     * @return static
+     * @return self
      */
-    public function append(PatternParser $parser)
+    public function append(PatternParser $parser) : self
     {
         $this->pattern .= $parser->getPattern();
         $this->fields = array_merge($this->fields, $parser->getFields());
@@ -38,9 +38,9 @@ class PatternParserBuilder
     /**
      * @param string $literal
      *
-     * @return static
+     * @return self
      */
-    public function appendLiteral($literal)
+    public function appendLiteral(string $literal) : self
     {
         $this->pattern .= preg_quote($literal);
 
@@ -51,9 +51,9 @@ class PatternParserBuilder
      * @param string $pattern
      * @param string $field
      *
-     * @return static
+     * @return self
      */
-    public function appendCapturePattern($pattern, $field)
+    public function appendCapturePattern(string $pattern, string $field) : self
     {
         $this->pattern .= '(' . $pattern . ')';
         $this->fields[] = $field;
@@ -62,9 +62,9 @@ class PatternParserBuilder
     }
 
     /**
-     * @return static
+     * @return self
      */
-    public function startOptional()
+    public function startOptional() : self
     {
         $this->pattern .= '(?:';
         $this->stack[] = 'O';
@@ -73,9 +73,9 @@ class PatternParserBuilder
     }
 
     /**
-     * @return static
+     * @return self
      */
-    public function endOptional()
+    public function endOptional() : self
     {
         if (array_pop($this->stack) !== 'O') {
             throw new \RuntimeException('Cannot call endOptional() without a call to startOptional() first.');
@@ -87,9 +87,9 @@ class PatternParserBuilder
     }
 
     /**
-     * @return static
+     * @return self
      */
-    public function startGroup()
+    public function startGroup() : self
     {
         $this->pattern .= '(?:';
         $this->stack[] = 'G';
@@ -98,9 +98,9 @@ class PatternParserBuilder
     }
 
     /**
-     * @return static
+     * @return self
      */
-    public function endGroup()
+    public function endGroup() : self
     {
         if (array_pop($this->stack) !== 'G') {
             throw new \RuntimeException('Cannot call endGroup() without a call to startGroup() first.');
@@ -112,9 +112,9 @@ class PatternParserBuilder
     }
 
     /**
-     * @return static
+     * @return self
      */
-    public function appendOr()
+    public function appendOr() : self
     {
         $this->pattern .= '|';
 
@@ -124,7 +124,7 @@ class PatternParserBuilder
     /**
      * @return PatternParser
      */
-    public function toParser()
+    public function toParser() : PatternParser
     {
         if ($this->stack) {
             throw new \RuntimeException('Builder misses call to endOptional() or endGroup().');

@@ -73,9 +73,9 @@ class Stopwatch
     }
 
     /**
-     * @return boolean
+     * @return bool
      */
-    public function isRunning()
+    public function isRunning() : bool
     {
         return $this->startTime !== null;
     }
@@ -88,7 +88,7 @@ class Stopwatch
      *
      * @return Duration
      */
-    public function getElapsedTime()
+    public function getElapsedTime() : Duration
     {
         if ($this->startTime === null) {
             return $this->duration;

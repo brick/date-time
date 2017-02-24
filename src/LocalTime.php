@@ -31,40 +31,40 @@ class LocalTime implements DateTimeAccessor
     /**
      * The hour, in the range 0 to 23.
      *
-     * @var integer
+     * @var int
      */
     private $hour;
 
     /**
      * The minute, in the range 0 to 59.
      *
-     * @var integer
+     * @var int
      */
     private $minute;
 
     /**
      * The second, in the range 0 to 59.
      *
-     * @var integer
+     * @var int
      */
     private $second;
 
     /**
      * The nanosecond, in the range 0 to 999,999,999.
      *
-     * @var integer
+     * @var int
      */
     private $nano;
 
     /**
      * Private constructor. Use of() to obtain an instance.
      *
-     * @param integer $hour   The hour-of-day, validated as an integer in the range 0 to 23.
-     * @param integer $minute The minute-of-hour, validated as an integer in the range 0 to 59.
-     * @param integer $second The second-of-minute, validated as an integer in the range 0 to 59.
-     * @param integer $nano   The nano-of-second, validated as an integer in the range 0 to 999,999,999.
+     * @param int $hour   The hour-of-day, validated in the range 0 to 23.
+     * @param int $minute The minute-of-hour, validated in the range 0 to 59.
+     * @param int $second The second-of-minute, validated in the range 0 to 59.
+     * @param int $nano   The nano-of-second, validated in the range 0 to 999,999,999.
      */
-    private function __construct($hour, $minute, $second, $nano)
+    private function __construct(int $hour, int $minute, int $second, int $nano)
     {
         $this->hour   = $hour;
         $this->minute = $minute;
@@ -73,16 +73,16 @@ class LocalTime implements DateTimeAccessor
     }
 
     /**
-     * @param integer $hour
-     * @param integer $minute
-     * @param integer $second
-     * @param integer $nano
+     * @param int $hour
+     * @param int $minute
+     * @param int $second
+     * @param int $nano
      *
      * @return LocalTime
      *
      * @throws DateTimeException
      */
-    public static function of($hour, $minute, $second = 0, $nano = 0)
+    public static function of(int $hour, int $minute, int $second = 0, int $nano = 0) : LocalTime
     {
         Field\HourOfDay::check($hour);
         Field\MinuteOfHour::check($minute);
@@ -95,14 +95,14 @@ class LocalTime implements DateTimeAccessor
     /**
      * Creates a LocalTime instance from a number of seconds since midnight.
      *
-     * @param integer $secondOfDay  The second-of-day, from 0 to 86,399.
-     * @param integer $nanoOfSecond The nano-of-second, from 0 to 999,999,999.
+     * @param int $secondOfDay  The second-of-day, from 0 to 86,399.
+     * @param int $nanoOfSecond The nano-of-second, from 0 to 999,999,999.
      *
      * @return LocalTime
      *
      * @throws DateTimeException
      */
-    public static function ofSecondOfDay($secondOfDay, $nanoOfSecond = 0)
+    public static function ofSecondOfDay(int $secondOfDay, int $nanoOfSecond = 0) : LocalTime
     {
         Field\SecondOfDay::check($secondOfDay);
         Field\NanoOfSecond::check($nanoOfSecond);
@@ -123,7 +123,7 @@ class LocalTime implements DateTimeAccessor
      * @throws DateTimeException      If the time is not valid.
      * @throws DateTimeParseException If required fields are missing from the result.
      */
-    public static function from(DateTimeParseResult $result)
+    public static function from(DateTimeParseResult $result) : LocalTime
     {
         $hour     = $result->getField(HourOfDay::NAME);
         $minute   = $result->getField(MinuteOfHour::NAME);
@@ -146,7 +146,7 @@ class LocalTime implements DateTimeAccessor
      * @throws DateTimeException      If the time is not valid.
      * @throws DateTimeParseException If the text string does not follow the expected format.
      */
-    public static function parse($text, DateTimeParser $parser = null)
+    public static function parse(string $text, DateTimeParser $parser = null) : LocalTime
     {
         if (! $parser) {
             $parser = IsoParsers::localTime();
@@ -162,7 +162,7 @@ class LocalTime implements DateTimeAccessor
      *
      * @return LocalTime
      */
-    public static function now(TimeZone $timeZone)
+    public static function now(TimeZone $timeZone) : LocalTime
     {
         return ZonedDateTime::now($timeZone)->getTime();
     }
@@ -170,7 +170,7 @@ class LocalTime implements DateTimeAccessor
     /**
      * @return LocalTime
      */
-    public static function midnight()
+    public static function midnight() : LocalTime
     {
         return new LocalTime(0, 0, 0, 0);
     }
@@ -178,7 +178,7 @@ class LocalTime implements DateTimeAccessor
     /**
      * @return LocalTime
      */
-    public static function noon()
+    public static function noon() : LocalTime
     {
         return new LocalTime(12, 0, 0, 0);
     }
@@ -188,7 +188,7 @@ class LocalTime implements DateTimeAccessor
      *
      * @return LocalTime
      */
-    public static function min()
+    public static function min() : LocalTime
     {
         return new LocalTime(0, 0, 0, 0);
     }
@@ -198,7 +198,7 @@ class LocalTime implements DateTimeAccessor
      *
      * @return LocalTime
      */
-    public static function max()
+    public static function max() : LocalTime
     {
         return new LocalTime(23, 59, 59, 999999999);
     }
@@ -206,13 +206,13 @@ class LocalTime implements DateTimeAccessor
     /**
      * Returns the smallest LocalTime among the given values.
      *
-     * @param LocalTime ... $times The LocalTime objects to compare.
+     * @param LocalTime[] $times The LocalTime objects to compare.
      *
      * @return LocalTime The earliest LocalTime object.
      *
      * @throws DateTimeException If the array is empty.
      */
-    public static function minOf(LocalTime ... $times)
+    public static function minOf(LocalTime ...$times) : LocalTime
     {
         if (! $times) {
             throw new DateTimeException(__METHOD__ . ' does not accept less than 1 parameter.');
@@ -232,13 +232,13 @@ class LocalTime implements DateTimeAccessor
     /**
      * Returns the highest LocalTime among the given values.
      *
-     * @param LocalTime ... $times The LocalTime objects to compare.
+     * @param LocalTime[] $times The LocalTime objects to compare.
      *
      * @return LocalTime The latest LocalTime object.
      *
      * @throws DateTimeException If the array is empty.
      */
-    public static function maxOf(LocalTime ... $times)
+    public static function maxOf(LocalTime ...$times) : LocalTime
     {
         if (! $times) {
             throw new DateTimeException(__METHOD__ . ' does not accept less than 1 parameter.');
@@ -256,33 +256,33 @@ class LocalTime implements DateTimeAccessor
     }
 
     /**
-     * @return integer
+     * @return int
      */
-    public function getHour()
+    public function getHour() : int
     {
         return $this->hour;
     }
 
     /**
-     * @return integer
+     * @return int
      */
-    public function getMinute()
+    public function getMinute() : int
     {
         return $this->minute;
     }
 
     /**
-     * @return integer
+     * @return int
      */
-    public function getSecond()
+    public function getSecond() : int
     {
         return $this->second;
     }
 
     /**
-     * @return integer
+     * @return int
      */
-    public function getNano()
+    public function getNano() : int
     {
         return $this->nano;
     }
@@ -290,13 +290,13 @@ class LocalTime implements DateTimeAccessor
     /**
      * Returns a copy of this LocalTime with the hour-of-day value altered.
      *
-     * @param integer $hour The new hour-of-day.
+     * @param int $hour The new hour-of-day.
      *
      * @return LocalTime
      *
      * @throws DateTimeException If the hour-of-day if not valid.
      */
-    public function withHour($hour)
+    public function withHour(int $hour) : LocalTime
     {
         if ($hour === $this->hour) {
             return $this;
@@ -310,13 +310,13 @@ class LocalTime implements DateTimeAccessor
     /**
      * Returns a copy of this LocalTime with the minute-of-hour value altered.
      *
-     * @param integer $minute The new minute-of-hour.
+     * @param int $minute The new minute-of-hour.
      *
      * @return LocalTime
      *
      * @throws DateTimeException If the minute-of-hour if not valid.
      */
-    public function withMinute($minute)
+    public function withMinute(int $minute) : LocalTime
     {
         if ($minute === $this->minute) {
             return $this;
@@ -330,13 +330,13 @@ class LocalTime implements DateTimeAccessor
     /**
      * Returns a copy of this LocalTime with the second-of-minute value altered.
      *
-     * @param integer $second The new second-of-minute.
+     * @param int $second The new second-of-minute.
      *
      * @return LocalTime
      *
      * @throws DateTimeException If the second-of-minute if not valid.
      */
-    public function withSecond($second)
+    public function withSecond(int $second) : LocalTime
     {
         if ($second === $this->second) {
             return $this;
@@ -350,13 +350,13 @@ class LocalTime implements DateTimeAccessor
     /**
      * Returns a copy of this LocalTime with the nano-of-second value altered.
      *
-     * @param integer $nano The new nano-of-second.
+     * @param int $nano The new nano-of-second.
      *
      * @return LocalTime
      *
      * @throws DateTimeException If the nano-of-second if not valid.
      */
-    public function withNano($nano)
+    public function withNano(int $nano) : LocalTime
     {
         if ($nano === $this->nano) {
             return $this;
@@ -376,7 +376,7 @@ class LocalTime implements DateTimeAccessor
      *
      * @return LocalTime
      */
-    public function plusDuration(Duration $duration)
+    public function plusDuration(Duration $duration) : LocalTime
     {
         return $this
             ->plusSeconds($duration->getSeconds())
@@ -391,11 +391,11 @@ class LocalTime implements DateTimeAccessor
      *
      * This instance is immutable and unaffected by this method call.
      *
-     * @param integer $hours The hours to add, may be negative.
+     * @param int $hours The hours to add, may be negative.
      *
      * @return LocalTime A LocalTime based on this time with the hours added.
      */
-    public function plusHours($hours)
+    public function plusHours(int $hours) : LocalTime
     {
         if ($hours === 0) {
             return $this;
@@ -414,11 +414,11 @@ class LocalTime implements DateTimeAccessor
      *
      * This instance is immutable and unaffected by this method call.
      *
-     * @param integer $minutes The minutes to add, may be negative.
+     * @param int $minutes The minutes to add, may be negative.
      *
      * @return LocalTime A LocalTime based on this time with the minutes added.
      */
-    public function plusMinutes($minutes)
+    public function plusMinutes(int $minutes) : LocalTime
     {
         if ($minutes === 0) {
             return $this;
@@ -440,11 +440,11 @@ class LocalTime implements DateTimeAccessor
     /**
      * Returns a copy of this LocalTime with the specified period in seconds added.
      *
-     * @param integer $seconds The seconds to add, may be negative.
+     * @param int $seconds The seconds to add, may be negative.
      *
      * @return LocalTime A LocalTime based on this time with the seconds added.
      */
-    public function plusSeconds($seconds)
+    public function plusSeconds(int $seconds) : LocalTime
     {
         if ($seconds === 0) {
             return $this;
@@ -467,11 +467,11 @@ class LocalTime implements DateTimeAccessor
     /**
      * Returns a copy of this LocalTime with the specified period in nanoseconds added.
      *
-     * @param integer $nanos The seconds to add, may be negative.
+     * @param int $nanos The seconds to add, may be negative.
      *
      * @return LocalTime A LocalTime based on this time with the nanoseconds added.
      */
-    public function plusNanos($nanos)
+    public function plusNanos(int $nanos) : LocalTime
     {
         if ($nanos === 0) {
             return $this;
@@ -503,47 +503,47 @@ class LocalTime implements DateTimeAccessor
      *
      * @return LocalTime
      */
-    public function minusDuration(Duration $duration)
+    public function minusDuration(Duration $duration) : LocalTime
     {
         return $this->plusDuration($duration->negated());
     }
 
     /**
-     * @param integer $hours
+     * @param int $hours
      *
      * @return LocalTime
      */
-    public function minusHours($hours)
+    public function minusHours(int $hours) : LocalTime
     {
         return $this->plusHours(- $hours);
     }
 
     /**
-     * @param integer $minutes
+     * @param int $minutes
      *
      * @return LocalTime
      */
-    public function minusMinutes($minutes)
+    public function minusMinutes(int $minutes) : LocalTime
     {
         return $this->plusMinutes(- $minutes);
     }
 
     /**
-     * @param integer $seconds
+     * @param int $seconds
      *
      * @return LocalTime
      */
-    public function minusSeconds($seconds)
+    public function minusSeconds(int $seconds) : LocalTime
     {
         return $this->plusSeconds(- $seconds);
     }
 
     /**
-     * @param integer $nanos
+     * @param int $nanos
      *
      * @return LocalTime
      */
-    public function minusNanos($nanos)
+    public function minusNanos(int $nanos) : LocalTime
     {
         return $this->plusNanos(-$nanos);
     }
@@ -553,9 +553,9 @@ class LocalTime implements DateTimeAccessor
      *
      * @param LocalTime $that The time to compare to.
      *
-     * @return integer [-1,0,1] If this time is before, on, or after the given time.
+     * @return int [-1,0,1] If this time is before, on, or after the given time.
      */
-    public function compareTo(LocalTime $that)
+    public function compareTo(LocalTime $that) : int
     {
         $seconds = $this->toSecondOfDay() - $that->toSecondOfDay();
 
@@ -577,9 +577,9 @@ class LocalTime implements DateTimeAccessor
      *
      * @param LocalTime $that The time to compare to.
      *
-     * @return boolean
+     * @return bool
      */
-    public function isEqualTo(LocalTime $that)
+    public function isEqualTo(LocalTime $that) : bool
     {
         return $this->compareTo($that) === 0;
     }
@@ -589,9 +589,9 @@ class LocalTime implements DateTimeAccessor
      *
      * @param LocalTime $that The time to compare to.
      *
-     * @return boolean
+     * @return bool
      */
-    public function isBefore(LocalTime $that)
+    public function isBefore(LocalTime $that) : bool
     {
         return $this->compareTo($that) === -1;
     }
@@ -601,9 +601,9 @@ class LocalTime implements DateTimeAccessor
      *
      * @param LocalTime $that The time to compare to.
      *
-     * @return boolean
+     * @return bool
      */
-    public function isBeforeOrEqualTo(LocalTime $that)
+    public function isBeforeOrEqualTo(LocalTime $that) : bool
     {
         return $this->compareTo($that) <= 0;
     }
@@ -613,9 +613,9 @@ class LocalTime implements DateTimeAccessor
      *
      * @param LocalTime $that The time to compare to.
      *
-     * @return boolean
+     * @return bool
      */
-    public function isAfter(LocalTime $that)
+    public function isAfter(LocalTime $that) : bool
     {
         return $this->compareTo($that) === 1;
     }
@@ -625,9 +625,9 @@ class LocalTime implements DateTimeAccessor
      *
      * @param LocalTime $that The time to compare to.
      *
-     * @return boolean
+     * @return bool
      */
-    public function isAfterOrEqualTo(LocalTime $that)
+    public function isAfterOrEqualTo(LocalTime $that) : bool
     {
         return $this->compareTo($that) >= 0;
     }
@@ -639,7 +639,7 @@ class LocalTime implements DateTimeAccessor
      *
      * @return LocalDateTime
      */
-    public function atDate(LocalDate $date)
+    public function atDate(LocalDate $date) : LocalDateTime
     {
         return new LocalDateTime($date, $this);
     }
@@ -649,9 +649,9 @@ class LocalTime implements DateTimeAccessor
      *
      * This does not include the nanoseconds.
      *
-     * @return integer
+     * @return int
      */
-    public function toSecondOfDay()
+    public function toSecondOfDay() : int
     {
         return $this->hour * self::SECONDS_PER_HOUR
             + $this->minute * self::SECONDS_PER_MINUTE
@@ -661,7 +661,7 @@ class LocalTime implements DateTimeAccessor
     /**
      * {@inheritdoc}
      */
-    public function getField($field)
+    public function getField(string $field)
     {
         switch ($field) {
             case Field\HourOfDay::NAME:
@@ -696,7 +696,7 @@ class LocalTime implements DateTimeAccessor
      *
      * @return string A string representation of this time.
      */
-    public function __toString()
+    public function __toString() : string
     {
         if ($this->nano === 0) {
             if ($this->second === 0) {

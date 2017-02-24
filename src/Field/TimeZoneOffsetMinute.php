@@ -20,13 +20,13 @@ class TimeZoneOffsetMinute
     const PATTERN = MinuteOfHour::PATTERN;
 
     /**
-     * @param integer $offsetMinute The offset-minute to check, validated as an integer.
+     * @param int $offsetMinute The offset-minute to check.
      *
      * @return void
      *
      * @throws DateTimeException If the offset-minute is not valid.
      */
-    public static function check($offsetMinute)
+    public static function check(int $offsetMinute)
     {
         if ($offsetMinute < -59 || $offsetMinute > 59) {
             throw DateTimeException::fieldNotInRange(self::NAME, $offsetMinute, -59, 59);

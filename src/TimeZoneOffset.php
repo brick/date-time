@@ -13,7 +13,7 @@ use Brick\DateTime\Parser\IsoParsers;
 class TimeZoneOffset extends TimeZone
 {
     /**
-     * @var integer
+     * @var int
      */
     private $totalSeconds;
 
@@ -29,9 +29,9 @@ class TimeZoneOffset extends TimeZone
     /**
      * Private constructor. Use a factory method to obtain an instance.
      *
-     * @param integer $totalSeconds The total offset in seconds, validated as an integer from -64800 to +64800.
+     * @param int $totalSeconds The total offset in seconds, validated from -64800 to +64800.
      */
-    private function __construct($totalSeconds)
+    private function __construct(int $totalSeconds)
     {
         $this->totalSeconds = $totalSeconds;
     }
@@ -41,15 +41,15 @@ class TimeZoneOffset extends TimeZone
      *
      * The total number of seconds must not exceed 64,800 seconds.
      *
-     * @param integer $hours   The time-zone offset in hours.
-     * @param integer $minutes The time-zone offset in minutes, from 0 to 59, sign matching hours.
-     * @param integer $seconds The time-zone offset in seconds, from 0 to 59, sign matching hours and minute.
+     * @param int $hours   The time-zone offset in hours.
+     * @param int $minutes The time-zone offset in minutes, from 0 to 59, sign matching hours.
+     * @param int $seconds The time-zone offset in seconds, from 0 to 59, sign matching hours and minute.
      *
      * @return TimeZoneOffset
      *
      * @throws DateTimeException If the values are not in range or the signs don't match.
      */
-    public static function of($hours, $minutes = 0, $seconds = 0)
+    public static function of(int $hours, int $minutes = 0, int $seconds = 0) : TimeZoneOffset
     {
         Field\TimeZoneOffsetHour::check($hours);
         Field\TimeZoneOffsetMinute::check($minutes);
@@ -78,13 +78,13 @@ class TimeZoneOffset extends TimeZone
      *
      * The offset must be in the range `-18:00` to `+18:00`, which corresponds to -64800 to +64800.
      *
-     * @param integer $totalSeconds The total offset in seconds.
+     * @param int $totalSeconds The total offset in seconds.
      *
      * @return TimeZoneOffset
      *
      * @throws DateTimeException
      */
-    public static function ofTotalSeconds($totalSeconds)
+    public static function ofTotalSeconds(int $totalSeconds) : TimeZoneOffset
     {
         Field\TimeZoneOffsetTotalSeconds::check($totalSeconds);
 
@@ -94,7 +94,7 @@ class TimeZoneOffset extends TimeZone
     /**
      * @return TimeZoneOffset
      */
-    public static function utc()
+    public static function utc() : TimeZoneOffset
     {
         return new TimeZoneOffset(0);
     }
@@ -107,7 +107,7 @@ class TimeZoneOffset extends TimeZone
      * @throws DateTimeException      If the offset is not valid.
      * @throws DateTimeParseException If required fields are missing from the result.
      */
-    public static function from(DateTimeParseResult $result)
+    public static function from(DateTimeParseResult $result) : TimeZoneOffset
     {
         $sign = $result->getField(Field\TimeZoneOffsetSign::NAME);
 
@@ -146,11 +146,11 @@ class TimeZoneOffset extends TimeZone
      * @param string              $text
      * @param DateTimeParser|null $parser
      *
-     * @return TimeZoneOffset
+     * @return TimeZone
      *
      * @throws DateTimeParseException
      */
-    public static function parse($text, DateTimeParser $parser = null)
+    public static function parse(string $text, DateTimeParser $parser = null) : TimeZone
     {
         if (! $parser) {
             $parser = IsoParsers::timeZoneOffset();
@@ -166,9 +166,9 @@ class TimeZoneOffset extends TimeZone
      * It returns the total of the hours, minutes and seconds fields as a
      * single offset that can be added to a time.
      *
-     * @return integer The total time-zone offset amount in seconds.
+     * @return int The total time-zone offset amount in seconds.
      */
-    public function getTotalSeconds()
+    public function getTotalSeconds() : int
     {
         return $this->totalSeconds;
     }
@@ -176,7 +176,7 @@ class TimeZoneOffset extends TimeZone
     /**
      * {@inheritdoc}
      */
-    public function getId()
+    public function getId() : string
     {
         if ($this->id === null) {
             if ($this->totalSeconds < 0) {
@@ -194,7 +194,7 @@ class TimeZoneOffset extends TimeZone
     /**
      * {@inheritdoc}
      */
-    public function getOffset(ReadableInstant $pointInTime)
+    public function getOffset(ReadableInstant $pointInTime) : int
     {
         return $this->totalSeconds;
     }
@@ -202,7 +202,7 @@ class TimeZoneOffset extends TimeZone
     /**
      * {@inheritdoc}
      */
-    public function toDateTimeZone()
+    public function toDateTimeZone() : \DateTimeZone
     {
         return new \DateTimeZone($this->getId());
     }

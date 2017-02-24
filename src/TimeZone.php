@@ -21,7 +21,7 @@ abstract class TimeZone
      *
      * @throws \Brick\DateTime\Parser\DateTimeParseException
      */
-    public static function parse($text)
+    public static function parse(string $text) : TimeZone
     {
         $text = (string) $text;
 
@@ -43,7 +43,7 @@ abstract class TimeZone
     /**
      * @return TimeZoneOffset
      */
-    public static function utc()
+    public static function utc() : TimeZoneOffset
     {
         return TimeZoneOffset::utc();
     }
@@ -53,23 +53,23 @@ abstract class TimeZone
      *
      * @return string
      */
-    abstract public function getId();
+    abstract public function getId() : string;
 
     /**
      * Returns the offset from UTC at the given instant.
      *
      * @param ReadableInstant $pointInTime The instant.
      *
-     * @return integer The offset from UTC in seconds.
+     * @return int The offset from UTC in seconds.
      */
-    abstract public function getOffset(ReadableInstant $pointInTime);
+    abstract public function getOffset(ReadableInstant $pointInTime) : int;
 
     /**
      * @param TimeZone $other
      *
-     * @return boolean
+     * @return bool
      */
-    public function isEqualTo(TimeZone $other)
+    public function isEqualTo(TimeZone $other) : bool
     {
         return $this->getId() === $other->getId();
     }
@@ -77,7 +77,7 @@ abstract class TimeZone
     /**
      * @return string
      */
-    public function __toString()
+    public function __toString() : string
     {
         return $this->getId();
     }
@@ -87,7 +87,7 @@ abstract class TimeZone
      *
      * @return TimeZone
      */
-    public static function fromDateTimeZone(\DateTimeZone $dateTimeZone)
+    public static function fromDateTimeZone(\DateTimeZone $dateTimeZone) : TimeZone
     {
         return TimeZone::parse($dateTimeZone->getName());
     }
@@ -97,5 +97,5 @@ abstract class TimeZone
      *
      * @return \DateTimeZone The native DateTimeZone object.
      */
-    abstract public function toDateTimeZone();
+    abstract public function toDateTimeZone() : \DateTimeZone;
 }

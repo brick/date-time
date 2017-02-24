@@ -14,7 +14,7 @@ class SystemClock extends Clock
     /**
      * {@inheritdoc}
      */
-    public function getTime()
+    public function getTime() : Instant
     {
         list ($fraction, $epochSecond) = explode(' ', microtime());
 

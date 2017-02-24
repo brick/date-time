@@ -96,7 +96,7 @@ class ZonedDateTime extends ReadableInstant implements DateTimeAccessor
      *
      * @return ZonedDateTime
      */
-    public static function of(LocalDateTime $dateTime, TimeZone $timeZone)
+    public static function of(LocalDateTime $dateTime, TimeZone $timeZone) : ZonedDateTime
     {
         $dtz = $timeZone->toDateTimeZone();
         $dt = new \DateTime((string) $dateTime->withNano(0), $dtz);
@@ -125,7 +125,7 @@ class ZonedDateTime extends ReadableInstant implements DateTimeAccessor
      *
      * @return ZonedDateTime
      */
-    public static function ofInstant(Instant $instant, TimeZone $timeZone)
+    public static function ofInstant(Instant $instant, TimeZone $timeZone) : ZonedDateTime
     {
         $dateTimeZone = $timeZone->toDateTimeZone();
 
@@ -154,7 +154,7 @@ class ZonedDateTime extends ReadableInstant implements DateTimeAccessor
      *
      * @return ZonedDateTime
      */
-    public static function now(TimeZone $timeZone)
+    public static function now(TimeZone $timeZone) : ZonedDateTime
     {
         return ZonedDateTime::ofInstant(Instant::now(), $timeZone);
     }
@@ -171,7 +171,7 @@ class ZonedDateTime extends ReadableInstant implements DateTimeAccessor
      * @throws DateTimeException      If the zoned date-time is not valid.
      * @throws DateTimeParseException If required fields are missing from the result.
      */
-    public static function from(DateTimeParseResult $result)
+    public static function from(DateTimeParseResult $result) : ZonedDateTime
     {
         $localDateTime = LocalDateTime::from($result);
 
@@ -206,7 +206,7 @@ class ZonedDateTime extends ReadableInstant implements DateTimeAccessor
      * @throws DateTimeException      If the date is not valid.
      * @throws DateTimeParseException If the text string does not follow the expected format.
      */
-    public static function parse($text, DateTimeParser $parser = null)
+    public static function parse(string $text, DateTimeParser $parser = null) : ZonedDateTime
     {
         if (! $parser) {
             $parser = IsoParsers::zonedDateTime();
@@ -220,7 +220,7 @@ class ZonedDateTime extends ReadableInstant implements DateTimeAccessor
      *
      * @return LocalDateTime
      */
-    public function getDateTime()
+    public function getDateTime() : LocalDateTime
     {
         return $this->localDateTime;
     }
@@ -230,7 +230,7 @@ class ZonedDateTime extends ReadableInstant implements DateTimeAccessor
      *
      * @return LocalDate
      */
-    public function getDate()
+    public function getDate() : LocalDate
     {
         return $this->localDateTime->getDate();
     }
@@ -240,31 +240,31 @@ class ZonedDateTime extends ReadableInstant implements DateTimeAccessor
      *
      * @return LocalTime
      */
-    public function getTime()
+    public function getTime() : LocalTime
     {
         return $this->localDateTime->getTime();
     }
 
     /**
-     * @return integer
+     * @return int
      */
-    public function getYear()
+    public function getYear() : int
     {
         return $this->localDateTime->getYear();
     }
 
     /**
-     * @return integer
+     * @return int
      */
-    public function getMonth()
+    public function getMonth() : int
     {
         return $this->localDateTime->getMonth();
     }
 
     /**
-     * @return integer
+     * @return int
      */
-    public function getDay()
+    public function getDay() : int
     {
         return $this->localDateTime->getDay();
     }
@@ -272,47 +272,47 @@ class ZonedDateTime extends ReadableInstant implements DateTimeAccessor
     /**
      * @return DayOfWeek
      */
-    public function getDayOfWeek()
+    public function getDayOfWeek() : DayOfWeek
     {
         return $this->localDateTime->getDayOfWeek();
     }
 
     /**
-     * @return integer
+     * @return int
      */
-    public function getDayOfYear()
+    public function getDayOfYear() : int
     {
         return $this->localDateTime->getDayOfYear();
     }
 
     /**
-     * @return integer
+     * @return int
      */
-    public function getHour()
+    public function getHour() : int
     {
         return $this->localDateTime->getHour();
     }
 
     /**
-     * @return integer
+     * @return int
      */
-    public function getMinute()
+    public function getMinute() : int
     {
         return $this->localDateTime->getMinute();
     }
 
     /**
-     * @return integer
+     * @return int
      */
-    public function getSecond()
+    public function getSecond() : int
     {
         return $this->localDateTime->getSecond();
     }
 
     /**
-     * @return integer
+     * @return int
      */
-    public function getNano()
+    public function getNano() : int
     {
         return $this->localDateTime->getNano();
     }
@@ -322,7 +322,7 @@ class ZonedDateTime extends ReadableInstant implements DateTimeAccessor
      *
      * @return TimeZone
      */
-    public function getTimeZone()
+    public function getTimeZone() : TimeZone
     {
         return $this->timeZone;
     }
@@ -332,7 +332,7 @@ class ZonedDateTime extends ReadableInstant implements DateTimeAccessor
      *
      * @return TimeZoneOffset
      */
-    public function getTimeZoneOffset()
+    public function getTimeZoneOffset() : TimeZoneOffset
     {
         return $this->timeZoneOffset;
     }
@@ -340,7 +340,7 @@ class ZonedDateTime extends ReadableInstant implements DateTimeAccessor
     /**
      * {@inheritdoc}
      */
-    public function getInstant()
+    public function getInstant() : Instant
     {
         return Instant::of($this->dateTime->getTimestamp(), $this->localDateTime->getNano());
     }
@@ -352,7 +352,7 @@ class ZonedDateTime extends ReadableInstant implements DateTimeAccessor
      *
      * @return ZonedDateTime
      */
-    public function withDate(LocalDate $date)
+    public function withDate(LocalDate $date) : ZonedDateTime
     {
         return ZonedDateTime::of($this->localDateTime->withDate($date), $this->timeZone);
     }
@@ -364,7 +364,7 @@ class ZonedDateTime extends ReadableInstant implements DateTimeAccessor
      *
      * @return ZonedDateTime
      */
-    public function withTime(LocalTime $time)
+    public function withTime(LocalTime $time) : ZonedDateTime
     {
         return ZonedDateTime::of($this->localDateTime->withTime($time), $this->timeZone);
     }
@@ -372,11 +372,11 @@ class ZonedDateTime extends ReadableInstant implements DateTimeAccessor
     /**
      * Returns a copy of this ZonedDateTime with the year altered.
      *
-     * @param integer $year
+     * @param int $year
      *
      * @return ZonedDateTime
      */
-    public function withYear($year)
+    public function withYear(int $year) : ZonedDateTime
     {
         return ZonedDateTime::of($this->localDateTime->withYear($year), $this->timeZone);
     }
@@ -384,11 +384,11 @@ class ZonedDateTime extends ReadableInstant implements DateTimeAccessor
     /**
      * Returns a copy of this ZonedDateTime with the month-of-year altered.
      *
-     * @param integer $month
+     * @param int $month
      *
      * @return ZonedDateTime
      */
-    public function withMonth($month)
+    public function withMonth(int $month) : ZonedDateTime
     {
         return ZonedDateTime::of($this->localDateTime->withMonth($month), $this->timeZone);
     }
@@ -396,11 +396,11 @@ class ZonedDateTime extends ReadableInstant implements DateTimeAccessor
     /**
      * Returns a copy of this ZonedDateTime with the day-of-month altered.
      *
-     * @param integer $day
+     * @param int $day
      *
      * @return ZonedDateTime
      */
-    public function withDay($day)
+    public function withDay(int $day) : ZonedDateTime
     {
         return ZonedDateTime::of($this->localDateTime->withDay($day), $this->timeZone);
     }
@@ -408,11 +408,11 @@ class ZonedDateTime extends ReadableInstant implements DateTimeAccessor
     /**
      * Returns a copy of this ZonedDateTime with the hour-of-day altered.
      *
-     * @param integer $hour
+     * @param int $hour
      *
      * @return ZonedDateTime
      */
-    public function withHour($hour)
+    public function withHour(int $hour) : ZonedDateTime
     {
         return ZonedDateTime::of($this->localDateTime->withHour($hour), $this->timeZone);
     }
@@ -420,11 +420,11 @@ class ZonedDateTime extends ReadableInstant implements DateTimeAccessor
     /**
      * Returns a copy of this ZonedDateTime with the minute-of-hour altered.
      *
-     * @param integer $minute
+     * @param int $minute
      *
      * @return ZonedDateTime
      */
-    public function withMinute($minute)
+    public function withMinute(int $minute) : ZonedDateTime
     {
         return ZonedDateTime::of($this->localDateTime->withMinute($minute), $this->timeZone);
     }
@@ -432,11 +432,11 @@ class ZonedDateTime extends ReadableInstant implements DateTimeAccessor
     /**
      * Returns a copy of this ZonedDateTime with the second-of-minute altered.
      *
-     * @param integer $second
+     * @param int $second
      *
      * @return ZonedDateTime
      */
-    public function withSecond($second)
+    public function withSecond(int $second) : ZonedDateTime
     {
         return ZonedDateTime::of($this->localDateTime->withSecond($second), $this->timeZone);
     }
@@ -444,11 +444,11 @@ class ZonedDateTime extends ReadableInstant implements DateTimeAccessor
     /**
      * Returns a copy of this ZonedDateTime with the nano-of-second altered.
      *
-     * @param integer $nano
+     * @param int $nano
      *
      * @return ZonedDateTime
      */
-    public function withNano($nano)
+    public function withNano(int $nano) : ZonedDateTime
     {
         return ZonedDateTime::of($this->localDateTime->withNano($nano), $this->timeZone);
     }
@@ -461,7 +461,7 @@ class ZonedDateTime extends ReadableInstant implements DateTimeAccessor
      *
      * @return ZonedDateTime
      */
-    public function withTimeZoneSameLocal(TimeZone $timeZone)
+    public function withTimeZoneSameLocal(TimeZone $timeZone) : ZonedDateTime
     {
         return ZonedDateTime::of($this->localDateTime, $timeZone);
     }
@@ -473,7 +473,7 @@ class ZonedDateTime extends ReadableInstant implements DateTimeAccessor
      *
      * @return ZonedDateTime
      */
-    public function withTimeZoneSameInstant(TimeZone $timeZone)
+    public function withTimeZoneSameInstant(TimeZone $timeZone) : ZonedDateTime
     {
         return ZonedDateTime::ofInstant($this->getInstant(), $timeZone);
     }
@@ -492,7 +492,7 @@ class ZonedDateTime extends ReadableInstant implements DateTimeAccessor
      *
      * @return ZonedDateTime
      */
-    public function withFixedOffsetTimeZone()
+    public function withFixedOffsetTimeZone() : ZonedDateTime
     {
         return ZonedDateTime::of($this->localDateTime, $this->timeZoneOffset);
     }
@@ -504,7 +504,7 @@ class ZonedDateTime extends ReadableInstant implements DateTimeAccessor
      *
      * @return ZonedDateTime
      */
-    public function plusPeriod(Period $period)
+    public function plusPeriod(Period $period) : ZonedDateTime
     {
         return ZonedDateTime::of($this->localDateTime->plusPeriod($period), $this->timeZone);
     }
@@ -516,7 +516,7 @@ class ZonedDateTime extends ReadableInstant implements DateTimeAccessor
      *
      * @return ZonedDateTime
      */
-    public function plusDuration(Duration $duration)
+    public function plusDuration(Duration $duration) : ZonedDateTime
     {
         return ZonedDateTime::ofInstant($this->getInstant()->plus($duration), $this->timeZone);
     }
@@ -524,11 +524,11 @@ class ZonedDateTime extends ReadableInstant implements DateTimeAccessor
     /**
      * Returns a copy of this ZonedDateTime with the specified period in years added.
      *
-     * @param integer $years
+     * @param int $years
      *
      * @return ZonedDateTime
      */
-    public function plusYears($years)
+    public function plusYears(int $years) : ZonedDateTime
     {
         return ZonedDateTime::of($this->localDateTime->plusYears($years), $this->timeZone);
     }
@@ -536,11 +536,11 @@ class ZonedDateTime extends ReadableInstant implements DateTimeAccessor
     /**
      * Returns a copy of this ZonedDateTime with the specified period in months added.
      *
-     * @param integer $months
+     * @param int $months
      *
      * @return ZonedDateTime
      */
-    public function plusMonths($months)
+    public function plusMonths(int $months) : ZonedDateTime
     {
         return ZonedDateTime::of($this->localDateTime->plusMonths($months), $this->timeZone);
     }
@@ -548,11 +548,11 @@ class ZonedDateTime extends ReadableInstant implements DateTimeAccessor
     /**
      * Returns a copy of this ZonedDateTime with the specified period in weeks added.
      *
-     * @param integer $weeks
+     * @param int $weeks
      *
      * @return ZonedDateTime
      */
-    public function plusWeeks($weeks)
+    public function plusWeeks(int $weeks) : ZonedDateTime
     {
         return ZonedDateTime::of($this->localDateTime->plusWeeks($weeks), $this->timeZone);
     }
@@ -560,11 +560,11 @@ class ZonedDateTime extends ReadableInstant implements DateTimeAccessor
     /**
      * Returns a copy of this ZonedDateTime with the specified period in days added.
      *
-     * @param integer $days
+     * @param int $days
      *
      * @return ZonedDateTime
      */
-    public function plusDays($days)
+    public function plusDays(int $days) : ZonedDateTime
     {
         return ZonedDateTime::of($this->localDateTime->plusDays($days), $this->timeZone);
     }
@@ -572,11 +572,11 @@ class ZonedDateTime extends ReadableInstant implements DateTimeAccessor
     /**
      * Returns a copy of this ZonedDateTime with the specified period in hours added.
      *
-     * @param integer $hours
+     * @param int $hours
      *
      * @return ZonedDateTime
      */
-    public function plusHours($hours)
+    public function plusHours(int $hours) : ZonedDateTime
     {
         return ZonedDateTime::of($this->localDateTime->plusHours($hours), $this->timeZone);
     }
@@ -584,11 +584,11 @@ class ZonedDateTime extends ReadableInstant implements DateTimeAccessor
     /**
      * Returns a copy of this ZonedDateTime with the specified period in minutes added.
      *
-     * @param integer $minutes
+     * @param int $minutes
      *
      * @return ZonedDateTime
      */
-    public function plusMinutes($minutes)
+    public function plusMinutes(int $minutes) : ZonedDateTime
     {
         return ZonedDateTime::of($this->localDateTime->plusMinutes($minutes), $this->timeZone);
     }
@@ -596,11 +596,11 @@ class ZonedDateTime extends ReadableInstant implements DateTimeAccessor
     /**
      * Returns a copy of this ZonedDateTime with the specified period in seconds added.
      *
-     * @param integer $seconds
+     * @param int $seconds
      *
      * @return ZonedDateTime
      */
-    public function plusSeconds($seconds)
+    public function plusSeconds(int $seconds) : ZonedDateTime
     {
         return ZonedDateTime::of($this->localDateTime->plusSeconds($seconds), $this->timeZone);
     }
@@ -612,7 +612,7 @@ class ZonedDateTime extends ReadableInstant implements DateTimeAccessor
      *
      * @return ZonedDateTime
      */
-    public function minusPeriod(Period $period)
+    public function minusPeriod(Period $period) : ZonedDateTime
     {
         return $this->plusPeriod($period->negated());
     }
@@ -624,7 +624,7 @@ class ZonedDateTime extends ReadableInstant implements DateTimeAccessor
      *
      * @return ZonedDateTime
      */
-    public function minusDuration(Duration $duration)
+    public function minusDuration(Duration $duration) : ZonedDateTime
     {
         return $this->plusDuration($duration->negated());
     }
@@ -632,11 +632,11 @@ class ZonedDateTime extends ReadableInstant implements DateTimeAccessor
     /**
      * Returns a copy of this ZonedDateTime with the specified period in years subtracted.
      *
-     * @param integer $years
+     * @param int $years
      *
      * @return ZonedDateTime
      */
-    public function minusYears($years)
+    public function minusYears(int $years) : ZonedDateTime
     {
         return $this->plusYears(- $years);
     }
@@ -644,11 +644,11 @@ class ZonedDateTime extends ReadableInstant implements DateTimeAccessor
     /**
      * Returns a copy of this ZonedDateTime with the specified period in months subtracted.
      *
-     * @param integer $months
+     * @param int $months
      *
      * @return ZonedDateTime
      */
-    public function minusMonths($months)
+    public function minusMonths(int $months) : ZonedDateTime
     {
         return $this->plusMonths(- $months);
     }
@@ -656,11 +656,11 @@ class ZonedDateTime extends ReadableInstant implements DateTimeAccessor
     /**
      * Returns a copy of this ZonedDateTime with the specified period in weeks subtracted.
      *
-     * @param integer $weeks
+     * @param int $weeks
      *
      * @return ZonedDateTime
      */
-    public function minusWeeks($weeks)
+    public function minusWeeks(int $weeks) : ZonedDateTime
     {
         return $this->plusWeeks(- $weeks);
     }
@@ -668,11 +668,11 @@ class ZonedDateTime extends ReadableInstant implements DateTimeAccessor
     /**
      * Returns a copy of this ZonedDateTime with the specified period in days subtracted.
      *
-     * @param integer $days
+     * @param int $days
      *
      * @return ZonedDateTime
      */
-    public function minusDays($days)
+    public function minusDays(int $days) : ZonedDateTime
     {
         return $this->plusDays(- $days);
     }
@@ -680,11 +680,11 @@ class ZonedDateTime extends ReadableInstant implements DateTimeAccessor
     /**
      * Returns a copy of this ZonedDateTime with the specified period in hours subtracted.
      *
-     * @param integer $hours
+     * @param int $hours
      *
      * @return ZonedDateTime
      */
-    public function minusHours($hours)
+    public function minusHours(int $hours) : ZonedDateTime
     {
         return $this->plusHours(- $hours);
     }
@@ -692,11 +692,11 @@ class ZonedDateTime extends ReadableInstant implements DateTimeAccessor
     /**
      * Returns a copy of this ZonedDateTime with the specified period in minutes subtracted.
      *
-     * @param integer $minutes
+     * @param int $minutes
      *
      * @return ZonedDateTime
      */
-    public function minusMinutes($minutes)
+    public function minusMinutes(int $minutes) : ZonedDateTime
     {
         return $this->plusMinutes(- $minutes);
     }
@@ -704,11 +704,11 @@ class ZonedDateTime extends ReadableInstant implements DateTimeAccessor
     /**
      * Returns a copy of this ZonedDateTime with the specified period in seconds subtracted.
      *
-     * @param integer $seconds
+     * @param int $seconds
      *
      * @return ZonedDateTime
      */
-    public function minusSeconds($seconds)
+    public function minusSeconds(int $seconds) : ZonedDateTime
     {
         return $this->plusSeconds(- $seconds);
     }
@@ -716,7 +716,7 @@ class ZonedDateTime extends ReadableInstant implements DateTimeAccessor
     /**
      * {@inheritdoc}
      */
-    public function getField($field)
+    public function getField(string $field)
     {
         return $this->localDateTime->getField($field);
     }
@@ -724,7 +724,7 @@ class ZonedDateTime extends ReadableInstant implements DateTimeAccessor
     /**
      * @return string
      */
-    public function __toString()
+    public function __toString() : string
     {
         $string = $this->localDateTime . $this->timeZoneOffset;
 

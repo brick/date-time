@@ -34,7 +34,7 @@ class TimeZoneRegion extends TimeZone
      *
      * @throws DateTimeException If the region id is invalid.
      */
-    public static function of($id)
+    public static function of(string $id) : TimeZoneRegion
     {
         $id = (string) $id;
 
@@ -58,7 +58,7 @@ class TimeZoneRegion extends TimeZone
      * @throws DateTimeException      If the region is not valid.
      * @throws DateTimeParseException If required fields are missing from the result.
      */
-    public static function from(DateTimeParseResult $result)
+    public static function from(DateTimeParseResult $result) : TimeZoneRegion
     {
         $region = $result->getField(Field\TimeZoneRegion::NAME);
 
@@ -72,7 +72,7 @@ class TimeZoneRegion extends TimeZone
      *
      * @return string[] An array of time-zone identifiers.
      */
-    public static function getAllIdentifiers($includeObsolete = false)
+    public static function getAllIdentifiers(bool $includeObsolete = false) : array
     {
         return \DateTimeZone::listIdentifiers(
             $includeObsolete
@@ -90,7 +90,7 @@ class TimeZoneRegion extends TimeZone
      *
      * @return string[] An array of time-zone identifiers.
      */
-    public static function getIdentifiersForCountry($countryCode)
+    public static function getIdentifiersForCountry(string $countryCode) : array
     {
         return \DateTimeZone::listIdentifiers(\DateTimeZone::PER_COUNTRY, $countryCode);
     }
@@ -101,11 +101,11 @@ class TimeZoneRegion extends TimeZone
      * @param string               $text
      * @param DateTimeParser|null $parser
      *
-     * @return TimeZoneRegion
+     * @return TimeZone
      *
      * @throws DateTimeParseException
      */
-    public static function parse($text, DateTimeParser $parser = null)
+    public static function parse(string $text, DateTimeParser $parser = null) : TimeZone
     {
         if (! $parser) {
             $parser = IsoParsers::timeZoneRegion();
@@ -117,7 +117,7 @@ class TimeZoneRegion extends TimeZone
     /**
      * {@inheritdoc}
      */
-    public function getId()
+    public function getId() : string
     {
         return $this->zone->getName();
     }
@@ -125,7 +125,7 @@ class TimeZoneRegion extends TimeZone
     /**
      * {@inheritdoc}
      */
-    public function getOffset(ReadableInstant $instant)
+    public function getOffset(ReadableInstant $instant) : int
     {
         $dateTime = new \DateTime('@' . $instant->getEpochSecond(), new \DateTimeZone('UTC'));
 
@@ -135,7 +135,7 @@ class TimeZoneRegion extends TimeZone
     /**
      * {@inheritdoc}
      */
-    public function toDateTimeZone()
+    public function toDateTimeZone() : \DateTimeZone
     {
         return clone $this->zone;
     }

@@ -18,7 +18,7 @@ class DateTimeParseResult
      *
      * @return void
      */
-    public function addField($name, $value)
+    public function addField(string $name, string $value)
     {
         $this->fields[$name][] = $value;
     }
@@ -28,9 +28,9 @@ class DateTimeParseResult
      *
      * @param string $name
      *
-     * @return boolean
+     * @return bool
      */
-    public function hasField($name)
+    public function hasField(string $name) : bool
     {
         return isset($this->fields[$name]) && $this->fields[$name];
     }
@@ -44,7 +44,7 @@ class DateTimeParseResult
      *
      * @throws DateTimeParseException If the field is not present in this set.
      */
-    public function getField($name)
+    public function getField(string $name) : string
     {
         $value = $this->getOptionalField($name);
 
@@ -62,7 +62,7 @@ class DateTimeParseResult
      *
      * @return string
      */
-    public function getOptionalField($name)
+    public function getOptionalField(string $name) : string
     {
         if (isset($this->fields[$name])) {
             if ($this->fields[$name]) {

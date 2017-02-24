@@ -15,14 +15,14 @@ final class DayOfYear
     const NAME = 'day-of-year';
 
     /**
-     * @param integer      $dayOfYear The day-of-year to check, validated as an integer.
-     * @param integer|null $year      An optional year to check against, fully validated.
+     * @param int      $dayOfYear The day-of-year to check.
+     * @param int|null $year      An optional year to check against, validated.
      *
      * @return void
      *
      * @throws DateTimeException If the day-of-year is not valid.
      */
-    public static function check($dayOfYear, $year = null)
+    public static function check(int $dayOfYear, int $year = null)
     {
         if ($dayOfYear < 1 || $dayOfYear > 366) {
             throw DateTimeException::fieldNotInRange(self::NAME, $dayOfYear, 1, 366);

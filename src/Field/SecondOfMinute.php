@@ -20,13 +20,13 @@ class SecondOfMinute
     const PATTERN = '[0-9]{2}';
 
     /**
-     * @param integer $secondOfMinute The second-of-minute to check, validated as an integer.
+     * @param int $secondOfMinute The second-of-minute to check.
      *
      * @return void
      *
      * @throws DateTimeException If the second-of-minute is not valid.
      */
-    public static function check($secondOfMinute)
+    public static function check(int $secondOfMinute)
     {
         if ($secondOfMinute < 0 || $secondOfMinute > 59) {
             throw DateTimeException::fieldNotInRange(self::NAME, $secondOfMinute, 0, 59);

@@ -32,7 +32,7 @@ final class IsoParsers
      *
      * @return PatternParser
      */
-    public static function localDate()
+    public static function localDate() : PatternParser
     {
         static $parser;
 
@@ -56,7 +56,7 @@ final class IsoParsers
      *
      * @return PatternParser
      */
-    public static function localTime()
+    public static function localTime() : PatternParser
     {
         static $parser;
 
@@ -86,7 +86,7 @@ final class IsoParsers
      *
      * @return PatternParser
      */
-    public static function localDateTime()
+    public static function localDateTime() : PatternParser
     {
         static $parser;
 
@@ -106,7 +106,7 @@ final class IsoParsers
      *
      * @return PatternParser
      */
-    public static function localDateRange()
+    public static function localDateRange() : PatternParser
     {
         static $parser;
 
@@ -140,7 +140,7 @@ final class IsoParsers
      *
      * @return PatternParser
      */
-    public static function yearMonth()
+    public static function yearMonth() : PatternParser
     {
         static $parser;
 
@@ -160,7 +160,7 @@ final class IsoParsers
      *
      * @return PatternParser
      */
-    public static function monthDay()
+    public static function monthDay() : PatternParser
     {
         static $parser;
 
@@ -181,7 +181,7 @@ final class IsoParsers
      *
      * @return PatternParser
      */
-    public static function timeZoneOffset()
+    public static function timeZoneOffset() : PatternParser
     {
         static $parser;
 
@@ -212,7 +212,7 @@ final class IsoParsers
      *
      * @return PatternParser
      */
-    public static function timeZoneRegion()
+    public static function timeZoneRegion() : PatternParser
     {
         static $parser;
 
@@ -230,7 +230,7 @@ final class IsoParsers
      *
      * @return PatternParser
      */
-    public static function offsetDateTime()
+    public static function offsetDateTime() : PatternParser
     {
         static $parser;
 
@@ -249,7 +249,7 @@ final class IsoParsers
      *
      * @return PatternParser
      */
-    public static function zonedDateTime()
+    public static function zonedDateTime() : PatternParser
     {
         static $parser;
 

@@ -23,16 +23,16 @@ class Month implements DateTimeAccessor
     /**
      * The month number, from 1 (January) to 12 (December).
      *
-     * @var integer
+     * @var int
      */
     private $month;
 
     /**
      * Private constructor. Use of() to get a Month instance.
      *
-     * @param integer $month The month value, validated as an integer from 1 to 12.
+     * @param int $month The month value, validated from 1 to 12.
      */
-    private function __construct($month)
+    private function __construct(int $month)
     {
         $this->month = $month;
     }
@@ -40,11 +40,11 @@ class Month implements DateTimeAccessor
     /**
      * Returns a cached Month instance.
      *
-     * @param integer $value The month value, validated as an integer from 1 to 12.
+     * @param int $value The month value, validated from 1 to 12.
      *
      * @return Month The cached Month instance.
      */
-    private static function get($value)
+    private static function get(int $value) : Month
     {
         static $values;
 
@@ -58,13 +58,13 @@ class Month implements DateTimeAccessor
     /**
      * Returns an instance of Month for the given month value.
      *
-     * @param integer $value The month number, from 1 (January) to 12 (December).
+     * @param int $value The month number, from 1 (January) to 12 (December).
      *
      * @return Month The Month instance.
      *
      * @throws DateTimeException
      */
-    public static function of($value)
+    public static function of(int $value) : Month
     {
         Field\MonthOfYear::check($value);
 
@@ -76,7 +76,7 @@ class Month implements DateTimeAccessor
      *
      * @return Month[]
      */
-    public static function getAll()
+    public static function getAll() : array
     {
         $months = [];
 
@@ -90,9 +90,9 @@ class Month implements DateTimeAccessor
     /**
      * Returns the ISO-8601 month number.
      *
-     * @return integer The month number, from 1 (January) to 12 (December).
+     * @return int The month number, from 1 (January) to 12 (December).
      */
-    public function getValue()
+    public function getValue() : int
     {
         return $this->month;
     }
@@ -100,13 +100,13 @@ class Month implements DateTimeAccessor
     /**
      * Checks if this month matches the given month number.
      *
-     * @param integer $month The month number to test against.
+     * @param int $month The month number to test against.
      *
-     * @return boolean True if this month is equal to the given value, false otherwise.
+     * @return bool True if this month is equal to the given value, false otherwise.
      */
-    public function is($month)
+    public function is(int $month) : bool
     {
-        return $this->month == $month;
+        return $this->month === $month;
     }
 
     /**
@@ -114,9 +114,9 @@ class Month implements DateTimeAccessor
      *
      * @param Month $that
      *
-     * @return boolean
+     * @return bool
      */
-    public function isEqualTo(Month $that)
+    public function isEqualTo(Month $that) : bool
     {
         return ($this->month === $that->month);
     }
@@ -124,9 +124,9 @@ class Month implements DateTimeAccessor
     /**
      * Returns the minimum length of this month in days.
      *
-     * @return integer The minimum length of this month in days, from 28 to 31.
+     * @return int The minimum length of this month in days, from 28 to 31.
      */
-    public function getMinLength()
+    public function getMinLength() : int
     {
         switch ($this->month) {
             case Month::FEBRUARY:
@@ -144,9 +144,9 @@ class Month implements DateTimeAccessor
     /**
      * Returns the maximum length of this month in days.
      *
-     * @return integer The maximum length of this month in days, from 29 to 31.
+     * @return int The maximum length of this month in days, from 29 to 31.
      */
-    public function getMaxLength()
+    public function getMaxLength() : int
     {
         switch ($this->month) {
             case Month::FEBRUARY:
@@ -167,11 +167,11 @@ class Month implements DateTimeAccessor
      * This returns the day-of-year that this month begins on, using the leap
      * year flag to determine the length of February.
      *
-     * @param boolean $leapYear
+     * @param bool $leapYear
      *
-     * @return integer
+     * @return int
      */
-    public function getFirstDayOfYear($leapYear)
+    public function getFirstDayOfYear(bool $leapYear) : int
     {
         $leap = $leapYear ? 1 : 0;
 
@@ -212,11 +212,11 @@ class Month implements DateTimeAccessor
      * April, June, September and November have 30 days.
      * All other months have 31 days.
      *
-     * @param boolean $leapYear
+     * @param bool $leapYear
      *
-     * @return integer
+     * @return int
      */
-    public function getLength($leapYear)
+    public function getLength(bool $leapYear) : int
     {
         switch ($this->month) {
             case Month::FEBRUARY:
@@ -237,11 +237,11 @@ class Month implements DateTimeAccessor
      * The calculation rolls around the end of the year from December to January.
      * The specified period may be negative.
      *
-     * @param integer $months
+     * @param int $months
      *
      * @return Month
      */
-    public function plus($months)
+    public function plus(int $months) : Month
     {
         return Month::get((((($this->month - 1 + $months) % 12) + 12) % 12) + 1);
     }
@@ -252,11 +252,11 @@ class Month implements DateTimeAccessor
      * The calculation rolls around the start of the year from January to December.
      * The specified period may be negative.
      *
-     * @param integer $months
+     * @param int $months
      *
      * @return Month
      */
-    public function minus($months)
+    public function minus(int $months) : Month
     {
         return $this->plus(- $months);
     }
@@ -264,7 +264,7 @@ class Month implements DateTimeAccessor
     /**
      * {@inheritdoc}
      */
-    public function getField($field)
+    public function getField(string $field)
     {
         switch ($field) {
             case Field\MonthOfYear::NAME:

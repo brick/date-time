@@ -10,20 +10,20 @@ abstract class ReadableInstant
     /**
      * @return \Brick\DateTime\Instant
      */
-    abstract public function getInstant();
+    abstract public function getInstant() : Instant;
 
     /**
-     * @return integer
+     * @return int
      */
-    public function getEpochSecond()
+    public function getEpochSecond() : int
     {
         return $this->getInstant()->getEpochSecond();
     }
 
     /**
-     * @return integer
+     * @return int
      */
-    public function getNano()
+    public function getNano() : int
     {
         return $this->getInstant()->getNano();
     }
@@ -33,9 +33,9 @@ abstract class ReadableInstant
      *
      * @param ReadableInstant $that
      *
-     * @return integer [-1,0,1] If this instant is before, on, or after the given instant.
+     * @return int [-1,0,1] If this instant is before, on, or after the given instant.
      */
-    public function compareTo(ReadableInstant $that)
+    public function compareTo(ReadableInstant $that) : int
     {
         $seconds = $this->getEpochSecond() - $that->getEpochSecond();
 
@@ -57,9 +57,9 @@ abstract class ReadableInstant
      *
      * @param ReadableInstant $that
      *
-     * @return boolean
+     * @return bool
      */
-    public function isEqualTo(ReadableInstant $that)
+    public function isEqualTo(ReadableInstant $that) : bool
     {
         return $this->compareTo($that) === 0;
     }
@@ -69,9 +69,9 @@ abstract class ReadableInstant
      *
      * @param ReadableInstant $that
      *
-     * @return boolean
+     * @return bool
      */
-    public function isAfter(ReadableInstant $that)
+    public function isAfter(ReadableInstant $that) : bool
     {
         return $this->compareTo($that) === 1;
     }
@@ -81,9 +81,9 @@ abstract class ReadableInstant
      *
      * @param ReadableInstant $that
      *
-     * @return boolean
+     * @return bool
      */
-    public function isAfterOrEqualTo(ReadableInstant $that)
+    public function isAfterOrEqualTo(ReadableInstant $that) : bool
     {
         return $this->compareTo($that) >= 0;
     }
@@ -93,9 +93,9 @@ abstract class ReadableInstant
      *
      * @param ReadableInstant $that
      *
-     * @return boolean
+     * @return bool
      */
-    public function isBefore(ReadableInstant $that)
+    public function isBefore(ReadableInstant $that) : bool
     {
         return $this->compareTo($that) === -1;
     }
@@ -105,9 +105,9 @@ abstract class ReadableInstant
      *
      * @param ReadableInstant $that
      *
-     * @return boolean
+     * @return bool
      */
-    public function isBeforeOrEqualTo(ReadableInstant $that)
+    public function isBeforeOrEqualTo(ReadableInstant $that) : bool
     {
         return $this->compareTo($that) <= 0;
     }
@@ -116,9 +116,9 @@ abstract class ReadableInstant
      * @param ReadableInstant $from
      * @param ReadableInstant $to
      *
-     * @return boolean
+     * @return bool
      */
-    public function isBetweenInclusive(ReadableInstant $from, ReadableInstant $to)
+    public function isBetweenInclusive(ReadableInstant $from, ReadableInstant $to) : bool
     {
         return $this->isAfterOrEqualTo($from) && $this->isBeforeOrEqualTo($to);
     }
@@ -127,9 +127,9 @@ abstract class ReadableInstant
      * @param ReadableInstant $from
      * @param ReadableInstant $to
      *
-     * @return boolean
+     * @return bool
      */
-    public function isBetweenExclusive(ReadableInstant $from, ReadableInstant $to)
+    public function isBetweenExclusive(ReadableInstant $from, ReadableInstant $to) : bool
     {
         return $this->isAfter($from) && $this->isBefore($to);
     }
@@ -137,9 +137,9 @@ abstract class ReadableInstant
     /**
      * Returns whether this instant is in the future.
      *
-     * @return boolean
+     * @return bool
      */
-    public function isFuture()
+    public function isFuture() : bool
     {
         return $this->isAfter(Instant::now());
     }
@@ -147,9 +147,9 @@ abstract class ReadableInstant
     /**
      * Returns whether this instant is in the past.
      *
-     * @return boolean
+     * @return bool
      */
-    public function isPast()
+    public function isPast() : bool
     {
         return $this->isBefore(Instant::now());
     }

@@ -21,7 +21,7 @@ class PatternParser implements DateTimeParser
      * @param string $pattern The regular expression pattern.
      * @param array  $fields  The fields constants to match.
      */
-    public function __construct($pattern, array $fields)
+    public function __construct(string $pattern, array $fields)
     {
         $this->pattern = $pattern;
         $this->fields  = $fields;
@@ -30,7 +30,7 @@ class PatternParser implements DateTimeParser
     /**
      * @return string
      */
-    public function getPattern()
+    public function getPattern() : string
     {
         return $this->pattern;
     }
@@ -38,7 +38,7 @@ class PatternParser implements DateTimeParser
     /**
      * @return array
      */
-    public function getFields()
+    public function getFields() : array
     {
         return $this->fields;
     }
@@ -46,7 +46,7 @@ class PatternParser implements DateTimeParser
     /**
      * {@inheritdoc}
      */
-    public function parse($text)
+    public function parse(string $text) : DateTimeParseResult
     {
         $pattern = '/^' . str_replace('/', '\/', $this->pattern) . '$/';
 

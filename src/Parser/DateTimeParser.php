@@ -14,5 +14,5 @@ interface DateTimeParser
      *
      * @throws DateTimeParseException If the given text could not be parsed.
      */
-    public function parse($text);
+    public function parse(string $text) : DateTimeParseResult;
 }

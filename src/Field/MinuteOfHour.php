@@ -20,13 +20,13 @@ class MinuteOfHour
     const PATTERN = '[0-9]{2}';
 
     /**
-     * @param integer $minuteOfHour The minute-of-hour to check, validated as an integer.
+     * @param int $minuteOfHour The minute-of-hour to check.
      *
      * @return void
      *
      * @throws DateTimeException If the minute-of-hour is not valid.
      */
-    public static function check($minuteOfHour)
+    public static function check(int $minuteOfHour)
     {
         if ($minuteOfHour < 0 || $minuteOfHour > 59) {
             throw DateTimeException::fieldNotInRange(self::NAME, $minuteOfHour, 0, 59);

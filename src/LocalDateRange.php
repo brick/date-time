@@ -51,7 +51,7 @@ class LocalDateRange implements \IteratorAggregate, \Countable
      *
      * @throws DateTimeException If the end date is before the start date.
      */
-    public static function of(LocalDate $startDate, LocalDate $endDate)
+    public static function of(LocalDate $startDate, LocalDate $endDate) : LocalDateRange
     {
         if ($endDate->isBefore($startDate)) {
             throw new DateTimeException('The end date must not be before the start date.');
@@ -72,7 +72,7 @@ class LocalDateRange implements \IteratorAggregate, \Countable
      * @throws DateTimeException      If the date range is not valid.
      * @throws DateTimeParseException If required fields are missing from the result.
      */
-    public static function from(DateTimeParseResult $result)
+    public static function from(DateTimeParseResult $result) : LocalDateRange
     {
         $startDate = LocalDate::from($result);
 
@@ -106,7 +106,7 @@ class LocalDateRange implements \IteratorAggregate, \Countable
      * @throws DateTimeException      If either of the dates is not valid.
      * @throws DateTimeParseException If the text string does not follow the expected format.
      */
-    public static function parse($text, DateTimeParser $parser = null)
+    public static function parse(string $text, DateTimeParser $parser = null) : LocalDateRange
     {
         if (! $parser) {
             $parser = IsoParsers::localDateRange();
@@ -120,7 +120,7 @@ class LocalDateRange implements \IteratorAggregate, \Countable
      *
      * @return LocalDate
      */
-    public function getStartDate()
+    public function getStartDate() : LocalDate
     {
         return $this->startDate;
     }
@@ -130,7 +130,7 @@ class LocalDateRange implements \IteratorAggregate, \Countable
      *
      * @return LocalDate
      */
-    public function getEndDate()
+    public function getEndDate() : LocalDate
     {
         return $this->endDate;
     }
@@ -140,9 +140,9 @@ class LocalDateRange implements \IteratorAggregate, \Countable
      *
      * @param LocalDateRange $that The range to compare to.
      *
-     * @return boolean True if this range equals the given one, false otherwise.
+     * @return bool True if this range equals the given one, false otherwise.
      */
-    public function isEqualTo(LocalDateRange $that)
+    public function isEqualTo(LocalDateRange $that) : bool
     {
         return $this->startDate->isEqualTo($that->startDate)
             && $this->endDate->isEqualTo($that->endDate);
@@ -153,9 +153,9 @@ class LocalDateRange implements \IteratorAggregate, \Countable
      *
      * @param LocalDate $date The date to check.
      *
-     * @return boolean True if this range contains the given date, false otherwise.
+     * @return bool True if this range contains the given date, false otherwise.
      */
-    public function contains(LocalDate $date)
+    public function contains(LocalDate $date) : bool
     {
         return ! ($date->isBefore($this->startDate) || $date->isAfter($this->endDate));
     }
@@ -165,7 +165,7 @@ class LocalDateRange implements \IteratorAggregate, \Countable
      *
      * @return LocalDate[]
      */
-    public function getIterator()
+    public function getIterator() : \Generator
     {
         $date = $this->startDate;
 
@@ -178,9 +178,9 @@ class LocalDateRange implements \IteratorAggregate, \Countable
     /**
      * Returns the number of days in this range.
      *
-     * @return integer The number of days, >= 1.
+     * @return int The number of days, >= 1.
      */
-    public function count()
+    public function count() : int
     {
         return $this->endDate->toEpochDay() - $this->startDate->toEpochDay() + 1;
     }
@@ -190,7 +190,7 @@ class LocalDateRange implements \IteratorAggregate, \Countable
      *
      * @return string
      */
-    public function __toString()
+    public function __toString() : string
     {
         return $this->startDate . '/' . $this->endDate;
     }

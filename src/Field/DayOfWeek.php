@@ -15,13 +15,13 @@ final class DayOfWeek
     const NAME = 'day-of-week';
 
     /**
-     * @param integer $dayOfWeek The day-of-week to check, validated as an integer.
+     * @param int $dayOfWeek The day-of-week to check.
      *
      * @return void
      *
      * @throws DateTimeException If the day-of-week is not valid.
      */
-    public static function check($dayOfWeek)
+    public static function check(int $dayOfWeek)
     {
         if ($dayOfWeek < 1 || $dayOfWeek > 7) {
             throw DateTimeException::fieldNotInRange(self::NAME, $dayOfWeek, 1, 7);

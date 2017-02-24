@@ -14,7 +14,7 @@ class DateTimeParseException extends DateTimeException
      *
      * @return DateTimeParseException
      */
-    public static function invalidDuration($textToParse)
+    public static function invalidDuration(string $textToParse) : self
     {
         return new self('Text cannot be parsed to a Duration: ' . $textToParse);
     }
@@ -23,7 +23,7 @@ class DateTimeParseException extends DateTimeException
      *
      * @return DateTimeParseException
      */
-    public static function invalidPeriod($textToParse)
+    public static function invalidPeriod(string $textToParse) : self
     {
         return new self('Text cannot be parsed to a Period: ' . $textToParse);
     }

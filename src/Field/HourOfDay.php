@@ -20,13 +20,13 @@ class HourOfDay
     const PATTERN = '[0-9]{2}';
 
     /**
-     * @param integer $hourOfDay The hour-of-day to check, validated as an integer.
+     * @param int $hourOfDay The hour-of-day to check.
      *
      * @return void
      *
      * @throws DateTimeException If the hour-of-day is not valid.
      */
-    public static function check($hourOfDay)
+    public static function check(int $hourOfDay)
     {
         if ($hourOfDay < 0 || $hourOfDay > 23) {
             throw DateTimeException::fieldNotInRange(self::NAME, $hourOfDay, 0, 23);

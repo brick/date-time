@@ -20,16 +20,16 @@ class DayOfWeek implements DateTimeAccessor
     /**
      * The ISO-8601 value for the day of the week, from 1 (Monday) to 7 (Sunday).
      *
-     * @var integer
+     * @var int
      */
     private $value;
 
     /**
      * Private constructor. Use a factory method to obtain an instance.
      *
-     * @param integer $value The day-of-week value, validated as an integer from 1 to 7.
+     * @param int $value The day-of-week value, validated from 1 to 7.
      */
-    private function __construct($value)
+    private function __construct(int $value)
     {
         $this->value = $value;
     }
@@ -37,11 +37,11 @@ class DayOfWeek implements DateTimeAccessor
     /**
      * Returns a cached DayOfWeek instance.
      *
-     * @param integer $value The day-of-week value, validated as an integer from 1 to 7.
+     * @param int $value The day-of-week value, validated from 1 to 7.
      *
      * @return DayOfWeek
      */
-    private static function get($value)
+    private static function get(int $value) : DayOfWeek
     {
         static $values;
 
@@ -55,13 +55,13 @@ class DayOfWeek implements DateTimeAccessor
     /**
      * Returns an instance of DayOfWeek for the given day-of-week value.
      *
-     * @param integer $dayOfWeek The day-of-week value, from 1 (Monday) to 7 (Sunday).
+     * @param int $dayOfWeek The day-of-week value, from 1 (Monday) to 7 (Sunday).
      *
      * @return DayOfWeek The DayOfWeek instance.
      *
      * @throws \InvalidArgumentException
      */
-    public static function of($dayOfWeek)
+    public static function of(int $dayOfWeek) : DayOfWeek
     {
         Field\DayOfWeek::check($dayOfWeek);
 
@@ -73,7 +73,7 @@ class DayOfWeek implements DateTimeAccessor
      *
      * @return DayOfWeek
      */
-    public static function now(TimeZone $timeZone)
+    public static function now(TimeZone $timeZone) : DayOfWeek
     {
         return LocalDate::now($timeZone)->getDayOfWeek();
     }
@@ -81,11 +81,11 @@ class DayOfWeek implements DateTimeAccessor
     /**
      * Returns the seven days of the week in an array.
      *
-     * @param DayOfWeek $first The day to return first. Optional, defaults to Monday.
+     * @param DayOfWeek|null $first The day to return first. Optional, defaults to Monday.
      *
      * @return DayOfWeek[]
      */
-    public static function getAll(DayOfWeek $first = null)
+    public static function getAll(DayOfWeek $first = null) : array
     {
         $days = [];
         $first = $first ?: DayOfWeek::get(DayOfWeek::MONDAY);
@@ -103,9 +103,9 @@ class DayOfWeek implements DateTimeAccessor
     /**
      * Returns the ISO 8601 value of this DayOfWeek.
      *
-     * @return integer The day-of-week value, from 1 (Monday) to 7 (Sunday).
+     * @return int The day-of-week value, from 1 (Monday) to 7 (Sunday).
      */
-    public function getValue()
+    public function getValue() : int
     {
         return $this->value;
     }
@@ -113,13 +113,13 @@ class DayOfWeek implements DateTimeAccessor
     /**
      * Checks if this day-of-week matches the given day-of-week value.
      *
-     * @param integer $dayOfWeek The day-of-week value to test against.
+     * @param int $dayOfWeek The day-of-week value to test against.
      *
-     * @return boolean True if this day-of-week is equal to the given value, false otherwise.
+     * @return bool True if this day-of-week is equal to the given value, false otherwise.
      */
-    public function is($dayOfWeek)
+    public function is(int $dayOfWeek) : bool
     {
-        return $this->value === (int) $dayOfWeek;
+        return $this->value === $dayOfWeek;
     }
 
     /**
@@ -131,9 +131,9 @@ class DayOfWeek implements DateTimeAccessor
      *
      * @param DayOfWeek $that
      *
-     * @return boolean
+     * @return bool
      */
-    public function isEqualTo(DayOfWeek $that)
+    public function isEqualTo(DayOfWeek $that) : bool
     {
         return $this->value === $that->value;
     }
@@ -141,11 +141,11 @@ class DayOfWeek implements DateTimeAccessor
     /**
      * Returns the DayOfWeek that is the specified number of days after this one.
      *
-     * @param integer $days
+     * @param int $days
      *
      * @return DayOfWeek
      */
-    public function plus($days)
+    public function plus(int $days) : DayOfWeek
     {
         return DayOfWeek::get((((($this->value - 1 + $days) % 7) + 7) % 7) + 1);
     }
@@ -153,11 +153,11 @@ class DayOfWeek implements DateTimeAccessor
     /**
      * Returns the DayOfWeek that is the specified number of days before this one.
      *
-     * @param integer $days
+     * @param int $days
      *
      * @return DayOfWeek
      */
-    public function minus($days)
+    public function minus(int $days) : DayOfWeek
     {
         return $this->plus(- $days);
     }
@@ -165,7 +165,7 @@ class DayOfWeek implements DateTimeAccessor
     /**
      * {@inheritdoc}
      */
-    public function getField($field)
+    public function getField(string $field)
     {
         switch ($field) {
             case Field\DayOfWeek::NAME:

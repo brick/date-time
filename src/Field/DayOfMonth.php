@@ -20,15 +20,15 @@ final class DayOfMonth
     const PATTERN = '[0-9]{2}';
 
     /**
-     * @param integer      $dayOfMonth  The day-of-month to check, validated as an integer.
-     * @param integer|null $monthOfYear An optional month-of-year to check against, fully validated.
-     * @param integer|null $year        An optional year to check against, fully validated.
+     * @param int      $dayOfMonth  The day-of-month to check.
+     * @param int|null $monthOfYear An optional month-of-year to check against, validated.
+     * @param int|null $year        An optional year to check against, validated.
      *
      * @return void
      *
      * @throws DateTimeException If the day-of-month is not valid.
      */
-    public static function check($dayOfMonth, $monthOfYear = null, $year = null)
+    public static function check(int $dayOfMonth, int $monthOfYear = null, int $year = null)
     {
         if ($dayOfMonth < 1 || $dayOfMonth > 31) {
             throw DateTimeException::fieldNotInRange(self::NAME, $dayOfMonth, 1, 31);

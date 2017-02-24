@@ -16,24 +16,24 @@ class YearMonth implements DateTimeAccessor
     /**
      * The year, from MIN_YEAR to MAX_YEAR.
      *
-     * @var integer
+     * @var int
      */
     private $year;
 
     /**
      * The month, from 1 to 12.
      *
-     * @var integer
+     * @var int
      */
     private $month;
 
     /**
      * Class constructor.
      *
-     * @param integer $year  The year, validated as an integer from MIN_YEAR to MAX_YEAR.
-     * @param integer $month The month, validated as an integer in the range 1 to 12.
+     * @param int $year  The year, validated from MIN_YEAR to MAX_YEAR.
+     * @param int $month The month, validated in the range 1 to 12.
      */
-    private function __construct($year, $month)
+    private function __construct(int $year, int $month)
     {
         $this->year  = $year;
         $this->month = $month;
@@ -42,14 +42,14 @@ class YearMonth implements DateTimeAccessor
     /**
      * Obtains an instance of `YearMonth` from a year and month.
      *
-     * @param integer $year  The year, from MIN_YEAR to MAX_YEAR.
-     * @param integer $month The month-of-year, from 1 (January) to 12 (December).
+     * @param int $year  The year, from MIN_YEAR to MAX_YEAR.
+     * @param int $month The month-of-year, from 1 (January) to 12 (December).
      *
      * @return YearMonth
      *
      * @throws DateTimeException
      */
-    public static function of($year, $month)
+    public static function of(int $year, int $month) : YearMonth
     {
         Field\Year::check($year);
         Field\MonthOfYear::check($month);
@@ -65,7 +65,7 @@ class YearMonth implements DateTimeAccessor
      * @throws DateTimeException      If the year-month is not valid.
      * @throws DateTimeParseException If required fields are missing from the result.
      */
-    public static function from(DateTimeParseResult $result)
+    public static function from(DateTimeParseResult $result) : YearMonth
     {
         return YearMonth::of(
             (int) $result->getField(Field\Year::NAME),
@@ -84,7 +84,7 @@ class YearMonth implements DateTimeAccessor
      * @throws DateTimeException      If the date is not valid.
      * @throws DateTimeParseException If the text string does not follow the expected format.
      */
-    public static function parse($text, DateTimeParser $parser = null)
+    public static function parse(string $text, DateTimeParser $parser = null) : YearMonth
     {
         if (! $parser) {
             $parser = IsoParsers::yearMonth();
@@ -100,7 +100,7 @@ class YearMonth implements DateTimeAccessor
      *
      * @return YearMonth
      */
-    public static function now(TimeZone $timeZone)
+    public static function now(TimeZone $timeZone) : YearMonth
     {
         $localDate = LocalDate::now($timeZone);
 
@@ -108,17 +108,17 @@ class YearMonth implements DateTimeAccessor
     }
 
     /**
-     * @return integer
+     * @return int
      */
-    public function getYear()
+    public function getYear() : int
     {
         return $this->year;
     }
 
     /**
-     * @return integer
+     * @return int
      */
-    public function getMonth()
+    public function getMonth() : int
     {
         return $this->month;
     }
@@ -126,9 +126,9 @@ class YearMonth implements DateTimeAccessor
     /**
      * Returns whether the year is a leap year.
      *
-     * @return boolean
+     * @return bool
      */
-    public function isLeapYear()
+    public function isLeapYear() : bool
     {
         return Year::of($this->year)->isLeap();
     }
@@ -136,9 +136,9 @@ class YearMonth implements DateTimeAccessor
     /**
      * Returns the length of the month in days, taking account of the year.
      *
-     * @return integer
+     * @return int
      */
-    public function getLengthOfMonth()
+    public function getLengthOfMonth() : int
     {
         return Month::of($this->month)->getLength($this->isLeapYear());
     }
@@ -146,9 +146,9 @@ class YearMonth implements DateTimeAccessor
     /**
      * Returns the length of the year in days, either 365 or 366.
      *
-     * @return integer
+     * @return int
      */
-    public function getLengthOfYear()
+    public function getLengthOfYear() : int
     {
         return $this->isLeapYear() ? 366: 365;
     }
@@ -156,9 +156,9 @@ class YearMonth implements DateTimeAccessor
     /**
      * @param YearMonth $that
      *
-     * @return integer [-1,0,1] If this year-month is before, on, or after the given year-month.
+     * @return int [-1,0,1] If this year-month is before, on, or after the given year-month.
      */
-    public function compareTo(YearMonth $that)
+    public function compareTo(YearMonth $that) : int
     {
         if ($this->year < $that->year) {
             return -1;
@@ -179,9 +179,9 @@ class YearMonth implements DateTimeAccessor
     /**
      * @param YearMonth $that
      *
-     * @return boolean
+     * @return bool
      */
-    public function isEqualTo(YearMonth $that)
+    public function isEqualTo(YearMonth $that) : bool
     {
         return $this->compareTo($that) === 0;
     }
@@ -189,9 +189,9 @@ class YearMonth implements DateTimeAccessor
     /**
      * @param YearMonth $that
      *
-     * @return boolean
+     * @return bool
      */
-    public function isBefore(YearMonth $that)
+    public function isBefore(YearMonth $that) : bool
     {
         return $this->compareTo($that) === -1;
     }
@@ -199,9 +199,9 @@ class YearMonth implements DateTimeAccessor
     /**
      * @param YearMonth $that
      *
-     * @return boolean
+     * @return bool
      */
-    public function isBeforeOrEqualTo(YearMonth $that)
+    public function isBeforeOrEqualTo(YearMonth $that) : bool
     {
         return $this->compareTo($that) <= 0;
     }
@@ -209,9 +209,9 @@ class YearMonth implements DateTimeAccessor
     /**
      * @param YearMonth $that
      *
-     * @return boolean
+     * @return bool
      */
-    public function isAfter(YearMonth $that)
+    public function isAfter(YearMonth $that) : bool
     {
         return $this->compareTo($that) === 1;
     }
@@ -219,9 +219,9 @@ class YearMonth implements DateTimeAccessor
     /**
      * @param YearMonth $that
      *
-     * @return boolean
+     * @return bool
      */
-    public function isAfterOrEqualTo(YearMonth $that)
+    public function isAfterOrEqualTo(YearMonth $that) : bool
     {
         return $this->compareTo($that) >= 0;
     }
@@ -229,11 +229,11 @@ class YearMonth implements DateTimeAccessor
     /**
      * Returns a copy of this YearMonth with the year altered.
      *
-     * @param integer $year
+     * @param int $year
      *
      * @return YearMonth
      */
-    public function withYear($year)
+    public function withYear(int $year) : YearMonth
     {
         if ($year === $this->year) {
             return $this;
@@ -247,11 +247,11 @@ class YearMonth implements DateTimeAccessor
     /**
      * Returns a copy of this YearMonth with the month-of-year altered.
      *
-     * @param integer $month
+     * @param int $month
      *
      * @return YearMonth
      */
-    public function withMonth($month)
+    public function withMonth(int $month) : YearMonth
     {
         if ($month === $this->month) {
             return $this;
@@ -265,7 +265,7 @@ class YearMonth implements DateTimeAccessor
     /**
      * @return LocalDate
      */
-    public function getFirstDay()
+    public function getFirstDay() : LocalDate
     {
         return $this->atDay(1);
     }
@@ -273,7 +273,7 @@ class YearMonth implements DateTimeAccessor
     /**
      * @return LocalDate
      */
-    public function getLastDay()
+    public function getLastDay() : LocalDate
     {
         return $this->atDay($this->getLengthOfMonth());
     }
@@ -281,13 +281,13 @@ class YearMonth implements DateTimeAccessor
     /**
      * Combines this year-month with a day-of-month to create a LocalDate.
      *
-     * @param integer $day The day-of-month to use, valid for the year-month.
+     * @param int $day The day-of-month to use, valid for the year-month.
      *
      * @return LocalDate The date formed from this year-month and the specified day.
      *
      * @throws DateTimeException If the day is not valid for this year-month.
      */
-    public function atDay($day)
+    public function atDay(int $day) : LocalDate
     {
         return LocalDate::of($this->year, $this->month, $day);
     }
@@ -295,11 +295,11 @@ class YearMonth implements DateTimeAccessor
     /**
      * Returns a copy of this YearMonth with the specified period in years added.
      *
-     * @param integer $years
+     * @param int $years
      *
      * @return YearMonth
      */
-    public function plusYears($years)
+    public function plusYears(int $years) : YearMonth
     {
         if ($years === 0) {
             return $this;
@@ -311,11 +311,11 @@ class YearMonth implements DateTimeAccessor
     /**
      * Returns a copy of this YearMonth with the specified period in months added.
      *
-     * @param integer $months
+     * @param int $months
      *
      * @return YearMonth
      */
-    public function plusMonths($months)
+    public function plusMonths(int $months) : YearMonth
     {
         $month = $this->month + $months - 1;
 
@@ -330,11 +330,11 @@ class YearMonth implements DateTimeAccessor
     /**
      * Returns a copy of this YearMonth with the specified period in years subtracted.
      *
-     * @param integer $years
+     * @param int $years
      *
      * @return YearMonth
      */
-    public function minusYears($years)
+    public function minusYears(int $years) : YearMonth
     {
         return $this->plusYears(- $years);
     }
@@ -342,11 +342,11 @@ class YearMonth implements DateTimeAccessor
     /**
      * Returns a copy of this YearMonth with the specified period in months subtracted.
      *
-     * @param integer $months
+     * @param int $months
      *
      * @return YearMonth
      */
-    public function minusMonths($months)
+    public function minusMonths(int $months) : YearMonth
     {
         return $this->plusMonths(- $months);
     }
@@ -354,7 +354,7 @@ class YearMonth implements DateTimeAccessor
     /**
      * {@inheritdoc}
      */
-    public function getField($field)
+    public function getField(string $field)
     {
         switch ($field) {
             case Field\Year::NAME:
@@ -373,7 +373,7 @@ class YearMonth implements DateTimeAccessor
      *
      * @return string
      */
-    public function __toString()
+    public function __toString() : string
     {
         return sprintf('%02u-%02u', $this->year, $this->month);
     }

@@ -15,13 +15,13 @@ class SecondOfDay
     const NAME = 'second-of-day';
 
     /**
-     * @param integer $secondOfDay The second-of-day to check, validated as an integer.
+     * @param int $secondOfDay The second-of-day to check.
      *
      * @return void
      *
      * @throws DateTimeException If the second-of-day is not valid.
      */
-    public static function check($secondOfDay)
+    public static function check(int $secondOfDay)
     {
         if ($secondOfDay < 0 || $secondOfDay > 86399) {
             throw DateTimeException::fieldNotInRange(self::NAME, $secondOfDay, 0, 86399);

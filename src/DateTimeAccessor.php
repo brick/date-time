@@ -12,7 +12,7 @@ interface DateTimeAccessor
      *
      * @param string $field The date-time field.
      *
-     * @return integer|null
+     * @return int|null
      */
-    public function getField($field);
+    public function getField(string $field);
 }

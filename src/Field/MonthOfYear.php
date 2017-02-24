@@ -20,13 +20,13 @@ final class MonthOfYear
     const PATTERN = '[0-9]{2}';
 
     /**
-     * @param integer $monthOfYear The month-of-year to check, validated as an integer.
+     * @param int $monthOfYear The month-of-year to check.
      *
      * @return void
      *
      * @throws DateTimeException If the month-of-year is not valid.
      */
-    public static function check($monthOfYear)
+    public static function check(int $monthOfYear)
     {
         if ($monthOfYear < 1 || $monthOfYear > 12) {
             throw DateTimeException::fieldNotInRange(self::NAME, $monthOfYear, 1, 12);
@@ -38,12 +38,12 @@ final class MonthOfYear
      *
      * If no year is given, the highest value (29) is returned for the month of February.
      *
-     * @param integer      $monthOfYear The month-of-year, fully validated.
-     * @param integer|null $year        An optional year the month-of-year belongs to, fully validated.
+     * @param int      $monthOfYear The month-of-year, validated.
+     * @param int|null $year        An optional year the month-of-year belongs to, validated.
      *
-     * @return integer
+     * @return int
      */
-    public static function getLength($monthOfYear, $year = null)
+    public static function getLength(int $monthOfYear, int $year = null) : int
     {
         switch ($monthOfYear) {
             case 2:
@@ -63,11 +63,11 @@ final class MonthOfYear
     /**
      * Returns the camel-cased English name of the given month-of-year.
      *
-     * @param integer $monthOfYear The month-of-year, fully validated.
+     * @param int $monthOfYear The month-of-year, validated.
      *
      * @return string
      */
-    public static function getName($monthOfYear)
+    public static function getName(int $monthOfYear) : string
     {
         static $names = [
             1  => 'January',

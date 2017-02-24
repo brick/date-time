@@ -15,13 +15,13 @@ class NanoOfSecond
     const NAME = 'nano-of-second';
 
     /**
-     * @param integer $nanoOfSecond The nano-of-second to check, validated as an integer.
+     * @param int $nanoOfSecond The nano-of-second to check.
      *
      * @return void
      *
      * @throws DateTimeException If the nano-of-second is not valid.
      */
-    public static function check($nanoOfSecond)
+    public static function check(int $nanoOfSecond)
     {
         if ($nanoOfSecond < 0 || $nanoOfSecond > 999999999) {
             throw DateTimeException::fieldNotInRange(self::NAME, $nanoOfSecond, 0, 999999999);

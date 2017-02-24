@@ -2,6 +2,8 @@
 
 namespace Brick\DateTime\Clock;
 
+use Brick\DateTime\Instant;
+
 /**
  * A clock provides the current time.
  */
@@ -21,7 +23,7 @@ abstract class Clock
      *
      * @return Clock The previous clock.
      */
-    public static function setDefault(Clock $clock)
+    public static function setDefault(Clock $clock) : Clock
     {
         $current = self::getDefault();
         self::$default = $clock;
@@ -34,7 +36,7 @@ abstract class Clock
      *
      * @return Clock
      */
-    public static function getDefault()
+    public static function getDefault() : Clock
     {
         if (self::$default === null) {
             self::$default = new SystemClock();
@@ -48,5 +50,5 @@ abstract class Clock
      *
      * @return \Brick\DateTime\Instant
      */
-    abstract public function getTime();
+    abstract public function getTime() : Instant;
 }

@@ -27,7 +27,7 @@ class FixedClock extends Clock
     /**
      * {@inheritdoc}
      */
-    public function getTime()
+    public function getTime() : Instant
     {
         return $this->instant;
     }

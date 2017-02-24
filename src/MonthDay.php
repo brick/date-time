@@ -15,24 +15,24 @@ class MonthDay implements DateTimeAccessor
     /**
      * The month-of-year, from 1 to 12.
      *
-     * @var integer
+     * @var int
      */
     private $month;
 
     /**
      * The day-of-month, from 1 to 31.
      *
-     * @var integer
+     * @var int
      */
     private $day;
 
     /**
      * Private constructor. Use of() to obtain an instance.
      *
-     * @param integer $month The month-of-year, validated.
-     * @param integer $day   The day-of-month, validated.
+     * @param int $month The month-of-year, validated.
+     * @param int $day   The day-of-month, validated.
      */
-    private function __construct($month, $day)
+    private function __construct(int $month, int $day)
     {
         $this->month = $month;
         $this->day   = $day;
@@ -41,14 +41,14 @@ class MonthDay implements DateTimeAccessor
     /**
      * Obtains an instance of MonthDay.
      *
-     * @param integer $month The month-of-year, from 1 (January) to 12 (December).
-     * @param integer $day   The day-of-month, from 1 to 31.
+     * @param int $month The month-of-year, from 1 (January) to 12 (December).
+     * @param int $day   The day-of-month, from 1 to 31.
      *
      * @return MonthDay
      *
      * @throws DateTimeException If the month-day is not valid.
      */
-    public static function of($month, $day)
+    public static function of(int $month, int $day) : MonthDay
     {
         Field\MonthOfYear::check($month);
         Field\DayOfMonth::check($day, $month);
@@ -64,7 +64,7 @@ class MonthDay implements DateTimeAccessor
      * @throws DateTimeException      If the month-day is not valid.
      * @throws DateTimeParseException If required fields are missing from the result.
      */
-    public static function from(DateTimeParseResult $result)
+    public static function from(DateTimeParseResult $result) : MonthDay
     {
         return MonthDay::of(
             (int) $result->getField(Field\MonthOfYear::NAME),
@@ -83,7 +83,7 @@ class MonthDay implements DateTimeAccessor
      * @throws DateTimeException      If the date is not valid.
      * @throws DateTimeParseException If the text string does not follow the expected format.
      */
-    public static function parse($text, DateTimeParser $parser = null)
+    public static function parse(string $text, DateTimeParser $parser = null) : MonthDay
     {
         if (! $parser) {
             $parser = IsoParsers::monthDay();
@@ -99,7 +99,7 @@ class MonthDay implements DateTimeAccessor
      *
      * @return MonthDay
      */
-    public static function now(TimeZone $timeZone)
+    public static function now(TimeZone $timeZone) : MonthDay
     {
         $date = LocalDate::now($timeZone);
 
@@ -109,9 +109,9 @@ class MonthDay implements DateTimeAccessor
     /**
      * Returns the month-of-year.
      *
-     * @return integer
+     * @return int
      */
-    public function getMonth()
+    public function getMonth() : int
     {
         return $this->month;
     }
@@ -119,9 +119,9 @@ class MonthDay implements DateTimeAccessor
     /**
      * Returns the day-of-month.
      *
-     * @return integer
+     * @return int
      */
-    public function getDay()
+    public function getDay() : int
     {
         return $this->day;
     }
@@ -131,9 +131,9 @@ class MonthDay implements DateTimeAccessor
      *
      * @param MonthDay $that
      *
-     * @return integer [-1,0,1] If this date is before, on, or after the given date.
+     * @return int [-1,0,1] If this date is before, on, or after the given date.
      */
-    public function compareTo(MonthDay $that)
+    public function compareTo(MonthDay $that) : int
     {
         if ($this->month < $that->month) {
             return -1;
@@ -156,9 +156,9 @@ class MonthDay implements DateTimeAccessor
      *
      * @param MonthDay $that
      *
-     * @return boolean
+     * @return bool
      */
-    public function isEqualTo(MonthDay $that)
+    public function isEqualTo(MonthDay $that) : bool
     {
         return $this->compareTo($that) === 0;
     }
@@ -168,9 +168,9 @@ class MonthDay implements DateTimeAccessor
      *
      * @param MonthDay $that
      *
-     * @return boolean
+     * @return bool
      */
-    public function isBefore(MonthDay $that)
+    public function isBefore(MonthDay $that) : bool
     {
         return $this->compareTo($that) === -1;
     }
@@ -180,9 +180,9 @@ class MonthDay implements DateTimeAccessor
      *
      * @param MonthDay $that
      *
-     * @return boolean
+     * @return bool
      */
-    public function isAfter(MonthDay $that)
+    public function isAfter(MonthDay $that) : bool
     {
         return $this->compareTo($that) === 1;
     }
@@ -193,11 +193,11 @@ class MonthDay implements DateTimeAccessor
      * This method checks whether this month and day and the input year form a valid date.
      * This can only return false for February 29th.
      *
-     * @param integer $year
+     * @param int $year
      *
-     * @return boolean
+     * @return bool
      */
-    public function isValidYear($year)
+    public function isValidYear(int $year) : bool
     {
         return $this->month !== 2 || $this->day !== 29 || Field\Year::isLeap($year);
     }
@@ -208,13 +208,13 @@ class MonthDay implements DateTimeAccessor
      * If the day-of-month is invalid for the specified month, the day will
      * be adjusted to the last valid day-of-month.
      *
-     * @param integer $month
+     * @param int $month
      *
      * @return MonthDay
      *
      * @throws DateTimeException If the month is invalid.
      */
-    public function withMonth($month)
+    public function withMonth(int $month) : MonthDay
     {
         if ($month === $this->month) {
             return $this;
@@ -232,13 +232,13 @@ class MonthDay implements DateTimeAccessor
      *
      * If the day-of-month is invalid for the month, an exception is thrown.
      *
-     * @param integer $day
+     * @param int $day
      *
      * @return MonthDay
      *
      * @throws DateTimeException If the day-of-month is invalid for the month.
      */
-    public function withDay($day)
+    public function withDay(int $day) : MonthDay
     {
         if ($day === $this->day) {
             return $this;
@@ -257,13 +257,13 @@ class MonthDay implements DateTimeAccessor
      * A month-day of February 29th will be adjusted to February 28th
      * in the resulting date if the year is not a leap year.
      *
-     * @param integer $year
+     * @param int $year
      *
      * @return LocalDate
      *
      * @throws DateTimeException If the year is invalid.
      */
-    public function atYear($year)
+    public function atYear(int $year) : LocalDate
     {
         return LocalDate::of($year, $this->month, $this->isValidYear($year) ? $this->day : 28);
     }
@@ -271,7 +271,7 @@ class MonthDay implements DateTimeAccessor
     /**
      * {@inheritdoc}
      */
-    public function getField($field)
+    public function getField(string $field)
     {
         switch ($field) {
             case Field\MonthOfYear::NAME:
@@ -288,7 +288,7 @@ class MonthDay implements DateTimeAccessor
     /**
      * @return string
      */
-    public function __toString()
+    public function __toString() : string
     {
         return sprintf('--%02d-%02d', $this->month, $this->day);
     }

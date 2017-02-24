@@ -16,24 +16,24 @@ class Instant extends ReadableInstant
     /**
      * The number of seconds since the epoch of 1970-01-01T00:00:00Z.
      *
-     * @var integer
+     * @var int
      */
     private $epochSecond;
 
     /**
      * The nanoseconds adjustment to the epoch second, in the range 0 to 999,999,999.
      *
-     * @var integer
+     * @var int
      */
     private $nano;
 
     /**
      * Private constructor. Use of() to obtain an Instant.
      *
-     * @param integer $epochSecond The epoch second, validated as an integer.
-     * @param integer $nano        The nanosecond adjustment, validated as an integer in the range 0 to 999,999,999.
+     * @param int $epochSecond The epoch second.
+     * @param int $nano        The nanosecond adjustment, validated in the range 0 to 999,999,999.
      */
-    private function __construct($epochSecond, $nano)
+    private function __construct(int $epochSecond, int $nano)
     {
         $this->epochSecond = $epochSecond;
         $this->nano        = $nano;
@@ -51,14 +51,12 @@ class Instant extends ReadableInstant
      * * Duration::of(4, -999999999);
      * * Duration::of(2, 1000000001);
      *
-     * @param integer $epochSecond    The number of seconds since the UNIX epoch of 1970-01-01T00:00:00Z.
-     * @param integer $nanoAdjustment The adjustment to the epoch second in nanoseconds.
+     * @param int $epochSecond    The number of seconds since the UNIX epoch of 1970-01-01T00:00:00Z.
+     * @param int $nanoAdjustment The adjustment to the epoch second in nanoseconds.
      *
      * @return Instant
-     *
-     * @throws \InvalidArgumentException If the parameters are not valid integers.
      */
-    public static function of($epochSecond, $nanoAdjustment = 0)
+    public static function of(int $epochSecond, int $nanoAdjustment = 0) : Instant
     {
         $nanos = $nanoAdjustment % LocalTime::NANOS_PER_SECOND;
         $epochSecond += ($nanoAdjustment - $nanos) / LocalTime::NANOS_PER_SECOND;
@@ -74,7 +72,7 @@ class Instant extends ReadableInstant
     /**
      * @return Instant
      */
-    public static function epoch()
+    public static function epoch() : Instant
     {
         return new Instant(0, 0);
     }
@@ -82,7 +80,7 @@ class Instant extends ReadableInstant
     /**
      * @return Instant
      */
-    public static function now()
+    public static function now() : Instant
     {
         return Clock::getDefault()->getTime();
     }
@@ -94,7 +92,7 @@ class Instant extends ReadableInstant
      *
      * @return Instant
      */
-    public static function min()
+    public static function min() : Instant
     {
         return new Instant(~ PHP_INT_MAX, 0);
     }
@@ -106,7 +104,7 @@ class Instant extends ReadableInstant
      *
      * @return Instant
      */
-    public static function max()
+    public static function max() : Instant
     {
         return new Instant(PHP_INT_MAX, 999999999);
     }
@@ -116,7 +114,7 @@ class Instant extends ReadableInstant
      *
      * @return Instant
      */
-    public function plus(Duration $duration)
+    public function plus(Duration $duration) : Instant
     {
         if ($duration->isZero()) {
             return $this;
@@ -138,7 +136,7 @@ class Instant extends ReadableInstant
      *
      * @return Instant
      */
-    public function minus(Duration $duration)
+    public function minus(Duration $duration) : Instant
     {
         if ($duration->isZero()) {
             return $this;
@@ -148,11 +146,11 @@ class Instant extends ReadableInstant
     }
 
     /**
-     * @param integer $seconds
+     * @param int $seconds
      *
      * @return Instant
      */
-    public function plusSeconds($seconds)
+    public function plusSeconds(int $seconds) : Instant
     {
         if ($seconds === 0) {
             return $this;
@@ -162,71 +160,71 @@ class Instant extends ReadableInstant
     }
 
     /**
-     * @param integer $seconds
+     * @param int $seconds
      *
      * @return Instant
      */
-    public function minusSeconds($seconds)
+    public function minusSeconds(int $seconds) : Instant
     {
         return $this->plusSeconds(-$seconds);
     }
 
     /**
-     * @param integer $minutes
+     * @param int $minutes
      *
      * @return Instant
      */
-    public function plusMinutes($minutes)
+    public function plusMinutes(int $minutes) : Instant
     {
         return $this->plusSeconds($minutes * LocalTime::SECONDS_PER_MINUTE);
     }
 
     /**
-     * @param integer $minutes
+     * @param int $minutes
      *
      * @return Instant
      */
-    public function minusMinutes($minutes)
+    public function minusMinutes(int $minutes) : Instant
     {
         return $this->plusMinutes(-$minutes);
     }
 
     /**
-     * @param integer $hours
+     * @param int $hours
      *
      * @return Instant
      */
-    public function plusHours($hours)
+    public function plusHours(int $hours) : Instant
     {
         return $this->plusSeconds($hours * LocalTime::SECONDS_PER_HOUR);
     }
 
     /**
-     * @param integer $hours
+     * @param int $hours
      *
      * @return Instant
      */
-    public function minusHours($hours)
+    public function minusHours(int $hours) : Instant
     {
         return $this->plusHours(-$hours);
     }
 
     /**
-     * @param integer $days
+     * @param int $days
      *
      * @return Instant
      */
-    public function plusDays($days)
+    public function plusDays(int $days) : Instant
     {
         return $this->plusSeconds($days * LocalTime::SECONDS_PER_DAY);
     }
 
     /**
-     * @param integer $days
+     * @param int $days
      *
      * @return Instant
      */
-    public function minusDays($days)
+    public function minusDays(int $days) : Instant
     {
         return $this->plusDays(-$days);
     }
@@ -234,23 +232,23 @@ class Instant extends ReadableInstant
     /**
      * {@inheritdoc}
      */
-    public function getInstant()
+    public function getInstant() : Instant
     {
         return $this;
     }
 
     /**
-     * @return integer
+     * @return int
      */
-    public function getEpochSecond()
+    public function getEpochSecond() : int
     {
         return $this->epochSecond;
     }
 
     /**
-     * @return integer
+     * @return int
      */
-    public function getNano()
+    public function getNano() : int
     {
         return $this->nano;
     }
@@ -262,7 +260,7 @@ class Instant extends ReadableInstant
      *
      * @return ZonedDateTime
      */
-    public function atTimeZone(TimeZone $timeZone)
+    public function atTimeZone(TimeZone $timeZone) : ZonedDateTime
     {
         return ZonedDateTime::ofInstant($this, $timeZone);
     }
@@ -270,7 +268,7 @@ class Instant extends ReadableInstant
     /**
      * @return string
      */
-    public function __toString()
+    public function __toString() : string
     {
         return (string) ZonedDateTime::ofInstant($this, TimeZone::utc());
     }
