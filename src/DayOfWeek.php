@@ -87,7 +87,7 @@ class DayOfWeek
      *
      * @return DayOfWeek[]
      */
-    public static function getAll(DayOfWeek $first = null) : array
+    public static function all(DayOfWeek $first = null) : array
     {
         $days = [];
         $first = $first ?: DayOfWeek::get(DayOfWeek::MONDAY);

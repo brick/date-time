@@ -96,12 +96,12 @@ class DayOfWeekTest extends AbstractTestCase
         ];
     }
 
-    public function testGetAll()
+    public function testAll()
     {
         for ($day = DayOfWeek::MONDAY; $day <= DayOfWeek::SUNDAY; $day++) {
             $dayOfWeek = DayOfWeek::of($day);
 
-            foreach (DayOfWeek::getAll($dayOfWeek) as $dow) {
+            foreach (DayOfWeek::all($dayOfWeek) as $dow) {
                 $this->assertTrue($dow->isEqualTo($dayOfWeek));
                 $dayOfWeek = $dayOfWeek->plus(1);
             }
