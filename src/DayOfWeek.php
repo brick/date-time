@@ -103,6 +103,76 @@ class DayOfWeek
     }
 
     /**
+     * Returns a day-of-week instance for Monday.
+     *
+     * @return DayOfWeek
+     */
+    public static function monday()
+    {
+        return DayOfWeek::get(DayOfWeek::MONDAY);
+    }
+
+    /**
+     * Returns a day-of-week instance for Tuesday.
+     *
+     * @return DayOfWeek
+     */
+    public static function tuesday()
+    {
+        return DayOfWeek::get(DayOfWeek::TUESDAY);
+    }
+
+    /**
+     * Returns a day-of-week instance for Wednesday.
+     *
+     * @return DayOfWeek
+     */
+    public static function wednesday()
+    {
+        return DayOfWeek::get(DayOfWeek::WEDNESDAY);
+    }
+
+    /**
+     * Returns a day-of-week instance for Thursday.
+     *
+     * @return DayOfWeek
+     */
+    public static function thursday()
+    {
+        return DayOfWeek::get(DayOfWeek::THURSDAY);
+    }
+
+    /**
+     * Returns a day-of-week instance for Friday.
+     *
+     * @return DayOfWeek
+     */
+    public static function friday()
+    {
+        return DayOfWeek::get(DayOfWeek::FRIDAY);
+    }
+
+    /**
+     * Returns a day-of-week instance for Saturday.
+     *
+     * @return DayOfWeek
+     */
+    public static function saturday()
+    {
+        return DayOfWeek::get(DayOfWeek::SATURDAY);
+    }
+
+    /**
+     * Returns a day-of-week instance for Sunday.
+     *
+     * @return DayOfWeek
+     */
+    public static function sunday()
+    {
+        return DayOfWeek::get(DayOfWeek::SUNDAY);
+    }
+
+    /**
      * Returns the ISO 8601 value of this DayOfWeek.
      *
      * @return int The day-of-week value, from 1 (Monday) to 7 (Sunday).

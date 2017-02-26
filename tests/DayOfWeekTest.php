@@ -108,6 +108,41 @@ class DayOfWeekTest extends AbstractTestCase
         }
     }
 
+    public function testMonday()
+    {
+        $this->assertDayOfWeekIs(DayOfWeek::MONDAY, DayOfWeek::monday());
+    }
+
+    public function testTuesday()
+    {
+        $this->assertDayOfWeekIs(DayOfWeek::TUESDAY, DayOfWeek::tuesday());
+    }
+
+    public function testWednesday()
+    {
+        $this->assertDayOfWeekIs(DayOfWeek::WEDNESDAY, DayOfWeek::wednesday());
+    }
+
+    public function testThursday()
+    {
+        $this->assertDayOfWeekIs(DayOfWeek::THURSDAY, DayOfWeek::thursday());
+    }
+
+    public function testFriday()
+    {
+        $this->assertDayOfWeekIs(DayOfWeek::FRIDAY, DayOfWeek::friday());
+    }
+
+    public function testSaturday()
+    {
+        $this->assertDayOfWeekIs(DayOfWeek::SATURDAY, DayOfWeek::saturday());
+    }
+
+    public function testSunday()
+    {
+        $this->assertDayOfWeekIs(DayOfWeek::SUNDAY, DayOfWeek::sunday());
+    }
+
     public function testIs()
     {
         for ($i = DayOfWeek::MONDAY; $i <= DayOfWeek::SUNDAY; $i++) {
