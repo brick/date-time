@@ -165,7 +165,7 @@ class LocalDateRange implements \IteratorAggregate, \Countable
     /**
      * Returns an iterator for all the dates contained in this range.
      *
-     * @return LocalDate[]
+     * @return \Generator
      */
     public function getIterator() : \Generator
     {
