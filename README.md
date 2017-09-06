@@ -1,10 +1,13 @@
 Brick\DateTime
 ==============
 
+<img src="https://raw.githubusercontent.com/brick/brick/master/logo.png" alt="" align="left" height="64">
+
 A powerful set of immutable classes to work with dates and times.
 
 [![Build Status](https://secure.travis-ci.org/brick/date-time.svg?branch=master)](http://travis-ci.org/brick/date-time)
 [![Coverage Status](https://coveralls.io/repos/brick/date-time/badge.svg?branch=master)](https://coveralls.io/r/brick/date-time)
+[![License](https://img.shields.io/badge/license-MIT-blue.svg)](http://opensource.org/licenses/MIT)
 
 Introduction
 ------------
