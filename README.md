@@ -36,7 +36,7 @@ Just define the following requirement in your `composer.json` file:
 Requirements
 ------------
 
-This library requires PHP 7.
+This library requires PHP 7.1 or later.
 
 ### HHVM support
 

@@ -69,7 +69,7 @@ class Stopwatch
      *
      * @return Instant|null
      */
-    public function getStartTime()
+    public function getStartTime() : ?Instant
     {
         return $this->startTime;
     }
