@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace Brick\DateTime;
 
-use Brick\DateTime\Clock\SystemClock;
-
 /**
  * Represents a point in time, with a nanosecond precision.
  *
@@ -87,7 +85,7 @@ class Instant
     public static function now(Clock $clock = null) : Instant
     {
         if ($clock === null) {
-            $clock = new SystemClock();
+            $clock = DefaultClock::get();
         }
 
         return $clock->getTime();
