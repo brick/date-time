@@ -822,23 +822,31 @@ class ZonedDateTime
     }
 
     /**
-     * Returns whether this ZonedDateTime is in the future.
+     * Returns whether this ZonedDateTime is in the future, according to the given clock.
      *
-     * @return boolean
+     * If no clock is provided, the system clock is used.
+     *
+     * @param Clock|null $clock
+     *
+     * @return bool
      */
-    public function isFuture()
+    public function isFuture(Clock $clock = null) : bool
     {
-        return $this->getInstant()->isFuture();
+        return $this->getInstant()->isFuture($clock);
     }
 
     /**
-     * Returns whether this ZonedDateTime is in the past.
+     * Returns whether this ZonedDateTime is in the past, according to the given clock.
      *
-     * @return boolean
+     * If no clock is provided, the system clock is used.
+     *
+     * @param Clock|null $clock
+     *
+     * @return bool
      */
-    public function isPast()
+    public function isPast(Clock $clock = null) : bool
     {
-        return $this->getInstant()->isPast();
+        return $this->getInstant()->isPast($clock);
     }
 
     /**
