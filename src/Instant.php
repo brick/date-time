@@ -398,6 +398,30 @@ class Instant
     }
 
     /**
+     * Returns a decimal representation of the timestamp represented by this instant.
+     *
+     * The output does not have trailing decimal zeros.
+     *
+     * Examples: `123456789`, `123456789.5`, `123456789.000000001`.
+     *
+     * @return string
+     */
+    public function toDecimal() : string
+    {
+        $result = (string) $this->epochSecond;
+
+        if ($this->nano !== 0) {
+            $nano = (string) $this->nano;
+            $nano = str_pad($nano, 9, '0', STR_PAD_LEFT);
+            $nano = rtrim($nano, '0');
+
+            $result .= '.' . $nano;
+        }
+
+        return $result;
+    }
+
+    /**
      * @return string
      */
     public function __toString() : string

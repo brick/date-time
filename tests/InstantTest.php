@@ -494,6 +494,38 @@ class InstantTest extends AbstractTestCase
     }
 
     /**
+     * @dataProvider providerToDecimal
+     *
+     * @param int    $second   The epoch second.
+     * @param int    $nano     The nano adjustment.
+     * @param string $expected The expected decimal output.
+     */
+    public function testToDecimal(int $second, int $nano, string $expected)
+    {
+        $this->assertSame($expected, Instant::of($second, $nano)->toDecimal());
+    }
+
+    /**
+     * @return array
+     */
+    public function providerToDecimal()
+    {
+        return [
+            [123456789, 0, '123456789'],
+            [123456789, 1, '123456789.000000001'],
+            [123456789, 10, '123456789.00000001'],
+            [123456789, 100, '123456789.0000001'],
+            [123456789, 1000, '123456789.000001'],
+            [123456789, 10000, '123456789.00001'],
+            [123456789, 100000, '123456789.0001'],
+            [123456789, 1000000, '123456789.001'],
+            [123456789, 10000000, '123456789.01'],
+            [123456789, 100000000, '123456789.1'],
+            [123456789, 550000000, '123456789.55'],
+        ];
+    }
+
+    /**
      * @dataProvider providerToString
      *
      * @param int    $epochSecond    The epoch second to test.
