@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace Brick\DateTime;
 
+use Brick\DateTime\Clock\FixedClock;
+use Brick\DateTime\Clock\OffsetClock;
+use Brick\DateTime\Clock\ScaleClock;
 use Brick\DateTime\Clock\SystemClock;
 
 /**
@@ -26,7 +29,7 @@ final class DefaultClock
     }
 
     /**
-     * Returns the default clock.
+     * Gets the default clock.
      *
      * @return Clock
      */
@@ -59,5 +62,54 @@ final class DefaultClock
     public static function reset() : void
     {
         self::$clock = null;
+    }
+
+    /**
+     * Freezes time to a specific point in time.
+     *
+     * @param Instant|null $instant The time to freeze to.
+     *
+     * @return void
+     */
+    public static function freeze(Instant $instant) : void
+    {
+        self::set(new FixedClock($instant));
+    }
+
+    /**
+     * Travels to a specific point in time, but allows time to continue moving forward from there.
+     *
+     * If the current default clock is frozen, you must `reset()` it first, or the time will stay frozen.
+     *
+     * @param Instant $instant
+     *
+     * @return void
+     */
+    public static function travel(Instant $instant) : void
+    {
+        $clock = self::get();
+        $offset = Duration::between($clock->getTime(), $instant);
+
+        self::set(new OffsetClock($clock, $offset));
+    }
+
+    /**
+     * Makes time move at a given pace.
+     *
+     * - a scale > 1 makes the time move at an accelerated pace;
+     * - a scale == 1 makes the time move at the normal pace;
+     * - a scale == 0 freezes the current time;
+     * - a scale < 0 makes the time move backwards.
+     *
+     * If the current default clock is frozen, you must `reset()` it first, or the time will stay frozen.
+     * Multiple calls to `scale()` will result in a clock with the combined scales.
+     *
+     * @param int $timeScale The time scale.
+     *
+     * @return void
+     */
+    public static function scale(int $timeScale) : void
+    {
+        self::set(new ScaleClock(self::get(), $timeScale));
     }
 }
