@@ -24,7 +24,7 @@ final class DayOfYear
      *
      * @throws DateTimeException If the day-of-year is not valid.
      */
-    public static function check(int $dayOfYear, int $year = null)
+    public static function check(int $dayOfYear, int $year = null) : void
     {
         if ($dayOfYear < 1 || $dayOfYear > 366) {
             throw DateTimeException::fieldNotInRange(self::NAME, $dayOfYear, 1, 366);

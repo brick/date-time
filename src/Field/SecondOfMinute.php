@@ -28,7 +28,7 @@ class SecondOfMinute
      *
      * @throws DateTimeException If the second-of-minute is not valid.
      */
-    public static function check(int $secondOfMinute)
+    public static function check(int $secondOfMinute) : void
     {
         if ($secondOfMinute < 0 || $secondOfMinute > 59) {
             throw DateTimeException::fieldNotInRange(self::NAME, $secondOfMinute, 0, 59);

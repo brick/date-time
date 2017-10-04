@@ -28,7 +28,7 @@ final class MonthOfYear
      *
      * @throws DateTimeException If the month-of-year is not valid.
      */
-    public static function check(int $monthOfYear)
+    public static function check(int $monthOfYear) : void
     {
         if ($monthOfYear < 1 || $monthOfYear > 12) {
             throw DateTimeException::fieldNotInRange(self::NAME, $monthOfYear, 1, 12);

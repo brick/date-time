@@ -28,7 +28,7 @@ class HourOfDay
      *
      * @throws DateTimeException If the hour-of-day is not valid.
      */
-    public static function check(int $hourOfDay)
+    public static function check(int $hourOfDay) : void
     {
         if ($hourOfDay < 0 || $hourOfDay > 23) {
             throw DateTimeException::fieldNotInRange(self::NAME, $hourOfDay, 0, 23);

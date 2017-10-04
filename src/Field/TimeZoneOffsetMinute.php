@@ -28,7 +28,7 @@ class TimeZoneOffsetMinute
      *
      * @throws DateTimeException If the offset-minute is not valid.
      */
-    public static function check(int $offsetMinute)
+    public static function check(int $offsetMinute) : void
     {
         if ($offsetMinute < -59 || $offsetMinute > 59) {
             throw DateTimeException::fieldNotInRange(self::NAME, $offsetMinute, -59, 59);

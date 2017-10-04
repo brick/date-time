@@ -38,7 +38,7 @@ final class Year
      *
      * @throws DateTimeException If the year is not valid.
      */
-    public static function check(int $year)
+    public static function check(int $year) : void
     {
         if ($year < self::MIN_VALUE || $year > self::MAX_VALUE) {
             throw DateTimeException::fieldNotInRange(self::NAME, $year, self::MIN_VALUE, self::MAX_VALUE);

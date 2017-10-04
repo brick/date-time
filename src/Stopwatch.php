@@ -54,7 +54,7 @@ class Stopwatch
      *
      * @return void
      */
-    public function start()
+    public function start() : void
     {
         if ($this->startTime === null) {
             $this->startTime = $this->clock->getTime();
@@ -68,7 +68,7 @@ class Stopwatch
      *
      * @return void
      */
-    public function stop()
+    public function stop() : void
     {
         if ($this->startTime === null) {
             return;

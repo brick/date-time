@@ -28,7 +28,7 @@ class TimeZoneOffsetSecond
      *
      * @throws DateTimeException If the offset-second is not valid.
      */
-    public static function check(int $offsetSecond)
+    public static function check(int $offsetSecond) : void
     {
         if ($offsetSecond < -59 || $offsetSecond > 59) {
             throw DateTimeException::fieldNotInRange(self::NAME, $offsetSecond, -59, 59);

@@ -20,7 +20,7 @@ class DateTimeParseResult
      *
      * @return void
      */
-    public function addField(string $name, string $value)
+    public function addField(string $name, string $value) : void
     {
         $this->fields[$name][] = $value;
     }
