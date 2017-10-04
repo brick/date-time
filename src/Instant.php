@@ -102,7 +102,7 @@ class Instant
      */
     public static function min() : Instant
     {
-        return new Instant(~ \PHP_INT_MAX, 0);
+        return new Instant(\PHP_INT_MIN, 0);
     }
 
     /**
