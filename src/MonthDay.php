@@ -95,15 +95,18 @@ class MonthDay
     }
 
     /**
-     * Returns the current month-day.
+     * Returns the current month-day in the given time-zone, according to the given clock.
      *
-     * @param TimeZone $timeZone
+     * If no clock is provided, the system clock is used.
+     *
+     * @param TimeZone   $timeZone
+     * @param Clock|null $clock
      *
      * @return MonthDay
      */
-    public static function now(TimeZone $timeZone) : MonthDay
+    public static function now(TimeZone $timeZone, Clock $clock = null) : MonthDay
     {
-        $date = LocalDate::now($timeZone);
+        $date = LocalDate::now($timeZone, $clock);
 
         return new MonthDay($date->getMonth(), $date->getDay());
     }

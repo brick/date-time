@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Brick\DateTime;
 
-use Brick\DateTime\Clock\Clock;
+use Brick\DateTime\Clock\SystemClock;
 
 /**
  * Represents a point in time, with a nanosecond precision.
@@ -80,11 +80,17 @@ class Instant
     }
 
     /**
+     * @param Clock|null $clock
+     *
      * @return Instant
      */
-    public static function now() : Instant
+    public static function now(Clock $clock = null) : Instant
     {
-        return Clock::getDefault()->getTime();
+        if ($clock === null) {
+            $clock = new SystemClock();
+        }
+
+        return $clock->getTime();
     }
 
     /**
@@ -354,23 +360,31 @@ class Instant
     }
 
     /**
-     * Returns whether this instant is in the future.
+     * Returns whether this instant is in the future, according to the given clock.
+     *
+     * If no clock is provided, the system clock is used.
+     *
+     * @param Clock|null $clock
      *
      * @return bool
      */
-    public function isFuture() : bool
+    public function isFuture(Clock $clock = null) : bool
     {
-        return $this->isAfter(Instant::now());
+        return $this->isAfter(Instant::now($clock));
     }
 
     /**
-     * Returns whether this instant is in the past.
+     * Returns whether this instant is in the past, according to the given clock.
+     *
+     * If no clock is provided, the system clock is used.
+     *
+     * @param Clock|null $clock
      *
      * @return bool
      */
-    public function isPast() : bool
+    public function isPast(Clock $clock = null) : bool
     {
-        return $this->isBefore(Instant::now());
+        return $this->isBefore(Instant::now($clock));
     }
 
     /**

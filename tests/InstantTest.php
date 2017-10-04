@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Brick\DateTime\Tests;
 
-use Brick\DateTime\Clock\Clock;
 use Brick\DateTime\Clock\FixedClock;
 use Brick\DateTime\Duration;
 use Brick\DateTime\Instant;
@@ -54,8 +53,8 @@ class InstantTest extends AbstractTestCase
 
     public function testNow()
     {
-        Clock::setDefault(new FixedClock(Instant::of(123456789, 987654321)));
-        $this->assertInstantIs(123456789, 987654321, Instant::now());
+        $clock = new FixedClock(Instant::of(123456789, 987654321));
+        $this->assertInstantIs(123456789, 987654321, Instant::now($clock));
     }
 
     public function testMin()
@@ -385,8 +384,8 @@ class InstantTest extends AbstractTestCase
      */
     public function testIsFuture(int $testSecond, int $testNano, int $nowSecond, int $nowNano, int $cmp)
     {
-        Clock::setDefault(new FixedClock(Instant::of($nowSecond, $nowNano)));
-        $this->assertSame($cmp === 1, Instant::of($testSecond, $testNano)->isFuture());
+        $clock = new FixedClock(Instant::of($nowSecond, $nowNano));
+        $this->assertSame($cmp === 1, Instant::of($testSecond, $testNano)->isFuture($clock));
     }
 
     /**
@@ -400,8 +399,8 @@ class InstantTest extends AbstractTestCase
      */
     public function testIsPast(int $testSecond, int $testNano, int $nowSecond, int $nowNano, int $cmp)
     {
-        Clock::setDefault(new FixedClock(Instant::of($nowSecond, $nowNano)));
-        $this->assertSame($cmp === -1, Instant::of($testSecond, $testNano)->isPast());
+        $clock = new FixedClock(Instant::of($nowSecond, $nowNano));
+        $this->assertSame($cmp === -1, Instant::of($testSecond, $testNano)->isPast($clock));
     }
 
     /**

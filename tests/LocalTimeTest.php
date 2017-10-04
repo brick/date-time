@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace Brick\DateTime\Tests;
 
+use Brick\DateTime\Clock\FixedClock;
 use Brick\DateTime\Duration;
+use Brick\DateTime\Instant;
 use Brick\DateTime\LocalDate;
 use Brick\DateTime\LocalTime;
 use Brick\DateTime\TimeZoneOffset;
@@ -187,9 +189,9 @@ class LocalTimeTest extends AbstractTestCase
      */
     public function testNow(int $second, int $nano, int $offset, int $h, int $m, int $s, int $n)
     {
-        $this->setClockTime($second, $nano);
+        $clock = new FixedClock(Instant::of($second, $nano));
         $timeZone = TimeZoneOffset::ofTotalSeconds($offset);
-        $this->assertLocalTimeIs($h, $m, $s, $n, LocalTime::now($timeZone));
+        $this->assertLocalTimeIs($h, $m, $s, $n, LocalTime::now($timeZone, $clock));
     }
 
     /**

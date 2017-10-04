@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace Brick\DateTime\Tests;
 
+use Brick\DateTime\Clock\FixedClock;
 use Brick\DateTime\DayOfWeek;
+use Brick\DateTime\Instant;
 use Brick\DateTime\LocalDate;
 use Brick\DateTime\TimeZone;
 
@@ -77,8 +79,8 @@ class DayOfWeekTest extends AbstractTestCase
      */
     public function testNow(int $epochSecond, string $timeZone, int $expectedDayOfWeek)
     {
-        $this->setClockTime($epochSecond);
-        $this->assertDayOfWeekIs($expectedDayOfWeek, DayOfWeek::now(TimeZone::parse($timeZone)));
+        $clock = new FixedClock(Instant::of($epochSecond));
+        $this->assertDayOfWeekIs($expectedDayOfWeek, DayOfWeek::now(TimeZone::parse($timeZone), $clock));
     }
 
     /**

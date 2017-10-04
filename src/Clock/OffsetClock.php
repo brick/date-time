@@ -4,13 +4,14 @@ declare(strict_types=1);
 
 namespace Brick\DateTime\Clock;
 
+use Brick\DateTime\Clock;
 use Brick\DateTime\Duration;
 use Brick\DateTime\Instant;
 
 /**
  * This clock adds an offset to an underlying clock.
  */
-class OffsetClock extends Clock
+class OffsetClock implements Clock
 {
     /**
      * The reference clock.

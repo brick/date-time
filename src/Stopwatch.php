@@ -4,11 +4,18 @@ declare(strict_types=1);
 
 namespace Brick\DateTime;
 
+use Brick\DateTime\Clock\SystemClock;
+
 /**
  * Measures the time elapsed.
  */
 class Stopwatch
 {
+    /**
+     * @var Clock
+     */
+    private $clock;
+
     /**
      * The total time the stopwatch has been running, excluding the time elapsed since it was started.
      *
@@ -27,9 +34,16 @@ class Stopwatch
 
     /**
      * Class constructor.
+     *
+     * @param Clock|null $clock The clock to use. Defaults to SystemClock.
      */
-    public function __construct()
+    public function __construct(Clock $clock = null)
     {
+        if ($clock === null) {
+            $clock = new SystemClock();
+        }
+
+        $this->clock    = $clock;
         $this->duration = Duration::zero();
     }
 
@@ -42,8 +56,8 @@ class Stopwatch
      */
     public function start()
     {
-        if (! $this->startTime) {
-            $this->startTime = Instant::now();
+        if ($this->startTime === null) {
+            $this->startTime = $this->clock->getTime();
         }
     }
 
@@ -60,7 +74,10 @@ class Stopwatch
             return;
         }
 
-        $this->duration = $this->duration->plus(Duration::between($this->startTime, Instant::now()));
+        $endTime = $this->clock->getTime();
+        $duration = Duration::between($this->startTime, $endTime);
+
+        $this->duration = $this->duration->plus($duration);
         $this->startTime = null;
     }
 
@@ -96,6 +113,6 @@ class Stopwatch
             return $this->duration;
         }
 
-        return $this->duration->plus(Duration::between($this->startTime, Instant::now()));
+        return $this->duration->plus(Duration::between($this->startTime, $this->clock->getTime()));
     }
 }

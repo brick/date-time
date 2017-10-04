@@ -150,15 +150,18 @@ class ZonedDateTime
     }
 
     /**
-     * Creates a DateTime representing the current time, in the given time zone.
+     * Returns the current date-time in the given time-zone, according to the given clock.
      *
-     * @param TimeZone $timeZone
+     * If no clock is provided, the system clock is used.
+     *
+     * @param TimeZone   $timeZone
+     * @param Clock|null $clock
      *
      * @return ZonedDateTime
      */
-    public static function now(TimeZone $timeZone) : ZonedDateTime
+    public static function now(TimeZone $timeZone, Clock $clock = null) : ZonedDateTime
     {
-        return ZonedDateTime::ofInstant(Instant::now(), $timeZone);
+        return ZonedDateTime::ofInstant(Instant::now($clock), $timeZone);
     }
 
     /**

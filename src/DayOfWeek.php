@@ -71,13 +71,18 @@ class DayOfWeek
     }
 
     /**
-     * @param TimeZone $timeZone
+     * Returns the current day-of-week in the given time-zone, according to the given clock.
+     *
+     * If no clock is provided, the system clock is used.
+     *
+     * @param TimeZone   $timeZone
+     * @param Clock|null $clock
      *
      * @return DayOfWeek
      */
-    public static function now(TimeZone $timeZone) : DayOfWeek
+    public static function now(TimeZone $timeZone, Clock $clock = null) : DayOfWeek
     {
-        return LocalDate::now($timeZone)->getDayOfWeek();
+        return LocalDate::now($timeZone, $clock)->getDayOfWeek();
     }
 
     /**

@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Brick\DateTime\Tests;
 
-use Brick\DateTime\Clock\Clock;
 use Brick\DateTime\Clock\FixedClock;
 use Brick\DateTime\Instant;
 use Brick\DateTime\MonthDay;
@@ -174,11 +173,8 @@ class MonthDayTest extends AbstractTestCase
      */
     public function testNow(int $epochSecond, string $timeZone, int $month, int $day)
     {
-        $previousClock = Clock::setDefault(new FixedClock(Instant::of($epochSecond)));
-
-        $this->assertMonthDayIs($month, $day, MonthDay::now(TimeZone::parse($timeZone)));
-
-        Clock::setDefault($previousClock);
+        $clock = new FixedClock(Instant::of($epochSecond));
+        $this->assertMonthDayIs($month, $day, MonthDay::now(TimeZone::parse($timeZone), $clock));
     }
 
     /**

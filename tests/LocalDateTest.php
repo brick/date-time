@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Brick\DateTime\Tests;
 
+use Brick\DateTime\Clock\FixedClock;
+use Brick\DateTime\Instant;
 use Brick\DateTime\LocalDate;
 use Brick\DateTime\LocalTime;
 use Brick\DateTime\Period;
@@ -145,8 +147,8 @@ class LocalDateTest extends AbstractTestCase
      */
     public function testNow(int $epochSecond, string $timeZone, int $year, int $month, int $day)
     {
-        $this->setClockTime($epochSecond);
-        $this->assertLocalDateIs($year, $month, $day, LocalDate::now(TimeZone::parse($timeZone)));
+        $clock = new FixedClock(Instant::of($epochSecond));
+        $this->assertLocalDateIs($year, $month, $day, LocalDate::now(TimeZone::parse($timeZone), $clock));
     }
 
     /**

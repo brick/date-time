@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Brick\DateTime\Clock;
 
+use Brick\DateTime\Clock;
 use Brick\DateTime\Instant;
 
 /**
@@ -11,7 +12,7 @@ use Brick\DateTime\Instant;
  *
  * This clock has a microsecond precision on most systems.
  */
-class SystemClock extends Clock
+class SystemClock implements Clock
 {
     /**
      * {@inheritdoc}

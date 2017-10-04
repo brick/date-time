@@ -61,13 +61,18 @@ class LocalDateTime
     }
 
     /**
-     * @param TimeZone $timeZone
+     * Returns the current local date-time in the given time-zone, according to the given clock.
+     *
+     * If no clock is provided, the system clock is used.
+     *
+     * @param TimeZone   $timeZone
+     * @param Clock|null $clock
      *
      * @return LocalDateTime
      */
-    public static function now(TimeZone $timeZone) : LocalDateTime
+    public static function now(TimeZone $timeZone, Clock $clock = null) : LocalDateTime
     {
-        return ZonedDateTime::now($timeZone)->getDateTime();
+        return ZonedDateTime::now($timeZone, $clock)->getDateTime();
     }
 
     /**

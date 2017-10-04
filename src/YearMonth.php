@@ -96,15 +96,18 @@ class YearMonth
     }
 
     /**
-     * Returns the current year-month in the given time-zone.
+     * Returns the current year-month in the given time-zone, according to the given clock.
      *
-     * @param TimeZone $timeZone
+     * If no clock is provided, the system clock is used.
+     *
+     * @param TimeZone   $timeZone
+     * @param Clock|null $clock
      *
      * @return YearMonth
      */
-    public static function now(TimeZone $timeZone) : YearMonth
+    public static function now(TimeZone $timeZone, Clock $clock = null) : YearMonth
     {
-        $localDate = LocalDate::now($timeZone);
+        $localDate = LocalDate::now($timeZone, $clock);
 
         return new YearMonth($localDate->getYear(), $localDate->getMonth());
     }

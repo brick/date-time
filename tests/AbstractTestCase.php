@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace Brick\DateTime\Tests;
 
-use Brick\DateTime\Clock\Clock;
-use Brick\DateTime\Clock\FixedClock;
 use Brick\DateTime\DayOfWeek;
 use Brick\DateTime\Duration;
 use Brick\DateTime\Instant;
@@ -28,15 +26,6 @@ use PHPUnit\Framework\TestCase;
  */
 abstract class AbstractTestCase extends TestCase
 {
-    /**
-     * @param int $epochSecond    The epoch second.
-     * @param int $nanoAdjustment The nanosecond adjustment to the epoch second.
-     */
-    protected function setClockTime(int $epochSecond, int $nanoAdjustment = 0)
-    {
-        Clock::setDefault(new FixedClock(Instant::of($epochSecond, $nanoAdjustment)));
-    }
-
     /**
      * @param int     $epochSecond The expected epoch second.
      * @param int     $nano        The expected nanosecond adjustment.

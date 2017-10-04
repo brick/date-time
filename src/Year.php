@@ -46,13 +46,18 @@ class Year
     }
 
     /**
-     * @param TimeZone $timeZone
+     * Returns the current year in the given time-zone, according to the given clock.
+     *
+     * If no clock is provided, the system clock is used.
+     *
+     * @param TimeZone   $timeZone
+     * @param Clock|null $clock
      *
      * @return Year
      */
-    public static function now(TimeZone $timeZone) : Year
+    public static function now(TimeZone $timeZone, Clock $clock = null) : Year
     {
-        return new Year(LocalDate::now($timeZone)->getYear());
+        return new Year(LocalDate::now($timeZone, $clock)->getYear());
     }
 
     /**

@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Brick\DateTime\Tests;
 
+use Brick\DateTime\Clock\FixedClock;
+use Brick\DateTime\Instant;
 use Brick\DateTime\Stopwatch;
 
 /**
@@ -12,11 +14,26 @@ use Brick\DateTime\Stopwatch;
 class StopwatchTest extends AbstractTestCase
 {
     /**
+     * @var FixedClock
+     */
+    private static $clock;
+
+    public static function setUpBeforeClass()
+    {
+        self::$clock = new FixedClock(Instant::of(0));
+    }
+
+    private static function setClockTime(int $second, int $nano) : void
+    {
+        self::$clock->setTime(Instant::of($second, $nano));
+    }
+
+    /**
      * @return Stopwatch
      */
     public function testNew() : Stopwatch
     {
-        $stopwatch = new Stopwatch();
+        $stopwatch = new Stopwatch(self::$clock);
 
         $this->assertNull($stopwatch->getStartTime());
         $this->assertFalse($stopwatch->isRunning());
@@ -34,7 +51,7 @@ class StopwatchTest extends AbstractTestCase
      */
     public function testStart(Stopwatch $stopwatch) : Stopwatch
     {
-        $this->setClockTime(1000, 1);
+        self::setClockTime(1000, 1);
 
         $stopwatch->start();
 
@@ -54,7 +71,7 @@ class StopwatchTest extends AbstractTestCase
      */
     public function testElapsedTimeWhileRunning(Stopwatch $stopwatch) : Stopwatch
     {
-        $this->setClockTime(2000, 0);
+        self::setClockTime(2000, 0);
 
         $this->assertInstantIs(1000, 1, $stopwatch->getStartTime());
         $this->assertTrue($stopwatch->isRunning());
@@ -72,7 +89,7 @@ class StopwatchTest extends AbstractTestCase
      */
     public function testStop(Stopwatch $stopwatch) : Stopwatch
     {
-        $this->setClockTime(3000, 2);
+        self::setClockTime(3000, 2);
 
         $stopwatch->stop();
 
@@ -92,7 +109,7 @@ class StopwatchTest extends AbstractTestCase
      */
     public function testFrozenAfterStop(Stopwatch $stopwatch) : Stopwatch
     {
-        $this->setClockTime(4000, 9);
+        self::setClockTime(4000, 9);
 
         $this->assertNull($stopwatch->getStartTime());
         $this->assertFalse($stopwatch->isRunning());
@@ -110,7 +127,7 @@ class StopwatchTest extends AbstractTestCase
      */
     public function testRestart(Stopwatch $stopwatch) : Stopwatch
     {
-        $this->setClockTime(5000, 9);
+        self::setClockTime(5000, 9);
 
         $stopwatch->start();
 
@@ -130,7 +147,7 @@ class StopwatchTest extends AbstractTestCase
      */
     public function testElapsedTimeWhileRunningAfterRestart(Stopwatch $stopwatch) : Stopwatch
     {
-        $this->setClockTime(5001, 10);
+        self::setClockTime(5001, 10);
 
         $this->assertInstantIs(5000, 9, $stopwatch->getStartTime());
         $this->assertTrue($stopwatch->isRunning());
@@ -148,7 +165,7 @@ class StopwatchTest extends AbstractTestCase
      */
     public function testStopAgain(Stopwatch $stopwatch) : Stopwatch
     {
-        $this->setClockTime(5002, 20);
+        self::setClockTime(5002, 20);
 
         $stopwatch->stop();
 
@@ -166,7 +183,7 @@ class StopwatchTest extends AbstractTestCase
      */
     public function testFrozenAfterSecondStop(Stopwatch $stopwatch)
     {
-        $this->setClockTime(6000, 999);
+        self::setClockTime(6000, 999);
 
         $this->assertNull($stopwatch->getStartTime());
         $this->assertFalse($stopwatch->isRunning());

@@ -4,12 +4,13 @@ declare(strict_types=1);
 
 namespace Brick\DateTime\Clock;
 
+use Brick\DateTime\Clock;
 use Brick\DateTime\Instant;
 
 /**
  * This clock always returns the same instant. It is typically used for testing.
  */
-class FixedClock extends Clock
+class FixedClock implements Clock
 {
     /**
      * @var Instant
@@ -32,5 +33,15 @@ class FixedClock extends Clock
     public function getTime() : Instant
     {
         return $this->instant;
+    }
+
+    /**
+     * @param Instant $instant
+     *
+     * @return void
+     */
+    public function setTime(Instant $instant) : void
+    {
+        $this->instant = $instant;
     }
 }
