@@ -27,11 +27,13 @@ Installation
 This library is installable via [Composer](https://getcomposer.org/).
 Just define the following requirement in your `composer.json` file:
 
-    {
-        "require": {
-            "brick/date-time": "dev-master"
-        }
+```json
+{
+    "require": {
+        "brick/date-time": "dev-master"
     }
+}
+```
 
 Requirements
 ------------
@@ -79,20 +81,32 @@ These classes belong to the `Brick\DateTime` namespace.
 All objects read the current time from a `Clock` implementation. The following implementations are available:
 
 - `SystemClock`: the default clock, returns the system time
-- `FixedClock`: always returns the configured time
+- `FixedClock`: returns a pre-configured time, useful for tests
 - `OffsetClock`: adds an offset to another clock
 
 These classes belong to the `Brick\DateTime\Clock` namespace.
 
-In your application, you will most likely never touch the defaults, and always use the `SystemClock`.
+In your application, you will most likely never touch the defaults, and always use the default clock:
+
+```php
+use Brick\DateTime\LocalDate;
+use Brick\DateTime\TimeZone;
+
+echo LocalDate::now(TimeZone::utc()); // 2017-10-04
+```
+
 In your tests however, you will probably want to set the time to test your application in known conditions;
 in that case, `FixedClock` comes in handy:
 
-    use Brick\DateTime\Instant;
-    use Brick\DateTime\Clock\Clock;
-    use Brick\DateTime\Clock\FixedClock;
+```php
+use Brick\DateTime\Clock\FixedClock;
+use Brick\DateTime\Instant;
+use Brick\DateTime\LocalDate;
+use Brick\DateTime\TimeZone;
 
-    Clock::setDefault(new FixedClock(Instant::of(1409563222)));
+$clock = new FixedClock(Instant::of(1000000000));
+echo LocalDate::now(TimeZone::utc(), $clock); // 2001-09-09
+```
 
 ### Exceptions
 
