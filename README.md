@@ -96,9 +96,10 @@ These classes belong to the `Brick\DateTime` namespace.
 
 All objects read the current time from a `Clock` implementation. The following implementations are available:
 
-- `SystemClock`: the default clock, returns the system time
-- `FixedClock`: returns a pre-configured time, useful for tests
+- `SystemClock` returns the system time; it's the default clock
+- `FixedClock`: returns a pre-configured time
 - `OffsetClock`: adds an offset to another clock
+- `ScaleClock`: makes another clock fast forward by a scale factor
 
 These classes belong to the `Brick\DateTime\Clock` namespace.
 
@@ -111,8 +112,7 @@ use Brick\DateTime\TimeZone;
 echo LocalDate::now(TimeZone::utc()); // 2017-10-04
 ```
 
-In your tests however, you will probably want to set the time to test your application in known conditions;
-in that case, `FixedClock` comes in handy:
+In your tests however, you might need to set the current time to test your application in known conditions. To do this, you can either explicitly pass a `Clock` instance to  `now()` methods:
 
 ```php
 use Brick\DateTime\Clock\FixedClock;
@@ -123,6 +123,82 @@ use Brick\DateTime\TimeZone;
 $clock = new FixedClock(Instant::of(1000000000));
 echo LocalDate::now(TimeZone::utc(), $clock); // 2001-09-09
 ```
+
+Or you can change the *default* clock for all date-time classes. All methods such as `now()`, unless provided with an explicit Clock, will use the default clock you provide:
+
+```php
+use Brick\DateTime\Clock\FixedClock;
+use Brick\DateTime\DefaultClock;
+use Brick\DateTime\Instant;
+use Brick\DateTime\LocalDate;
+use Brick\DateTime\TimeZone;
+
+DefaultClock::set(new FixedClock(Instant::of(1000000000)));
+echo LocalDate::now(TimeZone::utc()); // 2001-09-09
+
+DefaultClock::reset(); // do not forget to reset the clock to the system clock!
+```
+
+There are also useful shortcut methods to use clocks in your tests, inspired by [timecop](https://github.com/travisjeffery/timecop):
+
+- `freeze()` freezes time to a specific point in time
+- `travel()` travels to a specific point in time, but allows time to continue moving forward from there
+- `scale()` makes time move at a given pace
+
+#### Freeze the time to a specific point
+
+```php
+use Brick\DateTime\DefaultClock;
+use Brick\DateTime\Instant;
+
+DefaultClock::freeze(Instant::of(2000000000));
+
+$a = Instant::now(); sleep(1);
+$b = Instant::now();
+
+echo $a, PHP_EOL; // 2033-05-18T03:33:20Z
+echo $b, PHP_EOL; // 2033-05-18T03:33:20Z
+
+DefaultClock::reset();
+```
+
+#### Travel to a specific point in time
+
+```php
+use Brick\DateTime\DefaultClock;
+use Brick\DateTime\Instant;
+
+DefaultClock::travel(Instant::of(2000000000));
+$a = Instant::now(); sleep(1);
+$b = Instant::now();
+
+echo $a, PHP_EOL; // 2033-05-18T03:33:20.000342Z
+echo $b, PHP_EOL; // 2033-05-18T03:33:21.000606Z
+
+DefaultClock::reset();
+```
+
+#### Make time move at a given pace
+
+```php
+use Brick\DateTime\DefaultClock;
+use Brick\DateTime\Instant;
+
+DefaultClock::travel(Instant::of(2000000000));
+DefaultClock::scale(60); // 1 second becomes 60 seconds
+
+$a = Instant::now(); sleep(1);
+$b = Instant::now();
+
+echo $a, PHP_EOL; // 2033-05-18T03:33:20.00188Z
+echo $b, PHP_EOL; // 2033-05-18T03:34:20.06632Z
+
+DefaultClock::reset();
+```
+
+As you can see, you can even combine `travel()` and `scale()` methods.
+
+Be very careful to **`reset()` the DefaultClock after each of your tests!** If you're using PHPUnit, a good place to do this is in the `tearDown()` method.
 
 ### Exceptions
 
