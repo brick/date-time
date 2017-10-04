@@ -190,8 +190,7 @@ class ZonedDateTime
 
         return ZonedDateTime::of(
             $localDateTime,
-            $timeZone,
-            $timeZoneOffset
+            $timeZone
         );
     }
 
