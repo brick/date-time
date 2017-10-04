@@ -1,0 +1,65 @@
+<?php
+
+declare(strict_types=1);
+
+namespace Brick\DateTime\Clock;
+
+use Brick\DateTime\Clock;
+use Brick\DateTime\Duration;
+use Brick\DateTime\Instant;
+
+/**
+ * This clock makes the time move at a given pace.
+ */
+class ScaleClock implements Clock
+{
+    /**
+     * The reference clock.
+     *
+     * @var Clock
+     */
+    private $referenceClock;
+
+    /**
+     * The start time.
+     *
+     * @var Instant
+     */
+    private $startTime;
+
+    /**
+     * The time scale.
+     *
+     * @var int
+     */
+    private $timeScale;
+
+    /**
+     * Class constructor.
+     *
+     * - a scale > 1 makes the time move at an accelerated pace;
+     * - a scale == 1 makes the time move at the normal pace;
+     * - a scale == 0 freezes the current time;
+     * - a scale < 0 makes the time move backwards.
+     *
+     * @param Clock $referenceClock The reference clock.
+     * @param int   $timeScale      The time scale.
+     */
+    public function __construct(Clock $referenceClock, int $timeScale)
+    {
+        $this->referenceClock = $referenceClock;
+        $this->startTime      = $referenceClock->getTime();
+        $this->timeScale      = $timeScale;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getTime() : Instant
+    {
+        $duration = Duration::between($this->startTime, $this->referenceClock->getTime());
+        $duration = $duration->multipliedBy($this->timeScale);
+
+        return $this->startTime->plus($duration);
+    }
+}
