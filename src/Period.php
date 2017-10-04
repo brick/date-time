@@ -140,7 +140,7 @@ class Period
             throw Parser\DateTimeParseException::invalidPeriod($text);
         }
 
-        list (, $sign, $years, $months, $weeks, $days) = $matches;
+        [, $sign, $years, $months, $weeks, $days] = $matches;
 
         if ($years === '' && $months === '' && $weeks === '' && $days === '') {
             throw Parser\DateTimeParseException::invalidPeriod($text);

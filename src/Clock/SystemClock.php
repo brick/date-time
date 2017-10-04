@@ -19,7 +19,7 @@ class SystemClock implements Clock
      */
     public function getTime() : Instant
     {
-        list ($fraction, $epochSecond) = \explode(' ', microtime());
+        [$fraction, $epochSecond] = \explode(' ', microtime());
 
         $epochSecond    = (int) $epochSecond;
         $nanoAdjustment = 10 * (int) \substr($fraction, 2, 8);

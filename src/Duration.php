@@ -89,7 +89,7 @@ class Duration
             throw Parser\DateTimeParseException::invalidDuration($text);
         }
 
-        list (, $sign, $days, $t, $hours, $minutes, $seconds, $nanos) = $matches;
+        [, $sign, $days, $t, $hours, $minutes, $seconds, $nanos] = $matches;
 
         if ($hours === '' && $minutes === '' && $seconds === '') {
             if ($days === '' || $t === 'T') {
