@@ -424,10 +424,7 @@ class Duration
         $seconds = $this->seconds * $multiplicand;
         $totalnanos = $this->nanos * $multiplicand;
 
-        $nanoseconds = $totalnanos % LocalTime::NANOS_PER_SECOND;
-        $seconds += ($totalnanos - $nanoseconds) / LocalTime::NANOS_PER_SECOND;
-
-        return new Duration($seconds, $nanoseconds);
+        return Duration::ofSeconds($seconds, $totalnanos);
     }
 
     /**

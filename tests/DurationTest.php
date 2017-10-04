@@ -811,26 +811,107 @@ class DurationTest extends AbstractTestCase
         ];
     }
 
-    public function testMultipliedBy()
+    /**
+     * @dataProvider providerMultipliedBy
+     *
+     * @param int $second
+     * @param int $nano
+     * @param int $multiplicand
+     * @param int $expectedSecond
+     * @param int $expectedNano
+     */
+    public function testMultipliedBy(int $second, int $nano, int $multiplicand, int $expectedSecond, int $expectedNano)
     {
-        for ($seconds = -3; $seconds <= 3; $seconds++) {
-            for ($multiplicand = -3; $multiplicand <= 3; $multiplicand++) {
-                $duration = Duration::ofSeconds($seconds)->multipliedBy($multiplicand);
-                $this->assertDurationIs($seconds * $multiplicand, 0, $duration);
-            }
-        }
+        $duration = Duration::ofSeconds($second, $nano);
+        $duration = $duration->multipliedBy($multiplicand);
+
+        $this->assertDurationIs($expectedSecond, $expectedNano, $duration);
     }
 
-    public function testMultipliedByMax()
+    /**
+     * @return array
+     */
+    public function providerMultipliedBy() : array
     {
-        $duration = Duration::ofSeconds(1)->multipliedBy(\PHP_INT_MAX);
-        $this->assertTrue($duration->isEqualTo(Duration::ofSeconds(\PHP_INT_MAX)));
-    }
-
-    public function testMultipliedByMin()
-    {
-        $duration = Duration::ofSeconds(1)->multipliedBy(~ \PHP_INT_MAX);
-        $this->assertTrue($duration->isEqualTo(Duration::ofSeconds(~ \PHP_INT_MAX)));
+        return [
+            [-3, 0, -3, 9, 0],
+            [-3, 1000, -3, 8, 999997000],
+            [-3, 999999999, -3, 6, 000000003],
+            [-3, 0, -1, 3, 0],
+            [-3, 1000, -1, 2, 999999000],
+            [-3, 999999999, -1, 2, 000000001],
+            [-3, 0, 0, 0, 0],
+            [-3, 1000, 0, 0, 0],
+            [-3, 999999999, 0, 0, 0],
+            [-3, 0, 1, -3, 0],
+            [-3, 1000, 1, -3, 1000],
+            [-3, 999999999, 1, -3, 999999999],
+            [-3, 0, 3, -9, 0],
+            [-3, 1000, 3, -9, 3000],
+            [-3, 999999999, 3, -7, 999999997],
+            [-1, 0, -3, 3, 0],
+            [-1, 1000, -3, 2, 999997000],
+            [-1, 999999999, -3, 0, 3],
+            [-1, 0, -1, 1, 0],
+            [-1, 1000, -1, 0, 999999000],
+            [-1, 999999999, -1, 0, 1],
+            [-1, 0, 0, 0, 0],
+            [-1, 1000, 0, 0, 0],
+            [-1, 999999999, 0, 0, 0],
+            [-1, 0, 1, -1, 0],
+            [-1, 1000, 1, -1, 1000],
+            [-1, 999999999, 1, -1, 999999999],
+            [-1, 0, 3, -3, 0],
+            [-1, 1000, 3, -3, 3000],
+            [-1, 999999999, 3, -1, 999999997],
+            [0, 0, -3, 0, 0],
+            [0, 1000, -3, -1, 999997000],
+            [0, 999999999, -3, -3, 3],
+            [0, 0, -1, 0, 0],
+            [0, 1000, -1, -1, 999999000],
+            [0, 999999999, -1, -1, 1],
+            [0, 0, 0, 0, 0],
+            [0, 1000, 0, 0, 0],
+            [0, 999999999, 0, 0, 0],
+            [0, 0, 1, 0, 0],
+            [0, 1000, 1, 0, 1000],
+            [0, 999999999, 1, 0, 999999999],
+            [0, 0, 3, 0, 0],
+            [0, 1000, 3, 0, 3000],
+            [0, 999999999, 3, 2, 999999997],
+            [1, 0, -3, -3, 0],
+            [1, 1000, -3, -4, 999997000],
+            [1, 999999999, -3, -6, 3],
+            [1, 0, -1, -1, 0],
+            [1, 1000, -1, -2, 999999000],
+            [1, 999999999, -1, -2, 1],
+            [1, 0, 0, 0, 0],
+            [1, 1000, 0, 0, 0],
+            [1, 999999999, 0, 0, 0],
+            [1, 0, 1, 1, 0],
+            [1, 1000, 1, 1, 1000],
+            [1, 999999999, 1, 1, 999999999],
+            [1, 0, 3, 3, 0],
+            [1, 1000, 3, 3, 3000],
+            [1, 999999999, 3, 5, 999999997],
+            [3, 0, -3, -9, 0],
+            [3, 1000, -3, -10, 999997000],
+            [3, 999999999, -3, -12, 3],
+            [3, 0, -1, -3, 0],
+            [3, 1000, -1, -4, 999999000],
+            [3, 999999999, -1, -4, 1],
+            [3, 0, 0, 0, 0],
+            [3, 1000, 0, 0, 0],
+            [3, 999999999, 0, 0, 0],
+            [3, 0, 1, 3, 0],
+            [3, 1000, 1, 3, 1000],
+            [3, 999999999, 1, 3, 999999999],
+            [3, 0, 3, 9, 0],
+            [3, 1000, 3, 9, 3000],
+            [3, 999999999, 3, 11, 999999997],
+            [1, 0,  \PHP_INT_MAX, \PHP_INT_MAX, 0],
+            [1, 0, \PHP_INT_MIN, \PHP_INT_MIN, 0],
+        ];
     }
 
     /**

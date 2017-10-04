@@ -129,12 +129,7 @@ class Instant
         $seconds = $this->epochSecond + $duration->getSeconds();
         $nanos = $this->nano + $duration->getNanos();
 
-        if ($nanos >= LocalTime::NANOS_PER_SECOND) {
-            $nanos -= LocalTime::NANOS_PER_SECOND;
-            $seconds++;
-        }
-
-        return new Instant($seconds, $nanos);
+        return Instant::of($seconds, $nanos);
     }
 
     /**
