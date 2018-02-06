@@ -237,6 +237,26 @@ class YearWeek
     }
 
     /**
+     * Returns the first day of this week.
+     *
+     * @return LocalDate
+     */
+    public function getFirstDay() : LocalDate
+    {
+        return $this->atDay(DayOfWeek::MONDAY);
+    }
+
+    /**
+     * Returns the last day of this week.
+     *
+     * @return LocalDate
+     */
+    public function getLastDay() : LocalDate
+    {
+        return $this->atDay(DayOfWeek::SUNDAY);
+    }
+
+    /**
      * Returns a copy of this YearWeek with the specified period in years added.
      *
      * If the week is 53 and the new year does not have 53 weeks, the week will be adjusted to be 52.
