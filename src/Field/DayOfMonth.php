@@ -45,11 +45,11 @@ final class DayOfMonth
         if ($dayOfMonth > $monthLength) {
             if ($dayOfMonth === 29) {
                 throw new DateTimeException("Invalid date February 29 as $year is not a leap year");
-            } else {
-                $monthName = MonthOfYear::getName($monthOfYear);
-
-                throw new DateTimeException("Invalid date $monthName $dayOfMonth");
             }
+
+            $monthName = MonthOfYear::getName($monthOfYear);
+
+            throw new DateTimeException("Invalid date $monthName $dayOfMonth");
         }
     }
 }
