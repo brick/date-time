@@ -54,6 +54,17 @@ class YearWeek
     }
 
     /**
+     * @param TimeZone   $timeZone
+     * @param Clock|null $clock
+     *
+     * @return YearWeek
+     */
+    public static function now(TimeZone $timeZone, Clock $clock = null) : YearWeek
+    {
+        return LocalDate::now($timeZone, $clock)->getYearWeek();
+    }
+
+    /**
      * @return int
      */
     public function getYear() : int
