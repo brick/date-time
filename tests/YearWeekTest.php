@@ -362,4 +362,37 @@ class YearWeekTest extends AbstractTestCase
         $yearWeek = YearWeek::of($year, $week)->minusWeeks(-$delta);
         $this->assertYearWeekIs($expectedYear, $expectedWeek, $yearWeek);
     }
+
+    /**
+     * @return array
+     */
+    public function providerToString() : array
+    {
+        return [
+            [-12345,  1, '-12345-W01'],
+            [ -1234, 12,  '-1234-W12'],
+            [  -123,  3,  '-0123-W03'],
+            [   -12, 10,  '-0012-W10'],
+            [    -1,  9,  '-0001-W09'],
+            [     0, 11,   '0000-W11'],
+            [     1,  7,   '0001-W07'],
+            [    12, 10,   '0012-W10'],
+            [   123,  4,   '0123-W04'],
+            [  1234, 12,   '1234-W12'],
+            [ 12345,  8,  '12345-W08'],
+        ];
+    }
+
+    /**
+     * @dataProvider providerToString
+     *
+     * @param int    $year
+     * @param int    $week
+     * @param string $expected
+     */
+    public function testToString(int $year, int $week, string $expected)
+    {
+        $yearWeek = YearWeek::of($year, $week);
+        $this->assertSame($expected, (string) $yearWeek);
+    }
 }
