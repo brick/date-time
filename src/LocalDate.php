@@ -346,6 +346,25 @@ class LocalDate
     }
 
     /**
+     * @return YearWeek
+     */
+    public function getYearWeek() : YearWeek
+    {
+        $year = $this->year;
+        $week = intdiv($this->getDayOfYear() - $this->getDayOfWeek()->getValue() + 10, 7);
+
+        if ($week === 0) {
+            $year--;
+            $week = Field\WeekOfYear::getWeeksInYear($year);
+        } elseif ($week === 53 && ! Field\WeekOfYear::is53WeekYear($this->year)) {
+            $year++;
+            $week = 1;
+        }
+
+        return YearWeek::of($year, $week);
+    }
+
+    /**
      * Returns a copy of this LocalDate with the year altered.
      *
      * If the day-of-month is invalid for the year, it will be changed to the last valid day of the month.

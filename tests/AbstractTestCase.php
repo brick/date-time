@@ -18,6 +18,7 @@ use Brick\DateTime\TimeZone;
 use Brick\DateTime\TimeZoneOffset;
 use Brick\DateTime\Year;
 use Brick\DateTime\YearMonth;
+use Brick\DateTime\YearWeek;
 
 use PHPUnit\Framework\TestCase;
 
@@ -124,6 +125,19 @@ abstract class AbstractTestCase extends TestCase
         $this->compare([$year, $month], [
             $yearMonth->getYear(),
             $yearMonth->getMonth()
+        ]);
+    }
+
+    /**
+     * @param int      $year     The expected year.
+     * @param int      $week     The expected week.
+     * @param YearWeek $yearWeek The year-week to test.
+     */
+    protected function assertYearWeekIs(int $year, int $week, YearWeek $yearWeek)
+    {
+        $this->compare([$year, $week], [
+            $yearWeek->getYear(),
+            $yearWeek->getWeek()
         ]);
     }
 
