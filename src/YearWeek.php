@@ -191,7 +191,7 @@ class YearWeek
 
         $year = $this->year;
 
-        if ($week === 53 && Field\WeekOfYear::is53WeekYear($year)) {
+        if ($week === 53 && ! Field\WeekOfYear::is53WeekYear($year)) {
             $year++;
             $week = 1;
         }

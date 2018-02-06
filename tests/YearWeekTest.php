@@ -210,6 +210,61 @@ class YearWeekTest extends AbstractTestCase
     /**
      * @return array
      */
+    public function providerWithYear() : array
+    {
+        return [
+            [2015,  1, 2015, 2015,  1],
+            [2015,  1, 2014, 2014,  1],
+            [2015, 53, 2009, 2009, 53],
+            [2015, 53, 2014, 2014, 52],
+        ];
+    }
+
+    /**
+     * @dataProvider providerWithYear
+     *
+     * @param int $year
+     * @param int $week
+     * @param int $withYear
+     * @param int $expectedYear
+     * @param int $expectedWeek
+     */
+    public function testWithYear(int $year, int $week, int $withYear, int $expectedYear, int $expectedWeek)
+    {
+        $yearWeek = YearWeek::of($year, $week)->withYear($withYear);
+        $this->assertYearWeekIs($expectedYear, $expectedWeek, $yearWeek);
+    }
+
+    /**
+     * @return array
+     */
+    public function providerWithWeek() : array
+    {
+        return [
+            [2014,  1, 53, 2015,  1],
+            [2014,  2,  2, 2014,  2],
+            [2015,  1, 52, 2015, 52],
+        ];
+    }
+
+    /**
+     * @dataProvider providerWithWeek
+     *
+     * @param int $year
+     * @param int $week
+     * @param int $withWeek
+     * @param int $expectedYear
+     * @param int $expectedWeek
+     */
+    public function testWithWeek(int $year, int $week, int $withWeek, int $expectedYear, int $expectedWeek)
+    {
+        $yearWeek = YearWeek::of($year, $week)->withWeek($withWeek);
+        $this->assertYearWeekIs($expectedYear, $expectedWeek, $yearWeek);
+    }
+
+    /**
+     * @return array
+     */
     public function providerPlusYears() : array
     {
         return [
