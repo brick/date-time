@@ -326,6 +326,10 @@ class YearMonth
      */
     public function plusMonths(int $months) : YearMonth
     {
+        if ($months === 0) {
+            return $this;
+        }
+
         $month = $this->month + $months - 1;
 
         $yearDiff = Math::floorDiv($month, 12);
