@@ -20,7 +20,11 @@
     },
     "autoload": {
         "psr-4": {
-            "Brick\\DateTime\\": "src/",
+            "Brick\\DateTime\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
             "Brick\\DateTime\\Tests\\": "tests/"
         }
     }
