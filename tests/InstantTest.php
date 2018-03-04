@@ -7,6 +7,7 @@ namespace Brick\DateTime\Tests;
 use Brick\DateTime\Clock\FixedClock;
 use Brick\DateTime\Duration;
 use Brick\DateTime\Instant;
+use Brick\DateTime\TimeZone;
 
 /**
  * Unit tests for class Instant.
@@ -374,6 +375,34 @@ class InstantTest extends AbstractTestCase
     }
 
     /**
+     * @dataProvider providerInclusiveBetweenCompareTo
+     *
+     * @param int $s1  The epoch second of the 1st instant.
+     * @param int $n1  The nanosecond adjustment of the 1st instant.
+     * @param int $s2  The epoch second of the 2nd instant.
+     * @param int $n2  The nanosecond adjustment of the 2nd instant.
+     * @param int $cmp The comparison value.
+     */
+    public function testIsBetweenInclusive(int $s1, int $n1, int $s2, int $n2, int $cmp)
+    {
+        $this->assertSame($cmp <= 0, Instant::of($s1, $n1)->isBetweenInclusive(Instant::of($s2, $n2), Instant::of($s2, $n2)));
+    }
+
+    /**
+     * @dataProvider providerExclusiveBetweenCompareTo
+     *
+     * @param int $s1  The epoch second of the 1st instant.
+     * @param int $n1  The nanosecond adjustment of the 1st instant.
+     * @param int $s2  The epoch second of the 2nd instant.
+     * @param int $n2  The nanosecond adjustment of the 2nd instant.
+     * @param int $cmp The comparison value.
+     */
+    public function testIsBetweenExclusive(int $s1, int $n1, int $s2, int $n2, int $cmp)
+    {
+        $this->assertSame($cmp <= 0, Instant::of($s1, $n1)->isBetweenExclusive(Instant::of($s2, $n2), Instant::of($s2, $n2)));
+    }
+
+    /**
      * @dataProvider providerCompareTo
      *
      * @param int $testSecond The second of the test instant.
@@ -494,6 +523,28 @@ class InstantTest extends AbstractTestCase
     }
 
     /**
+     * @return array
+     */
+    public function providerInclusiveBetweenCompareTo() : array
+    {
+        return [
+            [-1, -1, -1, -1,  0],
+            [ 1,  1,  1,  1,  0],
+        ];
+    }
+
+    /**
+     * @return array
+     */
+    public function providerExclusiveBetweenCompareTo() : array
+    {
+        return [
+            [ 1,  0,  0,  0,  1],
+            [ 1,  0,  0,  1,  1],
+        ];
+    }
+
+    /**
      * @dataProvider providerToDecimal
      *
      * @param int    $second   The epoch second.
@@ -552,5 +603,14 @@ class InstantTest extends AbstractTestCase
             [1, 123456789, '1970-01-01T00:00:01.123456789Z'],
             [2000000000, 0, '2033-05-18T03:33:20Z'],
         ];
+    }
+
+    public function testAtTimeZone()
+    {
+        $timeZone = TimeZone::parse('UTC');
+        $instant = Instant::of(1000000000);
+        $result = $instant->atTimeZone($timeZone);
+        $this->assertSame(1000000000, $result->getInstant()->getEpochSecond());
+        $this->assertSame('2001-09-09T01:46:40', (string) $result->getDateTime());
     }
 }

@@ -6,6 +6,8 @@ namespace Brick\DateTime\Tests;
 
 use Brick\DateTime\DayOfWeek;
 use Brick\DateTime\YearWeek;
+use Brick\DateTime\TimeZone;
+use Brick\DateTime\LocalDate;
 
 /**
  * Unit tests for class YearWeek.
@@ -394,5 +396,31 @@ class YearWeekTest extends AbstractTestCase
     {
         $yearWeek = YearWeek::of($year, $week);
         $this->assertSame($expected, (string) $yearWeek);
+    }
+
+    public function testNow()
+    {
+        $timeZone = TimeZone::parse('Asia/Taipei');
+        $yearWeek = YearWeek::now($timeZone);
+
+        $this->assertInstanceOf(YearWeek::class, $yearWeek);
+    }
+
+    public function testGetFirstDay()
+    {
+        $yearWeek = YearWeek::of(2015, 1);
+        $result = $yearWeek->getFirstDay();
+  
+        $this->assertInstanceOf(LocalDate::class, $result);
+        $this->assertLocalDateIs(2014, 12, 29, $result);
+    }
+
+    public function testGetLastDay()
+    {
+        $yearWeek = YearWeek::of(2015, 1);
+        $result = $yearWeek->getLastDay();
+
+        $this->assertInstanceOf(LocalDate::class, $result);
+        $this->assertLocalDateIs(2015, 1, 4, $result);
     }
 }
