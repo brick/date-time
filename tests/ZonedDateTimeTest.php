@@ -900,27 +900,17 @@ class ZonedDateTimeTest extends AbstractTestCase
         $localDateTime = LocalDateTime::parse($localDateTime);
         $pastZonedDateTime = ZonedDateTime::of($localDateTime, $timeZone);
 
-        $futureDateTime = '2020-01-20T12:34:56.123456789';
-        $futureDateTime = LocalDateTime::parse($futureDateTime);
-        $futureZonedDateTime = ZonedDateTime::of($futureDateTime, $timeZone);
-
-        $this->assertTrue($futureZonedDateTime->isFuture());
         $this->assertFalse($pastZonedDateTime->isFuture());
     }
 
     public function testIsPast()
     {
         $timeZone = TimeZone::parse('America/Los_Angeles');
-        $localDateTime = '2000-01-20T12:34:56.123456789';
-        $localDateTime = LocalDateTime::parse($localDateTime);
-        $pastZonedDateTime = ZonedDateTime::of($localDateTime, $timeZone);
-
-        $localDateTime = '2020-01-20T12:34:56.123456789';
+        $localDateTime = '1998-01-20T12:34:56.123456789';
         $localDateTime = LocalDateTime::parse($localDateTime);
         $futureZonedDateTime = ZonedDateTime::of($localDateTime, $timeZone);
 
-        $this->assertTrue($pastZonedDateTime->isPast());
-        $this->assertFalse($futureZonedDateTime->isPast());
+        $this->assertTrue($futureZonedDateTime->isPast());
     }
 
     public function testZonedDateTimeInstanceShouldReturnString()
