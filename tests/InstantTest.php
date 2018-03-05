@@ -375,31 +375,33 @@ class InstantTest extends AbstractTestCase
     }
 
     /**
-     * @dataProvider providerInclusiveBetweenCompareTo
+     * @dataProvider providerBetweenInExclusive
      *
-     * @param int $s1  The epoch second of the 1st instant.
-     * @param int $n1  The nanosecond adjustment of the 1st instant.
-     * @param int $s2  The epoch second of the 2nd instant.
-     * @param int $n2  The nanosecond adjustment of the 2nd instant.
-     * @param int $cmp The comparison value.
+     * @param int  $seconds   The seconds value.
+     * @param int  $nanos     The nano seconds value.
+     * @param bool $isBetween Check the secs and nanos are between.
      */
-    public function testIsBetweenInclusive(int $s1, int $n1, int $s2, int $n2, int $cmp)
+    public function testIsBetweenInclusive(int $seconds, int $nanos, $isBetween)
     {
-        $this->assertSame($cmp <= 0, Instant::of($s1, $n1)->isBetweenInclusive(Instant::of($s2, $n2), Instant::of($s2, $n2)));
+        $this->assertSame($isBetween, Instant::of($seconds, $nanos)->isBetweenExclusive(
+            Instant::of(-1, -1),
+            Instant::of(1, 1)
+        ));
     }
 
     /**
-     * @dataProvider providerExclusiveBetweenCompareTo
+     * @dataProvider providerBetweenInExclusive
      *
-     * @param int $s1  The epoch second of the 1st instant.
-     * @param int $n1  The nanosecond adjustment of the 1st instant.
-     * @param int $s2  The epoch second of the 2nd instant.
-     * @param int $n2  The nanosecond adjustment of the 2nd instant.
-     * @param int $cmp The comparison value.
+     * @param int  $seconds   The seconds value.
+     * @param int  $nanos     The nano seconds value.
+     * @param bool $isBetween Check the secs and nanos are between.
      */
-    public function testIsBetweenExclusive(int $s1, int $n1, int $s2, int $n2, int $cmp)
+    public function testIsBetweenExclusive(int $seconds, int $nanos, $isBetween)
     {
-        $this->assertSame($cmp <= 0, Instant::of($s1, $n1)->isBetweenExclusive(Instant::of($s2, $n2), Instant::of($s2, $n2)));
+        $this->assertSame($isBetween, Instant::of($seconds, $nanos)->isBetweenExclusive(
+            Instant::of(-1, -1),
+            Instant::of(1, 1)
+        ));
     }
 
     /**
@@ -430,6 +432,26 @@ class InstantTest extends AbstractTestCase
     {
         $clock = new FixedClock(Instant::of($nowSecond, $nowNano));
         $this->assertSame($cmp === -1, Instant::of($testSecond, $testNano)->isPast($clock));
+    }
+
+    /**
+     * @return array
+     */
+    public function providerBetweenInExclusive() : array
+    {
+        return [
+            [-1, -2, false],
+            [-1, -1, false],
+            [-1,  0, true],
+            [-1, 1, true],
+            [0, -1, true],
+            [0, 0, true],
+            [0, 1, true],
+            [1, -1, true],
+            [1, 0, true],
+            [1, 1, false],
+            [1, 2, false],
+        ];
     }
 
     /**
