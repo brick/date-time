@@ -11,11 +11,6 @@ use Brick\DateTime\Parser\PatternParserBuilder;
  */
 class PatternParserBuilderTest extends AbstractTestCase
 {
-    protected function tearDown()
-    {
-
-    }
-
     /**
      * @expectedException        \RuntimeException
      * @expectedExceptionMessage Cannot call endOptional() without a call to startOptional() first.

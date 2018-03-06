@@ -375,7 +375,7 @@ class InstantTest extends AbstractTestCase
     }
 
     /**
-     * @dataProvider providerBetweenInExclusive
+     * @dataProvider providerIsBetweenInclusive
      *
      * @param int  $seconds   The seconds value.
      * @param int  $nanos     The nano seconds value.
@@ -383,14 +383,14 @@ class InstantTest extends AbstractTestCase
      */
     public function testIsBetweenInclusive(int $seconds, int $nanos, $isBetween)
     {
-        $this->assertSame($isBetween, Instant::of($seconds, $nanos)->isBetweenExclusive(
+        $this->assertSame($isBetween, Instant::of($seconds, $nanos)->isBetweenInclusive(
             Instant::of(-1, -1),
             Instant::of(1, 1)
         ));
     }
 
     /**
-     * @dataProvider providerBetweenInExclusive
+     * @dataProvider providerIsBetweenExclusive
      *
      * @param int  $seconds   The seconds value.
      * @param int  $nanos     The nano seconds value.
@@ -437,7 +437,7 @@ class InstantTest extends AbstractTestCase
     /**
      * @return array
      */
-    public function providerBetweenInExclusive() : array
+    public function providerIsBetweenExclusive() : array
     {
         return [
             [-1, -2, false],
@@ -450,6 +450,26 @@ class InstantTest extends AbstractTestCase
             [1, -1, true],
             [1, 0, true],
             [1, 1, false],
+            [1, 2, false],
+        ];
+    }
+
+    /**
+     * @return array
+     */
+    public function providerIsBetweenInclusive() : array
+    {
+        return [
+            [-1, -2, false],
+            [-1, -1, true],
+            [-1,  0, true],
+            [-1, 1, true],
+            [0, -1, true],
+            [0, 0, true],
+            [0, 1, true],
+            [1, -1, true],
+            [1, 0, true],
+            [1, 1, true],
             [1, 2, false],
         ];
     }
