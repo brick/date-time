@@ -24,7 +24,7 @@ class WeekOfYearTest extends AbstractTestCase
      * @expectedException        Brick\DateTime\DateTimeException
      * @expectedExceptionMessage Year 2000 does not have 53 weeks
      */
-    public function testCehckTimeShouldThrowDateYimeException()
+    public function testCheckTimeShouldThrowDateTimeException()
     {
         WeekOfYear::check(53, 2000);
     }
