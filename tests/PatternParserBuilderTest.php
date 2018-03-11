@@ -15,7 +15,7 @@ class PatternParserBuilderTest extends AbstractTestCase
      * @expectedException        \RuntimeException
      * @expectedExceptionMessage Cannot call endOptional() without a call to startOptional() first.
      */
-    public function testEndOptionalShouldReturnRuntimeException()
+    public function testEndOptionalShouldThrowRuntimeException()
     {
         $patternParserBuilder = new PatternParserBuilder();
         $patternParserBuilder->endOptional();
@@ -25,7 +25,7 @@ class PatternParserBuilderTest extends AbstractTestCase
      * @expectedException        \RuntimeException
      * @expectedExceptionMessage Cannot call endGroup() without a call to startGroup() first.
      */
-    public function testEndGroupShouldReturnRunTimeException()
+    public function testEndGroupShouldThrowRunTimeException()
     {
         $patternParserBuilder = new PatternParserBuilder();
         $patternParserBuilder->endGroup();

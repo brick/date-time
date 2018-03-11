@@ -15,7 +15,7 @@ class WeekOfYearTest extends AbstractTestCase
      * @expectedException        Brick\DateTime\DateTimeException
      * @expectedExceptionMessage Invalid week-of-year: -1 is not in the range 1 to 53.
      */
-    public function testCheckShouldReturnDateTimeExceptionWithFieldNotInRange()
+    public function testCheckShouldThrowDateTimeExceptionWithFieldNotInRange()
     {
         WeekOfYear::check(-1);
     }

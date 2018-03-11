@@ -8,6 +8,8 @@ use Brick\DateTime\DayOfWeek;
 use Brick\DateTime\YearWeek;
 use Brick\DateTime\TimeZone;
 use Brick\DateTime\LocalDate;
+use Brick\DateTime\Clock\FixedClock;
+use Brick\DateTime\Instant;
 
 /**
  * Unit tests for class YearWeek.
@@ -400,8 +402,9 @@ class YearWeekTest extends AbstractTestCase
 
     public function testNow()
     {
+        $now = new FixedClock(Instant::of(2000000000));
         $timeZone = TimeZone::parse('Asia/Taipei');
-        $yearWeek = YearWeek::now($timeZone);
+        $yearWeek = YearWeek::now($timeZone, $now);
 
         $this->assertInstanceOf(YearWeek::class, $yearWeek);
     }
@@ -410,7 +413,7 @@ class YearWeekTest extends AbstractTestCase
     {
         $yearWeek = YearWeek::of(2015, 1);
         $result = $yearWeek->getFirstDay();
-  
+
         $this->assertInstanceOf(LocalDate::class, $result);
         $this->assertLocalDateIs(2014, 12, 29, $result);
     }
