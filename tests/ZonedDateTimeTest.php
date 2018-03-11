@@ -626,7 +626,7 @@ class ZonedDateTimeTest extends AbstractTestCase
         $localDateTime = LocalDateTime::parse($localDateTime);
         $zonedDateTime = ZonedDateTime::of($localDateTime, $timeZone);
 
-        $this->assertSame(12, $zonedDateTime->withHour(12)->getHour());
+        $this->assertSame('2000-01-20T12:34:56.123456789-08:00[America/Los_Angeles]', (string)$zonedDateTime->withHour(12));
     }
 
     public function testWithMinute()
@@ -636,7 +636,7 @@ class ZonedDateTimeTest extends AbstractTestCase
         $localDateTime = LocalDateTime::parse($localDateTime);
         $zonedDateTime = ZonedDateTime::of($localDateTime, $timeZone);
 
-        $this->assertSame(30, $zonedDateTime->withMinute(30)->getMinute());
+        $this->assertSame('2000-01-20T12:30:56.123456789-08:00[America/Los_Angeles]', (string)$zonedDateTime->withMinute(30));
     }
 
     public function testWithSecond()
@@ -646,7 +646,7 @@ class ZonedDateTimeTest extends AbstractTestCase
         $localDateTime = LocalDateTime::parse($localDateTime);
         $zonedDateTime = ZonedDateTime::of($localDateTime, $timeZone);
 
-        $this->assertSame(56, $zonedDateTime->withSecond(56)->getSecond());
+        $this->assertSame('2000-01-20T12:34:56.123456789-08:00[America/Los_Angeles]', (string)$zonedDateTime->withSecond(56));
     }
 
     public function testWithNano()
@@ -656,7 +656,7 @@ class ZonedDateTimeTest extends AbstractTestCase
         $localDateTime = LocalDateTime::parse($localDateTime);
         $zonedDateTime = ZonedDateTime::of($localDateTime, $timeZone);
 
-        $this->assertSame(56, $zonedDateTime->withNano(56)->getNano());
+        $this->assertSame('2000-01-20T12:34:56.000000056-08:00[America/Los_Angeles]', (string)$zonedDateTime->withNano(56));
     }
 
     public function testWithFixedOffsetTimeZone()
@@ -666,7 +666,7 @@ class ZonedDateTimeTest extends AbstractTestCase
         $localDateTime = LocalDateTime::parse($localDateTime);
         $zonedDateTime = ZonedDateTime::of($localDateTime, $timeZone);
 
-        $this->assertSame(56, $zonedDateTime->withFixedOffsetTimeZone(56)->getSecond());
+        $this->assertSame('2000-01-20T12:34:56.123456789-08:00', (string)$zonedDateTime->withFixedOffsetTimeZone(56));
     }
 
     public function testPlusPeriod()
