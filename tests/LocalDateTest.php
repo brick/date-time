@@ -11,7 +11,6 @@ use Brick\DateTime\LocalTime;
 use Brick\DateTime\Period;
 use Brick\DateTime\TimeZone;
 use Brick\DateTime\Year;
-use Brick\DateTime\Field\DayOfMonth;
 
 /**
  * Unit tests for class LocalDate.
@@ -1250,13 +1249,6 @@ class LocalDateTest extends AbstractTestCase
             [999, 1, 2, '0999-01-02'],
             [-2, 1, 1, '-0002-01-01']
         ];
-    }
-
-    public function testCheckWithNullMonthOfYear()
-    {
-        $dayOfMonth = new DayOfMonth();
-
-        $this->assertNull($dayOfMonth->check(31));
     }
 
     public function testMinMaxOf()

@@ -569,16 +569,13 @@ class ZonedDateTimeTest extends AbstractTestCase
 
     public function testWithDate()
     {
-        $y = (int)date('Y');
-        $m = (int)date('m');
-        $d = (int)date('d');
         $timeZone = TimeZone::parse('America/Los_Angeles');
         $localDateTime = '2000-01-20T12:34:56.123456789';
         $localDateTime = LocalDateTime::parse($localDateTime);
-        $newDate = LocalDate::of($y, $m, $d);
+        $newDate = LocalDate::of(2000, 1, 20);
         $zonedDateTime = ZonedDateTime::of($localDateTime, $timeZone);
 
-        $this->assertSame(date('Y-m-d'), (string)$zonedDateTime->withDate($newDate)->getDate());
+        $this->assertSame('2000-01-20T12:34:56.123456789-08:00[America/Los_Angeles]', (string)$zonedDateTime->withDate($newDate));
     }
 
     public function testWithTime()
@@ -589,7 +586,7 @@ class ZonedDateTimeTest extends AbstractTestCase
         $time = LocalTime::of(12, 34, 56, 987654321);
         $zonedDateTime = ZonedDateTime::of($localDateTime, $timeZone);
 
-        $this->assertSame('12:34:56.987654321', (string)$zonedDateTime->withTime($time)->getTime());
+        $this->assertSame('2000-01-20T12:34:56.987654321-08:00[America/Los_Angeles]', (string)$zonedDateTime->withTime($time));
     }
 
     public function testWithYear()
@@ -599,7 +596,7 @@ class ZonedDateTimeTest extends AbstractTestCase
         $localDateTime = LocalDateTime::parse($localDateTime);
         $zonedDateTime = ZonedDateTime::of($localDateTime, $timeZone);
 
-        $this->assertSame(2000, $zonedDateTime->withYear(2000)->getYear());
+        $this->assertSame('2000-01-20T12:34:56.123456789-08:00[America/Los_Angeles]', (string)$zonedDateTime->withYear(2000));
     }
 
     public function testWithMonth()
@@ -609,7 +606,7 @@ class ZonedDateTimeTest extends AbstractTestCase
         $localDateTime = LocalDateTime::parse($localDateTime);
         $zonedDateTime = ZonedDateTime::of($localDateTime, $timeZone);
 
-        $this->assertSame(1, $zonedDateTime->withMonth(1)->getMonth());
+        $this->assertSame('2000-01-20T12:34:56.123456789-08:00[America/Los_Angeles]', (string)$zonedDateTime->withMonth(1));
     }
 
     public function testWithDay()
@@ -619,7 +616,7 @@ class ZonedDateTimeTest extends AbstractTestCase
         $localDateTime = LocalDateTime::parse($localDateTime);
         $zonedDateTime = ZonedDateTime::of($localDateTime, $timeZone);
 
-        $this->assertSame(1, $zonedDateTime->withDay(1)->getDay());
+        $this->assertSame('2000-01-01T12:34:56.123456789-08:00[America/Los_Angeles]', (string)$zonedDateTime->withDay(1));
     }
 
     public function testWithHour()

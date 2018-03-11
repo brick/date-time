@@ -565,17 +565,6 @@ class InstantTest extends AbstractTestCase
     }
 
     /**
-     * @return array
-     */
-    public function providerInclusiveBetweenCompareTo() : array
-    {
-        return [
-            [-1, -1, -1, -1,  0],
-            [ 1,  1,  1,  1,  0],
-        ];
-    }
-
-    /**
      * @dataProvider providerToDecimal
      *
      * @param int    $second   The epoch second.
