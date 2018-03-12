@@ -378,8 +378,8 @@ class MonthDayTest extends AbstractTestCase
 
     public function testWithDayWithSameDay()
     {
-        $month = (int)date('m');
-        $day = (int)date('d');
+        $month = 1;
+        $day = 20;
         $monthDay = MonthDay::of($month, $day);
         $newMonthDay = $monthDay->withDay($day);
 

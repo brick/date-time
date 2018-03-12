@@ -406,7 +406,7 @@ class YearWeekTest extends AbstractTestCase
         $timeZone = TimeZone::parse('Asia/Taipei');
         $yearWeek = YearWeek::now($timeZone, $now);
 
-        $this->assertInstanceOf(YearWeek::class, $yearWeek);
+        $this->assertSame('2033-W20', (string) $yearWeek);
     }
 
     public function testGetFirstDay()

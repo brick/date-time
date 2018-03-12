@@ -572,101 +572,101 @@ class ZonedDateTimeTest extends AbstractTestCase
         $timeZone = TimeZone::parse('America/Los_Angeles');
         $localDateTime = '2000-01-20T12:34:56.123456789';
         $localDateTime = LocalDateTime::parse($localDateTime);
-        $newDate = LocalDate::of(2000, 1, 20);
+        $newDate = LocalDate::of(2000, 1, 22);
         $zonedDateTime = ZonedDateTime::of($localDateTime, $timeZone);
 
-        $this->assertSame('2000-01-20T12:34:56.123456789-08:00[America/Los_Angeles]', (string)$zonedDateTime->withDate($newDate));
+        $this->assertSame('2000-01-22T12:34:56.123456789-08:00[America/Los_Angeles]', (string) $zonedDateTime->withDate($newDate));
     }
 
     public function testWithTime()
     {
         $timeZone = TimeZone::parse('America/Los_Angeles');
-        $localDateTime = '2000-01-20T12:34:56.123456789';
+        $localDateTime = '2000-01-23T12:34:56.123456789';
         $localDateTime = LocalDateTime::parse($localDateTime);
         $time = LocalTime::of(12, 34, 56, 987654321);
         $zonedDateTime = ZonedDateTime::of($localDateTime, $timeZone);
 
-        $this->assertSame('2000-01-20T12:34:56.987654321-08:00[America/Los_Angeles]', (string)$zonedDateTime->withTime($time));
+        $this->assertSame('2000-01-23T12:34:56.987654321-08:00[America/Los_Angeles]', (string) $zonedDateTime->withTime($time));
     }
 
     public function testWithYear()
     {
         $timeZone = TimeZone::parse('America/Los_Angeles');
-        $localDateTime = '2000-01-20T12:34:56.123456789';
+        $localDateTime = '2012-02-20T12:34:56.123456789';
         $localDateTime = LocalDateTime::parse($localDateTime);
         $zonedDateTime = ZonedDateTime::of($localDateTime, $timeZone);
 
-        $this->assertSame('2000-01-20T12:34:56.123456789-08:00[America/Los_Angeles]', (string)$zonedDateTime->withYear(2000));
+        $this->assertSame('2000-02-20T12:34:56.123456789-08:00[America/Los_Angeles]', (string) $zonedDateTime->withYear(2000));
     }
 
     public function testWithMonth()
     {
         $timeZone = TimeZone::parse('America/Los_Angeles');
-        $localDateTime = '2000-01-20T12:34:56.123456789';
+        $localDateTime = '2000-02-25T12:34:56.123456789';
         $localDateTime = LocalDateTime::parse($localDateTime);
         $zonedDateTime = ZonedDateTime::of($localDateTime, $timeZone);
 
-        $this->assertSame('2000-01-20T12:34:56.123456789-08:00[America/Los_Angeles]', (string)$zonedDateTime->withMonth(1));
+        $this->assertSame('2000-01-25T12:34:56.123456789-08:00[America/Los_Angeles]', (string) $zonedDateTime->withMonth(1));
     }
 
     public function testWithDay()
     {
         $timeZone = TimeZone::parse('America/Los_Angeles');
-        $localDateTime = '2000-01-20T12:34:56.123456789';
+        $localDateTime = '2000-01-30T12:34:56.123456789';
         $localDateTime = LocalDateTime::parse($localDateTime);
         $zonedDateTime = ZonedDateTime::of($localDateTime, $timeZone);
 
-        $this->assertSame('2000-01-01T12:34:56.123456789-08:00[America/Los_Angeles]', (string)$zonedDateTime->withDay(1));
+        $this->assertSame('2000-01-01T12:34:56.123456789-08:00[America/Los_Angeles]', (string) $zonedDateTime->withDay(1));
     }
 
     public function testWithHour()
     {
         $timeZone = TimeZone::parse('America/Los_Angeles');
-        $localDateTime = '2000-01-20T12:34:56.123456789';
+        $localDateTime = '2000-01-03T14:34:56.123456789';
         $localDateTime = LocalDateTime::parse($localDateTime);
         $zonedDateTime = ZonedDateTime::of($localDateTime, $timeZone);
 
-        $this->assertSame('2000-01-20T12:34:56.123456789-08:00[America/Los_Angeles]', (string)$zonedDateTime->withHour(12));
+        $this->assertSame('2000-01-03T12:34:56.123456789-08:00[America/Los_Angeles]', (string) $zonedDateTime->withHour(12));
     }
 
     public function testWithMinute()
     {
         $timeZone = TimeZone::parse('America/Los_Angeles');
-        $localDateTime = '2000-01-20T12:34:56.123456789';
+        $localDateTime = '2000-03-28T12:34:56.123456789';
         $localDateTime = LocalDateTime::parse($localDateTime);
         $zonedDateTime = ZonedDateTime::of($localDateTime, $timeZone);
 
-        $this->assertSame('2000-01-20T12:30:56.123456789-08:00[America/Los_Angeles]', (string)$zonedDateTime->withMinute(30));
+        $this->assertSame('2000-03-28T12:30:56.123456789-08:00[America/Los_Angeles]', (string) $zonedDateTime->withMinute(30));
     }
 
     public function testWithSecond()
     {
         $timeZone = TimeZone::parse('America/Los_Angeles');
-        $localDateTime = '2000-01-20T12:34:56.123456789';
+        $localDateTime = '2000-03-25T12:34:56.123456789';
         $localDateTime = LocalDateTime::parse($localDateTime);
         $zonedDateTime = ZonedDateTime::of($localDateTime, $timeZone);
 
-        $this->assertSame('2000-01-20T12:34:56.123456789-08:00[America/Los_Angeles]', (string)$zonedDateTime->withSecond(56));
+        $this->assertSame('2000-03-25T12:34:56.123456789-08:00[America/Los_Angeles]', (string) $zonedDateTime->withSecond(56));
     }
 
     public function testWithNano()
     {
         $timeZone = TimeZone::parse('America/Los_Angeles');
-        $localDateTime = '2000-01-20T12:34:56.123456789';
+        $localDateTime = '2000-01-04T12:34:56.123456789';
         $localDateTime = LocalDateTime::parse($localDateTime);
         $zonedDateTime = ZonedDateTime::of($localDateTime, $timeZone);
 
-        $this->assertSame('2000-01-20T12:34:56.000000056-08:00[America/Los_Angeles]', (string)$zonedDateTime->withNano(56));
+        $this->assertSame('2000-01-04T12:34:56.000000056-08:00[America/Los_Angeles]', (string) $zonedDateTime->withNano(56));
     }
 
     public function testWithFixedOffsetTimeZone()
     {
         $timeZone = TimeZone::parse('America/Los_Angeles');
-        $localDateTime = '2000-01-20T12:34:56.123456789';
+        $localDateTime = '2000-01-10T12:34:56.123456789';
         $localDateTime = LocalDateTime::parse($localDateTime);
         $zonedDateTime = ZonedDateTime::of($localDateTime, $timeZone);
 
-        $this->assertSame('2000-01-20T12:34:56.123456789-08:00', (string)$zonedDateTime->withFixedOffsetTimeZone(56));
+        $this->assertSame('2000-01-10T12:34:56.123456789-08:00', (string) $zonedDateTime->withFixedOffsetTimeZone(56));
     }
 
     public function testPlusPeriod()
@@ -677,7 +677,7 @@ class ZonedDateTimeTest extends AbstractTestCase
         $localDateTime = LocalDateTime::parse($localDateTime);
         $zonedDateTime = ZonedDateTime::of($localDateTime, $timeZone);
 
-        $this->assertSame('2000-04-06T12:34:56.123456789-07:00[America/Los_Angeles]', (string)$zonedDateTime->plusPeriod(Period::ofWeeks(11)));
+        $this->assertSame('2000-04-06T12:34:56.123456789-07:00[America/Los_Angeles]', (string) $zonedDateTime->plusPeriod(Period::ofWeeks(11)));
     }
 
     public function testPlusDuration()
@@ -687,7 +687,7 @@ class ZonedDateTimeTest extends AbstractTestCase
         $localDateTime = LocalDateTime::parse($localDateTime);
         $zonedDateTime = ZonedDateTime::of($localDateTime, $timeZone);
 
-        $this->assertSame('2000-01-20T12:34:56.123456789-08:00[America/Los_Angeles]', (string)$zonedDateTime->plusDuration(Duration::zero()));
+        $this->assertSame('2000-01-20T12:34:56.123456789-08:00[America/Los_Angeles]', (string) $zonedDateTime->plusDuration(Duration::zero()));
     }
 
     public function testPlusYears()
@@ -697,7 +697,7 @@ class ZonedDateTimeTest extends AbstractTestCase
         $localDateTime = LocalDateTime::parse($localDateTime);
         $zonedDateTime = ZonedDateTime::of($localDateTime, $timeZone);
 
-        $this->assertSame('2002-01-20T12:34:56.123456789-08:00[America/Los_Angeles]', (string)$zonedDateTime->plusYears(2));
+        $this->assertSame('2002-01-20T12:34:56.123456789-08:00[America/Los_Angeles]', (string) $zonedDateTime->plusYears(2));
     }
 
     public function testPlusMonths()
@@ -707,7 +707,7 @@ class ZonedDateTimeTest extends AbstractTestCase
         $localDateTime = LocalDateTime::parse($localDateTime);
         $zonedDateTime = ZonedDateTime::of($localDateTime, $timeZone);
 
-        $this->assertSame('2000-03-20T12:34:56.123456789-08:00[America/Los_Angeles]', (string)$zonedDateTime->plusMonths(2));
+        $this->assertSame('2000-03-20T12:34:56.123456789-08:00[America/Los_Angeles]', (string) $zonedDateTime->plusMonths(2));
     }
 
     public function testPlusWeeks()
@@ -717,7 +717,7 @@ class ZonedDateTimeTest extends AbstractTestCase
         $localDateTime = LocalDateTime::parse($localDateTime);
         $zonedDateTime = ZonedDateTime::of($localDateTime, $timeZone);
 
-        $this->assertSame('2000-02-03T12:34:56.123456789-08:00[America/Los_Angeles]', (string)$zonedDateTime->plusWeeks(2));
+        $this->assertSame('2000-02-03T12:34:56.123456789-08:00[America/Los_Angeles]', (string) $zonedDateTime->plusWeeks(2));
     }
 
     public function testPlusDays()
@@ -727,7 +727,7 @@ class ZonedDateTimeTest extends AbstractTestCase
         $localDateTime = LocalDateTime::parse($localDateTime);
         $zonedDateTime = ZonedDateTime::of($localDateTime, $timeZone);
 
-        $this->assertSame('2000-01-22T12:34:56.123456789-08:00[America/Los_Angeles]', (string)$zonedDateTime->plusDays(2));
+        $this->assertSame('2000-01-22T12:34:56.123456789-08:00[America/Los_Angeles]', (string) $zonedDateTime->plusDays(2));
     }
 
     public function testPlusHours()
@@ -737,7 +737,7 @@ class ZonedDateTimeTest extends AbstractTestCase
         $localDateTime = LocalDateTime::parse($localDateTime);
         $zonedDateTime = ZonedDateTime::of($localDateTime, $timeZone);
 
-        $this->assertSame('2000-01-20T14:34:56.123456789-08:00[America/Los_Angeles]', (string)$zonedDateTime->plusHours(2));
+        $this->assertSame('2000-01-20T14:34:56.123456789-08:00[America/Los_Angeles]', (string) $zonedDateTime->plusHours(2));
     }
 
     public function testPlusMinutes()
@@ -747,7 +747,7 @@ class ZonedDateTimeTest extends AbstractTestCase
         $localDateTime = LocalDateTime::parse($localDateTime);
         $zonedDateTime = ZonedDateTime::of($localDateTime, $timeZone);
 
-        $this->assertSame('2000-01-20T12:36:56.123456789-08:00[America/Los_Angeles]', (string)$zonedDateTime->plusMinutes(2));
+        $this->assertSame('2000-01-20T12:36:56.123456789-08:00[America/Los_Angeles]', (string) $zonedDateTime->plusMinutes(2));
     }
 
     public function testPlusSeconds()
@@ -757,7 +757,7 @@ class ZonedDateTimeTest extends AbstractTestCase
         $localDateTime = LocalDateTime::parse($localDateTime);
         $zonedDateTime = ZonedDateTime::of($localDateTime, $timeZone);
 
-        $this->assertSame('2000-01-20T12:34:58.123456789-08:00[America/Los_Angeles]', (string)$zonedDateTime->plusSeconds(2));
+        $this->assertSame('2000-01-20T12:34:58.123456789-08:00[America/Los_Angeles]', (string) $zonedDateTime->plusSeconds(2));
     }
 
     public function testMinusPeriod()
@@ -767,7 +767,7 @@ class ZonedDateTimeTest extends AbstractTestCase
         $localDateTime = LocalDateTime::parse($localDateTime);
         $zonedDateTime = ZonedDateTime::of($localDateTime, $timeZone);
 
-        $this->assertSame('1999-11-04T12:34:56.123456789-08:00[America/Los_Angeles]', (string)$zonedDateTime->minusPeriod(Period::ofWeeks(11)));
+        $this->assertSame('1999-11-04T12:34:56.123456789-08:00[America/Los_Angeles]', (string) $zonedDateTime->minusPeriod(Period::ofWeeks(11)));
     }
 
     public function testMinusDuration()
@@ -777,7 +777,7 @@ class ZonedDateTimeTest extends AbstractTestCase
         $localDateTime = LocalDateTime::parse($localDateTime);
         $zonedDateTime = ZonedDateTime::of($localDateTime, $timeZone);
 
-        $this->assertSame('2000-01-20T12:34:56.123456789-08:00[America/Los_Angeles]', (string)$zonedDateTime->minusDuration(Duration::zero()));
+        $this->assertSame('2000-01-20T12:34:56.123456789-08:00[America/Los_Angeles]', (string) $zonedDateTime->minusDuration(Duration::zero()));
     }
 
     public function testMinusYears()
@@ -787,7 +787,7 @@ class ZonedDateTimeTest extends AbstractTestCase
         $localDateTime = LocalDateTime::parse($localDateTime);
         $zonedDateTime = ZonedDateTime::of($localDateTime, $timeZone);
 
-        $this->assertSame('1999-01-20T12:34:56.123456789-08:00[America/Los_Angeles]', (string)$zonedDateTime->minusYears(1));
+        $this->assertSame('1999-01-20T12:34:56.123456789-08:00[America/Los_Angeles]', (string) $zonedDateTime->minusYears(1));
     }
 
     public function testMinusMonths()
@@ -797,7 +797,7 @@ class ZonedDateTimeTest extends AbstractTestCase
         $localDateTime = LocalDateTime::parse($localDateTime);
         $zonedDateTime = ZonedDateTime::of($localDateTime, $timeZone);
 
-        $this->assertSame('1999-12-20T12:34:56.123456789-08:00[America/Los_Angeles]', (string)$zonedDateTime->minusMonths(1));
+        $this->assertSame('1999-12-20T12:34:56.123456789-08:00[America/Los_Angeles]', (string) $zonedDateTime->minusMonths(1));
     }
 
     public function testMinusWeeks()
@@ -807,7 +807,7 @@ class ZonedDateTimeTest extends AbstractTestCase
         $localDateTime = LocalDateTime::parse($localDateTime);
         $zonedDateTime = ZonedDateTime::of($localDateTime, $timeZone);
 
-        $this->assertSame('2000-01-06T12:34:56.123456789-08:00[America/Los_Angeles]', (string)$zonedDateTime->minusWeeks(2));
+        $this->assertSame('2000-01-06T12:34:56.123456789-08:00[America/Los_Angeles]', (string) $zonedDateTime->minusWeeks(2));
     }
 
     public function testMinusDays()
@@ -817,7 +817,7 @@ class ZonedDateTimeTest extends AbstractTestCase
         $localDateTime = LocalDateTime::parse($localDateTime);
         $zonedDateTime = ZonedDateTime::of($localDateTime, $timeZone);
 
-        $this->assertSame('2000-01-18T12:34:56.123456789-08:00[America/Los_Angeles]', (string)$zonedDateTime->minusDays(2));
+        $this->assertSame('2000-01-18T12:34:56.123456789-08:00[America/Los_Angeles]', (string) $zonedDateTime->minusDays(2));
     }
 
     public function testMinusHours()
@@ -827,7 +827,7 @@ class ZonedDateTimeTest extends AbstractTestCase
         $localDateTime = LocalDateTime::parse($localDateTime);
         $zonedDateTime = ZonedDateTime::of($localDateTime, $timeZone);
 
-        $this->assertSame('2000-01-20T10:34:56.123456789-08:00[America/Los_Angeles]', (string)$zonedDateTime->minusHours(2));
+        $this->assertSame('2000-01-20T10:34:56.123456789-08:00[America/Los_Angeles]', (string) $zonedDateTime->minusHours(2));
     }
 
     public function testMinusMinutes()
@@ -837,7 +837,7 @@ class ZonedDateTimeTest extends AbstractTestCase
         $localDateTime = LocalDateTime::parse($localDateTime);
         $zonedDateTime = ZonedDateTime::of($localDateTime, $timeZone);
 
-        $this->assertSame('2000-01-20T12:32:56.123456789-08:00[America/Los_Angeles]', (string)$zonedDateTime->minusMinutes(2));
+        $this->assertSame('2000-01-20T12:32:56.123456789-08:00[America/Los_Angeles]', (string) $zonedDateTime->minusMinutes(2));
     }
 
     public function testMinusSeconds()
@@ -847,7 +847,7 @@ class ZonedDateTimeTest extends AbstractTestCase
         $localDateTime = LocalDateTime::parse($localDateTime);
         $zonedDateTime = ZonedDateTime::of($localDateTime, $timeZone);
 
-        $this->assertSame('2000-01-20T12:34:54.123456789-08:00[America/Los_Angeles]', (string)$zonedDateTime->minusSeconds(2));
+        $this->assertSame('2000-01-20T12:34:54.123456789-08:00[America/Los_Angeles]', (string) $zonedDateTime->minusSeconds(2));
     }
 
     public function testIsBetweenInclusive()
@@ -915,6 +915,6 @@ class ZonedDateTimeTest extends AbstractTestCase
         $localDateTime = LocalDateTime::parse($localDateTime);
         $zonedDateTime = ZonedDateTime::of($localDateTime, $timeZone);
 
-        $this->assertSame('2000-01-20T12:34:56.123456789-08:00[America/Los_Angeles]', (string)$zonedDateTime);
+        $this->assertSame('2000-01-20T12:34:56.123456789-08:00[America/Los_Angeles]', (string) $zonedDateTime);
     }
 }

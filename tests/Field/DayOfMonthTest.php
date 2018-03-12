@@ -10,7 +10,8 @@ use Brick\DateTime\Tests\AbstractTestCase;
 /**
  * Unit tests for class DayOfMonth.
  */
-class DayOfMonthTest extends AbstractTestCase {
+class DayOfMonthTest extends AbstractTestCase
+{
     public function testCheckWithNullMonthOfYear()
     {
         $dayOfMonth = new DayOfMonth();

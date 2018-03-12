@@ -332,8 +332,8 @@ class YearMonthTest extends AbstractTestCase
 
     public function testWithYearIsTheSameYear()
     {
-        $fixedYear = (int)date('Y');
-        $fixedMonth = (int)date('m');
+        $fixedYear = 2018;
+        $fixedMonth = 2;
         $yearMonth = YearMonth::of($fixedYear, $fixedMonth);
 
         $this->assertInstanceOf(YearMonth::class, $yearMonth->withYear($fixedYear));
@@ -347,7 +347,7 @@ class YearMonthTest extends AbstractTestCase
 
     public function testWithMonthWithSameMonth()
     {
-        $fixedMonth = (int)date('m');
+        $fixedMonth = 2;
 
         $this->assertYearMonthIs(2000, $fixedMonth, YearMonth::of(2000, $fixedMonth)->withMonth($fixedMonth));
     }
