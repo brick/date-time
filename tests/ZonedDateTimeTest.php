@@ -896,7 +896,7 @@ class ZonedDateTimeTest extends AbstractTestCase
     {
         $clock = new FixedClock(Instant::of($clockTimestamp));
         $zonedDateTime = ZonedDateTime::parse($zonedDateTime);
-        $this->assertSame(!$isFuture, $zonedDateTime->isFuture($clock));
+        $this->assertSame($isFuture, $zonedDateTime->isFuture($clock));
     }
 
     /**
@@ -906,7 +906,7 @@ class ZonedDateTimeTest extends AbstractTestCase
     {
         $clock = new FixedClock(Instant::of($clockTimestamp));
         $zonedDateTime = ZonedDateTime::parse($zonedDateTime);
-        $this->assertSame($isFuture, $zonedDateTime->isPast($clock));
+        $this->assertSame(! $isFuture, $zonedDateTime->isPast($clock));
     }
 
     /**
@@ -915,8 +915,10 @@ class ZonedDateTimeTest extends AbstractTestCase
     public function providerForPastFuture()
     {
         return [
-            [123456789, '2007-12-03T10:15:30+01:00[Europe/Paris]', false],
-            [123456789, '2007-12-03T10:15:30+01:00[Asia/Taipei]', false],
+            [1234567890, '2009-02-14T00:31:29+01:00', false],
+            [1234567890, '2009-02-14T00:31:31+01:00', true],
+            [2345678901, '2044-04-30T17:28:20-08:00', false],
+            [2345678901, '2044-04-30T17:28:22-08:00', true]
         ];
     }
 
