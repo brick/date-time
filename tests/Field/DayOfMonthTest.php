@@ -9,6 +9,8 @@ use Brick\DateTime\Tests\AbstractTestCase;
 
 /**
  * Unit tests for class DayOfMonth.
+ *
+ * @doesNotPerformAssertions
  */
 class DayOfMonthTest extends AbstractTestCase
 {
@@ -16,6 +18,6 @@ class DayOfMonthTest extends AbstractTestCase
     {
         $dayOfMonth = new DayOfMonth();
 
-        $this->assertNull($dayOfMonth->check(31));
+        $dayOfMonth->check(31);
     }
 }
