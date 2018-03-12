@@ -407,6 +407,7 @@ class YearWeekTest extends AbstractTestCase
         $yearWeek = YearWeek::now($timeZone, $now);
 
         $this->assertSame('2033-W20', (string) $yearWeek);
+        $this->assertInstanceOf(YearWeek::class, $yearWeek);
     }
 
     public function testGetFirstDay()
@@ -414,7 +415,6 @@ class YearWeekTest extends AbstractTestCase
         $yearWeek = YearWeek::of(2015, 1);
         $result = $yearWeek->getFirstDay();
 
-        $this->assertInstanceOf(LocalDate::class, $result);
         $this->assertLocalDateIs(2014, 12, 29, $result);
     }
 
@@ -423,7 +423,6 @@ class YearWeekTest extends AbstractTestCase
         $yearWeek = YearWeek::of(2015, 1);
         $result = $yearWeek->getLastDay();
 
-        $this->assertInstanceOf(LocalDate::class, $result);
         $this->assertLocalDateIs(2015, 1, 4, $result);
     }
 }

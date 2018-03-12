@@ -627,7 +627,7 @@ class InstantTest extends AbstractTestCase
 
     public function testAtTimeZone()
     {
-        $timeZone = TimeZone::parse('UTC');
+        $timeZone = TimeZone::utc();
         $instant = Instant::of(1000000000);
         $result = $instant->atTimeZone($timeZone);
         $this->assertSame(1000000000, $result->getInstant()->getEpochSecond());

@@ -888,24 +888,39 @@ class ZonedDateTimeTest extends AbstractTestCase
         $this->assertFalse($fromZonedDateTime->isBetweenExclusive($fromZonedDateTime, $toZonedDateTime));
     }
 
-    public function testIsFuture()
+    /**
+     * @dataProvider providerForPastFuture
+     */
+    public function testIsFuture($clockTimestamp, $timeZone, $isFuture)
     {
-        $timeZone = TimeZone::parse('America/Los_Angeles');
-        $localDateTime = '2000-01-20T12:34:56.123456789';
-        $localDateTime = LocalDateTime::parse($localDateTime);
-        $pastZonedDateTime = ZonedDateTime::of($localDateTime, $timeZone);
+        $localDateTime = LocalDateTime::parse($clockTimestamp);
+        $zonedDateTime = ZonedDateTime::of($localDateTime, $timeZone);
 
-        $this->assertFalse($pastZonedDateTime->isFuture());
+        $this->assertSame($isFuture, $zonedDateTime->isFuture());
+        $this->assertSame(!$isFuture, $zonedDateTime->isPast());
     }
 
-    public function testIsPast()
+    /**
+     * @dataProvider providerForPastFuture
+     */
+    public function testIsPast($clockTimestamp, $timeZone, $isFuture)
     {
-        $timeZone = TimeZone::parse('America/Los_Angeles');
-        $localDateTime = '1998-01-20T12:34:56.123456789';
-        $localDateTime = LocalDateTime::parse($localDateTime);
-        $futureZonedDateTime = ZonedDateTime::of($localDateTime, $timeZone);
+        $localDateTime = LocalDateTime::parse($clockTimestamp);
+        $zonedDateTime = ZonedDateTime::of($localDateTime, $timeZone);
 
-        $this->assertTrue($futureZonedDateTime->isPast());
+        $this->assertSame($isFuture, $zonedDateTime->isFuture());
+        $this->assertSame(!$isFuture, $zonedDateTime->isPast());
+    }
+
+    /**
+     * @return array
+     */
+    public function providerForPastFuture()
+    {
+        return [
+            ['1998-01-20T12:34:56.123456789', TimeZone::parse('America/Los_Angeles'), false],
+            ['1998-01-10T12:34:56.123456789', TimeZone::parse('America/Los_Angeles'), false],
+        ];
     }
 
     public function testToString()
