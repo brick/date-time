@@ -13,6 +13,7 @@ use Brick\DateTime\Duration;
 use Brick\DateTime\TimeZone;
 use Brick\DateTime\TimeZoneOffset;
 use Brick\DateTime\ZonedDateTime;
+use Brick\DateTime\Clock\FixedClock;
 
 /**
  * Unit tests for class ZonedDateTime.
@@ -891,25 +892,21 @@ class ZonedDateTimeTest extends AbstractTestCase
     /**
      * @dataProvider providerForPastFuture
      */
-    public function testIsFuture($clockTimestamp, $timeZone, $isFuture)
+    public function testIsFuture($clockTimestamp, $zonedDateTime, $isFuture)
     {
-        $localDateTime = LocalDateTime::parse($clockTimestamp);
-        $zonedDateTime = ZonedDateTime::of($localDateTime, $timeZone);
-
-        $this->assertSame($isFuture, $zonedDateTime->isFuture());
-        $this->assertSame(!$isFuture, $zonedDateTime->isPast());
+        $clock = new FixedClock(Instant::of($clockTimestamp));
+        $zonedDateTime = ZonedDateTime::parse($zonedDateTime);
+        $this->assertSame(!$isFuture, $zonedDateTime->isFuture($clock));
     }
 
     /**
      * @dataProvider providerForPastFuture
      */
-    public function testIsPast($clockTimestamp, $timeZone, $isFuture)
+    public function testIsPast($clockTimestamp, $zonedDateTime, $isFuture)
     {
-        $localDateTime = LocalDateTime::parse($clockTimestamp);
-        $zonedDateTime = ZonedDateTime::of($localDateTime, $timeZone);
-
-        $this->assertSame($isFuture, $zonedDateTime->isFuture());
-        $this->assertSame(!$isFuture, $zonedDateTime->isPast());
+        $clock = new FixedClock(Instant::of($clockTimestamp));
+        $zonedDateTime = ZonedDateTime::parse($zonedDateTime);
+        $this->assertSame($isFuture, $zonedDateTime->isPast($clock));
     }
 
     /**
@@ -918,8 +915,8 @@ class ZonedDateTimeTest extends AbstractTestCase
     public function providerForPastFuture()
     {
         return [
-            ['1998-01-20T12:34:56.123456789', TimeZone::parse('America/Los_Angeles'), false],
-            ['1998-01-10T12:34:56.123456789', TimeZone::parse('America/Los_Angeles'), false],
+            [123456789, '2007-12-03T10:15:30+01:00[Europe/Paris]', false],
+            [123456789, '2007-12-03T10:15:30+01:00[Asia/Taipei]', false],
         ];
     }
 
