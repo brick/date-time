@@ -17,6 +17,6 @@ class DayOfMonthTest extends AbstractTestCase
      */
     public function testCheckWithNullMonthOfYear()
     {
-        $dayOfMonth::check(31);
+        DayOfMonth::check(31);
     }
 }
