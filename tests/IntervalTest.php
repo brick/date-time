@@ -13,7 +13,7 @@ use Brick\DateTime\Interval;
 class IntervalTest extends AbstractTestCase
 {
     /**
-     * @expectedException        Brick\DateTime\DateTimeException
+     * @expectedException        \Brick\DateTime\DateTimeException
      * @expectedExceptionMessage The end instant must not be before the start instant.
      */
     public function testEndInstantIsNotBeforeStartInstant()

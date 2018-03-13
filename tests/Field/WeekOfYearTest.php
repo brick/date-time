@@ -13,7 +13,7 @@ use Brick\DateTime\Tests\AbstractTestCase;
 class WeekOfYearTest extends AbstractTestCase
 {
     /**
-     * @expectedException        Brick\DateTime\DateTimeException
+     * @expectedException        \Brick\DateTime\DateTimeException
      * @expectedExceptionMessage Invalid week-of-year: -1 is not in the range 1 to 53.
      */
     public function testCheckShouldThrowDateTimeExceptionWithFieldNotInRange()
@@ -22,7 +22,7 @@ class WeekOfYearTest extends AbstractTestCase
     }
 
     /**
-     * @expectedException        Brick\DateTime\DateTimeException
+     * @expectedException        \Brick\DateTime\DateTimeException
      * @expectedExceptionMessage Year 2000 does not have 53 weeks
      */
     public function testCheckShouldThrowDateTimeExceptionWith52WeekYear()
