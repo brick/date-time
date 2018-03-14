@@ -112,6 +112,21 @@ class LocalDateTime
     }
 
     /**
+     * Creates a LocalDateTime from a native DateTime object.
+     *
+     * @param \DateTimeInterface $dateTime
+     *
+     * @return LocalDateTime
+     */
+    public static function fromDateTime(\DateTimeInterface $dateTime) : LocalDateTime
+    {
+        return new LocalDateTime(
+            LocalDate::fromDateTime($dateTime),
+            LocalTime::fromDateTime($dateTime)
+        );
+    }
+
+    /**
      * Returns the smallest possible value for LocalDateTime.
      *
      * @return LocalDateTime
