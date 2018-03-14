@@ -217,6 +217,37 @@ class ZonedDateTime
 
         return ZonedDateTime::from($parser->parse($text));
     }
+    /**
+     * Creates a ZonedDateTime from a native DateTime object.
+     *
+     * @param \DateTimeInterface $dateTime
+     *
+     * @return ZonedDateTime
+     *
+     * @throws DateTimeException If the DateTime object has no timezone.
+     */
+    public static function fromDateTime(\DateTimeInterface $dateTime) : ZonedDateTime
+    {
+        $localDateTime = LocalDateTime::fromDateTime($dateTime);
+
+        $dateTimeZone = $dateTime->getTimezone();
+
+        if ($dateTimeZone === false) {
+            throw new DateTimeException('This DateTime object has no timezone.');
+        }
+
+        $timeZone = TimeZone::fromDateTimeZone($dateTimeZone);
+
+        if ($timeZone instanceof TimeZoneOffset) {
+            $timeZoneOffset = $timeZone;
+        } else {
+            $timeZoneOffset = TimeZoneOffset::ofTotalSeconds($dateTime->getOffset());
+        }
+
+        $instant = Instant::of($dateTime->getTimestamp(), $localDateTime->getNano());
+
+        return new ZonedDateTime($localDateTime, $timeZoneOffset, $timeZone, $instant);
+    }
 
     /**
      * Returns the `LocalDateTime` part of this `ZonedDateTime`.

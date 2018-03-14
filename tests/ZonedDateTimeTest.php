@@ -425,6 +425,31 @@ class ZonedDateTimeTest extends AbstractTestCase
         ];
     }
 
+    /**
+     * @dataProvider providerFromDateTime
+     *
+     * @param string $dateTimeString
+     * @param string $timeZone
+     * @param string $expected
+     */
+    public function testFromDateTime(string $dateTimeString, string $timeZone, string $expected)
+    {
+        $dateTime = new \DateTime($dateTimeString, new \DateTimeZone($timeZone));
+        $this->assertIs(ZonedDateTime::class, $expected, ZonedDateTime::fromDateTime($dateTime));
+    }
+
+    /**
+     * @return array
+     */
+    public function providerFromDateTime() : array
+    {
+        return [
+            ['2018-07-21 14:09:10.23456', 'America/Los_Angeles', '2018-07-21T14:09:10.23456-07:00[America/Los_Angeles]'],
+            ['2019-01-21 17:59', 'America/Los_Angeles', '2019-01-21T17:59-08:00[America/Los_Angeles]'],
+            ['2019-01-23 09:10:11.123', '+05:30', '2019-01-23T09:10:11.123+05:30'],
+        ];
+    }
+
     public function testChangeTimeZone()
     {
         $timezone1 = TimeZone::parse('UTC');
