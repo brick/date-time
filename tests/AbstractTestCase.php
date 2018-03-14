@@ -28,6 +28,17 @@ use PHPUnit\Framework\TestCase;
 abstract class AbstractTestCase extends TestCase
 {
     /**
+     * @param string $className      The expected class name.
+     * @param string $expectedString The expected string representation.
+     * @param object $object         The object to test.
+     */
+    protected function assertIs(string $className, string $expectedString, $object)
+    {
+        $this->assertInstanceOf($className, $object);
+        $this->assertSame($expectedString, (string) $object);
+    }
+
+    /**
      * @param int     $epochSecond The expected epoch second.
      * @param int     $nano        The expected nanosecond adjustment.
      * @param Instant $instant     The instant to test.
