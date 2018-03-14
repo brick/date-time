@@ -544,144 +544,144 @@ class ZonedDateTimeTest extends AbstractTestCase
     {
         $newDate = LocalDate::of(2000, 1, 22);
 
-        $this->assertSame('2000-01-22T12:34:56.123456789-08:00[America/Los_Angeles]', (string) $this->getTestZonedDateTime()->withDate($newDate));
+        $this->assertIs(ZonedDateTime::class, '2000-01-22T12:34:56.123456789-08:00[America/Los_Angeles]', $this->getTestZonedDateTime()->withDate($newDate));
     }
 
     public function testWithTime()
     {
         $time = LocalTime::of(1, 2, 3, 987654321);
 
-        $this->assertSame('2000-01-20T01:02:03.987654321-08:00[America/Los_Angeles]', (string) $this->getTestZonedDateTime()->withTime($time));
+        $this->assertIs(ZonedDateTime::class, '2000-01-20T01:02:03.987654321-08:00[America/Los_Angeles]', $this->getTestZonedDateTime()->withTime($time));
     }
 
     public function testWithYear()
     {
-        $this->assertSame('2020-01-20T12:34:56.123456789-08:00[America/Los_Angeles]', (string) $this->getTestZonedDateTime()->withYear(2020));
+        $this->assertIs(ZonedDateTime::class, '2020-01-20T12:34:56.123456789-08:00[America/Los_Angeles]', $this->getTestZonedDateTime()->withYear(2020));
     }
 
     public function testWithMonth()
     {
-        $this->assertSame('2000-07-20T12:34:56.123456789-07:00[America/Los_Angeles]', (string) $this->getTestZonedDateTime()->withMonth(7));
+        $this->assertIs(ZonedDateTime::class, '2000-07-20T12:34:56.123456789-07:00[America/Los_Angeles]', $this->getTestZonedDateTime()->withMonth(7));
     }
 
     public function testWithDay()
     {
-        $this->assertSame('2000-01-31T12:34:56.123456789-08:00[America/Los_Angeles]', (string) $this->getTestZonedDateTime()->withDay(31));
+        $this->assertIs(ZonedDateTime::class, '2000-01-31T12:34:56.123456789-08:00[America/Los_Angeles]', $this->getTestZonedDateTime()->withDay(31));
     }
 
     public function testWithHour()
     {
-        $this->assertSame('2000-01-20T23:34:56.123456789-08:00[America/Los_Angeles]', (string) $this->getTestZonedDateTime()->withHour(23));
+        $this->assertIs(ZonedDateTime::class, '2000-01-20T23:34:56.123456789-08:00[America/Los_Angeles]', $this->getTestZonedDateTime()->withHour(23));
     }
 
     public function testWithMinute()
     {
-        $this->assertSame('2000-01-20T12:00:56.123456789-08:00[America/Los_Angeles]', (string) $this->getTestZonedDateTime()->withMinute(0));
+        $this->assertIs(ZonedDateTime::class, '2000-01-20T12:00:56.123456789-08:00[America/Los_Angeles]', $this->getTestZonedDateTime()->withMinute(0));
     }
 
     public function testWithSecond()
     {
-        $this->assertSame('2000-01-20T12:34:06.123456789-08:00[America/Los_Angeles]', (string) $this->getTestZonedDateTime()->withSecond(6));
+        $this->assertIs(ZonedDateTime::class, '2000-01-20T12:34:06.123456789-08:00[America/Los_Angeles]', $this->getTestZonedDateTime()->withSecond(6));
     }
 
     public function testWithNano()
     {
-        $this->assertSame('2000-01-20T12:34:56.000000123-08:00[America/Los_Angeles]', (string) $this->getTestZonedDateTime()->withNano(123));
+        $this->assertIs(ZonedDateTime::class, '2000-01-20T12:34:56.000000123-08:00[America/Los_Angeles]', $this->getTestZonedDateTime()->withNano(123));
     }
 
     public function testWithFixedOffsetTimeZone()
     {
-        $this->assertSame('2000-01-20T12:34:56.123456789-08:00', (string) $this->getTestZonedDateTime()->withFixedOffsetTimeZone());
+        $this->assertIs(ZonedDateTime::class, '2000-01-20T12:34:56.123456789-08:00', $this->getTestZonedDateTime()->withFixedOffsetTimeZone());
     }
 
     public function testPlusPeriod()
     {
-        $this->assertSame('2000-04-06T12:34:56.123456789-07:00[America/Los_Angeles]', (string) $this->getTestZonedDateTime()->plusPeriod(Period::ofWeeks(11)));
+        $this->assertIs(ZonedDateTime::class, '2000-04-06T12:34:56.123456789-07:00[America/Los_Angeles]', $this->getTestZonedDateTime()->plusPeriod(Period::ofWeeks(11)));
     }
 
     public function testPlusDuration()
     {
-        $this->assertSame('2000-01-20T12:35:01.123456789-08:00[America/Los_Angeles]', (string) $this->getTestZonedDateTime()->plusDuration(Duration::ofSeconds(5)));
+        $this->assertIs(ZonedDateTime::class, '2000-01-20T12:35:01.123456789-08:00[America/Los_Angeles]', $this->getTestZonedDateTime()->plusDuration(Duration::ofSeconds(5)));
     }
 
     public function testPlusYears()
     {
-        $this->assertSame('2002-01-20T12:34:56.123456789-08:00[America/Los_Angeles]', (string) $this->getTestZonedDateTime()->plusYears(2));
+        $this->assertIs(ZonedDateTime::class, '2002-01-20T12:34:56.123456789-08:00[America/Los_Angeles]', $this->getTestZonedDateTime()->plusYears(2));
     }
 
     public function testPlusMonths()
     {
-        $this->assertSame('2000-03-20T12:34:56.123456789-08:00[America/Los_Angeles]', (string) $this->getTestZonedDateTime()->plusMonths(2));
+        $this->assertIs(ZonedDateTime::class, '2000-03-20T12:34:56.123456789-08:00[America/Los_Angeles]', $this->getTestZonedDateTime()->plusMonths(2));
     }
 
     public function testPlusWeeks()
     {
-        $this->assertSame('2000-02-03T12:34:56.123456789-08:00[America/Los_Angeles]', (string) $this->getTestZonedDateTime()->plusWeeks(2));
+        $this->assertIs(ZonedDateTime::class, '2000-02-03T12:34:56.123456789-08:00[America/Los_Angeles]', $this->getTestZonedDateTime()->plusWeeks(2));
     }
 
     public function testPlusDays()
     {
-        $this->assertSame('2000-01-22T12:34:56.123456789-08:00[America/Los_Angeles]', (string) $this->getTestZonedDateTime()->plusDays(2));
+        $this->assertIs(ZonedDateTime::class, '2000-01-22T12:34:56.123456789-08:00[America/Los_Angeles]', $this->getTestZonedDateTime()->plusDays(2));
     }
 
     public function testPlusHours()
     {
-        $this->assertSame('2000-01-20T14:34:56.123456789-08:00[America/Los_Angeles]', (string) $this->getTestZonedDateTime()->plusHours(2));
+        $this->assertIs(ZonedDateTime::class, '2000-01-20T14:34:56.123456789-08:00[America/Los_Angeles]', $this->getTestZonedDateTime()->plusHours(2));
     }
 
     public function testPlusMinutes()
     {
-        $this->assertSame('2000-01-20T12:36:56.123456789-08:00[America/Los_Angeles]', (string) $this->getTestZonedDateTime()->plusMinutes(2));
+        $this->assertIs(ZonedDateTime::class, '2000-01-20T12:36:56.123456789-08:00[America/Los_Angeles]', $this->getTestZonedDateTime()->plusMinutes(2));
     }
 
     public function testPlusSeconds()
     {
-        $this->assertSame('2000-01-20T12:34:58.123456789-08:00[America/Los_Angeles]', (string) $this->getTestZonedDateTime()->plusSeconds(2));
+        $this->assertIs(ZonedDateTime::class, '2000-01-20T12:34:58.123456789-08:00[America/Los_Angeles]', $this->getTestZonedDateTime()->plusSeconds(2));
     }
 
     public function testMinusPeriod()
     {
-        $this->assertSame('1999-11-04T12:34:56.123456789-08:00[America/Los_Angeles]', (string) $this->getTestZonedDateTime()->minusPeriod(Period::ofWeeks(11)));
+        $this->assertIs(ZonedDateTime::class, '1999-11-04T12:34:56.123456789-08:00[America/Los_Angeles]', $this->getTestZonedDateTime()->minusPeriod(Period::ofWeeks(11)));
     }
 
     public function testMinusDuration()
     {
-        $this->assertSame('2000-01-20T12:34:51.123456789-08:00[America/Los_Angeles]', (string) $this->getTestZonedDateTime()->minusDuration(Duration::ofSeconds(5)));
+        $this->assertIs(ZonedDateTime::class, '2000-01-20T12:34:51.123456789-08:00[America/Los_Angeles]', $this->getTestZonedDateTime()->minusDuration(Duration::ofSeconds(5)));
     }
 
     public function testMinusYears()
     {
-        $this->assertSame('1999-01-20T12:34:56.123456789-08:00[America/Los_Angeles]', (string) $this->getTestZonedDateTime()->minusYears(1));
+        $this->assertIs(ZonedDateTime::class, '1999-01-20T12:34:56.123456789-08:00[America/Los_Angeles]', $this->getTestZonedDateTime()->minusYears(1));
     }
 
     public function testMinusMonths()
     {
-        $this->assertSame('1999-12-20T12:34:56.123456789-08:00[America/Los_Angeles]', (string) $this->getTestZonedDateTime()->minusMonths(1));
+        $this->assertIs(ZonedDateTime::class, '1999-12-20T12:34:56.123456789-08:00[America/Los_Angeles]', $this->getTestZonedDateTime()->minusMonths(1));
     }
 
     public function testMinusWeeks()
     {
-        $this->assertSame('2000-01-06T12:34:56.123456789-08:00[America/Los_Angeles]', (string) $this->getTestZonedDateTime()->minusWeeks(2));
+        $this->assertIs(ZonedDateTime::class, '2000-01-06T12:34:56.123456789-08:00[America/Los_Angeles]', $this->getTestZonedDateTime()->minusWeeks(2));
     }
 
     public function testMinusDays()
     {
-        $this->assertSame('2000-01-18T12:34:56.123456789-08:00[America/Los_Angeles]', (string) $this->getTestZonedDateTime()->minusDays(2));
+        $this->assertIs(ZonedDateTime::class, '2000-01-18T12:34:56.123456789-08:00[America/Los_Angeles]', $this->getTestZonedDateTime()->minusDays(2));
     }
 
     public function testMinusHours()
     {
-        $this->assertSame('2000-01-20T10:34:56.123456789-08:00[America/Los_Angeles]', (string) $this->getTestZonedDateTime()->minusHours(2));
+        $this->assertIs(ZonedDateTime::class, '2000-01-20T10:34:56.123456789-08:00[America/Los_Angeles]', $this->getTestZonedDateTime()->minusHours(2));
     }
 
     public function testMinusMinutes()
     {
-        $this->assertSame('2000-01-20T12:32:56.123456789-08:00[America/Los_Angeles]', (string) $this->getTestZonedDateTime()->minusMinutes(2));
+        $this->assertIs(ZonedDateTime::class, '2000-01-20T12:32:56.123456789-08:00[America/Los_Angeles]', $this->getTestZonedDateTime()->minusMinutes(2));
     }
 
     public function testMinusSeconds()
     {
-        $this->assertSame('2000-01-20T12:34:54.123456789-08:00[America/Los_Angeles]', (string) $this->getTestZonedDateTime()->minusSeconds(2));
+        $this->assertIs(ZonedDateTime::class, '2000-01-20T12:34:54.123456789-08:00[America/Los_Angeles]', $this->getTestZonedDateTime()->minusSeconds(2));
     }
 
     public function testIsBetweenInclusive()
