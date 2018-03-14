@@ -75,10 +75,10 @@ class LocalTime
     }
 
     /**
-     * @param int $hour
-     * @param int $minute
-     * @param int $second
-     * @param int $nano
+     * @param int $hour   The hour, from 0 to 23.
+     * @param int $minute The minute, from 0 to 59.
+     * @param int $second The second, from 0 to 59.
+     * @param int $nano   The nano-of-second, from 0 to 999,999,999.
      *
      * @return LocalTime
      *
@@ -155,6 +155,23 @@ class LocalTime
         }
 
         return LocalTime::from($parser->parse($text));
+    }
+
+    /**
+     * Creates a LocalTime from a native DateTime object.
+     *
+     * @param \DateTimeInterface $dateTime
+     *
+     * @return LocalTime
+     */
+    public static function fromDateTime(\DateTimeInterface $dateTime) : LocalTime
+    {
+        return new LocalTime(
+            (int) $dateTime->format('G'),
+            (int) $dateTime->format('i'),
+            (int) $dateTime->format('s'),
+            1000 * (int) $dateTime->format('u')
+        );
     }
 
     /**

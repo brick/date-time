@@ -176,6 +176,12 @@ class LocalTimeTest extends AbstractTestCase
         ];
     }
 
+    public function testFromDateTime()
+    {
+        $dateTime = new \DateTime('2018-07-21 14:09:10.23456');
+        $this->assertLocalTimeIs(14, 9, 10, 234560000, LocalTime::fromDateTime($dateTime));
+    }
+
     /**
      * @dataProvider providerNow
      *
