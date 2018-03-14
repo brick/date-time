@@ -42,14 +42,11 @@ class ZonedDateTime
     private $timeZone;
 
     /**
-     * A native DateTime object to perform some of the calculations.
+     * The instant represented by this ZonedDateTime.
      *
-     * DateTime does not support fractions of seconds, so this object is the equivalent
-     * of this ZonedDateTime with the fraction truncated.
-     *
-     * @var \DateTime
+     * @var Instant
      */
-    private $dateTime;
+    private $instant;
 
     /**
      * Private constructor. Use a factory method to obtain an instance.
@@ -57,14 +54,14 @@ class ZonedDateTime
      * @param LocalDateTime  $localDateTime
      * @param TimeZoneOffset $offset
      * @param TimeZone       $zone
-     * @param \DateTime      $dt
+     * @param Instant        $instant
      */
-    private function __construct(LocalDateTime $localDateTime, TimeZoneOffset $offset, TimeZone $zone, \DateTime $dt)
+    private function __construct(LocalDateTime $localDateTime, TimeZoneOffset $offset, TimeZone $zone, Instant $instant)
     {
         $this->localDateTime  = $localDateTime;
         $this->timeZone       = $zone;
         $this->timeZoneOffset = $offset;
-        $this->dateTime       = $dt;
+        $this->instant        = $instant;
     }
 
     /**
@@ -103,6 +100,8 @@ class ZonedDateTime
         $dtz = $timeZone->toDateTimeZone();
         $dt = new \DateTime((string) $dateTime->withNano(0), $dtz);
 
+        $instant = Instant::of($dt->getTimestamp(), $dateTime->getNano());
+
         if ($timeZone instanceof TimeZoneOffset) {
             $timeZoneOffset = $timeZone;
         } else {
@@ -111,10 +110,10 @@ class ZonedDateTime
 
         // The time can be affected if the date-time is not valid for the given time-zone due to a DST transition,
         // so we have to re-compute the local date-time from the DateTime object.
-        // DateTime does not support fractions of seconds, so we just copy the nano back from the original date-time.
+        // DateTime does not support nanos of seconds, so we just copy the nanos back from the original date-time.
         $dateTime = LocalDateTime::parse($dt->format('Y-m-d\TH:i:s'))->withNano($dateTime->getNano());
 
-        return new ZonedDateTime($dateTime, $timeZoneOffset, $timeZone, $dt);
+        return new ZonedDateTime($dateTime, $timeZoneOffset, $timeZone, $instant);
     }
 
     /**
@@ -146,7 +145,7 @@ class ZonedDateTime
             $timeZoneOffset = TimeZoneOffset::ofTotalSeconds($dateTimeZone->getOffset($dateTime));
         }
 
-        return new ZonedDateTime($localDateTime, $timeZoneOffset, $timeZone, $dateTime);
+        return new ZonedDateTime($localDateTime, $timeZoneOffset, $timeZone, $instant);
     }
 
     /**
@@ -354,7 +353,7 @@ class ZonedDateTime
      */
     public function getInstant() : Instant
     {
-        return Instant::of($this->dateTime->getTimestamp(), $this->localDateTime->getNano());
+        return $this->instant;
     }
 
     /**
