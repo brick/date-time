@@ -332,11 +332,7 @@ class YearMonthTest extends AbstractTestCase
 
     public function testWithYearWithSameYear()
     {
-        $year = 2018;
-        $month = 2;
-        $yearMonth = YearMonth::of($year, $month);
-
-        $this->assertYearMonthIs($year, $month, $yearMonth->withYear($year));
+        $this->assertYearMonthIs(2018, 2, YearMonth::of(2018, 2)->withYear(2018));
     }
 
     public function testWithMonth()
@@ -346,9 +342,7 @@ class YearMonthTest extends AbstractTestCase
 
     public function testWithMonthWithSameMonth()
     {
-        $month = 2;
-
-        $this->assertYearMonthIs(2000, $month, YearMonth::of(2000, $month)->withMonth($month));
+        $this->assertYearMonthIs(2000, 2, YearMonth::of(2000, 2)->withMonth(2));
     }
 
     public function testGetFirstDay()
