@@ -142,7 +142,7 @@ class ZonedDateTime
         if ($timeZone instanceof TimeZoneOffset) {
             $timeZoneOffset = $timeZone;
         } else {
-            $timeZoneOffset = TimeZoneOffset::ofTotalSeconds($dateTimeZone->getOffset($dateTime));
+            $timeZoneOffset = TimeZoneOffset::ofTotalSeconds($dateTime->getOffset());
         }
 
         return new ZonedDateTime($localDateTime, $timeZoneOffset, $timeZone, $instant);
