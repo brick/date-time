@@ -376,6 +376,17 @@ class MonthDayTest extends AbstractTestCase
         ];
     }
 
+    public function testWithDayWithSameDay()
+    {
+        $month = 1;
+        $day = 20;
+        $monthDay = MonthDay::of($month, $day);
+        $newMonthDay = $monthDay->withDay($day);
+
+        $this->assertMonthDayIs($month, $day, $monthDay);
+        $this->assertMonthDayIs($month, $day, $newMonthDay);
+    }
+
     /**
      * @dataProvider providerWithDay
      *

@@ -28,6 +28,15 @@ class StopwatchTest extends AbstractTestCase
         self::$clock->setTime(Instant::of($second, $nano));
     }
 
+    public function testConstructorWithNullClock()
+    {
+        $stopwatch = new Stopwatch();
+
+        $this->assertNull($stopwatch->getStartTime());
+        $this->assertFalse($stopwatch->isRunning());
+        $this->assertDurationIs(0, 0, $stopwatch->getElapsedTime());
+    }
+
     /**
      * @return Stopwatch
      */
@@ -78,6 +87,16 @@ class StopwatchTest extends AbstractTestCase
         $this->assertDurationIs(999, 999999999, $stopwatch->getElapsedTime());
 
         return $stopwatch;
+    }
+
+    public function testStopWithNullStartTime()
+    {
+        $stopwatch = new Stopwatch();
+        $stopwatch->stop();
+
+        $this->assertNull($stopwatch->getStartTime());
+        $this->assertFalse($stopwatch->isRunning());
+        $this->assertDurationIs(0, 0, $stopwatch->getElapsedTime());
     }
 
     /**

@@ -7,6 +7,7 @@ namespace Brick\DateTime\Tests;
 use Brick\DateTime\Clock\FixedClock;
 use Brick\DateTime\Duration;
 use Brick\DateTime\Instant;
+use Brick\DateTime\TimeZone;
 
 /**
  * Unit tests for class Instant.
@@ -374,6 +375,36 @@ class InstantTest extends AbstractTestCase
     }
 
     /**
+     * @dataProvider providerIsBetweenInclusive
+     *
+     * @param int  $seconds   The seconds value.
+     * @param int  $nanos     The nano seconds value.
+     * @param bool $isBetween Check the secs and nanos are between.
+     */
+    public function testIsBetweenInclusive(int $seconds, int $nanos, $isBetween)
+    {
+        $this->assertSame($isBetween, Instant::of($seconds, $nanos)->isBetweenInclusive(
+            Instant::of(-1, -1),
+            Instant::of(1, 1)
+        ));
+    }
+
+    /**
+     * @dataProvider providerIsBetweenExclusive
+     *
+     * @param int  $seconds   The seconds value.
+     * @param int  $nanos     The nano seconds value.
+     * @param bool $isBetween Check the secs and nanos are between.
+     */
+    public function testIsBetweenExclusive(int $seconds, int $nanos, $isBetween)
+    {
+        $this->assertSame($isBetween, Instant::of($seconds, $nanos)->isBetweenExclusive(
+            Instant::of(-1, -1),
+            Instant::of(1, 1)
+        ));
+    }
+
+    /**
      * @dataProvider providerCompareTo
      *
      * @param int $testSecond The second of the test instant.
@@ -401,6 +432,46 @@ class InstantTest extends AbstractTestCase
     {
         $clock = new FixedClock(Instant::of($nowSecond, $nowNano));
         $this->assertSame($cmp === -1, Instant::of($testSecond, $testNano)->isPast($clock));
+    }
+
+    /**
+     * @return array
+     */
+    public function providerIsBetweenExclusive() : array
+    {
+        return [
+            [-1, -2, false],
+            [-1, -1, false],
+            [-1,  0, true],
+            [-1, 1, true],
+            [0, -1, true],
+            [0, 0, true],
+            [0, 1, true],
+            [1, -1, true],
+            [1, 0, true],
+            [1, 1, false],
+            [1, 2, false],
+        ];
+    }
+
+    /**
+     * @return array
+     */
+    public function providerIsBetweenInclusive() : array
+    {
+        return [
+            [-1, -2, false],
+            [-1, -1, true],
+            [-1,  0, true],
+            [-1, 1, true],
+            [0, -1, true],
+            [0, 0, true],
+            [0, 1, true],
+            [1, -1, true],
+            [1, 0, true],
+            [1, 1, true],
+            [1, 2, false],
+        ];
     }
 
     /**
@@ -552,5 +623,14 @@ class InstantTest extends AbstractTestCase
             [1, 123456789, '1970-01-01T00:00:01.123456789Z'],
             [2000000000, 0, '2033-05-18T03:33:20Z'],
         ];
+    }
+
+    public function testAtTimeZone()
+    {
+        $timeZone = TimeZone::utc();
+        $instant = Instant::of(1000000000);
+        $result = $instant->atTimeZone($timeZone);
+        $this->assertSame(1000000000, $result->getInstant()->getEpochSecond());
+        $this->assertSame('2001-09-09T01:46:40', (string) $result->getDateTime());
     }
 }

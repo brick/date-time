@@ -330,9 +330,25 @@ class YearMonthTest extends AbstractTestCase
         $this->assertYearMonthIs(2001, 5, YearMonth::of(2000, 5)->withYear(2001));
     }
 
+    public function testWithYearWithSameYear()
+    {
+        $year = 2018;
+        $month = 2;
+        $yearMonth = YearMonth::of($year, $month);
+
+        $this->assertYearMonthIs($year, $month, $yearMonth->withYear($year));
+    }
+
     public function testWithMonth()
     {
         $this->assertYearMonthIs(2000, 12, YearMonth::of(2000, 1)->withMonth(12));
+    }
+
+    public function testWithMonthWithSameMonth()
+    {
+        $month = 2;
+
+        $this->assertYearMonthIs(2000, $month, YearMonth::of(2000, $month)->withMonth($month));
     }
 
     public function testGetFirstDay()
@@ -347,7 +363,7 @@ class YearMonthTest extends AbstractTestCase
      * @param int $month
      * @param int $day
      */
-    public function getGetLastDay(int $year, int $month, int $day)
+    public function testGetLastDay(int $year, int $month, int $day)
     {
         $this->assertLocalDateIs($year, $month, $day, YearMonth::of($year, $month)->getLastDay());
     }
@@ -362,7 +378,7 @@ class YearMonthTest extends AbstractTestCase
             [2000, 2, 29],
             [2001, 2, 28],
             [2002, 3, 31],
-            [2002, 4, 40],
+            [2002, 4, 30],
         ];
     }
 
@@ -384,6 +400,12 @@ class YearMonthTest extends AbstractTestCase
     {
         $yearMonth = YearMonth::of($year, $month);
         $this->assertYearMonthIs($expectedYear, $expectedMonth, $yearMonth->plusYears($plusYears));
+    }
+
+    public function testPlusZeroYears()
+    {
+        $yearMonth = YearMonth::of(2005, 1);
+        $this->assertYearMonthIs(2005, 1, $yearMonth->plusYears(0));
     }
 
     /**
