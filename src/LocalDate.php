@@ -159,6 +159,22 @@ class LocalDate
     }
 
     /**
+     * Creates a LocalDate from a native DateTime object.
+     *
+     * @param \DateTimeInterface $dateTime
+     *
+     * @return LocalDate
+     */
+    public static function fromDateTime(\DateTimeInterface $dateTime) : LocalDate
+    {
+        return new LocalDate(
+            (int) $dateTime->format('Y'),
+            (int) $dateTime->format('n'),
+            (int) $dateTime->format('j')
+        );
+    }
+
+    /**
      * Obtains an instance of `LocalDate` from the epoch day count.
      *
      * The Epoch Day count is a simple incrementing count of days

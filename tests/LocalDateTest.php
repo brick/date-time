@@ -136,6 +136,12 @@ class LocalDateTest extends AbstractTestCase
         ];
     }
 
+    public function testFromDateTime()
+    {
+        $dateTime = new \DateTime('2018-07-21');
+        $this->assertLocalDateIs(2018, 7, 21, LocalDate::fromDateTime($dateTime));
+    }
+
     /**
      * @dataProvider providerNow
      *
