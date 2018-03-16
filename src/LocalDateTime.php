@@ -287,24 +287,6 @@ class LocalDateTime
     }
 
     /**
-     * Returns a copy of this date-time with the new date and time, checking
-     * to see if a new object is in fact required.
-     *
-     * @param LocalDate $date
-     * @param LocalTime $time
-     *
-     * @return LocalDateTime
-     */
-    private function with(LocalDate $date, LocalTime $time) : LocalDateTime
-    {
-        if ($date->isEqualTo($this->date) && $time->isEqualTo($this->time)) {
-            return $this;
-        }
-
-        return new LocalDateTime($date, $time);
-    }
-
-    /**
      * Returns a copy of this LocalDateTime with the date altered.
      *
      * @param LocalDate $date
@@ -349,7 +331,13 @@ class LocalDateTime
      */
     public function withYear(int $year) : LocalDateTime
     {
-        return $this->with($this->date->withYear($year), $this->time);
+        $date = $this->date->withYear($year);
+
+        if ($date === $this->date) {
+            return $this;
+        }
+
+        return new LocalDateTime($date, $this->time);
     }
 
     /**
@@ -365,7 +353,13 @@ class LocalDateTime
      */
     public function withMonth(int $month) : LocalDateTime
     {
-        return $this->with($this->date->withMonth($month), $this->time);
+        $date = $this->date->withMonth($month);
+
+        if ($date === $this->date) {
+            return $this;
+        }
+
+        return new LocalDateTime($date, $this->time);
     }
 
     /**
@@ -381,7 +375,13 @@ class LocalDateTime
      */
     public function withDay(int $day) : LocalDateTime
     {
-        return $this->with($this->date->withDay($day), $this->time);
+        $date = $this->date->withDay($day);
+
+        if ($date === $this->date) {
+            return $this;
+        }
+
+        return new LocalDateTime($date, $this->time);
     }
 
     /**
@@ -395,7 +395,13 @@ class LocalDateTime
      */
     public function withHour(int $hour) : LocalDateTime
     {
-        return $this->with($this->date, $this->time->withHour($hour));
+        $time = $this->time->withHour($hour);
+
+        if ($time === $this->time) {
+            return $this;
+        }
+
+        return new LocalDateTime($this->date, $time);
     }
 
     /**
@@ -409,7 +415,13 @@ class LocalDateTime
      */
     public function withMinute(int $minute) : LocalDateTime
     {
-        return $this->with($this->date, $this->time->withMinute($minute));
+        $time = $this->time->withMinute($minute);
+
+        if ($time === $this->time) {
+            return $this;
+        }
+
+        return new LocalDateTime($this->date, $time);
     }
 
     /**
@@ -423,7 +435,13 @@ class LocalDateTime
      */
     public function withSecond(int $second) : LocalDateTime
     {
-        return $this->with($this->date, $this->time->withSecond($second));
+        $time = $this->time->withSecond($second);
+
+        if ($time === $this->time) {
+            return $this;
+        }
+
+        return new LocalDateTime($this->date, $time);
     }
 
     /**
@@ -437,7 +455,13 @@ class LocalDateTime
      */
     public function withNano(int $nano) : LocalDateTime
     {
-        return $this->with($this->date, $this->time->withNano($nano));
+        $time = $this->time->withNano($nano);
+
+        if ($time === $this->time) {
+            return $this;
+        }
+
+        return new LocalDateTime($this->date, $time);
     }
 
     /**
@@ -461,7 +485,13 @@ class LocalDateTime
      */
     public function plusPeriod(Period $period) : LocalDateTime
     {
-        return $this->with($this->date->plusPeriod($period), $this->time);
+        $date = $this->date->plusPeriod($period);
+
+        if ($date === $this->date) {
+            return $this;
+        }
+
+        return new LocalDateTime($date, $this->time);
     }
 
     /**
@@ -473,9 +503,13 @@ class LocalDateTime
      */
     public function plusDuration(Duration $duration) : LocalDateTime
     {
+        if ($duration->isZero()) {
+            return $this;
+        }
+
         $days = Math::floorDiv($duration->getSeconds(), LocalTime::SECONDS_PER_DAY);
 
-        return $this->with($this->date->plusDays($days), $this->time->plusDuration($duration));
+        return new LocalDateTime($this->date->plusDays($days), $this->time->plusDuration($duration));
     }
 
     /**
@@ -489,7 +523,11 @@ class LocalDateTime
      */
     public function plusYears(int $years) : LocalDateTime
     {
-        return $this->with($this->date->plusYears($years), $this->time);
+        if ($years === 0) {
+            return $this;
+        }
+
+        return new LocalDateTime($this->date->plusYears($years), $this->time);
     }
 
     /**
@@ -501,7 +539,11 @@ class LocalDateTime
      */
     public function plusMonths(int $months) : LocalDateTime
     {
-        return $this->with($this->date->plusMonths($months), $this->time);
+        if ($months === 0) {
+            return $this;
+        }
+
+        return new LocalDateTime($this->date->plusMonths($months), $this->time);
     }
 
     /**
@@ -513,7 +555,11 @@ class LocalDateTime
      */
     public function plusWeeks(int $weeks) : LocalDateTime
     {
-        return $this->with($this->date->plusWeeks($weeks), $this->time);
+        if ($weeks === 0) {
+            return $this;
+        }
+
+        return new LocalDateTime($this->date->plusWeeks($weeks), $this->time);
     }
 
     /**
@@ -525,7 +571,11 @@ class LocalDateTime
      */
     public function plusDays(int $days) : LocalDateTime
     {
-        return $this->with($this->date->plusDays($days), $this->time);
+        if ($days === 0) {
+            return $this;
+        }
+
+        return new LocalDateTime($this->date->plusDays($days), $this->time);
     }
 
     /**
@@ -601,7 +651,7 @@ class LocalDateTime
      */
     public function minusPeriod(Period $period) : LocalDateTime
     {
-        return $this->with($this->date->minusPeriod($period), $this->time);
+        return $this->plusPeriod($period->negated());
     }
 
     /**
@@ -625,7 +675,11 @@ class LocalDateTime
      */
     public function minusYears(int $years) : LocalDateTime
     {
-        return $this->with($this->date->minusYears($years), $this->time);
+        if ($years === 0) {
+            return $this;
+        }
+
+        return new LocalDateTime($this->date->minusYears($years), $this->time);
     }
 
     /**
@@ -637,7 +691,11 @@ class LocalDateTime
      */
     public function minusMonths(int $months) : LocalDateTime
     {
-        return $this->with($this->date->minusMonths($months), $this->time);
+        if ($months === 0) {
+            return $this;
+        }
+
+        return new LocalDateTime($this->date->minusMonths($months), $this->time);
     }
 
     /**
@@ -649,7 +707,11 @@ class LocalDateTime
      */
     public function minusWeeks(int $weeks) : LocalDateTime
     {
-        return $this->with($this->date->minusWeeks($weeks), $this->time);
+        if ($weeks === 0) {
+            return $this;
+        }
+
+        return new LocalDateTime($this->date->minusWeeks($weeks), $this->time);
     }
 
     /**
@@ -661,7 +723,11 @@ class LocalDateTime
      */
     public function minusDays(int $days) : LocalDateTime
     {
-        return $this->with($this->date->minusDays($days), $this->time);
+        if ($days === 0) {
+            return $this;
+        }
+
+        return new LocalDateTime($this->date->minusDays($days), $this->time);
     }
 
     /**
@@ -762,9 +828,10 @@ class LocalDateTime
         $totDays += Math::floorDiv($totSeconds, LocalTime::SECONDS_PER_DAY);
         $newSoD = Math::floorMod($totSeconds, LocalTime::SECONDS_PER_DAY);
 
+        $newDate = $this->date->plusDays($totDays);
         $newTime = ($newSoD === $curSoD ? $this->time : LocalTime::ofSecondOfDay($newSoD, $newNano));
 
-        return $this->with($this->date->plusDays($totDays), $newTime);
+        return new LocalDateTime($newDate, $newTime);
     }
 
     /**
