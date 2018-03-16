@@ -108,6 +108,24 @@ class YearWeekTest extends AbstractTestCase
     }
 
     /**
+     * @dataProvider providerAtDay
+     *
+     * @param int $weekBasedYear
+     * @param int $weekOfWeekBasedYear
+     * @param int $dayOfWeek
+     * @param int $year
+     * @param int $month
+     * @param int $dayOfMonth
+     */
+    public function testAtDay(int $weekBasedYear, int $weekOfWeekBasedYear, int $dayOfWeek, int $year, int $month, int $dayOfMonth)
+    {
+        $yearWeek = YearWeek::of($weekBasedYear, $weekOfWeekBasedYear);
+        $actual = $yearWeek->atDay($dayOfWeek);
+
+        $this->assertLocalDateIs($year, $month, $dayOfMonth, $actual);
+    }
+
+    /**
      * @return array
      */
     public function providerAtDay() : array
@@ -141,24 +159,6 @@ class YearWeekTest extends AbstractTestCase
             [2017,  1, DayOfWeek::SUNDAY,    2017,  1,  8],
             [2025,  1, DayOfWeek::MONDAY,    2024, 12, 30],
         ];
-    }
-
-    /**
-     * @dataProvider providerAtDay
-     *
-     * @param int $weekBasedYear
-     * @param int $weekOfWeekBasedYear
-     * @param int $dayOfWeek
-     * @param int $year
-     * @param int $month
-     * @param int $dayOfMonth
-     */
-    public function testAtDay(int $weekBasedYear, int $weekOfWeekBasedYear, int $dayOfWeek, int $year, int $month, int $dayOfMonth)
-    {
-        $yearWeek = YearWeek::of($weekBasedYear, $weekOfWeekBasedYear);
-        $actual = $yearWeek->atDay($dayOfWeek);
-
-        $this->assertLocalDateIs($year, $month, $dayOfMonth, $actual);
     }
 
     public function testCompareTo()
