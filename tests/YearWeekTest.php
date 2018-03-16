@@ -161,6 +161,15 @@ class YearWeekTest extends AbstractTestCase
         ];
     }
 
+    /**
+     * @expectedException \Brick\DateTime\DateTimeException
+     * @expectedExceptionMessage Invalid day-of-week: 0 is not in the range 1 to 7.
+     */
+    public function testAtDayWithInvalidDay()
+    {
+        YearWeek::of(2000,  1)->atDay(0);
+    }
+
     public function testCompareTo()
     {
         $years = [-3, -2, 1, 0, 1, 2, 3];

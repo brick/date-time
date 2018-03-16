@@ -219,6 +219,8 @@ class YearWeek
      */
     public function atDay(int $dayOfWeek) : LocalDate
     {
+        Field\DayOfWeek::check($dayOfWeek);
+
         $correction = LocalDate::of($this->year, 1, 4)->getDayOfWeek()->getValue() + 3;
         $dayOfYear = $this->week * 7 + $dayOfWeek - $correction;
         $maxDaysOfYear = Field\Year::isLeap($this->year) ? 366 : 365;
