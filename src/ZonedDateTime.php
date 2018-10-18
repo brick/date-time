@@ -218,7 +218,7 @@ class ZonedDateTime
         return ZonedDateTime::from($parser->parse($text));
     }
     /**
-     * Creates a ZonedDateTime from a native DateTime object.
+     * Creates a ZonedDateTime from a native DateTime or DateTimeImmutable object.
      *
      * @param \DateTimeInterface $dateTime
      *
@@ -877,6 +877,38 @@ class ZonedDateTime
     public function isPast(Clock $clock = null) : bool
     {
         return $this->getInstant()->isPast($clock);
+    }
+
+    /**
+     * Converts this ZonedDateTime to a native DateTime object.
+     *
+     * Note that the native DateTime object supports a precision up to the microsecond,
+     * so the nanoseconds are rounded down to the nearest microsecond.
+     *
+     * @return \DateTime
+     */
+    public function toDateTime() : \DateTime
+    {
+        $second = $this->localDateTime->getSecond();
+
+        // round down to the microsecond
+        $nano = $this->localDateTime->getNano();
+        $nano = 1000 * intdiv($nano, 1000);
+
+        $dateTime = (string) $this->localDateTime->withNano($nano);
+        $dateTimeZone = $this->timeZone->toDateTimeZone();
+
+        $format = 'Y-m-d\TH:i';
+
+        if ($second !== 0 || $nano !== 0) {
+            $format .= ':s';
+
+            if ($nano !== 0) {
+                $format .= '.u';
+            }
+        }
+
+        return \DateTime::createFromFormat($format, $dateTime, $dateTimeZone);
     }
 
     /**

@@ -780,6 +780,38 @@ class ZonedDateTimeTest extends AbstractTestCase
         ];
     }
 
+    /**
+     * @dataProvider providerToDateTime
+     *
+     * @param string $dateTime The date-time string that will be parse()d by ZonedDateTime.
+     * @param string $expected The expected output from the native Date-Time object.
+     */
+    public function testToDateTime(string $dateTime, string $expected)
+    {
+        $zonedDateTime = ZonedDateTime::parse($dateTime);
+        $dateTime = $zonedDateTime->toDateTime();
+
+        $this->assertInstanceOf(\DateTime::class, $dateTime);
+        $this->assertSame($expected, $dateTime->format('Y-m-d\TH:i:s.uO'));
+    }
+
+    /**
+     * @return array
+     */
+    public function providerToDateTime()
+    {
+        return [
+            ['2018-10-18T12:34Z',                        '2018-10-18T12:34:00.000000+0000'],
+            ['2018-10-18T12:34:56Z',                     '2018-10-18T12:34:56.000000+0000'],
+            ['2018-10-18T12:34:00.001Z',                 '2018-10-18T12:34:00.001000+0000'],
+            ['2018-10-18T12:34:56.123002Z',              '2018-10-18T12:34:56.123002+0000'],
+            ['2011-07-31T23:59:59+01:00',                '2011-07-31T23:59:59.000000+0100'],
+            ['2011-07-31T23:59:59.02-05:30',             '2011-07-31T23:59:59.020000-0530'],
+            ['2011-07-31T23:59:59+01:00[Europe/London]', '2011-07-31T23:59:59.000000+0100'],
+            ['2011-07-31T23:59:59.000123456-07:00',      '2011-07-31T23:59:59.000123-0700'],
+        ];
+    }
+
     public function testToString()
     {
         $timeZone = TimeZone::parse('America/Los_Angeles');
