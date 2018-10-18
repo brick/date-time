@@ -112,7 +112,7 @@ class LocalDateTime
     }
 
     /**
-     * Creates a LocalDateTime from a native DateTime object.
+     * Creates a LocalDateTime from a native DateTime or DateTimeImmutable object.
      *
      * @param \DateTimeInterface $dateTime
      *
@@ -894,6 +894,21 @@ class LocalDateTime
     public function isAfterOrEqualTo(LocalDateTime $that) : bool
     {
         return $this->compareTo($that) >= 0;
+    }
+
+    /**
+     * Converts this LocalDateTime to a native DateTime object.
+     *
+     * The result is a DateTime in the UTC time-zone.
+     *
+     * Note that the native DateTime object supports a precision up to the microsecond,
+     * so the nanoseconds are rounded down to the nearest microsecond.
+     *
+     * @return \DateTime
+     */
+    public function toDateTime() : \DateTime
+    {
+        return $this->atTimeZone(TimeZone::utc())->toDateTime();
     }
 
     /**

@@ -1282,4 +1282,30 @@ class LocalDateTest extends AbstractTestCase
     {
         LocalDate::maxOf();
     }
+
+    /**
+     * @dataProvider providerToDateTime
+     *
+     * @param string $dateTime The date-time string that will be parse()d by LocalDate.
+     * @param string $expected The expected output from the native DateTime object.
+     */
+    public function testToDateTime(string $dateTime, string $expected)
+    {
+        $zonedDateTime = LocalDate::parse($dateTime);
+        $dateTime = $zonedDateTime->toDateTime();
+
+        $this->assertInstanceOf(\DateTime::class, $dateTime);
+        $this->assertSame($expected, $dateTime->format('Y-m-d\TH:i:s.uO'));
+    }
+
+    /**
+     * @return array
+     */
+    public function providerToDateTime()
+    {
+        return [
+            ['2011-07-31', '2011-07-31T00:00:00.000000+0000'],
+            ['2018-10-18', '2018-10-18T00:00:00.000000+0000'],
+        ];
+    }
 }

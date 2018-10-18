@@ -784,7 +784,7 @@ class ZonedDateTimeTest extends AbstractTestCase
      * @dataProvider providerToDateTime
      *
      * @param string $dateTime The date-time string that will be parse()d by ZonedDateTime.
-     * @param string $expected The expected output from the native Date-Time object.
+     * @param string $expected The expected output from the native DateTime object.
      */
     public function testToDateTime(string $dateTime, string $expected)
     {

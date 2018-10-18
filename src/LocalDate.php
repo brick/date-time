@@ -159,7 +159,7 @@ class LocalDate
     }
 
     /**
-     * Creates a LocalDate from a native DateTime object.
+     * Creates a LocalDate from a native DateTime or DateTimeImmutable object.
      *
      * @param \DateTimeInterface $dateTime
      *
@@ -788,6 +788,18 @@ class LocalDate
         }
 
         return $total - self::DAYS_0000_TO_1970;
+    }
+
+    /**
+     * Converts this LocalDate to a native DateTime object.
+     *
+     * The result is a DateTime with time 00:00 in the UTC time-zone.
+     *
+     * @return \DateTime
+     */
+    public function toDateTime() : \DateTime
+    {
+        return $this->atTime(LocalTime::midnight())->toDateTime();
     }
 
     /**

@@ -159,7 +159,7 @@ class LocalTime
     }
 
     /**
-     * Creates a LocalTime from a native DateTime object.
+     * Creates a LocalTime from a native DateTime or DateTimeImmutable object.
      *
      * @param \DateTimeInterface $dateTime
      *
@@ -681,6 +681,21 @@ class LocalTime
         return $this->hour * self::SECONDS_PER_HOUR
             + $this->minute * self::SECONDS_PER_MINUTE
             + $this->second;
+    }
+
+    /**
+     * Converts this LocalTime to a native DateTime object.
+     *
+     * The result is a DateTime with date 0000-01-01 in the UTC time-zone.
+     *
+     * Note that the native DateTime object supports a precision up to the microsecond,
+     * so the nanoseconds are rounded down to the nearest microsecond.
+     *
+     * @return \DateTime
+     */
+    public function toDateTime() : \DateTime
+    {
+        return $this->atDate(LocalDate::of(0, 1, 1))->toDateTime();
     }
 
     /**

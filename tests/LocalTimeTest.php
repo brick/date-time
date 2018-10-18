@@ -1158,4 +1158,35 @@ class LocalTimeTest extends AbstractTestCase
     {
         LocalTime::maxOf();
     }
+
+    /**
+     * @dataProvider providerToDateTime
+     *
+     * @param string $dateTime The date-time string that will be parse()d by LocalTime.
+     * @param string $expected The expected output from the native DateTime object.
+     */
+    public function testToDateTime(string $dateTime, string $expected)
+    {
+        $zonedDateTime = LocalTime::parse($dateTime);
+        $dateTime = $zonedDateTime->toDateTime();
+
+        $this->assertInstanceOf(\DateTime::class, $dateTime);
+        $this->assertSame($expected, $dateTime->format('Y-m-d\TH:i:s.uO'));
+    }
+
+    /**
+     * @return array
+     */
+    public function providerToDateTime()
+    {
+        return [
+            ['12:34',              '0000-01-01T12:34:00.000000+0000'],
+            ['12:34:56',           '0000-01-01T12:34:56.000000+0000'],
+            ['12:34:00.001',       '0000-01-01T12:34:00.001000+0000'],
+            ['12:34:56.123002',    '0000-01-01T12:34:56.123002+0000'],
+            ['23:59:59',           '0000-01-01T23:59:59.000000+0000'],
+            ['23:59:59.02',        '0000-01-01T23:59:59.020000+0000'],
+            ['23:59:59.000123456', '0000-01-01T23:59:59.000123+0000'],
+        ];
+    }
 }

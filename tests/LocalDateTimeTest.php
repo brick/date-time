@@ -1256,4 +1256,35 @@ class LocalDateTimeTest extends AbstractTestCase
             ['0000-01-01T00:00:00.9', '9999-12-31T23:59:59.0', -1],
         ];
     }
+
+    /**
+     * @dataProvider providerToDateTime
+     *
+     * @param string $dateTime The date-time string that will be parse()d by LocalDateTime.
+     * @param string $expected The expected output from the native DateTime object.
+     */
+    public function testToDateTime(string $dateTime, string $expected)
+    {
+        $zonedDateTime = LocalDateTime::parse($dateTime);
+        $dateTime = $zonedDateTime->toDateTime();
+
+        $this->assertInstanceOf(\DateTime::class, $dateTime);
+        $this->assertSame($expected, $dateTime->format('Y-m-d\TH:i:s.uO'));
+    }
+
+    /**
+     * @return array
+     */
+    public function providerToDateTime()
+    {
+        return [
+            ['2018-10-18T12:34',              '2018-10-18T12:34:00.000000+0000'],
+            ['2018-10-18T12:34:56',           '2018-10-18T12:34:56.000000+0000'],
+            ['2018-10-18T12:34:00.001',       '2018-10-18T12:34:00.001000+0000'],
+            ['2018-10-18T12:34:56.123002',    '2018-10-18T12:34:56.123002+0000'],
+            ['2011-07-31T23:59:59',           '2011-07-31T23:59:59.000000+0000'],
+            ['2011-07-31T23:59:59.02',        '2011-07-31T23:59:59.020000+0000'],
+            ['2011-07-31T23:59:59.000123456', '2011-07-31T23:59:59.000123+0000'],
+        ];
+    }
 }
