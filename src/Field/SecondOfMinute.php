@@ -9,7 +9,7 @@ use Brick\DateTime\DateTimeException;
 /**
  * The second-of-minute field.
  */
-class SecondOfMinute
+final class SecondOfMinute
 {
     /**
      * The field name.

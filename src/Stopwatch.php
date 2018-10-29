@@ -7,7 +7,7 @@ namespace Brick\DateTime;
 /**
  * Measures the time elapsed.
  */
-class Stopwatch
+final class Stopwatch
 {
     /**
      * @var Clock

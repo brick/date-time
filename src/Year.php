@@ -9,7 +9,7 @@ use Brick\DateTime\Field;
 /**
  * Represents a year in the proleptic calendar.
  */
-class Year
+final class Year
 {
     const MIN_VALUE = LocalDate::MIN_YEAR;
     const MAX_VALUE = LocalDate::MAX_YEAR;

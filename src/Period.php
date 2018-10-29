@@ -9,7 +9,7 @@ namespace Brick\DateTime;
  *
  * This class is immutable.
  */
-class Period
+final class Period
 {
     /**
      * @var int

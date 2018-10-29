@@ -7,7 +7,7 @@ namespace Brick\DateTime\Field;
 /**
  * The time-zone region, such as 'Europe/London'.
  */
-class TimeZoneRegion
+final class TimeZoneRegion
 {
     /**
      * The field name.

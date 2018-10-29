@@ -18,7 +18,7 @@ use Brick\DateTime\Utility\Math;
  *
  * This class is immutable.
  */
-class LocalTime
+final class LocalTime
 {
     const MONTHS_PER_YEAR    = 12;
     const DAYS_PER_WEEK      = 7;

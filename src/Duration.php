@@ -9,7 +9,7 @@ namespace Brick\DateTime;
  *
  * This class is immutable.
  */
-class Duration
+final class Duration
 {
     /**
      * The duration in seconds.

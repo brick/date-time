@@ -7,7 +7,7 @@ namespace Brick\DateTime;
 /**
  * Represents a month-of-year such as January.
  */
-class Month
+final class Month
 {
     const JANUARY   = 1;
     const FEBRUARY  = 2;

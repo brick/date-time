@@ -12,7 +12,7 @@ use Brick\DateTime\Parser\IsoParsers;
 /**
  * A time-zone offset from Greenwich/UTC, such as `+02:00`.
  */
-class TimeZoneOffset extends TimeZone
+final class TimeZoneOffset extends TimeZone
 {
     /**
      * @var int
@@ -138,7 +138,7 @@ class TimeZoneOffset extends TimeZone
      * Parses a time-zone offset.
      *
      * The following ISO 8601 formats are accepted:
-     * 
+     *
      * * `Z` - for UTC
      * * `±hh:mm`
      * * `±hh:mm:ss`

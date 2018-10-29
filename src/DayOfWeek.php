@@ -9,7 +9,7 @@ namespace Brick\DateTime;
  *
  * This class is immutable.
  */
-class DayOfWeek
+final class DayOfWeek
 {
     const MONDAY    = 1;
     const TUESDAY   = 2;

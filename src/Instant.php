@@ -11,7 +11,7 @@ namespace Brick\DateTime;
  * without any calendar concept of date, time or time zone. It is not very meaningful to humans,
  * but can be converted to a `ZonedDateTime` by providing a time zone.
  */
-class Instant
+final class Instant
 {
     /**
      * The number of seconds since the epoch of 1970-01-01T00:00:00Z.

@@ -15,7 +15,7 @@ use Brick\DateTime\Utility\Math;
  *
  * This class is immutable.
  */
-class LocalDateTime
+final class LocalDateTime
 {
     /**
      * @var LocalDate

@@ -13,7 +13,7 @@ use Brick\DateTime\Utility\Math;
 /**
  * Represents the combination of a year and a month.
  */
-class YearMonth
+final class YearMonth
 {
     /**
      * The year, from MIN_YEAR to MAX_YEAR.
