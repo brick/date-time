@@ -1175,6 +1175,21 @@ class LocalTimeTest extends AbstractTestCase
     }
 
     /**
+     * @dataProvider providerToDateTime
+     *
+     * @param string $dateTime The date-time string that will be parse()d by LocalTime.
+     * @param string $expected The expected output from the native DateTime object.
+     */
+    public function testToDateTimeImmutable(string $dateTime, string $expected)
+    {
+        $zonedDateTime = LocalTime::parse($dateTime);
+        $dateTime = $zonedDateTime->toDateTimeImmutable();
+
+        $this->assertInstanceOf(\DateTimeImmutable::class, $dateTime);
+        $this->assertSame($expected, $dateTime->format('Y-m-d\TH:i:s.uO'));
+    }
+
+    /**
      * @return array
      */
     public function providerToDateTime()

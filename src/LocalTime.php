@@ -699,6 +699,14 @@ class LocalTime
     }
 
     /**
+     * @return \DateTimeImmutable
+     */
+    public function toDateTimeImmutable() : \DateTimeImmutable
+    {
+        return \DateTimeImmutable::createFromMutable($this->toDateTime());
+    }
+
+    /**
      * Returns this time as a string, such as 10:15.
      *
      * The output will be one of the following ISO-8601 formats:

@@ -803,6 +803,14 @@ class LocalDate
     }
 
     /**
+     * @return \DateTimeImmutable
+     */
+    public function toDateTimeImmutable() : \DateTimeImmutable
+    {
+        return \DateTimeImmutable::createFromMutable($this->toDateTime());
+    }
+
+    /**
      * Returns the ISO 8601 representation of this LocalDate.
      *
      * @return string

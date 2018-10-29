@@ -912,6 +912,14 @@ class LocalDateTime
     }
 
     /**
+     * @return \DateTimeImmutable
+     */
+    public function toDateTimeImmutable() : \DateTimeImmutable
+    {
+        return \DateTimeImmutable::createFromMutable($this->toDateTime());
+    }
+
+    /**
      * @return string
      */
     public function __toString() : string
