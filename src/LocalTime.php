@@ -18,7 +18,7 @@ use Brick\DateTime\Utility\Math;
  *
  * This class is immutable.
  */
-class LocalTime implements \JsonSerializable
+final class LocalTime implements \JsonSerializable
 {
     public const MONTHS_PER_YEAR    = 12;
     public const DAYS_PER_WEEK      = 7;

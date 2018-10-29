@@ -13,7 +13,7 @@ use Brick\DateTime\Utility\Math;
 /**
  * Represents the combination of a year and a month.
  */
-class YearMonth implements \JsonSerializable
+final class YearMonth implements \JsonSerializable
 {
     /**
      * The year, from MIN_YEAR to MAX_YEAR.

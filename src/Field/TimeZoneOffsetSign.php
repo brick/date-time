@@ -7,7 +7,7 @@ namespace Brick\DateTime\Field;
 /**
  * The time-zone offset sign, '+', '-', 'Z' or 'z'.
  */
-class TimeZoneOffsetSign
+final class TimeZoneOffsetSign
 {
     /**
      * The field name.

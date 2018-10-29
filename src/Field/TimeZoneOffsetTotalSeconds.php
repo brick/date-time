@@ -11,7 +11,7 @@ use Brick\DateTime\DateTimeException;
  *
  * The offset is relative to UTC/Greenwich.
  */
-class TimeZoneOffsetTotalSeconds
+final class TimeZoneOffsetTotalSeconds
 {
     /**
      * The field name.

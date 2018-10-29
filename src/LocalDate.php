@@ -15,7 +15,7 @@ use Brick\DateTime\Utility\Math;
  *
  * This class is immutable.
  */
-class LocalDate implements \JsonSerializable
+final class LocalDate implements \JsonSerializable
 {
     /**
      * The minimum supported year for instances of `LocalDate`, -999,999.

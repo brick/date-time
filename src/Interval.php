@@ -10,7 +10,7 @@ namespace Brick\DateTime;
  *
  * This class is immutable.
  */
-class Interval implements \JsonSerializable
+final class Interval implements \JsonSerializable
 {
     /**
      * The start instant, inclusive.

@@ -9,7 +9,7 @@ namespace Brick\DateTime;
  *
  * This class is immutable.
  */
-class Period implements \JsonSerializable
+final class Period implements \JsonSerializable
 {
     /**
      * @var int

@@ -9,7 +9,7 @@ use Brick\DateTime\Field;
 /**
  * Represents a year in the proleptic calendar.
  */
-class Year implements \JsonSerializable
+final class Year implements \JsonSerializable
 {
     public const MIN_VALUE = LocalDate::MIN_YEAR;
     public const MAX_VALUE = LocalDate::MAX_YEAR;

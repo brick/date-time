@@ -12,7 +12,7 @@ use Brick\DateTime\Parser\IsoParsers;
 /**
  * A time-zone offset from Greenwich/UTC, such as `+02:00`.
  */
-class TimeZoneOffset extends TimeZone
+final class TimeZoneOffset extends TimeZone
 {
     /**
      * @var int

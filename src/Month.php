@@ -7,7 +7,7 @@ namespace Brick\DateTime;
 /**
  * Represents a month-of-year such as January.
  */
-class Month implements \JsonSerializable
+final class Month implements \JsonSerializable
 {
     public const JANUARY   = 1;
     public const FEBRUARY  = 2;

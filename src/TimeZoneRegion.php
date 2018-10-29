@@ -12,7 +12,7 @@ use Brick\DateTime\Parser\IsoParsers;
 /**
  * A geographical region where the same time-zone rules apply, such as `Europe/London`.
  */
-class TimeZoneRegion extends TimeZone
+final class TimeZoneRegion extends TimeZone
 {
     /**
      * @var \DateTimeZone

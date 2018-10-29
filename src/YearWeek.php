@@ -7,7 +7,7 @@ namespace Brick\DateTime;
 /**
  * Represents the combination of a year and a week.
  */
-class YearWeek implements \JsonSerializable
+final class YearWeek implements \JsonSerializable
 {
     /**
      * The year, from MIN_YEAR to MAX_YEAR.

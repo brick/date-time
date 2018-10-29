@@ -15,7 +15,7 @@ use Brick\DateTime\Utility\Math;
  *
  * This class is immutable.
  */
-class LocalDateTime implements \JsonSerializable
+final class LocalDateTime implements \JsonSerializable
 {
     /**
      * @var LocalDate

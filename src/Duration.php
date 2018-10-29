@@ -13,7 +13,7 @@ use ArithmeticError;
  *
  * This class is immutable.
  */
-class Duration implements \JsonSerializable
+final class Duration implements \JsonSerializable
 {
     /**
      * The duration in seconds.

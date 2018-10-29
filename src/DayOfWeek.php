@@ -9,7 +9,7 @@ namespace Brick\DateTime;
  *
  * This class is immutable.
  */
-class DayOfWeek implements \JsonSerializable
+final class DayOfWeek implements \JsonSerializable
 {
     public const MONDAY    = 1;
     public const TUESDAY   = 2;
