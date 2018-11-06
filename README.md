@@ -8,6 +8,7 @@ A powerful set of immutable classes to work with dates and times.
 [![Build Status](https://secure.travis-ci.org/brick/date-time.svg?branch=master)](http://travis-ci.org/brick/date-time)
 [![Coverage Status](https://coveralls.io/repos/brick/date-time/badge.svg?branch=master)](https://coveralls.io/r/brick/date-time)
 [![Latest Stable Version](https://poser.pugx.org/brick/date-time/v/stable)](https://packagist.org/packages/brick/date-time)
+[![Total Downloads](https://poser.pugx.org/brick/date-time/downloads)](https://packagist.org/packages/brick/date-time)
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](http://opensource.org/licenses/MIT)
 
 Introduction
