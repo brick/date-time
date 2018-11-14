@@ -1110,6 +1110,35 @@ class LocalDateTest extends AbstractTestCase
         ];
     }
 
+    /**
+     * @dataProvider providerDaysUntil
+     *
+     * @param string $date1
+     * @param string $date2
+     * @param int    $expectedDays
+     */
+    public function testDaysUntil(string $date1, string $date2, int $expectedDays)
+    {
+        $date1 = LocalDate::parse($date1);
+        $date2 = LocalDate::parse($date2);
+
+        $this->assertSame($expectedDays, $date1->daysUntil($date2));
+    }
+
+    /**
+     * @return array
+     */
+    public function providerDaysUntil() : array
+    {
+        return [
+            ['2018-01-01', '2020-01-01', 730],
+            ['2020-01-01', '2022-01-01', 731],
+            ['2018-01-15', '2018-02-15', 31],
+            ['2018-02-15', '2018-03-15', 28],
+            ['1900-02-18', '2031-09-27', 48068]
+        ];
+    }
+
     public function testAtTime()
     {
         $localDateTime = LocalDate::of(1, 2, 3)->atTime(LocalTime::of(4, 5, 6, 7));

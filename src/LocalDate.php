@@ -718,6 +718,21 @@ class LocalDate
     }
 
     /**
+     * Calculates the number of days between this date and another date.
+     *
+     * The start date is included, but the end date is not.
+     * For example, `2018-02-15` to `2018-04-01` is 45 days.
+     *
+     * @param LocalDate $endDateExclusive
+     *
+     * @return int
+     */
+    public function daysUntil(LocalDate $endDateExclusive) : int
+    {
+        return $endDateExclusive->toEpochDay() - $this->toEpochDay();
+    }
+
+    /**
      * Returns a local date-time formed from this date at the specified time.
      *
      * @param LocalTime $time
