@@ -9,7 +9,7 @@ use Brick\DateTime\DateTimeException;
 /**
  * The nano-of-second field.
  */
-final class NanoOfSecond
+class NanoOfSecond
 {
     /**
      * The field name.

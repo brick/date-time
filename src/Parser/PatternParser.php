@@ -7,7 +7,7 @@ namespace Brick\DateTime\Parser;
 /**
  * Matches a regular expression pattern to a set of date-time fields.
  */
-final class PatternParser implements DateTimeParser
+class PatternParser implements DateTimeParser
 {
     /**
      * @var string

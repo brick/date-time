@@ -9,7 +9,7 @@ use Brick\DateTime\DateTimeException;
 /**
  * The minute part of the time-zone offset.
  */
-final class TimeZoneOffsetMinute
+class TimeZoneOffsetMinute
 {
     /**
      * The field name.

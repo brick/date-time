@@ -7,7 +7,7 @@ namespace Brick\DateTime;
 /**
  * Represents the combination of a year and a week.
  */
-final class YearWeek
+class YearWeek
 {
     /**
      * The year, from MIN_YEAR to MAX_YEAR.

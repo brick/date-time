@@ -11,7 +11,7 @@ use Brick\DateTime\Instant;
 /**
  * This clock always returns the same instant. It is typically used for testing.
  */
-final class FixedClock implements Clock
+class FixedClock implements Clock
 {
     /**
      * @var Instant

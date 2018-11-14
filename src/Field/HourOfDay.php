@@ -9,7 +9,7 @@ use Brick\DateTime\DateTimeException;
 /**
  * The hour-of-day field.
  */
-final class HourOfDay
+class HourOfDay
 {
     /**
      * The field name.

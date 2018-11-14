@@ -11,7 +11,7 @@ use Brick\DateTime\Instant;
 /**
  * This clock makes the time move at a given pace.
  */
-final class ScaleClock implements Clock
+class ScaleClock implements Clock
 {
     /**
      * The reference clock.

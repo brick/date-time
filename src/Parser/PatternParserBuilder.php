@@ -7,7 +7,7 @@ namespace Brick\DateTime\Parser;
 /**
  * Builds a PatternParser with a fluent API.
  */
-final class PatternParserBuilder
+class PatternParserBuilder
 {
     /**
      * @var string

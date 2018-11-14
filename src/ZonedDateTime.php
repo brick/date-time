@@ -15,7 +15,7 @@ use Brick\DateTime\Parser\IsoParsers;
  * A ZonedDateTime can be viewed as a LocalDateTime along with a time zone
  * and targets a specific point in time.
  */
-final class ZonedDateTime
+class ZonedDateTime
 {
     /**
      * The local date-time.

@@ -11,7 +11,7 @@ use Brick\DateTime\Instant;
 /**
  * This clock adds an offset to an underlying clock.
  */
-final class OffsetClock implements Clock
+class OffsetClock implements Clock
 {
     /**
      * The reference clock.

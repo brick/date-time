@@ -15,7 +15,7 @@ use Brick\DateTime\Utility\Math;
  *
  * This class is immutable.
  */
-final class LocalDate
+class LocalDate
 {
     /**
      * The minimum supported year for instances of `LocalDate`, -999,999.

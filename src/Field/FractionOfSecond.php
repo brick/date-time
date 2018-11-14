@@ -11,7 +11,7 @@ namespace Brick\DateTime\Field;
  * as its length can range anywhere from 1 to 9; the number is then padded right with
  * zeros to make it 9 digits long, effectively becoming a nano-of-second.
  */
-final class FractionOfSecond
+class FractionOfSecond
 {
     /**
      * The field name.

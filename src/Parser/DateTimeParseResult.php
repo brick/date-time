@@ -7,7 +7,7 @@ namespace Brick\DateTime\Parser;
 /**
  * Result of a date-time string parsing.
  */
-final class DateTimeParseResult
+class DateTimeParseResult
 {
     /**
      * @var array

@@ -9,7 +9,7 @@ use Brick\DateTime\DateTimeException;
 /**
  * The second-of-day field.
  */
-final class SecondOfDay
+class SecondOfDay
 {
     /**
      * The field name.

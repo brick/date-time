@@ -12,7 +12,7 @@ use Brick\DateTime\Parser\IsoParsers;
 /**
  * A month-day in the ISO-8601 calendar system, such as `--12-03`.
  */
-final class MonthDay
+class MonthDay
 {
     /**
      * The month-of-year, from 1 to 12.

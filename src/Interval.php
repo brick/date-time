@@ -10,7 +10,7 @@ namespace Brick\DateTime;
  *
  * This class is immutable.
  */
-final class Interval
+class Interval
 {
     /**
      * The start instant, inclusive.
