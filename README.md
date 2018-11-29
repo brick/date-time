@@ -26,15 +26,10 @@ All the classes are immutable, they can be safely passed around without being af
 Installation
 ------------
 
-This library is installable via [Composer](https://getcomposer.org/).
-Just define the following requirement in your `composer.json` file:
+This library is installable via [Composer](https://getcomposer.org/):
 
-```json
-{
-    "require": {
-        "brick/date-time": "0.1.*"
-    }
-}
+```bash
+composer require brick/date-time
 ```
 
 Requirements
