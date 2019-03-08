@@ -63,7 +63,7 @@ class LocalDateRangeTest extends AbstractTestCase
      * @dataProvider providerParseInvalidRangeThrowsException
      * @expectedException \Brick\DateTime\Parser\DateTimeParseException
      *
-     * @param string $text The invalid text parse.
+     * @param string $text The invalid text to parse.
      */
     public function testParseInvalidRangeThrowsException(string $text)
     {
@@ -159,7 +159,6 @@ class LocalDateRangeTest extends AbstractTestCase
         for ($i = 0; $i < 2; $i++) { // Test twice to test iterator rewind
             $expected = $start;
             foreach ($range as $date) {
-                /** @var LocalDate $date */
                 $this->assertTrue($date->isEqualTo($expected));
                 $expected = $expected->plusDays(1);
             }
