@@ -169,11 +169,8 @@ class LocalDateRange implements \IteratorAggregate, \Countable
      */
     public function getIterator() : \Generator
     {
-        $date = $this->startDate;
-
-        while (! $date->isAfter($this->endDate)) {
-            yield $date;
-            $date = $date->plusDays(1);
+        for ($current = $this->startDate; $current->isBeforeOrEqualTo($this->endDate); $current = $current->plusDays(1)) {
+            yield $current;
         }
     }
 
