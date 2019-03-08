@@ -18,6 +18,7 @@ use Brick\DateTime\TimeZone;
 use Brick\DateTime\TimeZoneOffset;
 use Brick\DateTime\Year;
 use Brick\DateTime\YearMonth;
+use Brick\DateTime\YearMonthRange;
 use Brick\DateTime\YearWeek;
 
 use PHPUnit\Framework\TestCase;
@@ -228,6 +229,19 @@ abstract class AbstractTestCase extends TestCase
     {
         $this->assertLocalDateIs($y1, $m1, $d1, $range->getStartDate());
         $this->assertLocalDateIs($y2, $m2, $d2, $range->getEndDate());
+    }
+
+    /**
+     * @param int            $y1    The expected year of the start year-month.
+     * @param int            $m1    The expected month-of-year of the start year-month.
+     * @param int            $y2    The expected year of the end year-month.
+     * @param int            $m2    The expected month-of-year of the end year-month.
+     * @param YearMonthRange $range The YearMonthRange instance to test.
+     */
+    protected function assertYearMonthRangeIs(int $y1, int $m1, int $y2, int $m2, YearMonthRange $range)
+    {
+        $this->assertYearMonthIs($y1, $m1, $range->getStart());
+        $this->assertYearMonthIs($y2, $m2, $range->getEnd());
     }
 
     /**

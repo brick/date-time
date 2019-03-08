@@ -138,6 +138,39 @@ final class IsoParsers
     }
 
     /**
+     * Returns a parser for a range of year-months such as `2014-01/2015-03`.
+     *
+     * Note that ISO 8601 does not seem to define a format for year-month ranges, but we're using the same format as
+     * date ranges here.
+     *
+     * @return PatternParser
+     */
+    public static function yearMonthRange() : PatternParser
+    {
+        static $parser;
+
+        if ($parser) {
+            return $parser;
+        }
+
+        return $parser = (new PatternParserBuilder())
+            ->append(self::yearMonth())
+            ->appendLiteral('/')
+
+            ->startGroup()
+                ->startGroup()
+                    ->append(self::yearMonth())
+                ->endGroup()
+            ->appendOr()
+                ->startGroup()
+                    ->appendCapturePattern(MonthOfYear::PATTERN, MonthOfYear::NAME)
+                ->endGroup()
+            ->endGroup()
+
+            ->toParser();
+    }
+
+    /**
      * Returns a parser for a year-month such as `2014-12`.
      *
      * @return PatternParser
