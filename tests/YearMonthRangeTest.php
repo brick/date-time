@@ -149,12 +149,23 @@ class YearMonthRangeTest extends AbstractTestCase
 
         $range = YearMonthRange::of($start, $end);
 
+        $expected = [
+            '2013-10',
+            '2013-11',
+            '2013-12',
+            '2014-01',
+            '2014-02',
+            '2014-03'
+        ];
+
         for ($i = 0; $i < 2; $i++) { // Test twice to test iterator rewind
-            $expected = $start;
+            $actual = [];
+
             foreach ($range as $yearMonth) {
-                $this->assertTrue($yearMonth->isEqualTo($expected));
-                $expected = $expected->plusMonths(1);
+                $actual[] = (string) $yearMonth;
             }
+
+            $this->assertSame($expected, $actual);
         }
     }
 

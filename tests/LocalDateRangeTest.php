@@ -151,17 +151,28 @@ class LocalDateRangeTest extends AbstractTestCase
 
     public function testIterator()
     {
-        $start = LocalDate::of(2013, 12, 30);
-        $end   = LocalDate::of(2014, 1, 2);
+        $start = LocalDate::of(2013, 12, 29);
+        $end   = LocalDate::of(2014, 1, 3);
 
         $range = LocalDateRange::of($start, $end);
 
+        $expected = [
+            '2013-12-29',
+            '2013-12-30',
+            '2013-12-31',
+            '2014-01-01',
+            '2014-01-02',
+            '2014-01-03'
+        ];
+
         for ($i = 0; $i < 2; $i++) { // Test twice to test iterator rewind
-            $expected = $start;
+            $actual = [];
+
             foreach ($range as $date) {
-                $this->assertTrue($date->isEqualTo($expected));
-                $expected = $expected->plusDays(1);
+                $actual[] = (string) $date;
             }
+
+            $this->assertSame($expected, $actual);
         }
     }
 
