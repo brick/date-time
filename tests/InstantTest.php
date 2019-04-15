@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Brick\DateTime\Tests;
 
 use Brick\DateTime\Clock\FixedClock;
+use Brick\DateTime\DateTimeException;
 use Brick\DateTime\Duration;
 use Brick\DateTime\Instant;
 use Brick\DateTime\TimeZone;
@@ -287,6 +288,42 @@ class InstantTest extends AbstractTestCase
             [123456, 123456789, -456, -39274944],
             [123456, 987, 1, 209856],
             [123456, 987, -1, 37056],
+        ];
+    }
+
+    public function testWithEpochSecond()
+    {
+        $instant = Instant::of(1234567890, 987654321);
+        $this->assertInstantIs(2345678901, 987654321, $instant->withEpochSecond(2345678901));
+    }
+
+    public function testWithNano()
+    {
+        $instant = Instant::of(1234567890, 987654321);
+        $this->assertInstantIs(1234567890, 123456789, $instant->withNano(123456789));
+    }
+
+    /**
+     * @dataProvider providerWithInvalidNanoThrowsException
+     *
+     * @param int $nano
+     */
+    public function testWithInvalidNanoThrowsException(int $nano)
+    {
+        $instant = Instant::of(1234567890, 987654321);
+
+        $this->expectException(DateTimeException::class);
+        $instant->withNano($nano);
+    }
+
+    /**
+     * @return array
+     */
+    public function providerWithInvalidNanoThrowsException() : array
+    {
+        return [
+            [-1],
+            [1000000000]
         ];
     }
 

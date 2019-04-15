@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Brick\DateTime;
 
+use Brick\DateTime\Field\NanoOfSecond;
+
 /**
  * Represents a point in time, with a nanosecond precision.
  *
@@ -218,6 +220,42 @@ class Instant
     public function plusDays(int $days) : Instant
     {
         return $this->plusSeconds($days * LocalTime::SECONDS_PER_DAY);
+    }
+
+    /**
+     * Returns a copy of this Instant with epoch second altered.
+     *
+     * @param int $epochSecond
+     *
+     * @return Instant
+     */
+    public function withEpochSecond(int $epochSecond) : Instant
+    {
+        if ($epochSecond === $this->epochSecond) {
+            return $this;
+        }
+
+        return new Instant($epochSecond, $this->nano);
+    }
+
+    /**
+     * Returns a copy of this Instant with the nano-of-second altered.
+     *
+     * @param int $nano
+     *
+     * @return Instant
+     *
+     * @throws DateTimeException If the nano-of-second if not valid.
+     */
+    public function withNano(int $nano) : Instant
+    {
+        if ($nano === $this->nano) {
+            return $this;
+        }
+
+        Field\NanoOfSecond::check($nano);
+
+        return new Instant($this->epochSecond, $nano);
     }
 
     /**
