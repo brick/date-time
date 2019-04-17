@@ -14,6 +14,7 @@ use Brick\DateTime\LocalTime;
 use Brick\DateTime\Period;
 use Brick\DateTime\TimeZone;
 use Brick\DateTime\TimeZoneOffset;
+use Brick\DateTime\ZonedDateTime;
 
 /**
  * Unit tests for class LocalDateTime.
@@ -1254,6 +1255,41 @@ class LocalDateTimeTest extends AbstractTestCase
             ['0000-01-01T00:00:59.0', '9999-12-31T23:59:00.9', -1],
             ['9999-12-31T23:59:59.0', '0000-01-01T00:00:00.9',  1],
             ['0000-01-01T00:00:00.9', '9999-12-31T23:59:59.0', -1],
+        ];
+    }
+
+    /**
+     * @dataProvider providerForPastFuture
+     */
+    public function testIsFuture(int $clockTimestamp, string $localDateTime, string $offset, bool $isFuture)
+    {
+        $clock = new FixedClock(Instant::of($clockTimestamp));
+        $localDateTime = LocalDateTime::parse($localDateTime);
+        $timeZone = TimeZoneOffset::parse($offset);
+        $this->assertSame($isFuture, $localDateTime->isFuture($timeZone, $clock));
+    }
+
+    /**
+     * @dataProvider providerForPastFuture
+     */
+    public function testIsPast(int $clockTimestamp, string $localDateTime, string $offset, bool $isFuture)
+    {
+        $clock = new FixedClock(Instant::of($clockTimestamp));
+        $localDateTime = LocalDateTime::parse($localDateTime);
+        $timeZone = TimeZoneOffset::parse($offset);
+        $this->assertSame(! $isFuture, $localDateTime->isPast($timeZone, $clock));
+    }
+
+    /**
+     * @return array
+     */
+    public function providerForPastFuture()
+    {
+        return [
+            [1234567890, '2009-02-14T00:31:29', '+01:00', false],
+            [1234567890, '2009-02-14T00:31:31', '+01:00', true],
+            [2345678901, '2044-04-30T17:28:20', '-08:00', false],
+            [2345678901, '2044-04-30T17:28:22', '-08:00', true]
         ];
     }
 

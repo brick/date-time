@@ -897,6 +897,36 @@ class LocalDateTime
     }
 
     /**
+     * Returns whether this LocalDateTime is in the future, in the given time-zone, according to the given clock.
+     *
+     * If no clock is provided, the system clock is used.
+     *
+     * @param TimeZone   $timeZone
+     * @param Clock|null $clock
+     *
+     * @return bool
+     */
+    public function isFuture(TimeZone $timeZone, Clock $clock = null) : bool
+    {
+        return $this->isAfter(LocalDateTime::now($timeZone, $clock));
+    }
+
+    /**
+     * Returns whether this LocalDateTime is in the past, in the given time-zone, according to the given clock.
+     *
+     * If no clock is provided, the system clock is used.
+     *
+     * @param TimeZone   $timeZone
+     * @param Clock|null $clock
+     *
+     * @return bool
+     */
+    public function isPast(TimeZone $timeZone, Clock $clock = null) : bool
+    {
+        return $this->isBefore(LocalDateTime::now($timeZone, $clock));
+    }
+
+    /**
      * Converts this LocalDateTime to a native DateTime object.
      *
      * The result is a DateTime in the UTC time-zone.
