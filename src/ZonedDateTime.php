@@ -348,7 +348,7 @@ class ZonedDateTime
      */
     public function getEpochSecond() : int
     {
-        return $this->getInstant()->getEpochSecond();
+        return $this->instant->getEpochSecond();
     }
 
     /**
@@ -356,7 +356,7 @@ class ZonedDateTime
      */
     public function getNano() : int
     {
-        return $this->getInstant()->getNano();
+        return $this->instant->getNano();
     }
 
     /**
@@ -517,7 +517,7 @@ class ZonedDateTime
      */
     public function withTimeZoneSameInstant(TimeZone $timeZone) : ZonedDateTime
     {
-        return ZonedDateTime::ofInstant($this->getInstant(), $timeZone);
+        return ZonedDateTime::ofInstant($this->instant, $timeZone);
     }
 
     /**
@@ -560,7 +560,7 @@ class ZonedDateTime
      */
     public function plusDuration(Duration $duration) : ZonedDateTime
     {
-        return ZonedDateTime::ofInstant($this->getInstant()->plus($duration), $this->timeZone);
+        return ZonedDateTime::ofInstant($this->instant->plus($duration), $this->timeZone);
     }
 
     /**
@@ -766,7 +766,7 @@ class ZonedDateTime
      */
     public function compareTo(ZonedDateTime $that) : int
     {
-        return $this->getInstant()->compareTo($that->getInstant());
+        return $this->instant->compareTo($that->instant);
     }
 
     /**
@@ -862,7 +862,7 @@ class ZonedDateTime
      */
     public function isFuture(Clock $clock = null) : bool
     {
-        return $this->getInstant()->isFuture($clock);
+        return $this->instant->isFuture($clock);
     }
 
     /**
@@ -876,7 +876,7 @@ class ZonedDateTime
      */
     public function isPast(Clock $clock = null) : bool
     {
-        return $this->getInstant()->isPast($clock);
+        return $this->instant->isPast($clock);
     }
 
     /**
