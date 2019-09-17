@@ -787,7 +787,7 @@ class Duration
      */
     public function toSecondsPart() : int
     {
-        return $this->seconds % LocalTime::SECONDS_PER_MINUTE;
+        return $this->toSeconds() % LocalTime::SECONDS_PER_MINUTE;
     }
 
     /**
