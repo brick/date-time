@@ -49,16 +49,26 @@ class DurationTest extends AbstractTestCase
     }
 
     /**
-     * @param int $milliseconds
-     * @dataProvider providerOfMilliseconds
+     * @param int $millis
+     * @dataProvider providerOfMillis
      */
-    public function testOfMilliseconds(int $milliseconds)
+    public function testOfMillis(int $millis)
     {
-        $duration = Duration::ofMilliseconds($milliseconds);
-        $this->assertEquals($milliseconds, $duration->getTotalMillis());
+        $duration = Duration::ofMillis($millis);
+        $this->assertEquals($millis, $duration->getTotalMillis());
     }
 
-    public function providerOfMilliseconds()
+    /**
+     * @param int $millis
+     * @dataProvider providerOfMillis
+     */
+    public function testOfMilliseconds(int $millis)
+    {
+        $duration = Duration::ofMilliseconds($millis);
+        $this->assertEquals($millis, $duration->getTotalMillis());
+    }
+
+    public function providerOfMillis()
     {
         return [
             [1000],
@@ -1335,7 +1345,7 @@ class DurationTest extends AbstractTestCase
             [Duration::ofSeconds(365 * 86400 + 5 * 3600 + 48 * 60 + 46, 123456789), 123],
             [Duration::ofSeconds(-365 * 86400 - 5 * 3600 - 48 * 60 - 46, -123456789), 876],
             [Duration::ofSeconds(5 * 3600 + 48 * 60 + 46, 0), 0],
-            [Duration::ofMilliseconds(123), 123],
+            [Duration::ofMillis(123), 123],
             [Duration::ofHours(2), 0],
             [Duration::ofHours(-2), 0],
         ];

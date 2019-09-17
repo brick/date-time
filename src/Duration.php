@@ -170,7 +170,22 @@ class Duration
     /**
      * Returns a Duration from a number of milliseconds.
      *
-     * @todo rename to ofMillis() to match upstream
+     * @param int $millis
+     *
+     * @return Duration
+     */
+    public static function ofMillis(int $millis) : Duration
+    {
+        $seconds = intdiv($millis, LocalTime::MILLIS_PER_SECOND);
+        $nanos = ($millis % LocalTime::MILLIS_PER_SECOND) * LocalTime::NANOS_PER_MILLI;
+
+        return self::ofSeconds($seconds, $nanos);
+    }
+
+    /**
+     * Returns a Duration from a number of milliseconds.
+     *
+     * @deprecated use ofMillis() instead
      *
      * @param int $milliseconds
      *
@@ -178,10 +193,7 @@ class Duration
      */
     public static function ofMilliseconds(int $milliseconds) : Duration
     {
-        $seconds = intdiv($milliseconds, LocalTime::MILLIS_PER_SECOND);
-        $nanos = ($milliseconds % LocalTime::MILLIS_PER_SECOND) * (LocalTime::NANOS_PER_SECOND / LocalTime::MILLIS_PER_SECOND);
-
-        return self::ofSeconds($seconds, $nanos);
+        return self::ofMillis($milliseconds);
     }
 
     /**
