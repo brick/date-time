@@ -1265,21 +1265,6 @@ class DurationTest extends AbstractTestCase
     }
 
     /**
-     * @return array
-     */
-    public function providerToDaysPart() : array
-    {
-        return [
-            [Duration::ofSeconds(365 * 86400 + 5 * 3600 + 48 * 60 + 46, 123456789), 365],
-            [Duration::ofSeconds(-365 * 86400 - 5 * 3600 - 48 * 60 - 46, -123456789), -365],
-            [Duration::ofSeconds(5 * 3600 + 48 * 60 + 46, 123456789), 0],
-            [Duration::ofDays(365), 365],
-            [Duration::ofHours(2), 0],
-            [Duration::ofHours(-2), 0],
-        ];
-    }
-
-    /**
      * @dataProvider providerToDaysPart
      *
      * @param Duration $duration
@@ -1293,14 +1278,15 @@ class DurationTest extends AbstractTestCase
     /**
      * @return array
      */
-    public function providerToHoursPart() : array
+    public function providerToDaysPart() : array
     {
         return [
-            [Duration::ofSeconds(365 * 86400 + 5 * 3600 + 48 * 60 + 46, 123456789), 5],
-            [Duration::ofSeconds(-365 * 86400 - 5 * 3600 - 48 * 60 - 46, -123456789), -5],
-            [Duration::ofSeconds(48 * 60 + 46, 123456789), 0],
-            [Duration::ofHours(2), 2],
-            [Duration::ofHours(-2), -2],
+            [Duration::ofSeconds(365 * 86400 + 5 * 3600 + 48 * 60 + 46, 123456789), 365],
+            [Duration::ofSeconds(-365 * 86400 - 5 * 3600 - 48 * 60 - 46, -123456789), -365],
+            [Duration::ofSeconds(5 * 3600 + 48 * 60 + 46, 123456789), 0],
+            [Duration::ofDays(365), 365],
+            [Duration::ofHours(2), 0],
+            [Duration::ofHours(-2), 0],
         ];
     }
 
@@ -1318,14 +1304,14 @@ class DurationTest extends AbstractTestCase
     /**
      * @return array
      */
-    public function providerToMinutesPart() : array
+    public function providerToHoursPart() : array
     {
         return [
-            [Duration::ofSeconds(365 * 86400 + 5 * 3600 + 48 * 60 + 46, 123456789), 48],
-            [Duration::ofSeconds(-365 * 86400 - 5 * 3600 - 48 * 60 - 46, -123456789), -48],
-            [Duration::ofSeconds(46, 123456789), 0],
-            [Duration::ofHours(2), 0],
-            [Duration::ofHours(-2), 0],
+            [Duration::ofSeconds(365 * 86400 + 5 * 3600 + 48 * 60 + 46, 123456789), 5],
+            [Duration::ofSeconds(-365 * 86400 - 5 * 3600 - 48 * 60 - 46, -123456789), -5],
+            [Duration::ofSeconds(48 * 60 + 46, 123456789), 0],
+            [Duration::ofHours(2), 2],
+            [Duration::ofHours(-2), -2],
         ];
     }
 
@@ -1343,13 +1329,12 @@ class DurationTest extends AbstractTestCase
     /**
      * @return array
      */
-    public function providerToSecondsPart() : array
+    public function providerToMinutesPart() : array
     {
         return [
-            [Duration::ofSeconds(365 * 86400 + 5 * 3600 + 48 * 60 + 46, 123456789), 46],
-            [Duration::ofSeconds(-365 * 86400 - 5 * 3600 - 48 * 60 - 46, -123456789), -47],
-            [Duration::ofSeconds(0, 123456789), 0],
-            [Duration::ofSeconds(46), 46],
+            [Duration::ofSeconds(365 * 86400 + 5 * 3600 + 48 * 60 + 46, 123456789), 48],
+            [Duration::ofSeconds(-365 * 86400 - 5 * 3600 - 48 * 60 - 46, -123456789), -48],
+            [Duration::ofSeconds(46, 123456789), 0],
             [Duration::ofHours(2), 0],
             [Duration::ofHours(-2), 0],
         ];
@@ -1369,13 +1354,13 @@ class DurationTest extends AbstractTestCase
     /**
      * @return array
      */
-    public function providerToMillisPart() : array
+    public function providerToSecondsPart() : array
     {
         return [
-            [Duration::ofSeconds(365 * 86400 + 5 * 3600 + 48 * 60 + 46, 123456789), 123],
-            [Duration::ofSeconds(-365 * 86400 - 5 * 3600 - 48 * 60 - 46, -123456789), 876],
-            [Duration::ofSeconds(5 * 3600 + 48 * 60 + 46, 0), 0],
-            [Duration::ofMillis(123), 123],
+            [Duration::ofSeconds(365 * 86400 + 5 * 3600 + 48 * 60 + 46, 123456789), 46],
+            [Duration::ofSeconds(-365 * 86400 - 5 * 3600 - 48 * 60 - 46, -123456789), -47],
+            [Duration::ofSeconds(0, 123456789), 0],
+            [Duration::ofSeconds(46), 46],
             [Duration::ofHours(2), 0],
             [Duration::ofHours(-2), 0],
         ];
@@ -1395,13 +1380,13 @@ class DurationTest extends AbstractTestCase
     /**
      * @return array
      */
-    public function providerToNanosPart() : array
+    public function providerToMillisPart() : array
     {
         return [
-            [Duration::ofSeconds(365 * 86400 + 5 * 3600 + 48 * 60 + 46, 123456789), 123456789],
-            [Duration::ofSeconds(-365 * 86400 - 5 * 3600 - 48 * 60 - 46, -123456789), 876543211],
+            [Duration::ofSeconds(365 * 86400 + 5 * 3600 + 48 * 60 + 46, 123456789), 123],
+            [Duration::ofSeconds(-365 * 86400 - 5 * 3600 - 48 * 60 - 46, -123456789), 876],
             [Duration::ofSeconds(5 * 3600 + 48 * 60 + 46, 0), 0],
-            [Duration::ofNanos(123456789), 123456789],
+            [Duration::ofMillis(123), 123],
             [Duration::ofHours(2), 0],
             [Duration::ofHours(-2), 0],
         ];
@@ -1416,6 +1401,21 @@ class DurationTest extends AbstractTestCase
     public function testToNanosPart(Duration $duration, int $nanos)
     {
         $this->assertSame($nanos, $duration->toNanosPart());
+    }
+
+    /**
+     * @return array
+     */
+    public function providerToNanosPart() : array
+    {
+        return [
+            [Duration::ofSeconds(365 * 86400 + 5 * 3600 + 48 * 60 + 46, 123456789), 123456789],
+            [Duration::ofSeconds(-365 * 86400 - 5 * 3600 - 48 * 60 - 46, -123456789), 876543211],
+            [Duration::ofSeconds(5 * 3600 + 48 * 60 + 46, 0), 0],
+            [Duration::ofNanos(123456789), 123456789],
+            [Duration::ofHours(2), 0],
+            [Duration::ofHours(-2), 0],
+        ];
     }
 
     /**
