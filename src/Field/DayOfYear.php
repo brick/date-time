@@ -14,7 +14,7 @@ final class DayOfYear
     /**
      * The field name.
      */
-    const NAME = 'day-of-year';
+    public const NAME = 'day-of-year';
 
     /**
      * @param int      $dayOfYear The day-of-year to check.

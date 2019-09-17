@@ -14,12 +14,12 @@ class TimeZoneOffsetHour
     /**
      * The field name.
      */
-    const NAME = 'time-zone-offset-hour';
+    public const NAME = 'time-zone-offset-hour';
 
     /**
      * The regular expression pattern of the ISO 8601 representation.
      */
-    const PATTERN = HourOfDay::PATTERN;
+    public const PATTERN = HourOfDay::PATTERN;
 
     /**
      * @param int $offsetHour The offset-hour to check.

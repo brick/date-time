@@ -14,12 +14,12 @@ final class DayOfMonth
     /**
      * The field name.
      */
-    const NAME = 'day-of-month';
+    public const NAME = 'day-of-month';
 
     /**
      * The regular expression pattern of the ISO 8601 representation.
      */
-    const PATTERN = '[0-9]{2}';
+    public const PATTERN = '[0-9]{2}';
 
     /**
      * @param int      $dayOfMonth  The day-of-month to check.

@@ -20,17 +20,17 @@ use Brick\DateTime\Utility\Math;
  */
 class LocalTime
 {
-    const MONTHS_PER_YEAR    = 12;
-    const DAYS_PER_WEEK      = 7;
-    const HOURS_PER_DAY      = 24;
-    const MINUTES_PER_HOUR   = 60;
-    const MINUTES_PER_DAY    = 1440;
-    const SECONDS_PER_MINUTE = 60;
-    const SECONDS_PER_HOUR   = 3600;
-    const SECONDS_PER_DAY    = 86400;
-    const NANOS_PER_SECOND   = 1000000000;
-    const NANOS_PER_MILLI    = 1000000;
-    const MILLIS_PER_SECOND  = 1000;
+    public const MONTHS_PER_YEAR    = 12;
+    public const DAYS_PER_WEEK      = 7;
+    public const HOURS_PER_DAY      = 24;
+    public const MINUTES_PER_HOUR   = 60;
+    public const MINUTES_PER_DAY    = 1440;
+    public const SECONDS_PER_MINUTE = 60;
+    public const SECONDS_PER_HOUR   = 3600;
+    public const SECONDS_PER_DAY    = 86400;
+    public const NANOS_PER_SECOND   = 1000000000;
+    public const NANOS_PER_MILLI    = 1000000;
+    public const MILLIS_PER_SECOND  = 1000;
 
     /**
      * The hour, in the range 0 to 23.

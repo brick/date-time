@@ -14,12 +14,12 @@ class TimeZoneOffsetSecond
     /**
      * The field name.
      */
-    const NAME = 'time-zone-offset-second';
+    public const NAME = 'time-zone-offset-second';
 
     /**
      * The regular expression pattern of the ISO 8601 representation.
      */
-    const PATTERN = SecondOfMinute::PATTERN;
+    public const PATTERN = SecondOfMinute::PATTERN;
 
     /**
      * @param int $offsetSecond The offset-second to check.

@@ -16,12 +16,12 @@ class TimeZoneOffsetTotalSeconds
     /**
      * The field name.
      */
-    const NAME = 'time-zone-offset-total-seconds';
+    public const NAME = 'time-zone-offset-total-seconds';
 
     /**
      * The absolute maximum seconds of the time-zone offset.
      */
-    const MAX_SECONDS = 64800;
+    public const MAX_SECONDS = 64800;
 
     /**
      * @param int $offsetSeconds The offset-seconds to check.

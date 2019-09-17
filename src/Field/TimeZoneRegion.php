@@ -12,10 +12,10 @@ class TimeZoneRegion
     /**
      * The field name.
      */
-    const NAME = 'time-zone-region';
+    public const NAME = 'time-zone-region';
 
     /**
      * The regular expression pattern matching the region name.
      */
-    const PATTERN = '[A-Za-z0-9\/_\-]+';
+    public const PATTERN = '[A-Za-z0-9\/_\-]+';
 }

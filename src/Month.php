@@ -9,18 +9,18 @@ namespace Brick\DateTime;
  */
 class Month
 {
-    const JANUARY   = 1;
-    const FEBRUARY  = 2;
-    const MARCH     = 3;
-    const APRIL     = 4;
-    const MAY       = 5;
-    const JUNE      = 6;
-    const JULY      = 7;
-    const AUGUST    = 8;
-    const SEPTEMBER = 9;
-    const OCTOBER   = 10;
-    const NOVEMBER  = 11;
-    const DECEMBER  = 12;
+    public const JANUARY   = 1;
+    public const FEBRUARY  = 2;
+    public const MARCH     = 3;
+    public const APRIL     = 4;
+    public const MAY       = 5;
+    public const JUNE      = 6;
+    public const JULY      = 7;
+    public const AUGUST    = 8;
+    public const SEPTEMBER = 9;
+    public const OCTOBER   = 10;
+    public const NOVEMBER  = 11;
+    public const DECEMBER  = 12;
 
     /**
      * The month number, from 1 (January) to 12 (December).

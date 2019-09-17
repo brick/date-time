@@ -11,8 +11,8 @@ use Brick\DateTime\Field;
  */
 class Year
 {
-    const MIN_VALUE = LocalDate::MIN_YEAR;
-    const MAX_VALUE = LocalDate::MAX_YEAR;
+    public const MIN_VALUE = LocalDate::MIN_YEAR;
+    public const MAX_VALUE = LocalDate::MAX_YEAR;
 
     /**
      * The year being represented.

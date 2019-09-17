@@ -14,12 +14,12 @@ class MinuteOfHour
     /**
      * The field name.
      */
-    const NAME = 'minute-of-hour';
+    public const NAME = 'minute-of-hour';
 
     /**
      * The regular expression pattern of the ISO 8601 representation.
      */
-    const PATTERN = '[0-9]{2}';
+    public const PATTERN = '[0-9]{2}';
 
     /**
      * @param int $minuteOfHour The minute-of-hour to check.

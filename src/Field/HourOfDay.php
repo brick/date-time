@@ -14,12 +14,12 @@ class HourOfDay
     /**
      * The field name.
      */
-    const NAME = 'hour-of-day';
+    public const NAME = 'hour-of-day';
 
     /**
      * The regular expression pattern of the ISO 8601 representation.
      */
-    const PATTERN = '[0-9]{2}';
+    public const PATTERN = '[0-9]{2}';
 
     /**
      * @param int $hourOfDay The hour-of-day to check.

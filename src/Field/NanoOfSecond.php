@@ -14,7 +14,7 @@ class NanoOfSecond
     /**
      * The field name.
      */
-    const NAME = 'nano-of-second';
+    public const NAME = 'nano-of-second';
 
     /**
      * @param int $nanoOfSecond The nano-of-second to check.

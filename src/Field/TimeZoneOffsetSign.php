@@ -12,5 +12,5 @@ class TimeZoneOffsetSign
     /**
      * The field name.
      */
-    const NAME = 'time-zone-offset-sign';
+    public const NAME = 'time-zone-offset-sign';
 }

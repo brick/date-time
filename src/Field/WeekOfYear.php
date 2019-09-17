@@ -16,7 +16,7 @@ final class WeekOfYear
     /**
      * The field name.
      */
-    const NAME = 'week-of-year';
+    public const NAME = 'week-of-year';
 
     /**
      * @param int      $weekOfYear The week-of-year to check.

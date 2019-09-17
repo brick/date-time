@@ -14,7 +14,7 @@ final class DayOfWeek
     /**
      * The field name.
      */
-    const NAME = 'day-of-week';
+    public const NAME = 'day-of-week';
 
     /**
      * @param int $dayOfWeek The day-of-week to check.

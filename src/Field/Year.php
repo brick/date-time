@@ -14,22 +14,22 @@ final class Year
     /**
      * The field name.
      */
-    const NAME = 'year';
+    public const NAME = 'year';
 
     /**
      * The regular expression pattern of the ISO 8601 representation.
      */
-    const PATTERN = '\-?[0-9]{4,9}';
+    public const PATTERN = '\-?[0-9]{4,9}';
 
     /**
      * The minimum allowed value.
      */
-    const MIN_VALUE = -999999;
+    public const MIN_VALUE = -999999;
 
     /**
      * The maximum allowed value.
      */
-    const MAX_VALUE = 999999;
+    public const MAX_VALUE = 999999;
 
     /**
      * @param int $year The year to check.

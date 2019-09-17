@@ -20,22 +20,22 @@ class LocalDate
     /**
      * The minimum supported year for instances of `LocalDate`, -999,999.
      */
-    const MIN_YEAR = -999999;
+    public const MIN_YEAR = -999999;
 
     /**
      * The maximum supported year for instances of `LocalDate`, 999,999.
      */
-    const MAX_YEAR = 999999;
+    public const MAX_YEAR = 999999;
 
     /**
      * The number of days from year zero to year 1970.
      */
-    const DAYS_0000_TO_1970 = 719528;
+    public const DAYS_0000_TO_1970 = 719528;
 
     /**
      * The number of days in a 400 year cycle.
      */
-    const DAYS_PER_CYCLE = 146097;
+    public const DAYS_PER_CYCLE = 146097;
 
     /**
      * The year.

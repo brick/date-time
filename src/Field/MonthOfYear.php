@@ -14,12 +14,12 @@ final class MonthOfYear
     /**
      * The field name.
      */
-    const NAME = 'month-of-year';
+    public const NAME = 'month-of-year';
 
     /**
      * The regular expression pattern of the ISO 8601 representation.
      */
-    const PATTERN = '[0-9]{2}';
+    public const PATTERN = '[0-9]{2}';
 
     /**
      * @param int $monthOfYear The month-of-year to check.

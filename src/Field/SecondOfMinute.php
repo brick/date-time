@@ -14,12 +14,12 @@ class SecondOfMinute
     /**
      * The field name.
      */
-    const NAME = 'second-of-minute';
+    public const NAME = 'second-of-minute';
 
     /**
      * The regular expression pattern of the ISO 8601 representation.
      */
-    const PATTERN = '[0-9]{2}';
+    public const PATTERN = '[0-9]{2}';
 
     /**
      * @param int $secondOfMinute The second-of-minute to check.

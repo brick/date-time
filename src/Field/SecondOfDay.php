@@ -14,7 +14,7 @@ class SecondOfDay
     /**
      * The field name.
      */
-    const NAME = 'second-of-day';
+    public const NAME = 'second-of-day';
 
     /**
      * @param int $secondOfDay The second-of-day to check.
