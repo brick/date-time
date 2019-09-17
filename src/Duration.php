@@ -197,6 +197,18 @@ class Duration
     }
 
     /**
+     * Returns a Duration from a number of nanoseconds.
+     *
+     * @param int $nanos
+     *
+     * @return Duration
+     */
+    public static function ofNanos(int $nanos) : Duration
+    {
+        return self::ofSeconds(0, $nanos);
+    }
+
+    /**
      * Returns a Duration from a number of minutes.
      *
      * @param int $minutes

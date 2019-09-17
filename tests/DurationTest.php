@@ -68,6 +68,9 @@ class DurationTest extends AbstractTestCase
         $this->assertEquals($millis, $duration->getTotalMillis());
     }
 
+    /**
+     * @return array
+     */
     public function providerOfMillis()
     {
         return [
@@ -76,6 +79,33 @@ class DurationTest extends AbstractTestCase
             [55555],
             [-1],
             [-23423423],
+        ];
+    }
+
+    /**
+     * @dataProvider providerOfNanos
+     *
+     * @param int $nanos
+     * @param int $expectedSeconds
+     * @param int $expectedNanos
+     */
+    public function testOfNanos(int $nanos, int $expectedSeconds, int $expectedNanos)
+    {
+        $duration = Duration::ofNanos($nanos);
+        $this->assertDurationIs($expectedSeconds, $expectedNanos, $duration);
+    }
+
+    /**
+     * @return array
+     */
+    public function providerOfNanos() : array
+    {
+        return [
+            [1, 0, 1],
+            [1000000002, 1, 2],
+            [-2000000001, -3, 999999999],
+            [PHP_INT_MAX, \intdiv(PHP_INT_MAX, 1000000000), PHP_INT_MAX % 1000000000],
+            [PHP_INT_MIN, \intdiv(PHP_INT_MIN, 1000000000) -1, PHP_INT_MIN % 1000000000 + 1000000000]
         ];
     }
 
@@ -1371,7 +1401,7 @@ class DurationTest extends AbstractTestCase
             [Duration::ofSeconds(365 * 86400 + 5 * 3600 + 48 * 60 + 46, 123456789), 123456789],
             [Duration::ofSeconds(-365 * 86400 - 5 * 3600 - 48 * 60 - 46, -123456789), 876543211],
             [Duration::ofSeconds(5 * 3600 + 48 * 60 + 46, 0), 0],
-            [Duration::ofSeconds(0, 123456789), 123456789],
+            [Duration::ofNanos(123456789), 123456789],
             [Duration::ofHours(2), 0],
             [Duration::ofHours(-2), 0],
         ];
