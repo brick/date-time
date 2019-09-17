@@ -1367,6 +1367,53 @@ class DurationTest extends AbstractTestCase
     }
 
     /**
+     * @dataProvider providerToMillis
+     *
+     * @param Duration $duration
+     * @param int      $millis
+     */
+    public function testToMillis(Duration $duration, int $millis)
+    {
+        $this->assertSame($millis, $duration->toMillis());
+    }
+
+    /**
+     * @return array
+     */
+    public function providerToMillis() : array
+    {
+        return [
+            [Duration::ofSeconds(321, 123456789), 321000 + 123],
+            [Duration::ofMillis(PHP_INT_MAX), PHP_INT_MAX],
+            [Duration::ofMillis(PHP_INT_MIN), PHP_INT_MIN],
+            [Duration::ofSeconds(\intdiv(PHP_INT_MAX, 1000), (PHP_INT_MAX % 1000) * 1000000), PHP_INT_MAX],
+            [Duration::ofSeconds(\intdiv(PHP_INT_MIN, 1000), (PHP_INT_MIN % 1000) * 1000000), PHP_INT_MIN],
+        ];
+    }
+
+    /**
+     * @dataProvider providerToMillisOutOfRange
+     * @expectedException \ArithmeticError
+     *
+     * @param Duration $duration
+     */
+    public function testToMillisOutOfRange(Duration $duration)
+    {
+        $duration->toMillis();
+    }
+
+    /**
+     * @return array
+     */
+    public function providerToMillisOutOfRange() : array
+    {
+        return [
+            [Duration::ofSeconds(\intdiv(PHP_INT_MAX, 1000), ((PHP_INT_MAX % 1000) + 1) * 1000000)],
+            [Duration::ofSeconds(\intdiv(PHP_INT_MIN, 1000), ((PHP_INT_MIN % 1000) - 1) * 1000000)],
+        ];
+    }
+
+    /**
      * @dataProvider providerToMillisPart
      *
      * @param Duration $duration
@@ -1389,6 +1436,30 @@ class DurationTest extends AbstractTestCase
             [Duration::ofMillis(123), 123],
             [Duration::ofHours(2), 0],
             [Duration::ofHours(-2), 0],
+        ];
+    }
+
+    /**
+     * @dataProvider providerToNanos
+     *
+     * @param Duration $duration
+     * @param int      $nanos
+     */
+    public function testToNanos(Duration $duration, int $nanos)
+    {
+        $this->assertSame($nanos, $duration->toNanos());
+    }
+
+    /**
+     * @return array
+     */
+    public function providerToNanos() : array
+    {
+        return [
+            [Duration::ofSeconds(321, 123456789), 321123456789],
+            [Duration::ofSeconds(-321, -123456789), -321123456789],
+            [Duration::ofNanos(PHP_INT_MAX), PHP_INT_MAX],
+            [Duration::ofNanos(PHP_INT_MIN), PHP_INT_MIN],
         ];
     }
 
