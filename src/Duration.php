@@ -4,6 +4,10 @@ declare(strict_types=1);
 
 namespace Brick\DateTime;
 
+use Brick\DateTime\Utility\Math;
+
+use ArithmeticError;
+
 /**
  * Represents a duration of time measured in seconds.
  *
@@ -165,6 +169,8 @@ class Duration
 
     /**
      * Returns a Duration from a number of milliseconds.
+     *
+     * @todo rename to ofMillis() to match upstream
      *
      * @param int $milliseconds
      *
@@ -606,6 +612,8 @@ class Duration
      *
      * The result is rounded towards negative infinity.
      *
+     * @todo deprecate in favour of toMillis() - caution: rounding is different
+     *
      * @return int
      */
     public function getTotalMillis() : int
@@ -640,6 +648,208 @@ class Duration
         $nanos += $this->nanos;
 
         return $nanos;
+    }
+
+    /**
+     * Gets the number of days in this duration.
+     *
+     * This returns the total number of days in the duration by dividing the number of seconds by 86400.
+     * This is based on the standard definition of a day as 24 hours.
+     *
+     * This instance is immutable and unaffected by this method call.
+     *
+     * @return int
+     */
+    public function toDays() : int
+    {
+        return \intdiv($this->seconds, LocalTime::SECONDS_PER_DAY);
+    }
+
+    /**
+     * Extracts the number of days in the duration.
+     *
+     * This return the same value as `toDays()`, and is provided solely for consistency.
+     *
+     * This instance is immutable and unaffected by this method call.
+     *
+     * @return int
+     */
+    public function toDaysPart() : int
+    {
+        return $this->toDays();
+    }
+
+    /**
+     * Gets the number of hours in this duration.
+     *
+     * This returns the total number of hours in the duration by dividing the number of seconds by 3600.
+     *
+     * This instance is immutable and unaffected by this method call.
+     *
+     * @return int
+     */
+    public function toHours() : int
+    {
+        return \intdiv($this->seconds, LocalTime::SECONDS_PER_HOUR);
+    }
+
+    /**
+     * Extracts the number of hours part in the duration.
+     *
+     * This returns the number of remaining hours when dividing `toHours()` by hours in a day.
+     * This is based on the standard definition of a day as 24 hours.
+     *
+     * This instance is immutable and unaffected by this method call.
+     *
+     * @return int
+     */
+    public function toHoursPart() : int
+    {
+        return $this->toHours() % 24;
+    }
+
+    /**
+     * Gets the number of minutes in this duration.
+     *
+     * This returns the total number of minutes in the duration by dividing the number of seconds by 60.
+     *
+     * This instance is immutable and unaffected by this method call.
+     *
+     * @return int
+     */
+    public function toMinutes() : int
+    {
+        return \intdiv($this->seconds, LocalTime::SECONDS_PER_MINUTE);
+    }
+
+    /**
+     * Extracts the number of minutes part in the duration.
+     *
+     * This returns the number of remaining minutes when dividing `toMinutes()` by minutes in an hour.
+     * This is based on the standard definition of an hour as 60 minutes.
+     *
+     * This instance is immutable and unaffected by this method call.
+     *
+     * @return int
+     */
+    public function toMinutesPart() : int
+    {
+        return $this->toMinutes() % LocalTime::MINUTES_PER_HOUR;
+    }
+
+    /**
+     * Gets the number of seconds in this duration.
+     *
+     * This returns the total number of whole seconds in the duration.
+     *
+     * This instance is immutable and unaffected by this method call.
+     *
+     * @return int
+     */
+    public function toSeconds() : int
+    {
+        return $this->seconds;
+    }
+
+    /**
+     * Extracts the number of seconds part in the duration.
+     *
+     * This returns the remaining seconds when dividing `toSeconds()` by seconds in a minute.
+     * This is based on the standard definition of a minute as 60 seconds.
+     *
+     * This instance is immutable and unaffected by this method call.
+     *
+     * @return int
+     */
+    public function toSecondsPart() : int
+    {
+        return $this->seconds % LocalTime::SECONDS_PER_MINUTE;
+    }
+
+    /**
+     * Converts this duration to the total length in milliseconds.
+     *
+     * If this duration is too large to fit in an integer, then an exception is thrown.
+     *
+     * If this duration has greater than millisecond precision, then the conversion will drop any excess precision
+     * information as though the amount in nanoseconds was subject to integer division by one million.
+     *
+     * @return int
+     *
+     * @throws ArithmeticError
+     */
+    public function toMillis() : int
+    {
+        $tempSeconds = $this->seconds;
+        $tempNanos = $this->nanos;
+
+        if ($tempSeconds < 0) {
+            $tempSeconds++;
+            $tempNanos -= LocalTime::NANOS_PER_SECOND;
+        }
+
+        $millis = Math::multiplyExact($tempSeconds, LocalTime::MILLIS_PER_SECOND);
+        $millis = Math::addExact($millis, \intdiv($tempNanos, LocalTime::NANOS_PER_MILLI));
+
+        return $millis;
+    }
+
+    /**
+     * Extracts the number of milliseconds part of the duration.
+     *
+     * This returns the milliseconds part by dividing the number of nanoseconds by 1,000,000.
+     * The length of the duration is stored using two fields - seconds and nanoseconds.
+     * The nanoseconds part is a value from 0 to 999,999,999 that is an adjustment to the length in seconds.
+     * The total duration is defined by calling `getNanos()` and `getSeconds()`.
+     *
+     * This instance is immutable and unaffected by this method call.
+     *
+     * @return int
+     */
+    public function toMillisPart() : int
+    {
+        return \intdiv($this->nanos, LocalTime::NANOS_PER_MILLI);
+    }
+
+    /**
+     * Converts this duration to the total length in nanoseconds.
+     *
+     * If this duration is too large to fit in an integer, then an exception is thrown.
+     *
+     * @return int
+     *
+     * @throws ArithmeticError
+     */
+    public function toNanos() : int
+    {
+        $tempSeconds = $this->seconds;
+        $tempNanos = $this->nanos;
+
+        if ($tempSeconds < 0) {
+            $tempSeconds++;
+            $tempNanos -= LocalTime::NANOS_PER_SECOND;
+        }
+
+        $totalNanos = Math::multiplyExact($tempSeconds, LocalTime::NANOS_PER_SECOND);
+        $totalNanos = Math::addExact($totalNanos, $tempNanos);
+
+        return $totalNanos;
+    }
+
+    /**
+     * Gets the nanoseconds part within seconds of the duration.
+     *
+     * The length of the duration is stored using two fields - seconds and nanoseconds.
+     * The nanoseconds part is a value from 0 to 999,999,999 that is an adjustment to the length in seconds.
+     * The total duration is defined by calling `getNanos()` and `getSeconds()`.
+     *
+     * This instance is immutable and unaffected by this method call.
+     *
+     * @return int
+     */
+    public function toNanosPart() : int
+    {
+        return $this->nanos;
     }
 
     /**

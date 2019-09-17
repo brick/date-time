@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Brick\DateTime\Utility;
 
+use ArithmeticError;
+
 /**
  * Internal utility class for calculations on integers.
  *
@@ -11,6 +13,44 @@ namespace Brick\DateTime\Utility;
  */
 final class Math
 {
+    /**
+     * @param int $a
+     * @param int $b
+     *
+     * @return int
+     *
+     * @throws ArithmeticError
+     */
+    public static function addExact(int $a, int $b) : int
+    {
+        $result = $a + $b;
+
+        if (is_float($result)) {
+            throw new ArithmeticError('The result of the operation overflows an integer on this platform.');
+        }
+
+        return $result;
+    }
+
+    /**
+     * @param int $a
+     * @param int $b
+     *
+     * @return int
+     *
+     * @throws ArithmeticError
+     */
+    public static function multiplyExact(int $a, int $b) : int
+    {
+        $result = $a * $b;
+
+        if (is_float($result)) {
+            throw new ArithmeticError('The result of the operation overflows an integer on this platform.');
+        }
+
+        return $result;
+    }
+
     /**
      * Returns the largest integer value that is less than or equal to the algebraic quotient.
      *
