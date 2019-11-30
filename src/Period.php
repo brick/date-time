@@ -9,7 +9,7 @@ namespace Brick\DateTime;
  *
  * This class is immutable.
  */
-class Period
+class Period implements \JsonSerializable
 {
     /**
      * @var int
@@ -438,6 +438,16 @@ class Period
             $this->months,
             $this->days
         ));
+    }
+
+    /**
+     * Serializes as a string using {@see Period::__toString()}.
+     *
+     * @return string
+     */
+    public function jsonSerialize() : string
+    {
+        return (string) $this;
     }
 
     /**

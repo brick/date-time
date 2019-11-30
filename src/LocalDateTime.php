@@ -15,7 +15,7 @@ use Brick\DateTime\Utility\Math;
  *
  * This class is immutable.
  */
-class LocalDateTime
+class LocalDateTime implements \JsonSerializable
 {
     /**
      * @var LocalDate
@@ -947,6 +947,16 @@ class LocalDateTime
     public function toDateTimeImmutable() : \DateTimeImmutable
     {
         return \DateTimeImmutable::createFromMutable($this->toDateTime());
+    }
+
+    /**
+     * Serializes as a string using {@see LocalDateTime::__toString()}.
+     *
+     * @return string
+     */
+    public function jsonSerialize() : string
+    {
+        return (string) $this;
     }
 
     /**

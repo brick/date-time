@@ -15,7 +15,7 @@ use Brick\DateTime\Parser\IsoParsers;
  * This object is iterable and countable: the iterator returns all the YearMonth objects contained
  * in the range, while `count()` returns the total number of year-months contained in the range.
  */
-class YearMonthRange implements \IteratorAggregate, \Countable
+class YearMonthRange implements \IteratorAggregate, \Countable, \JsonSerializable
 {
     /**
      * The start year-month, inclusive.
@@ -178,6 +178,16 @@ class YearMonthRange implements \IteratorAggregate, \Countable
         return 12 * ($this->end->getYear() - $this->start->getYear())
             + ($this->end->getMonth() - $this->start->getMonth())
             + 1;
+    }
+
+    /**
+     * Serializes as a string using {@see YearMonthRange::__toString()}.
+     *
+     * @return string
+     */
+    public function jsonSerialize() : string
+    {
+        return (string) $this;
     }
 
     /**

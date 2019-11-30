@@ -12,7 +12,7 @@ use Brick\DateTime\Parser\IsoParsers;
 /**
  * A month-day in the ISO-8601 calendar system, such as `--12-03`.
  */
-class MonthDay
+class MonthDay implements \JsonSerializable
 {
     /**
      * The month-of-year, from 1 to 12.
@@ -271,6 +271,16 @@ class MonthDay
     public function atYear(int $year) : LocalDate
     {
         return LocalDate::of($year, $this->month, $this->isValidYear($year) ? $this->day : 28);
+    }
+
+    /**
+     * Serializes as a string using {@see MonthDay::__toString()}.
+     *
+     * @return string
+     */
+    public function jsonSerialize() : string
+    {
+        return (string) $this;
     }
 
     /**

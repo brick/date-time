@@ -15,7 +15,7 @@ use Brick\DateTime\Parser\IsoParsers;
  * A ZonedDateTime can be viewed as a LocalDateTime along with a time zone
  * and targets a specific point in time.
  */
-class ZonedDateTime
+class ZonedDateTime implements \JsonSerializable
 {
     /**
      * The local date-time.
@@ -917,6 +917,16 @@ class ZonedDateTime
     public function toDateTimeImmutable() : \DateTimeImmutable
     {
         return \DateTimeImmutable::createFromMutable($this->toDateTime());
+    }
+
+    /**
+     * Serializes as a string using {@see ZonedDateTime::__toString()}.
+     *
+     * @return string
+     */
+    public function jsonSerialize() : string
+    {
+        return (string) $this;
     }
 
     /**

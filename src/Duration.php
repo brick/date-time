@@ -13,7 +13,7 @@ use ArithmeticError;
  *
  * This class is immutable.
  */
-class Duration
+class Duration implements \JsonSerializable
 {
     /**
      * The duration in seconds.
@@ -874,6 +874,16 @@ class Duration
     public function toNanosPart() : int
     {
         return $this->nanos;
+    }
+
+    /**
+     * Serializes as a string using {@see Duration::__toString()}.
+     *
+     * @return string
+     */
+    public function jsonSerialize() : string
+    {
+        return (string) $this;
     }
 
     /**

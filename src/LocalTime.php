@@ -18,7 +18,7 @@ use Brick\DateTime\Utility\Math;
  *
  * This class is immutable.
  */
-class LocalTime
+class LocalTime implements \JsonSerializable
 {
     public const MONTHS_PER_YEAR    = 12;
     public const DAYS_PER_WEEK      = 7;
@@ -705,6 +705,16 @@ class LocalTime
     public function toDateTimeImmutable() : \DateTimeImmutable
     {
         return \DateTimeImmutable::createFromMutable($this->toDateTime());
+    }
+
+    /**
+     * Serializes as a string using {@see LocalTime::__toString()}.
+     *
+     * @return string
+     */
+    public function jsonSerialize() : string
+    {
+        return (string) $this;
     }
 
     /**

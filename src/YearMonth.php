@@ -13,7 +13,7 @@ use Brick\DateTime\Utility\Math;
 /**
  * Represents the combination of a year and a month.
  */
-class YearMonth
+class YearMonth implements \JsonSerializable
 {
     /**
      * The year, from MIN_YEAR to MAX_YEAR.
@@ -362,6 +362,16 @@ class YearMonth
     public function minusMonths(int $months) : YearMonth
     {
         return $this->plusMonths(- $months);
+    }
+
+    /**
+     * Serializes as a string using {@see YearMonth::__toString()}.
+     *
+     * @return string
+     */
+    public function jsonSerialize() : string
+    {
+        return (string) $this;
     }
 
     /**

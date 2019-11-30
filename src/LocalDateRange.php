@@ -15,7 +15,7 @@ use Brick\DateTime\Parser\IsoParsers;
  * This object is iterable and countable: the iterator returns all the LocalDate objects contained
  * in the range, while `count()` returns the total number of dates contained in the range.
  */
-class LocalDateRange implements \IteratorAggregate, \Countable
+class LocalDateRange implements \IteratorAggregate, \Countable, \JsonSerializable
 {
     /**
      * The start date, inclusive.
@@ -182,6 +182,16 @@ class LocalDateRange implements \IteratorAggregate, \Countable
     public function count() : int
     {
         return $this->endDate->toEpochDay() - $this->startDate->toEpochDay() + 1;
+    }
+
+    /**
+     * Serializes as a string using {@see LocalDateRange::__toString()}.
+     *
+     * @return string
+     */
+    public function jsonSerialize() : string
+    {
+        return (string) $this;
     }
 
     /**

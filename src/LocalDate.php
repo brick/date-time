@@ -15,7 +15,7 @@ use Brick\DateTime\Utility\Math;
  *
  * This class is immutable.
  */
-class LocalDate
+class LocalDate implements \JsonSerializable
 {
     /**
      * The minimum supported year for instances of `LocalDate`, -999,999.
@@ -853,6 +853,16 @@ class LocalDate
         }
 
         return new LocalDate($year, $month, $day);
+    }
+
+    /**
+     * Serializes as a string using {@see LocalDate::__toString()}.
+     *
+     * @return string
+     */
+    public function jsonSerialize() : string
+    {
+        return (string) $this;
     }
 
     /**
