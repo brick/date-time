@@ -9,7 +9,7 @@ use Brick\DateTime\Field;
 /**
  * Represents a year in the proleptic calendar.
  */
-class Year
+class Year implements \JsonSerializable
 {
     public const MIN_VALUE = LocalDate::MIN_YEAR;
     public const MAX_VALUE = LocalDate::MAX_YEAR;
@@ -251,6 +251,16 @@ class Year
     public function atMonthDay(MonthDay $monthDay) : LocalDate
     {
         return $monthDay->atYear($this->year);
+    }
+
+    /**
+     * Serializes as a string using {@see Year::__toString()}.
+     *
+     * @return string
+     */
+    public function jsonSerialize() : string
+    {
+        return (string) $this;
     }
 
     /**

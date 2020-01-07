@@ -316,6 +316,17 @@ class MonthTest extends AbstractTestCase
      * @param int    $month        The month number.
      * @param string $expectedName The expected month name.
      */
+    public function testJsonSerialize(int $month, string $expectedName)
+    {
+        $this->assertSame(json_encode($expectedName), json_encode(Month::of($month)));
+    }
+
+    /**
+     * @dataProvider providerToString
+     *
+     * @param int    $month        The month number.
+     * @param string $expectedName The expected month name.
+     */
     public function testToString(int $month, string $expectedName)
     {
         $this->assertSame($expectedName, (string) Month::of($month));

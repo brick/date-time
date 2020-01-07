@@ -1270,6 +1270,19 @@ class LocalDateTest extends AbstractTestCase
      * @param int    $day      The day-of-month.
      * @param string $expected The expected result string.
      */
+    public function testJsonSerialize(int $year, int $month, int $day, string $expected)
+    {
+        $this->assertSame(json_encode($expected), json_encode(LocalDate::of($year, $month, $day)));
+    }
+
+    /**
+     * @dataProvider providerToString
+     *
+     * @param int    $year     The year.
+     * @param int    $month    The month.
+     * @param int    $day      The day-of-month.
+     * @param string $expected The expected result string.
+     */
     public function testToString(int $year, int $month, int $day, string $expected)
     {
         $this->assertSame($expected, (string) LocalDate::of($year, $month, $day));

@@ -403,6 +403,19 @@ class YearWeekTest extends AbstractTestCase
      * @param int    $week
      * @param string $expected
      */
+    public function testJsonSerialize(int $year, int $week, string $expected)
+    {
+        $yearWeek = YearWeek::of($year, $week);
+        $this->assertSame(json_encode($expected), json_encode($yearWeek));
+    }
+
+    /**
+     * @dataProvider providerToString
+     *
+     * @param int    $year
+     * @param int    $week
+     * @param string $expected
+     */
     public function testToString(int $year, int $week, string $expected)
     {
         $yearWeek = YearWeek::of($year, $week);

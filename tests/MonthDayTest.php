@@ -521,6 +521,18 @@ class MonthDayTest extends AbstractTestCase
      * @param int    $day    The day of the month-day to test.
      * @param string $string The expected result string.
      */
+    public function testJsonSerialize(int $month, int $day, string $string)
+    {
+        $this->assertSame(json_encode($string), json_encode(MonthDay::of($month, $day)));
+    }
+
+    /**
+     * @dataProvider providerToString
+     *
+     * @param int    $month  The month of the month-day to test.
+     * @param int    $day    The day of the month-day to test.
+     * @param string $string The expected result string.
+     */
     public function testToString(int $month, int $day, string $string)
     {
         $this->assertSame($string, (string) MonthDay::of($month, $day));

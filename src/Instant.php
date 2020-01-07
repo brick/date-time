@@ -13,7 +13,7 @@ use Brick\DateTime\Field\NanoOfSecond;
  * without any calendar concept of date, time or time zone. It is not very meaningful to humans,
  * but can be converted to a `ZonedDateTime` by providing a time zone.
  */
-class Instant
+class Instant implements \JsonSerializable
 {
     /**
      * The number of seconds since the epoch of 1970-01-01T00:00:00Z.
@@ -452,6 +452,16 @@ class Instant
         }
 
         return $result;
+    }
+
+    /**
+     * Serializes as a string using {@see Instant::__toString()}.
+     *
+     * @return string
+     */
+    public function jsonSerialize() : string
+    {
+        return (string) $this;
     }
 
     /**

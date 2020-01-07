@@ -505,6 +505,11 @@ class YearMonthTest extends AbstractTestCase
         ];
     }
 
+    public function testJsonSerialize()
+    {
+        $this->assertSame(json_encode('2013-09'), json_encode(YearMonth::of(2013, 9)));
+    }
+
     public function testToString()
     {
         $this->assertSame('2013-09', (string) YearMonth::of(2013, 9));

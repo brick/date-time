@@ -1113,6 +1113,20 @@ class LocalTimeTest extends AbstractTestCase
      * @param int    $n The nanosecond.
      * @param string $r The expected result.
      */
+    public function testJsonSerialize(int $h, int $m, int $s, int $n, string $r)
+    {
+        $this->assertSame(json_encode($r), json_encode(LocalTime::of($h, $m, $s, $n)));
+    }
+
+    /**
+     * @dataProvider providerToString
+     *
+     * @param int    $h The hour.
+     * @param int    $m The minute.
+     * @param int    $s The second.
+     * @param int    $n The nanosecond.
+     * @param string $r The expected result.
+     */
     public function testToString(int $h, int $m, int $s, int $n, string $r)
     {
         $this->assertSame($r, (string) LocalTime::of($h, $m, $s, $n));

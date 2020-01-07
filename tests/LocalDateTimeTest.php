@@ -1338,4 +1338,45 @@ class LocalDateTimeTest extends AbstractTestCase
             ['2011-07-31T23:59:59.000123456', '2011-07-31T23:59:59.000123+0000'],
         ];
     }
+
+    /**
+     * @dataProvider providerToString
+     *
+     * @param int    $year     The year.
+     * @param int    $month    The month.
+     * @param int    $day      The day-of-month.
+     * @param string $expected The expected result string.
+     */
+    public function testJsonSerialize(int $year, int $month, int $day, int $hour, int $minute, int $second, int $nano, string $expected)
+    {
+        $this->assertSame(json_encode($expected), json_encode(LocalDateTime::of($year, $month, $day, $hour, $minute, $second, $nano)));
+    }
+
+    /**
+     * @dataProvider providerToString
+     *
+     * @param int    $year     The year.
+     * @param int    $month    The month.
+     * @param int    $day      The day-of-month.
+     * @param string $expected The expected result string.
+     */
+    public function testToString(int $year, int $month, int $day, int $hour, int $minute, int $second, int $nano, string $expected)
+    {
+        $this->assertSame($expected, (string) LocalDateTime::of($year, $month, $day, $hour, $minute, $second, $nano));
+    }
+
+    /**
+     * @return array
+     */
+    public function providerToString() : array
+    {
+        return [
+            [999, 1, 2, 1, 2, 0, 0, '0999-01-02T01:02'],
+            [-999, 1, 2, 1, 2, 3, 0, '-0999-01-02T01:02:03'],
+            [1970, 1, 1, 1, 2, 3, 4, '1970-01-01T01:02:03.000000004'],
+            [-1970, 1, 1, 1, 2, 0, 3, '-1970-01-01T01:02:00.000000003'],
+            [1, 2, 3, 12, 34, 56, 789000000, '0001-02-03T12:34:56.789'],
+            [-1, 2, 3, 12, 34, 56, 78900000, '-0001-02-03T12:34:56.0789'],
+        ];
+    }
 }

@@ -93,6 +93,16 @@ class IntervalTest extends AbstractTestCase
         $this->assertDurationIs(1, 999444556, $duration);
     }
 
+    public function testJsonSerialize()
+    {
+        $interval = new Interval(
+            Instant::of(1000000000),
+            Instant::of(2000000000)
+        );
+
+        $this->assertSame(json_encode('2001-09-09T01:46:40Z/2033-05-18T03:33:20Z'), json_encode($interval));
+    }
+
     public function testToString()
     {
         $interval = new Interval(

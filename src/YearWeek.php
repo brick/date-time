@@ -7,7 +7,7 @@ namespace Brick\DateTime;
 /**
  * Represents the combination of a year and a week.
  */
-class YearWeek
+class YearWeek implements \JsonSerializable
 {
     /**
      * The year, from MIN_YEAR to MAX_YEAR.
@@ -328,6 +328,16 @@ class YearWeek
     public function is53WeekYear() : bool
     {
         return Field\WeekOfYear::is53WeekYear($this->year);
+    }
+
+    /**
+     * Serializes as a string using {@see YearWeek::__toString()}.
+     *
+     * @return string
+     */
+    public function jsonSerialize() : string
+    {
+        return (string) $this;
     }
 
     /**

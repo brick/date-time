@@ -9,7 +9,7 @@ namespace Brick\DateTime;
  *
  * This class is immutable.
  */
-class DayOfWeek
+class DayOfWeek implements \JsonSerializable
 {
     public const MONDAY    = 1;
     public const TUESDAY   = 2;
@@ -237,6 +237,16 @@ class DayOfWeek
     public function minus(int $days) : DayOfWeek
     {
         return $this->plus(- $days);
+    }
+
+    /**
+     * Serializes as a string using {@see DayOfWeek::__toString()}.
+     *
+     * @return string
+     */
+    public function jsonSerialize() : string
+    {
+        return (string) $this;
     }
 
     /**

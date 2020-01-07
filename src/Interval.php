@@ -10,7 +10,7 @@ namespace Brick\DateTime;
  *
  * This class is immutable.
  */
-class Interval
+class Interval implements \JsonSerializable
 {
     /**
      * The start instant, inclusive.
@@ -100,6 +100,16 @@ class Interval
     public function getDuration() : Duration
     {
         return Duration::between($this->start, $this->end);
+    }
+
+    /**
+     * Serializes as a string using {@see Interval::__toString()}.
+     *
+     * @return string
+     */
+    public function jsonSerialize() : string
+    {
+        return (string) $this;
     }
 
     /**

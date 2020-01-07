@@ -202,6 +202,14 @@ class LocalDateRangeTest extends AbstractTestCase
         ];
     }
 
+    public function testJsonSerialize()
+    {
+        $this->assertSame(json_encode('2008-12-31/2011-01-01'), json_encode(LocalDateRange::of(
+            LocalDate::of(2008, 12, 31),
+            LocalDate::of(2011, 1, 1)
+        )));
+    }
+
     public function testToString()
     {
         $this->assertSame('2008-12-31/2011-01-01', (string) LocalDateRange::of(

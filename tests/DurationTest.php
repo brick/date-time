@@ -1496,6 +1496,18 @@ class DurationTest extends AbstractTestCase
      * @param int    $nanos
      * @param string $expected
      */
+    public function testJsonSerialize(int $seconds, int $nanos, string $expected)
+    {
+        $this->assertSame(json_encode($expected), json_encode(Duration::ofSeconds($seconds, $nanos)));
+    }
+
+    /**
+     * @dataProvider providerToString
+     *
+     * @param int    $seconds
+     * @param int    $nanos
+     * @param string $expected
+     */
     public function testToString(int $seconds, int $nanos, string $expected)
     {
         $this->assertSame($expected, (string) Duration::ofSeconds($seconds, $nanos));

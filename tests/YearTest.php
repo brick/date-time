@@ -479,6 +479,11 @@ class YearTest extends AbstractTestCase
         ];
     }
 
+    public function testJsonSerialize()
+    {
+        $this->assertSame(json_encode('1987'), json_encode(Year::of(1987)));
+    }
+
     public function testToString()
     {
         $this->assertSame('1987', (string) Year::of(1987));

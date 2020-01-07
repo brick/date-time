@@ -7,7 +7,7 @@ namespace Brick\DateTime;
 /**
  * Represents a month-of-year such as January.
  */
-class Month
+class Month implements \JsonSerializable
 {
     public const JANUARY   = 1;
     public const FEBRUARY  = 2;
@@ -261,6 +261,16 @@ class Month
     public function minus(int $months) : Month
     {
         return $this->plus(- $months);
+    }
+
+    /**
+     * Serializes as a string using {@see Month::__toString()}.
+     *
+     * @return string
+     */
+    public function jsonSerialize() : string
+    {
+        return (string) $this;
     }
 
     /**

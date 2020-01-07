@@ -252,6 +252,17 @@ class DayOfWeekTest extends AbstractTestCase
      * @param int    $dayOfWeek    The day-of-week value, from 1 to 7.
      * @param string $expectedName The expected name.
      */
+    public function testJsonSerialize(int $dayOfWeek, string $expectedName)
+    {
+        $this->assertSame(json_encode($expectedName), json_encode(DayOfWeek::of($dayOfWeek)));
+    }
+
+    /**
+     * @dataProvider providerToString
+     *
+     * @param int    $dayOfWeek    The day-of-week value, from 1 to 7.
+     * @param string $expectedName The expected name.
+     */
     public function testToString(int $dayOfWeek, string $expectedName)
     {
         $this->assertSame($expectedName, (string) DayOfWeek::of($dayOfWeek));
@@ -272,4 +283,5 @@ class DayOfWeekTest extends AbstractTestCase
             [DayOfWeek::SUNDAY,    'Sunday']
         ];
     }
+
 }
