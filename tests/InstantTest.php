@@ -640,6 +640,18 @@ class InstantTest extends AbstractTestCase
      * @param int    $nano           The nano adjustment to the epoch second.
      * @param string $expectedString The expected string output.
      */
+    public function testJsonSerialize(int $epochSecond, int $nano, string $expectedString)
+    {
+        $this->assertSame(json_encode($expectedString), json_encode(Instant::of($epochSecond, $nano)));
+    }
+
+    /**
+     * @dataProvider providerToString
+     *
+     * @param int    $epochSecond    The epoch second to test.
+     * @param int    $nano           The nano adjustment to the epoch second.
+     * @param string $expectedString The expected string output.
+     */
     public function testToString(int $epochSecond, int $nano, string $expectedString)
     {
         $this->assertSame($expectedString, (string) Instant::of($epochSecond, $nano));

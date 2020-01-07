@@ -827,6 +827,16 @@ class ZonedDateTimeTest extends AbstractTestCase
         ];
     }
 
+    public function testJsonSerialize()
+    {
+        $timeZone = TimeZone::parse('America/Los_Angeles');
+        $localDateTime = '2000-01-20T12:34:56.123456789';
+        $localDateTime = LocalDateTime::parse($localDateTime);
+        $zonedDateTime = ZonedDateTime::of($localDateTime, $timeZone);
+
+        $this->assertSame(json_encode('2000-01-20T12:34:56.123456789-08:00[America/Los_Angeles]'), json_encode($zonedDateTime));
+    }
+
     public function testToString()
     {
         $timeZone = TimeZone::parse('America/Los_Angeles');

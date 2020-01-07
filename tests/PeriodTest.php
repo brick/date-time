@@ -339,7 +339,20 @@ class PeriodTest extends AbstractTestCase
     }
 
     /**
-     * *@dataProvider providerToString
+     * @dataProvider providerToString
+     *
+     * @param int    $years    The number of years in the period.
+     * @param int    $months   The number of months in the period.
+     * @param int    $days     The number of days in the period.
+     * @param string $expected The expected string output.
+     */
+    public function testJsonSerialize(int $years, int $months, int $days, string $expected)
+    {
+        $this->assertSame(json_encode($expected), json_encode(Period::of($years, $months, $days)));
+    }
+
+    /**
+     * @dataProvider providerToString
      *
      * @param int    $years    The number of years in the period.
      * @param int    $months   The number of months in the period.
