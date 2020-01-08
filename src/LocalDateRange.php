@@ -22,44 +22,44 @@ class LocalDateRange implements \IteratorAggregate, \Countable, \JsonSerializabl
      *
      * @var \Brick\DateTime\LocalDate
      */
-    private $startDate;
+    private $start;
 
     /**
      * The end date, inclusive.
      *
      * @var \Brick\DateTime\LocalDate
      */
-    private $endDate;
+    private $end;
 
     /**
      * Class constructor.
      *
-     * @param LocalDate $startDate The start date, inclusive.
-     * @param LocalDate $endDate   The end date, inclusive, validated as not before the start date.
+     * @param LocalDate $start The start date, inclusive.
+     * @param LocalDate $end   The end date, inclusive, validated as not before the start date.
      */
-    private function __construct(LocalDate $startDate, LocalDate $endDate)
+    private function __construct(LocalDate $start, LocalDate $end)
     {
-        $this->startDate = $startDate;
-        $this->endDate   = $endDate;
+        $this->start = $start;
+        $this->end   = $end;
     }
 
     /**
      * Creates an instance of LocalDateRange from a start date and an end date.
      *
-     * @param LocalDate $startDate The start date, inclusive.
-     * @param LocalDate $endDate   The end date, inclusive.
+     * @param LocalDate $start The start date, inclusive.
+     * @param LocalDate $end   The end date, inclusive.
      *
      * @return LocalDateRange
      *
      * @throws DateTimeException If the end date is before the start date.
      */
-    public static function of(LocalDate $startDate, LocalDate $endDate) : LocalDateRange
+    public static function of(LocalDate $start, LocalDate $end) : LocalDateRange
     {
-        if ($endDate->isBefore($startDate)) {
+        if ($end->isBefore($start)) {
             throw new DateTimeException('The end date must not be before the start date.');
         }
 
-        return new LocalDateRange($startDate, $endDate);
+        return new LocalDateRange($start, $end);
     }
 
     /**
@@ -122,9 +122,21 @@ class LocalDateRange implements \IteratorAggregate, \Countable, \JsonSerializabl
      *
      * @return LocalDate
      */
+    public function getStart() : LocalDate
+    {
+        return $this->start;
+    }
+
+    /**
+     * Returns the start date, inclusive.
+     *
+     * @deprecated Use getStart().
+     *
+     * @return LocalDate
+     */
     public function getStartDate() : LocalDate
     {
-        return $this->startDate;
+        return $this->start;
     }
 
     /**
@@ -132,9 +144,21 @@ class LocalDateRange implements \IteratorAggregate, \Countable, \JsonSerializabl
      *
      * @return LocalDate
      */
+    public function getEnd() : LocalDate
+    {
+        return $this->end;
+    }
+
+    /**
+     * Returns the end date, inclusive.
+     *
+     * @deprecated Use getEnd().
+     *
+     * @return LocalDate
+     */
     public function getEndDate() : LocalDate
     {
-        return $this->endDate;
+        return $this->end;
     }
 
     /**
@@ -146,8 +170,8 @@ class LocalDateRange implements \IteratorAggregate, \Countable, \JsonSerializabl
      */
     public function isEqualTo(LocalDateRange $that) : bool
     {
-        return $this->startDate->isEqualTo($that->startDate)
-            && $this->endDate->isEqualTo($that->endDate);
+        return $this->start->isEqualTo($that->start)
+            && $this->end->isEqualTo($that->end);
     }
 
     /**
@@ -159,7 +183,7 @@ class LocalDateRange implements \IteratorAggregate, \Countable, \JsonSerializabl
      */
     public function contains(LocalDate $date) : bool
     {
-        return ! ($date->isBefore($this->startDate) || $date->isAfter($this->endDate));
+        return ! ($date->isBefore($this->start) || $date->isAfter($this->end));
     }
 
     /**
@@ -169,7 +193,7 @@ class LocalDateRange implements \IteratorAggregate, \Countable, \JsonSerializabl
      */
     public function getIterator() : \Generator
     {
-        for ($current = $this->startDate; $current->isBeforeOrEqualTo($this->endDate); $current = $current->plusDays(1)) {
+        for ($current = $this->start; $current->isBeforeOrEqualTo($this->end); $current = $current->plusDays(1)) {
             yield $current;
         }
     }
@@ -181,7 +205,7 @@ class LocalDateRange implements \IteratorAggregate, \Countable, \JsonSerializabl
      */
     public function count() : int
     {
-        return $this->endDate->toEpochDay() - $this->startDate->toEpochDay() + 1;
+        return $this->end->toEpochDay() - $this->start->toEpochDay() + 1;
     }
 
     /**
@@ -201,6 +225,6 @@ class LocalDateRange implements \IteratorAggregate, \Countable, \JsonSerializabl
      */
     public function __toString() : string
     {
-        return $this->startDate . '/' . $this->endDate;
+        return $this->start . '/' . $this->end;
     }
 }
