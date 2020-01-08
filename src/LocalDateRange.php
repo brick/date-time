@@ -128,35 +128,11 @@ final class LocalDateRange implements \IteratorAggregate, \Countable, \JsonSeria
     }
 
     /**
-     * Returns the start date, inclusive.
-     *
-     * @deprecated Use getStart().
-     *
-     * @return LocalDate
-     */
-    public function getStartDate() : LocalDate
-    {
-        return $this->start;
-    }
-
-    /**
      * Returns the end date, inclusive.
      *
      * @return LocalDate
      */
     public function getEnd() : LocalDate
-    {
-        return $this->end;
-    }
-
-    /**
-     * Returns the end date, inclusive.
-     *
-     * @deprecated Use getEnd().
-     *
-     * @return LocalDate
-     */
-    public function getEndDate() : LocalDate
     {
         return $this->end;
     }

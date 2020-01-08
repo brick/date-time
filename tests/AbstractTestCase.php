@@ -228,9 +228,7 @@ abstract class AbstractTestCase extends TestCase
     protected function assertLocalDateRangeIs(int $y1, int $m1, int $d1, int $y2, int $m2, int $d2, LocalDateRange $range)
     {
         $this->assertLocalDateIs($y1, $m1, $d1, $range->getStart());
-        $this->assertLocalDateIs($y1, $m1, $d1, $range->getStartDate());
         $this->assertLocalDateIs($y2, $m2, $d2, $range->getEnd());
-        $this->assertLocalDateIs($y2, $m2, $d2, $range->getEndDate());
     }
 
     /**
