@@ -59,16 +59,6 @@ class DurationTest extends AbstractTestCase
     }
 
     /**
-     * @param int $millis
-     * @dataProvider providerOfMillis
-     */
-    public function testOfMilliseconds(int $millis)
-    {
-        $duration = Duration::ofMilliseconds($millis);
-        $this->assertEquals($millis, $duration->getTotalMillis());
-    }
-
-    /**
      * @return array
      */
     public function providerOfMillis()

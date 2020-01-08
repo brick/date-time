@@ -183,20 +183,6 @@ final class Duration implements \JsonSerializable
     }
 
     /**
-     * Returns a Duration from a number of milliseconds.
-     *
-     * @deprecated use ofMillis() instead
-     *
-     * @param int $milliseconds
-     *
-     * @return Duration
-     */
-    public static function ofMilliseconds(int $milliseconds) : Duration
-    {
-        return self::ofMillis($milliseconds);
-    }
-
-    /**
      * Returns a Duration from a number of nanoseconds.
      *
      * @param int $nanos
