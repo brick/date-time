@@ -149,7 +149,7 @@ final class LocalDate implements \JsonSerializable
      * @throws DateTimeException      If the date is not valid.
      * @throws DateTimeParseException If the text string does not follow the expected format.
      */
-    public static function parse(string $text, DateTimeParser $parser = null) : LocalDate
+    public static function parse(string $text, ?DateTimeParser $parser = null) : LocalDate
     {
         if (! $parser) {
             $parser = IsoParsers::localDate();
@@ -230,7 +230,7 @@ final class LocalDate implements \JsonSerializable
      *
      * @return LocalDate
      */
-    public static function now(TimeZone $timeZone, Clock $clock = null) : LocalDate
+    public static function now(TimeZone $timeZone, ?Clock $clock = null) : LocalDate
     {
         return ZonedDateTime::now($timeZone, $clock)->getDate();
     }

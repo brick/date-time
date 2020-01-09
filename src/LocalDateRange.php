@@ -108,7 +108,7 @@ final class LocalDateRange implements \IteratorAggregate, \Countable, \JsonSeria
      * @throws DateTimeException      If either of the dates is not valid.
      * @throws DateTimeParseException If the text string does not follow the expected format.
      */
-    public static function parse(string $text, DateTimeParser $parser = null) : LocalDateRange
+    public static function parse(string $text, ?DateTimeParser $parser = null) : LocalDateRange
     {
         if (! $parser) {
             $parser = IsoParsers::localDateRange();

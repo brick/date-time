@@ -84,7 +84,7 @@ final class Instant implements \JsonSerializable
      *
      * @return Instant
      */
-    public static function now(Clock $clock = null) : Instant
+    public static function now(?Clock $clock = null) : Instant
     {
         if ($clock === null) {
             $clock = DefaultClock::get();
@@ -399,7 +399,7 @@ final class Instant implements \JsonSerializable
      *
      * @return bool
      */
-    public function isFuture(Clock $clock = null) : bool
+    public function isFuture(?Clock $clock = null) : bool
     {
         return $this->isAfter(Instant::now($clock));
     }
@@ -413,7 +413,7 @@ final class Instant implements \JsonSerializable
      *
      * @return bool
      */
-    public function isPast(Clock $clock = null) : bool
+    public function isPast(?Clock $clock = null) : bool
     {
         return $this->isBefore(Instant::now($clock));
     }

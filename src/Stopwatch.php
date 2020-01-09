@@ -35,7 +35,7 @@ final class Stopwatch
      *
      * @param Clock|null $clock An optional clock to use.
      */
-    public function __construct(Clock $clock = null)
+    public function __construct(?Clock $clock = null)
     {
         if ($clock === null) {
             $clock = DefaultClock::get();

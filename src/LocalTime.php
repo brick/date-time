@@ -150,7 +150,7 @@ final class LocalTime implements \JsonSerializable
      * @throws DateTimeException      If the time is not valid.
      * @throws DateTimeParseException If the text string does not follow the expected format.
      */
-    public static function parse(string $text, DateTimeParser $parser = null) : LocalTime
+    public static function parse(string $text, ?DateTimeParser $parser = null) : LocalTime
     {
         if (! $parser) {
             $parser = IsoParsers::localTime();
@@ -186,7 +186,7 @@ final class LocalTime implements \JsonSerializable
      *
      * @return LocalTime
      */
-    public static function now(TimeZone $timeZone, Clock $clock = null) : LocalTime
+    public static function now(TimeZone $timeZone, ?Clock $clock = null) : LocalTime
     {
         return ZonedDateTime::now($timeZone, $clock)->getTime();
     }

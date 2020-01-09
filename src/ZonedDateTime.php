@@ -158,7 +158,7 @@ class ZonedDateTime implements \JsonSerializable
      *
      * @return ZonedDateTime
      */
-    public static function now(TimeZone $timeZone, Clock $clock = null) : ZonedDateTime
+    public static function now(TimeZone $timeZone, ?Clock $clock = null) : ZonedDateTime
     {
         return ZonedDateTime::ofInstant(Instant::now($clock), $timeZone);
     }
@@ -209,7 +209,7 @@ class ZonedDateTime implements \JsonSerializable
      * @throws DateTimeException      If the date is not valid.
      * @throws DateTimeParseException If the text string does not follow the expected format.
      */
-    public static function parse(string $text, DateTimeParser $parser = null) : ZonedDateTime
+    public static function parse(string $text, ?DateTimeParser $parser = null) : ZonedDateTime
     {
         if (! $parser) {
             $parser = IsoParsers::zonedDateTime();
@@ -860,7 +860,7 @@ class ZonedDateTime implements \JsonSerializable
      *
      * @return bool
      */
-    public function isFuture(Clock $clock = null) : bool
+    public function isFuture(?Clock $clock = null) : bool
     {
         return $this->instant->isFuture($clock);
     }
@@ -874,7 +874,7 @@ class ZonedDateTime implements \JsonSerializable
      *
      * @return bool
      */
-    public function isPast(Clock $clock = null) : bool
+    public function isPast(?Clock $clock = null) : bool
     {
         return $this->instant->isPast($clock);
     }

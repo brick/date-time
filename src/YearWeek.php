@@ -59,7 +59,7 @@ final class YearWeek implements \JsonSerializable
      *
      * @return YearWeek
      */
-    public static function now(TimeZone $timeZone, Clock $clock = null) : YearWeek
+    public static function now(TimeZone $timeZone, ?Clock $clock = null) : YearWeek
     {
         return LocalDate::now($timeZone, $clock)->getYearWeek();
     }

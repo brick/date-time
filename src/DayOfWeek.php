@@ -80,7 +80,7 @@ final class DayOfWeek implements \JsonSerializable
      *
      * @return DayOfWeek
      */
-    public static function now(TimeZone $timeZone, Clock $clock = null) : DayOfWeek
+    public static function now(TimeZone $timeZone, ?Clock $clock = null) : DayOfWeek
     {
         return LocalDate::now($timeZone, $clock)->getDayOfWeek();
     }
@@ -92,7 +92,7 @@ final class DayOfWeek implements \JsonSerializable
      *
      * @return DayOfWeek[]
      */
-    public static function all(DayOfWeek $first = null) : array
+    public static function all(?DayOfWeek $first = null) : array
     {
         $days = [];
         $first = $first ?: DayOfWeek::get(DayOfWeek::MONDAY);

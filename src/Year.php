@@ -55,7 +55,7 @@ final class Year implements \JsonSerializable
      *
      * @return Year
      */
-    public static function now(TimeZone $timeZone, Clock $clock = null) : Year
+    public static function now(TimeZone $timeZone, ?Clock $clock = null) : Year
     {
         return new Year(LocalDate::now($timeZone, $clock)->getYear());
     }

@@ -70,7 +70,7 @@ final class LocalDateTime implements \JsonSerializable
      *
      * @return LocalDateTime
      */
-    public static function now(TimeZone $timeZone, Clock $clock = null) : LocalDateTime
+    public static function now(TimeZone $timeZone, ?Clock $clock = null) : LocalDateTime
     {
         return ZonedDateTime::now($timeZone, $clock)->getDateTime();
     }
@@ -102,7 +102,7 @@ final class LocalDateTime implements \JsonSerializable
      * @throws DateTimeException      If the date-time is not valid.
      * @throws DateTimeParseException If the text string does not follow the expected format.
      */
-    public static function parse(string $text, DateTimeParser $parser = null) : LocalDateTime
+    public static function parse(string $text, ?DateTimeParser $parser = null) : LocalDateTime
     {
         if (! $parser) {
             $parser = IsoParsers::localDateTime();
@@ -906,7 +906,7 @@ final class LocalDateTime implements \JsonSerializable
      *
      * @return bool
      */
-    public function isFuture(TimeZone $timeZone, Clock $clock = null) : bool
+    public function isFuture(TimeZone $timeZone, ?Clock $clock = null) : bool
     {
         return $this->isAfter(LocalDateTime::now($timeZone, $clock));
     }
@@ -921,7 +921,7 @@ final class LocalDateTime implements \JsonSerializable
      *
      * @return bool
      */
-    public function isPast(TimeZone $timeZone, Clock $clock = null) : bool
+    public function isPast(TimeZone $timeZone, ?Clock $clock = null) : bool
     {
         return $this->isBefore(LocalDateTime::now($timeZone, $clock));
     }

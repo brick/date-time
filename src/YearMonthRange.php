@@ -103,7 +103,7 @@ class YearMonthRange implements \IteratorAggregate, \Countable, \JsonSerializabl
      * @throws DateTimeException      If either of the year-months is not valid.
      * @throws DateTimeParseException If the text string does not follow the expected format.
      */
-    public static function parse(string $text, DateTimeParser $parser = null) : YearMonthRange
+    public static function parse(string $text, ?DateTimeParser $parser = null) : YearMonthRange
     {
         if (! $parser) {
             $parser = IsoParsers::yearMonthRange();

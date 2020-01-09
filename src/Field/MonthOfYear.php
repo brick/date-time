@@ -45,7 +45,7 @@ final class MonthOfYear
      *
      * @return int
      */
-    public static function getLength(int $monthOfYear, int $year = null) : int
+    public static function getLength(int $monthOfYear, ?int $year = null) : int
     {
         switch ($monthOfYear) {
             case 2:

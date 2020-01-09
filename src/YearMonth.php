@@ -86,7 +86,7 @@ final class YearMonth implements \JsonSerializable
      * @throws DateTimeException      If the date is not valid.
      * @throws DateTimeParseException If the text string does not follow the expected format.
      */
-    public static function parse(string $text, DateTimeParser $parser = null) : YearMonth
+    public static function parse(string $text, ?DateTimeParser $parser = null) : YearMonth
     {
         if (! $parser) {
             $parser = IsoParsers::yearMonth();
@@ -105,7 +105,7 @@ final class YearMonth implements \JsonSerializable
      *
      * @return YearMonth
      */
-    public static function now(TimeZone $timeZone, Clock $clock = null) : YearMonth
+    public static function now(TimeZone $timeZone, ?Clock $clock = null) : YearMonth
     {
         $localDate = LocalDate::now($timeZone, $clock);
 

@@ -26,7 +26,7 @@ final class WeekOfYear
      *
      * @throws DateTimeException If the week-of-year is not valid.
      */
-    public static function check(int $weekOfYear, int $year = null) : void
+    public static function check(int $weekOfYear, ?int $year = null) : void
     {
         if ($weekOfYear < 1 || $weekOfYear > 53) {
             throw DateTimeException::fieldNotInRange(self::NAME, $weekOfYear, 1, 53);

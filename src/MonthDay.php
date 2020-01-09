@@ -85,7 +85,7 @@ final class MonthDay implements \JsonSerializable
      * @throws DateTimeException      If the date is not valid.
      * @throws DateTimeParseException If the text string does not follow the expected format.
      */
-    public static function parse(string $text, DateTimeParser $parser = null) : MonthDay
+    public static function parse(string $text, ?DateTimeParser $parser = null) : MonthDay
     {
         if (! $parser) {
             $parser = IsoParsers::monthDay();
@@ -104,7 +104,7 @@ final class MonthDay implements \JsonSerializable
      *
      * @return MonthDay
      */
-    public static function now(TimeZone $timeZone, Clock $clock = null) : MonthDay
+    public static function now(TimeZone $timeZone, ?Clock $clock = null) : MonthDay
     {
         $date = LocalDate::now($timeZone, $clock);
 
