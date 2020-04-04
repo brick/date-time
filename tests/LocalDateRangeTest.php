@@ -217,4 +217,32 @@ class LocalDateRangeTest extends AbstractTestCase
             LocalDate::of(2011, 1, 1)
         ));
     }
+
+    /**
+     * @dataProvider providerIsIntersect
+     *
+     * @param string $a
+     * @param string $b
+     * @param bool $expectedResult
+     */
+    public function testIsIntersect(string $a, string $b, bool $expectedResult)
+    {
+        $aRange = LocalDateRange::parse($a);
+        $bRange = LocalDateRange::parse($b);
+
+        $this->assertSame($expectedResult, $aRange->isIntersect($bRange));
+        $this->assertSame($expectedResult, $bRange->isIntersect($aRange));
+    }
+
+    public function providerIsIntersect() : array
+    {
+        return [
+            ['2010-01-01/2010-01-01', '2010-01-01/2010-01-01', true],
+            ['2010-01-01/2020-01-01', '2010-01-02/2010-01-02', true],
+            ['2010-01-01/2020-02-27', '2010-01-10/2010-02-10', true],
+            ['2010-01-01/2010-01-01', '2010-01-02/2010-01-02', false],
+            ['2010-01-01/2010-01-01', '2020-01-02/2020-01-02', false],
+        ];
+
+    }
 }
