@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Brick\DateTime\Tests;
 
+use Brick\DateTime\DateTimeException;
 use Brick\DateTime\LocalDate;
 use Brick\DateTime\LocalDateRange;
 
@@ -238,11 +239,47 @@ class LocalDateRangeTest extends AbstractTestCase
     {
         return [
             ['2010-01-01/2010-01-01', '2010-01-01/2010-01-01', true],
-            ['2010-01-01/2020-01-01', '2010-01-02/2010-01-02', true],
-            ['2010-01-01/2020-02-27', '2010-01-10/2010-02-10', true],
+            ['2010-01-01/2033-01-01', '2010-01-02/2010-01-02', true],
+            ['2010-01-01/2033-02-27', '2010-01-10/2010-02-10', true],
+            ['2010-01-01/2010-01-10', '2010-01-05/2010-01-15', true],
             ['2010-01-01/2010-01-01', '2010-01-02/2010-01-02', false],
-            ['2010-01-01/2010-01-01', '2020-01-02/2020-01-02', false],
+            ['2010-01-01/2010-01-01', '2020-01-02/2033-01-02', false],
         ];
+    }
 
+    /**
+     * @dataProvider providerGetIntersection
+     *
+     * @param string $a
+     * @param string $b
+     * @param string $expectedIntersection
+     */
+    public function testGetIntersection(string $a, string $b, string $expectedIntersection)
+    {
+        $aRange = LocalDateRange::parse($a);
+        $bRange = LocalDateRange::parse($b);
+
+        $this->assertSame($expectedIntersection, (string)$aRange->getIntersection($bRange));
+        $this->assertSame($expectedIntersection, (string)$bRange->getIntersection($aRange));
+    }
+
+    public function providerGetIntersection() : array
+    {
+        return [
+            ['2010-01-01/2010-01-01', '2010-01-01/2010-01-01', '2010-01-01/2010-01-01'],
+            ['2010-01-01/2033-01-01', '2010-01-02/2010-01-02', '2010-01-02/2010-01-02'],
+            ['2010-01-01/2033-02-27', '2010-01-10/2010-02-10', '2010-01-10/2010-02-10'],
+            ['2010-01-01/2010-01-10', '2010-01-05/2010-01-15', '2010-01-05/2010-01-10'],
+        ];
+    }
+
+    public function testGetIntersectionInvalidParams()
+    {
+        $this->expectException(DateTimeException::class);
+
+        $aRange = LocalDateRange::parse('2010-01-01/2010-03-01');
+        $bRange = LocalDateRange::parse('2033-01-02/2033-01-02');
+
+        $aRange->getIntersection($bRange);
     }
 }
