@@ -9,11 +9,11 @@
     ],
     "license": "MIT",
     "require": {
-        "php": ">=7.1"
+        "php": "^7.1|^8.0"
     },
     "require-dev": {
-        "phpunit/phpunit": "7.*",
-        "php-coveralls/php-coveralls": "2.*"
+        "phpunit/phpunit": "^7.5.15|^8.5",
+        "php-coveralls/php-coveralls": "^2.2",
     },
     "suggest": {
         "ext-timezonedb": "This PECL extension provides up-to-date timezone information"
