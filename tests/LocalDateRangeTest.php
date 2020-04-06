@@ -220,22 +220,22 @@ class LocalDateRangeTest extends AbstractTestCase
     }
 
     /**
-     * @dataProvider providerIsIntersect
+     * @dataProvider providerIntersectsWith
      *
      * @param string $a
      * @param string $b
      * @param bool $expectedResult
      */
-    public function testIsIntersect(string $a, string $b, bool $expectedResult)
+    public function testIntersectsWith(string $a, string $b, bool $expectedResult)
     {
         $aRange = LocalDateRange::parse($a);
         $bRange = LocalDateRange::parse($b);
 
-        $this->assertSame($expectedResult, $aRange->isIntersect($bRange));
-        $this->assertSame($expectedResult, $bRange->isIntersect($aRange));
+        $this->assertSame($expectedResult, $aRange->intersectsWith($bRange));
+        $this->assertSame($expectedResult, $bRange->intersectsWith($aRange));
     }
 
-    public function providerIsIntersect() : array
+    public function providerIntersectsWith() : array
     {
         return [
             ['2010-01-01/2010-01-01', '2010-01-01/2010-01-01', true],
@@ -248,22 +248,22 @@ class LocalDateRangeTest extends AbstractTestCase
     }
 
     /**
-     * @dataProvider providerGetIntersection
+     * @dataProvider providerGetIntersectionWith
      *
      * @param string $a
      * @param string $b
      * @param string $expectedIntersection
      */
-    public function testGetIntersection(string $a, string $b, string $expectedIntersection)
+    public function testGetIntersectionWith(string $a, string $b, string $expectedIntersection)
     {
         $aRange = LocalDateRange::parse($a);
         $bRange = LocalDateRange::parse($b);
 
-        $this->assertSame($expectedIntersection, (string)$aRange->getIntersection($bRange));
-        $this->assertSame($expectedIntersection, (string)$bRange->getIntersection($aRange));
+        $this->assertSame($expectedIntersection, (string)$aRange->getIntersectionWith($bRange));
+        $this->assertSame($expectedIntersection, (string)$bRange->getIntersectionWith($aRange));
     }
 
-    public function providerGetIntersection() : array
+    public function providerGetIntersectionWith() : array
     {
         return [
             ['2010-01-01/2010-01-01', '2010-01-01/2010-01-01', '2010-01-01/2010-01-01'],
@@ -280,6 +280,6 @@ class LocalDateRangeTest extends AbstractTestCase
         $aRange = LocalDateRange::parse('2010-01-01/2010-03-01');
         $bRange = LocalDateRange::parse('2033-01-02/2033-01-02');
 
-        $aRange->getIntersection($bRange);
+        $aRange->getIntersectionWith($bRange);
     }
 }

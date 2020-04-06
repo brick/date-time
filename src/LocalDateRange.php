@@ -169,7 +169,7 @@ final class LocalDateRange implements \IteratorAggregate, \Countable, \JsonSeria
      *
      * @return bool
      */
-    public function isIntersect(LocalDateRange $that) : bool
+    public function intersectsWith(LocalDateRange $that) : bool
     {
         return $this->contains($that->start)
             || $this->contains($that->end)
@@ -184,9 +184,9 @@ final class LocalDateRange implements \IteratorAggregate, \Countable, \JsonSeria
      *
      * @return LocalDateRange
      */
-    public function getIntersection(LocalDateRange $that) : LocalDateRange
+    public function getIntersectionWith(LocalDateRange $that) : LocalDateRange
     {
-        if (!$this->isIntersect($that)) {
+        if (!$this->intersectsWith($that)) {
             throw new DateTimeException('Ranges "' . $this . '" and "' . $that . '" do not intersect');
         }
 
