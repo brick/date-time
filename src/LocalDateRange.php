@@ -163,6 +163,39 @@ final class LocalDateRange implements \IteratorAggregate, \Countable, \JsonSeria
     }
 
     /**
+     * Returns whether this LocalDateRange intersect with the given date range.
+     *
+     * @param LocalDateRange $that
+     *
+     * @return bool
+     */
+    public function intersectsWith(LocalDateRange $that) : bool
+    {
+        return $this->contains($that->start)
+            || $this->contains($that->end)
+            || $that->contains($this->start)
+            || $that->contains($this->end);
+    }
+
+    /**
+     * Returns intersection this LocalDateRange with the given date range, exception if ranges do not intersect
+     *
+     * @param LocalDateRange $that
+     *
+     * @return LocalDateRange
+     */
+    public function getIntersectionWith(LocalDateRange $that) : LocalDateRange
+    {
+        if (!$this->intersectsWith($that)) {
+            throw new DateTimeException('Ranges "' . $this . '" and "' . $that . '" do not intersect');
+        }
+
+        $intersectStart = $this->start->isBefore($that->start) ? $that->start : $this->start;
+        $intersectEnd = $this->end->isAfter($that->end) ? $that->end: $this->end;
+        return new LocalDateRange($intersectStart, $intersectEnd);
+    }
+
+    /**
      * Returns an iterator for all the dates contained in this range.
      *
      * @return LocalDate[]
@@ -203,4 +236,5 @@ final class LocalDateRange implements \IteratorAggregate, \Countable, \JsonSeria
     {
         return $this->start . '/' . $this->end;
     }
+
 }
