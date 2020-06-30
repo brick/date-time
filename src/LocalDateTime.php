@@ -507,7 +507,7 @@ final class LocalDateTime implements \JsonSerializable
             return $this;
         }
 
-        $days = Math::floorDiv($duration->getSeconds(), LocalTime::SECONDS_PER_DAY);
+        $days = Math::floorDiv($this->time->toSecondOfDay() + $duration->getSeconds(), LocalTime::SECONDS_PER_DAY);
 
         return new LocalDateTime($this->date->plusDays($days), $this->time->plusDuration($duration));
     }
