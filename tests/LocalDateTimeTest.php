@@ -739,7 +739,7 @@ class LocalDateTimeTest extends AbstractTestCase
      * @param int $y  The expected year.
      * @param int $m  The expected month.
      * @param int $d  The expected day.
-     * @param int $h  The exepected hour.
+     * @param int $h  The expected hour.
      * @param int $i  The expected minute.
      * @param int $s  The expected second.
      * @param int $n  The expected nano.
@@ -759,7 +759,7 @@ class LocalDateTimeTest extends AbstractTestCase
      * @param int $y  The expected year.
      * @param int $m  The expected month.
      * @param int $d  The expected day.
-     * @param int $h  The exepected hour.
+     * @param int $h  The expected hour.
      * @param int $i  The expected minute.
      * @param int $s  The expected second.
      * @param int $n  The expected nano.
