@@ -232,6 +232,12 @@ class ZonedDateTime implements \JsonSerializable
 
         $dateTimeZone = $dateTime->getTimezone();
 
+        /**
+         * @psalm-suppress TypeDoesNotContainType
+         *
+         * Looks like Psalm might have a wrong return type for \DateTimeInterface::getTimeZone - it should
+         * be \DateTimeZone|false . Psalm seems to think it's just \DateTimeZone
+         */
         if ($dateTimeZone === false) {
             throw new DateTimeException('This DateTime object has no timezone.');
         }

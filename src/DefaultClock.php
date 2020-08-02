@@ -67,7 +67,7 @@ final class DefaultClock
     /**
      * Freezes time to a specific point in time.
      *
-     * @param Instant|null $instant The time to freeze to.
+     * @param Instant $instant The time to freeze to.
      *
      * @return void
      */

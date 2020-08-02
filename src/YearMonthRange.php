@@ -159,7 +159,7 @@ class YearMonthRange implements \IteratorAggregate, \Countable, \JsonSerializabl
     /**
      * Returns an iterator for all the year-months contained in this range.
      *
-     * @return YearMonth[]
+     * @return \Generator<YearMonth>
      */
     public function getIterator() : \Generator
     {

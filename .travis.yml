@@ -11,6 +11,7 @@ before_script:
 
 script:
   - mkdir -p build/logs
+  - vendor/bin/psalm.phar
   - vendor/bin/phpunit --coverage-clover build/logs/clover.xml
 
 after_script:

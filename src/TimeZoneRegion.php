@@ -76,11 +76,15 @@ final class TimeZoneRegion extends TimeZone
      */
     public static function getAllIdentifiers(bool $includeObsolete = false) : array
     {
-        return \DateTimeZone::listIdentifiers(
+        $identifiers = \DateTimeZone::listIdentifiers(
             $includeObsolete
-            ? \DateTimeZone::ALL_WITH_BC
-            : \DateTimeZone::ALL
+                ? \DateTimeZone::ALL_WITH_BC
+                : \DateTimeZone::ALL
         );
+
+        \assert(\is_array($identifiers));
+
+        return $identifiers;
     }
 
     /**
@@ -94,7 +98,11 @@ final class TimeZoneRegion extends TimeZone
      */
     public static function getIdentifiersForCountry(string $countryCode) : array
     {
-        return \DateTimeZone::listIdentifiers(\DateTimeZone::PER_COUNTRY, $countryCode);
+        $identifiers = \DateTimeZone::listIdentifiers(\DateTimeZone::PER_COUNTRY, $countryCode);
+
+        \assert(\is_array($identifiers));
+
+        return $identifiers;
     }
 
     /**

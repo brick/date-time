@@ -158,11 +158,13 @@ final class Duration implements \JsonSerializable
     {
         $nanoseconds = $nanoAdjustment % LocalTime::NANOS_PER_SECOND;
         $seconds += ($nanoAdjustment - $nanoseconds) / LocalTime::NANOS_PER_SECOND;
+        \assert(\is_int($seconds));
 
         if ($nanoseconds < 0) {
             $nanoseconds += LocalTime::NANOS_PER_SECOND;
             $seconds--;
         }
+
 
         return new Duration($seconds, $nanoseconds);
     }
