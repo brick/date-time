@@ -55,7 +55,7 @@ class DurationTest extends AbstractTestCase
     public function testOfMillis(int $millis)
     {
         $duration = Duration::ofMillis($millis);
-        $this->assertEquals($millis, $duration->getTotalMillis());
+        $this->assertSame($millis, $duration->getTotalMillis());
     }
 
     /**
