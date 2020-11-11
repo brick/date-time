@@ -165,7 +165,6 @@ final class Duration implements \JsonSerializable
             $seconds--;
         }
 
-
         return new Duration($seconds, $nanoseconds);
     }
 
