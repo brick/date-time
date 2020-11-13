@@ -16,8 +16,13 @@ before_script:
   - composer install
 
 script:
-  - mkdir -p build/logs
-  - vendor/bin/phpunit --coverage-clover build/logs/clover.xml
+  - |
+    - if [ $TRAVIS_PHP_VERSION == "nightly" ]; then
+      vendor/bin/phpunit
+    else
+      mkdir -p build/logs
+      vendor/bin/phpunit --coverage-clover build/logs/clover.xml
+    fi
 
 after_script:
   - vendor/bin/php-coveralls -v
