@@ -8,6 +8,11 @@ php:
   - nightly
 
 before_script:
+  - |
+    if [ $TRAVIS_PHP_VERSION == "nightly" ]; then
+      # not all dependencies advertise PHP 8 support yet
+      composer config platform.php 7.4.0
+    fi
   - composer install
 
 script:
