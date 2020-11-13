@@ -5,14 +5,20 @@ php:
   - 7.2
   - 7.3
   - 7.4
+  - nightly
 
 before_script:
   - composer install
 
 script:
   - mkdir -p build/logs
-  - vendor/bin/psalm.phar
   - vendor/bin/phpunit --coverage-clover build/logs/clover.xml
 
 after_script:
   - vendor/bin/php-coveralls -v
+
+jobs:
+  include:
+    - php: 7.4
+      name: Psalm
+      script: vendor/bin/psalm.phar
