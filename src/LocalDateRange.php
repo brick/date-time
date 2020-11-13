@@ -201,7 +201,7 @@ final class LocalDateRange implements \IteratorAggregate, \Countable, \JsonSeria
     /**
      * Returns an iterator for all the dates contained in this range.
      *
-     * @return LocalDate[]
+     * @return \Generator<LocalDate>
      */
     public function getIterator() : \Generator
     {

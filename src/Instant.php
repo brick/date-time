@@ -62,6 +62,7 @@ final class Instant implements \JsonSerializable
     {
         $nanos = $nanoAdjustment % LocalTime::NANOS_PER_SECOND;
         $epochSecond += ($nanoAdjustment - $nanos) / LocalTime::NANOS_PER_SECOND;
+        \assert(\is_int($epochSecond));
 
         if ($nanos < 0) {
             $nanos += LocalTime::NANOS_PER_SECOND;

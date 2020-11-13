@@ -232,6 +232,9 @@ class ZonedDateTime implements \JsonSerializable
 
         $dateTimeZone = $dateTime->getTimezone();
 
+        /**
+         * @psalm-suppress TypeDoesNotContainType - see https://github.com/vimeo/psalm/issues/4515
+         */
         if ($dateTimeZone === false) {
             throw new DateTimeException('This DateTime object has no timezone.');
         }
