@@ -38,8 +38,6 @@ final class TimeZoneRegion extends TimeZone
      */
     public static function of(string $id) : TimeZoneRegion
     {
-        $id = (string) $id;
-
         if ($id === '' || $id === 'Z' || $id === 'z' || $id[0] === '+' || $id[0] === '-') {
             // DateTimeZone would accept offsets, but TimeZoneRegion targets regions only.
             throw DateTimeException::unknownTimeZoneRegion($id);

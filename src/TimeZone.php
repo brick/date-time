@@ -25,8 +25,6 @@ abstract class TimeZone
      */
     public static function parse(string $text) : TimeZone
     {
-        $text = (string) $text;
-
         if ($text === 'Z' || $text === 'z') {
             return TimeZoneOffset::utc();
         }
