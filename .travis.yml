@@ -5,24 +5,15 @@ php:
   - 7.2
   - 7.3
   - 7.4
-  - nightly
+  - 8.0
 
 before_script:
-  - |
-    if [ $TRAVIS_PHP_VERSION == "nightly" ]; then
-      # not all dependencies advertise PHP 8 support yet
-      composer config platform.php 7.4.0
-    fi
   - composer install
 
 script:
   - |
-    if [ $TRAVIS_PHP_VERSION == "nightly" ]; then
-      vendor/bin/phpunit
-    else
-      mkdir -p build/logs
-      vendor/bin/phpunit --coverage-clover build/logs/clover.xml
-    fi
+    mkdir -p build/logs
+    vendor/bin/phpunit --coverage-clover build/logs/clover.xml
 
 after_script:
   - vendor/bin/php-coveralls -v
