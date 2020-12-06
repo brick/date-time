@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Brick\DateTime\Tests;
 
 use Brick\DateTime\Clock\FixedClock;
+use Brick\DateTime\DateTimeException;
 use Brick\DateTime\Instant;
 use Brick\DateTime\MonthDay;
 use Brick\DateTime\TimeZone;
@@ -22,12 +23,12 @@ class YearTest extends AbstractTestCase
 
     /**
      * @dataProvider providerOfInvalidYearThrowsException
-     * @expectedException \Brick\DateTime\DateTimeException
      *
      * @param int $invalidYear
      */
     public function testOfInvalidYearThrowsException(int $invalidYear)
     {
+        $this->expectException(DateTimeException::class);
         Year::of($invalidYear);
     }
 
@@ -413,11 +414,9 @@ class YearTest extends AbstractTestCase
         ];
     }
 
-    /**
-     * @expectedException \Brick\DateTime\DateTimeException
-     */
     public function testAtInvalidDayThrowsException()
     {
+        $this->expectException(DateTimeException::class);
         Year::of(2007)->atDay(366);
     }
 
@@ -428,12 +427,12 @@ class YearTest extends AbstractTestCase
 
     /**
      * @dataProvider providerAtInvalidMonthThrowsException
-     * @expectedException \Brick\DateTime\DateTimeException
      *
      * @param int $invalidMonth
      */
     public function testAtInvalidMonthThrowsException(int $invalidMonth)
     {
+        $this->expectException(DateTimeException::class);
         Year::of(2000)->atMonth($invalidMonth);
     }
 

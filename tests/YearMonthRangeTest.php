@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Brick\DateTime\Tests;
 
+use Brick\DateTime\DateTimeException;
+use Brick\DateTime\Parser\DateTimeParseException;
 use Brick\DateTime\YearMonth;
 use Brick\DateTime\YearMonthRange;
 
@@ -20,11 +22,10 @@ class YearMonthRangeTest extends AbstractTestCase
         ));
     }
 
-    /**
-     * @expectedException \Brick\DateTime\DateTimeException
-     */
     public function testOfInvalidRangeThrowsException()
     {
+        $this->expectException(DateTimeException::class);
+
         YearMonthRange::of(
             YearMonth::of(2001, 3),
             YearMonth::of(2001, 2)
@@ -58,12 +59,12 @@ class YearMonthRangeTest extends AbstractTestCase
 
     /**
      * @dataProvider providerParseInvalidRangeThrowsException
-     * @expectedException \Brick\DateTime\Parser\DateTimeParseException
      *
      * @param string $text The invalid text to parse.
      */
     public function testParseInvalidRangeThrowsException(string $text)
     {
+        $this->expectException(DateTimeParseException::class);
         YearMonthRange::parse($text);
     }
 

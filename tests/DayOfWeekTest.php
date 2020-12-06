@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Brick\DateTime\Tests;
 
 use Brick\DateTime\Clock\FixedClock;
+use Brick\DateTime\DateTimeException;
 use Brick\DateTime\DayOfWeek;
 use Brick\DateTime\Instant;
 use Brick\DateTime\LocalDate;
@@ -49,12 +50,12 @@ class DayOfWeekTest extends AbstractTestCase
 
     /**
      * @dataProvider providerOfInvalidDayOfWeekThrowsException
-     * @expectedException \Brick\DateTime\DateTimeException
      *
      * @param int $dayOfWeek
      */
     public function testOfInvalidDayOfWeekThrowsException(int $dayOfWeek)
     {
+        $this->expectException(DateTimeException::class);
         DayOfWeek::of($dayOfWeek);
     }
 

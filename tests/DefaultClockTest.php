@@ -13,7 +13,7 @@ use Brick\DateTime\Instant;
  */
 class DefaultClockTest extends AbstractTestCase
 {
-    public function tearDown()
+    public function tearDown(): void
     {
         DefaultClock::reset();
     }

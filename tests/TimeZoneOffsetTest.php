@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace Brick\DateTime\Tests;
 
+use Brick\DateTime\DateTimeException;
 use Brick\DateTime\Instant;
+use Brick\DateTime\Parser\DateTimeParseException;
 use Brick\DateTime\TimeZoneOffset;
 
 /**
@@ -60,7 +62,6 @@ class TimeZoneOffsetTest extends AbstractTestCase
 
     /**
      * @dataProvider providerOfInvalidValuesThrowsException
-     * @expectedException \Brick\DateTime\DateTimeException
      *
      * @param int $hours
      * @param int $minutes
@@ -68,6 +69,7 @@ class TimeZoneOffsetTest extends AbstractTestCase
      */
     public function testOfInvalidValuesThrowsException(int $hours, int $minutes, int $seconds)
     {
+        $this->expectException(DateTimeException::class);
         TimeZoneOffset::of($hours, $minutes, $seconds);
     }
 
@@ -125,12 +127,12 @@ class TimeZoneOffsetTest extends AbstractTestCase
 
     /**
      * @dataProvider providerOfInvalidTotalSecondsThrowsException
-     * @expectedException \Brick\DateTime\DateTimeException
      *
      * @param int $totalSeconds
      */
     public function testOfInvalidTotalSecondsThrowsException(int $totalSeconds)
     {
+        $this->expectException(DateTimeException::class);
         TimeZoneOffset::ofTotalSeconds($totalSeconds);
     }
 
@@ -184,12 +186,12 @@ class TimeZoneOffsetTest extends AbstractTestCase
 
     /**
      * @dataProvider providerParseInvalidStringThrowsException
-     * @expectedException \Brick\DateTime\Parser\DateTimeParseException
      *
      * @param string $text
      */
     public function testParseInvalidStringThrowsException(string $text)
     {
+        $this->expectException(DateTimeParseException::class);
         TimeZoneOffset::parse($text);
     }
 
@@ -212,12 +214,12 @@ class TimeZoneOffsetTest extends AbstractTestCase
 
     /**
      * @dataProvider providerParseValueStringThrowsException
-     * @expectedException \Brick\DateTime\DateTimeException
      *
      * @param string $text
      */
     public function testParseInvalidValueThrowsException(string $text)
     {
+        $this->expectException(DateTimeException::class);
         TimeZoneOffset::parse($text);
     }
 

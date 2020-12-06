@@ -5,8 +5,10 @@ declare(strict_types=1);
 namespace Brick\DateTime\Tests;
 
 use Brick\DateTime\Clock\FixedClock;
+use Brick\DateTime\DateTimeException;
 use Brick\DateTime\Instant;
 use Brick\DateTime\MonthDay;
+use Brick\DateTime\Parser\DateTimeParseException;
 use Brick\DateTime\TimeZone;
 
 /**
@@ -49,13 +51,13 @@ class MonthDayTest extends AbstractTestCase
 
     /**
      * @dataProvider providerOfThrowsExceptionOnInvalidMonthDay
-     * @expectedException \Brick\DateTime\DateTimeException
      *
      * @param int $month
      * @param int $day
      */
     public function testOfThrowsExceptionOnInvalidMonthDay(int $month, int $day)
     {
+        $this->expectException(DateTimeException::class);
         MonthDay::of($month, $day);
     }
 
@@ -109,12 +111,12 @@ class MonthDayTest extends AbstractTestCase
 
     /**
      * @dataProvider providerParseInvalidStringThrowsException
-     * @expectedException \Brick\DateTime\Parser\DateTimeParseException
      *
      * @param string $text
      */
     public function testParseInvalidStringThrowsException(string $text)
     {
+        $this->expectException(DateTimeParseException::class);
         MonthDay::parse($text);
     }
 
@@ -141,12 +143,12 @@ class MonthDayTest extends AbstractTestCase
 
     /**
      * @dataProvider providerParseInvalidDateThrowsException
-     * @expectedException \Brick\DateTime\DateTimeException
      *
      * @param string $text
      */
     public function testParseInvalidDateThrowsException(string $text)
     {
+        $this->expectException(DateTimeException::class);
         MonthDay::parse($text);
     }
 
@@ -354,7 +356,6 @@ class MonthDayTest extends AbstractTestCase
 
     /**
      * @dataProvider providerWithInvalidMonthThrowsException
-     * @expectedException \Brick\DateTime\DateTimeException
      *
      * @param int $month    The month of the base month-day to test.
      * @param int $day      The day of base the month-day to test.
@@ -362,6 +363,7 @@ class MonthDayTest extends AbstractTestCase
      */
     public function testWithInvalidMonthThrowsException(int $month, int $day, int $newMonth)
     {
+        $this->expectException(DateTimeException::class);
         MonthDay::of($month, $day)->withMonth($newMonth);
     }
 
@@ -420,7 +422,6 @@ class MonthDayTest extends AbstractTestCase
 
     /**
      * @dataProvider providerWithInvalidDayThrowsException
-     * @expectedException \Brick\DateTime\DateTimeException
      *
      * @param int $month    The month of the base month-day to test.
      * @param int $day      The day of base the month-day to test.
@@ -428,6 +429,7 @@ class MonthDayTest extends AbstractTestCase
      */
     public function testWithInvalidDayThrowsException(int $month, int $day, int $newDay)
     {
+        $this->expectException(DateTimeException::class);
         MonthDay::of($month, $day)->withDay($newDay);
     }
 
@@ -494,12 +496,12 @@ class MonthDayTest extends AbstractTestCase
 
     /**
      * @dataProvider providerAtInvalidYearThrowsException
-     * @expectedException \Brick\DateTime\DateTimeException
      *
      * @param int $year
      */
     public function testAtInvalidYearThrowsException(int $year)
     {
+        $this->expectException(DateTimeException::class);
         MonthDay::of(1, 1)->atYear($year);
     }
 

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Brick\DateTime\Tests;
 
+use Brick\DateTime\Parser\DateTimeParseException;
 use Brick\DateTime\Period;
 use Brick\DateTime\LocalDate;
 
@@ -80,12 +81,12 @@ class PeriodTest extends AbstractTestCase
 
     /**
      * @dataProvider providerParseInvalidStringThrowsException
-     * @expectedException \Brick\DateTime\Parser\DateTimeParseException
      *
      * @param string $text
      */
     public function testParseInvalidStringThrowsException(string $text)
     {
+        $this->expectException(DateTimeParseException::class);
         Period::parse($text);
     }
 

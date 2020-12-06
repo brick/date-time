@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Brick\DateTime\Tests;
 
+use Brick\DateTime\DateTimeException;
 use Brick\DateTime\Month;
 
 /**
@@ -50,12 +51,12 @@ class MonthTest extends AbstractTestCase
 
     /**
      * @dataProvider providerOfInvalidMonthThrowsException
-     * @expectedException \Brick\DateTime\DateTimeException
      *
      * @param int $invalidMonth
      */
     public function testOfInvalidMonthThrowsException(int $invalidMonth)
     {
+        $this->expectException(DateTimeException::class);
         Month::of($invalidMonth);
     }
 

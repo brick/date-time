@@ -5,12 +5,14 @@ declare(strict_types=1);
 namespace Brick\DateTime\Tests;
 
 use Brick\DateTime\Clock\FixedClock;
+use Brick\DateTime\DateTimeException;
 use Brick\DateTime\Duration;
 use Brick\DateTime\Field\Year;
 use Brick\DateTime\Instant;
 use Brick\DateTime\LocalDate;
 use Brick\DateTime\LocalDateTime;
 use Brick\DateTime\LocalTime;
+use Brick\DateTime\Parser\DateTimeParseException;
 use Brick\DateTime\Period;
 use Brick\DateTime\TimeZone;
 use Brick\DateTime\TimeZoneOffset;
@@ -101,12 +103,12 @@ class LocalDateTimeTest extends AbstractTestCase
 
     /**
      * @dataProvider providerParseInvalidStringThrowsException
-     * @expectedException \Brick\DateTime\Parser\DateTimeParseException
      *
      * @param string $text
      */
     public function testParseInvalidStringThrowsException(string $text)
     {
+        $this->expectException(DateTimeParseException::class);
         LocalDateTime::parse($text);
     }
 
@@ -142,12 +144,12 @@ class LocalDateTimeTest extends AbstractTestCase
 
     /**
      * @dataProvider providerParseInvalidDateTimeThrowsException
-     * @expectedException \Brick\DateTime\DateTimeException
      *
      * @param string $text
      */
     public function testParseInvalidDateTimeThrowsException(string $text)
     {
+        $this->expectException(DateTimeException::class);
         LocalDateTime::parse($text);
     }
 
@@ -188,19 +190,15 @@ class LocalDateTimeTest extends AbstractTestCase
         $this->assertSame($c, LocalDateTime::maxOf($a, $b, $c));
     }
 
-    /**
-     * @expectedException \Brick\DateTime\DateTimeException
-     */
     public function testMinOfZeroElementsThrowsException()
     {
+        $this->expectException(DateTimeException::class);
         LocalDateTime::minOf();
     }
 
-    /**
-     * @expectedException \Brick\DateTime\DateTimeException
-     */
     public function testMaxOfZeroElementsThrowsException()
     {
+        $this->expectException(DateTimeException::class);
         LocalDateTime::maxOf();
     }
 
@@ -354,12 +352,12 @@ class LocalDateTimeTest extends AbstractTestCase
 
     /**
      * @dataProvider providerWithInvalidYearThrowsException
-     * @expectedException \Brick\DateTime\DateTimeException
      *
      * @param int $invalidYear The year to test.
      */
     public function testWithInvalidYearThrowsException(int $invalidYear)
     {
+        $this->expectException(DateTimeException::class);
         LocalDate::of(2001, 2, 3)->atTime(LocalTime::of(4, 5, 6))->withYear($invalidYear);
     }
 
@@ -416,12 +414,12 @@ class LocalDateTimeTest extends AbstractTestCase
 
     /**
      * @dataProvider providerWithInvalidYearThrowsException
-     * @expectedException \Brick\DateTime\DateTimeException
      *
      * @param int $invalidMonth The month to test.
      */
     public function testWithInvalidMonthThrowsException(int $invalidMonth)
     {
+        $this->expectException(DateTimeException::class);
         LocalDate::of(2001, 2, 3)->atTime(LocalTime::of(4, 5, 6))->withMonth($invalidMonth);
     }
 
@@ -467,7 +465,6 @@ class LocalDateTimeTest extends AbstractTestCase
 
     /**
      * @dataProvider providerWithInvalidDayThrowsException
-     * @expectedException \Brick\DateTime\DateTimeException
      *
      * @param int $year   The base year.
      * @param int $month  The base month.
@@ -476,6 +473,7 @@ class LocalDateTimeTest extends AbstractTestCase
      */
     public function testWithInvalidDayThrowsException(int $year, int $month, int $day, int $newDay)
     {
+        $this->expectException(DateTimeException::class);
         LocalDate::of($year, $month, $day)->atTime(LocalTime::midnight())->withDay($newDay);
     }
 
@@ -517,12 +515,12 @@ class LocalDateTimeTest extends AbstractTestCase
 
     /**
      * @dataProvider providerWithInvalidHourThrowsException
-     * @expectedException \Brick\DateTime\DateTimeException
      *
      * @param int $invalidHour
      */
     public function testWithInvalidHourThrowsException(int $invalidHour)
     {
+        $this->expectException(DateTimeException::class);
         LocalDate::of(2001, 2, 3)->atTime(LocalTime::of(4, 5, 6))->withHour($invalidHour);
     }
 
@@ -561,12 +559,12 @@ class LocalDateTimeTest extends AbstractTestCase
 
     /**
      * @dataProvider providerWithInvalidMinuteThrowsException
-     * @expectedException \Brick\DateTime\DateTimeException
      *
      * @param int $invalidMinute
      */
     public function testWithInvalidMinuteThrowsException(int $invalidMinute)
     {
+        $this->expectException(DateTimeException::class);
         LocalDate::of(2001, 2, 3)->atTime(LocalTime::of(4, 5, 6))->withMinute($invalidMinute);
     }
 
@@ -605,12 +603,12 @@ class LocalDateTimeTest extends AbstractTestCase
 
     /**
      * @dataProvider providerWithInvalidSecondThrowsException
-     * @expectedException \Brick\DateTime\DateTimeException
      *
      * @param int $invalidSecond
      */
     public function testWithInvalidSecondThrowsException(int $invalidSecond)
     {
+        $this->expectException(DateTimeException::class);
         LocalDate::of(2001, 2, 3)->atTime(LocalTime::of(4, 5, 6))->withSecond($invalidSecond);
     }
 
@@ -649,12 +647,12 @@ class LocalDateTimeTest extends AbstractTestCase
 
     /**
      * @dataProvider providerWithInvalidNanoThrowsException
-     * @expectedException \Brick\DateTime\DateTimeException
      *
      * @param int $invalidNano
      */
     public function testWithInvalidNanoThrowsException(int $invalidNano)
     {
+        $this->expectException(DateTimeException::class);
         LocalDate::of(2001, 2, 3)->atTime(LocalTime::of(4, 5, 6))->withNano($invalidNano);
     }
 

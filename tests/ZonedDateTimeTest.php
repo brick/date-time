@@ -8,6 +8,7 @@ use Brick\DateTime\Instant;
 use Brick\DateTime\LocalDateTime;
 use Brick\DateTime\LocalDate;
 use Brick\DateTime\LocalTime;
+use Brick\DateTime\Parser\DateTimeParseException;
 use Brick\DateTime\Period;
 use Brick\DateTime\Duration;
 use Brick\DateTime\TimeZone;
@@ -387,12 +388,12 @@ class ZonedDateTimeTest extends AbstractTestCase
 
     /**
      * @dataProvider providerParseInvalidStringThrowsException
-     * @expectedException \Brick\DateTime\Parser\DateTimeParseException
      *
      * @param string $text
      */
     public function testParseInvalidStringThrowsException(string $text)
     {
+        $this->expectException(DateTimeParseException::class);
         ZonedDateTime::parse($text);
     }
 

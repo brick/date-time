@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace Brick\DateTime\Tests;
 
+use Brick\DateTime\DateTimeException;
 use Brick\DateTime\Instant;
+use Brick\DateTime\Parser\DateTimeParseException;
 use Brick\DateTime\TimeZoneRegion;
 
 /**
@@ -19,12 +21,12 @@ class TimeZoneRegionTest extends AbstractTestCase
 
     /**
      * @dataProvider providerOfInvalidRegionThrowsException
-     * @expectedException \Brick\DateTime\DateTimeException
      *
      * @param string $region
      */
     public function testOfInvalidRegionThrowsException(string $region)
     {
+        $this->expectException(DateTimeException::class);
         TimeZoneRegion::of($region);
     }
 
@@ -50,12 +52,12 @@ class TimeZoneRegionTest extends AbstractTestCase
 
     /**
      * @dataProvider providerParseInvalidStringThrowsException
-     * @expectedException \Brick\DateTime\Parser\DateTimeParseException
      *
      * @param string $text
      */
     public function testParseInvalidStringThrowsException(string $text)
     {
+        $this->expectException(DateTimeParseException::class);
         TimeZoneRegion::parse($text);
     }
 

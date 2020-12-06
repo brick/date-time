@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Brick\DateTime\Tests;
 
 use Brick\DateTime\Clock\FixedClock;
+use Brick\DateTime\DateTimeException;
 use Brick\DateTime\Instant;
 use Brick\DateTime\TimeZone;
 use Brick\DateTime\YearMonth;
@@ -47,12 +48,12 @@ class YearMonthTest extends AbstractTestCase
 
     /**
      * @dataProvider providerParseInvalidStringThrowsException
-     * @expectedException \Brick\DateTime\DateTimeException
      *
      * @param string $text The text to parse.
      */
     public function testParseInvalidStringThrowsException(string $text)
     {
+        $this->expectException(DateTimeException::class);
         YearMonth::parse($text);
     }
 
@@ -73,12 +74,12 @@ class YearMonthTest extends AbstractTestCase
 
     /**
      * @dataProvider providerParseInvalidYearMonthThrowsException
-     * @expectedException \Brick\DateTime\DateTimeException
      *
      * @param string $text The text to parse.
      */
     public function testParseInvalidYearMonthThrowsException(string $text)
     {
+        $this->expectException(DateTimeException::class);
         YearMonth::parse($text);
     }
 

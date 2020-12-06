@@ -18,7 +18,7 @@ class StopwatchTest extends AbstractTestCase
      */
     private static $clock;
 
-    public static function setUpBeforeClass()
+    public static function setUpBeforeClass(): void
     {
         self::$clock = new FixedClock(Instant::of(0));
     }

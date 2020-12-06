@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Brick\DateTime\Tests;
 
+use Brick\DateTime\DateTimeException;
 use Brick\DateTime\DayOfWeek;
 use Brick\DateTime\YearWeek;
 use Brick\DateTime\TimeZone;
@@ -161,13 +162,12 @@ class YearWeekTest extends AbstractTestCase
         ];
     }
 
-    /**
-     * @expectedException \Brick\DateTime\DateTimeException
-     * @expectedExceptionMessage Invalid day-of-week: 0 is not in the range 1 to 7.
-     */
     public function testAtDayWithInvalidDay()
     {
-        YearWeek::of(2000,  1)->atDay(0);
+        $this->expectException(DateTimeException::class);
+        $this->expectExceptionMessage('Invalid day-of-week: 0 is not in the range 1 to 7.');
+
+        YearWeek::of(2000, 1)->atDay(0);
     }
 
     public function testCompareTo()

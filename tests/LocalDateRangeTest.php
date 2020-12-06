@@ -7,6 +7,7 @@ namespace Brick\DateTime\Tests;
 use Brick\DateTime\DateTimeException;
 use Brick\DateTime\LocalDate;
 use Brick\DateTime\LocalDateRange;
+use Brick\DateTime\Parser\DateTimeParseException;
 
 /**
  * Unit tests for class LocalDateRange.
@@ -21,11 +22,10 @@ class LocalDateRangeTest extends AbstractTestCase
         ));
     }
 
-    /**
-     * @expectedException \Brick\DateTime\DateTimeException
-     */
     public function testOfInvalidRangeThrowsException()
     {
+        $this->expectException(DateTimeException::class);
+
         LocalDateRange::of(
             LocalDate::of(2001, 2, 3),
             LocalDate::of(2001, 2, 2)
@@ -62,12 +62,12 @@ class LocalDateRangeTest extends AbstractTestCase
 
     /**
      * @dataProvider providerParseInvalidRangeThrowsException
-     * @expectedException \Brick\DateTime\Parser\DateTimeParseException
      *
      * @param string $text The invalid text to parse.
      */
     public function testParseInvalidRangeThrowsException(string $text)
     {
+        $this->expectException(DateTimeParseException::class);
         LocalDateRange::parse($text);
     }
 

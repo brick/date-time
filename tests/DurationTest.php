@@ -4,8 +4,11 @@ declare(strict_types=1);
 
 namespace Brick\DateTime\Tests;
 
+use ArithmeticError;
+use Brick\DateTime\DateTimeException;
 use Brick\DateTime\Duration;
 use Brick\DateTime\Instant;
+use Brick\DateTime\Parser\DateTimeParseException;
 
 /**
  * Unit tests for class Duration.
@@ -267,12 +270,12 @@ class DurationTest extends AbstractTestCase
 
     /**
      * @dataProvider providerParseFailureThrowsException
-     * @expectedException \Brick\DateTime\Parser\DateTimeParseException
      *
      * @param string $text The string to test.
      */
     public function testParseFailureThrowsException(string $text)
     {
+        $this->expectException(DateTimeParseException::class);
         Duration::parse($text);
     }
 
@@ -1039,11 +1042,9 @@ class DurationTest extends AbstractTestCase
         ];
     }
 
-    /**
-     * @expectedException \Brick\DateTime\DateTimeException
-     */
     public function testDividedByZeroThrowsException()
     {
+        $this->expectException(DateTimeException::class);
         Duration::zero()->dividedBy(0);
     }
 
@@ -1383,12 +1384,12 @@ class DurationTest extends AbstractTestCase
 
     /**
      * @dataProvider providerToMillisOutOfRange
-     * @expectedException \ArithmeticError
      *
      * @param Duration $duration
      */
     public function testToMillisOutOfRange(Duration $duration)
     {
+        $this->expectException(ArithmeticError::class);
         $duration->toMillis();
     }
 

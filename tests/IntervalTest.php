@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Brick\DateTime\Tests;
 
+use Brick\DateTime\DateTimeException;
 use Brick\DateTime\Instant;
 use Brick\DateTime\Interval;
 
@@ -12,16 +13,15 @@ use Brick\DateTime\Interval;
  */
 class IntervalTest extends AbstractTestCase
 {
-    /**
-     * @expectedException        \Brick\DateTime\DateTimeException
-     * @expectedExceptionMessage The end instant must not be before the start instant.
-     */
     public function testEndInstantIsNotBeforeStartInstant()
     {
         $start = Instant::of(2000000000, 987654321);
         $end = Instant::of(2000000009, 123456789);
 
-        $interval = new Interval($end, $start);
+        $this->expectException(DateTimeException::class);
+        $this->expectExceptionMessage('The end instant must not be before the start instant.');
+
+        new Interval($end, $start);
     }
 
     public function testGetStartEnd()
