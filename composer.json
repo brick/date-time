@@ -4,6 +4,7 @@
     "type": "library",
     "keywords": [
         "Brick",
+        "DateTime",
         "Date",
         "Time"
     ],
