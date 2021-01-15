@@ -36,6 +36,7 @@ final class IsoParsers
      */
     public static function localDate() : PatternParser
     {
+        /** @var PatternParser|null $parser */
         static $parser;
 
         if ($parser) {
@@ -60,6 +61,7 @@ final class IsoParsers
      */
     public static function localTime() : PatternParser
     {
+        /** @var PatternParser|null $parser */
         static $parser;
 
         if ($parser) {
@@ -90,6 +92,7 @@ final class IsoParsers
      */
     public static function localDateTime() : PatternParser
     {
+        /** @var PatternParser|null $parser */
         static $parser;
 
         if ($parser) {
@@ -110,6 +113,7 @@ final class IsoParsers
      */
     public static function localDateRange() : PatternParser
     {
+        /** @var PatternParser|null $parser */
         static $parser;
 
         if ($parser) {
@@ -147,6 +151,7 @@ final class IsoParsers
      */
     public static function yearMonthRange() : PatternParser
     {
+        /** @var PatternParser|null $parser */
         static $parser;
 
         if ($parser) {
@@ -177,6 +182,7 @@ final class IsoParsers
      */
     public static function yearMonth() : PatternParser
     {
+        /** @var PatternParser|null $parser */
         static $parser;
 
         if ($parser) {
@@ -197,6 +203,7 @@ final class IsoParsers
      */
     public static function monthDay() : PatternParser
     {
+        /** @var PatternParser|null $parser */
         static $parser;
 
         if ($parser) {
@@ -218,6 +225,7 @@ final class IsoParsers
      */
     public static function timeZoneOffset() : PatternParser
     {
+        /** @var PatternParser|null $parser */
         static $parser;
 
         if ($parser) {
@@ -249,6 +257,7 @@ final class IsoParsers
      */
     public static function timeZoneRegion() : PatternParser
     {
+        /** @var PatternParser|null $parser */
         static $parser;
 
         if ($parser) {
@@ -267,6 +276,7 @@ final class IsoParsers
      */
     public static function offsetDateTime() : PatternParser
     {
+        /** @var PatternParser|null $parser */
         static $parser;
 
         if ($parser) {
@@ -286,6 +296,7 @@ final class IsoParsers
      */
     public static function zonedDateTime() : PatternParser
     {
+        /** @var PatternParser|null $parser */
         static $parser;
 
         if ($parser) {

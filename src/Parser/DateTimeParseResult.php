@@ -10,7 +10,7 @@ namespace Brick\DateTime\Parser;
 final class DateTimeParseResult
 {
     /**
-     * @var array
+     * @var array<string, list<string>>
      */
     private $fields = [];
 

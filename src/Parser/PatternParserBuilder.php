@@ -15,12 +15,12 @@ final class PatternParserBuilder
     private $pattern = '';
 
     /**
-     * @var array
+     * @var string[]
      */
     private $fields = [];
 
     /**
-     * @var array
+     * @var string[]
      */
     private $stack = [];
 

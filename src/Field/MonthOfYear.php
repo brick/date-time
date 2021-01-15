@@ -71,7 +71,7 @@ final class MonthOfYear
      */
     public static function getName(int $monthOfYear) : string
     {
-        static $names = [
+        $names = [
             1  => 'January',
             2  => 'February',
             3  => 'March',

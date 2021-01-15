@@ -15,13 +15,13 @@ final class PatternParser implements DateTimeParser
     private $pattern;
 
     /**
-     * @var array
+     * @var string[]
      */
     private $fields;
 
     /**
-     * @param string $pattern The regular expression pattern.
-     * @param array  $fields  The fields constants to match.
+     * @param string   $pattern The regular expression pattern.
+     * @param string[] $fields  The fields constants to match.
      */
     public function __construct(string $pattern, array $fields)
     {
@@ -38,7 +38,7 @@ final class PatternParser implements DateTimeParser
     }
 
     /**
-     * @return array
+     * @return string[]
      */
     public function getFields() : array
     {

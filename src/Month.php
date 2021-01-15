@@ -48,7 +48,8 @@ final class Month implements \JsonSerializable
      */
     private static function get(int $value) : Month
     {
-        static $values;
+        /** @var array<int, Month> $values */
+        static $values = [];
 
         if (! isset($values[$value])) {
             $values[$value] = new Month($value);
