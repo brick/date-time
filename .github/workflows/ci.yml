@@ -24,7 +24,7 @@ jobs:
         uses: "ramsey/composer-install@v1"
 
       - name: Run Psalm
-        run: vendor/bin/psalm.phar
+        run: vendor/bin/psalm --show-info=false --find-unused-psalm-suppress --no-progress
 
   phpunit:
     name: PHPUnit
