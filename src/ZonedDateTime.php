@@ -217,6 +217,7 @@ class ZonedDateTime implements \JsonSerializable
 
         return ZonedDateTime::from($parser->parse($text));
     }
+
     /**
      * Creates a ZonedDateTime from a native DateTime or DateTimeImmutable object.
      *
