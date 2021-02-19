@@ -234,7 +234,8 @@ final class LocalDateRange implements \IteratorAggregate, \Countable, \JsonSeria
     /**
      * Converts this LocalDateRange to a native DatePeriod object.
      *
-     * The result is a DateTime with time 00:00 in the UTC time-zone.
+     * The result is a DatePeriod->start with time 00:00 and a DatePeriod->end 
+     * with time 23:59:59.999999 in the UTC time-zone.
      *
      * @return \DatePeriod
      */
