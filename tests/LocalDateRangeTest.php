@@ -230,7 +230,15 @@ class LocalDateRangeTest extends AbstractTestCase
         $range = LocalDateRange::parse($a);
 
         $period = $range->toDatePeriod();
-        
+
+        $range_arr = iterator_to_array($range);
+        $period_arr = iterator_to_array($period);
+        $zip = array_map(null, $range_arr, $period_arr);
+        foreach ($zip as [$date, $dateTime]) {
+            $this->assertTrue($date->isEqualTo(LocalDate::fromDateTime($dateTime)));
+        }
+
+        $this->assertSame(iterator_count($period), $range->count());
         $this->assertSame($expectedStart, $period->start->format('Y-m-d\TH:i:s.uO'));
         $this->assertSame($expectedEnd, $period->end->format('Y-m-d\TH:i:s.uO'));
     }
