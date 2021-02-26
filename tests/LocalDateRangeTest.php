@@ -222,18 +222,19 @@ class LocalDateRangeTest extends AbstractTestCase
     /**
      * @dataProvider providerToDatePeriod
      *
-     * @param string $dateTime The date-time string that will be parse()d by LocalDate.
-     * @param string $expected The expected output from the native DateTime object.
+     * @param string $range The date-time string that will be parse()d by LocalDateRange.
+     * @param string $expectedStart The expected output from the native DateTime object.
+     * @param string $expectedEnd The expected output from the native DateTime object.
      */
-    public function testToDatePeriod($a, $expectedStart, $expectedEnd)
+    public function testToDatePeriod(string $range, string $expectedStart, string $expectedEnd)
     {
-        $range = LocalDateRange::parse($a);
+        $range = LocalDateRange::parse($range);
 
         $period = $range->toDatePeriod();
 
-        $range_arr = iterator_to_array($range);
-        $period_arr = iterator_to_array($period);
-        $zip = array_map(null, $range_arr, $period_arr);
+        $rangeArray = iterator_to_array($range);
+        $periodArray = iterator_to_array($period);
+        $zip = array_map(null, $rangeArray, $periodArray);
         foreach ($zip as [$date, $dateTime]) {
             $this->assertTrue($date->isEqualTo(LocalDate::fromDateTime($dateTime)));
         }
@@ -246,7 +247,7 @@ class LocalDateRangeTest extends AbstractTestCase
     /**
      * @return array
      */
-    public function providerToDatePeriod()
+    public function providerToDatePeriod(): array
     {
         return [
             ['2010-01-01/2010-01-01', '2010-01-01T00:00:00.000000+0000', '2010-01-01T23:59:59.999999+0000'],
