@@ -220,6 +220,43 @@ class LocalDateRangeTest extends AbstractTestCase
     }
 
     /**
+     * @dataProvider providerToDatePeriod
+     *
+     * @param string $range The date-time string that will be parse()d by LocalDateRange.
+     * @param string $expectedStart The expected output from the native DateTime object.
+     * @param string $expectedEnd The expected output from the native DateTime object.
+     */
+    public function testToDatePeriod(string $range, string $expectedStart, string $expectedEnd)
+    {
+        $range = LocalDateRange::parse($range);
+
+        $period = $range->toDatePeriod();
+
+        $rangeArray = iterator_to_array($range);
+        $periodArray = iterator_to_array($period);
+        $zip = array_map(null, $rangeArray, $periodArray);
+        foreach ($zip as [$date, $dateTime]) {
+            $this->assertTrue($date->isEqualTo(LocalDate::fromDateTime($dateTime)));
+        }
+
+        $this->assertSame(iterator_count($period), $range->count());
+        $this->assertSame($expectedStart, $period->start->format('Y-m-d\TH:i:s.uO'));
+        $this->assertSame($expectedEnd, $period->end->format('Y-m-d\TH:i:s.uO'));
+    }
+
+    /**
+     * @return array
+     */
+    public function providerToDatePeriod(): array
+    {
+        return [
+            ['2010-01-01/2010-01-01', '2010-01-01T00:00:00.000000+0000', '2010-01-01T23:59:59.999999+0000'],
+            ['2010-01-01/2010-01-02', '2010-01-01T00:00:00.000000+0000', '2010-01-02T23:59:59.999999+0000'],
+            ['2010-01-01/2010-12-31', '2010-01-01T00:00:00.000000+0000', '2010-12-31T23:59:59.999999+0000'],
+        ];
+    }
+
+    /**
      * @dataProvider providerIntersectsWith
      *
      * @param string $a

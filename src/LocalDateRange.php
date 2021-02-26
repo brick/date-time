@@ -8,6 +8,7 @@ use Brick\DateTime\Parser\DateTimeParseException;
 use Brick\DateTime\Parser\DateTimeParser;
 use Brick\DateTime\Parser\DateTimeParseResult;
 use Brick\DateTime\Parser\IsoParsers;
+use DatePeriod;
 
 /**
  * Represents an inclusive range of local dates.
@@ -228,6 +229,23 @@ final class LocalDateRange implements \IteratorAggregate, \Countable, \JsonSeria
     public function jsonSerialize() : string
     {
         return (string) $this;
+    }
+
+    /**
+     * Converts this LocalDateRange to a native DatePeriod object.
+     *
+     * The result is a DatePeriod->start with time 00:00 and a DatePeriod->end 
+     * with time 23:59:59.999999 in the UTC time-zone.
+     *
+     * @return \DatePeriod
+     */
+    public function toDatePeriod() : \DatePeriod
+    {
+        $start = $this->getStart()->atTime(LocalTime::midnight())->toDateTime();
+        $end = $this->getEnd()->atTime(LocalTime::max())->toDateTime();
+        $interval = new \DateInterval('P1D');
+
+        return new \DatePeriod($start, $interval, $end);
     }
 
     /**
