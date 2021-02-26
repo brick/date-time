@@ -13,7 +13,7 @@ use RuntimeException;
  */
 class PatternParserBuilderTest extends AbstractTestCase
 {
-    public function testEndOptionalShouldThrowRuntimeException()
+    public function testEndOptionalShouldThrowRuntimeException(): void
     {
         $patternParserBuilder = new PatternParserBuilder();
 
@@ -23,7 +23,7 @@ class PatternParserBuilderTest extends AbstractTestCase
         $patternParserBuilder->endOptional();
     }
 
-    public function testEndGroupShouldThrowRuntimeException()
+    public function testEndGroupShouldThrowRuntimeException(): void
     {
         $patternParserBuilder = new PatternParserBuilder();
 
@@ -33,7 +33,7 @@ class PatternParserBuilderTest extends AbstractTestCase
         $patternParserBuilder->endGroup();
     }
 
-    public function testToParserWithNonEmptyStack()
+    public function testToParserWithNonEmptyStack(): void
     {
         $patternParserBuilder = new PatternParserBuilder();
         $patternParserBuilder->startGroup();

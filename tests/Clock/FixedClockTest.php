@@ -13,7 +13,7 @@ use Brick\DateTime\Instant;
  */
 class FixedClockTest extends AbstractTestCase
 {
-    public function testFixedClock()
+    public function testFixedClock(): void
     {
         $clock = new FixedClock(Instant::of(123456789, 987654321));
         $this->assertInstantIs(123456789, 987654321, $clock->getTime());

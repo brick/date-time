@@ -18,13 +18,13 @@ class DefaultClockTest extends AbstractTestCase
         DefaultClock::reset();
     }
 
-    public function testFreeze()
+    public function testFreeze(): void
     {
         DefaultClock::freeze(Instant::of(123456, 5000));
         $this->assertInstantIs(123456, 5000, Instant::now());
     }
 
-    public function testTravel()
+    public function testTravel(): void
     {
         $fixedClock = new FixedClock(Instant::of(1000, 0));
         DefaultClock::set($fixedClock);
@@ -37,7 +37,7 @@ class DefaultClockTest extends AbstractTestCase
         $this->assertInstantIs(-998, 0, Instant::now());
     }
 
-    public function testScale()
+    public function testScale(): void
     {
         $fixedClock = new FixedClock(Instant::of(1000, 0));
         DefaultClock::set($fixedClock);

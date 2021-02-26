@@ -17,9 +17,6 @@ use Brick\DateTime\Instant;
  */
 class YearWeekTest extends AbstractTestCase
 {
-    /**
-     * @return array
-     */
     public function provider53WeekYear() : array
     {
         return [
@@ -99,10 +96,8 @@ class YearWeekTest extends AbstractTestCase
 
     /**
      * @dataProvider provider53WeekYear
-     *
-     * @param int $year
      */
-    public function testIs53WeekYear(int $year)
+    public function testIs53WeekYear(int $year): void
     {
         $yearWeek = YearWeek::of($year, 1);
         $this->assertTrue($yearWeek->is53WeekYear());
@@ -110,15 +105,8 @@ class YearWeekTest extends AbstractTestCase
 
     /**
      * @dataProvider providerAtDay
-     *
-     * @param int $weekBasedYear
-     * @param int $weekOfWeekBasedYear
-     * @param int $dayOfWeek
-     * @param int $year
-     * @param int $month
-     * @param int $dayOfMonth
      */
-    public function testAtDay(int $weekBasedYear, int $weekOfWeekBasedYear, int $dayOfWeek, int $year, int $month, int $dayOfMonth)
+    public function testAtDay(int $weekBasedYear, int $weekOfWeekBasedYear, int $dayOfWeek, int $year, int $month, int $dayOfMonth): void
     {
         $yearWeek = YearWeek::of($weekBasedYear, $weekOfWeekBasedYear);
         $actual = $yearWeek->atDay($dayOfWeek);
@@ -126,9 +114,6 @@ class YearWeekTest extends AbstractTestCase
         $this->assertLocalDateIs($year, $month, $dayOfMonth, $actual);
     }
 
-    /**
-     * @return array
-     */
     public function providerAtDay() : array
     {
         return [
@@ -162,7 +147,7 @@ class YearWeekTest extends AbstractTestCase
         ];
     }
 
-    public function testAtDayWithInvalidDay()
+    public function testAtDayWithInvalidDay(): void
     {
         $this->expectException(DateTimeException::class);
         $this->expectExceptionMessage('Invalid day-of-week: 0 is not in the range 1 to 7.');
@@ -170,7 +155,7 @@ class YearWeekTest extends AbstractTestCase
         YearWeek::of(2000, 1)->atDay(0);
     }
 
-    public function testCompareTo()
+    public function testCompareTo(): void
     {
         $years = [-3, -2, 1, 0, 1, 2, 3];
         $weeks = [1, 2, 3, 50, 51, 52];
@@ -205,12 +190,7 @@ class YearWeekTest extends AbstractTestCase
         }
     }
 
-    /**
-     * @param int      $expected
-     * @param YearWeek $a
-     * @param YearWeek $b
-     */
-    private function assertCompareTo(int $expected, YearWeek $a, YearWeek $b)
+    private function assertCompareTo(int $expected, YearWeek $a, YearWeek $b): void
     {
         $this->assertSame($expected, $a->compareTo($b));
         $this->assertSame($expected === -1 || $expected === 0, $a->isBeforeOrEqualTo($b));
@@ -220,9 +200,6 @@ class YearWeekTest extends AbstractTestCase
         $this->assertSame($expected === 1 || $expected === 0, $a->isAfterOrEqualTo($b));
     }
 
-    /**
-     * @return array
-     */
     public function providerWithYear() : array
     {
         return [
@@ -235,22 +212,13 @@ class YearWeekTest extends AbstractTestCase
 
     /**
      * @dataProvider providerWithYear
-     *
-     * @param int $year
-     * @param int $week
-     * @param int $withYear
-     * @param int $expectedYear
-     * @param int $expectedWeek
      */
-    public function testWithYear(int $year, int $week, int $withYear, int $expectedYear, int $expectedWeek)
+    public function testWithYear(int $year, int $week, int $withYear, int $expectedYear, int $expectedWeek): void
     {
         $yearWeek = YearWeek::of($year, $week)->withYear($withYear);
         $this->assertYearWeekIs($expectedYear, $expectedWeek, $yearWeek);
     }
 
-    /**
-     * @return array
-     */
     public function providerWithWeek() : array
     {
         return [
@@ -262,22 +230,13 @@ class YearWeekTest extends AbstractTestCase
 
     /**
      * @dataProvider providerWithWeek
-     *
-     * @param int $year
-     * @param int $week
-     * @param int $withWeek
-     * @param int $expectedYear
-     * @param int $expectedWeek
      */
-    public function testWithWeek(int $year, int $week, int $withWeek, int $expectedYear, int $expectedWeek)
+    public function testWithWeek(int $year, int $week, int $withWeek, int $expectedYear, int $expectedWeek): void
     {
         $yearWeek = YearWeek::of($year, $week)->withWeek($withWeek);
         $this->assertYearWeekIs($expectedYear, $expectedWeek, $yearWeek);
     }
 
-    /**
-     * @return array
-     */
     public function providerPlusYears() : array
     {
         return [
@@ -296,14 +255,8 @@ class YearWeekTest extends AbstractTestCase
 
     /**
      * @dataProvider providerPlusYears
-     *
-     * @param int $year
-     * @param int $week
-     * @param int $delta
-     * @param int $expectedYear
-     * @param int $expectedWeek
      */
-    public function testPlusYears(int $year, int $week, int $delta, int $expectedYear, int $expectedWeek)
+    public function testPlusYears(int $year, int $week, int $delta, int $expectedYear, int $expectedWeek): void
     {
         $yearWeek = YearWeek::of($year, $week)->plusYears($delta);
         $this->assertYearWeekIs($expectedYear, $expectedWeek, $yearWeek);
@@ -311,22 +264,13 @@ class YearWeekTest extends AbstractTestCase
 
     /**
      * @dataProvider providerPlusYears
-     *
-     * @param int $year
-     * @param int $week
-     * @param int $delta
-     * @param int $expectedYear
-     * @param int $expectedWeek
      */
-    public function testMinusYears(int $year, int $week, int $delta, int $expectedYear, int $expectedWeek)
+    public function testMinusYears(int $year, int $week, int $delta, int $expectedYear, int $expectedWeek): void
     {
         $yearWeek = YearWeek::of($year, $week)->minusYears(-$delta);
         $this->assertYearWeekIs($expectedYear, $expectedWeek, $yearWeek);
     }
 
-    /**
-     * @return array
-     */
     public function providerPlusWeeks() : array
     {
         return [
@@ -348,14 +292,8 @@ class YearWeekTest extends AbstractTestCase
 
     /**
      * @dataProvider providerPlusWeeks
-     *
-     * @param int $year
-     * @param int $week
-     * @param int $delta
-     * @param int $expectedYear
-     * @param int $expectedWeek
      */
-    public function testPlusWeeks(int $year, int $week, int $delta, int $expectedYear, int $expectedWeek)
+    public function testPlusWeeks(int $year, int $week, int $delta, int $expectedYear, int $expectedWeek): void
     {
         $yearWeek = YearWeek::of($year, $week)->plusWeeks($delta);
         $this->assertYearWeekIs($expectedYear, $expectedWeek, $yearWeek);
@@ -363,22 +301,13 @@ class YearWeekTest extends AbstractTestCase
 
     /**
      * @dataProvider providerPlusWeeks
-     *
-     * @param int $year
-     * @param int $week
-     * @param int $delta
-     * @param int $expectedYear
-     * @param int $expectedWeek
      */
-    public function testMinusWeeks(int $year, int $week, int $delta, int $expectedYear, int $expectedWeek)
+    public function testMinusWeeks(int $year, int $week, int $delta, int $expectedYear, int $expectedWeek): void
     {
         $yearWeek = YearWeek::of($year, $week)->minusWeeks(-$delta);
         $this->assertYearWeekIs($expectedYear, $expectedWeek, $yearWeek);
     }
 
-    /**
-     * @return array
-     */
     public function providerToString() : array
     {
         return [
@@ -398,12 +327,8 @@ class YearWeekTest extends AbstractTestCase
 
     /**
      * @dataProvider providerToString
-     *
-     * @param int    $year
-     * @param int    $week
-     * @param string $expected
      */
-    public function testJsonSerialize(int $year, int $week, string $expected)
+    public function testJsonSerialize(int $year, int $week, string $expected): void
     {
         $yearWeek = YearWeek::of($year, $week);
         $this->assertSame(json_encode($expected), json_encode($yearWeek));
@@ -411,18 +336,14 @@ class YearWeekTest extends AbstractTestCase
 
     /**
      * @dataProvider providerToString
-     *
-     * @param int    $year
-     * @param int    $week
-     * @param string $expected
      */
-    public function testToString(int $year, int $week, string $expected)
+    public function testToString(int $year, int $week, string $expected): void
     {
         $yearWeek = YearWeek::of($year, $week);
         $this->assertSame($expected, (string) $yearWeek);
     }
 
-    public function testNow()
+    public function testNow(): void
     {
         $now = new FixedClock(Instant::of(2000000000));
         $timeZone = TimeZone::parse('Asia/Taipei');
@@ -439,7 +360,7 @@ class YearWeekTest extends AbstractTestCase
      * @param string $firstDay The expected first day of the week.
      * @param string $lastDay  The expected last day of the week.
      */
-    public function testGetFirstLastDay(int $year, int $week, string $firstDay, string $lastDay)
+    public function testGetFirstLastDay(int $year, int $week, string $firstDay, string $lastDay): void
     {
         $yearWeek = YearWeek::of($year, $week);
 
@@ -447,9 +368,6 @@ class YearWeekTest extends AbstractTestCase
         $this->assertIs(LocalDate::class, $lastDay, $yearWeek->getLastDay());
     }
 
-    /**
-     * @return array
-     */
     public function providerGetFirstLastDay() : array
     {
         return [

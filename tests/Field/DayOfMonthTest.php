@@ -15,7 +15,7 @@ class DayOfMonthTest extends AbstractTestCase
     /**
      * @doesNotPerformAssertions
      */
-    public function testCheckWithNullMonthOfYear()
+    public function testCheckWithNullMonthOfYear(): void
     {
         DayOfMonth::check(31);
     }

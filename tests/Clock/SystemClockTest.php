@@ -7,10 +7,8 @@ namespace Brick\DateTime\Clock
     /**
      * Re-declare microtime() in the namespace of the SystemClock,
      * to trick it into thinking it's the native PHP function.
-     *
-     * @return string
      */
-    function microtime() {
+    function microtime(): string {
         return '0.55527600 14079491701';
     }
 }
@@ -25,7 +23,7 @@ namespace Brick\DateTime\Tests\Clock
      */
     class SystemClockTest extends AbstractTestCase
     {
-        public function testSystemClock()
+        public function testSystemClock(): void
         {
             $clock = new SystemClock();
 

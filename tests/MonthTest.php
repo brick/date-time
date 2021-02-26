@@ -18,14 +18,11 @@ class MonthTest extends AbstractTestCase
      * @param int $expectedValue The expected value of the constant.
      * @param int $monthConstant The month constant.
      */
-    public function testConstants(int $expectedValue, int $monthConstant)
+    public function testConstants(int $expectedValue, int $monthConstant): void
     {
         $this->assertSame($expectedValue, $monthConstant);
     }
 
-    /**
-     * @return array
-     */
     public function providerConstants() : array
     {
         return [
@@ -44,25 +41,20 @@ class MonthTest extends AbstractTestCase
         ];
     }
 
-    public function testOf()
+    public function testOf(): void
     {
         $this->assertMonthIs(8, Month::of(8));
     }
 
     /**
      * @dataProvider providerOfInvalidMonthThrowsException
-     *
-     * @param int $invalidMonth
      */
-    public function testOfInvalidMonthThrowsException(int $invalidMonth)
+    public function testOfInvalidMonthThrowsException(int $invalidMonth): void
     {
         $this->expectException(DateTimeException::class);
         Month::of($invalidMonth);
     }
 
-    /**
-     * @return array
-     */
     public function providerOfInvalidMonthThrowsException() : array
     {
         return [
@@ -72,7 +64,7 @@ class MonthTest extends AbstractTestCase
         ];
     }
 
-    public function testGetAll()
+    public function testGetAll(): void
     {
         $currentMonth = Month::JANUARY;
 
@@ -82,7 +74,7 @@ class MonthTest extends AbstractTestCase
         }
     }
 
-    public function testIs()
+    public function testIs(): void
     {
         for ($i = Month::JANUARY; $i <= Month::DECEMBER; $i++) {
             for ($j = Month::JANUARY; $j <= Month::DECEMBER; $j++) {
@@ -91,7 +83,7 @@ class MonthTest extends AbstractTestCase
         }
     }
 
-    public function testIsEqualTo()
+    public function testIsEqualTo(): void
     {
         for ($i = Month::JANUARY; $i <= Month::DECEMBER; $i++) {
             for ($j = Month::JANUARY; $j <= Month::DECEMBER; $j++) {
@@ -106,14 +98,11 @@ class MonthTest extends AbstractTestCase
      * @param int $month     The month value.
      * @param int $minLength The expected min length.
      */
-    public function testGetMinLength(int $month, int $minLength)
+    public function testGetMinLength(int $month, int $minLength): void
     {
         $this->assertSame($minLength, Month::of($month)->getMinLength());
     }
 
-    /**
-     * @return array
-     */
     public function minLengthProvider() : array
     {
         return [
@@ -138,14 +127,11 @@ class MonthTest extends AbstractTestCase
      * @param int $month     The month value.
      * @param int $minLength The expected min length.
      */
-    public function testGetMaxLength(int $month, int $minLength)
+    public function testGetMaxLength(int $month, int $minLength): void
     {
         $this->assertSame($minLength, Month::of($month)->getMaxLength());
     }
 
-    /**
-     * @return array
-     */
     public function maxLengthProvider() : array
     {
         return [
@@ -171,14 +157,11 @@ class MonthTest extends AbstractTestCase
      * @param bool $leapYear       Whether to test on a leap year.
      * @param int  $firstDayOfYear The expected first day of year.
      */
-    public function testFirstDayOfYear(int $month, bool $leapYear, int $firstDayOfYear)
+    public function testFirstDayOfYear(int $month, bool $leapYear, int $firstDayOfYear): void
     {
         $this->assertSame($firstDayOfYear, Month::of($month)->getFirstDayOfYear($leapYear));
     }
 
-    /**
-     * @return array
-     */
     public function providerFirstDayOfYear() : array
     {
         return [
@@ -217,14 +200,11 @@ class MonthTest extends AbstractTestCase
      * @param bool $leapYear       Whether to test on a leap year.
      * @param int  $expectedLength The expected month length.
      */
-    public function testGetLength(int $month, bool $leapYear, int $expectedLength)
+    public function testGetLength(int $month, bool $leapYear, int $expectedLength): void
     {
         $this->assertSame($expectedLength, Month::of($month)->getLength($leapYear));
     }
 
-    /**
-     * @return array
-     */
     public function providerGetLength()
     {
         return [
@@ -256,7 +236,7 @@ class MonthTest extends AbstractTestCase
         ];
     }
 
-    public function testPlusMinusEntireYears()
+    public function testPlusMinusEntireYears(): void
     {
         foreach (Month::getAll() as $month) {
             foreach ([-24, -12, 0, 12, 24] as $monthsToAdd) {
@@ -273,7 +253,7 @@ class MonthTest extends AbstractTestCase
      * @param int $plusMonths    The number of months to add.
      * @param int $expectedMonth The expected month number.
      */
-    public function testPlus(int $month, int $plusMonths, int $expectedMonth)
+    public function testPlus(int $month, int $plusMonths, int $expectedMonth): void
     {
         $this->assertMonthIs($expectedMonth, Month::of($month)->plus($plusMonths));
     }
@@ -285,14 +265,11 @@ class MonthTest extends AbstractTestCase
      * @param int $plusMonths    The number of months to add.
      * @param int $expectedMonth The expected month number.
      */
-    public function testMinus(int $month, int $plusMonths, int $expectedMonth)
+    public function testMinus(int $month, int $plusMonths, int $expectedMonth): void
     {
         $this->assertMonthIs($expectedMonth, Month::of($month)->minus(-$plusMonths));
     }
 
-    /**
-     * @return \Generator
-     */
     public function providerPlus() : \Generator
     {
         for ($month = Month::JANUARY; $month <= Month::DECEMBER; $month++) {
@@ -317,7 +294,7 @@ class MonthTest extends AbstractTestCase
      * @param int    $month        The month number.
      * @param string $expectedName The expected month name.
      */
-    public function testJsonSerialize(int $month, string $expectedName)
+    public function testJsonSerialize(int $month, string $expectedName): void
     {
         $this->assertSame(json_encode($expectedName), json_encode(Month::of($month)));
     }
@@ -328,14 +305,11 @@ class MonthTest extends AbstractTestCase
      * @param int    $month        The month number.
      * @param string $expectedName The expected month name.
      */
-    public function testToString(int $month, string $expectedName)
+    public function testToString(int $month, string $expectedName): void
     {
         $this->assertSame($expectedName, (string) Month::of($month));
     }
 
-    /**
-     * @return array
-     */
     public function providerToString() : array
     {
         return [

@@ -13,7 +13,7 @@ use Brick\DateTime\Tests\AbstractTestCase;
  */
 class DateTimeParseResultTest extends AbstractTestCase
 {
-    public function testGetFieldWithInvalidFieldStringName()
+    public function testGetFieldWithInvalidFieldStringName(): void
     {
         $dateTimeParseResult = new DateTimeParseResult();
 

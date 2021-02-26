@@ -14,7 +14,7 @@ use Brick\DateTime\YearMonthRange;
  */
 class YearMonthRangeTest extends AbstractTestCase
 {
-    public function testOf()
+    public function testOf(): void
     {
         $this->assertYearMonthRangeIs(2001, 2, 2004, 5, YearMonthRange::of(
             YearMonth::of(2001, 2),
@@ -22,7 +22,7 @@ class YearMonthRangeTest extends AbstractTestCase
         ));
     }
 
-    public function testOfInvalidRangeThrowsException()
+    public function testOfInvalidRangeThrowsException(): void
     {
         $this->expectException(DateTimeException::class);
 
@@ -41,14 +41,11 @@ class YearMonthRangeTest extends AbstractTestCase
      * @param int    $y2   The expected end year.
      * @param int    $m2   The expected end month.
      */
-    public function testParse(string $text, int $y1, int $m1, int $y2, int $m2)
+    public function testParse(string $text, int $y1, int $m1, int $y2, int $m2): void
     {
         $this->assertYearMonthRangeIs($y1, $m1, $y2, $m2, YearMonthRange::parse($text));
     }
 
-    /**
-     * @return array
-     */
     public function providerParse() : array
     {
         return [
@@ -62,15 +59,12 @@ class YearMonthRangeTest extends AbstractTestCase
      *
      * @param string $text The invalid text to parse.
      */
-    public function testParseInvalidRangeThrowsException(string $text)
+    public function testParseInvalidRangeThrowsException(string $text): void
     {
         $this->expectException(DateTimeParseException::class);
         YearMonthRange::parse($text);
     }
 
-    /**
-     * @return array
-     */
     public function providerParseInvalidRangeThrowsException() : array
     {
         return [
@@ -90,7 +84,7 @@ class YearMonthRangeTest extends AbstractTestCase
      * @param string $testRange The string representation of the range to test.
      * @param bool   $isEqual   Whether this range is expected to be equal to our range.
      */
-    public function testIsEqualTo(string $testRange, bool $isEqual)
+    public function testIsEqualTo(string $testRange, bool $isEqual): void
     {
         $this->assertSame($isEqual, YearMonthRange::of(
             YearMonth::of(2001, 2),
@@ -98,9 +92,6 @@ class YearMonthRangeTest extends AbstractTestCase
         )->isEqualTo(YearMonthRange::parse($testRange)));
     }
 
-    /**
-     * @return array
-     */
     public function providerIsEqualTo() : array
     {
         return [
@@ -114,19 +105,12 @@ class YearMonthRangeTest extends AbstractTestCase
 
     /**
      * @dataProvider providerContains
-     *
-     * @param string $range
-     * @param string $yearMonth
-     * @param bool   $contains
      */
-    public function testContains(string $range, string $yearMonth, bool $contains)
+    public function testContains(string $range, string $yearMonth, bool $contains): void
     {
         $this->assertSame($contains, YearMonthRange::parse($range)->contains(YearMonth::parse($yearMonth)));
     }
 
-    /**
-     * @return array
-     */
     public function providerContains() : array
     {
         return [
@@ -143,7 +127,7 @@ class YearMonthRangeTest extends AbstractTestCase
         ];
     }
 
-    public function testIterator()
+    public function testIterator(): void
     {
         $start = YearMonth::of(2013, 10);
         $end   = YearMonth::of(2014, 3);
@@ -176,14 +160,11 @@ class YearMonthRangeTest extends AbstractTestCase
      * @param string $range The year-month range string representation.
      * @param int    $count The expected day count.
      */
-    public function testCount(string $range, int $count)
+    public function testCount(string $range, int $count): void
     {
         $this->assertCount($count, YearMonthRange::parse($range));
     }
 
-    /**
-     * @return array
-     */
     public function providerCount() : array
     {
         return [
@@ -195,7 +176,7 @@ class YearMonthRangeTest extends AbstractTestCase
         ];
     }
 
-    public function testJsonSerialize()
+    public function testJsonSerialize(): void
     {
         $this->assertSame(json_encode('2008-12/2011-01'), json_encode(YearMonthRange::of(
             YearMonth::of(2008, 12),
@@ -203,7 +184,7 @@ class YearMonthRangeTest extends AbstractTestCase
         )));
     }
 
-    public function testToString()
+    public function testToString(): void
     {
         $this->assertSame('2008-12/2011-01', (string) YearMonthRange::of(
             YearMonth::of(2008, 12),

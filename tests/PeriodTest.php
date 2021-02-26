@@ -13,32 +13,32 @@ use Brick\DateTime\LocalDate;
  */
 class PeriodTest extends AbstractTestCase
 {
-    public function testOf()
+    public function testOf(): void
     {
         $this->assertPeriodIs(1, 2, 3, Period::of(1, 2, 3));
     }
 
-    public function testOfYears()
+    public function testOfYears(): void
     {
         $this->assertPeriodIs(11, 0, 0, Period::ofYears(11));
     }
 
-    public function testOfMonths()
+    public function testOfMonths(): void
     {
         $this->assertPeriodIs(0, 11, 0, Period::ofMonths(11));
     }
 
-    public function testOfWeeks()
+    public function testOfWeeks(): void
     {
         $this->assertPeriodIs(0, 0, 77, Period::ofWeeks(11));
     }
 
-    public function testOfDays()
+    public function testOfDays(): void
     {
         $this->assertPeriodIs(0, 0, 11, Period::ofDays(11));
     }
 
-    public function testZero()
+    public function testZero(): void
     {
         $this->assertPeriodIs(0, 0, 0, Period::zero());
     }
@@ -51,14 +51,11 @@ class PeriodTest extends AbstractTestCase
      * @param int    $months The expected months in the period.
      * @param int    $days   The expected days in the period.
      */
-    public function testParse(string $text, int $years, int $months, int $days)
+    public function testParse(string $text, int $years, int $months, int $days): void
     {
         $this->assertPeriodIs($years, $months, $days, Period::parse($text));
     }
 
-    /**
-     * @return array
-     */
     public function providerParse() : array
     {
         return [
@@ -81,18 +78,13 @@ class PeriodTest extends AbstractTestCase
 
     /**
      * @dataProvider providerParseInvalidStringThrowsException
-     *
-     * @param string $text
      */
-    public function testParseInvalidStringThrowsException(string $text)
+    public function testParseInvalidStringThrowsException(string $text): void
     {
         $this->expectException(DateTimeParseException::class);
         Period::parse($text);
     }
 
-    /**
-     * @return array
-     */
     public function providerParseInvalidStringThrowsException() : array
     {
         return [
@@ -114,28 +106,28 @@ class PeriodTest extends AbstractTestCase
     /**
      * Extensive testing is done in LocalDate::until().
      */
-    public function testBetween()
+    public function testBetween(): void
     {
         $period = Period::between(LocalDate::of(2010, 1, 15), LocalDate::of(2011, 3, 18));
         $this->assertPeriodIs(1, 2, 3, $period);
     }
 
-    public function testWithYears()
+    public function testWithYears(): void
     {
         $this->assertPeriodIs(9, 2, 3, Period::of(1, 2, 3)->withYears(9));
     }
 
-    public function testWithMonths()
+    public function testWithMonths(): void
     {
         $this->assertPeriodIs(1, 9, 3, Period::of(1, 2, 3)->withMonths(9));
     }
 
-    public function testWithDays()
+    public function testWithDays(): void
     {
         $this->assertPeriodIs(1, 2, 9, Period::of(1, 2, 3)->withDays(9));
     }
 
-    public function testWithSameValuesReturnsThis()
+    public function testWithSameValuesReturnsThis(): void
     {
         $period = Period::of(1, 2, 3);
 
@@ -144,22 +136,22 @@ class PeriodTest extends AbstractTestCase
         $this->assertSame($period, $period->withDays(3));
     }
 
-    public function testPlusYears()
+    public function testPlusYears(): void
     {
         $this->assertPeriodIs(11, 2, 3, Period::of(1, 2, 3)->plusYears(10));
     }
 
-    public function testPlusMonths()
+    public function testPlusMonths(): void
     {
         $this->assertPeriodIs(1, 12, 3, Period::of(1, 2, 3)->plusMonths(10));
     }
 
-    public function testPlusDays()
+    public function testPlusDays(): void
     {
         $this->assertPeriodIs(1, 2, 13, Period::of(1, 2, 3)->plusDays(10));
     }
 
-    public function testPlusZeroReturnsThis()
+    public function testPlusZeroReturnsThis(): void
     {
         $period = Period::of(1, 2, 3);
 
@@ -168,22 +160,22 @@ class PeriodTest extends AbstractTestCase
         $this->assertSame($period, $period->plusDays(0));
     }
 
-    public function testMinusYears()
+    public function testMinusYears(): void
     {
         $this->assertPeriodIs(-1, 2, 3, Period::of(1, 2, 3)->minusYears(2));
     }
 
-    public function testMinusMonths()
+    public function testMinusMonths(): void
     {
         $this->assertPeriodIs(1, -2, 3, Period::of(1, 2, 3)->minusMonths(4));
     }
 
-    public function testMinusDays()
+    public function testMinusDays(): void
     {
         $this->assertPeriodIs(1, 2, -3, Period::of(1, 2, 3)->minusDays(6));
     }
 
-    public function testMinusZeroReturnsThis()
+    public function testMinusZeroReturnsThis(): void
     {
         $period = Period::of(1, 2, 3);
 
@@ -192,23 +184,23 @@ class PeriodTest extends AbstractTestCase
         $this->assertSame($period, $period->minusDays(0));
     }
 
-    public function testMultipliedBy()
+    public function testMultipliedBy(): void
     {
         $this->assertPeriodIs(-2, -4, -6, Period::of(1, 2, 3)->multipliedBy(-2));
     }
 
-    public function testMultipliedByOneReturnsThis()
+    public function testMultipliedByOneReturnsThis(): void
     {
         $period = Period::of(1, 2, 3);
         $this->assertSame($period, $period->multipliedBy(1));
     }
 
-    public function testNegated()
+    public function testNegated(): void
     {
         $this->assertPeriodIs(-7, -8, -9, Period::of(7, 8, 9)->negated());
     }
 
-    public function testZeroNegatedReturnsThis()
+    public function testZeroNegatedReturnsThis(): void
     {
         $period = Period::zero();
         $this->assertSame($period, $period->negated());
@@ -223,14 +215,11 @@ class PeriodTest extends AbstractTestCase
      * @param int $ny The years of the normalized period.
      * @param int $nm The months of the normalized period.
      */
-    public function testNormalized(int $y, int $m, int $d, int $ny, int $nm)
+    public function testNormalized(int $y, int $m, int $d, int $ny, int $nm): void
     {
         $this->assertPeriodIs($ny, $nm, $d, Period::of($y, $m, $d)->normalized());
     }
 
-    /**
-     * @return array
-     */
     public function providerNormalized() : array
     {
         return [
@@ -253,14 +242,11 @@ class PeriodTest extends AbstractTestCase
      * @param int  $days   The number of days in the period.
      * @param bool $isZero The expected return value.
      */
-    public function testIsZero(int $years, int $months, int $days, bool $isZero)
+    public function testIsZero(int $years, int $months, int $days, bool $isZero): void
     {
         $this->assertSame($isZero, Period::of($years, $months, $days)->isZero());
     }
 
-    /**
-     * @return array
-     */
     public function providerIsZero() : array
     {
         return [
@@ -282,7 +268,7 @@ class PeriodTest extends AbstractTestCase
      * @param int  $d2      The number of days in the 2nd period.
      * @param bool $isEqual The expected return value.
      */
-    public function testIsEqualTo(int $y1, int $m1, int $d1, int $y2, int $m2, int $d2, bool $isEqual)
+    public function testIsEqualTo(int $y1, int $m1, int $d1, int $y2, int $m2, int $d2, bool $isEqual): void
     {
         $p1 = Period::of($y1, $m1, $d1);
         $p2 = Period::of($y2, $m2, $d2);
@@ -291,9 +277,6 @@ class PeriodTest extends AbstractTestCase
         $this->assertSame($isEqual, $p2->isEqualTo($p1));
     }
 
-    /**
-     * @return array
-     */
     public function providerIsEqualTo() : array
     {
         return [
@@ -313,12 +296,8 @@ class PeriodTest extends AbstractTestCase
 
     /**
      * @dataProvider providerToDateInterval
-     *
-     * @param int $years
-     * @param int $months
-     * @param int $days
      */
-    public function testToDateInterval(int $years, int $months, int $days)
+    public function testToDateInterval(int $years, int $months, int $days): void
     {
         $period = Period::of($years, $months, $days);
         $dateInterval = $period->toDateInterval();
@@ -328,9 +307,6 @@ class PeriodTest extends AbstractTestCase
         $this->assertSame($days, $dateInterval->d);
     }
 
-    /**
-     * @return array
-     */
     public function providerToDateInterval() : array
     {
         return [
@@ -347,7 +323,7 @@ class PeriodTest extends AbstractTestCase
      * @param int    $days     The number of days in the period.
      * @param string $expected The expected string output.
      */
-    public function testJsonSerialize(int $years, int $months, int $days, string $expected)
+    public function testJsonSerialize(int $years, int $months, int $days, string $expected): void
     {
         $this->assertSame(json_encode($expected), json_encode(Period::of($years, $months, $days)));
     }
@@ -360,14 +336,11 @@ class PeriodTest extends AbstractTestCase
      * @param int    $days     The number of days in the period.
      * @param string $expected The expected string output.
      */
-    public function testToString(int $years, int $months, int $days, string $expected)
+    public function testToString(int $years, int $months, int $days, string $expected): void
     {
         $this->assertSame($expected, (string) Period::of($years, $months, $days));
     }
 
-    /**
-     * @return array
-     */
     public function providerToString() : array
     {
         return [

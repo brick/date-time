@@ -28,7 +28,7 @@ class StopwatchTest extends AbstractTestCase
         self::$clock->setTime(Instant::of($second, $nano));
     }
 
-    public function testConstructorWithNullClock()
+    public function testConstructorWithNullClock(): void
     {
         $stopwatch = new Stopwatch();
 
@@ -37,9 +37,6 @@ class StopwatchTest extends AbstractTestCase
         $this->assertDurationIs(0, 0, $stopwatch->getElapsedTime());
     }
 
-    /**
-     * @return Stopwatch
-     */
     public function testNew() : Stopwatch
     {
         $stopwatch = new Stopwatch(self::$clock);
@@ -53,10 +50,6 @@ class StopwatchTest extends AbstractTestCase
 
     /**
      * @depends testNew
-     *
-     * @param Stopwatch $stopwatch
-     *
-     * @return Stopwatch
      */
     public function testStart(Stopwatch $stopwatch) : Stopwatch
     {
@@ -73,10 +66,6 @@ class StopwatchTest extends AbstractTestCase
 
     /**
      * @depends testStart
-     *
-     * @param Stopwatch $stopwatch
-     *
-     * @return Stopwatch
      */
     public function testElapsedTimeWhileRunning(Stopwatch $stopwatch) : Stopwatch
     {
@@ -89,7 +78,7 @@ class StopwatchTest extends AbstractTestCase
         return $stopwatch;
     }
 
-    public function testStopWithNullStartTime()
+    public function testStopWithNullStartTime(): void
     {
         $stopwatch = new Stopwatch();
         $stopwatch->stop();
@@ -101,10 +90,6 @@ class StopwatchTest extends AbstractTestCase
 
     /**
      * @depends testElapsedTimeWhileRunning
-     *
-     * @param Stopwatch $stopwatch
-     *
-     * @return Stopwatch
      */
     public function testStop(Stopwatch $stopwatch) : Stopwatch
     {
@@ -121,10 +106,6 @@ class StopwatchTest extends AbstractTestCase
 
     /**
      * @depends testStop
-     *
-     * @param Stopwatch $stopwatch
-     *
-     * @return Stopwatch
      */
     public function testFrozenAfterStop(Stopwatch $stopwatch) : Stopwatch
     {
@@ -139,10 +120,6 @@ class StopwatchTest extends AbstractTestCase
 
     /**
      * @depends testFrozenAfterStop
-     *
-     * @param Stopwatch $stopwatch
-     *
-     * @return Stopwatch
      */
     public function testRestart(Stopwatch $stopwatch) : Stopwatch
     {
@@ -159,10 +136,6 @@ class StopwatchTest extends AbstractTestCase
 
     /**
      * @depends testRestart
-     *
-     * @param Stopwatch $stopwatch
-     *
-     * @return Stopwatch
      */
     public function testElapsedTimeWhileRunningAfterRestart(Stopwatch $stopwatch) : Stopwatch
     {
@@ -177,10 +150,6 @@ class StopwatchTest extends AbstractTestCase
 
     /**
      * @depends testElapsedTimeWhileRunningAfterRestart
-     *
-     * @param Stopwatch $stopwatch
-     *
-     * @return Stopwatch
      */
     public function testStopAgain(Stopwatch $stopwatch) : Stopwatch
     {
@@ -197,10 +166,8 @@ class StopwatchTest extends AbstractTestCase
 
     /**
      * @depends testStopAgain
-     *
-     * @param Stopwatch $stopwatch
      */
-    public function testFrozenAfterSecondStop(Stopwatch $stopwatch)
+    public function testFrozenAfterSecondStop(Stopwatch $stopwatch): void
     {
         self::setClockTime(6000, 999);
 

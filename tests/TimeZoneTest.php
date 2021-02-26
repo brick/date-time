@@ -21,7 +21,7 @@ class TimeZoneTest extends AbstractTestCase
      * @param string $class The expected class name.
      * @param string $id    The expected id.
      */
-    public function testParse(string $text, string $class, string $id)
+    public function testParse(string $text, string $class, string $id): void
     {
         $timeZone = TimeZone::parse($text);
 
@@ -29,9 +29,6 @@ class TimeZoneTest extends AbstractTestCase
         $this->assertSame($id, $timeZone->getId());
     }
 
-    /**
-     * @return array
-     */
     public function providerParse() : array
     {
         return [
@@ -46,18 +43,13 @@ class TimeZoneTest extends AbstractTestCase
 
     /**
      * @dataProvider providerParseInvalidStringThrowsException
-     *
-     * @param string $text
      */
-    public function testParseInvalidStringThrowsException(string $text)
+    public function testParseInvalidStringThrowsException(string $text): void
     {
         $this->expectException(DateTimeParseException::class);
         TimeZone::parse($text);
     }
 
-    /**
-     * @return array
-     */
     public function providerParseInvalidStringThrowsException() : array
     {
         return [
@@ -67,12 +59,12 @@ class TimeZoneTest extends AbstractTestCase
         ];
     }
 
-    public function testUtc()
+    public function testUtc(): void
     {
         $this->assertTimeZoneOffsetIs(0, TimeZone::utc());
     }
 
-    public function testIsEqualTo()
+    public function testIsEqualTo(): void
     {
         $this->assertTrue(TimeZone::utc()->isEqualTo(TimeZoneOffset::ofTotalSeconds(0)));
         $this->assertFalse(TimeZone::utc()->isEqualTo(TimeZoneOffset::ofTotalSeconds(1)));
@@ -83,15 +75,12 @@ class TimeZoneTest extends AbstractTestCase
      *
      * @param string $tz The time-zone name.
      */
-    public function testFromDateTimeZone(string $tz)
+    public function testFromDateTimeZone(string $tz): void
     {
         $dateTimeZone = new \DateTimeZone($tz);
         $this->assertSame($tz, TimeZone::fromDateTimeZone($dateTimeZone)->getId());
     }
 
-    /**
-     * @return array
-     */
     public function providerFromDateTimeZone() : array
     {
         return [

@@ -18,27 +18,20 @@ use Brick\DateTime\TimeZoneOffset;
  */
 class LocalTimeTest extends AbstractTestCase
 {
-    public function testOf()
+    public function testOf(): void
     {
         $this->assertLocalTimeIs(12, 34, 56, 123456789, LocalTime::of(12, 34, 56, 123456789));
     }
 
     /**
      * @dataProvider providerOfInvalidTimeThrowsException
-     *
-     * @param int $hour
-     * @param int $minute
-     * @param int $second
      */
-    public function testOfInvalidTimeThrowsException(int $hour, int $minute, int $second)
+    public function testOfInvalidTimeThrowsException(int $hour, int $minute, int $second): void
     {
         $this->expectException(DateTimeException::class);
         LocalTime::of($hour, $minute, $second);
     }
 
-    /**
-     * @return array
-     */
     public function providerOfInvalidTimeThrowsException() : array
     {
         return [
@@ -59,15 +52,12 @@ class LocalTimeTest extends AbstractTestCase
      * @param int $minute       The expected resulting minute.
      * @param int $second       The expected resulting second.
      */
-    public function testOfSecondOfDay(int $secondOfDay, int $hour, int $minute, int $second)
+    public function testOfSecondOfDay(int $secondOfDay, int $hour, int $minute, int $second): void
     {
         $localTime = LocalTime::ofSecondOfDay($secondOfDay, 123);
         $this->assertLocalTimeIs($hour, $minute, $second, 123, $localTime);
     }
 
-    /**
-     * @return array
-     */
     public function providerOfSecondOfDay() : array
     {
         return [
@@ -91,19 +81,13 @@ class LocalTimeTest extends AbstractTestCase
 
     /**
      * @dataProvider providerOfInvalidSecondOfDayThrowsException
-     *
-     * @param int $secondOfDay
-     * @param int $nanoOfSecond
      */
-    public function testOfInvalidSecondOfDayThrowsException(int $secondOfDay, int $nanoOfSecond)
+    public function testOfInvalidSecondOfDayThrowsException(int $secondOfDay, int $nanoOfSecond): void
     {
         $this->expectException(DateTimeException::class);
         LocalTime::ofSecondOfDay($secondOfDay, $nanoOfSecond);
     }
 
-    /**
-     * @return array
-     */
     public function providerOfInvalidSecondOfDayThrowsException() : array
     {
         return [
@@ -116,14 +100,8 @@ class LocalTimeTest extends AbstractTestCase
 
     /**
      * @dataProvider providerParse
-     *
-     * @param string $text
-     * @param int    $hour
-     * @param int    $minute
-     * @param int    $second
-     * @param int    $nano
      */
-    public function testParse(string $text, int $hour, int $minute, int $second, int $nano)
+    public function testParse(string $text, int $hour, int $minute, int $second, int $nano): void
     {
         $time = LocalTime::parse($text);
 
@@ -133,9 +111,6 @@ class LocalTimeTest extends AbstractTestCase
         $this->assertSame($nano, $time->getNano());
     }
 
-    /**
-     * @return array
-     */
     public function providerParse() : array
     {
         return [
@@ -148,18 +123,13 @@ class LocalTimeTest extends AbstractTestCase
 
     /**
      * @dataProvider providerParseInvalidStringThrowsException
-     *
-     * @param string $text
      */
-    public function testParseInvalidStringThrowsException(string $text)
+    public function testParseInvalidStringThrowsException(string $text): void
     {
         $this->expectException(DateTimeParseException::class);
         LocalTime::parse($text);
     }
 
-    /**
-     * @return array
-     */
     public function providerParseInvalidStringThrowsException() : array
     {
         return [
@@ -178,7 +148,7 @@ class LocalTimeTest extends AbstractTestCase
         ];
     }
 
-    public function testFromDateTime()
+    public function testFromDateTime(): void
     {
         $dateTime = new \DateTime('2018-07-21 14:09:10.23456');
         $this->assertLocalTimeIs(14, 9, 10, 234560000, LocalTime::fromDateTime($dateTime));
@@ -195,16 +165,13 @@ class LocalTimeTest extends AbstractTestCase
      * @param int $s      The expected second.
      * @param int $n      The expected nano.
      */
-    public function testNow(int $second, int $nano, int $offset, int $h, int $m, int $s, int $n)
+    public function testNow(int $second, int $nano, int $offset, int $h, int $m, int $s, int $n): void
     {
         $clock = new FixedClock(Instant::of($second, $nano));
         $timeZone = TimeZoneOffset::ofTotalSeconds($offset);
         $this->assertLocalTimeIs($h, $m, $s, $n, LocalTime::now($timeZone, $clock));
     }
 
-    /**
-     * @return array
-     */
     public function providerNow() : array
     {
         return [
@@ -215,22 +182,22 @@ class LocalTimeTest extends AbstractTestCase
         ];
     }
 
-    public function testMidnight()
+    public function testMidnight(): void
     {
         $this->assertLocalTimeIs(0, 0, 0, 0, LocalTime::midnight());
     }
 
-    public function testNoon()
+    public function testNoon(): void
     {
         $this->assertLocalTimeIs(12, 0, 0, 0, LocalTime::noon());
     }
 
-    public function testMin()
+    public function testMin(): void
     {
         $this->assertLocalTimeIs(0, 0, 0, 0, LocalTime::min());
     }
 
-    public function testMax()
+    public function testMax(): void
     {
         $this->assertLocalTimeIs(23, 59, 59, 999999999, LocalTime::max());
     }
@@ -240,14 +207,11 @@ class LocalTimeTest extends AbstractTestCase
      *
      * @param int $hour The new hour.
      */
-    public function testWithHour(int $hour)
+    public function testWithHour(int $hour): void
     {
         $this->assertLocalTimeIs($hour, 34, 56, 789, LocalTime::of(12, 34, 56, 789)->withHour($hour));
     }
 
-    /**
-     * @return array
-     */
     public function providerWithHour() : array
     {
         return [
@@ -258,18 +222,13 @@ class LocalTimeTest extends AbstractTestCase
 
     /**
      * @dataProvider providerWithInvalidHourThrowsException
-     *
-     * @param int $invalidHour
      */
-    public function testWithInvalidHourThrowsException(int $invalidHour)
+    public function testWithInvalidHourThrowsException(int $invalidHour): void
     {
         $this->expectException(DateTimeException::class);
         LocalTime::of(12, 34, 56)->withHour($invalidHour);
     }
 
-    /**
-     * @return array
-     */
     public function providerWithInvalidHourThrowsException() : array
     {
         return [
@@ -283,14 +242,11 @@ class LocalTimeTest extends AbstractTestCase
      *
      * @param int $minute The new minute.
      */
-    public function testWithMinute(int $minute)
+    public function testWithMinute(int $minute): void
     {
         $this->assertLocalTimeIs(12, $minute, 56, 789, LocalTime::of(12, 34, 56, 789)->withMinute($minute));
     }
 
-    /**
-     * @return array
-     */
     public function providerWithMinute() : array
     {
         return [
@@ -301,18 +257,13 @@ class LocalTimeTest extends AbstractTestCase
 
     /**
      * @dataProvider providerWithInvalidMinuteThrowsException
-     *
-     * @param int $invalidMinute
      */
-    public function testWithInvalidMinuteThrowsException(int $invalidMinute)
+    public function testWithInvalidMinuteThrowsException(int $invalidMinute): void
     {
         $this->expectException(DateTimeException::class);
         LocalTime::of(12, 34, 56)->withMinute($invalidMinute);
     }
 
-    /**
-     * @return array
-     */
     public function providerWithInvalidMinuteThrowsException() : array
     {
         return [
@@ -326,14 +277,11 @@ class LocalTimeTest extends AbstractTestCase
      *
      * @param int $second The new second.
      */
-    public function testWithSecond(int $second)
+    public function testWithSecond(int $second): void
     {
         $this->assertLocalTimeIs(12, 34, $second, 789, LocalTime::of(12, 34, 56, 789)->withSecond($second));
     }
 
-    /**
-     * @return array
-     */
     public function providerWithSecond() : array
     {
         return [
@@ -344,18 +292,13 @@ class LocalTimeTest extends AbstractTestCase
 
     /**
      * @dataProvider providerWithInvalidSecondThrowsException
-     *
-     * @param int $invalidSecond
      */
-    public function testWithInvalidSecondThrowsException(int $invalidSecond)
+    public function testWithInvalidSecondThrowsException(int $invalidSecond): void
     {
         $this->expectException(DateTimeException::class);
         LocalTime::of(12, 34, 56)->withSecond($invalidSecond);
     }
 
-    /**
-     * @return array
-     */
     public function providerWithInvalidSecondThrowsException() : array
     {
         return [
@@ -369,14 +312,11 @@ class LocalTimeTest extends AbstractTestCase
      *
      * @param int $nano The new nano.
      */
-    public function testWithNano(int $nano)
+    public function testWithNano(int $nano): void
     {
         $this->assertLocalTimeIs(12, 34, 56, $nano, LocalTime::of(12, 34, 56, 789)->withNano($nano));
     }
 
-    /**
-     * @return array
-     */
     public function providerWithNano() : array
     {
         return [
@@ -387,18 +327,13 @@ class LocalTimeTest extends AbstractTestCase
 
     /**
      * @dataProvider providerWithInvalidNanoThrowsException
-     *
-     * @param int $invalidNano
      */
-    public function testWithInvalidNanoThrowsException(int $invalidNano)
+    public function testWithInvalidNanoThrowsException(int $invalidNano): void
     {
         $this->expectException(DateTimeException::class);
         LocalTime::of(12, 34, 56)->withNano($invalidNano);
     }
 
-    /**
-     * @return array
-     */
     public function providerWithInvalidNanoThrowsException() : array
     {
         return [
@@ -421,7 +356,7 @@ class LocalTimeTest extends AbstractTestCase
      * @param int $es The expected second of the result time.
      * @param int $en The expected nano of the result time.
      */
-    public function testPlusDuration(int $h, int $m, int $s, int $n, int $ds, int $dn, int $eh, int $em, int $es, int $en)
+    public function testPlusDuration(int $h, int $m, int $s, int $n, int $ds, int $dn, int $eh, int $em, int $es, int $en): void
     {
         $localTime = LocalTime::of($h, $m, $s, $n);
         $duration = Duration::ofSeconds($ds, $dn);
@@ -442,16 +377,13 @@ class LocalTimeTest extends AbstractTestCase
      * @param int $es The expected second of the result time.
      * @param int $en The expected nano of the result time.
      */
-    public function testMinusDuration(int $h, int $m, int $s, int $n, int $ds, int $dn, int $eh, int $em, int $es, int $en)
+    public function testMinusDuration(int $h, int $m, int $s, int $n, int $ds, int $dn, int $eh, int $em, int $es, int $en): void
     {
         $localTime = LocalTime::of($h, $m, $s, $n);
         $duration = Duration::ofSeconds(-$ds, -$dn);
         $this->assertLocalTimeIs($eh, $em, $es, $en, $localTime->minusDuration($duration));
     }
 
-    /**
-     * @return array
-     */
     public function providerDuration() : array
     {
         return [
@@ -469,7 +401,7 @@ class LocalTimeTest extends AbstractTestCase
      * @param int $d  The number of hours to add.
      * @param int $eh The expected result hour.
      */
-    public function testPlusHours(int $h, int $d, int $eh)
+    public function testPlusHours(int $h, int $d, int $eh): void
     {
         $result = LocalTime::of($h, 34, 56, 789)->plusHours($d);
         $this->assertLocalTimeIs($eh, 34, 56, 789, $result);
@@ -482,15 +414,12 @@ class LocalTimeTest extends AbstractTestCase
      * @param int $d  The number of hours to add.
      * @param int $eh The expected result hour.
      */
-    public function testMinusHours(int $h, int $d, int $eh)
+    public function testMinusHours(int $h, int $d, int $eh): void
     {
         $result = LocalTime::of($h, 34, 56, 789)->minusHours(-$d);
         $this->assertLocalTimeIs($eh, 34, 56, 789, $result);
     }
 
-    /**
-     * @return array
-     */
     public function providerPlusHours() : array
     {
         return [
@@ -533,7 +462,7 @@ class LocalTimeTest extends AbstractTestCase
      * @param int $eh The expected result hour.
      * @param int $em The expected result minute.
      */
-    public function testPlusMinutes(int $h, int $m, int $d, int $eh, int $em)
+    public function testPlusMinutes(int $h, int $m, int $d, int $eh, int $em): void
     {
         $result = LocalTime::of($h, $m, 56, 789)->plusMinutes($d);
         $this->assertLocalTimeIs($eh, $em, 56, 789, $result);
@@ -548,15 +477,12 @@ class LocalTimeTest extends AbstractTestCase
      * @param int $eh The expected result hour.
      * @param int $em The expected result minute.
      */
-    public function testMinusMinutes(int $h, int $m, int $d, int $eh, int $em)
+    public function testMinusMinutes(int $h, int $m, int $d, int $eh, int $em): void
     {
         $result = LocalTime::of($h, $m, 56, 789)->minusMinutes(-$d);
         $this->assertLocalTimeIs($eh, $em, 56, 789, $result);
     }
 
-    /**
-     * @return array
-     */
     public function providerPlusMinutes() : array
     {
         return [
@@ -619,7 +545,7 @@ class LocalTimeTest extends AbstractTestCase
      * @param int $em The expected result minute.
      * @param int $es The expected result second.
      */
-    public function testPlusSeconds(int $h, int $m, int $s, int $d, int $eh, int $em, int $es)
+    public function testPlusSeconds(int $h, int $m, int $s, int $d, int $eh, int $em, int $es): void
     {
         $result = LocalTime::of($h, $m, $s, 123456789)->plusSeconds($d);
         $this->assertLocalTimeIs($eh, $em, $es, 123456789, $result);
@@ -636,15 +562,12 @@ class LocalTimeTest extends AbstractTestCase
      * @param int $em The expected result minute.
      * @param int $es The expected result second.
      */
-    public function testMinusSeconds(int $h, int $m, int $s, int $d, int $eh, int $em, int $es)
+    public function testMinusSeconds(int $h, int $m, int $s, int $d, int $eh, int $em, int $es): void
     {
         $result = LocalTime::of($h, $m, $s, 123456789)->minusSeconds(-$d);
         $this->assertLocalTimeIs($eh, $em, $es, 123456789, $result);
     }
 
-    /**
-     * @return array
-     */
     public function providerPlusSeconds() : array
     {
         return [
@@ -721,7 +644,7 @@ class LocalTimeTest extends AbstractTestCase
      * @param int $es The expected result second.
      * @param int $en The expected result nanosecond.
      */
-    public function testPlusNanos(int $h, int $m, int $s, int $n, int $d, int $eh, int $em, int $es, int $en)
+    public function testPlusNanos(int $h, int $m, int $s, int $n, int $d, int $eh, int $em, int $es, int $en): void
     {
         $result = LocalTime::of($h, $m, $s, $n)->plusNanos($d);
         $this->assertLocalTimeIs($eh, $em, $es, $en, $result);
@@ -740,15 +663,12 @@ class LocalTimeTest extends AbstractTestCase
      * @param int $es The expected result second.
      * @param int $en The expected result nanosecond.
      */
-    public function testMinusNanos(int $h, int $m, int $s, int $n, int $d, int $eh, int $em, int $es, int $en)
+    public function testMinusNanos(int $h, int $m, int $s, int $n, int $d, int $eh, int $em, int $es, int $en): void
     {
         $result = LocalTime::of($h, $m, $s, $n)->minusNanos(-$d);
         $this->assertLocalTimeIs($eh, $em, $es, $en, $result);
     }
 
-    /**
-     * @return array
-     */
     public function providerPlusNanos() : array
     {
         return [
@@ -789,7 +709,7 @@ class LocalTimeTest extends AbstractTestCase
      * @param int $n2  The nano of the 2nd time.
      * @param int $cmp The comparison value.
      */
-    public function testCompareTo(int $h1, int $m1, int $s1, int $n1, int $h2, int $m2, int $s2, int $n2, int $cmp)
+    public function testCompareTo(int $h1, int $m1, int $s1, int $n1, int $h2, int $m2, int $s2, int $n2, int $cmp): void
     {
         $t1 = LocalTime::of($h1, $m1, $s1, $n1);
         $t2 = LocalTime::of($h2, $m2, $s2, $n2);
@@ -802,9 +722,6 @@ class LocalTimeTest extends AbstractTestCase
         $this->assertSame($cmp >= 0, $t1->isAfterOrEqualTo($t2));
     }
 
-    /**
-     * @return array
-     */
     public function providerCompareTo() : array
     {
         return [
@@ -1067,7 +984,7 @@ class LocalTimeTest extends AbstractTestCase
         ];
     }
 
-    public function testAtDate()
+    public function testAtDate(): void
     {
         $time = LocalTime::of(12, 34, 56, 789);
         $date = LocalDate::of(2014, 11, 30);
@@ -1077,13 +994,8 @@ class LocalTimeTest extends AbstractTestCase
 
     /**
      * @dataProvider providerToSecondOfDay
-     *
-     * @param int $hour
-     * @param int $minute
-     * @param int $second
-     * @param int $result
      */
-    public function testToSecondOfDay(int $hour, int $minute, int $second, int $result)
+    public function testToSecondOfDay(int $hour, int $minute, int $second, int $result): void
     {
         $time = LocalTime::of($hour, $minute, $second);
 
@@ -1091,9 +1003,6 @@ class LocalTimeTest extends AbstractTestCase
         $this->assertSame($result, $time->withNano(123)->toSecondOfDay());
     }
 
-    /**
-     * @return array
-     */
     public function providerToSecondOfDay() : array
     {
         return [
@@ -1115,7 +1024,7 @@ class LocalTimeTest extends AbstractTestCase
      * @param int    $n The nanosecond.
      * @param string $r The expected result.
      */
-    public function testJsonSerialize(int $h, int $m, int $s, int $n, string $r)
+    public function testJsonSerialize(int $h, int $m, int $s, int $n, string $r): void
     {
         $this->assertSame(json_encode($r), json_encode(LocalTime::of($h, $m, $s, $n)));
     }
@@ -1129,14 +1038,11 @@ class LocalTimeTest extends AbstractTestCase
      * @param int    $n The nanosecond.
      * @param string $r The expected result.
      */
-    public function testToString(int $h, int $m, int $s, int $n, string $r)
+    public function testToString(int $h, int $m, int $s, int $n, string $r): void
     {
         $this->assertSame($r, (string) LocalTime::of($h, $m, $s, $n));
     }
 
-    /**
-     * @return array
-     */
     public function providerToString() : array
     {
         return [
@@ -1149,7 +1055,7 @@ class LocalTimeTest extends AbstractTestCase
         ];
     }
 
-    public function testMinMaxOf()
+    public function testMinMaxOf(): void
     {
         $a = LocalTime::of(11, 45);
         $b = LocalTime::of(14, 30);
@@ -1159,13 +1065,13 @@ class LocalTimeTest extends AbstractTestCase
         $this->assertSame($c, LocalTime::maxOf($a, $b, $c));
     }
 
-    public function testMinOfZeroElementsThrowsException()
+    public function testMinOfZeroElementsThrowsException(): void
     {
         $this->expectException(DateTimeException::class);
         LocalTime::minOf();
     }
 
-    public function testMaxOfZeroElementsThrowsException()
+    public function testMaxOfZeroElementsThrowsException(): void
     {
         $this->expectException(DateTimeException::class);
         LocalTime::maxOf();
@@ -1177,7 +1083,7 @@ class LocalTimeTest extends AbstractTestCase
      * @param string $dateTime The date-time string that will be parse()d by LocalTime.
      * @param string $expected The expected output from the native DateTime object.
      */
-    public function testToDateTime(string $dateTime, string $expected)
+    public function testToDateTime(string $dateTime, string $expected): void
     {
         $zonedDateTime = LocalTime::parse($dateTime);
         $dateTime = $zonedDateTime->toDateTime();
@@ -1192,7 +1098,7 @@ class LocalTimeTest extends AbstractTestCase
      * @param string $dateTime The date-time string that will be parse()d by LocalTime.
      * @param string $expected The expected output from the native DateTime object.
      */
-    public function testToDateTimeImmutable(string $dateTime, string $expected)
+    public function testToDateTimeImmutable(string $dateTime, string $expected): void
     {
         $zonedDateTime = LocalTime::parse($dateTime);
         $dateTime = $zonedDateTime->toDateTimeImmutable();
@@ -1201,9 +1107,6 @@ class LocalTimeTest extends AbstractTestCase
         $this->assertSame($expected, $dateTime->format('Y-m-d\TH:i:s.uO'));
     }
 
-    /**
-     * @return array
-     */
     public function providerToDateTime()
     {
         return [

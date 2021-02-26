@@ -13,7 +13,7 @@ use Brick\DateTime\Interval;
  */
 class IntervalTest extends AbstractTestCase
 {
-    public function testEndInstantIsNotBeforeStartInstant()
+    public function testEndInstantIsNotBeforeStartInstant(): void
     {
         $start = Instant::of(2000000000, 987654321);
         $end = Instant::of(2000000009, 123456789);
@@ -24,7 +24,7 @@ class IntervalTest extends AbstractTestCase
         new Interval($end, $start);
     }
 
-    public function testGetStartEnd()
+    public function testGetStartEnd(): void
     {
         $start = Instant::of(2000000000, 987654321);
         $end = Instant::of(2000000009, 123456789);
@@ -38,7 +38,7 @@ class IntervalTest extends AbstractTestCase
     /**
      * @depends testGetStartEnd
      */
-    public function testWithStart()
+    public function testWithStart(): void
     {
         $interval = new Interval(
             Instant::of(2000000000),
@@ -61,7 +61,7 @@ class IntervalTest extends AbstractTestCase
     /**
      * @depends testGetStartEnd
      */
-    public function testWithEnd()
+    public function testWithEnd(): void
     {
         $interval = new Interval(
             Instant::of(2000000000),
@@ -81,7 +81,7 @@ class IntervalTest extends AbstractTestCase
         $this->assertInstantIs(2000000002, 222222222, $newInterval->getEnd());
     }
 
-    public function testGetDuration()
+    public function testGetDuration(): void
     {
         $interval = new Interval(
             Instant::of(1999999999, 555555),
@@ -93,7 +93,7 @@ class IntervalTest extends AbstractTestCase
         $this->assertDurationIs(1, 999444556, $duration);
     }
 
-    public function testJsonSerialize()
+    public function testJsonSerialize(): void
     {
         $interval = new Interval(
             Instant::of(1000000000),
@@ -103,7 +103,7 @@ class IntervalTest extends AbstractTestCase
         $this->assertSame(json_encode('2001-09-09T01:46:40Z/2033-05-18T03:33:20Z'), json_encode($interval));
     }
 
-    public function testToString()
+    public function testToString(): void
     {
         $interval = new Interval(
             Instant::of(1000000000),

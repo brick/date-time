@@ -24,7 +24,7 @@ class ScaleClockTest extends AbstractTestCase
      * @param int    $scale           The time scale.
      * @param string $expectedInstant The expected epoch second returned by the clock.
      */
-    public function testScaleClock(int $second, int $nano, string $duration, int $scale, string $expectedInstant)
+    public function testScaleClock(int $second, int $nano, string $duration, int $scale, string $expectedInstant): void
     {
         $baseInstant = Instant::of($second, $nano);
 
@@ -39,9 +39,6 @@ class ScaleClockTest extends AbstractTestCase
         $this->assertSame($expectedInstant, $actualTime->toDecimal());
     }
 
-    /**
-     * @return array
-     */
     public function providerScaleClock() : array
     {
         return [

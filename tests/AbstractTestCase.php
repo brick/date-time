@@ -33,7 +33,7 @@ abstract class AbstractTestCase extends TestCase
      * @param string $expectedString The expected string representation.
      * @param object $object         The object to test.
      */
-    protected function assertIs(string $className, string $expectedString, $object)
+    protected function assertIs(string $className, string $expectedString, $object): void
     {
         $this->assertInstanceOf($className, $object);
         $this->assertSame($expectedString, (string) $object);
@@ -44,7 +44,7 @@ abstract class AbstractTestCase extends TestCase
      * @param int     $nano        The expected nanosecond adjustment.
      * @param Instant $instant     The instant to test.
      */
-    protected function assertInstantIs(int $epochSecond, int $nano, Instant $instant)
+    protected function assertInstantIs(int $epochSecond, int $nano, Instant $instant): void
     {
         $this->compare([$epochSecond, $nano], [
             $instant->getEpochSecond(),
@@ -58,7 +58,7 @@ abstract class AbstractTestCase extends TestCase
      * @param int       $day   The expected day.
      * @param LocalDate $date  The local date to test.
      */
-    protected function assertLocalDateIs(int $year, int $month, int $day, LocalDate $date)
+    protected function assertLocalDateIs(int $year, int $month, int $day, LocalDate $date): void
     {
         $this->compare([$year, $month, $day], [
             $date->getYear(),
@@ -74,7 +74,7 @@ abstract class AbstractTestCase extends TestCase
      * @param int       $nano   The expected nano-of-second.
      * @param LocalTime $time   The local time to test.
      */
-    protected function assertLocalTimeIs(int $hour, int $minute, int $second, int $nano, LocalTime $time)
+    protected function assertLocalTimeIs(int $hour, int $minute, int $second, int $nano, LocalTime $time): void
     {
         $this->compare([$hour, $minute, $second, $nano], [
             $time->getHour(),
@@ -94,7 +94,7 @@ abstract class AbstractTestCase extends TestCase
      * @param int           $n        The expected nano-of-second.
      * @param LocalDateTime $dateTime The local date-time to test.
      */
-    protected function assertLocalDateTimeIs(int $y, int $m, int $d, int $h, int $i, int $s, int $n, LocalDateTime $dateTime)
+    protected function assertLocalDateTimeIs(int $y, int $m, int $d, int $h, int $i, int $s, int $n, LocalDateTime $dateTime): void
     {
         $this->compare([$y, $m, $d, $h, $i, $s, $n], [
             $dateTime->getYear(),
@@ -111,7 +111,7 @@ abstract class AbstractTestCase extends TestCase
      * @param LocalDateTime $expected The expected local date-time.
      * @param LocalDateTime $actual   The actual local date-time.
      */
-    protected function assertLocalDateTimeEquals(LocalDateTime $expected, LocalDateTime $actual)
+    protected function assertLocalDateTimeEquals(LocalDateTime $expected, LocalDateTime $actual): void
     {
         $this->assertTrue($actual->isEqualTo($expected), "$actual != $expected");
     }
@@ -120,7 +120,7 @@ abstract class AbstractTestCase extends TestCase
      * @param int  $yearValue
      * @param Year $year
      */
-    protected function assertYearIs(int $yearValue, Year $year)
+    protected function assertYearIs(int $yearValue, Year $year): void
     {
         $this->compare([$yearValue], [
             $year->getValue()
@@ -132,7 +132,7 @@ abstract class AbstractTestCase extends TestCase
      * @param int       $month     The expected month.
      * @param YearMonth $yearMonth The year-month to test.
      */
-    protected function assertYearMonthIs(int $year, int $month, YearMonth $yearMonth)
+    protected function assertYearMonthIs(int $year, int $month, YearMonth $yearMonth): void
     {
         $this->compare([$year, $month], [
             $yearMonth->getYear(),
@@ -145,7 +145,7 @@ abstract class AbstractTestCase extends TestCase
      * @param int      $week     The expected week.
      * @param YearWeek $yearWeek The year-week to test.
      */
-    protected function assertYearWeekIs(int $year, int $week, YearWeek $yearWeek)
+    protected function assertYearWeekIs(int $year, int $week, YearWeek $yearWeek): void
     {
         $this->compare([$year, $week], [
             $yearWeek->getYear(),
@@ -158,7 +158,7 @@ abstract class AbstractTestCase extends TestCase
      * @param int      $day      The expected day.
      * @param MonthDay $monthDay The month-day to test.
      */
-    protected function assertMonthDayIs(int $month, int $day, MonthDay $monthDay)
+    protected function assertMonthDayIs(int $month, int $day, MonthDay $monthDay): void
     {
         $this->compare([$month, $day], [
             $monthDay->getMonth(),
@@ -170,7 +170,7 @@ abstract class AbstractTestCase extends TestCase
      * @param int   $monthValue The expected month-of-year value, from 1 to 12.
      * @param Month $month      The Month instance to test.
      */
-    protected function assertMonthIs(int $monthValue, Month $month)
+    protected function assertMonthIs(int $monthValue, Month $month): void
     {
         $this->compare([$monthValue], [
             $month->getValue()
@@ -181,7 +181,7 @@ abstract class AbstractTestCase extends TestCase
      * @param int       $dayOfWeekValue The expected day-of-week value, from 1 to 7.
      * @param DayOfWeek $dayOfWeek      The DayOfWeek instance to test.
      */
-    protected function assertDayOfWeekIs(int $dayOfWeekValue, DayOfWeek $dayOfWeek)
+    protected function assertDayOfWeekIs(int $dayOfWeekValue, DayOfWeek $dayOfWeek): void
     {
         $this->compare([$dayOfWeekValue], [
             $dayOfWeek->getValue()
@@ -193,7 +193,7 @@ abstract class AbstractTestCase extends TestCase
      * @param int      $nanos    The expected nanos.
      * @param Duration $duration The duration to test.
      */
-    protected function assertDurationIs(int $seconds, int $nanos, Duration $duration)
+    protected function assertDurationIs(int $seconds, int $nanos, Duration $duration): void
     {
         $this->compare([$seconds, $nanos], [
             $duration->getSeconds(),
@@ -207,7 +207,7 @@ abstract class AbstractTestCase extends TestCase
      * @param int     $days   The expected number of days in the period.
      * @param Period  $period The period to test.
      */
-    protected function assertPeriodIs(int $years, int $months, int $days, Period $period)
+    protected function assertPeriodIs(int $years, int $months, int $days, Period $period): void
     {
         $this->compare([$years, $months, $days], [
             $period->getYears(),
@@ -225,7 +225,7 @@ abstract class AbstractTestCase extends TestCase
      * @param int            $d2    The expected day-of-month of the end date.
      * @param LocalDateRange $range The LocalDateRange instance to test.
      */
-    protected function assertLocalDateRangeIs(int $y1, int $m1, int $d1, int $y2, int $m2, int $d2, LocalDateRange $range)
+    protected function assertLocalDateRangeIs(int $y1, int $m1, int $d1, int $y2, int $m2, int $d2, LocalDateRange $range): void
     {
         $this->assertLocalDateIs($y1, $m1, $d1, $range->getStart());
         $this->assertLocalDateIs($y2, $m2, $d2, $range->getEnd());
@@ -238,7 +238,7 @@ abstract class AbstractTestCase extends TestCase
      * @param int            $m2    The expected month-of-year of the end year-month.
      * @param YearMonthRange $range The YearMonthRange instance to test.
      */
-    protected function assertYearMonthRangeIs(int $y1, int $m1, int $y2, int $m2, YearMonthRange $range)
+    protected function assertYearMonthRangeIs(int $y1, int $m1, int $y2, int $m2, YearMonthRange $range): void
     {
         $this->assertYearMonthIs($y1, $m1, $range->getStart());
         $this->assertYearMonthIs($y2, $m2, $range->getEnd());
@@ -248,7 +248,7 @@ abstract class AbstractTestCase extends TestCase
      * @param TimeZone $expected The expected time-zone.
      * @param TimeZone $actual   The actual time-zone.
      */
-    protected function assertTimeZoneEquals(TimeZone $expected, TimeZone $actual)
+    protected function assertTimeZoneEquals(TimeZone $expected, TimeZone $actual): void
     {
         $this->assertTrue($actual->isEqualTo($expected), "$actual != $expected");
     }
@@ -257,7 +257,7 @@ abstract class AbstractTestCase extends TestCase
      * @param int            $totalSeconds   The expected total offset in seconds.
      * @param TimeZoneOffset $timeZoneOffset The time-zone offset to test.
      */
-    protected function assertTimeZoneOffsetIs(int $totalSeconds, TimeZoneOffset $timeZoneOffset)
+    protected function assertTimeZoneOffsetIs(int $totalSeconds, TimeZoneOffset $timeZoneOffset): void
     {
         $this->compare([$totalSeconds], [
             $timeZoneOffset->getTotalSeconds()
@@ -268,7 +268,7 @@ abstract class AbstractTestCase extends TestCase
      * @param array $expected The expected values.
      * @param array $actual   The actual values, count & keys matching expected values.
      */
-    private function compare(array $expected, array $actual)
+    private function compare(array $expected, array $actual): void
     {
         $message = $this->export($actual) . ' !== ' . $this->export($expected);
 

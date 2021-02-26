@@ -15,7 +15,7 @@ use Brick\DateTime\YearMonth;
  */
 class YearMonthTest extends AbstractTestCase
 {
-    public function testOf()
+    public function testOf(): void
     {
         $this->assertYearMonthIs(2007, 7, YearMonth::of(2007, 7));
     }
@@ -27,14 +27,11 @@ class YearMonthTest extends AbstractTestCase
      * @param int    $year  The expected year.
      * @param int    $month The expected month.
      */
-    public function testParse(string $text, int $year, int $month)
+    public function testParse(string $text, int $year, int $month): void
     {
         $this->assertYearMonthIs($year, $month, YearMonth::parse($text));
     }
 
-    /**
-     * @return array
-     */
     public function providerParse() : array
     {
         return [
@@ -51,15 +48,12 @@ class YearMonthTest extends AbstractTestCase
      *
      * @param string $text The text to parse.
      */
-    public function testParseInvalidStringThrowsException(string $text)
+    public function testParseInvalidStringThrowsException(string $text): void
     {
         $this->expectException(DateTimeException::class);
         YearMonth::parse($text);
     }
 
-    /**
-     * @return array
-     */
     public function providerParseInvalidStringThrowsException() : array
     {
         return [
@@ -77,15 +71,12 @@ class YearMonthTest extends AbstractTestCase
      *
      * @param string $text The text to parse.
      */
-    public function testParseInvalidYearMonthThrowsException(string $text)
+    public function testParseInvalidYearMonthThrowsException(string $text): void
     {
         $this->expectException(DateTimeException::class);
         YearMonth::parse($text);
     }
 
-    /**
-     * @return array
-     */
     public function providerParseInvalidYearMonthThrowsException() : array
     {
         return [
@@ -102,15 +93,12 @@ class YearMonthTest extends AbstractTestCase
      * @param int    $year        The expected year.
      * @param int    $month       The expected month.
      */
-    public function testNow(int $epochSecond, string $timeZone, int $year, int $month)
+    public function testNow(int $epochSecond, string $timeZone, int $year, int $month): void
     {
         $clock = new FixedClock(Instant::of($epochSecond));
         $this->assertYearMonthIs($year, $month, YearMonth::now(TimeZone::parse($timeZone), $clock));
     }
 
-    /**
-     * @return array
-     */
     public function providerNow() : array
     {
         return [
@@ -128,14 +116,11 @@ class YearMonthTest extends AbstractTestCase
      * @param int  $month  The month to test.
      * @param bool $isLeap The expected result.
      */
-    public function testIsLeapYear(int $year, int $month, bool $isLeap)
+    public function testIsLeapYear(int $year, int $month, bool $isLeap): void
     {
         $this->assertSame($isLeap, YearMonth::of($year, $month)->isLeapYear());
     }
 
-    /**
-     * @return array
-     */
     public function providerIsLeapYear() : array
     {
         return [
@@ -155,14 +140,11 @@ class YearMonthTest extends AbstractTestCase
      * @param int $month  The month.
      * @param int $length The expected length of month.
      */
-    public function testGetLengthOfMonth(int $year, int $month, int $length)
+    public function testGetLengthOfMonth(int $year, int $month, int $length): void
     {
         $this->assertSame($length, YearMonth::of($year, $month)->getLengthOfMonth());
     }
 
-    /**
-     * @return array
-     */
     public function providerGetLengthOfMonth() : array
     {
         return [
@@ -200,14 +182,11 @@ class YearMonthTest extends AbstractTestCase
      * @param int $month  The month.
      * @param int $length The expected length of year.
      */
-    public function testGetLengthOfYear(int $year, int $month, int $length)
+    public function testGetLengthOfYear(int $year, int $month, int $length): void
     {
         $this->assertSame($length, YearMonth::of($year, $month)->getLengthOfYear());
     }
 
-    /**
-     * @return array
-     */
     public function providerGetLengthOfYear() : array
     {
         return [
@@ -226,7 +205,7 @@ class YearMonthTest extends AbstractTestCase
      * @param int $m2     The month of the year-month to compare to.
      * @param int $result The expected result.
      */
-    public function testCompareTo(int $y1, int $m1, int $y2, int $m2, int $result)
+    public function testCompareTo(int $y1, int $m1, int $y2, int $m2, int $result): void
     {
         $this->assertSame($result, YearMonth::of($y1, $m1)->compareTo(YearMonth::of($y2, $m2)));
     }
@@ -240,7 +219,7 @@ class YearMonthTest extends AbstractTestCase
      * @param int $m2     The month of the year-month to compare to.
      * @param int $result The comparison result.
      */
-    public function testIsEqualTo(int $y1, int $m1, int $y2, int $m2, int $result)
+    public function testIsEqualTo(int $y1, int $m1, int $y2, int $m2, int $result): void
     {
         $this->assertSame($result == 0, YearMonth::of($y1, $m1)->isEqualTo(YearMonth::of($y2, $m2)));
     }
@@ -254,7 +233,7 @@ class YearMonthTest extends AbstractTestCase
      * @param int $m2     The month of the year-month to compare to.
      * @param int $result The comparison result.
      */
-    public function testIsBefore(int $y1, int $m1, int $y2, int $m2, int $result)
+    public function testIsBefore(int $y1, int $m1, int $y2, int $m2, int $result): void
     {
         $this->assertSame($result == -1, YearMonth::of($y1, $m1)->isBefore(YearMonth::of($y2, $m2)));
     }
@@ -268,7 +247,7 @@ class YearMonthTest extends AbstractTestCase
      * @param int $m2     The month of the year-month to compare to.
      * @param int $result The comparison result.
      */
-    public function testIsBeforeOrEqualTo(int $y1, int $m1, int $y2, int $m2, int $result)
+    public function testIsBeforeOrEqualTo(int $y1, int $m1, int $y2, int $m2, int $result): void
     {
         $this->assertSame($result <= 0, YearMonth::of($y1, $m1)->isBeforeOrEqualTo(YearMonth::of($y2, $m2)));
     }
@@ -282,7 +261,7 @@ class YearMonthTest extends AbstractTestCase
      * @param int $m2     The month of the year-month to compare to.
      * @param int $result The comparison result.
      */
-    public function testIsAfter(int $y1, int $m1, int $y2, int $m2, int $result)
+    public function testIsAfter(int $y1, int $m1, int $y2, int $m2, int $result): void
     {
         $this->assertSame($result == 1, YearMonth::of($y1, $m1)->isAfter(YearMonth::of($y2, $m2)));
     }
@@ -296,14 +275,11 @@ class YearMonthTest extends AbstractTestCase
      * @param int $m2     The month of the year-month to compare to.
      * @param int $result The comparison result.
      */
-    public function testIsAfterOrEqualTo(int $y1, int $m1, int $y2, int $m2, int $result)
+    public function testIsAfterOrEqualTo(int $y1, int $m1, int $y2, int $m2, int $result): void
     {
         $this->assertSame($result >= 0, YearMonth::of($y1, $m1)->isAfterOrEqualTo(YearMonth::of($y2, $m2)));
     }
 
-    /**
-     * @return array
-     */
     public function providerCompareTo() : array
     {
         return [
@@ -326,46 +302,39 @@ class YearMonthTest extends AbstractTestCase
         ];
     }
 
-    public function testWithYear()
+    public function testWithYear(): void
     {
         $this->assertYearMonthIs(2001, 5, YearMonth::of(2000, 5)->withYear(2001));
     }
 
-    public function testWithYearWithSameYear()
+    public function testWithYearWithSameYear(): void
     {
         $this->assertYearMonthIs(2018, 2, YearMonth::of(2018, 2)->withYear(2018));
     }
 
-    public function testWithMonth()
+    public function testWithMonth(): void
     {
         $this->assertYearMonthIs(2000, 12, YearMonth::of(2000, 1)->withMonth(12));
     }
 
-    public function testWithMonthWithSameMonth()
+    public function testWithMonthWithSameMonth(): void
     {
         $this->assertYearMonthIs(2000, 2, YearMonth::of(2000, 2)->withMonth(2));
     }
 
-    public function testGetFirstDay()
+    public function testGetFirstDay(): void
     {
         $this->assertLocalDateIs(2023, 10, 1, YearMonth::of(2023, 10)->getFirstDay());
     }
 
     /**
      * @dataProvider providerGetLastDay
-     *
-     * @param int $year
-     * @param int $month
-     * @param int $day
      */
-    public function testGetLastDay(int $year, int $month, int $day)
+    public function testGetLastDay(int $year, int $month, int $day): void
     {
         $this->assertLocalDateIs($year, $month, $day, YearMonth::of($year, $month)->getLastDay());
     }
 
-    /**
-     * @return array
-     */
     public function providerGetLastDay() : array
     {
         return [
@@ -377,35 +346,26 @@ class YearMonthTest extends AbstractTestCase
         ];
     }
 
-    public function testAtDay()
+    public function testAtDay(): void
     {
         $this->assertLocalDateIs(2001, 2, 3, YearMonth::of(2001, 02)->atDay(3));
     }
 
     /**
      * @dataProvider providerPlusYears
-     *
-     * @param int $year
-     * @param int $month
-     * @param int $plusYears
-     * @param int $expectedYear
-     * @param int $expectedMonth
      */
-    public function testPlusYears(int $year, int $month, int $plusYears, int $expectedYear, int $expectedMonth)
+    public function testPlusYears(int $year, int $month, int $plusYears, int $expectedYear, int $expectedMonth): void
     {
         $yearMonth = YearMonth::of($year, $month);
         $this->assertYearMonthIs($expectedYear, $expectedMonth, $yearMonth->plusYears($plusYears));
     }
 
-    public function testPlusZeroYears()
+    public function testPlusZeroYears(): void
     {
         $yearMonth = YearMonth::of(2005, 1);
         $this->assertYearMonthIs(2005, 1, $yearMonth->plusYears(0));
     }
 
-    /**
-     * @return array
-     */
     public function providerPlusYears() : array
     {
         return [
@@ -416,22 +376,13 @@ class YearMonthTest extends AbstractTestCase
 
     /**
      * @dataProvider providerMinusYears
-     *
-     * @param int $year
-     * @param int $month
-     * @param int $plusYears
-     * @param int $expectedYear
-     * @param int $expectedMonth
      */
-    public function testMinusYears(int $year, int $month, int $plusYears, int $expectedYear, int $expectedMonth)
+    public function testMinusYears(int $year, int $month, int $plusYears, int $expectedYear, int $expectedMonth): void
     {
         $yearMonth = YearMonth::of($year, $month);
         $this->assertYearMonthIs($expectedYear, $expectedMonth, $yearMonth->minusYears($plusYears));
     }
 
-    /**
-     * @return array
-     */
     public function providerMinusYears() : array
     {
         return [
@@ -442,22 +393,13 @@ class YearMonthTest extends AbstractTestCase
 
     /**
      * @dataProvider providerPlusMonths
-     *
-     * @param int $year
-     * @param int $month
-     * @param int $plusMonths
-     * @param int $expectedYear
-     * @param int $expectedMonth
      */
-    public function testPlusMonths(int $year, int $month, int $plusMonths, int $expectedYear, int $expectedMonth)
+    public function testPlusMonths(int $year, int $month, int $plusMonths, int $expectedYear, int $expectedMonth): void
     {
         $yearMonth = YearMonth::of($year, $month);
         $this->assertYearMonthIs($expectedYear, $expectedMonth, $yearMonth->plusMonths($plusMonths));
     }
 
-    /**
-     * @return array
-     */
     public function providerPlusMonths() : array
     {
         return [
@@ -475,22 +417,13 @@ class YearMonthTest extends AbstractTestCase
 
     /**
      * @dataProvider providerMinusMonths
-     *
-     * @param int $year
-     * @param int $month
-     * @param int $plusMonths
-     * @param int $expectedYear
-     * @param int $expectedMonth
      */
-    public function testMinusMonths(int $year, int $month, int $plusMonths, int $expectedYear, int $expectedMonth)
+    public function testMinusMonths(int $year, int $month, int $plusMonths, int $expectedYear, int $expectedMonth): void
     {
         $yearMonth = YearMonth::of($year, $month);
         $this->assertYearMonthIs($expectedYear, $expectedMonth, $yearMonth->minusMonths($plusMonths));
     }
 
-    /**
-     * @return array
-     */
     public function providerMinusMonths() : array
     {
         return [
@@ -506,12 +439,12 @@ class YearMonthTest extends AbstractTestCase
         ];
     }
 
-    public function testJsonSerialize()
+    public function testJsonSerialize(): void
     {
         $this->assertSame(json_encode('2013-09'), json_encode(YearMonth::of(2013, 9)));
     }
 
-    public function testToString()
+    public function testToString(): void
     {
         $this->assertSame('2013-09', (string) YearMonth::of(2013, 9));
     }

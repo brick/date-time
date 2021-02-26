@@ -22,14 +22,11 @@ class TimeZoneOffsetTest extends AbstractTestCase
      * @param int $seconds      The seconds part of the offset.
      * @param int $totalSeconds The expected total number of seconds.
      */
-    public function testOf(int $hours, int $minutes, int $seconds, int $totalSeconds)
+    public function testOf(int $hours, int $minutes, int $seconds, int $totalSeconds): void
     {
         $this->assertTimeZoneOffsetIs($totalSeconds, TimeZoneOffset::of($hours, $minutes, $seconds));
     }
 
-    /**
-     * @return array
-     */
     public function providerOf() : array
     {
         return [
@@ -62,20 +59,13 @@ class TimeZoneOffsetTest extends AbstractTestCase
 
     /**
      * @dataProvider providerOfInvalidValuesThrowsException
-     *
-     * @param int $hours
-     * @param int $minutes
-     * @param int $seconds
      */
-    public function testOfInvalidValuesThrowsException(int $hours, int $minutes, int $seconds)
+    public function testOfInvalidValuesThrowsException(int $hours, int $minutes, int $seconds): void
     {
         $this->expectException(DateTimeException::class);
         TimeZoneOffset::of($hours, $minutes, $seconds);
     }
 
-    /**
-     * @return array
-     */
     public function providerOfInvalidValuesThrowsException() : array
     {
         return [
@@ -103,17 +93,12 @@ class TimeZoneOffsetTest extends AbstractTestCase
 
     /**
      * @dataProvider providerTotalSeconds
-     *
-     * @param int $totalSeconds
      */
-    public function testOfTotalSeconds(int $totalSeconds)
+    public function testOfTotalSeconds(int $totalSeconds): void
     {
         $this->assertTimeZoneOffsetIs($totalSeconds, TimeZoneOffset::ofTotalSeconds($totalSeconds));
     }
 
-    /**
-     * @return array
-     */
     public function providerTotalSeconds() : array
     {
         return [
@@ -127,18 +112,13 @@ class TimeZoneOffsetTest extends AbstractTestCase
 
     /**
      * @dataProvider providerOfInvalidTotalSecondsThrowsException
-     *
-     * @param int $totalSeconds
      */
-    public function testOfInvalidTotalSecondsThrowsException(int $totalSeconds)
+    public function testOfInvalidTotalSecondsThrowsException(int $totalSeconds): void
     {
         $this->expectException(DateTimeException::class);
         TimeZoneOffset::ofTotalSeconds($totalSeconds);
     }
 
-    /**
-     * @return array
-     */
     public function providerOfInvalidTotalSecondsThrowsException() : array
     {
         return [
@@ -147,7 +127,7 @@ class TimeZoneOffsetTest extends AbstractTestCase
         ];
     }
 
-    public function testUtc()
+    public function testUtc(): void
     {
         $this->assertTimeZoneOffsetIs(0, TimeZoneOffset::utc());
     }
@@ -158,14 +138,11 @@ class TimeZoneOffsetTest extends AbstractTestCase
      * @param string $text         The text to parse.
      * @param int    $totalSeconds The expected total offset seconds.
      */
-    public function testParse(string $text, int $totalSeconds)
+    public function testParse(string $text, int $totalSeconds): void
     {
         $this->assertTimeZoneOffsetIs($totalSeconds, TimeZoneOffset::parse($text));
     }
 
-    /**
-     * @return array
-     */
     public function providerParse() : array
     {
         return [
@@ -186,18 +163,13 @@ class TimeZoneOffsetTest extends AbstractTestCase
 
     /**
      * @dataProvider providerParseInvalidStringThrowsException
-     *
-     * @param string $text
      */
-    public function testParseInvalidStringThrowsException(string $text)
+    public function testParseInvalidStringThrowsException(string $text): void
     {
         $this->expectException(DateTimeParseException::class);
         TimeZoneOffset::parse($text);
     }
 
-    /**
-     * @return array
-     */
     public function providerParseInvalidStringThrowsException() : array
     {
         return [
@@ -214,18 +186,13 @@ class TimeZoneOffsetTest extends AbstractTestCase
 
     /**
      * @dataProvider providerParseValueStringThrowsException
-     *
-     * @param string $text
      */
-    public function testParseInvalidValueThrowsException(string $text)
+    public function testParseInvalidValueThrowsException(string $text): void
     {
         $this->expectException(DateTimeException::class);
         TimeZoneOffset::parse($text);
     }
 
-    /**
-     * @return array
-     */
     public function providerParseValueStringThrowsException() : array
     {
         return [
@@ -244,7 +211,7 @@ class TimeZoneOffsetTest extends AbstractTestCase
      * @param int    $totalSeconds The total offset seconds.
      * @param string $expectedId   The expected id.
      */
-    public function testGetId(int $totalSeconds, string $expectedId)
+    public function testGetId(int $totalSeconds, string $expectedId): void
     {
         $this->assertSame($expectedId, TimeZoneOffset::ofTotalSeconds($totalSeconds)->getId());
     }
@@ -255,14 +222,11 @@ class TimeZoneOffsetTest extends AbstractTestCase
      * @param int    $totalSeconds The total offset seconds.
      * @param string $string       The expected string.
      */
-    public function testToString(int $totalSeconds, string $string)
+    public function testToString(int $totalSeconds, string $string): void
     {
         $this->assertSame($string, (string) TimeZoneOffset::ofTotalSeconds($totalSeconds));
     }
 
-    /**
-     * @return array
-     */
     public function providerGetId() : array
     {
         return [
@@ -286,7 +250,7 @@ class TimeZoneOffsetTest extends AbstractTestCase
         ];
     }
 
-    public function testGetOffset()
+    public function testGetOffset(): void
     {
         $whateverInstant = Instant::of(123456789, 987654321);
         $timeZoneOffset = TimeZoneOffset::ofTotalSeconds(-18000);
@@ -294,7 +258,7 @@ class TimeZoneOffsetTest extends AbstractTestCase
         $this->assertSame(-18000, $timeZoneOffset->getOffset($whateverInstant));
     }
 
-    public function testToDateTimeZone()
+    public function testToDateTimeZone(): void
     {
         $dateTimeZone = TimeZoneOffset::ofTotalSeconds(-18000)->toDateTimeZone();
 

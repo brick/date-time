@@ -24,7 +24,7 @@ class OffsetClockTest extends AbstractTestCase
      * @param int    $expectedSecond The expected epoch second returned by the clock.
      * @param int    $expectedNano   The expected nano returned by the clock.
      */
-    public function testOffsetClock(int $second, int $nano, string $duration, int $expectedSecond, int $expectedNano)
+    public function testOffsetClock(int $second, int $nano, string $duration, int $expectedSecond, int $expectedNano): void
     {
         $baseClock = new FixedClock(Instant::of($second, $nano));
         $clock = new OffsetClock($baseClock, Duration::parse($duration));
@@ -32,9 +32,6 @@ class OffsetClockTest extends AbstractTestCase
         $this->assertInstantIs($expectedSecond, $expectedNano, $clock->getTime());
     }
 
-    /**
-     * @return array
-     */
     public function providerOffsetClock() : array
     {
         return [

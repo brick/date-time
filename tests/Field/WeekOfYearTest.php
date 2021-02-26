@@ -13,7 +13,7 @@ use Brick\DateTime\Tests\AbstractTestCase;
  */
 class WeekOfYearTest extends AbstractTestCase
 {
-    public function testCheckShouldThrowDateTimeExceptionWithFieldNotInRange()
+    public function testCheckShouldThrowDateTimeExceptionWithFieldNotInRange(): void
     {
         $this->expectException(DateTimeException::class);
         $this->expectExceptionMessage('Invalid week-of-year: -1 is not in the range 1 to 53.');
@@ -21,7 +21,7 @@ class WeekOfYearTest extends AbstractTestCase
         WeekOfYear::check(-1);
     }
 
-    public function testCheckShouldThrowDateTimeExceptionWith52WeekYear()
+    public function testCheckShouldThrowDateTimeExceptionWith52WeekYear(): void
     {
         $this->expectException(DateTimeException::class);
         $this->expectExceptionMessage('Year 2000 does not have 53 weeks');
