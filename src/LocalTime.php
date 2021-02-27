@@ -17,6 +17,8 @@ use Brick\DateTime\Utility\Math;
  * A time without a time-zone in the ISO-8601 calendar system, such as 10:15:30.
  *
  * This class is immutable.
+ *
+ * @psalm-immutable
  */
 final class LocalTime implements \JsonSerializable
 {
@@ -83,6 +85,8 @@ final class LocalTime implements \JsonSerializable
      * @param int $nano   The nano-of-second, from 0 to 999,999,999.
      *
      * @throws DateTimeException
+     *
+     * @psalm-pure
      */
     public static function of(int $hour, int $minute, int $second = 0, int $nano = 0) : LocalTime
     {
@@ -118,6 +122,8 @@ final class LocalTime implements \JsonSerializable
     /**
      * @throws DateTimeException      If the time is not valid.
      * @throws DateTimeParseException If required fields are missing from the result.
+     *
+     * @psalm-pure
      */
     public static function from(DateTimeParseResult $result) : LocalTime
     {
@@ -172,11 +178,17 @@ final class LocalTime implements \JsonSerializable
         return ZonedDateTime::now($timeZone, $clock)->getTime();
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function midnight() : LocalTime
     {
         return new LocalTime(0, 0, 0, 0);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function noon() : LocalTime
     {
         return new LocalTime(12, 0, 0, 0);
@@ -184,6 +196,8 @@ final class LocalTime implements \JsonSerializable
 
     /**
      * Returns the smallest possible value for LocalTime.
+     *
+     * @psalm-pure
      */
     public static function min() : LocalTime
     {
@@ -192,6 +206,8 @@ final class LocalTime implements \JsonSerializable
 
     /**
      * Returns the highest possible value for LocalTime.
+     *
+     * @psalm-pure
      */
     public static function max() : LocalTime
     {
@@ -206,6 +222,8 @@ final class LocalTime implements \JsonSerializable
      * @return LocalTime The earliest LocalTime object.
      *
      * @throws DateTimeException If the array is empty.
+     *
+     * @psalm-pure
      */
     public static function minOf(LocalTime ...$times) : LocalTime
     {
@@ -232,6 +250,8 @@ final class LocalTime implements \JsonSerializable
      * @return LocalTime The latest LocalTime object.
      *
      * @throws DateTimeException If the array is empty.
+     *
+     * @psalm-pure
      */
     public static function maxOf(LocalTime ...$times) : LocalTime
     {

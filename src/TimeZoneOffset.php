@@ -11,6 +11,8 @@ use Brick\DateTime\Parser\IsoParsers;
 
 /**
  * A time-zone offset from Greenwich/UTC, such as `+02:00`.
+ *
+ * @psalm-immutable
  */
 final class TimeZoneOffset extends TimeZone
 {
@@ -81,6 +83,8 @@ final class TimeZoneOffset extends TimeZone
      * @param int $totalSeconds The total offset in seconds.
      *
      * @throws DateTimeException
+     *
+     * @psalm-pure
      */
     public static function ofTotalSeconds(int $totalSeconds) : TimeZoneOffset
     {
@@ -89,6 +93,9 @@ final class TimeZoneOffset extends TimeZone
         return new TimeZoneOffset($totalSeconds);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function utc() : TimeZoneOffset
     {
         return new TimeZoneOffset(0);

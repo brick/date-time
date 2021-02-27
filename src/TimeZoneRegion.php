@@ -11,6 +11,8 @@ use Brick\DateTime\Parser\IsoParsers;
 
 /**
  * A geographical region where the same time-zone rules apply, such as `Europe/London`.
+ *
+ * @psalm-immutable
  */
 final class TimeZoneRegion extends TimeZone
 {

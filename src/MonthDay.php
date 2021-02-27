@@ -11,6 +11,8 @@ use Brick\DateTime\Parser\IsoParsers;
 
 /**
  * A month-day in the ISO-8601 calendar system, such as `--12-03`.
+ *
+ * @psalm-immutable
  */
 final class MonthDay implements \JsonSerializable
 {

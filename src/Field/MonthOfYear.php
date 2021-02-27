@@ -25,6 +25,8 @@ final class MonthOfYear
      * @param int $monthOfYear The month-of-year to check.
      *
      * @throws DateTimeException If the month-of-year is not valid.
+     *
+     * @psalm-pure
      */
     public static function check(int $monthOfYear) : void
     {
@@ -40,6 +42,8 @@ final class MonthOfYear
      *
      * @param int      $monthOfYear The month-of-year, validated.
      * @param int|null $year        An optional year the month-of-year belongs to, validated.
+     *
+     * @psalm-pure
      */
     public static function getLength(int $monthOfYear, ?int $year = null) : int
     {
@@ -62,6 +66,8 @@ final class MonthOfYear
      * Returns the camel-cased English name of the given month-of-year.
      *
      * @param int $monthOfYear The month-of-year, validated.
+     *
+     * @psalm-pure
      */
     public static function getName(int $monthOfYear) : string
     {

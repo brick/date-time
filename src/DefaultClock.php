@@ -30,6 +30,8 @@ final class DefaultClock
 
     /**
      * Gets the default clock.
+     *
+     * @psalm-external-mutation-free
      */
     public static function get() : Clock
     {

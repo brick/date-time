@@ -21,6 +21,8 @@ final class DayOfYear
      * @param int|null $year      An optional year to check against, validated.
      *
      * @throws DateTimeException If the day-of-year is not valid.
+     *
+     * @psalm-pure
      */
     public static function check(int $dayOfYear, ?int $year = null) : void
     {

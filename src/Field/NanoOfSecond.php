@@ -20,6 +20,8 @@ final class NanoOfSecond
      * @param int $nanoOfSecond The nano-of-second to check.
      *
      * @throws DateTimeException If the nano-of-second is not valid.
+     *
+     * @psalm-pure
      */
     public static function check(int $nanoOfSecond) : void
     {

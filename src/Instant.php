@@ -12,6 +12,8 @@ use Brick\DateTime\Field\NanoOfSecond;
  * Instant represents the computer view of the timeline. It unambiguously represents a point in time,
  * without any calendar concept of date, time or time zone. It is not very meaningful to humans,
  * but can be converted to a `ZonedDateTime` by providing a time zone.
+ *
+ * @psalm-immutable
  */
 final class Instant implements \JsonSerializable
 {
@@ -55,6 +57,8 @@ final class Instant implements \JsonSerializable
      *
      * @param int $epochSecond    The number of seconds since the UNIX epoch of 1970-01-01T00:00:00Z.
      * @param int $nanoAdjustment The adjustment to the epoch second in nanoseconds.
+     *
+     * @psalm-pure
      */
     public static function of(int $epochSecond, int $nanoAdjustment = 0) : Instant
     {
