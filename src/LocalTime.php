@@ -105,6 +105,8 @@ final class LocalTime implements \JsonSerializable
      * @param int $nanoOfSecond The nano-of-second, from 0 to 999,999,999.
      *
      * @throws DateTimeException
+     *
+     * @psalm-pure
      */
     public static function ofSecondOfDay(int $secondOfDay, int $nanoOfSecond = 0) : LocalTime
     {

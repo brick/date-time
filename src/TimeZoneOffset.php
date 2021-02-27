@@ -24,9 +24,7 @@ final class TimeZoneOffset extends TimeZone
     /**
      * The string representation of this time-zone offset.
      *
-     * This is generated on-the-fly, and will be null before the first call to getId().
-     *
-     * @var string|null
+     * @var string
      */
     private $id;
 
@@ -38,6 +36,14 @@ final class TimeZoneOffset extends TimeZone
     private function __construct(int $totalSeconds)
     {
         $this->totalSeconds = $totalSeconds;
+
+        if ($this->totalSeconds < 0) {
+            $this->id = '-' . LocalTime::ofSecondOfDay(- $this->totalSeconds);
+        } elseif ($this->totalSeconds > 0) {
+            $this->id = '+' . LocalTime::ofSecondOfDay($this->totalSeconds);
+        } else {
+            $this->id = 'Z';
+        }
     }
 
     /**
@@ -168,16 +174,6 @@ final class TimeZoneOffset extends TimeZone
 
     public function getId() : string
     {
-        if ($this->id === null) {
-            if ($this->totalSeconds < 0) {
-                $this->id = '-' . LocalTime::ofSecondOfDay(- $this->totalSeconds);
-            } elseif ($this->totalSeconds > 0) {
-                $this->id = '+' . LocalTime::ofSecondOfDay($this->totalSeconds);
-            } else {
-                $this->id = 'Z';
-            }
-        }
-
         return $this->id;
     }
 

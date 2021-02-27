@@ -20,6 +20,8 @@ final class SecondOfDay
      * @param int $secondOfDay The second-of-day to check.
      *
      * @throws DateTimeException If the second-of-day is not valid.
+     *
+     * @psalm-pure
      */
     public static function check(int $secondOfDay) : void
     {
