@@ -46,49 +46,27 @@ final class Period implements \JsonSerializable
      * @param int $years  The number of years.
      * @param int $months The number of months.
      * @param int $days   The number of days.
-     *
-     * @return Period
      */
     public static function of(int $years, int $months, int $days) : Period
     {
         return new Period($years, $months, $days);
     }
 
-    /**
-     * @param int $years
-     *
-     * @return Period
-     */
     public static function ofYears(int $years) : Period
     {
         return new Period($years, 0, 0);
     }
 
-    /**
-     * @param int $months
-     *
-     * @return Period
-     */
     public static function ofMonths(int $months) : Period
     {
         return new Period(0, $months, 0);
     }
 
-    /**
-     * @param int $weeks
-     *
-     * @return Period
-     */
     public static function ofWeeks(int $weeks) : Period
     {
         return new Period(0, 0, $weeks * LocalTime::DAYS_PER_WEEK);
     }
 
-    /**
-     * @param int $days
-     *
-     * @return Period
-     */
     public static function ofDays(int $days) : Period
     {
         return new Period(0, 0, $days);
@@ -96,8 +74,6 @@ final class Period implements \JsonSerializable
 
     /**
      * Creates a zero Period.
-     *
-     * @return Period
      */
     public static function zero() : Period
     {
@@ -118,11 +94,7 @@ final class Period implements \JsonSerializable
      * Each of the (years, months, weeks, days) values can optionally be preceded with a '+' or '-' sign.
      * The whole string can also start with an optional '+' or '-' sign, which will further affect all the fields.
      *
-     * @param string $text
-     *
-     * @return \Brick\DateTime\Period
-     *
-     * @throws \Brick\DateTime\Parser\DateTimeParseException
+     * @throws Parser\DateTimeParseException
      */
     public static function parse(string $text) : Period
     {
@@ -175,46 +147,27 @@ final class Period implements \JsonSerializable
      *
      * The result of this method can be a negative period if the end is before the start.
      * The negative sign will be the same in each of year, month and day.
-     *
-     * @param LocalDate $startInclusive
-     * @param LocalDate $endExclusive
-     *
-     * @return Period
      */
     public static function between(LocalDate $startInclusive, LocalDate $endExclusive) : Period
     {
         return $startInclusive->until($endExclusive);
     }
 
-    /**
-     * @return int
-     */
     public function getYears() : int
     {
         return $this->years;
     }
 
-    /**
-     * @return int
-     */
     public function getMonths() : int
     {
         return $this->months;
     }
 
-    /**
-     * @return int
-     */
     public function getDays() : int
     {
         return $this->days;
     }
 
-    /**
-     * @param int $years
-     *
-     * @return Period
-     */
     public function withYears(int $years) : Period
     {
         if ($years === $this->years) {
@@ -224,11 +177,6 @@ final class Period implements \JsonSerializable
         return new Period($years, $this->months, $this->days);
     }
 
-    /**
-     * @param int $months
-     *
-     * @return Period
-     */
     public function withMonths(int $months) : Period
     {
         if ($months === $this->months) {
@@ -238,11 +186,6 @@ final class Period implements \JsonSerializable
         return new Period($this->years, $months, $this->days);
     }
 
-    /**
-     * @param int $days
-     *
-     * @return Period
-     */
     public function withDays(int $days) : Period
     {
         if ($days === $this->days) {
@@ -252,11 +195,6 @@ final class Period implements \JsonSerializable
         return new Period($this->years, $this->months, $days);
     }
 
-    /**
-     * @param int $years
-     *
-     * @return Period
-     */
     public function plusYears(int $years) : Period
     {
         if ($years === 0) {
@@ -266,11 +204,6 @@ final class Period implements \JsonSerializable
         return new Period($this->years + $years, $this->months, $this->days);
     }
 
-    /**
-     * @param int $months
-     *
-     * @return Period
-     */
     public function plusMonths(int $months) : Period
     {
         if ($months === 0) {
@@ -280,11 +213,6 @@ final class Period implements \JsonSerializable
         return new Period($this->years, $this->months + $months, $this->days);
     }
 
-    /**
-     * @param int $days
-     *
-     * @return Period
-     */
     public function plusDays(int $days) : Period
     {
         if ($days === 0) {
@@ -294,11 +222,6 @@ final class Period implements \JsonSerializable
         return new Period($this->years, $this->months, $this->days + $days);
     }
 
-    /**
-     * @param int $years
-     *
-     * @return Period
-     */
     public function minusYears(int $years) : Period
     {
         if ($years === 0) {
@@ -308,11 +231,6 @@ final class Period implements \JsonSerializable
         return new Period($this->years - $years, $this->months, $this->days);
     }
 
-    /**
-     * @param int $months
-     *
-     * @return Period
-     */
     public function minusMonths(int $months) : Period
     {
         if ($months === 0) {
@@ -322,11 +240,6 @@ final class Period implements \JsonSerializable
         return new Period($this->years, $this->months - $months, $this->days);
     }
 
-    /**
-     * @param int $days
-     *
-     * @return Period
-     */
     public function minusDays(int $days) : Period
     {
         if ($days === 0) {
@@ -338,10 +251,6 @@ final class Period implements \JsonSerializable
 
     /**
      * Returns a new Period with each value multiplied by the given scalar.
-     *
-     * @param int $scalar
-     *
-     * @return Period
      */
     public function multipliedBy(int $scalar) : Period
     {
@@ -358,8 +267,6 @@ final class Period implements \JsonSerializable
 
     /**
      * Returns a new instance with each amount in this Period negated.
-     *
-     * @return Period
      */
     public function negated() : Period
     {
@@ -385,8 +292,6 @@ final class Period implements \JsonSerializable
      * The sign of the years and months units will be the same after normalization.
      * For example, a period of "1 year and -25 months" will be normalized to
      * "-1 year and -1 month".
-     *
-     * @return Period
      */
     public function normalized() : Period
     {
@@ -402,19 +307,11 @@ final class Period implements \JsonSerializable
         return new Period($splitYears, $splitMonths, $this->days);
     }
 
-    /**
-     * @return bool
-     */
     public function isZero() : bool
     {
         return $this->years === 0 && $this->months === 0 && $this->days === 0;
     }
 
-    /**
-     * @param Period $that
-     *
-     * @return bool
-     */
     public function isEqualTo(Period $that) : bool
     {
         return $this->years === $that->years
@@ -427,8 +324,6 @@ final class Period implements \JsonSerializable
      *
      * We cannot use the constructor with the output of __toString(),
      * as it does not support negative values.
-     *
-     * @return \DateInterval
      */
     public function toDateInterval() : \DateInterval
     {
@@ -442,17 +337,12 @@ final class Period implements \JsonSerializable
 
     /**
      * Serializes as a string using {@see Period::__toString()}.
-     *
-     * @return string
      */
     public function jsonSerialize() : string
     {
         return (string) $this;
     }
 
-    /**
-     * @return string
-     */
     public function __toString() : string
     {
         if ($this->isZero()) {

@@ -35,8 +35,6 @@ final class ScaleClock implements Clock
     private $timeScale;
 
     /**
-     * Class constructor.
-     *
      * - a scale > 1 makes the time move at an accelerated pace;
      * - a scale == 1 makes the time move at the normal pace;
      * - a scale == 0 freezes the current time;
@@ -52,9 +50,6 @@ final class ScaleClock implements Clock
         $this->timeScale      = $timeScale;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getTime() : Instant
     {
         $duration = Duration::between($this->startTime, $this->referenceClock->getTime());

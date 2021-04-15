@@ -24,8 +24,6 @@ final class MinuteOfHour
     /**
      * @param int $minuteOfHour The minute-of-hour to check.
      *
-     * @return void
-     *
      * @throws DateTimeException If the minute-of-hour is not valid.
      */
     public static function check(int $minuteOfHour) : void

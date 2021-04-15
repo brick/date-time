@@ -28,8 +28,6 @@ final class OffsetClock implements Clock
     private $offset;
 
     /**
-     * Class constructor.
-     *
      * @param Clock    $referenceClock The reference clock.
      * @param Duration $offset         The offset to apply to the clock.
      */
@@ -39,9 +37,6 @@ final class OffsetClock implements Clock
         $this->offset         = $offset;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getTime() : Instant
     {
         return $this->referenceClock->getTime()->plus($this->offset);

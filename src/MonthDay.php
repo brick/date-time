@@ -46,8 +46,6 @@ final class MonthDay implements \JsonSerializable
      * @param int $month The month-of-year, from 1 (January) to 12 (December).
      * @param int $day   The day-of-month, from 1 to 31.
      *
-     * @return MonthDay
-     *
      * @throws DateTimeException If the month-day is not valid.
      */
     public static function of(int $month, int $day) : MonthDay
@@ -59,10 +57,6 @@ final class MonthDay implements \JsonSerializable
     }
 
     /**
-     * @param DateTimeParseResult $result
-     *
-     * @return MonthDay
-     *
      * @throws DateTimeException      If the month-day is not valid.
      * @throws DateTimeParseException If required fields are missing from the result.
      */
@@ -80,8 +74,6 @@ final class MonthDay implements \JsonSerializable
      * @param string              $text   The text to parse, such as `--12-03`.
      * @param DateTimeParser|null $parser The parser to use, defaults to the ISO 8601 parser.
      *
-     * @return MonthDay
-     *
      * @throws DateTimeException      If the date is not valid.
      * @throws DateTimeParseException If the text string does not follow the expected format.
      */
@@ -98,11 +90,6 @@ final class MonthDay implements \JsonSerializable
      * Returns the current month-day in the given time-zone, according to the given clock.
      *
      * If no clock is provided, the system clock is used.
-     *
-     * @param TimeZone   $timeZone
-     * @param Clock|null $clock
-     *
-     * @return MonthDay
      */
     public static function now(TimeZone $timeZone, ?Clock $clock = null) : MonthDay
     {
@@ -113,8 +100,6 @@ final class MonthDay implements \JsonSerializable
 
     /**
      * Returns the month-of-year.
-     *
-     * @return int
      */
     public function getMonth() : int
     {
@@ -123,8 +108,6 @@ final class MonthDay implements \JsonSerializable
 
     /**
      * Returns the day-of-month.
-     *
-     * @return int
      */
     public function getDay() : int
     {
@@ -133,8 +116,6 @@ final class MonthDay implements \JsonSerializable
 
     /**
      * Returns -1 if this date is before the given date, 1 if after, 0 if the dates are equal.
-     *
-     * @param MonthDay $that
      *
      * @return int [-1,0,1] If this date is before, on, or after the given date.
      */
@@ -158,10 +139,6 @@ final class MonthDay implements \JsonSerializable
 
     /**
      * Returns whether this month-day is equal to the specified month-day.
-     *
-     * @param MonthDay $that
-     *
-     * @return bool
      */
     public function isEqualTo(MonthDay $that) : bool
     {
@@ -170,10 +147,6 @@ final class MonthDay implements \JsonSerializable
 
     /**
      * Returns whether this month-day is before the specified month-day.
-     *
-     * @param MonthDay $that
-     *
-     * @return bool
      */
     public function isBefore(MonthDay $that) : bool
     {
@@ -182,10 +155,6 @@ final class MonthDay implements \JsonSerializable
 
     /**
      * Returns whether this month-day is after the specified month-day.
-     *
-     * @param MonthDay $that
-     *
-     * @return bool
      */
     public function isAfter(MonthDay $that) : bool
     {
@@ -197,10 +166,6 @@ final class MonthDay implements \JsonSerializable
      *
      * This method checks whether this month and day and the input year form a valid date.
      * This can only return false for February 29th.
-     *
-     * @param int $year
-     *
-     * @return bool
      */
     public function isValidYear(int $year) : bool
     {
@@ -212,10 +177,6 @@ final class MonthDay implements \JsonSerializable
      *
      * If the day-of-month is invalid for the specified month, the day will
      * be adjusted to the last valid day-of-month.
-     *
-     * @param int $month
-     *
-     * @return MonthDay
      *
      * @throws DateTimeException If the month is invalid.
      */
@@ -236,10 +197,6 @@ final class MonthDay implements \JsonSerializable
      * Returns a copy of this MonthDay with the day-of-month altered.
      *
      * If the day-of-month is invalid for the month, an exception is thrown.
-     *
-     * @param int $day
-     *
-     * @return MonthDay
      *
      * @throws DateTimeException If the day-of-month is invalid for the month.
      */
@@ -262,10 +219,6 @@ final class MonthDay implements \JsonSerializable
      * A month-day of February 29th will be adjusted to February 28th
      * in the resulting date if the year is not a leap year.
      *
-     * @param int $year
-     *
-     * @return LocalDate
-     *
      * @throws DateTimeException If the year is invalid.
      */
     public function atYear(int $year) : LocalDate
@@ -275,17 +228,12 @@ final class MonthDay implements \JsonSerializable
 
     /**
      * Serializes as a string using {@see MonthDay::__toString()}.
-     *
-     * @return string
      */
     public function jsonSerialize() : string
     {
         return (string) $this;
     }
 
-    /**
-     * @return string
-     */
     public function __toString() : string
     {
         return \sprintf('--%02d-%02d', $this->month, $this->day);

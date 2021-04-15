@@ -27,12 +27,6 @@ final class LocalDateTime implements \JsonSerializable
      */
     private $time;
 
-    /**
-     * Class constructor.
-     *
-     * @param LocalDate $date
-     * @param LocalTime $time
-     */
     public function __construct(LocalDate $date, LocalTime $time)
     {
         $this->date = $date;
@@ -48,8 +42,6 @@ final class LocalDateTime implements \JsonSerializable
      * @param int $second The second-of-minute, from 0 to 59.
      * @param int $nano   The nano-of-second, from 0 to 999,999,999.
      *
-     * @return LocalDateTime
-     *
      * @throws DateTimeException If the date or time is not valid.
      */
     public static function of(int $year, int $month, int $day, int $hour = 0, int $minute = 0, int $second = 0, int $nano = 0) : LocalDateTime
@@ -64,11 +56,6 @@ final class LocalDateTime implements \JsonSerializable
      * Returns the current local date-time in the given time-zone, according to the given clock.
      *
      * If no clock is provided, the system clock is used.
-     *
-     * @param TimeZone   $timeZone
-     * @param Clock|null $clock
-     *
-     * @return LocalDateTime
      */
     public static function now(TimeZone $timeZone, ?Clock $clock = null) : LocalDateTime
     {
@@ -76,10 +63,6 @@ final class LocalDateTime implements \JsonSerializable
     }
 
     /**
-     * @param DateTimeParseResult $result
-     *
-     * @return LocalDateTime
-     *
      * @throws DateTimeException      If the date-time is not valid.
      * @throws DateTimeParseException If required fields are missing from the result.
      */
@@ -97,8 +80,6 @@ final class LocalDateTime implements \JsonSerializable
      * @param string              $text   The text to parse, such as `2007-12-03T10:15:30`.
      * @param DateTimeParser|null $parser The parser to use, defaults to the ISO 8601 parser.
      *
-     * @return LocalDateTime
-     *
      * @throws DateTimeException      If the date-time is not valid.
      * @throws DateTimeParseException If the text string does not follow the expected format.
      */
@@ -113,10 +94,6 @@ final class LocalDateTime implements \JsonSerializable
 
     /**
      * Creates a LocalDateTime from a native DateTime or DateTimeImmutable object.
-     *
-     * @param \DateTimeInterface $dateTime
-     *
-     * @return LocalDateTime
      */
     public static function fromDateTime(\DateTimeInterface $dateTime) : LocalDateTime
     {
@@ -128,8 +105,6 @@ final class LocalDateTime implements \JsonSerializable
 
     /**
      * Returns the smallest possible value for LocalDateTime.
-     *
-     * @return LocalDateTime
      */
     public static function min() : LocalDateTime
     {
@@ -138,8 +113,6 @@ final class LocalDateTime implements \JsonSerializable
 
     /**
      * Returns the highest possible value for LocalDateTime.
-     *
-     * @return LocalDateTime
      */
     public static function max() : LocalDateTime
     {
@@ -198,89 +171,56 @@ final class LocalDateTime implements \JsonSerializable
         return $max;
     }
 
-    /**
-     * @return LocalDate
-     */
     public function getDate() : LocalDate
     {
         return $this->date;
     }
 
-    /**
-     * @return LocalTime
-     */
     public function getTime() : LocalTime
     {
         return $this->time;
     }
 
-    /**
-     * @return int
-     */
     public function getYear() : int
     {
         return $this->date->getYear();
     }
 
-    /**
-     * @return int
-     */
     public function getMonth() : int
     {
         return $this->date->getMonth();
     }
 
-    /**
-     * @return int
-     */
     public function getDay() : int
     {
         return $this->date->getDay();
     }
 
-    /**
-     * @return DayOfWeek
-     */
     public function getDayOfWeek() : DayOfWeek
     {
         return $this->date->getDayOfWeek();
     }
 
-    /**
-     * @return int
-     */
     public function getDayOfYear() : int
     {
         return $this->date->getDayOfYear();
     }
 
-    /**
-     * @return int
-     */
     public function getHour() : int
     {
         return $this->time->getHour();
     }
 
-    /**
-     * @return int
-     */
     public function getMinute() : int
     {
         return $this->time->getMinute();
     }
 
-    /**
-     * @return int
-     */
     public function getSecond() : int
     {
         return $this->time->getSecond();
     }
 
-    /**
-     * @return int
-     */
     public function getNano() : int
     {
         return $this->time->getNano();
@@ -288,10 +228,6 @@ final class LocalDateTime implements \JsonSerializable
 
     /**
      * Returns a copy of this LocalDateTime with the date altered.
-     *
-     * @param LocalDate $date
-     *
-     * @return LocalDateTime
      */
     public function withDate(LocalDate $date) : LocalDateTime
     {
@@ -304,10 +240,6 @@ final class LocalDateTime implements \JsonSerializable
 
     /**
      * Returns a copy of this LocalDateTime with the time altered.
-     *
-     * @param LocalTime $time
-     *
-     * @return LocalDateTime
      */
     public function withTime(LocalTime $time) : LocalDateTime
     {
@@ -322,10 +254,6 @@ final class LocalDateTime implements \JsonSerializable
      * Returns a copy of this LocalDateTime with the year altered.
      *
      * If the day-of-month is invalid for the year, it will be changed to the last valid day of the month.
-     *
-     * @param int $year
-     *
-     * @return LocalDateTime
      *
      * @throws DateTimeException If the year is outside the valid range.
      */
@@ -345,10 +273,6 @@ final class LocalDateTime implements \JsonSerializable
      *
      * If the day-of-month is invalid for the month and year, it will be changed to the last valid day of the month.
      *
-     * @param int $month
-     *
-     * @return LocalDateTime
-     *
      * @throws DateTimeException If the month is invalid.
      */
     public function withMonth(int $month) : LocalDateTime
@@ -367,10 +291,6 @@ final class LocalDateTime implements \JsonSerializable
      *
      * If the resulting date is invalid, an exception is thrown.
      *
-     * @param int $day
-     *
-     * @return LocalDateTime
-     *
      * @throws DateTimeException If the day is invalid for the current year and month.
      */
     public function withDay(int $day) : LocalDateTime
@@ -386,10 +306,6 @@ final class LocalDateTime implements \JsonSerializable
 
     /**
      * Returns a copy of this LocalDateTime with the hour-of-day altered.
-     *
-     * @param int $hour
-     *
-     * @return LocalDateTime
      *
      * @throws DateTimeException If the hour is invalid.
      */
@@ -407,10 +323,6 @@ final class LocalDateTime implements \JsonSerializable
     /**
      * Returns a copy of this LocalDateTime with the minute-of-hour altered.
      *
-     * @param int $minute
-     *
-     * @return LocalDateTime
-     *
      * @throws DateTimeException If the minute-of-hour if not valid.
      */
     public function withMinute(int $minute) : LocalDateTime
@@ -427,10 +339,6 @@ final class LocalDateTime implements \JsonSerializable
     /**
      * Returns a copy of this LocalDateTime with the second-of-minute altered.
      *
-     * @param int $second
-     *
-     * @return LocalDateTime
-     *
      * @throws DateTimeException If the second-of-minute if not valid.
      */
     public function withSecond(int $second) : LocalDateTime
@@ -446,10 +354,6 @@ final class LocalDateTime implements \JsonSerializable
 
     /**
      * Returns a copy of this LocalDateTime with the nano-of-second altered.
-     *
-     * @param int $nano
-     *
-     * @return LocalDateTime
      *
      * @throws DateTimeException If the nano-of-second if not valid.
      */
@@ -478,10 +382,6 @@ final class LocalDateTime implements \JsonSerializable
 
     /**
      * Returns a copy of this LocalDateTime with the specified Period added.
-     *
-     * @param Period $period
-     *
-     * @return LocalDateTime
      */
     public function plusPeriod(Period $period) : LocalDateTime
     {
@@ -496,10 +396,6 @@ final class LocalDateTime implements \JsonSerializable
 
     /**
      * Returns a copy of this LocalDateTime with the specific Duration added.
-     *
-     * @param Duration $duration
-     *
-     * @return LocalDateTime
      */
     public function plusDuration(Duration $duration) : LocalDateTime
     {
@@ -515,10 +411,6 @@ final class LocalDateTime implements \JsonSerializable
     /**
      * Returns a copy of this LocalDateTime with the specified period in years added.
      *
-     * @param int $years
-     *
-     * @return LocalDateTime
-     *
      * @throws DateTimeException If the resulting year is out of range.
      */
     public function plusYears(int $years) : LocalDateTime
@@ -532,10 +424,6 @@ final class LocalDateTime implements \JsonSerializable
 
     /**
      * Returns a copy of this LocalDateTime with the specified period in months added.
-     *
-     * @param int $months
-     *
-     * @return LocalDateTime
      */
     public function plusMonths(int $months) : LocalDateTime
     {
@@ -548,10 +436,6 @@ final class LocalDateTime implements \JsonSerializable
 
     /**
      * Returns a copy of this LocalDateTime with the specified period in weeks added.
-     *
-     * @param int $weeks
-     *
-     * @return LocalDateTime
      */
     public function plusWeeks(int $weeks) : LocalDateTime
     {
@@ -564,10 +448,6 @@ final class LocalDateTime implements \JsonSerializable
 
     /**
      * Returns a copy of this LocalDateTime with the specified period in days added.
-     *
-     * @param int $days
-     *
-     * @return LocalDateTime
      */
     public function plusDays(int $days) : LocalDateTime
     {
@@ -580,10 +460,6 @@ final class LocalDateTime implements \JsonSerializable
 
     /**
      * Returns a copy of this LocalDateTime with the specified period in hours added.
-     *
-     * @param int $hours
-     *
-     * @return LocalDateTime
      */
     public function plusHours(int $hours) : LocalDateTime
     {
@@ -596,10 +472,6 @@ final class LocalDateTime implements \JsonSerializable
 
     /**
      * Returns a copy of this LocalDateTime with the specified period in minutes added.
-     *
-     * @param int $minutes
-     *
-     * @return LocalDateTime
      */
     public function plusMinutes(int $minutes) : LocalDateTime
     {
@@ -612,10 +484,6 @@ final class LocalDateTime implements \JsonSerializable
 
     /**
      * Returns a copy of this LocalDateTime with the specified period in seconds added.
-     *
-     * @param int $seconds
-     *
-     * @return LocalDateTime
      */
     public function plusSeconds(int $seconds) : LocalDateTime
     {
@@ -628,10 +496,6 @@ final class LocalDateTime implements \JsonSerializable
 
     /**
      * Returns a copy of this LocalDateTime with the specified period in nanoseconds added.
-     *
-     * @param int $nanos
-     *
-     * @return LocalDateTime
      */
     public function plusNanos(int $nanos) : LocalDateTime
     {
@@ -644,10 +508,6 @@ final class LocalDateTime implements \JsonSerializable
 
     /**
      * Returns a copy of this LocalDateTime with the specified Period subtracted.
-     *
-     * @param Period $period
-     *
-     * @return LocalDateTime
      */
     public function minusPeriod(Period $period) : LocalDateTime
     {
@@ -656,10 +516,6 @@ final class LocalDateTime implements \JsonSerializable
 
     /**
      * Returns a copy of this LocalDateTime with the specific Duration subtracted.
-     *
-     * @param Duration $duration
-     *
-     * @return LocalDateTime
      */
     public function minusDuration(Duration $duration) : LocalDateTime
     {
@@ -668,10 +524,6 @@ final class LocalDateTime implements \JsonSerializable
 
     /**
      * Returns a copy of this LocalDateTime with the specified period in years subtracted.
-     *
-     * @param int $years
-     *
-     * @return LocalDateTime
      */
     public function minusYears(int $years) : LocalDateTime
     {
@@ -684,10 +536,6 @@ final class LocalDateTime implements \JsonSerializable
 
     /**
      * Returns a copy of this LocalDateTime with the specified period in months subtracted.
-     *
-     * @param int $months
-     *
-     * @return LocalDateTime
      */
     public function minusMonths(int $months) : LocalDateTime
     {
@@ -700,10 +548,6 @@ final class LocalDateTime implements \JsonSerializable
 
     /**
      * Returns a copy of this LocalDateTime with the specified period in weeks subtracted.
-     *
-     * @param int $weeks
-     *
-     * @return LocalDateTime
      */
     public function minusWeeks(int $weeks) : LocalDateTime
     {
@@ -716,10 +560,6 @@ final class LocalDateTime implements \JsonSerializable
 
     /**
      * Returns a copy of this LocalDateTime with the specified period in days subtracted.
-     *
-     * @param int $days
-     *
-     * @return LocalDateTime
      */
     public function minusDays(int $days) : LocalDateTime
     {
@@ -732,10 +572,6 @@ final class LocalDateTime implements \JsonSerializable
 
     /**
      * Returns a copy of this LocalDateTime with the specified period in hours subtracted.
-     *
-     * @param int $hours
-     *
-     * @return LocalDateTime
      */
     public function minusHours(int $hours) : LocalDateTime
     {
@@ -748,10 +584,6 @@ final class LocalDateTime implements \JsonSerializable
 
     /**
      * Returns a copy of this LocalDateTime with the specified period in minutes subtracted.
-     *
-     * @param int $minutes
-     *
-     * @return LocalDateTime
      */
     public function minusMinutes(int $minutes) : LocalDateTime
     {
@@ -780,10 +612,6 @@ final class LocalDateTime implements \JsonSerializable
 
     /**
      * Returns a copy of this LocalDateTime with the specified period in nanoseconds subtracted.
-     *
-     * @param int $nanos
-     *
-     * @return LocalDateTime
      */
     public function minusNanos(int $nanos) : LocalDateTime
     {
@@ -846,51 +674,26 @@ final class LocalDateTime implements \JsonSerializable
         return $this->date->compareTo($that->date) ?: $this->time->compareTo($that->time);
     }
 
-    /**
-     * @param LocalDateTime $that
-     *
-     * @return bool
-     */
     public function isEqualTo(LocalDateTime $that) : bool
     {
         return $this->compareTo($that) === 0;
     }
 
-    /**
-     * @param LocalDateTime $that
-     *
-     * @return bool
-     */
     public function isBefore(LocalDateTime $that) : bool
     {
         return $this->compareTo($that) === -1;
     }
 
-    /**
-     * @param LocalDateTime $that
-     *
-     * @return bool
-     */
     public function isBeforeOrEqualTo(LocalDateTime $that) : bool
     {
         return $this->compareTo($that) <= 0;
     }
 
-    /**
-     * @param LocalDateTime $that
-     *
-     * @return bool
-     */
     public function isAfter(LocalDateTime $that) : bool
     {
         return $this->compareTo($that) === 1;
     }
 
-    /**
-     * @param LocalDateTime $that
-     *
-     * @return bool
-     */
     public function isAfterOrEqualTo(LocalDateTime $that) : bool
     {
         return $this->compareTo($that) >= 0;
@@ -900,11 +703,6 @@ final class LocalDateTime implements \JsonSerializable
      * Returns whether this LocalDateTime is in the future, in the given time-zone, according to the given clock.
      *
      * If no clock is provided, the system clock is used.
-     *
-     * @param TimeZone   $timeZone
-     * @param Clock|null $clock
-     *
-     * @return bool
      */
     public function isFuture(TimeZone $timeZone, ?Clock $clock = null) : bool
     {
@@ -915,11 +713,6 @@ final class LocalDateTime implements \JsonSerializable
      * Returns whether this LocalDateTime is in the past, in the given time-zone, according to the given clock.
      *
      * If no clock is provided, the system clock is used.
-     *
-     * @param TimeZone   $timeZone
-     * @param Clock|null $clock
-     *
-     * @return bool
      */
     public function isPast(TimeZone $timeZone, ?Clock $clock = null) : bool
     {
@@ -933,8 +726,6 @@ final class LocalDateTime implements \JsonSerializable
      *
      * Note that the native DateTime object supports a precision up to the microsecond,
      * so the nanoseconds are rounded down to the nearest microsecond.
-     *
-     * @return \DateTime
      */
     public function toDateTime() : \DateTime
     {
@@ -942,7 +733,12 @@ final class LocalDateTime implements \JsonSerializable
     }
 
     /**
-     * @return \DateTimeImmutable
+     * Converts this LocalDateTime to a native DateTimeImmutable object.
+     *
+     * The result is a DateTimeImmutable in the UTC time-zone.
+     *
+     * Note that the native DateTimeImmutable object supports a precision up to the microsecond,
+     * so the nanoseconds are rounded down to the nearest microsecond.
      */
     public function toDateTimeImmutable() : \DateTimeImmutable
     {
@@ -951,17 +747,12 @@ final class LocalDateTime implements \JsonSerializable
 
     /**
      * Serializes as a string using {@see LocalDateTime::__toString()}.
-     *
-     * @return string
      */
     public function jsonSerialize() : string
     {
         return (string) $this;
     }
 
-    /**
-     * @return string
-     */
     public function __toString() : string
     {
         return $this->date . 'T' . $this->time;

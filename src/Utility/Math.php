@@ -14,11 +14,6 @@ use ArithmeticError;
 final class Math
 {
     /**
-     * @param int $a
-     * @param int $b
-     *
-     * @return int
-     *
      * @throws ArithmeticError
      */
     public static function addExact(int $a, int $b) : int
@@ -33,11 +28,6 @@ final class Math
     }
 
     /**
-     * @param int $a
-     * @param int $b
-     *
-     * @return int
-     *
      * @throws ArithmeticError
      */
     public static function multiplyExact(int $a, int $b) : int
@@ -56,8 +46,6 @@ final class Math
      *
      * @param int $a The first argument.
      * @param int $b The second argument, non-zero.
-     *
-     * @return int
      */
     public static function floorDiv(int $a, int $b) : int
     {
@@ -79,8 +67,6 @@ final class Math
      *
      * @param int $a The first argument.
      * @param int $b The second argument, non-zero.
-     *
-     * @return int
      */
     public static function floorMod(int $a, int $b) : int
     {

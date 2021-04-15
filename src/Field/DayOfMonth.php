@@ -26,8 +26,6 @@ final class DayOfMonth
      * @param int|null $monthOfYear An optional month-of-year to check against, validated.
      * @param int|null $year        An optional year to check against, validated.
      *
-     * @return void
-     *
      * @throws DateTimeException If the day-of-month is not valid.
      */
     public static function check(int $dayOfMonth, ?int $monthOfYear = null, ?int $year = null) : void

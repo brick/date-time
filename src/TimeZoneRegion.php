@@ -32,8 +32,6 @@ final class TimeZoneRegion extends TimeZone
     /**
      * @param string $id The region id.
      *
-     * @return TimeZoneRegion
-     *
      * @throws DateTimeException If the region id is invalid.
      */
     public static function of(string $id) : TimeZoneRegion
@@ -51,10 +49,6 @@ final class TimeZoneRegion extends TimeZone
     }
 
     /**
-     * @param DateTimeParseResult $result
-     *
-     * @return TimeZoneRegion
-     *
      * @throws DateTimeException      If the region is not valid.
      * @throws DateTimeParseException If required fields are missing from the result.
      */
@@ -106,11 +100,6 @@ final class TimeZoneRegion extends TimeZone
     /**
      * Parses a region id, such as 'Europe/London'.
      *
-     * @param string               $text
-     * @param DateTimeParser|null $parser
-     *
-     * @return TimeZone
-     *
      * @throws DateTimeParseException
      */
     public static function parse(string $text, ?DateTimeParser $parser = null) : TimeZone
@@ -122,17 +111,11 @@ final class TimeZoneRegion extends TimeZone
         return TimeZoneRegion::from($parser->parse($text));
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getId() : string
     {
         return $this->zone->getName();
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getOffset(Instant $instant) : int
     {
         $dateTime = new \DateTime('@' . $instant->getEpochSecond(), new \DateTimeZone('UTC'));
@@ -140,9 +123,6 @@ final class TimeZoneRegion extends TimeZone
         return $this->zone->getOffset($dateTime);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function toDateTimeZone() : \DateTimeZone
     {
         return clone $this->zone;

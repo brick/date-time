@@ -15,22 +15,20 @@ final class Interval implements \JsonSerializable
     /**
      * The start instant, inclusive.
      *
-     * @var \Brick\DateTime\Instant
+     * @var Instant
      */
     private $start;
 
     /**
      * The end instant, exclusive.
      *
-     * @var \Brick\DateTime\Instant
+     * @var Instant
      */
     private $end;
 
     /**
-     * Class constructor.
-     *
-     * @param \Brick\DateTime\Instant $startInclusive The start instant, inclusive.
-     * @param \Brick\DateTime\Instant $endExclusive   The end instant, exclusive.
+     * @param Instant $startInclusive The start instant, inclusive.
+     * @param Instant $endExclusive   The end instant, exclusive.
      *
      * @throws DateTimeException If the end instant is before the start instant.
      */
@@ -46,8 +44,6 @@ final class Interval implements \JsonSerializable
 
     /**
      * Returns the start instant, inclusive, of this Interval.
-     *
-     * @return \Brick\DateTime\Instant
      */
     public function getStart() : Instant
     {
@@ -56,8 +52,6 @@ final class Interval implements \JsonSerializable
 
     /**
      * Returns the end instant, exclusive, of this Interval.
-     *
-     * @return \Brick\DateTime\Instant
      */
     public function getEnd() : Instant
     {
@@ -66,10 +60,6 @@ final class Interval implements \JsonSerializable
 
     /**
      * Returns a copy of this Interval with the start instant altered.
-     *
-     * @param \Brick\DateTime\Instant $start
-     *
-     * @return \Brick\DateTime\Interval
      *
      * @throws DateTimeException If the given start instant is after the current end instant.
      */
@@ -81,10 +71,6 @@ final class Interval implements \JsonSerializable
     /**
      * Returns a copy of this Interval with the end instant altered.
      *
-     * @param \Brick\DateTime\Instant $end
-     *
-     * @return \Brick\DateTime\Interval
-     *
      * @throws DateTimeException If the given end instant is before the current start instant.
      */
     public function withEnd(Instant $end) : Interval
@@ -94,8 +80,6 @@ final class Interval implements \JsonSerializable
 
     /**
      * Returns a Duration representing the time elapsed in this Interval.
-     *
-     * @return \Brick\DateTime\Duration
      */
     public function getDuration() : Duration
     {
@@ -104,17 +88,12 @@ final class Interval implements \JsonSerializable
 
     /**
      * Serializes as a string using {@see Interval::__toString()}.
-     *
-     * @return string
      */
     public function jsonSerialize() : string
     {
         return (string) $this;
     }
 
-    /**
-     * @return string
-     */
     public function __toString() : string
     {
         return $this->start . '/' . $this->end;

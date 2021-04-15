@@ -30,8 +30,6 @@ final class DefaultClock
 
     /**
      * Gets the default clock.
-     *
-     * @return Clock
      */
     public static function get() : Clock
     {
@@ -44,10 +42,6 @@ final class DefaultClock
 
     /**
      * Sets the default clock.
-     *
-     * @param Clock $clock
-     *
-     * @return void
      */
     public static function set(Clock $clock) : void
     {
@@ -56,8 +50,6 @@ final class DefaultClock
 
     /**
      * Resets the default clock to the system clock.
-     *
-     * @return void
      */
     public static function reset() : void
     {
@@ -68,8 +60,6 @@ final class DefaultClock
      * Freezes time to a specific point in time.
      *
      * @param Instant $instant The time to freeze to.
-     *
-     * @return void
      */
     public static function freeze(Instant $instant) : void
     {
@@ -80,10 +70,6 @@ final class DefaultClock
      * Travels to a specific point in time, but allows time to continue moving forward from there.
      *
      * If the current default clock is frozen, you must `reset()` it first, or the time will stay frozen.
-     *
-     * @param Instant $instant
-     *
-     * @return void
      */
     public static function travel(Instant $instant) : void
     {
@@ -103,10 +89,6 @@ final class DefaultClock
      *
      * If the current default clock is frozen, you must `reset()` it first, or the time will stay frozen.
      * Multiple calls to `scale()` will result in a clock with the combined scales.
-     *
-     * @param int $timeScale The time scale.
-     *
-     * @return void
      */
     public static function scale(int $timeScale) : void
     {

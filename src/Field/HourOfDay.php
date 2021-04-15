@@ -24,8 +24,6 @@ final class HourOfDay
     /**
      * @param int $hourOfDay The hour-of-day to check.
      *
-     * @return void
-     *
      * @throws DateTimeException If the hour-of-day is not valid.
      */
     public static function check(int $hourOfDay) : void

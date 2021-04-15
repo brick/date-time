@@ -19,8 +19,6 @@ final class NanoOfSecond
     /**
      * @param int $nanoOfSecond The nano-of-second to check.
      *
-     * @return void
-     *
      * @throws DateTimeException If the nano-of-second is not valid.
      */
     public static function check(int $nanoOfSecond) : void

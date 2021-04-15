@@ -19,8 +19,6 @@ final class FixedClock implements Clock
     private $instant;
 
     /**
-     * Class constructor.
-     *
      * @param Instant $instant The time to set the clock at.
      */
     public function __construct(Instant $instant)
@@ -28,19 +26,11 @@ final class FixedClock implements Clock
         $this->instant = $instant;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getTime() : Instant
     {
         return $this->instant;
     }
 
-    /**
-     * @param Instant $instant
-     *
-     * @return void
-     */
     public function setTime(Instant $instant) : void
     {
         $this->instant = $instant;
@@ -48,11 +38,6 @@ final class FixedClock implements Clock
 
     /**
      * Moves the clock by a number of seconds and/or nanos.
-     *
-     * @param int $seconds
-     * @param int $nanos
-     *
-     * @return void
      */
     public function move(int $seconds, int $nanos = 0) : void
     {

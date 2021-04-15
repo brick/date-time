@@ -24,8 +24,6 @@ final class TimeZoneOffsetMinute
     /**
      * @param int $offsetMinute The offset-minute to check.
      *
-     * @return void
-     *
      * @throws DateTimeException If the offset-minute is not valid.
      */
     public static function check(int $offsetMinute) : void

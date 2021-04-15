@@ -47,8 +47,6 @@ final class TimeZoneOffset extends TimeZone
      * @param int $minutes The time-zone offset in minutes, from 0 to 59, sign matching hours.
      * @param int $seconds The time-zone offset in seconds, from 0 to 59, sign matching hours and minute.
      *
-     * @return TimeZoneOffset
-     *
      * @throws DateTimeException If the values are not in range or the signs don't match.
      */
     public static function of(int $hours, int $minutes = 0, int $seconds = 0) : TimeZoneOffset
@@ -82,8 +80,6 @@ final class TimeZoneOffset extends TimeZone
      *
      * @param int $totalSeconds The total offset in seconds.
      *
-     * @return TimeZoneOffset
-     *
      * @throws DateTimeException
      */
     public static function ofTotalSeconds(int $totalSeconds) : TimeZoneOffset
@@ -93,19 +89,12 @@ final class TimeZoneOffset extends TimeZone
         return new TimeZoneOffset($totalSeconds);
     }
 
-    /**
-     * @return TimeZoneOffset
-     */
     public static function utc() : TimeZoneOffset
     {
         return new TimeZoneOffset(0);
     }
 
     /**
-     * @param DateTimeParseResult $result
-     *
-     * @return TimeZoneOffset
-     *
      * @throws DateTimeException      If the offset is not valid.
      * @throws DateTimeParseException If required fields are missing from the result.
      */
@@ -145,11 +134,6 @@ final class TimeZoneOffset extends TimeZone
      *
      * Note that ± means either the plus or minus symbol.
      *
-     * @param string              $text
-     * @param DateTimeParser|null $parser
-     *
-     * @return TimeZone
-     *
      * @throws DateTimeParseException
      */
     public static function parse(string $text, ?DateTimeParser $parser = null) : TimeZone
@@ -175,9 +159,6 @@ final class TimeZoneOffset extends TimeZone
         return $this->totalSeconds;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getId() : string
     {
         if ($this->id === null) {
@@ -193,17 +174,11 @@ final class TimeZoneOffset extends TimeZone
         return $this->id;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getOffset(Instant $pointInTime) : int
     {
         return $this->totalSeconds;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function toDateTimeZone() : \DateTimeZone
     {
         return new \DateTimeZone($this->getId());

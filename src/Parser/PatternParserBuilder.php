@@ -24,11 +24,6 @@ final class PatternParserBuilder
      */
     private $stack = [];
 
-    /**
-     * @param PatternParser $parser
-     *
-     * @return self
-     */
     public function append(PatternParser $parser) : self
     {
         $this->pattern .= $parser->getPattern();
@@ -37,11 +32,6 @@ final class PatternParserBuilder
         return $this;
     }
 
-    /**
-     * @param string $literal
-     *
-     * @return self
-     */
     public function appendLiteral(string $literal) : self
     {
         $this->pattern .= \preg_quote($literal, '/');
@@ -49,12 +39,6 @@ final class PatternParserBuilder
         return $this;
     }
 
-    /**
-     * @param string $pattern
-     * @param string $field
-     *
-     * @return self
-     */
     public function appendCapturePattern(string $pattern, string $field) : self
     {
         $this->pattern .= '(' . $pattern . ')';
@@ -63,9 +47,6 @@ final class PatternParserBuilder
         return $this;
     }
 
-    /**
-     * @return self
-     */
     public function startOptional() : self
     {
         $this->pattern .= '(?:';
@@ -74,9 +55,6 @@ final class PatternParserBuilder
         return $this;
     }
 
-    /**
-     * @return self
-     */
     public function endOptional() : self
     {
         if (\array_pop($this->stack) !== 'O') {
@@ -88,9 +66,6 @@ final class PatternParserBuilder
         return $this;
     }
 
-    /**
-     * @return self
-     */
     public function startGroup() : self
     {
         $this->pattern .= '(?:';
@@ -99,9 +74,6 @@ final class PatternParserBuilder
         return $this;
     }
 
-    /**
-     * @return self
-     */
     public function endGroup() : self
     {
         if (\array_pop($this->stack) !== 'G') {
@@ -113,9 +85,6 @@ final class PatternParserBuilder
         return $this;
     }
 
-    /**
-     * @return self
-     */
     public function appendOr() : self
     {
         $this->pattern .= '|';
@@ -123,9 +92,6 @@ final class PatternParserBuilder
         return $this;
     }
 
-    /**
-     * @return PatternParser
-     */
     public function toParser() : PatternParser
     {
         if ($this->stack) {

@@ -40,8 +40,6 @@ final class DayOfWeek implements \JsonSerializable
      * Returns a cached DayOfWeek instance.
      *
      * @param int $value The day-of-week value, validated from 1 to 7.
-     *
-     * @return DayOfWeek
      */
     private static function get(int $value) : DayOfWeek
     {
@@ -75,11 +73,6 @@ final class DayOfWeek implements \JsonSerializable
      * Returns the current day-of-week in the given time-zone, according to the given clock.
      *
      * If no clock is provided, the system clock is used.
-     *
-     * @param TimeZone   $timeZone
-     * @param Clock|null $clock
-     *
-     * @return DayOfWeek
      */
     public static function now(TimeZone $timeZone, ?Clock $clock = null) : DayOfWeek
     {
@@ -110,70 +103,56 @@ final class DayOfWeek implements \JsonSerializable
 
     /**
      * Returns a day-of-week instance for Monday.
-     *
-     * @return DayOfWeek
      */
-    public static function monday()
+    public static function monday() : DayOfWeek
     {
         return DayOfWeek::get(DayOfWeek::MONDAY);
     }
 
     /**
      * Returns a day-of-week instance for Tuesday.
-     *
-     * @return DayOfWeek
      */
-    public static function tuesday()
+    public static function tuesday() : DayOfWeek
     {
         return DayOfWeek::get(DayOfWeek::TUESDAY);
     }
 
     /**
      * Returns a day-of-week instance for Wednesday.
-     *
-     * @return DayOfWeek
      */
-    public static function wednesday()
+    public static function wednesday() : DayOfWeek
     {
         return DayOfWeek::get(DayOfWeek::WEDNESDAY);
     }
 
     /**
      * Returns a day-of-week instance for Thursday.
-     *
-     * @return DayOfWeek
      */
-    public static function thursday()
+    public static function thursday() : DayOfWeek
     {
         return DayOfWeek::get(DayOfWeek::THURSDAY);
     }
 
     /**
      * Returns a day-of-week instance for Friday.
-     *
-     * @return DayOfWeek
      */
-    public static function friday()
+    public static function friday() : DayOfWeek
     {
         return DayOfWeek::get(DayOfWeek::FRIDAY);
     }
 
     /**
      * Returns a day-of-week instance for Saturday.
-     *
-     * @return DayOfWeek
      */
-    public static function saturday()
+    public static function saturday() : DayOfWeek
     {
         return DayOfWeek::get(DayOfWeek::SATURDAY);
     }
 
     /**
      * Returns a day-of-week instance for Sunday.
-     *
-     * @return DayOfWeek
      */
-    public static function sunday()
+    public static function sunday() : DayOfWeek
     {
         return DayOfWeek::get(DayOfWeek::SUNDAY);
     }
@@ -206,10 +185,6 @@ final class DayOfWeek implements \JsonSerializable
      * Even though of() returns the same instance if the same day is requested several times,
      * do *not* use strict object comparison to compare two DayOfWeek instances,
      * as it is possible to get a different instance for the same day using serialization.
-     *
-     * @param DayOfWeek $that
-     *
-     * @return bool
      */
     public function isEqualTo(DayOfWeek $that) : bool
     {
@@ -218,10 +193,6 @@ final class DayOfWeek implements \JsonSerializable
 
     /**
      * Returns the DayOfWeek that is the specified number of days after this one.
-     *
-     * @param int $days
-     *
-     * @return DayOfWeek
      */
     public function plus(int $days) : DayOfWeek
     {
@@ -230,10 +201,6 @@ final class DayOfWeek implements \JsonSerializable
 
     /**
      * Returns the DayOfWeek that is the specified number of days before this one.
-     *
-     * @param int $days
-     *
-     * @return DayOfWeek
      */
     public function minus(int $days) : DayOfWeek
     {
@@ -242,8 +209,6 @@ final class DayOfWeek implements \JsonSerializable
 
     /**
      * Serializes as a string using {@see DayOfWeek::__toString()}.
-     *
-     * @return string
      */
     public function jsonSerialize() : string
     {
@@ -252,10 +217,8 @@ final class DayOfWeek implements \JsonSerializable
 
     /**
      * Returns the capitalized English name of this day-of-week.
-     *
-     * @return string
      */
-    public function __toString()
+    public function __toString() : string
     {
         return [
             1 => 'Monday',

@@ -19,8 +19,6 @@ final class DayOfWeek
     /**
      * @param int $dayOfWeek The day-of-week to check.
      *
-     * @return void
-     *
      * @throws DateTimeException If the day-of-week is not valid.
      */
     public static function check(int $dayOfWeek) : void

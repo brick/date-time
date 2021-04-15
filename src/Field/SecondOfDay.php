@@ -19,8 +19,6 @@ final class SecondOfDay
     /**
      * @param int $secondOfDay The second-of-day to check.
      *
-     * @return void
-     *
      * @throws DateTimeException If the second-of-day is not valid.
      */
     public static function check(int $secondOfDay) : void

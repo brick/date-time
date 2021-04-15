@@ -20,8 +20,6 @@ final class DayOfYear
      * @param int      $dayOfYear The day-of-year to check.
      * @param int|null $year      An optional year to check against, validated.
      *
-     * @return void
-     *
      * @throws DateTimeException If the day-of-year is not valid.
      */
     public static function check(int $dayOfYear, ?int $year = null) : void

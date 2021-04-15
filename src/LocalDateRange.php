@@ -21,20 +21,18 @@ final class LocalDateRange implements \IteratorAggregate, \Countable, \JsonSeria
     /**
      * The start date, inclusive.
      *
-     * @var \Brick\DateTime\LocalDate
+     * @var LocalDate
      */
     private $start;
 
     /**
      * The end date, inclusive.
      *
-     * @var \Brick\DateTime\LocalDate
+     * @var LocalDate
      */
     private $end;
 
     /**
-     * Class constructor.
-     *
      * @param LocalDate $start The start date, inclusive.
      * @param LocalDate $end   The end date, inclusive, validated as not before the start date.
      */
@@ -49,8 +47,6 @@ final class LocalDateRange implements \IteratorAggregate, \Countable, \JsonSeria
      *
      * @param LocalDate $start The start date, inclusive.
      * @param LocalDate $end   The end date, inclusive.
-     *
-     * @return LocalDateRange
      *
      * @throws DateTimeException If the end date is before the start date.
      */
@@ -67,10 +63,6 @@ final class LocalDateRange implements \IteratorAggregate, \Countable, \JsonSeria
      * Obtains an instance of `LocalDateRange` from a set of date-time fields.
      *
      * This method is only useful to parsers.
-     *
-     * @param DateTimeParseResult $result
-     *
-     * @return LocalDateRange
      *
      * @throws DateTimeException      If the date range is not valid.
      * @throws DateTimeParseException If required fields are missing from the result.
@@ -104,8 +96,6 @@ final class LocalDateRange implements \IteratorAggregate, \Countable, \JsonSeria
      * @param string              $text   The text to parse.
      * @param DateTimeParser|null $parser The parser to use, defaults to the ISO 8601 parser.
      *
-     * @return LocalDateRange
-     *
      * @throws DateTimeException      If either of the dates is not valid.
      * @throws DateTimeParseException If the text string does not follow the expected format.
      */
@@ -120,8 +110,6 @@ final class LocalDateRange implements \IteratorAggregate, \Countable, \JsonSeria
 
     /**
      * Returns the start date, inclusive.
-     *
-     * @return LocalDate
      */
     public function getStart() : LocalDate
     {
@@ -130,8 +118,6 @@ final class LocalDateRange implements \IteratorAggregate, \Countable, \JsonSeria
 
     /**
      * Returns the end date, inclusive.
-     *
-     * @return LocalDate
      */
     public function getEnd() : LocalDate
     {
@@ -165,10 +151,6 @@ final class LocalDateRange implements \IteratorAggregate, \Countable, \JsonSeria
 
     /**
      * Returns whether this LocalDateRange intersects with the given date range.
-     *
-     * @param LocalDateRange $that
-     *
-     * @return bool
      */
     public function intersectsWith(LocalDateRange $that) : bool
     {
@@ -180,10 +162,6 @@ final class LocalDateRange implements \IteratorAggregate, \Countable, \JsonSeria
 
     /**
      * Returns the intersection of this LocalDateRange with the given date range.
-     *
-     * @param LocalDateRange $that
-     *
-     * @return LocalDateRange
      *
      * @throws DateTimeException If the ranges do not intersect.
      */
@@ -223,8 +201,6 @@ final class LocalDateRange implements \IteratorAggregate, \Countable, \JsonSeria
 
     /**
      * Serializes as a string using {@see LocalDateRange::__toString()}.
-     *
-     * @return string
      */
     public function jsonSerialize() : string
     {
@@ -234,10 +210,8 @@ final class LocalDateRange implements \IteratorAggregate, \Countable, \JsonSeria
     /**
      * Converts this LocalDateRange to a native DatePeriod object.
      *
-     * The result is a DatePeriod->start with time 00:00 and a DatePeriod->end 
+     * The result is a DatePeriod->start with time 00:00 and a DatePeriod->end
      * with time 23:59:59.999999 in the UTC time-zone.
-     *
-     * @return \DatePeriod
      */
     public function toDatePeriod() : \DatePeriod
     {
@@ -250,8 +224,6 @@ final class LocalDateRange implements \IteratorAggregate, \Countable, \JsonSeria
 
     /**
      * Returns an ISO 8601 string representation of this date range.
-     *
-     * @return string
      */
     public function __toString() : string
     {

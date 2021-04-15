@@ -31,8 +31,6 @@ final class IsoParsers
 
     /**
      * Returns a parser for an ISO local date such as `2014-12-31`.
-     *
-     * @return PatternParser
      */
     public static function localDate() : PatternParser
     {
@@ -56,8 +54,6 @@ final class IsoParsers
      * Returns a parser for an ISO local time such as `10:15:30.123`.
      *
      * The second and fraction of second are optional.
-     *
-     * @return PatternParser
      */
     public static function localTime() : PatternParser
     {
@@ -87,8 +83,6 @@ final class IsoParsers
      * Returns a parser for an ISO local date-time such as `2014-12-31T10:15`.
      *
      * The second and fraction of second are optional.
-     *
-     * @return PatternParser
      */
     public static function localDateTime() : PatternParser
     {
@@ -108,8 +102,6 @@ final class IsoParsers
 
     /**
      * Returns a parser for a range of local dates such as `2014-01-05/2015-03-15`.
-     *
-     * @return PatternParser
      */
     public static function localDateRange() : PatternParser
     {
@@ -146,8 +138,6 @@ final class IsoParsers
      *
      * Note that ISO 8601 does not seem to define a format for year-month ranges, but we're using the same format as
      * date ranges here.
-     *
-     * @return PatternParser
      */
     public static function yearMonthRange() : PatternParser
     {
@@ -177,8 +167,6 @@ final class IsoParsers
 
     /**
      * Returns a parser for a year-month such as `2014-12`.
-     *
-     * @return PatternParser
      */
     public static function yearMonth() : PatternParser
     {
@@ -198,8 +186,6 @@ final class IsoParsers
 
     /**
      * Returns a parser for a month-day such as `12-31`.
-     *
-     * @return PatternParser
      */
     public static function monthDay() : PatternParser
     {
@@ -220,8 +206,6 @@ final class IsoParsers
 
     /**
      * Returns a parser for a time-zone offset such as `Z` or `+01:00`.
-     *
-     * @return PatternParser
      */
     public static function timeZoneOffset() : PatternParser
     {
@@ -252,8 +236,6 @@ final class IsoParsers
 
     /**
      * Returns a parser for a time-zone region such as `Europe/London`.
-     *
-     * @return PatternParser
      */
     public static function timeZoneRegion() : PatternParser
     {
@@ -271,8 +253,6 @@ final class IsoParsers
 
     /**
      * Returns a parser for an offset date-time such as `2004-01-31T12:45:56+01:00`.
-     *
-     * @return PatternParser
      */
     public static function offsetDateTime() : PatternParser
     {
@@ -291,8 +271,6 @@ final class IsoParsers
 
     /**
      * Returns a parser for a date-time with offset and zone such as `2011-12-03T10:15:30+01:00[Europe/Paris].
-     *
-     * @return PatternParser
      */
     public static function zonedDateTime() : PatternParser
     {

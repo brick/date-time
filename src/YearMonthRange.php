@@ -20,20 +20,18 @@ class YearMonthRange implements \IteratorAggregate, \Countable, \JsonSerializabl
     /**
      * The start year-month, inclusive.
      *
-     * @var \Brick\DateTime\YearMonth
+     * @var YearMonth
      */
     private $start;
 
     /**
      * The end year-month, inclusive.
      *
-     * @var \Brick\DateTime\YearMonth
+     * @var YearMonth
      */
     private $end;
 
     /**
-     * Class constructor.
-     *
      * @param YearMonth $start The start year-month, inclusive.
      * @param YearMonth $end   The end year-month, inclusive, validated as not before the start year-month.
      */
@@ -48,8 +46,6 @@ class YearMonthRange implements \IteratorAggregate, \Countable, \JsonSerializabl
      *
      * @param YearMonth $start The start year-month, inclusive.
      * @param YearMonth $end   The end year-month, inclusive.
-     *
-     * @return YearMonthRange
      *
      * @throws DateTimeException If the end year-month is before the start year-month.
      */
@@ -66,10 +62,6 @@ class YearMonthRange implements \IteratorAggregate, \Countable, \JsonSerializabl
      * Obtains an instance of `YearMonthRange` from a set of date-time fields.
      *
      * This method is only useful to parsers.
-     *
-     * @param DateTimeParseResult $result
-     *
-     * @return YearMonthRange
      *
      * @throws DateTimeException      If the year-month range is not valid.
      * @throws DateTimeParseException If required fields are missing from the result.
@@ -98,8 +90,6 @@ class YearMonthRange implements \IteratorAggregate, \Countable, \JsonSerializabl
      * @param string              $text   The text to parse.
      * @param DateTimeParser|null $parser The parser to use, defaults to the ISO 8601 parser.
      *
-     * @return YearMonthRange
-     *
      * @throws DateTimeException      If either of the year-months is not valid.
      * @throws DateTimeParseException If the text string does not follow the expected format.
      */
@@ -114,8 +104,6 @@ class YearMonthRange implements \IteratorAggregate, \Countable, \JsonSerializabl
 
     /**
      * Returns the start year-month, inclusive.
-     *
-     * @return YearMonth
      */
     public function getStart() : YearMonth
     {
@@ -124,8 +112,6 @@ class YearMonthRange implements \IteratorAggregate, \Countable, \JsonSerializabl
 
     /**
      * Returns the end year-month, inclusive.
-     *
-     * @return YearMonth
      */
     public function getEnd() : YearMonth
     {
@@ -182,8 +168,6 @@ class YearMonthRange implements \IteratorAggregate, \Countable, \JsonSerializabl
 
     /**
      * Serializes as a string using {@see YearMonthRange::__toString()}.
-     *
-     * @return string
      */
     public function jsonSerialize() : string
     {
@@ -195,8 +179,6 @@ class YearMonthRange implements \IteratorAggregate, \Countable, \JsonSerializabl
      *
      * ISO 8601 does not seem to provide a standard notation for year-month ranges, but we're using the same format as
      * date ranges.
-     *
-     * @return string
      */
     public function __toString() : string
     {

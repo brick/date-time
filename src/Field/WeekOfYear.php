@@ -20,9 +20,7 @@ final class WeekOfYear
 
     /**
      * @param int      $weekOfYear The week-of-year to check.
-     * @parma int|null $year       An optional year to check against, validated.
-     *
-     * @return void
+     * @param int|null $year       An optional year to check against, validated.
      *
      * @throws DateTimeException If the week-of-year is not valid.
      */

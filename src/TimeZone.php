@@ -17,11 +17,7 @@ abstract class TimeZone
     /**
      * Obtains an instance of `TimeZone` from a string representation.
      *
-     * @param string $text
-     *
-     * @return TimeZone
-     *
-     * @throws \Brick\DateTime\Parser\DateTimeParseException
+     * @throws DateTimeParseException
      */
     public static function parse(string $text) : TimeZone
     {
@@ -40,9 +36,6 @@ abstract class TimeZone
         return TimeZoneRegion::parse($text);
     }
 
-    /**
-     * @return TimeZoneOffset
-     */
     public static function utc() : TimeZoneOffset
     {
         return TimeZoneOffset::utc();
@@ -50,8 +43,6 @@ abstract class TimeZone
 
     /**
      * Returns the unique time-zone ID.
-     *
-     * @return string
      */
     abstract public function getId() : string;
 
@@ -64,29 +55,16 @@ abstract class TimeZone
      */
     abstract public function getOffset(Instant $pointInTime) : int;
 
-    /**
-     * @param TimeZone $other
-     *
-     * @return bool
-     */
     public function isEqualTo(TimeZone $other) : bool
     {
         return $this->getId() === $other->getId();
     }
 
-    /**
-     * @return string
-     */
     public function __toString() : string
     {
         return $this->getId();
     }
 
-    /**
-     * @param \DateTimeZone $dateTimeZone
-     *
-     * @return TimeZone
-     */
     public static function fromDateTimeZone(\DateTimeZone $dateTimeZone) : TimeZone
     {
         return TimeZone::parse($dateTimeZone->getName());
@@ -94,8 +72,6 @@ abstract class TimeZone
 
     /**
      * Returns an equivalent native `DateTimeZone` object for this TimeZone.
-     *
-     * @return \DateTimeZone The native DateTimeZone object.
      */
     abstract public function toDateTimeZone() : \DateTimeZone;
 }

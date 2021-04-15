@@ -30,8 +30,6 @@ final class YearMonth implements \JsonSerializable
     private $month;
 
     /**
-     * Class constructor.
-     *
      * @param int $year  The year, validated from MIN_YEAR to MAX_YEAR.
      * @param int $month The month, validated in the range 1 to 12.
      */
@@ -47,8 +45,6 @@ final class YearMonth implements \JsonSerializable
      * @param int $year  The year, from MIN_YEAR to MAX_YEAR.
      * @param int $month The month-of-year, from 1 (January) to 12 (December).
      *
-     * @return YearMonth
-     *
      * @throws DateTimeException
      */
     public static function of(int $year, int $month) : YearMonth
@@ -60,10 +56,6 @@ final class YearMonth implements \JsonSerializable
     }
 
     /**
-     * @param DateTimeParseResult $result
-     *
-     * @return YearMonth
-     *
      * @throws DateTimeException      If the year-month is not valid.
      * @throws DateTimeParseException If required fields are missing from the result.
      */
@@ -80,8 +72,6 @@ final class YearMonth implements \JsonSerializable
      *
      * @param string              $text   The text to parse, such as `2007-12`.
      * @param DateTimeParser|null $parser The parser to use, defaults to the ISO 8601 parser.
-     *
-     * @return YearMonth
      *
      * @throws DateTimeException      If the date is not valid.
      * @throws DateTimeParseException If the text string does not follow the expected format.
@@ -112,17 +102,11 @@ final class YearMonth implements \JsonSerializable
         return new YearMonth($localDate->getYear(), $localDate->getMonth());
     }
 
-    /**
-     * @return int
-     */
     public function getYear() : int
     {
         return $this->year;
     }
 
-    /**
-     * @return int
-     */
     public function getMonth() : int
     {
         return $this->month;
@@ -130,8 +114,6 @@ final class YearMonth implements \JsonSerializable
 
     /**
      * Returns whether the year is a leap year.
-     *
-     * @return bool
      */
     public function isLeapYear() : bool
     {
@@ -140,8 +122,6 @@ final class YearMonth implements \JsonSerializable
 
     /**
      * Returns the length of the month in days, taking account of the year.
-     *
-     * @return int
      */
     public function getLengthOfMonth() : int
     {
@@ -150,8 +130,6 @@ final class YearMonth implements \JsonSerializable
 
     /**
      * Returns the length of the year in days, either 365 or 366.
-     *
-     * @return int
      */
     public function getLengthOfYear() : int
     {
@@ -159,8 +137,6 @@ final class YearMonth implements \JsonSerializable
     }
 
     /**
-     * @param YearMonth $that
-     *
      * @return int [-1,0,1] If this year-month is before, on, or after the given year-month.
      */
     public function compareTo(YearMonth $that) : int
@@ -181,51 +157,26 @@ final class YearMonth implements \JsonSerializable
         return 0;
     }
 
-    /**
-     * @param YearMonth $that
-     *
-     * @return bool
-     */
     public function isEqualTo(YearMonth $that) : bool
     {
         return $this->compareTo($that) === 0;
     }
 
-    /**
-     * @param YearMonth $that
-     *
-     * @return bool
-     */
     public function isBefore(YearMonth $that) : bool
     {
         return $this->compareTo($that) === -1;
     }
 
-    /**
-     * @param YearMonth $that
-     *
-     * @return bool
-     */
     public function isBeforeOrEqualTo(YearMonth $that) : bool
     {
         return $this->compareTo($that) <= 0;
     }
 
-    /**
-     * @param YearMonth $that
-     *
-     * @return bool
-     */
     public function isAfter(YearMonth $that) : bool
     {
         return $this->compareTo($that) === 1;
     }
 
-    /**
-     * @param YearMonth $that
-     *
-     * @return bool
-     */
     public function isAfterOrEqualTo(YearMonth $that) : bool
     {
         return $this->compareTo($that) >= 0;
@@ -233,10 +184,6 @@ final class YearMonth implements \JsonSerializable
 
     /**
      * Returns a copy of this YearMonth with the year altered.
-     *
-     * @param int $year
-     *
-     * @return YearMonth
      *
      * @throws DateTimeException If the year is not valid.
      */
@@ -254,10 +201,6 @@ final class YearMonth implements \JsonSerializable
     /**
      * Returns a copy of this YearMonth with the month-of-year altered.
      *
-     * @param int $month
-     *
-     * @return YearMonth
-     *
      * @throws DateTimeException If the month-of-year is not valid.
      */
     public function withMonth(int $month) : YearMonth
@@ -271,17 +214,11 @@ final class YearMonth implements \JsonSerializable
         return new YearMonth($this->year, $month);
     }
 
-    /**
-     * @return LocalDate
-     */
     public function getFirstDay() : LocalDate
     {
         return $this->atDay(1);
     }
 
-    /**
-     * @return LocalDate
-     */
     public function getLastDay() : LocalDate
     {
         return $this->atDay($this->getLengthOfMonth());
@@ -303,10 +240,6 @@ final class YearMonth implements \JsonSerializable
 
     /**
      * Returns a copy of this YearMonth with the specified period in years added.
-     *
-     * @param int $years
-     *
-     * @return YearMonth
      */
     public function plusYears(int $years) : YearMonth
     {
@@ -319,10 +252,6 @@ final class YearMonth implements \JsonSerializable
 
     /**
      * Returns a copy of this YearMonth with the specified period in months added.
-     *
-     * @param int $months
-     *
-     * @return YearMonth
      */
     public function plusMonths(int $months) : YearMonth
     {
@@ -342,10 +271,6 @@ final class YearMonth implements \JsonSerializable
 
     /**
      * Returns a copy of this YearMonth with the specified period in years subtracted.
-     *
-     * @param int $years
-     *
-     * @return YearMonth
      */
     public function minusYears(int $years) : YearMonth
     {
@@ -354,10 +279,6 @@ final class YearMonth implements \JsonSerializable
 
     /**
      * Returns a copy of this YearMonth with the specified period in months subtracted.
-     *
-     * @param int $months
-     *
-     * @return YearMonth
      */
     public function minusMonths(int $months) : YearMonth
     {
@@ -366,8 +287,6 @@ final class YearMonth implements \JsonSerializable
 
     /**
      * Serializes as a string using {@see YearMonth::__toString()}.
-     *
-     * @return string
      */
     public function jsonSerialize() : string
     {
@@ -376,8 +295,6 @@ final class YearMonth implements \JsonSerializable
 
     /**
      * Returns the ISO 8601 representation of this YearMonth.
-     *
-     * @return string
      */
     public function __toString() : string
     {

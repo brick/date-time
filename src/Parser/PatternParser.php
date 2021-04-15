@@ -29,9 +29,6 @@ final class PatternParser implements DateTimeParser
         $this->fields  = $fields;
     }
 
-    /**
-     * @return string
-     */
     public function getPattern() : string
     {
         return $this->pattern;
@@ -45,9 +42,6 @@ final class PatternParser implements DateTimeParser
         return $this->fields;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function parse(string $text) : DateTimeParseResult
     {
         $pattern = '/^' . $this->pattern . '$/';

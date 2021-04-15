@@ -14,12 +14,6 @@ final class DateTimeParseResult
      */
     private $fields = [];
 
-    /**
-     * @param string $name
-     * @param string $value
-     *
-     * @return void
-     */
     public function addField(string $name, string $value) : void
     {
         $this->fields[$name][] = $value;
@@ -27,10 +21,6 @@ final class DateTimeParseResult
 
     /**
      * Returns whether this result has at least one value for the given field.
-     *
-     * @param string $name
-     *
-     * @return bool
      */
     public function hasField(string $name) : bool
     {
@@ -59,10 +49,6 @@ final class DateTimeParseResult
 
     /**
      * Returns the first value for the given field, or an empty string if not present.
-     *
-     * @param string $name
-     *
-     * @return string
      */
     public function getOptionalField(string $name) : string
     {

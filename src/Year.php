@@ -22,8 +22,6 @@ final class Year implements \JsonSerializable
     private $year;
 
     /**
-     * Class constructor.
-     *
      * @param int $year The year to represent, validated.
      */
     private function __construct(int $year)
@@ -32,10 +30,6 @@ final class Year implements \JsonSerializable
     }
 
     /**
-     * @param int $year
-     *
-     * @return Year
-     *
      * @throws DateTimeException If the year is out of range.
      */
     public static function of(int $year) : Year
@@ -49,20 +43,12 @@ final class Year implements \JsonSerializable
      * Returns the current year in the given time-zone, according to the given clock.
      *
      * If no clock is provided, the system clock is used.
-     *
-     * @param TimeZone   $timeZone
-     * @param Clock|null $clock
-     *
-     * @return Year
      */
     public static function now(TimeZone $timeZone, ?Clock $clock = null) : Year
     {
         return new Year(LocalDate::now($timeZone, $clock)->getYear());
     }
 
-    /**
-     * @return int
-     */
     public function getValue() : int
     {
         return $this->year;
@@ -78,19 +64,12 @@ final class Year implements \JsonSerializable
      *
      * The calculation is proleptic - applying the same rules into the far future and far past.
      * This is historically inaccurate, but is correct for the ISO-8601 standard.
-     *
-     * @return bool
      */
     public function isLeap() : bool
     {
         return Field\Year::isLeap($this->year);
     }
 
-    /**
-     * @param MonthDay $monthDay
-     *
-     * @return bool
-     */
     public function isValidMonthDay(MonthDay $monthDay) : bool
     {
         return $monthDay->isValidYear($this->year);
@@ -245,8 +224,6 @@ final class Year implements \JsonSerializable
      * in the resulting date if the year is not a leap year.
      *
      * @param MonthDay $monthDay The month-day to use.
-     *
-     * @return LocalDate
      */
     public function atMonthDay(MonthDay $monthDay) : LocalDate
     {
@@ -255,17 +232,12 @@ final class Year implements \JsonSerializable
 
     /**
      * Serializes as a string using {@see Year::__toString()}.
-     *
-     * @return string
      */
     public function jsonSerialize() : string
     {
         return (string) $this;
     }
 
-    /**
-     * @return string
-     */
     public function __toString() : string
     {
         return (string) $this->year;

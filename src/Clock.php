@@ -8,8 +8,6 @@ interface Clock
 {
     /**
      * Returns the current time.
-     *
-     * @return Instant
      */
     public function getTime() : Instant;
 }

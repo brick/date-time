@@ -114,10 +114,6 @@ final class Month implements \JsonSerializable
 
     /**
      * Returns whether this Month equals another Month.
-     *
-     * @param Month $that
-     *
-     * @return bool
      */
     public function isEqualTo(Month $that) : bool
     {
@@ -169,10 +165,6 @@ final class Month implements \JsonSerializable
      *
      * This returns the day-of-year that this month begins on, using the leap
      * year flag to determine the length of February.
-     *
-     * @param bool $leapYear
-     *
-     * @return int
      */
     public function getFirstDayOfYear(bool $leapYear) : int
     {
@@ -214,10 +206,6 @@ final class Month implements \JsonSerializable
      * February has 28 days in a standard year and 29 days in a leap year.
      * April, June, September and November have 30 days.
      * All other months have 31 days.
-     *
-     * @param bool $leapYear
-     *
-     * @return int
      */
     public function getLength(bool $leapYear) : int
     {
@@ -239,10 +227,6 @@ final class Month implements \JsonSerializable
      *
      * The calculation rolls around the end of the year from December to January.
      * The specified period may be negative.
-     *
-     * @param int $months
-     *
-     * @return Month
      */
     public function plus(int $months) : Month
     {
@@ -254,10 +238,6 @@ final class Month implements \JsonSerializable
      *
      * The calculation rolls around the start of the year from January to December.
      * The specified period may be negative.
-     *
-     * @param int $months
-     *
-     * @return Month
      */
     public function minus(int $months) : Month
     {
@@ -266,8 +246,6 @@ final class Month implements \JsonSerializable
 
     /**
      * Serializes as a string using {@see Month::__toString()}.
-     *
-     * @return string
      */
     public function jsonSerialize() : string
     {
@@ -276,10 +254,8 @@ final class Month implements \JsonSerializable
 
     /**
      * Returns the capitalized English name of this Month.
-     *
-     * @return string
      */
-    public function __toString()
+    public function __toString() : string
     {
         return [
             1  => 'January',
