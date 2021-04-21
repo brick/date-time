@@ -52,7 +52,10 @@ final class Month implements \JsonSerializable
      */
     private static function get(int $value) : Month
     {
-        /** @var array<int, Month> $values */
+        /**
+         * @var array<int, Month> $values
+         * @psalm-suppress ImpureStaticVariable Caching only
+         */
         static $values = [];
 
         if (! isset($values[$value])) {

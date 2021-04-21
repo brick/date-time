@@ -49,6 +49,8 @@ final class MonthDay implements \JsonSerializable
      * @param int $day   The day-of-month, from 1 to 31.
      *
      * @throws DateTimeException If the month-day is not valid.
+     *
+     * @psalm-pure
      */
     public static function of(int $month, int $day) : MonthDay
     {
@@ -61,6 +63,8 @@ final class MonthDay implements \JsonSerializable
     /**
      * @throws DateTimeException      If the month-day is not valid.
      * @throws DateTimeParseException If required fields are missing from the result.
+     *
+     * @psalm-pure
      */
     public static function from(DateTimeParseResult $result) : MonthDay
     {

@@ -24,7 +24,9 @@ final class TimeZoneOffset extends TimeZone
     /**
      * The string representation of this time-zone offset.
      *
-     * @var string
+     * @var string|null
+     *
+     * @psalm-allow-private-mutation
      */
     private $id;
 
@@ -36,14 +38,6 @@ final class TimeZoneOffset extends TimeZone
     private function __construct(int $totalSeconds)
     {
         $this->totalSeconds = $totalSeconds;
-
-        if ($this->totalSeconds < 0) {
-            $this->id = '-' . LocalTime::ofSecondOfDay(- $this->totalSeconds);
-        } elseif ($this->totalSeconds > 0) {
-            $this->id = '+' . LocalTime::ofSecondOfDay($this->totalSeconds);
-        } else {
-            $this->id = 'Z';
-        }
     }
 
     /**
@@ -56,6 +50,8 @@ final class TimeZoneOffset extends TimeZone
      * @param int $seconds The time-zone offset in seconds, from 0 to 59, sign matching hours and minute.
      *
      * @throws DateTimeException If the values are not in range or the signs don't match.
+     *
+     * @psalm-pure
      */
     public static function of(int $hours, int $minutes = 0, int $seconds = 0) : TimeZoneOffset
     {
@@ -110,6 +106,8 @@ final class TimeZoneOffset extends TimeZone
     /**
      * @throws DateTimeException      If the offset is not valid.
      * @throws DateTimeParseException If required fields are missing from the result.
+     *
+     * @psalm-mutation-free
      */
     public static function from(DateTimeParseResult $result) : TimeZoneOffset
     {
@@ -174,6 +172,15 @@ final class TimeZoneOffset extends TimeZone
 
     public function getId() : string
     {
+        if ($this->id === null) {
+            if ($this->totalSeconds < 0) {
+                $this->id = '-' . LocalTime::ofSecondOfDay(- $this->totalSeconds);
+            } elseif ($this->totalSeconds > 0) {
+                $this->id = '+' . LocalTime::ofSecondOfDay($this->totalSeconds);
+            } else {
+                $this->id = 'Z';
+            }
+        }
         return $this->id;
     }
 

@@ -148,6 +148,8 @@ class ZonedDateTime implements \JsonSerializable
      * Returns the current date-time in the given time-zone, according to the given clock.
      *
      * If no clock is provided, the system clock is used.
+     *
+     * @psalm-mutation-free
      */
     public static function now(TimeZone $timeZone, ?Clock $clock = null) : ZonedDateTime
     {
@@ -161,6 +163,8 @@ class ZonedDateTime implements \JsonSerializable
      *
      * @throws DateTimeException      If the zoned date-time is not valid.
      * @throws DateTimeParseException If required fields are missing from the result.
+     *
+     * @psalm-mutation-free
      */
     public static function from(DateTimeParseResult $result) : ZonedDateTime
     {

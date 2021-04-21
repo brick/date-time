@@ -125,7 +125,7 @@ final class LocalTime implements \JsonSerializable
      * @throws DateTimeException      If the time is not valid.
      * @throws DateTimeParseException If required fields are missing from the result.
      *
-     * @psalm-pure
+     * @psalm-mutation-free
      */
     public static function from(DateTimeParseResult $result) : LocalTime
     {

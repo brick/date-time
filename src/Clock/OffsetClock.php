@@ -37,6 +37,9 @@ final class OffsetClock implements Clock
         $this->offset         = $offset;
     }
 
+    /**
+     * @psalm-mutation-free
+     */
     public function getTime() : Instant
     {
         return $this->referenceClock->getTime()->plus($this->offset);

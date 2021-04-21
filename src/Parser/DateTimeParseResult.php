@@ -21,6 +21,8 @@ final class DateTimeParseResult
 
     /**
      * Returns whether this result has at least one value for the given field.
+     *
+     * @psalm-mutation-free
      */
     public function hasField(string $name) : bool
     {
@@ -35,8 +37,6 @@ final class DateTimeParseResult
      * @return string The value for this field.
      *
      * @throws DateTimeParseException If the field is not present in this set.
-     *
-     * @psalm-mutation-free
      */
     public function getField(string $name) : string
     {

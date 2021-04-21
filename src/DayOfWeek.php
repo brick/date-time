@@ -47,7 +47,10 @@ final class DayOfWeek implements \JsonSerializable
      */
     private static function get(int $value) : DayOfWeek
     {
-        /** @var array<int, DayOfWeek> $values */
+        /**
+         * @var array<int, DayOfWeek> $values
+         * @psalm-suppress ImpureStaticVariable only used to cache results
+         */
         static $values = [];
 
         if (! isset($values[$value])) {

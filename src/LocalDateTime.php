@@ -58,6 +58,8 @@ final class LocalDateTime implements \JsonSerializable
      * Returns the current local date-time in the given time-zone, according to the given clock.
      *
      * If no clock is provided, the system clock is used.
+     *
+     * @psalm-mutation-free
      */
     public static function now(TimeZone $timeZone, ?Clock $clock = null) : LocalDateTime
     {
@@ -68,7 +70,7 @@ final class LocalDateTime implements \JsonSerializable
      * @throws DateTimeException      If the date-time is not valid.
      * @throws DateTimeParseException If required fields are missing from the result.
      *
-     * @psalm-pure
+     * @psalm-mutation-free
      */
     public static function from(DateTimeParseResult $result) : LocalDateTime
     {
