@@ -50,7 +50,6 @@ It is therefore safe to lock your project to a given release cycle, such as `0.2
 
 If you need to upgrade to a newer release cycle, check the [release history](https://github.com/brick/date-time/releases) for a list of changes introduced by each further `0.x.0` version.
 
-
 Overview
 --------
 
@@ -192,3 +191,7 @@ The following exceptions can be thrown:
 
 - `Brick\DateTime\DateTimeException` when an illegal operation is performed
 - `Brick\DateTime\Parser\DateTimeParseException` when `parse()`ing an invalid string representation
+
+### Doctrine mappings
+
+You can use `brick/date-time` types in your Doctrine entities using the [brick/date-time-doctrine](https://github.com/brick/date-time-doctrine) package.
