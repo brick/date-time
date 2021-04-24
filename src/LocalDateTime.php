@@ -14,6 +14,8 @@ use Brick\DateTime\Utility\Math;
  * A date-time without a time-zone in the ISO-8601 calendar system, such as 2007-12-03T10:15:30.
  *
  * This class is immutable.
+ *
+ * @psalm-immutable
  */
 final class LocalDateTime implements \JsonSerializable
 {
@@ -56,6 +58,8 @@ final class LocalDateTime implements \JsonSerializable
      * Returns the current local date-time in the given time-zone, according to the given clock.
      *
      * If no clock is provided, the system clock is used.
+     *
+     * @psalm-mutation-free
      */
     public static function now(TimeZone $timeZone, ?Clock $clock = null) : LocalDateTime
     {
@@ -65,6 +69,8 @@ final class LocalDateTime implements \JsonSerializable
     /**
      * @throws DateTimeException      If the date-time is not valid.
      * @throws DateTimeParseException If required fields are missing from the result.
+     *
+     * @psalm-mutation-free
      */
     public static function from(DateTimeParseResult $result) : LocalDateTime
     {
@@ -374,6 +380,8 @@ final class LocalDateTime implements \JsonSerializable
      * @param TimeZone $zone The zime-zone to use.
      *
      * @return ZonedDateTime The zoned date-time formed from this date-time.
+     *
+     * @psalm-mutation-free
      */
     public function atTimeZone(TimeZone $zone) : ZonedDateTime
     {
@@ -726,6 +734,8 @@ final class LocalDateTime implements \JsonSerializable
      *
      * Note that the native DateTime object supports a precision up to the microsecond,
      * so the nanoseconds are rounded down to the nearest microsecond.
+     *
+     * @psalm-mutation-free
      */
     public function toDateTime() : \DateTime
     {

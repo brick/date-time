@@ -12,6 +12,8 @@ use ArithmeticError;
  * Represents a duration of time measured in seconds.
  *
  * This class is immutable.
+ *
+ * @psalm-immutable
  */
 final class Duration implements \JsonSerializable
 {
@@ -145,6 +147,8 @@ final class Duration implements \JsonSerializable
      *
      * @param int $seconds        The number of seconds of the duration.
      * @param int $nanoAdjustment The adjustment to the duration in nanoseconds.
+     *
+     * @psalm-pure
      */
     public static function ofSeconds(int $seconds, int $nanoAdjustment = 0) : Duration
     {
@@ -211,6 +215,8 @@ final class Duration implements \JsonSerializable
      *
      * @param Instant $startInclusive The start instant, inclusive.
      * @param Instant $endExclusive   The end instant, exclusive.
+     *
+     * @psalm-pure
      */
     public static function between(Instant $startInclusive, Instant $endExclusive) : Duration
     {

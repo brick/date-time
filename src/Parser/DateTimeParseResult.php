@@ -21,6 +21,8 @@ final class DateTimeParseResult
 
     /**
      * Returns whether this result has at least one value for the given field.
+     *
+     * @psalm-mutation-free
      */
     public function hasField(string $name) : bool
     {

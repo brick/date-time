@@ -14,6 +14,8 @@ use Brick\DateTime\Utility\Math;
  * A date without a time-zone in the ISO-8601 calendar system, such as `2007-12-03`.
  *
  * This class is immutable.
+ *
+ * @psalm-immutable
  */
 final class LocalDate implements \JsonSerializable
 {
@@ -80,6 +82,8 @@ final class LocalDate implements \JsonSerializable
      * @param int $day   The day-of-month, from 1 to 31.
      *
      * @throws DateTimeException If the date is not valid.
+     *
+     * @psalm-pure
      */
     public static function of(int $year, int $month, int $day) : LocalDate
     {
@@ -97,6 +101,8 @@ final class LocalDate implements \JsonSerializable
      * @param int $dayOfYear The day-of-year, from 1 to 366.
      *
      * @throws DateTimeException If either value is not valid.
+     *
+     * @psalm-pure
      */
     public static function ofYearDay(int $year, int $dayOfYear) : LocalDate
     {
@@ -120,6 +126,8 @@ final class LocalDate implements \JsonSerializable
     /**
      * @throws DateTimeException      If the date is not valid.
      * @throws DateTimeParseException If required fields are missing from the result.
+     *
+     * @psalm-pure
      */
     public static function from(DateTimeParseResult $result) : LocalDate
     {
@@ -167,6 +175,8 @@ final class LocalDate implements \JsonSerializable
      * where day 0 is 1970-01-01. Negative numbers represent earlier days.
      *
      * @throws DateTimeException If the resulting date has a year out of range.
+     *
+     * @psalm-pure
      */
     public static function ofEpochDay(int $epochDay) : LocalDate
     {
@@ -206,6 +216,8 @@ final class LocalDate implements \JsonSerializable
      * Returns the current date in the given time-zone, according to the given clock.
      *
      * If no clock is provided, the system clock is used.
+     *
+     * @psalm-mutation-free
      */
     public static function now(TimeZone $timeZone, ?Clock $clock = null) : LocalDate
     {

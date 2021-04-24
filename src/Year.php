@@ -8,6 +8,8 @@ use Brick\DateTime\Field;
 
 /**
  * Represents a year in the proleptic calendar.
+ *
+ * @psalm-immutable
  */
 final class Year implements \JsonSerializable
 {
@@ -31,6 +33,8 @@ final class Year implements \JsonSerializable
 
     /**
      * @throws DateTimeException If the year is out of range.
+     *
+     * @psalm-pure
      */
     public static function of(int $year) : Year
     {

@@ -25,6 +25,8 @@ final class TimeZoneOffsetSecond
      * @param int $offsetSecond The offset-second to check.
      *
      * @throws DateTimeException If the offset-second is not valid.
+     *
+     * @psalm-pure
      */
     public static function check(int $offsetSecond) : void
     {

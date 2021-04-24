@@ -11,6 +11,8 @@ use Brick\DateTime\Parser\IsoParsers;
 
 /**
  * A geographical region where the same time-zone rules apply, such as `Europe/London`.
+ *
+ * @psalm-immutable
  */
 final class TimeZoneRegion extends TimeZone
 {
@@ -33,6 +35,8 @@ final class TimeZoneRegion extends TimeZone
      * @param string $id The region id.
      *
      * @throws DateTimeException If the region id is invalid.
+     *
+     * @psalm-pure
      */
     public static function of(string $id) : TimeZoneRegion
     {
@@ -51,6 +55,8 @@ final class TimeZoneRegion extends TimeZone
     /**
      * @throws DateTimeException      If the region is not valid.
      * @throws DateTimeParseException If required fields are missing from the result.
+     *
+     * @psalm-mutation-free
      */
     public static function from(DateTimeParseResult $result) : TimeZoneRegion
     {

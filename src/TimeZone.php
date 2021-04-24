@@ -11,6 +11,8 @@ use Brick\DateTime\Parser\DateTimeParseException;
  *
  * * `TimeZoneOffset` represents a fixed offset from UTC such as `+02:00`.
  * * `TimeZoneRegion` represents a geographical region such as `Europe/London`.
+ *
+ * @psalm-immutable
  */
 abstract class TimeZone
 {
@@ -36,6 +38,9 @@ abstract class TimeZone
         return TimeZoneRegion::parse($text);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function utc() : TimeZoneOffset
     {
         return TimeZoneOffset::utc();

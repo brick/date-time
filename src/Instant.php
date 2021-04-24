@@ -19,6 +19,8 @@ final class Instant implements \JsonSerializable
      * The number of seconds since the epoch of 1970-01-01T00:00:00Z.
      *
      * @var int
+     *
+     * @psalm-readonly
      */
     private $epochSecond;
 
@@ -26,6 +28,8 @@ final class Instant implements \JsonSerializable
      * The nanoseconds adjustment to the epoch second, in the range 0 to 999,999,999.
      *
      * @var int
+     *
+     * @psalm-readonly
      */
     private $nano;
 
@@ -34,6 +38,8 @@ final class Instant implements \JsonSerializable
      *
      * @param int $epochSecond The epoch second.
      * @param int $nano        The nanosecond adjustment, validated in the range 0 to 999,999,999.
+     *
+     * @psalm-mutation-free
      */
     private function __construct(int $epochSecond, int $nano)
     {
@@ -55,6 +61,8 @@ final class Instant implements \JsonSerializable
      *
      * @param int $epochSecond    The number of seconds since the UNIX epoch of 1970-01-01T00:00:00Z.
      * @param int $nanoAdjustment The adjustment to the epoch second in nanoseconds.
+     *
+     * @psalm-pure
      */
     public static function of(int $epochSecond, int $nanoAdjustment = 0) : Instant
     {
@@ -70,11 +78,17 @@ final class Instant implements \JsonSerializable
         return new Instant($epochSecond, $nanos);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function epoch() : Instant
     {
         return new Instant(0, 0);
     }
 
+    /**
+     * @psalm-mutation-free
+     */
     public static function now(?Clock $clock = null) : Instant
     {
         if ($clock === null) {
@@ -88,6 +102,8 @@ final class Instant implements \JsonSerializable
      * Returns the minimum supported instant.
      *
      * This could be used by an application as a "far past" instant.
+     *
+     * @psalm-pure
      */
     public static function min() : Instant
     {
@@ -98,12 +114,17 @@ final class Instant implements \JsonSerializable
      * Returns the maximum supported instant.
      *
      * This could be used by an application as a "far future" instant.
+     *
+     * @psalm-pure
      */
     public static function max() : Instant
     {
         return new Instant(\PHP_INT_MAX, 999999999);
     }
 
+    /**
+     * @psalm-mutation-free
+     */
     public function plus(Duration $duration) : Instant
     {
         if ($duration->isZero()) {
@@ -116,6 +137,9 @@ final class Instant implements \JsonSerializable
         return Instant::of($seconds, $nanos);
     }
 
+    /**
+     * @psalm-mutation-free
+     */
     public function minus(Duration $duration) : Instant
     {
         if ($duration->isZero()) {
@@ -125,6 +149,9 @@ final class Instant implements \JsonSerializable
         return $this->plus($duration->negated());
     }
 
+    /**
+     * @psalm-mutation-free
+     */
     public function plusSeconds(int $seconds) : Instant
     {
         if ($seconds === 0) {
@@ -134,31 +161,49 @@ final class Instant implements \JsonSerializable
         return new Instant($this->epochSecond + $seconds, $this->nano);
     }
 
+    /**
+     * @psalm-mutation-free
+     */
     public function minusSeconds(int $seconds) : Instant
     {
         return $this->plusSeconds(-$seconds);
     }
 
+    /**
+     * @psalm-mutation-free
+     */
     public function plusMinutes(int $minutes) : Instant
     {
         return $this->plusSeconds($minutes * LocalTime::SECONDS_PER_MINUTE);
     }
 
+    /**
+     * @psalm-mutation-free
+     */
     public function minusMinutes(int $minutes) : Instant
     {
         return $this->plusMinutes(-$minutes);
     }
 
+    /**
+     * @psalm-mutation-free
+     */
     public function plusHours(int $hours) : Instant
     {
         return $this->plusSeconds($hours * LocalTime::SECONDS_PER_HOUR);
     }
 
+    /**
+     * @psalm-mutation-free
+     */
     public function minusHours(int $hours) : Instant
     {
         return $this->plusHours(-$hours);
     }
 
+    /**
+     * @psalm-mutation-free
+     */
     public function plusDays(int $days) : Instant
     {
         return $this->plusSeconds($days * LocalTime::SECONDS_PER_DAY);
@@ -166,6 +211,8 @@ final class Instant implements \JsonSerializable
 
     /**
      * Returns a copy of this Instant with the epoch second altered.
+     *
+     * @psalm-mutation-free
      */
     public function withEpochSecond(int $epochSecond) : Instant
     {
@@ -180,6 +227,8 @@ final class Instant implements \JsonSerializable
      * Returns a copy of this Instant with the nano-of-second altered.
      *
      * @throws DateTimeException If the nano-of-second if not valid.
+     *
+     * @psalm-mutation-free
      */
     public function withNano(int $nano) : Instant
     {
@@ -192,16 +241,25 @@ final class Instant implements \JsonSerializable
         return new Instant($this->epochSecond, $nano);
     }
 
+    /**
+     * @psalm-mutation-free
+     */
     public function minusDays(int $days) : Instant
     {
         return $this->plusDays(-$days);
     }
 
+    /**
+     * @psalm-mutation-free
+     */
     public function getEpochSecond() : int
     {
         return $this->epochSecond;
     }
 
+    /**
+     * @psalm-mutation-free
+     */
     public function getNano() : int
     {
         return $this->nano;
@@ -211,6 +269,8 @@ final class Instant implements \JsonSerializable
      * Compares this instant with another.
      *
      * @return int [-1,0,1] If this instant is before, on, or after the given instant.
+     *
+     * @psalm-mutation-free
      */
     public function compareTo(Instant $that) : int
     {
@@ -231,6 +291,8 @@ final class Instant implements \JsonSerializable
 
     /**
      * Returns whether this instant equals another.
+     *
+     * @psalm-mutation-free
      */
     public function isEqualTo(Instant $that) : bool
     {
@@ -239,6 +301,8 @@ final class Instant implements \JsonSerializable
 
     /**
      * Returns whether this instant is after another.
+     *
+     * @psalm-mutation-free
      */
     public function isAfter(Instant $that) : bool
     {
@@ -247,6 +311,8 @@ final class Instant implements \JsonSerializable
 
     /**
      * Returns whether this instant is after or equal to another.
+     *
+     * @psalm-mutation-free
      */
     public function isAfterOrEqualTo(Instant $that) : bool
     {
@@ -255,6 +321,8 @@ final class Instant implements \JsonSerializable
 
     /**
      * Returns whether this instant is before another.
+     *
+     * @psalm-mutation-free
      */
     public function isBefore(Instant $that) : bool
     {
@@ -263,17 +331,25 @@ final class Instant implements \JsonSerializable
 
     /**
      * Returns whether this instant is before or equal to another.
+     *
+     * @psalm-mutation-free
      */
     public function isBeforeOrEqualTo(Instant $that) : bool
     {
         return $this->compareTo($that) <= 0;
     }
 
+    /**
+     * @psalm-mutation-free
+     */
     public function isBetweenInclusive(Instant $from, Instant $to) : bool
     {
         return $this->isAfterOrEqualTo($from) && $this->isBeforeOrEqualTo($to);
     }
 
+    /**
+     * @psalm-mutation-free
+     */
     public function isBetweenExclusive(Instant $from, Instant $to) : bool
     {
         return $this->isAfter($from) && $this->isBefore($to);
@@ -283,6 +359,8 @@ final class Instant implements \JsonSerializable
      * Returns whether this instant is in the future, according to the given clock.
      *
      * If no clock is provided, the system clock is used.
+     *
+     * @psalm-mutation-free
      */
     public function isFuture(?Clock $clock = null) : bool
     {
@@ -293,6 +371,8 @@ final class Instant implements \JsonSerializable
      * Returns whether this instant is in the past, according to the given clock.
      *
      * If no clock is provided, the system clock is used.
+     *
+     * @psalm-mutation-free
      */
     public function isPast(?Clock $clock = null) : bool
     {
@@ -301,6 +381,8 @@ final class Instant implements \JsonSerializable
 
     /**
      * Returns a ZonedDateTime formed from this instant and the specified time-zone.
+     *
+     * @psalm-mutation-free
      */
     public function atTimeZone(TimeZone $timeZone) : ZonedDateTime
     {
@@ -313,6 +395,8 @@ final class Instant implements \JsonSerializable
      * The output does not have trailing decimal zeros.
      *
      * Examples: `123456789`, `123456789.5`, `123456789.000000001`.
+     *
+     * @psalm-mutation-free
      */
     public function toDecimal() : string
     {
@@ -331,12 +415,17 @@ final class Instant implements \JsonSerializable
 
     /**
      * Serializes as a string using {@see Instant::__toString()}.
+     *
+     * @psalm-mutation-free
      */
     public function jsonSerialize() : string
     {
         return (string) $this;
     }
 
+    /**
+     * @psalm-mutation-free
+     */
     public function __toString() : string
     {
         return (string) ZonedDateTime::ofInstant($this, TimeZone::utc());

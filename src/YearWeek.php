@@ -6,6 +6,8 @@ namespace Brick\DateTime;
 
 /**
  * Represents the combination of a year and a week.
+ *
+ * @psalm-immutable
  */
 final class YearWeek implements \JsonSerializable
 {
@@ -40,6 +42,8 @@ final class YearWeek implements \JsonSerializable
      * @param int $week The week number, from 1 to 53.
      *
      * @throws DateTimeException
+     *
+     * @psalm-pure
      */
     public static function of(int $year, int $week) : YearWeek
     {

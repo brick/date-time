@@ -8,6 +8,8 @@ namespace Brick\DateTime;
  * A date-based amount of time in the ISO-8601 calendar system, such as '2 years, 3 months and 4 days'.
  *
  * This class is immutable.
+ *
+ * @psalm-immutable
  */
 final class Period implements \JsonSerializable
 {
@@ -46,6 +48,8 @@ final class Period implements \JsonSerializable
      * @param int $years  The number of years.
      * @param int $months The number of months.
      * @param int $days   The number of days.
+     *
+     * @psalm-pure
      */
     public static function of(int $years, int $months, int $days) : Period
     {
@@ -267,6 +271,8 @@ final class Period implements \JsonSerializable
 
     /**
      * Returns a new instance with each amount in this Period negated.
+     *
+     * @psalm-mutation-free
      */
     public function negated() : Period
     {

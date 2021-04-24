@@ -6,6 +6,8 @@ namespace Brick\DateTime\Parser;
 
 /**
  * Matches a regular expression pattern to a set of date-time fields.
+ *
+ * @psalm-immutable
  */
 final class PatternParser implements DateTimeParser
 {

@@ -25,6 +25,8 @@ final class TimeZoneOffsetMinute
      * @param int $offsetMinute The offset-minute to check.
      *
      * @throws DateTimeException If the offset-minute is not valid.
+     *
+     * @psalm-pure
      */
     public static function check(int $offsetMinute) : void
     {

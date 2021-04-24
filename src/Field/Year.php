@@ -35,6 +35,8 @@ final class Year
      * @param int $year The year to check.
      *
      * @throws DateTimeException If the year is not valid.
+     *
+     * @psalm-pure
      */
     public static function check(int $year) : void
     {
@@ -45,6 +47,8 @@ final class Year
 
     /**
      * @param int $year The year, validated.
+     *
+     * @psalm-pure
      */
     public static function isLeap(int $year) : bool
     {

@@ -10,11 +10,15 @@ use ArithmeticError;
  * Internal utility class for calculations on integers.
  *
  * @internal
+ *
+ * @psalm-immutable
  */
 final class Math
 {
     /**
      * @throws ArithmeticError
+     *
+     * @psalm-pure
      */
     public static function addExact(int $a, int $b) : int
     {
@@ -29,6 +33,8 @@ final class Math
 
     /**
      * @throws ArithmeticError
+     *
+     * @psalm-pure
      */
     public static function multiplyExact(int $a, int $b) : int
     {
@@ -46,6 +52,8 @@ final class Math
      *
      * @param int $a The first argument.
      * @param int $b The second argument, non-zero.
+     *
+     * @psalm-pure
      */
     public static function floorDiv(int $a, int $b) : int
     {
@@ -67,6 +75,8 @@ final class Math
      *
      * @param int $a The first argument.
      * @param int $b The second argument, non-zero.
+     *
+     * @psalm-pure
      */
     public static function floorMod(int $a, int $b) : int
     {

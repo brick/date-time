@@ -27,6 +27,8 @@ final class DayOfMonth
      * @param int|null $year        An optional year to check against, validated.
      *
      * @throws DateTimeException If the day-of-month is not valid.
+     *
+     * @psalm-pure
      */
     public static function check(int $dayOfMonth, ?int $monthOfYear = null, ?int $year = null) : void
     {

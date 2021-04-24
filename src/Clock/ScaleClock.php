@@ -50,6 +50,9 @@ final class ScaleClock implements Clock
         $this->timeScale      = $timeScale;
     }
 
+    /**
+     * @psalm-mutation-free
+     */
     public function getTime() : Instant
     {
         $duration = Duration::between($this->startTime, $this->referenceClock->getTime());

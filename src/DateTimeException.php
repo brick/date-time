@@ -14,12 +14,17 @@ class DateTimeException extends \RuntimeException
      * @param int    $value  The actual value.
      * @param int    $min    The minimum allowed value.
      * @param int    $max    The maximum allowed value.
+     *
+     * @psalm-pure
      */
     public static function fieldNotInRange(string $field, int $value, int $min, int $max) : self
     {
         return new DateTimeException("Invalid $field: $value is not in the range $min to $max.");
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function unknownTimeZoneRegion(string $region) : self
     {
         return new self(\sprintf('Unknown time zone region "%s".', $region));
