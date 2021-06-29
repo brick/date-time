@@ -177,6 +177,30 @@ final class LocalDateRange implements \IteratorAggregate, \Countable, \JsonSeria
     }
 
     /**
+     * @throws DateTimeException If the start date is after the end date.
+     */
+    public function withStart(LocalDate $start): LocalDateRange
+    {
+        if ($start->isEqualTo($this->start)) {
+            return $this;
+        }
+
+        return LocalDateRange::of($start, $this->end);
+    }
+
+    /**
+     * @throws DateTimeException If the end date is before the start date.
+     */
+    public function withEnd(LocalDate $end): LocalDateRange
+    {
+        if ($end->isEqualTo($this->end)) {
+            return $this;
+        }
+
+        return LocalDateRange::of($this->start, $end);
+    }
+
+    /**
      * Returns an iterator for all the dates contained in this range.
      *
      * @return \Generator<LocalDate>

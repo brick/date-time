@@ -295,4 +295,65 @@ class LocalDateRangeTest extends AbstractTestCase
 
         $aRange->getIntersectionWith($bRange);
     }
+
+    /**
+     * @dataProvider providerWithStart
+     */
+    public function testWithStart(string $originalRange, string $start, ?string $expectedRange): void
+    {
+        $originalRange = LocalDateRange::parse($originalRange);
+
+        if ($expectedRange === null) {
+            $this->expectException(DateTimeException::class);
+        }
+
+        $actualRange = $originalRange->withStart(LocalDate::parse($start));
+
+        if ($expectedRange !== null) {
+            $this->assertSame($expectedRange, (string) $actualRange);
+        }
+    }
+
+    public function providerWithStart(): array
+    {
+        return [
+            ['2021-06-15/2021-07-07', '2021-05-29', '2021-05-29/2021-07-07'],
+            ['2021-06-15/2021-07-07', '2021-06-14', '2021-06-14/2021-07-07'],
+            ['2021-06-15/2021-07-07', '2021-06-15', '2021-06-15/2021-07-07'],
+            ['2021-06-15/2021-07-07', '2021-06-16', '2021-06-16/2021-07-07'],
+            ['2021-06-15/2021-07-07', '2021-07-06', '2021-07-06/2021-07-07'],
+            ['2021-06-15/2021-07-07', '2021-07-07', '2021-07-07/2021-07-07'],
+            ['2021-06-15/2021-07-07', '2021-07-08', null],
+        ];
+    }
+
+    /**
+     * @dataProvider providerWithEnd
+     */
+    public function testWithEnd(string $originalRange, string $end, ?string $expectedRange): void
+    {
+        $originalRange = LocalDateRange::parse($originalRange);
+
+        if ($expectedRange === null) {
+            $this->expectException(DateTimeException::class);
+        }
+
+        $actualRange = $originalRange->withEnd(LocalDate::parse($end));
+
+        if ($expectedRange !== null) {
+            $this->assertSame($expectedRange, (string) $actualRange);
+        }
+    }
+
+    public function providerWithEnd(): array
+    {
+        return [
+            ['2021-06-15/2021-07-07', '2021-06-14', null],
+            ['2021-06-15/2021-07-07', '2021-06-15', '2021-06-15/2021-06-15'],
+            ['2021-06-15/2021-07-07', '2021-06-16', '2021-06-15/2021-06-16'],
+            ['2021-06-15/2021-07-07', '2021-07-06', '2021-06-15/2021-07-06'],
+            ['2021-06-15/2021-07-07', '2021-07-07', '2021-06-15/2021-07-07'],
+            ['2021-06-15/2021-07-07', '2021-07-08', '2021-06-15/2021-07-08'],
+        ];
+    }
 }
