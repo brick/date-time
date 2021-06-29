@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace Brick\DateTime;
 
-use Brick\DateTime\Field\NanoOfSecond;
-
 /**
  * Represents a point in time, with a nanosecond precision.
  *

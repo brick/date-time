@@ -8,7 +8,6 @@ use Brick\DateTime\Parser\DateTimeParseException;
 use Brick\DateTime\Parser\DateTimeParser;
 use Brick\DateTime\Parser\DateTimeParseResult;
 use Brick\DateTime\Parser\IsoParsers;
-use DatePeriod;
 
 /**
  * Represents an inclusive range of local dates.
