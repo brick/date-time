@@ -458,6 +458,50 @@ final class LocalDate implements \JsonSerializable
     }
 
     /**
+     * Returns a copy of this LocalDate with the specified period in weekdays (Monday-Friday) added.
+     * If the current date is on a weekend and the number of days is zero, the result is the current date.
+     * This is a slightly different behaviour from PHP DateTime's "+ n weekdays", that would return the next monday.
+     *
+     * Note: this is currently a naive implementation that could be greatly improved.
+     */
+    public function plusWeekdays(int $days) : LocalDate
+    {
+        $result = $this;
+
+        if ($days < 0) {
+            $subtractedDays = 0;
+
+            while ($subtractedDays < -$days) {
+                $result = $result->minusDays(1);
+                if ($result->getDayOfWeek()->isWeekday()) {
+                    $subtractedDays++;
+                }
+            }
+        } else {
+            $addedDays = 0;
+
+            while ($addedDays < $days) {
+                $result = $result->plusDays(1);
+                if ($result->getDayOfWeek()->isWeekday()) {
+                    $addedDays++;
+                }
+            }
+        }
+
+        return $result;
+    }
+
+    /**
+     * Returns a copy of this LocalDate with the specified period in weekdays (Monday-Friday) subtracted.
+     * If the current date is on a weekend and the number of days is zero, the result is the current date.
+     * This is a slightly different behaviour from PHP DateTime's "- n weekdays", that would return the next monday.
+     */
+    public function minusWeekdays(int $days) : LocalDate
+    {
+        return $this->plusWeekdays(-$days);
+    }
+
+    /**
      * Returns a copy of this LocalDate with the specified Period subtracted.
      */
     public function minusPeriod(Period $period) : LocalDate
