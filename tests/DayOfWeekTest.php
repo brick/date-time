@@ -154,6 +154,48 @@ class DayOfWeekTest extends AbstractTestCase
     }
 
     /**
+     * @dataProvider providerIsWeekday
+     */
+    public function testIsWeekday(DayOfWeek $dayOfWeek, bool $isWeekday): void
+    {
+        $this->assertSame($isWeekday, $dayOfWeek->isWeekday());
+    }
+
+    public function providerIsWeekday(): array
+    {
+        return [
+            [DayOfWeek::monday(), true],
+            [DayOfWeek::tuesday(), true],
+            [DayOfWeek::wednesday(), true],
+            [DayOfWeek::thursday(), true],
+            [DayOfWeek::friday(), true],
+            [DayOfWeek::saturday(), false],
+            [DayOfWeek::sunday(), false],
+        ];
+    }
+
+    /**
+     * @dataProvider providerIsWeekend
+     */
+    public function testIsWeekend(DayOfWeek $dayOfWeek, bool $isWeekend): void
+    {
+        $this->assertSame($isWeekend, $dayOfWeek->isWeekend());
+    }
+
+    public function providerIsWeekend(): array
+    {
+        return [
+            [DayOfWeek::monday(), false],
+            [DayOfWeek::tuesday(), false],
+            [DayOfWeek::wednesday(), false],
+            [DayOfWeek::thursday(), false],
+            [DayOfWeek::friday(), false],
+            [DayOfWeek::saturday(), true],
+            [DayOfWeek::sunday(), true],
+        ];
+    }
+
+    /**
      * @dataProvider providerPlus
      *
      * @param int $dayOfWeek         The base day-of-week value.

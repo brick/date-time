@@ -192,6 +192,22 @@ final class DayOfWeek implements \JsonSerializable
     }
 
     /**
+     * Returns whether this DayOfWeek is Monday to Friday.
+     */
+    public function isWeekday() : bool
+    {
+        return $this->value >= self::MONDAY && $this->value <= self::FRIDAY;
+    }
+
+    /**
+     * Returns whether this DayOfWeek is Saturday or Sunday.
+     */
+    public function isWeekend() : bool
+    {
+        return $this->value === self::SATURDAY || $this->value === self::SUNDAY;
+    }
+
+    /**
      * Returns the DayOfWeek that is the specified number of days after this one.
      */
     public function plus(int $days) : DayOfWeek
