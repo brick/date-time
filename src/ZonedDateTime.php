@@ -108,7 +108,11 @@ class ZonedDateTime implements \JsonSerializable
         // DateTime does not support nanos of seconds, so we just copy the nanos back from the original date-time.
         $dateTime = LocalDateTime::parse($dt->format('Y-m-d\TH:i:s'))->withNano($dateTime->getNano());
 
-        return new ZonedDateTime($dateTime, $timeZoneOffset, $timeZone, $instant);
+        if ($timeZone->isEqualTo(TimeZone::utc())) {
+            return new UtcDateTime($dateTime, $timeZoneOffset, $timeZone, $instant);
+        } else {
+            return new ZonedDateTime($dateTime, $timeZoneOffset, $timeZone, $instant);
+        }
     }
 
     /**
@@ -135,7 +139,11 @@ class ZonedDateTime implements \JsonSerializable
             $timeZoneOffset = TimeZoneOffset::ofTotalSeconds($dateTime->getOffset());
         }
 
-        return new ZonedDateTime($localDateTime, $timeZoneOffset, $timeZone, $instant);
+        if ($timeZone->isEqualTo(TimeZone::utc())) {
+            return new UtcDateTime($localDateTime, $timeZoneOffset, $timeZone, $instant);
+        } else {
+            return new ZonedDateTime($localDateTime, $timeZoneOffset, $timeZone, $instant);
+        }
     }
 
     /**
@@ -222,7 +230,11 @@ class ZonedDateTime implements \JsonSerializable
 
         $instant = Instant::of($dateTime->getTimestamp(), $localDateTime->getNano());
 
-        return new ZonedDateTime($localDateTime, $timeZoneOffset, $timeZone, $instant);
+        if ($timeZone->isEqualTo(TimeZone::utc())) {
+            return new UtcDateTime($localDateTime, $timeZoneOffset, $timeZone, $instant);
+        } else {
+            return new ZonedDateTime($localDateTime, $timeZoneOffset, $timeZone, $instant);
+        }
     }
 
     /**
@@ -695,6 +707,15 @@ class ZonedDateTime implements \JsonSerializable
     public function toDateTimeImmutable() : \DateTimeImmutable
     {
         return \DateTimeImmutable::createFromMutable($this->toDateTime());
+    }
+
+    public function toUtcDateTime() : UtcDateTime
+    {
+        $result = UtcDateTime::ofInstant($this->instant);
+        if ($result instanceof UtcDateTime) {
+            return $result;
+        }
+        throw new \UnexpectedValueException('Incorrect type of UtcDateTime::ofInstant. Expected: UtcDateTime, got: ' . get_class($result));
     }
 
     /**
