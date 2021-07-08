@@ -1,5 +1,5 @@
-Brick\DateTime
-==============
+Brick\DateTime (solodkiy fork)
+=============================
 
 <img src="https://raw.githubusercontent.com/brick/brick/master/logo.png" alt="" align="left" height="64">
 
@@ -29,7 +29,7 @@ Installation
 This library is installable via [Composer](https://getcomposer.org/):
 
 ```bash
-composer require brick/date-time
+composer require solodkiy/date-time
 ```
 
 Requirements
@@ -48,7 +48,7 @@ The current releases are numbered `0.x.y`. When a non-breaking change is introdu
 
 It is therefore safe to lock your project to a given release cycle, such as `0.3.*`.
 
-If you need to upgrade to a newer release cycle, check the [release history](https://github.com/brick/date-time/releases) for a list of changes introduced by each further `0.x.0` version.
+If you need to upgrade to a newer release cycle, check the [release history](https://github.com/solodkiy/date-time/releases) for a list of changes introduced by each further `0.x.0` version.
 
 Overview
 --------
