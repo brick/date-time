@@ -12,6 +12,8 @@ use Brick\DateTime\Utility\Math;
 
 /**
  * Represents the combination of a year and a month.
+ *
+ * @psalm-immutable
  */
 final class YearMonth implements \JsonSerializable
 {
@@ -46,6 +48,8 @@ final class YearMonth implements \JsonSerializable
      * @param int $month The month-of-year, from 1 (January) to 12 (December).
      *
      * @throws DateTimeException
+     *
+     * @psalm-pure
      */
     public static function of(int $year, int $month) : YearMonth
     {

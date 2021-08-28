@@ -8,6 +8,8 @@ namespace Brick\DateTime;
  * A day-of-week, such as Tuesday.
  *
  * This class is immutable.
+ *
+ * @psalm-immutable
  */
 final class DayOfWeek implements \JsonSerializable
 {
@@ -40,10 +42,15 @@ final class DayOfWeek implements \JsonSerializable
      * Returns a cached DayOfWeek instance.
      *
      * @param int $value The day-of-week value, validated from 1 to 7.
+     *
+     * @psalm-pure
      */
     private static function get(int $value) : DayOfWeek
     {
-        /** @var array<int, DayOfWeek> $values */
+        /**
+         * @var array<int, DayOfWeek> $values
+         * @psalm-suppress ImpureStaticVariable only used to cache results
+         */
         static $values = [];
 
         if (! isset($values[$value])) {
@@ -61,6 +68,8 @@ final class DayOfWeek implements \JsonSerializable
      * @return DayOfWeek The DayOfWeek instance.
      *
      * @throws DateTimeException If the day-of-week is not valid.
+     *
+     * @psalm-pure
      */
     public static function of(int $dayOfWeek) : DayOfWeek
     {

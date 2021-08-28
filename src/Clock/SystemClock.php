@@ -14,8 +14,14 @@ use Brick\DateTime\Instant;
  */
 final class SystemClock implements Clock
 {
+    /**
+     * @psalm-mutation-free
+     */
     public function getTime() : Instant
     {
+        /**
+         * @psalm-suppress ImpureFunctionCall This is how time works
+         */
         [$fraction, $epochSecond] = \explode(' ', microtime());
 
         $epochSecond    = (int) $epochSecond;

@@ -6,6 +6,8 @@ namespace Brick\DateTime;
 
 /**
  * Represents a month-of-year such as January.
+ *
+ * @psalm-immutable
  */
 final class Month implements \JsonSerializable
 {
@@ -45,10 +47,15 @@ final class Month implements \JsonSerializable
      * @param int $value The month value, validated from 1 to 12.
      *
      * @return Month The cached Month instance.
+     *
+     * @psalm-pure
      */
     private static function get(int $value) : Month
     {
-        /** @var array<int, Month> $values */
+        /**
+         * @var array<int, Month> $values
+         * @psalm-suppress ImpureStaticVariable Caching only
+         */
         static $values = [];
 
         if (! isset($values[$value])) {
@@ -66,6 +73,8 @@ final class Month implements \JsonSerializable
      * @return Month The Month instance.
      *
      * @throws DateTimeException
+     *
+     * @psalm-pure
      */
     public static function of(int $value) : Month
     {
@@ -78,6 +87,8 @@ final class Month implements \JsonSerializable
      * Returns the twelve months of the year in an array.
      *
      * @return Month[]
+     *
+     * @psalm-pure
      */
     public static function getAll() : array
     {
@@ -165,6 +176,8 @@ final class Month implements \JsonSerializable
      *
      * This returns the day-of-year that this month begins on, using the leap
      * year flag to determine the length of February.
+     *
+     * @psalm-mutation-free
      */
     public function getFirstDayOfYear(bool $leapYear) : int
     {

@@ -48,6 +48,8 @@ final class LocalDateRange implements \IteratorAggregate, \Countable, \JsonSeria
      * @param LocalDate $end   The end date, inclusive.
      *
      * @throws DateTimeException If the end date is before the start date.
+     *
+     * @psalm-mutation-free
      */
     public static function of(LocalDate $start, LocalDate $end) : LocalDateRange
     {
@@ -65,6 +67,8 @@ final class LocalDateRange implements \IteratorAggregate, \Countable, \JsonSeria
      *
      * @throws DateTimeException      If the date range is not valid.
      * @throws DateTimeParseException If required fields are missing from the result.
+     *
+     * @psalm-mutation-free
      */
     public static function from(DateTimeParseResult $result) : LocalDateRange
     {

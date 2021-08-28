@@ -25,6 +25,8 @@ final class SecondOfMinute
      * @param int $secondOfMinute The second-of-minute to check.
      *
      * @throws DateTimeException If the second-of-minute is not valid.
+     *
+     * @psalm-pure
      */
     public static function check(int $secondOfMinute) : void
     {

@@ -23,6 +23,8 @@ final class WeekOfYear
      * @param int|null $year       An optional year to check against, validated.
      *
      * @throws DateTimeException If the week-of-year is not valid.
+     *
+     * @psalm-pure
      */
     public static function check(int $weekOfYear, ?int $year = null) : void
     {
@@ -43,6 +45,8 @@ final class WeekOfYear
      * @param int $year The year, validated.
      *
      * @return bool True if 53 weeks, false if 52 weeks.
+     *
+     * @psalm-pure
      */
     public static function is53WeekYear(int $year) : bool
     {
@@ -59,6 +63,8 @@ final class WeekOfYear
      * @param int $year The year, validated.
      *
      * @return int The number of weeks in the year.
+     *
+     * @psalm-pure
      */
     public static function getWeeksInYear(int $year) : int
     {

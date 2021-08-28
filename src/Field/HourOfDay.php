@@ -25,6 +25,8 @@ final class HourOfDay
      * @param int $hourOfDay The hour-of-day to check.
      *
      * @throws DateTimeException If the hour-of-day is not valid.
+     *
+     * @psalm-pure
      */
     public static function check(int $hourOfDay) : void
     {

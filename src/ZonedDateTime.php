@@ -14,6 +14,8 @@ use Brick\DateTime\Parser\IsoParsers;
  *
  * A ZonedDateTime can be viewed as a LocalDateTime along with a time zone
  * and targets a specific point in time.
+ *
+ * @psalm-immutable
  */
 class ZonedDateTime implements \JsonSerializable
 {
@@ -89,11 +91,13 @@ class ZonedDateTime implements \JsonSerializable
      * - If the local date-time falls in the middle of a gap, then the resulting date-time will be shifted forward
      *   by the length of the gap, and the later offset, typically "summer" time, will be used.
      * - If the local date-time falls in the middle of an overlap, then the offset closest to UTC will be used.
+     *
+     * @psalm-pure
      */
     public static function of(LocalDateTime $dateTime, TimeZone $timeZone) : ZonedDateTime
     {
         $dtz = $timeZone->toDateTimeZone();
-        $dt = new \DateTime((string) $dateTime->withNano(0), $dtz);
+        $dt = new \DateTimeImmutable((string) $dateTime->withNano(0), $dtz);
 
         $instant = Instant::of($dt->getTimestamp(), $dateTime->getNano());
 
@@ -115,16 +119,18 @@ class ZonedDateTime implements \JsonSerializable
      * Creates a ZonedDateTime from an instant and a time zone.
      *
      * This resolves the instant to a date and time without ambiguity.
+     *
+     * @psalm-pure
      */
     public static function ofInstant(Instant $instant, TimeZone $timeZone) : ZonedDateTime
     {
         $dateTimeZone = $timeZone->toDateTimeZone();
 
         // We need to pass a DateTimeZone to avoid a PHP warning...
-        $dateTime = new \DateTime('@' . $instant->getEpochSecond(), $dateTimeZone);
+        $dateTime = new \DateTimeImmutable('@' . $instant->getEpochSecond(), $dateTimeZone);
 
         // ... but this DateTimeZone is ignored because of the timestamp, so we set it again.
-        $dateTime->setTimezone($dateTimeZone);
+        $dateTime = $dateTime->setTimezone($dateTimeZone);
 
         $localDateTime = LocalDateTime::parse($dateTime->format('Y-m-d\TH:i:s'));
         $localDateTime = $localDateTime->withNano($instant->getNano());
@@ -142,6 +148,8 @@ class ZonedDateTime implements \JsonSerializable
      * Returns the current date-time in the given time-zone, according to the given clock.
      *
      * If no clock is provided, the system clock is used.
+     *
+     * @psalm-mutation-free
      */
     public static function now(TimeZone $timeZone, ?Clock $clock = null) : ZonedDateTime
     {
@@ -155,6 +163,8 @@ class ZonedDateTime implements \JsonSerializable
      *
      * @throws DateTimeException      If the zoned date-time is not valid.
      * @throws DateTimeParseException If required fields are missing from the result.
+     *
+     * @psalm-mutation-free
      */
     public static function from(DateTimeParseResult $result) : ZonedDateTime
     {
@@ -667,6 +677,8 @@ class ZonedDateTime implements \JsonSerializable
      *
      * Note that the native DateTime object supports a precision up to the microsecond,
      * so the nanoseconds are rounded down to the nearest microsecond.
+     *
+     * @psalm-mutation-free
      */
     public function toDateTime() : \DateTime
     {

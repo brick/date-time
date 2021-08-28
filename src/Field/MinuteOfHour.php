@@ -25,6 +25,8 @@ final class MinuteOfHour
      * @param int $minuteOfHour The minute-of-hour to check.
      *
      * @throws DateTimeException If the minute-of-hour is not valid.
+     *
+     * @psalm-pure
      */
     public static function check(int $minuteOfHour) : void
     {

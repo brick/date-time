@@ -11,6 +11,8 @@ use Brick\DateTime\Parser\IsoParsers;
 
 /**
  * A time-zone offset from Greenwich/UTC, such as `+02:00`.
+ *
+ * @psalm-immutable
  */
 final class TimeZoneOffset extends TimeZone
 {
@@ -22,9 +24,9 @@ final class TimeZoneOffset extends TimeZone
     /**
      * The string representation of this time-zone offset.
      *
-     * This is generated on-the-fly, and will be null before the first call to getId().
-     *
      * @var string|null
+     *
+     * @psalm-allow-private-mutation
      */
     private $id;
 
@@ -48,6 +50,8 @@ final class TimeZoneOffset extends TimeZone
      * @param int $seconds The time-zone offset in seconds, from 0 to 59, sign matching hours and minute.
      *
      * @throws DateTimeException If the values are not in range or the signs don't match.
+     *
+     * @psalm-pure
      */
     public static function of(int $hours, int $minutes = 0, int $seconds = 0) : TimeZoneOffset
     {
@@ -81,6 +85,8 @@ final class TimeZoneOffset extends TimeZone
      * @param int $totalSeconds The total offset in seconds.
      *
      * @throws DateTimeException
+     *
+     * @psalm-pure
      */
     public static function ofTotalSeconds(int $totalSeconds) : TimeZoneOffset
     {
@@ -89,6 +95,9 @@ final class TimeZoneOffset extends TimeZone
         return new TimeZoneOffset($totalSeconds);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function utc() : TimeZoneOffset
     {
         return new TimeZoneOffset(0);
@@ -97,6 +106,8 @@ final class TimeZoneOffset extends TimeZone
     /**
      * @throws DateTimeException      If the offset is not valid.
      * @throws DateTimeParseException If required fields are missing from the result.
+     *
+     * @psalm-mutation-free
      */
     public static function from(DateTimeParseResult $result) : TimeZoneOffset
     {
@@ -170,7 +181,6 @@ final class TimeZoneOffset extends TimeZone
                 $this->id = 'Z';
             }
         }
-
         return $this->id;
     }
 
