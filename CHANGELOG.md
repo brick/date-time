@@ -4,6 +4,7 @@
 
 💥 **Breaking changes**
 
+- **Minimum PHP version is now 7.4**
 - `TimeZoneOffset` does not allow seconds anymore (#35):
   - `TimeZoneOffset::of()`'s `$seconds` parameter is removed
   - `TimeZoneOffset::ofTotalSeconds()` now throws if the number of seconds is not a multiple of `60`
