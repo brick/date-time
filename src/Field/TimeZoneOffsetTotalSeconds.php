@@ -33,5 +33,9 @@ final class TimeZoneOffsetTotalSeconds
         if ($offsetSeconds < -self::MAX_SECONDS || $offsetSeconds > self::MAX_SECONDS) {
             throw DateTimeException::fieldNotInRange(self::NAME, $offsetSeconds, -self::MAX_SECONDS, self::MAX_SECONDS);
         }
+
+        if ($offsetSeconds % 60 !== 0) {
+            throw DateTimeException::timeZoneOffsetSecondsMustBeMultipleOf60($offsetSeconds);
+        }
     }
 }

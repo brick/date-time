@@ -1,5 +1,14 @@
 # Changelog
 
+## UNRELEASED
+
+💥 **Breaking changes**
+
+- `TimeZoneOffset` does not allow seconds anymore (#35):
+  - `TimeZoneOffset::of()`'s `$seconds` parameter is removed
+  - `TimeZoneOffset::ofTotalSeconds()` now throws if the number of seconds is not a multiple of `60`
+  - `IsoParsers::timeZoneOffset()` does not allow seconds in timezone offset anymore; this affects not only `TimeZoneOffset:parse()` but also `ZonedDateTime::parse()`
+
 ## [0.3.2](https://github.com/brick/date-time/releases/tag/0.3.2) - 2021-06-30
 
 ✨ **New methods**
