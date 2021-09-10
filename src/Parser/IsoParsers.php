@@ -12,7 +12,6 @@ use Brick\DateTime\Field\MonthOfYear;
 use Brick\DateTime\Field\SecondOfMinute;
 use Brick\DateTime\Field\TimeZoneOffsetHour;
 use Brick\DateTime\Field\TimeZoneOffsetMinute;
-use Brick\DateTime\Field\TimeZoneOffsetSecond;
 use Brick\DateTime\Field\TimeZoneOffsetSign;
 use Brick\DateTime\Field\TimeZoneRegion;
 use Brick\DateTime\Field\Year;
