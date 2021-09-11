@@ -9,26 +9,19 @@ namespace Brick\DateTime;
  */
 final class Stopwatch
 {
-    /**
-     * @var Clock
-     */
-    private $clock;
+    private Clock $clock;
 
     /**
      * The total time the stopwatch has been running, excluding the time elapsed since it was started.
      *
      * Every time the stopwatch is stopped, the elapsed time is added to this value.
-     *
-     * @var Duration
      */
-    private $duration;
+    private Duration $duration;
 
     /**
      * The time the stopwatch has been started at, or null if it is not running.
-     *
-     * @var Instant|null
      */
-    private $startTime;
+    private ?Instant $startTime = null;
 
     /**
      * @param Clock|null $clock An optional clock to use.

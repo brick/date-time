@@ -34,31 +34,23 @@ final class LocalTime implements \JsonSerializable
 
     /**
      * The hour, in the range 0 to 23.
-     *
-     * @var int
      */
-    private $hour;
+    private int $hour;
 
     /**
      * The minute, in the range 0 to 59.
-     *
-     * @var int
      */
-    private $minute;
+    private int $minute;
 
     /**
      * The second, in the range 0 to 59.
-     *
-     * @var int
      */
-    private $second;
+    private int $second;
 
     /**
      * The nanosecond, in the range 0 to 999,999,999.
-     *
-     * @var int
      */
-    private $nano;
+    private int $nano;
 
     /**
      * Private constructor. Use of() to obtain an instance.

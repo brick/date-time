@@ -19,17 +19,13 @@ final class LocalDateRange implements \IteratorAggregate, \Countable, \JsonSeria
 {
     /**
      * The start date, inclusive.
-     *
-     * @var LocalDate
      */
-    private $start;
+    private LocalDate $start;
 
     /**
      * The end date, inclusive.
-     *
-     * @var LocalDate
      */
-    private $end;
+    private LocalDate $end;
 
     /**
      * @param LocalDate $start The start date, inclusive.

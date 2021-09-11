@@ -13,10 +13,7 @@ use Brick\DateTime\Instant;
  */
 final class FixedClock implements Clock
 {
-    /**
-     * @var Instant
-     */
-    private $instant;
+    private Instant $instant;
 
     /**
      * @param Instant $instant The time to set the clock at.

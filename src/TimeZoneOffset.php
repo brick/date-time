@@ -14,19 +14,14 @@ use Brick\DateTime\Parser\IsoParsers;
  */
 final class TimeZoneOffset extends TimeZone
 {
-    /**
-     * @var int
-     */
-    private $totalSeconds;
+    private int $totalSeconds;
 
     /**
      * The string representation of this time-zone offset.
      *
      * This is generated on-the-fly, and will be null before the first call to getId().
-     *
-     * @var string|null
      */
-    private $id;
+    private ?string $id = null;
 
     /**
      * Private constructor. Use a factory method to obtain an instance.

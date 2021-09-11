@@ -21,10 +21,8 @@ final class DayOfWeek implements \JsonSerializable
 
     /**
      * The ISO-8601 value for the day of the week, from 1 (Monday) to 7 (Sunday).
-     *
-     * @var int
      */
-    private $value;
+    private int $value;
 
     /**
      * Private constructor. Use a factory method to obtain an instance.

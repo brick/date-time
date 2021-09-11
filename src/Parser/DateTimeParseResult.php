@@ -12,7 +12,7 @@ final class DateTimeParseResult
     /**
      * @var array<string, list<string>>
      */
-    private $fields = [];
+    private array $fields = [];
 
     public function addField(string $name, string $value) : void
     {

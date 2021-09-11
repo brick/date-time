@@ -17,17 +17,13 @@ final class YearMonth implements \JsonSerializable
 {
     /**
      * The year, from MIN_YEAR to MAX_YEAR.
-     *
-     * @var int
      */
-    private $year;
+    private int $year;
 
     /**
      * The month, from 1 to 12.
-     *
-     * @var int
      */
-    private $month;
+    private int $month;
 
     /**
      * @param int $year  The year, validated from MIN_YEAR to MAX_YEAR.

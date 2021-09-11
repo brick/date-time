@@ -19,34 +19,26 @@ class ZonedDateTime implements \JsonSerializable
 {
     /**
      * The local date-time.
-     *
-     * @var LocalDateTime
      */
-    private $localDateTime;
+    private LocalDateTime $localDateTime;
 
     /**
      * The time-zone offset from UTC/Greenwich.
-     *
-     * @var TimeZoneOffset
      */
-    private $timeZoneOffset;
+    private TimeZoneOffset $timeZoneOffset;
 
     /**
      * The time-zone.
      *
      * It is either a TimeZoneRegion if this ZonedDateTime is region-based,
      * or the same instance as the offset if this ZonedDateTime is offset-based.
-     *
-     * @var TimeZone
      */
-    private $timeZone;
+    private TimeZone $timeZone;
 
     /**
      * The instant represented by this ZonedDateTime.
-     *
-     * @var Instant
      */
-    private $instant;
+    private Instant $instant;
 
     /**
      * Private constructor. Use a factory method to obtain an instance.

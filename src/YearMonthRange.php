@@ -19,17 +19,13 @@ class YearMonthRange implements \IteratorAggregate, \Countable, \JsonSerializabl
 {
     /**
      * The start year-month, inclusive.
-     *
-     * @var YearMonth
      */
-    private $start;
+    private YearMonth $start;
 
     /**
      * The end year-month, inclusive.
-     *
-     * @var YearMonth
      */
-    private $end;
+    private YearMonth $end;
 
     /**
      * @param YearMonth $start The start year-month, inclusive.

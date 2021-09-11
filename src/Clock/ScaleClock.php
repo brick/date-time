@@ -15,24 +15,18 @@ final class ScaleClock implements Clock
 {
     /**
      * The reference clock.
-     *
-     * @var Clock
      */
-    private $referenceClock;
+    private Clock $referenceClock;
 
     /**
      * The start time.
-     *
-     * @var Instant
      */
-    private $startTime;
+    private Instant $startTime;
 
     /**
      * The time scale.
-     *
-     * @var int
      */
-    private $timeScale;
+    private int $timeScale;
 
     /**
      * - a scale > 1 makes the time move at an accelerated pace;

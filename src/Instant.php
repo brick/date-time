@@ -15,17 +15,13 @@ final class Instant implements \JsonSerializable
 {
     /**
      * The number of seconds since the epoch of 1970-01-01T00:00:00Z.
-     *
-     * @var int
      */
-    private $epochSecond;
+    private int $epochSecond;
 
     /**
      * The nanoseconds adjustment to the epoch second, in the range 0 to 999,999,999.
-     *
-     * @var int
      */
-    private $nano;
+    private int $nano;
 
     /**
      * Private constructor. Use of() to obtain an Instant.

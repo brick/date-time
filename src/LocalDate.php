@@ -39,24 +39,18 @@ final class LocalDate implements \JsonSerializable
 
     /**
      * The year.
-     *
-     * @var int
      */
-    private $year;
+    private int $year;
 
     /**
      * The month-of-year.
-     *
-     * @var int
      */
-    private $month;
+    private int $month;
 
     /**
      * The day-of-month.
-     *
-     * @var int
      */
-    private $day;
+    private int $day;
 
     /**
      * Private constructor. Use of() to obtain an instance.
