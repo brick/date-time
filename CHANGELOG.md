@@ -9,6 +9,10 @@
   - `TimeZoneOffset::of()`'s `$seconds` parameter is removed
   - `TimeZoneOffset::ofTotalSeconds()` now throws if the number of seconds is not a multiple of `60`
   - `IsoParsers::timeZoneOffset()` does not allow seconds in timezone offset anymore; this affects not only `TimeZoneOffset:parse()` but also `ZonedDateTime::parse()`
+  
+🔧 **Fix**
+
+- Fixed return type of `TimeZoneRegion::parse()` (#38) Thanks to @adrianguenter
 
 ✨ **New methods**
 
