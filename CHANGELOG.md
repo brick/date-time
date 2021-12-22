@@ -10,6 +10,10 @@
   - `TimeZoneOffset::ofTotalSeconds()` now throws if the number of seconds is not a multiple of `60`
   - `IsoParsers::timeZoneOffset()` does not allow seconds in timezone offset anymore; this affects not only `TimeZoneOffset:parse()` but also `ZonedDateTime::parse()`
 
+✨ **New methods**
+
+- `Period::fromDateInterval()` converts a native `DateInterval` object to `Period`
+
 ## [0.3.2](https://github.com/brick/date-time/releases/tag/0.3.2) - 2021-06-30
 
 ✨ **New methods**

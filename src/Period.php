@@ -126,6 +126,42 @@ final class Period implements \JsonSerializable
     }
 
     /**
+     * Creates a Period from a PHP DateInterval object.
+     *
+     * @throws DateTimeException If the DateInterval contains non-zero hours, minutes, seconds or microseconds.
+     */
+    public static function fromDateInterval(\DateInterval $dateInterval): Period
+    {
+        if ($dateInterval->h !== 0) {
+            throw new DateTimeException('Cannot create a Period from a DateInterval with a non-zero hour.');
+        }
+
+        if ($dateInterval->i !== 0) {
+            throw new DateTimeException('Cannot create a Period from a DateInterval with a non-zero minute.');
+        }
+
+        if ($dateInterval->s !== 0) {
+            throw new DateTimeException('Cannot create a Period from a DateInterval with a non-zero second.');
+        }
+
+        if ($dateInterval->f !== 0.0) {
+            throw new DateTimeException('Cannot create a Period from a DateInterval with a non-zero microsecond.');
+        }
+
+        $years = $dateInterval->y;
+        $months = $dateInterval->m;
+        $days = $dateInterval->d;
+
+        if ($dateInterval->invert) {
+            $years = -$years;
+            $months = -$months;
+            $days = -$days;
+        }
+
+        return new Period($years, $months, $days);
+    }
+
+    /**
      * Returns a Period consisting of the number of years, months, and days between two dates.
      *
      * The start date is included, but the end date is not.
