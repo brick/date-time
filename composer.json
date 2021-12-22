@@ -16,7 +16,7 @@
     "require-dev": {
         "phpunit/phpunit": "^9.0",
         "php-coveralls/php-coveralls": "^2.2",
-        "vimeo/psalm": "4.4.1"
+        "vimeo/psalm": "4.15.0"
     },
     "suggest": {
         "ext-timezonedb": "This PECL extension provides up-to-date timezone information"

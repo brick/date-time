@@ -114,9 +114,9 @@ final class TimeZoneRegion extends TimeZone
         return $this->zone->getName();
     }
 
-    public function getOffset(Instant $instant) : int
+    public function getOffset(Instant $pointInTime) : int
     {
-        $dateTime = new \DateTime('@' . $instant->getEpochSecond(), new DateTimeZone('UTC'));
+        $dateTime = new \DateTime('@' . $pointInTime->getEpochSecond(), new DateTimeZone('UTC'));
 
         return $this->zone->getOffset($dateTime);
     }
