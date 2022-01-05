@@ -24,10 +24,8 @@ final class Month implements \JsonSerializable
 
     /**
      * The month number, from 1 (January) to 12 (December).
-     *
-     * @var int
      */
-    private $month;
+    private int $month;
 
     /**
      * Private constructor. Use of() to get a Month instance.

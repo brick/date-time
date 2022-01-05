@@ -16,17 +16,13 @@ final class MonthDay implements \JsonSerializable
 {
     /**
      * The month-of-year, from 1 to 12.
-     *
-     * @var int
      */
-    private $month;
+    private int $month;
 
     /**
      * The day-of-month, from 1 to 31.
-     *
-     * @var int
      */
-    private $day;
+    private int $day;
 
     /**
      * Private constructor. Use of() to obtain an instance.

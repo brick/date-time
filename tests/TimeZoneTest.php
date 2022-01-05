@@ -34,8 +34,8 @@ class TimeZoneTest extends AbstractTestCase
         return [
             ['Z', TimeZoneOffset::class, 'Z'],
             ['z', TimeZoneOffset::class, 'Z'],
-            ['+01:00:00', TimeZoneOffset::class, '+01:00'],
-            ['-02:30:30', TimeZoneOffset::class, '-02:30:30'],
+            ['+01:00', TimeZoneOffset::class, '+01:00'],
+            ['-02:30', TimeZoneOffset::class, '-02:30'],
             ['Europe/London', TimeZoneRegion::class, 'Europe/London'],
             ['America/Los_Angeles', TimeZoneRegion::class, 'America/Los_Angeles']
         ];
@@ -67,7 +67,7 @@ class TimeZoneTest extends AbstractTestCase
     public function testIsEqualTo(): void
     {
         $this->assertTrue(TimeZone::utc()->isEqualTo(TimeZoneOffset::ofTotalSeconds(0)));
-        $this->assertFalse(TimeZone::utc()->isEqualTo(TimeZoneOffset::ofTotalSeconds(1)));
+        $this->assertFalse(TimeZone::utc()->isEqualTo(TimeZoneOffset::ofTotalSeconds(3600)));
     }
 
     /**

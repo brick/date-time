@@ -16,10 +16,8 @@ final class Year implements \JsonSerializable
 
     /**
      * The year being represented.
-     *
-     * @var int
      */
-    private $year;
+    private int $year;
 
     /**
      * @param int $year The year to represent, validated.

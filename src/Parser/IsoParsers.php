@@ -12,7 +12,6 @@ use Brick\DateTime\Field\MonthOfYear;
 use Brick\DateTime\Field\SecondOfMinute;
 use Brick\DateTime\Field\TimeZoneOffsetHour;
 use Brick\DateTime\Field\TimeZoneOffsetMinute;
-use Brick\DateTime\Field\TimeZoneOffsetSecond;
 use Brick\DateTime\Field\TimeZoneOffsetSign;
 use Brick\DateTime\Field\TimeZoneRegion;
 use Brick\DateTime\Field\Year;
@@ -225,10 +224,6 @@ final class IsoParsers
             ->appendCapturePattern(TimeZoneOffsetHour::PATTERN, TimeZoneOffsetHour::NAME)
             ->appendLiteral(':')
             ->appendCapturePattern(TimeZoneOffsetMinute::PATTERN, TimeZoneOffsetMinute::NAME)
-            ->startOptional()
-            ->appendLiteral(':')
-            ->appendCapturePattern(TimeZoneOffsetSecond::PATTERN, TimeZoneOffsetSecond::NAME)
-            ->endOptional()
             ->endGroup()
             ->endGroup()
             ->toParser();

@@ -19,75 +19,48 @@ class TimeZoneOffsetTest extends AbstractTestCase
      *
      * @param int $hours        The hours part of the offset.
      * @param int $minutes      The minutes part of the offset.
-     * @param int $seconds      The seconds part of the offset.
      * @param int $totalSeconds The expected total number of seconds.
      */
-    public function testOf(int $hours, int $minutes, int $seconds, int $totalSeconds): void
+    public function testOf(int $hours, int $minutes, int $totalSeconds): void
     {
-        $this->assertTimeZoneOffsetIs($totalSeconds, TimeZoneOffset::of($hours, $minutes, $seconds));
+        $this->assertTimeZoneOffsetIs($totalSeconds, TimeZoneOffset::of($hours, $minutes));
     }
 
     public function providerOf() : array
     {
         return [
-            [0, 0, 0, 0],
-            [0, 0, 1, 1],
-            [0, 1, 0, 60],
-            [0, 1, 2, 62],
-            [1, 0, 0, 3600],
-            [1, 0, 2, 3602],
-            [1, 2, 0, 3720],
-            [1, 2, 3, 3723],
+            [0, 0, 0],
+            [0, 1, 60],
+            [1, 0, 3600],
+            [1, 2, 3720],
 
-            [-1, -1, -1, -3661],
-            [-1, -1, 0, -3660],
-            [-1, 0, -1, -3601],
-            [-1, 0, 0, -3600],
-            [0, -1, -1, -61],
-            [0, -1, 0, -60],
-            [0, 0, -1, -1],
-            [0, 0, 0, 0],
-            [0, 0, 1, 1],
-            [0, 1, 0, 60],
-            [0, 1, 1, 61],
-            [1, 0, 0, 3600],
-            [1, 0, 1, 3601],
-            [1, 1, 0, 3660],
-            [1, 1, 1, 3661],
+            [-1, -1, -3660],
+            [-1, 0, -3600],
+            [0, -1, -60],
+            [0, 1, 60],
+            [1, 0, 3600],
+            [1, 1, 3660],
         ];
     }
 
     /**
      * @dataProvider providerOfInvalidValuesThrowsException
      */
-    public function testOfInvalidValuesThrowsException(int $hours, int $minutes, int $seconds): void
+    public function testOfInvalidValuesThrowsException(int $hours, int $minutes): void
     {
         $this->expectException(DateTimeException::class);
-        TimeZoneOffset::of($hours, $minutes, $seconds);
+        TimeZoneOffset::of($hours, $minutes);
     }
 
     public function providerOfInvalidValuesThrowsException() : array
     {
         return [
-            [0, 0, 60],
-            [0, 0, -60],
-            [0, 60, 0],
-            [0, -60, 0],
-            [19, 0, 0],
-            [-19, 0, 0],
-
-            [-1, -1, 1],
-            [-1, 0, 1],
-            [-1, 1, -1],
-            [-1, 1, 0],
-            [-1, 1, 1],
-            [0, -1, 1],
-            [0, 1, -1],
-            [1, -1, -1],
-            [1, -1, 0],
-            [1, -1, 1],
-            [1, 0, -1],
-            [1, 1, -1],
+            [0, 60],
+            [0, -60],
+            [1, -1],
+            [-1, 1],
+            [19, 0],
+            [-19, 0],
         ];
     }
 
@@ -104,7 +77,9 @@ class TimeZoneOffsetTest extends AbstractTestCase
         return [
             [-64800],
             [-3600],
+            [-60],
             [0],
+            [60],
             [3600],
             [64800]
         ];
@@ -122,8 +97,10 @@ class TimeZoneOffsetTest extends AbstractTestCase
     public function providerOfInvalidTotalSecondsThrowsException() : array
     {
         return [
-            [-64801],
-            [64801]
+            [-1],
+            [1],
+            [-64860],
+            [64860]
         ];
     }
 
@@ -152,12 +129,8 @@ class TimeZoneOffsetTest extends AbstractTestCase
             ['-01:00', -3600],
             ['+01:30', 5400],
             ['-01:30', -5400],
-            ['+01:30:05', 5405],
-            ['-01:30:05', -5405],
             ['+18:00', 64800],
             ['-18:00', -64800],
-            ['+18:00:00', 64800],
-            ['-18:00:00', -64800],
         ];
     }
 
@@ -231,21 +204,15 @@ class TimeZoneOffsetTest extends AbstractTestCase
     {
         return [
             [0, 'Z'],
-            [1, '+00:00:01'],
-            [59, '+00:00:59'],
             [60, '+00:01'],
-            [61, '+00:01:01'],
-            [3599, '+00:59:59'],
+            [120, '+00:02'],
             [3600, '+01:00'],
-            [3601, '+01:00:01'],
+            [7380, '+02:03'],
             [64800, '+18:00'],
-            [-1, '-00:00:01'],
-            [-59, '-00:00:59'],
             [-60, '-00:01'],
-            [-61, '-00:01:01'],
-            [-3599, '-00:59:59'],
+            [-120, '-00:02'],
             [-3600, '-01:00'],
-            [-3601, '-01:00:01'],
+            [-7380, '-02:03'],
             [-64800, '-18:00'],
         ];
     }

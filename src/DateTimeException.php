@@ -17,7 +17,12 @@ class DateTimeException extends \RuntimeException
      */
     public static function fieldNotInRange(string $field, int $value, int $min, int $max) : self
     {
-        return new DateTimeException("Invalid $field: $value is not in the range $min to $max.");
+        return new self("Invalid $field: $value is not in the range $min to $max.");
+    }
+
+    public static function timeZoneOffsetSecondsMustBeMultipleOf60(int $offsetSeconds) : self
+    {
+        return new self(sprintf('The time zone offset of %d seconds is not a multiple of 60', $offsetSeconds));
     }
 
     public static function unknownTimeZoneRegion(string $region) : self

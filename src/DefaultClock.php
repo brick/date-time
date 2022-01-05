@@ -16,10 +16,7 @@ use Brick\DateTime\Clock\SystemClock;
  */
 final class DefaultClock
 {
-    /**
-     * @var Clock|null
-     */
-    private static $clock;
+    private static ?Clock $clock = null;
 
     /**
      * Private constructor. This class is not instantiable.

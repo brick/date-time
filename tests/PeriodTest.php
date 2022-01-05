@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Brick\DateTime\Tests;
 
+use Brick\DateTime\DateTimeException;
 use Brick\DateTime\Parser\DateTimeParseException;
 use Brick\DateTime\Period;
 use Brick\DateTime\LocalDate;
@@ -100,6 +101,78 @@ class PeriodTest extends AbstractTestCase
             ['PT1S'],
             ['P0D0D'],
             ['PT0D1S']
+        ];
+    }
+
+    /**
+     * @dataProvider providerFromDateInterval
+     */
+    public function testFromDateInterval(\DateInterval $dateInterval, int $years, int $months, int $days): void
+    {
+        $period = Period::fromDateInterval($dateInterval);
+        self::assertPeriodIs($years, $months, $days, $period);
+    }
+
+    public function providerFromDateInterval(): \Generator
+    {
+        $withConstructor = [
+            ['P0Y', 0, 0, 0],
+            ['P1Y', 1, 0, 0],
+            ['P2M', 0, 2, 0],
+            ['P3D', 0, 0, 3],
+            ['P1Y3D', 1, 0, 3],
+            ['P1M2D', 0, 1, 2],
+            ['P1Y2M', 1, 2, 0],
+            ['P1Y2M3D', 1, 2, 3],
+        ];
+
+        foreach ($withConstructor as [$dateIntervalAsString, $years, $months, $days]) {
+            $dateInterval = new \DateInterval($dateIntervalAsString);
+
+            yield [$dateInterval, $years, $months, $days];
+        }
+
+        $withDateTimeDiff = [
+            ['2020-12-01', '2020-12-01', 0, 0, 0],
+            ['2020-12-01', '2020-12-02', 0, 0, 1],
+            ['2020-12-01', '2020-12-03', 0, 0, 2],
+            ['2020-12-01', '2021-01-01', 0, 1, 0],
+            ['2020-12-01', '2021-01-03', 0, 1, 2],
+            ['2020-12-01', '2024-02-02', 3, 2, 1],
+        ];
+
+        foreach ($withDateTimeDiff as [$dateTime1, $dateTime2, $years, $months, $days]) {
+            $dateTime1 = new \DateTimeImmutable($dateTime1);
+            $dateTime2 = new \DateTimeImmutable($dateTime2);
+
+            yield [$dateTime1->diff($dateTime2), $years, $months, $days];
+            yield [$dateTime2->diff($dateTime1), -$years, -$months, -$days];
+        }
+    }
+
+    /**
+     * @dataProvider providerFromInvalidDateInterval
+     */
+    public function testFromInvalidDateInterval(string $dateTime1, string $dateTime2, string $expectedMessage): void
+    {
+        $dateTime1 = new \DateTimeImmutable($dateTime1);
+        $dateTime2 = new \DateTimeImmutable($dateTime2);
+
+        $dateInterval = $dateTime1->diff($dateTime2);
+
+        $this->expectException(DateTimeException::class);
+        $this->expectDeprecationMessage($expectedMessage);
+
+        Period::fromDateInterval($dateInterval);
+    }
+
+    public function providerFromInvalidDateInterval(): array
+    {
+        return [
+            ['2020-01-01 00:00:00', '2020-01-01 01:00:00', 'Cannot create a Period from a DateInterval with a non-zero hour.'],
+            ['2020-01-01 00:00:00', '2020-01-01 00:01:00', 'Cannot create a Period from a DateInterval with a non-zero minute.'],
+            ['2020-01-01 00:00:00', '2020-01-01 00:00:01', 'Cannot create a Period from a DateInterval with a non-zero second.'],
+            ['2020-01-01 00:00:00', '2020-01-01 00:00:00.001', 'Cannot create a Period from a DateInterval with a non-zero microsecond.'],
         ];
     }
 

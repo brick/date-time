@@ -14,17 +14,13 @@ final class Interval implements \JsonSerializable
 {
     /**
      * The start instant, inclusive.
-     *
-     * @var Instant
      */
-    private $start;
+    private Instant $start;
 
     /**
      * The end instant, exclusive.
-     *
-     * @var Instant
      */
-    private $end;
+    private Instant $end;
 
     /**
      * @param Instant $startInclusive The start instant, inclusive.

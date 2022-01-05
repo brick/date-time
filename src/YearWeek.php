@@ -11,17 +11,13 @@ final class YearWeek implements \JsonSerializable
 {
     /**
      * The year, from MIN_YEAR to MAX_YEAR.
-     *
-     * @var int
      */
-    private $year;
+    private int $year;
 
     /**
      * The week number, from 1 to 53. Must be valid for the year.
-     *
-     * @var int
      */
-    private $week;
+    private int $week;
 
     /**
      * @param int $year The year, validated from MIN_YEAR to MAX_YEAR.

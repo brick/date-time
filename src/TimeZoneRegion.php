@@ -8,23 +8,21 @@ use Brick\DateTime\Parser\DateTimeParseException;
 use Brick\DateTime\Parser\DateTimeParser;
 use Brick\DateTime\Parser\DateTimeParseResult;
 use Brick\DateTime\Parser\IsoParsers;
+use DateTimeZone;
 
 /**
  * A geographical region where the same time-zone rules apply, such as `Europe/London`.
  */
 final class TimeZoneRegion extends TimeZone
 {
-    /**
-     * @var \DateTimeZone
-     */
-    private $zone;
+    private DateTimeZone $zone;
 
     /**
      * Private constructor. Use a factory method to obtain an instance.
      *
-     * @param \DateTimeZone $zone
+     * @param DateTimeZone $zone
      */
-    private function __construct(\DateTimeZone $zone)
+    private function __construct(DateTimeZone $zone)
     {
         $this->zone = $zone;
     }
@@ -42,7 +40,7 @@ final class TimeZoneRegion extends TimeZone
         }
 
         try {
-            return new TimeZoneRegion(new \DateTimeZone($id));
+            return new TimeZoneRegion(new DateTimeZone($id));
         } catch (\Exception $e) {
             throw DateTimeException::unknownTimeZoneRegion($id);
         }
@@ -68,10 +66,10 @@ final class TimeZoneRegion extends TimeZone
      */
     public static function getAllIdentifiers(bool $includeObsolete = false) : array
     {
-        $identifiers = \DateTimeZone::listIdentifiers(
+        $identifiers = DateTimeZone::listIdentifiers(
             $includeObsolete
-                ? \DateTimeZone::ALL_WITH_BC
-                : \DateTimeZone::ALL
+                ? DateTimeZone::ALL_WITH_BC
+                : DateTimeZone::ALL
         );
 
         \assert(\is_array($identifiers));
@@ -90,7 +88,7 @@ final class TimeZoneRegion extends TimeZone
      */
     public static function getIdentifiersForCountry(string $countryCode) : array
     {
-        $identifiers = \DateTimeZone::listIdentifiers(\DateTimeZone::PER_COUNTRY, $countryCode);
+        $identifiers = DateTimeZone::listIdentifiers(DateTimeZone::PER_COUNTRY, $countryCode);
 
         \assert(\is_array($identifiers));
 
@@ -102,7 +100,7 @@ final class TimeZoneRegion extends TimeZone
      *
      * @throws DateTimeParseException
      */
-    public static function parse(string $text, ?DateTimeParser $parser = null) : TimeZone
+    public static function parse(string $text, ?DateTimeParser $parser = null) : TimeZoneRegion
     {
         if (! $parser) {
             $parser = IsoParsers::timeZoneRegion();
@@ -116,14 +114,14 @@ final class TimeZoneRegion extends TimeZone
         return $this->zone->getName();
     }
 
-    public function getOffset(Instant $instant) : int
+    public function getOffset(Instant $pointInTime) : int
     {
-        $dateTime = new \DateTime('@' . $instant->getEpochSecond(), new \DateTimeZone('UTC'));
+        $dateTime = new \DateTime('@' . $pointInTime->getEpochSecond(), new DateTimeZone('UTC'));
 
         return $this->zone->getOffset($dateTime);
     }
 
-    public function toDateTimeZone() : \DateTimeZone
+    public function toDateTimeZone() : DateTimeZone
     {
         return clone $this->zone;
     }

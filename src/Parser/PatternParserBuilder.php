@@ -9,20 +9,17 @@ namespace Brick\DateTime\Parser;
  */
 final class PatternParserBuilder
 {
-    /**
-     * @var string
-     */
-    private $pattern = '';
+    private string $pattern = '';
 
     /**
      * @var string[]
      */
-    private $fields = [];
+    private array $fields = [];
 
     /**
      * @var string[]
      */
-    private $stack = [];
+    private array $stack = [];
 
     public function append(PatternParser $parser) : self
     {

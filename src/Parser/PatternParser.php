@@ -9,15 +9,12 @@ namespace Brick\DateTime\Parser;
  */
 final class PatternParser implements DateTimeParser
 {
-    /**
-     * @var string
-     */
-    private $pattern;
+    private string $pattern;
 
     /**
      * @var string[]
      */
-    private $fields;
+    private array $fields;
 
     /**
      * @param string   $pattern The regular expression pattern.

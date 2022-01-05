@@ -39,24 +39,18 @@ final class LocalDate implements \JsonSerializable
 
     /**
      * The year.
-     *
-     * @var int
      */
-    private $year;
+    private int $year;
 
     /**
      * The month-of-year.
-     *
-     * @var int
      */
-    private $month;
+    private int $month;
 
     /**
      * The day-of-month.
-     *
-     * @var int
      */
-    private $day;
+    private int $day;
 
     /**
      * Private constructor. Use of() to obtain an instance.
@@ -249,9 +243,9 @@ final class LocalDate implements \JsonSerializable
 
         $min = LocalDate::max();
 
-        foreach ($dates as $time) {
-            if ($time->isBefore($min)) {
-                $min = $time;
+        foreach ($dates as $date) {
+            if ($date->isBefore($min)) {
+                $min = $date;
             }
         }
 
@@ -275,9 +269,9 @@ final class LocalDate implements \JsonSerializable
 
         $max = LocalDate::min();
 
-        foreach ($dates as $time) {
-            if ($time->isAfter($max)) {
-                $max = $time;
+        foreach ($dates as $date) {
+            if ($date->isAfter($max)) {
+                $max = $date;
             }
         }
 

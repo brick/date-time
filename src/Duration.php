@@ -17,19 +17,15 @@ final class Duration implements \JsonSerializable
 {
     /**
      * The duration in seconds.
-     *
-     * @var int
      */
-    private $seconds;
+    private int $seconds;
 
     /**
      * The nanoseconds adjustment to the duration, in the range 0 to 999,999,999.
      *
      * A duration of -1 nanoseconds is stored as -1 seconds plus 999,999,999 nanoseconds.
-     *
-     * @var int
      */
-    private $nanos;
+    private int $nanos;
 
     /**
      * Private constructor. Use one of the factory methods to obtain a Duration.

@@ -17,15 +17,9 @@ use Brick\DateTime\Utility\Math;
  */
 final class LocalDateTime implements \JsonSerializable
 {
-    /**
-     * @var LocalDate
-     */
-    private $date;
+    private LocalDate $date;
 
-    /**
-     * @var LocalTime
-     */
-    private $time;
+    private LocalTime $time;
 
     public function __construct(LocalDate $date, LocalTime $time)
     {
