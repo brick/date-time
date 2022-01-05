@@ -703,11 +703,7 @@ class ZonedDateTime implements \JsonSerializable
 
     public function toUtcDateTime() : UtcDateTime
     {
-        $result = UtcDateTime::ofInstant($this->instant);
-        if ($result instanceof UtcDateTime) {
-            return $result;
-        }
-        throw new \UnexpectedValueException('Incorrect type of UtcDateTime::ofInstant. Expected: UtcDateTime, got: ' . get_class($result));
+        return UtcDateTime::ofInstant($this->instant);
     }
 
     /**
