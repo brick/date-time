@@ -18,7 +18,7 @@
         "php-coveralls/php-coveralls": "^2.2",
         "vimeo/psalm": "4.15.0"
     },
-    "conflict": {
+    "replaces": {
         "brick/date-time": "*"
     },
     "suggest": {
