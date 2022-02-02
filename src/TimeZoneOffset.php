@@ -29,7 +29,7 @@ final class TimeZoneOffset extends TimeZone
     private function __construct(int $totalSeconds)
     {
         $this->totalSeconds = $totalSeconds;
-        $this->getId();
+        $this->setId();
     }
 
     /**
@@ -143,18 +143,19 @@ final class TimeZoneOffset extends TimeZone
         return $this->totalSeconds;
     }
 
+    private function setId(): void
+    {
+        if ($this->totalSeconds < 0) {
+            $this->id = '-' . LocalTime::ofSecondOfDay(- $this->totalSeconds);
+        } elseif ($this->totalSeconds > 0) {
+            $this->id = '+' . LocalTime::ofSecondOfDay($this->totalSeconds);
+        } else {
+            $this->id = 'Z';
+        }
+    }
+
     public function getId() : string
     {
-        if (!isset($this->id)) {
-            if ($this->totalSeconds < 0) {
-                $this->id = '-' . LocalTime::ofSecondOfDay(- $this->totalSeconds);
-            } elseif ($this->totalSeconds > 0) {
-                $this->id = '+' . LocalTime::ofSecondOfDay($this->totalSeconds);
-            } else {
-                $this->id = 'Z';
-            }
-        }
-
         return $this->id;
     }
 
