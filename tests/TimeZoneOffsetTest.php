@@ -236,9 +236,8 @@ class TimeZoneOffsetTest extends AbstractTestCase
     public function testIdIsSetOnInstantiation(): void
     {
         $timezone = TimeZoneOffset::utc();
-        $string = (string) $timezone;
-        $result = TimeZoneOffset::parse($string);
+        $parsedTimezone = TimeZoneOffset::parse((string) $timezone);
 
-        $this->assertEquals($timezone, $result);
+        $this->assertEquals($timezone, $parsedTimezone);
     }
 }
