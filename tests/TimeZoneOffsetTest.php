@@ -232,4 +232,13 @@ class TimeZoneOffsetTest extends AbstractTestCase
         $this->assertInstanceOf(\DateTimeZone::class, $dateTimeZone);
         $this->assertSame('-05:00', $dateTimeZone->getName());
     }
+
+    public function testIdIsSetOnInstantiation(): void
+    {
+        $timezone = TimeZoneOffset::utc();
+        $string = (string) $timezone;
+        $result = TimeZoneOffset::parse($string);
+
+        $this->assertEquals($timezone, $result);
+    }
 }
