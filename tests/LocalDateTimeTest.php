@@ -1243,4 +1243,50 @@ class LocalDateTimeTest extends AbstractTestCase
             [-1, 2, 3, 12, 34, 56, 78900000, '-0001-02-03T12:34:56.0789'],
         ];
     }
+
+    /**
+     * @param string $dateTime
+     * @param bool $withNanos
+     * @param string $expected
+     * @return void
+     * @dataProvider provideToUtcSqlFormat
+     */
+    public function testToUtcSqlFormat(string $dateTime, bool $withNanos, string $expected): void
+    {
+        $zonedDateTime = LocalDateTime::parse($dateTime);
+        $result = $zonedDateTime->toSqlFormat($withNanos);
+
+        $this->assertSame($expected, $result);
+    }
+
+    public function provideToUtcSqlFormat(): array
+    {
+        return [
+            [
+                '2018-10-13T12:34',
+                true,
+                '2018-10-13 12:34:00'
+            ],
+            [
+                '2018-10-13T12:34:15.153',
+                true,
+                '2018-10-13 12:34:15.153000'
+            ],
+            [
+                '2018-10-13T12:34:15.153456',
+                true,
+                '2018-10-13 12:34:15.153456'
+            ],
+            [
+                '2018-10-13T12:34:15.153456',
+                false,
+                '2018-10-13 12:34:15'
+            ],
+            [
+                '2018-10-13T12:34:15',
+                false,
+                '2018-10-13 12:34:15'
+            ],
+        ];
+    }
 }

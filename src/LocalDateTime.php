@@ -740,6 +740,20 @@ final class LocalDateTime implements \JsonSerializable
     }
 
     /**
+     * @param bool $withNanos
+     * @return string
+     */
+    public function toSqlFormat(bool $withNanos = true) : string
+    {
+        $format = 'Y-m-d H:i:s';
+        if ($withNanos && $this->getNano() > 0) {
+            $format .= '.u';
+        }
+
+        return $this->atTimeZone(TimeZone::utc())->toPhpFormat($format);
+    }
+
+    /**
      * Serializes as a string using {@see LocalDateTime::__toString()}.
      */
     public function jsonSerialize() : string
