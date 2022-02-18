@@ -706,6 +706,30 @@ class ZonedDateTime implements \JsonSerializable
         return UtcDateTime::ofInstant($this->instant);
     }
 
+    public function toPhpFormat(string $format) : string
+    {
+        $result = $this->toDateTime()->format($format);
+        if ($result === false) {
+            throw new DateTimeException('Cannot format date to "' . $format . '"');
+        }
+
+        return $result;
+    }
+
+    /**
+     * @param bool $withNanos
+     * @return string
+     */
+    public function toUtcSqlFormat(bool $withNanos = true) : string
+    {
+        $format = 'Y-m-d H:i:s';
+        if ($withNanos && $this->getNano() > 0) {
+            $format .= '.u';
+        }
+
+        return $this->toUtcDateTime()->toPhpFormat($format);
+    }
+
     /**
      * Serializes as a string using {@see ZonedDateTime::__toString()}.
      */

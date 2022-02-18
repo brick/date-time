@@ -812,4 +812,96 @@ class ZonedDateTimeTest extends AbstractTestCase
 
         $this->assertSame('2000-01-20T12:34:56.123456789-08:00[America/Los_Angeles]', (string) $zonedDateTime);
     }
+
+    /**
+     * @param string $dateTime
+     * @param string $format
+     * @param string $expected
+     * @return void
+     * @dataProvider provideToPhpFormat
+     */
+    public function testToPhpFormat(string $dateTime, string $format, string $expected): void
+    {
+        $zonedDateTime = ZonedDateTime::parse($dateTime);
+        $result = $zonedDateTime->toPhpFormat($format);
+
+        $this->assertSame($expected, $result);
+    }
+
+    public function provideToPhpFormat(): array
+    {
+        return [
+            [
+                '2018-10-13T12:34+01:00[Europe/London]',
+                \DateTime::ATOM,
+                '2018-10-13T12:34:00+01:00'
+            ],
+            [
+                '2018-10-13T12:34:00.15+01:00[Europe/London]',
+                \DateTime::RFC3339_EXTENDED,
+                '2018-10-13T12:34:00.150+01:00'
+            ],
+            [
+                '2018-10-13T12:34:00.15+01:00[Europe/London]',
+                \DateTime::RSS,
+                'Sat, 13 Oct 2018 12:34:00 +0100'
+            ],
+            [
+                '2018-10-13T12:34:00.15+01:00[Europe/London]',
+                \DateTime::W3C,
+                '2018-10-13T12:34:00+01:00'
+            ],
+            [
+                '2018-10-13T12:34:00.15+01:00[Europe/London]',
+                'e',
+                'Europe/London'
+            ],
+        ];
+    }
+
+    /**
+     * @param string $dateTime
+     * @param bool $withNanos
+     * @param string $expected
+     * @return void
+     * @dataProvider provideToUtcSqlFormat
+     */
+    public function testToUtcSqlFormat(string $dateTime, bool $withNanos, string $expected): void
+    {
+        $zonedDateTime = ZonedDateTime::parse($dateTime);
+        $result = $zonedDateTime->toUtcSqlFormat($withNanos);
+
+        $this->assertSame($expected, $result);
+    }
+
+    public function provideToUtcSqlFormat(): array
+    {
+        return [
+            [
+                '2018-10-13T12:34+01:00[Europe/London]',
+                true,
+                '2018-10-13 11:34:00'
+            ],
+            [
+                '2018-10-13T12:34:15.153+01:00',
+                true,
+                '2018-10-13 11:34:15.153000'
+            ],
+            [
+                '2018-10-13T12:34:15.153456+01:00',
+                true,
+                '2018-10-13 11:34:15.153456'
+            ],
+            [
+                '2018-10-13T12:34:15.153456+01:00',
+                false,
+                '2018-10-13 11:34:15'
+            ],
+            [
+                '2018-10-13T12:34:15Z',
+                false,
+                '2018-10-13 12:34:15'
+            ],
+        ];
+    }
 }
