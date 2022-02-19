@@ -717,17 +717,12 @@ class ZonedDateTime implements \JsonSerializable
     }
 
     /**
-     * @param bool $withNanos
+     * @param bool $withNano
      * @return string
      */
-    public function toUtcSqlFormat(bool $withNanos = true) : string
+    public function toUtcSqlFormat(bool $withNano = true) : string
     {
-        $format = 'Y-m-d H:i:s';
-        if ($withNanos && $this->getNano() > 0) {
-            $format .= '.u';
-        }
-
-        return $this->toUtcDateTime()->toPhpFormat($format);
+        return $this->toUtcDateTime()->getDateTime()->toSqlFormat($withNano);
     }
 
     /**

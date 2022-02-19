@@ -740,17 +740,23 @@ final class LocalDateTime implements \JsonSerializable
     }
 
     /**
-     * @param bool $withNanos
+     * @param bool $withNano
      * @return string
      */
-    public function toSqlFormat(bool $withNanos = true) : string
+    public function toSqlFormat(bool $withNano = true) : string
     {
-        $format = 'Y-m-d H:i:s';
-        if ($withNanos && $this->getNano() > 0) {
-            $format .= '.u';
-        }
+        $result = $this->date
+            . ' '
+            . str_pad((string)$this->getHour(), 2, '0', STR_PAD_LEFT)
+            . ':'
+            . str_pad((string)$this->getMinute(), 2, '0', STR_PAD_LEFT)
+            . ':'
+            . str_pad((string)$this->getSecond(), 2, '0', STR_PAD_LEFT);
 
-        return $this->atTimeZone(TimeZone::utc())->toPhpFormat($format);
+        if ($withNano && $this->getNano() > 0) {
+            $result .= '.' . rtrim((string)$this->getNano(), '0');
+        }
+        return $result;
     }
 
     /**
