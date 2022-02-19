@@ -1246,15 +1246,15 @@ class LocalDateTimeTest extends AbstractTestCase
 
     /**
      * @param string $dateTime
-     * @param bool $withNanos
+     * @param int $precision
      * @param string $expected
      * @return void
      * @dataProvider provideToUtcSqlFormat
      */
-    public function testToUtcSqlFormat(string $dateTime, bool $withNanos, string $expected): void
+    public function testToUtcSqlFormat(string $dateTime, int $precision, string $expected): void
     {
         $zonedDateTime = LocalDateTime::parse($dateTime);
-        $result = $zonedDateTime->toSqlFormat($withNanos);
+        $result = $zonedDateTime->toSqlFormat($precision);
 
         $this->assertSame($expected, $result);
     }
@@ -1263,38 +1263,53 @@ class LocalDateTimeTest extends AbstractTestCase
     {
         return [
             [
-                '2018-10-13T12:34',
-                true,
+                '2018-10-13T12:34:00',
+                0,
                 '2018-10-13 12:34:00'
             ],
             [
                 '2018-01-02T03:04:05',
-                true,
-                '2018-01-02 03:04:05'
+                2,
+                '2018-01-02 03:04:05.00'
             ],
             [
-                '2018-10-13T12:34:15.153',
-                true,
-                '2018-10-13 12:34:15.153'
+                '2018-10-13T12:34:15.159',
+                2,
+                '2018-10-13 12:34:15.15'
+            ],
+            [
+                '2018-10-13T12:34:15.159',
+                3,
+                '2018-10-13 12:34:15.159'
+            ],
+            [
+                '2018-10-13T12:34:15.159',
+                4,
+                '2018-10-13 12:34:15.1590'
+            ],
+            [
+                '2018-10-13T12:34:15.159',
+                9,
+                '2018-10-13 12:34:15.159000000'
             ],
             [
                 '2018-10-13T12:34:15.153456',
-                true,
+                6,
                 '2018-10-13 12:34:15.153456'
             ],
             [
+                '2018-10-13T12:34:15.000016',
+                6,
+                '2018-10-13 12:34:15.000016'
+            ],
+            [
                 '2018-10-13T12:34:15.153456789',
-                true,
+                9,
                 '2018-10-13 12:34:15.153456789'
             ],
             [
-                '2018-10-13T12:34:15.153456',
-                false,
-                '2018-10-13 12:34:15'
-            ],
-            [
-                '2018-10-13T12:34:15',
-                false,
+                '2018-10-13T12:34:15.999999',
+                0,
                 '2018-10-13 12:34:15'
             ],
         ];

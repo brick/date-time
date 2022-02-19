@@ -740,11 +740,17 @@ final class LocalDateTime implements \JsonSerializable
     }
 
     /**
-     * @param bool $withNano
+     * @param int $precision
      * @return string
      */
-    public function toSqlFormat(bool $withNano = true) : string
+    public function toSqlFormat(int $precision) : string
     {
+        $nanoSize = 9;
+        if ($precision < 0 || $precision > $nanoSize) {
+            throw new \InvalidArgumentException('Precision must be between 0 and ' .$nanoSize . '. Got: '. $precision);
+        }
+
+
         $result = $this->date
             . ' '
             . str_pad((string)$this->getHour(), 2, '0', STR_PAD_LEFT)
@@ -753,8 +759,9 @@ final class LocalDateTime implements \JsonSerializable
             . ':'
             . str_pad((string)$this->getSecond(), 2, '0', STR_PAD_LEFT);
 
-        if ($withNano && $this->getNano() > 0) {
-            $result .= '.' . rtrim((string)$this->getNano(), '0');
+        if ($precision > 0) {
+            $nano = str_pad((string)$this->getNano(), $nanoSize, '0', STR_PAD_LEFT);
+            $result .= '.' . substr($nano, 0, $precision);
         }
         return $result;
     }

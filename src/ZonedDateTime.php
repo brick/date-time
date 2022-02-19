@@ -717,12 +717,15 @@ class ZonedDateTime implements \JsonSerializable
     }
 
     /**
-     * @param bool $withNano
-     * @return string
+     * @param int $precision
+     * @return string "Y-m-d H:i:s.u" or "Y-m-d H:i:s"
      */
-    public function toUtcSqlFormat(bool $withNano = true) : string
+    public function toUtcSqlFormat(int $precision) : string
     {
-        return $this->toUtcDateTime()->getDateTime()->toSqlFormat($withNano);
+        if ($precision < 0 || $precision > 9) {
+            throw new \InvalidArgumentException('Precision must be between 0 and 9. Got: '. $precision);
+        }
+        return $this->toUtcDateTime()->getDateTime()->toSqlFormat($precision);
     }
 
     /**

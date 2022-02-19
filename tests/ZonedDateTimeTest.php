@@ -861,15 +861,15 @@ class ZonedDateTimeTest extends AbstractTestCase
 
     /**
      * @param string $dateTime
-     * @param bool $withNanos
+     * @param int $precision
      * @param string $expected
      * @return void
      * @dataProvider provideToUtcSqlFormat
      */
-    public function testToUtcSqlFormat(string $dateTime, bool $withNanos, string $expected): void
+    public function testToUtcSqlFormat(string $dateTime, int $precision, string $expected): void
     {
         $zonedDateTime = ZonedDateTime::parse($dateTime);
-        $result = $zonedDateTime->toUtcSqlFormat($withNanos);
+        $result = $zonedDateTime->toUtcSqlFormat($precision);
 
         $this->assertSame($expected, $result);
     }
@@ -879,33 +879,38 @@ class ZonedDateTimeTest extends AbstractTestCase
         return [
             [
                 '2018-10-13T12:34+01:00[Europe/London]',
-                true,
+                0,
                 '2018-10-13 11:34:00'
             ],
             [
                 '2018-10-13T12:34:15.153+01:00',
-                true,
+                3,
                 '2018-10-13 11:34:15.153'
             ],
             [
                 '2018-10-13T12:34:15.153456+01:00',
-                true,
+                6,
                 '2018-10-13 11:34:15.153456'
             ],
             [
                 '2018-10-13T12:34:15.153456789+01:00',
-                true,
+                9,
                 '2018-10-13 11:34:15.153456789'
             ],
             [
-                '2018-10-13T12:34:15.153456+01:00',
-                false,
-                '2018-10-13 11:34:15'
+                '2018-10-13T12:34:15.15956+01:00',
+                2,
+                '2018-10-13 11:34:15.15'
             ],
             [
-                '2018-10-13T12:34:15Z',
-                false,
-                '2018-10-13 12:34:15'
+                '2018-10-13T12:34:15.15956Z',
+                3,
+                '2018-10-13 12:34:15.159'
+            ],
+            [
+                '2018-10-13T12:34:15.15956Z',
+                9,
+                '2018-10-13 12:34:15.159560000'
             ],
         ];
     }
