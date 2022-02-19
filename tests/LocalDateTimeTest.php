@@ -1314,4 +1314,56 @@ class LocalDateTimeTest extends AbstractTestCase
             ],
         ];
     }
+
+    /**
+     * @param string $input
+     * @param string $expected
+     * @return void
+     * @dataProvider provideFromSqlFormat
+     */
+    public function testFromSqlFormat(string $input, string $expected): void
+    {
+        $dateTime = LocalDateTime::fromSqlFormat($input);
+
+        $this->assertSame($expected, (string)$dateTime);
+    }
+
+    public function provideFromSqlFormat(): array
+    {
+        return [
+            [
+                '2018-10-13 12:13:14',
+                '2018-10-13T12:13:14'
+            ],
+            [
+                '2018-10-13 12:13:14.10',
+                '2018-10-13T12:13:14.1'
+            ],
+            [
+                '2018-10-13 12:13:14.000',
+                '2018-10-13T12:13:14'
+            ],
+            [
+                '2018-10-13 12:13:14.000000',
+                '2018-10-13T12:13:14'
+            ],
+            [
+                '2018-10-13 12:13:14.000000001',
+                '2018-10-13T12:13:14.000000001'
+            ],
+            [
+                '2018-10-13 12:13:14.0000000059',
+                '2018-10-13T12:13:14.000000005'
+            ],
+            [
+                '2018-10-13 12:13:14.0000000009',
+                '2018-10-13T12:13:14'
+            ],
+            [
+                '2018-10-13 12:13:14.00203',
+                '2018-10-13T12:13:14.00203'
+            ],
+        ];
+    }
+
 }

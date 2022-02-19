@@ -69,6 +69,35 @@ final class LocalDateTime implements \JsonSerializable
     }
 
     /**
+     * @param string $input "Y-m-d H:i:s.u" or "Y-m-d H:i:s"
+     * @return LocalDateTime
+     */
+    public static function fromSqlFormat(string $input): LocalDateTime
+    {
+        $originalInput = $input;
+        $dotPos = strpos($input, '.');
+        $nano = 0;
+        if ($dotPos !== false) {
+            $fractionalPart = substr($originalInput, $dotPos + 1);
+            $input = substr($originalInput, 0, $dotPos);
+            if (!is_numeric($fractionalPart)) {
+                throw new \InvalidArgumentException('Incorrect fractional part in format. Got "' . $originalInput. '"');
+            }
+            $fractionalPart = substr($fractionalPart, 0, 9); // Remove numbers from right
+            $fractionalPart = str_pad($fractionalPart, 9, '0');
+            $nano = (int)$fractionalPart;
+        }
+
+        $dateTime = \DateTimeImmutable::createFromFormat('Y-m-d H:i:s', $input, new \DateTimeZone('UTC'));
+        if ($dateTime === false) {
+            throw new \InvalidArgumentException('Input expected to be in "Y-m-d H:i:s" format. Got "' . $originalInput. '"');
+        }
+
+        return self::fromDateTime($dateTime)->withNano($nano);
+    }
+
+
+    /**
      * Obtains an instance of `LocalDateTime` from a text string.
      *
      * @param string              $text   The text to parse, such as `2007-12-03T10:15:30`.

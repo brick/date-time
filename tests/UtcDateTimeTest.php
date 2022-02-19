@@ -102,4 +102,88 @@ class UtcDateTimeTest extends AbstractTestCase
             ['2001-02-03T01:02:03.456+00:00[Europe/London]', '2001-02-03', '01:02:03.456', 'Z', 'Z']
         ];
     }
+    /**
+     * @param string $input
+     * @param string $expected
+     * @return void
+     * @dataProvider provideFromSqlFormat
+     */
+    public function testFromSqlFormat(string $input, string $expected): void
+    {
+        $dateTime = UtcDateTime::fromSqlFormat($input);
+
+        $this->assertSame($expected, (string)$dateTime);
+    }
+
+    public function provideFromSqlFormat(): array
+    {
+        return [
+            [
+                '2018-10-13 12:13:14',
+                '2018-10-13T12:13:14Z'
+            ],
+            [
+                '2018-10-13 12:13:14.000',
+                '2018-10-13T12:13:14Z'
+            ],
+            [
+                '2018-10-13 12:13:14.000000',
+                '2018-10-13T12:13:14Z'
+            ],
+            [
+                '2018-10-13 12:13:14.000000001',
+                '2018-10-13T12:13:14.000000001Z'
+            ],
+            [
+                '2018-10-13 12:13:14.0000000059',
+                '2018-10-13T12:13:14.000000005Z'
+            ],
+            [
+                '2018-10-13 12:13:14.00203',
+                '2018-10-13T12:13:14.00203Z'
+            ],
+        ];
+    }
+
+    /**
+     * @param string $input
+     * @param string $timeZone
+     * @param string $expected
+     * @return void
+     * @dataProvider provideFromSqlFormatInvalidCases
+     */
+    public function testFromSqlFormatInvalidCases(string $input, string $timeZone, string $expected): void
+    {
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage($expected);
+
+        UtcDateTime::fromSqlFormat($input, TimeZone::parse($timeZone));
+    }
+
+    public function provideFromSqlFormatInvalidCases(): array
+    {
+        return [
+            [
+                '2018-10-23 12:13:14 ',
+                'Z',
+                'Input expected to be in "Y-m-d H:i:s" format. Got "2018-10-23 12:13:14 "'
+            ],
+            [
+                '2018-10-23 12:13:14.abba',
+                'Z',
+                'Incorrect fractional part in format. Got "2018-10-23 12:13:14.abba"'
+            ],
+            [
+                '2018-10-23T12:13:14Z',
+                'Z',
+                'Input expected to be in "Y-m-d H:i:s" format. Got "2018-10-23T12:13:14Z"'
+            ],
+            [
+                '2018-10-23T12:13:14',
+                'Europe/Moscow',
+                'Create UtcDateTime with not UTC timezone is not supported'
+            ],
+        ];
+    }
+
 }

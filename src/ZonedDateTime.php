@@ -175,6 +175,16 @@ class ZonedDateTime implements \JsonSerializable
     }
 
     /**
+     * @param string $input "Y-m-d H:i:s.u" or "Y-m-d H:i:s"
+     * @param TimeZone $timeZone
+     * @return ZonedDateTime
+     */
+    public static function fromSqlFormat(string $input, TimeZone $timeZone): ZonedDateTime
+    {
+        return self::of(LocalDateTime::fromSqlFormat($input), $timeZone);
+    }
+
+    /**
      * Obtains an instance of `ZonedDateTime` from a text string.
      *
      * Valid examples:

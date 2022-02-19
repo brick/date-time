@@ -430,7 +430,7 @@ class ZonedDateTimeTest extends AbstractTestCase
 
     public function testChangeTimeZone(): void
     {
-        $timezone1 = TimeZone::parse('UTC');
+        $timezone1 = TimeZone::parse('Z');
         $timezone2 = TimeZone::parse('America/Los_Angeles');
 
         $datetime1 = ZonedDateTime::ofInstant(Instant::of(1000000000), $timezone1);
@@ -911,6 +911,97 @@ class ZonedDateTimeTest extends AbstractTestCase
                 '2018-10-13T12:34:15.15956Z',
                 9,
                 '2018-10-13 12:34:15.159560000'
+            ],
+        ];
+    }
+
+    /**
+     * @param string $input
+     * @param string $timeZone
+     * @param string $expected
+     * @return void
+     * @dataProvider provideFromSqlFormat
+     */
+    public function testFromSqlFormat(string $input, string $timeZone, string $expected): void
+    {
+        $dateTime = ZonedDateTime::fromSqlFormat($input, TimeZone::parse($timeZone));
+
+        $this->assertSame($expected, (string)$dateTime);
+    }
+
+    public function provideFromSqlFormat(): array
+    {
+        return [
+            [
+                '2018-10-13 12:13:14',
+                'Europe/Minsk',
+                '2018-10-13T12:13:14+03:00[Europe/Minsk]'
+            ],
+            [
+                '2018-10-13 12:13:14.000',
+                'Europe/London',
+                '2018-10-13T12:13:14+01:00[Europe/London]'
+            ],
+            [
+                '2018-10-13 12:13:14.000000',
+                'Europe/London',
+                '2018-10-13T12:13:14+01:00[Europe/London]'
+            ],
+            [
+                '2018-10-13 12:13:14.000000001',
+                'Z',
+                '2018-10-13T12:13:14.000000001Z'
+            ],
+            [
+                '2018-10-13 12:13:14.0000000059',
+                'Z',
+                '2018-10-13T12:13:14.000000005Z'
+            ],
+            [
+                '2018-10-13 12:13:14.0000000009',
+                'Z',
+                '2018-10-13T12:13:14Z'
+            ],
+            [
+                '2018-10-13 12:13:14.00203',
+                'Z',
+                '2018-10-13T12:13:14.00203Z'
+            ],
+        ];
+    }
+
+    /**
+     * @param string $input
+     * @param string $timeZone
+     * @param string $expected
+     * @return void
+     * @dataProvider provideFromSqlFormatInvalidCases
+     */
+    public function testFromSqlFormatInvalidCases(string $input, string $timeZone, string $expected): void
+    {
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage($expected);
+
+        ZonedDateTime::fromSqlFormat($input, TimeZone::parse($timeZone));
+    }
+
+    public function provideFromSqlFormatInvalidCases(): array
+    {
+        return [
+            [
+                '2018-10-23 12:13:14 ',
+                'Europe/Minsk',
+                'Input expected to be in "Y-m-d H:i:s" format. Got "2018-10-23 12:13:14 "'
+            ],
+            [
+                '2018-10-23 12:13:14.abba',
+                'Europe/Minsk',
+                'Incorrect fractional part in format. Got "2018-10-23 12:13:14.abba"'
+            ],
+            [
+                '2018-10-23T12:13:14Z',
+                'Europe/Minsk',
+                'Input expected to be in "Y-m-d H:i:s" format. Got "2018-10-23T12:13:14Z"'
             ],
         ];
     }

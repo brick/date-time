@@ -93,4 +93,27 @@ final class UtcDateTime extends ZonedDateTime
          */
         return $result;
     }
+
+    /**
+     * @param string $input "Y-m-d H:i:s.u" or "Y-m-d H:i:s"
+     * @param TimeZone|null $timeZone
+     * @return UtcDateTime
+     */
+    public static function fromSqlFormat(string $input, TimeZone $timeZone = null): UtcDateTime
+    {
+        if ($timeZone === null) {
+            $timeZone = TimeZone::utc();
+        }
+        if (!$timeZone->isEqualTo(TimeZone::utc())) {
+            throw new \InvalidArgumentException('Create UtcDateTime with not UTC timezone is not supported');
+        }
+
+        $result = parent::fromSqlFormat($input, $timeZone);
+
+        /**
+         * @noinspection PhpIncompatibleReturnTypeInspection
+         * @var UtcDateTime
+         */
+        return $result;
+    }
 }
