@@ -250,6 +250,15 @@ final class YearWeek implements \JsonSerializable
     }
 
     /**
+     * Returns LocalDateRange that contains all days of this year week
+     * @return LocalDateRange
+     */
+    public function toLocalDateRange(): LocalDateRange
+    {
+        return LocalDateRange::of($this->getFirstDay(), $this->getLastDay());
+    }
+
+    /**
      * Serializes as a string using {@see YearWeek::__toString()}.
      */
     public function jsonSerialize() : string

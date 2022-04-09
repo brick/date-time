@@ -282,6 +282,15 @@ final class YearMonth implements \JsonSerializable
     }
 
     /**
+     * Returns LocalDateRange that contains all days of this year and month
+     * @return LocalDateRange
+     */
+    public function toLocalDateRange(): LocalDateRange
+    {
+        return LocalDateRange::of($this->getFirstDay(), $this->getLastDay());
+    }
+
+    /**
      * Serializes as a string using {@see YearMonth::__toString()}.
      */
     public function jsonSerialize() : string

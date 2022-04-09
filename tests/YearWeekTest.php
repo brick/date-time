@@ -6,6 +6,7 @@ namespace Brick\DateTime\Tests;
 
 use Brick\DateTime\DateTimeException;
 use Brick\DateTime\DayOfWeek;
+use Brick\DateTime\LocalDateRange;
 use Brick\DateTime\YearWeek;
 use Brick\DateTime\TimeZone;
 use Brick\DateTime\LocalDate;
@@ -366,6 +367,23 @@ class YearWeekTest extends AbstractTestCase
 
         $this->assertIs(LocalDate::class, $firstDay, $yearWeek->getFirstDay());
         $this->assertIs(LocalDate::class, $lastDay, $yearWeek->getLastDay());
+    }
+
+    /**
+     * @dataProvider providerGetFirstLastDay
+     *
+     * @param int $year
+     * @param int $week
+     * @param string $firstDay
+     * @param string $lastDay
+     * @return void
+     */
+    public function testToLocalDateRange(int $year, int $week, string $firstDay, string $lastDay): void
+    {
+        $yearWeek = YearWeek::of($year, $week);
+        $expectedDareRange = LocalDateRange::parse($firstDay . '/' . $lastDay);
+
+        $this->assertEquals($expectedDareRange, $yearWeek->toLocalDateRange());
     }
 
     public function providerGetFirstLastDay() : array

@@ -433,6 +433,26 @@ class YearTest extends AbstractTestCase
         ];
     }
 
+    /**
+     * @param int $year
+     * @param string $expectedRange
+     * @return void
+     * @dataProvider providerToLocalDateRange
+     */
+    public function testToLocalDateRange(int $year, string $expectedRange): void
+    {
+        $this->assertSame($expectedRange, (string)Year::of($year)->toLocalDateRange());
+    }
+
+    public function providerToLocalDateRange(): array
+    {
+        return [
+            [1900, '1900-01-01/1900-12-31'],
+            [2020, '2020-01-01/2020-12-31'],
+            [3000, '3000-01-01/3000-12-31'],
+        ];
+    }
+
     public function testJsonSerialize(): void
     {
         $this->assertSame(json_encode('1987'), json_encode(Year::of(1987)));
