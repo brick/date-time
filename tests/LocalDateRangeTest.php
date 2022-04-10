@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Brick\DateTime\Tests;
 
 use Brick\DateTime\DateTimeException;
+use Brick\DateTime\Duration;
 use Brick\DateTime\LocalDate;
 use Brick\DateTime\LocalDateRange;
 use Brick\DateTime\Parser\DateTimeParseException;
@@ -170,6 +171,14 @@ class LocalDateRangeTest extends AbstractTestCase
     public function testCount(string $range, int $count): void
     {
         $this->assertCount($count, LocalDateRange::parse($range));
+    }
+
+    /**
+     * @dataProvider providerCount
+     */
+    public function testGetDuration(string $range, int $daysCount): void
+    {
+        $this->assertEquals(Duration::ofDays($daysCount), LocalDateRange::parse($range)->getDuration());
     }
 
     public function providerCount() : array

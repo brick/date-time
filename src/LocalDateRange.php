@@ -229,6 +229,16 @@ final class LocalDateRange implements \IteratorAggregate, \Countable, \JsonSeria
     }
 
     /**
+     * Returns Duration of this range
+     *
+     * @return Duration
+     */
+    public function getDuration(): Duration
+    {
+        return Duration::ofDays($this->count());
+    }
+
+    /**
      * Serializes as a string using {@see LocalDateRange::__toString()}.
      */
     public function jsonSerialize() : string
