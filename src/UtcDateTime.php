@@ -7,6 +7,38 @@ namespace Brick\DateTime;
 use Brick\DateTime\Parser\DateTimeParser;
 use Brick\DateTime\Parser\DateTimeParseResult;
 
+/**
+ * @method UtcDateTime withDate(LocalDate $date)
+ * @method UtcDateTime withTime(LocalTime $time)
+ * @method UtcDateTime withYear(int $year)
+ * @method UtcDateTime withMonth(int $month)
+ * @method UtcDateTime withDay(int $day)
+ * @method UtcDateTime withHour(int $hour)
+ * @method UtcDateTime withMinute(int $minute)
+ * @method UtcDateTime withSecond(int $second)
+ * @method UtcDateTime withNano(int $nano)
+ * @method UtcDateTime withFixedOffsetTimeZone()
+ *
+ * @method UtcDateTime plusYears(int $years)
+ * @method UtcDateTime plusMonths(int $months)
+ * @method UtcDateTime plusWeeks(int $weeks)
+ * @method UtcDateTime plusDays(int $days)
+ * @method UtcDateTime plusHours(int $hours)
+ * @method UtcDateTime plusMinutes(int $minutes)
+ * @method UtcDateTime plusSeconds(int $seconds)
+ * @method UtcDateTime plusPeriod(Period $period)
+ * @method UtcDateTime plusDuration(Duration $duration)
+ *
+ * @method UtcDateTime minusYears(int $years)
+ * @method UtcDateTime minusMonths(int $months)
+ * @method UtcDateTime minusWeeks(int $weeks)
+ * @method UtcDateTime minusDays(int $days)
+ * @method UtcDateTime minusHours(int $hours)
+ * @method UtcDateTime minusMinutes(int $minutes)
+ * @method UtcDateTime minusSeconds(int $seconds)
+ * @method UtcDateTime minusPeriod(Period $period)
+ * @method UtcDateTime minusDuration(Duration $duration)
+ */
 final class UtcDateTime extends ZonedDateTime
 {
     public static function of(LocalDateTime $dateTime, TimeZone $timeZone = null): UtcDateTime
