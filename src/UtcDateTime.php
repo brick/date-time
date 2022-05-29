@@ -148,4 +148,13 @@ final class UtcDateTime extends ZonedDateTime
          */
         return $result;
     }
+
+    /**
+     * Convert to RFC 3339 compatible format (2022-03-30T21:00:00.000000Z)
+     * @return string
+     */
+    public function toCanonicalFormat(): string
+    {
+        return $this->toPhpFormat('Y-m-d\TH:i:s.u\Z');
+    }
 }

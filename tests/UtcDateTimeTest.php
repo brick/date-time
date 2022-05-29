@@ -186,4 +186,53 @@ class UtcDateTimeTest extends AbstractTestCase
         ];
     }
 
+    /**
+     * @param UtcDateTime $input
+     * @param string $expected
+     * @return void
+     * @dataProvider providerToCanonicalFormat
+     */
+    public function testToCanonicalFormat(UtcDateTime $input, string $expected): void
+    {
+        $this->assertSame($expected, $input->toCanonicalFormat());
+    }
+
+    public function providerToCanonicalFormat(): array
+    {
+        return [
+            [
+                UtcDateTime::parse('2022-03-30T00:00Z'),
+                '2022-03-30T00:00:00.000000Z'
+            ],
+            [
+                UtcDateTime::parse('2022-03-30T10:11Z'),
+                '2022-03-30T10:11:00.000000Z'
+            ],
+            [
+                UtcDateTime::parse('2022-03-30T10:11:12Z'),
+                '2022-03-30T10:11:12.000000Z'
+            ],
+            [
+                UtcDateTime::parse('2022-03-30T10:11:12.1Z'),
+                '2022-03-30T10:11:12.100000Z'
+            ],
+            [
+                UtcDateTime::parse('2022-03-30T10:11:12.001Z'),
+                '2022-03-30T10:11:12.001000Z'
+            ],
+            [
+                UtcDateTime::parse('2022-03-30T10:11:12.000001Z'),
+                '2022-03-30T10:11:12.000001Z'
+            ],
+            [
+                UtcDateTime::parse('2022-03-30T10:11:12.000000999Z'),
+                '2022-03-30T10:11:12.000000Z'
+            ],
+            [
+                UtcDateTime::parse('1000-03-30T10:11:12.123456789Z'),
+                '1000-03-30T10:11:12.123456Z'
+            ],
+        ];
+    }
+
 }
