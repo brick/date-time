@@ -381,9 +381,9 @@ class YearWeekTest extends AbstractTestCase
     public function testToLocalDateRange(int $year, int $week, string $firstDay, string $lastDay): void
     {
         $yearWeek = YearWeek::of($year, $week);
-        $expectedDareRange = LocalDateRange::parse($firstDay . '/' . $lastDay);
+        $expectedDateRange = (string)LocalDateRange::parse($firstDay . '/' . $lastDay);
 
-        $this->assertEquals($expectedDareRange, $yearWeek->toLocalDateRange());
+        $this->assertEquals($expectedDateRange, (string)$yearWeek->toLocalDateRange());
     }
 
     public function providerGetFirstLastDay() : array
