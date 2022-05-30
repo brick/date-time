@@ -163,6 +163,18 @@ class YearMonthRange implements \IteratorAggregate, \Countable, \JsonSerializabl
     }
 
     /**
+     * Returns LocalDateRange that contains all days of this year-months range
+     * @return LocalDateRange
+     */
+    public function toLocalDateRange(): LocalDateRange
+    {
+        return LocalDateRange::of(
+            $this->getStart()->getFirstDay(),
+            $this->getEnd()->getLastDay()
+        );
+    }
+
+    /**
      * Serializes as a string using {@see YearMonthRange::__toString()}.
      */
     public function jsonSerialize() : string

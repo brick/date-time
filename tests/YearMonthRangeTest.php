@@ -176,6 +176,28 @@ class YearMonthRangeTest extends AbstractTestCase
         ];
     }
 
+    /**
+     * @param string $yearMonthRange
+     * @param string $expectedRange
+     * @return void
+     * @dataProvider providerToLocalDateRange
+     */
+    public function testToLocalDateRange(string $yearMonthRange, string $expectedRange): void
+    {
+        $this->assertSame($expectedRange, (string)YearMonthRange::parse($yearMonthRange)->toLocalDateRange());
+    }
+
+    public function providerToLocalDateRange(): array
+    {
+        return [
+            ['1900-01/1900-12', '1900-01-01/1900-12-31'],
+            ['1900-02/1900-02', '1900-02-01/1900-02-28'],
+            ['2000-01/2000-02', '2000-01-01/2000-02-29'],
+            ['2001-01/2001-02', '2001-01-01/2001-02-28'],
+            ['1901-01/3000-12', '1901-01-01/3000-12-31'],
+        ];
+    }
+
     public function testJsonSerialize(): void
     {
         $this->assertSame(json_encode('2008-12/2011-01'), json_encode(YearMonthRange::of(

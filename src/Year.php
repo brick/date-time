@@ -229,6 +229,18 @@ final class Year implements \JsonSerializable
     }
 
     /**
+     * Returns LocalDateRange that contains all days of this year
+     * @return LocalDateRange
+     */
+    public function toLocalDateRange() : LocalDateRange
+    {
+        return LocalDateRange::of(
+            $this->atMonth(1)->getFirstDay(),
+            $this->atMonth(12)->getLastDay()
+        );
+    }
+
+    /**
      * Serializes as a string using {@see Year::__toString()}.
      */
     public function jsonSerialize() : string
