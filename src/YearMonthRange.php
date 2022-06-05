@@ -175,6 +175,16 @@ class YearMonthRange implements \IteratorAggregate, \Countable, \JsonSerializabl
     }
 
     /**
+     * Returns Duration of this range
+     *
+     * @return Duration
+     */
+    public function toDuration(): Duration
+    {
+        return $this->toLocalDateRange()->toDuration();
+    }
+
+    /**
      * Serializes as a string using {@see YearMonthRange::__toString()}.
      */
     public function jsonSerialize() : string

@@ -198,6 +198,29 @@ class YearMonthRangeTest extends AbstractTestCase
         ];
     }
 
+    /**
+     * @dataProvider providerToDuration
+     */
+    public function testToDuration(string $range, int $expectedDaysCount): void
+    {
+        $actualDuration = YearMonthRange::parse($range)->toDuration();
+        $expectedSeconds = $expectedDaysCount * 60 * 60 * 24;
+        $this->assertDurationIs($expectedSeconds, 0, $actualDuration);
+    }
+
+    public function providerToDuration(): array
+    {
+        return [
+            ['1900-01/1900-12', 365],
+            ['1900-05/1901-04', 365],
+            ['1904-01/1904-12', 366],
+            ['1900-02/1900-02', 28],
+            ['2000-01/2000-02', 31 + 29],
+            ['2001-01/2001-02', 31 + 28],
+            ['1901-01/3000-12', 401767],
+        ];
+    }
+
     public function testJsonSerialize(): void
     {
         $this->assertSame(json_encode('2008-12/2011-01'), json_encode(YearMonthRange::of(
