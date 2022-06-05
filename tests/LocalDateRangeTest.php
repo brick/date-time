@@ -176,11 +176,11 @@ class LocalDateRangeTest extends AbstractTestCase
     /**
      * @dataProvider providerCount
      */
-    public function testGetDuration(string $rangeString, int $daysCount): void
+    public function testToDuration(string $rangeString, int $expectedDaysCount): void
     {
-        $expectedSeconds = $daysCount * 60 * 60 * 24;
+        $expectedSeconds = $expectedDaysCount * 60 * 60 * 24;
         $rangeObject = LocalDateRange::parse($rangeString);
-        $this->assertDurationIs($expectedSeconds, 0, $rangeObject->getDuration());
+        $this->assertDurationIs($expectedSeconds, 0, $rangeObject->toDuration());
     }
 
     public function providerCount() : array

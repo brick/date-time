@@ -233,7 +233,7 @@ final class LocalDateRange implements \IteratorAggregate, \Countable, \JsonSeria
      *
      * @return Duration
      */
-    public function getDuration(): Duration
+    public function toDuration(): Duration
     {
         return Duration::ofDays($this->count());
     }
