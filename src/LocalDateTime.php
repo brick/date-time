@@ -779,7 +779,6 @@ final class LocalDateTime implements \JsonSerializable
             throw new \InvalidArgumentException('Precision must be between 0 and ' .$nanoSize . '. Got: '. $precision);
         }
 
-
         $result = $this->date
             . ' '
             . str_pad((string)$this->getHour(), 2, '0', STR_PAD_LEFT)

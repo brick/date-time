@@ -151,10 +151,24 @@ final class UtcDateTime extends ZonedDateTime
 
     /**
      * Convert to RFC 3339 compatible format (2022-03-30T21:00:00.000000Z)
+     * @param int $precision
      * @return string
      */
-    public function toCanonicalFormat(): string
+    public function toCanonicalFormat(int $precision = 6): string
     {
-        return $this->toPhpFormat('Y-m-d\TH:i:s.u\Z');
+        if ($precision < 0 || $precision > 9) {
+            throw new \InvalidArgumentException(
+                'Incorrect precision. Expected value between 0 and 9, got: ' . $precision
+            );
+        }
+        $result = $this->toPhpFormat('Y-m-d\TH:i:s');
+
+        if ($precision > 0) {
+            $nano = str_pad((string)$this->getNano(), 9, '0', STR_PAD_LEFT);
+            $result .= '.' . substr($nano, 0, $precision);
+        }
+        $result .= 'Z';
+
+        return $result;
     }
 }

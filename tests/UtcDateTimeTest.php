@@ -188,13 +188,14 @@ class UtcDateTimeTest extends AbstractTestCase
 
     /**
      * @param UtcDateTime $input
+     * @param int $precision
      * @param string $expected
      * @return void
      * @dataProvider providerToCanonicalFormat
      */
-    public function testToCanonicalFormat(UtcDateTime $input, string $expected): void
+    public function testToCanonicalFormat(UtcDateTime $input, int $precision, string $expected): void
     {
-        $this->assertSame($expected, $input->toCanonicalFormat());
+        $this->assertSame($expected, $input->toCanonicalFormat($precision));
     }
 
     public function providerToCanonicalFormat(): array
@@ -202,35 +203,63 @@ class UtcDateTimeTest extends AbstractTestCase
         return [
             [
                 UtcDateTime::parse('2022-03-30T00:00Z'),
+                6,
                 '2022-03-30T00:00:00.000000Z'
             ],
             [
                 UtcDateTime::parse('2022-03-30T10:11Z'),
+                6,
                 '2022-03-30T10:11:00.000000Z'
             ],
             [
                 UtcDateTime::parse('2022-03-30T10:11:12Z'),
+                6,
                 '2022-03-30T10:11:12.000000Z'
             ],
             [
                 UtcDateTime::parse('2022-03-30T10:11:12.1Z'),
+                6,
                 '2022-03-30T10:11:12.100000Z'
             ],
             [
                 UtcDateTime::parse('2022-03-30T10:11:12.001Z'),
+                6,
                 '2022-03-30T10:11:12.001000Z'
             ],
             [
                 UtcDateTime::parse('2022-03-30T10:11:12.000001Z'),
+                6,
                 '2022-03-30T10:11:12.000001Z'
             ],
             [
                 UtcDateTime::parse('2022-03-30T10:11:12.000000999Z'),
+                6,
                 '2022-03-30T10:11:12.000000Z'
             ],
             [
                 UtcDateTime::parse('1000-03-30T10:11:12.123456789Z'),
+                6,
                 '1000-03-30T10:11:12.123456Z'
+            ],
+            [
+                UtcDateTime::parse('1000-03-30T10:11:12.123456789Z'),
+                9,
+                '1000-03-30T10:11:12.123456789Z'
+            ],
+            [
+                UtcDateTime::parse('1000-03-30T10:11:12.123456789Z'),
+                0,
+                '1000-03-30T10:11:12Z'
+            ],
+            [
+                UtcDateTime::parse('1000-03-30T10:11:12.123456789Z'),
+                1,
+                '1000-03-30T10:11:12.1Z'
+            ],
+            [
+                UtcDateTime::parse('1000-03-30T10:11:12Z'),
+                9,
+                '1000-03-30T10:11:12.000000000Z'
             ],
         ];
     }
