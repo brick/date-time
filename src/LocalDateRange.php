@@ -197,6 +197,16 @@ final class LocalDateRange implements \IteratorAggregate, \Countable, \JsonSeria
     }
 
     /**
+     * Returns the Period between the start date and end date.
+     *
+     * See `Period::between()` for how this is calculated.
+     */
+    public function toPeriod(): Period
+    {
+        return Period::between($this->start, $this->end);
+    }
+
+    /**
      * Returns an iterator for all the dates contained in this range.
      *
      * @return \Generator<LocalDate>
