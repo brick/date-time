@@ -58,7 +58,7 @@ class InstantTest extends AbstractTestCase
 
     public function testMin(): void
     {
-        $this->assertInstantIs(~\PHP_INT_MAX, 0, Instant::min());
+        $this->assertInstantIs(\PHP_INT_MIN, 0, Instant::min());
     }
 
     public function testMax(): void

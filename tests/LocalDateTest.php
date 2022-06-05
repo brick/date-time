@@ -45,7 +45,7 @@ class LocalDateTest extends AbstractTestCase
             [2007, 1, 32],
             [2007, 0, 1],
             [2007, 13, 1],
-            [~\PHP_INT_MAX, 1, 1],
+            [\PHP_INT_MIN, 1, 1],
             [\PHP_INT_MAX, 1, 1]
         ];
     }

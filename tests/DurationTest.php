@@ -560,8 +560,8 @@ class DurationTest extends AbstractTestCase
             [1, 0,  0,  1, 0],
             [1, 0,  1,  2, 0],
 
-            [~\PHP_INT_MAX, 0, \PHP_INT_MAX, -1, 0],
-            [\PHP_INT_MAX, 0, ~\PHP_INT_MAX, -1, 0],
+            [\PHP_INT_MIN, 0, \PHP_INT_MAX, -1, 0],
+            [\PHP_INT_MAX, 0, \PHP_INT_MIN, -1, 0],
             [\PHP_INT_MAX, 0, 0, \PHP_INT_MAX, 0],
 
             [-1, -5,  2, 0,  999999995],
@@ -673,18 +673,18 @@ class DurationTest extends AbstractTestCase
             [0, 1, -1],
             [0, -1, 1],
             [0, \PHP_INT_MAX, - \PHP_INT_MAX],
-            [0, ~\PHP_INT_MAX + 1, \PHP_INT_MAX],
+            [0, \PHP_INT_MIN + 1, \PHP_INT_MAX],
             [1, 0, 1],
             [1, 1, 0],
             [1, -1, 2],
             [1, \PHP_INT_MAX - 1, - \PHP_INT_MAX + 2],
-            [1, ~\PHP_INT_MAX + 2, \PHP_INT_MAX],
+            [1, \PHP_INT_MIN + 2, \PHP_INT_MAX],
             [1, \PHP_INT_MAX, - \PHP_INT_MAX + 1],
             [-1, 0, -1],
             [-1, 1, -2],
             [-1, -1, 0],
-            [-1, \PHP_INT_MAX, ~\PHP_INT_MAX],
-            [-1, ~\PHP_INT_MAX + 1, \PHP_INT_MAX - 1]
+            [-1, \PHP_INT_MAX, \PHP_INT_MIN],
+            [-1, \PHP_INT_MIN + 1, \PHP_INT_MAX - 1]
         ];
     }
 

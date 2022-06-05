@@ -33,7 +33,7 @@ class YearTest extends AbstractTestCase
     public function providerOfInvalidYearThrowsException() : array
     {
         return [
-            [~\PHP_INT_MAX],
+            [\PHP_INT_MIN],
             [\PHP_INT_MAX],
             [-1000000000],
             [1000000000]
