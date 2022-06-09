@@ -164,6 +164,9 @@ final class TimeZoneOffset extends TimeZone
         return $this->totalSeconds;
     }
 
+    /**
+     * @deprecated please use toNativeDateTimeZone instead
+     */
     public function toDateTimeZone() : \DateTimeZone
     {
         return new \DateTimeZone($this->getId());

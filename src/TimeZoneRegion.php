@@ -121,6 +121,9 @@ final class TimeZoneRegion extends TimeZone
         return $this->zone->getOffset($dateTime);
     }
 
+    /**
+     * @deprecated please use toNativeDateTimeZone instead
+     */
     public function toDateTimeZone() : DateTimeZone
     {
         return clone $this->zone;
