@@ -232,4 +232,12 @@ class TimeZoneOffsetTest extends AbstractTestCase
         $this->assertInstanceOf(\DateTimeZone::class, $dateTimeZone);
         $this->assertSame('-05:00', $dateTimeZone->getName());
     }
+
+    public function testToNativeDateTimeZone(): void
+    {
+        $dateTimeZone = TimeZoneOffset::ofTotalSeconds(-18000)->toNativeDateTimeZone();
+
+        $this->assertInstanceOf(\DateTimeZone::class, $dateTimeZone);
+        $this->assertSame('-05:00', $dateTimeZone->getName());
+    }
 }

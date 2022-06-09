@@ -81,6 +81,17 @@ class TimeZoneTest extends AbstractTestCase
         $this->assertSame($tz, TimeZone::fromDateTimeZone($dateTimeZone)->getId());
     }
 
+    /**
+     * @dataProvider providerFromDateTimeZone
+     *
+     * @param string $tz The time-zone name.
+     */
+    public function testFromNativeDateTimeZone(string $tz): void
+    {
+        $dateTimeZone = new \DateTimeZone($tz);
+        $this->assertSame($tz, TimeZone::fromNativeDateTimeZone($dateTimeZone)->getId());
+    }
+
     public function providerFromDateTimeZone() : array
     {
         return [

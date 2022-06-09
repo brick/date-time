@@ -84,7 +84,7 @@ class ZonedDateTime implements \JsonSerializable
      */
     public static function of(LocalDateTime $dateTime, TimeZone $timeZone) : ZonedDateTime
     {
-        $dtz = $timeZone->toDateTimeZone();
+        $dtz = $timeZone->toNativeDateTimeZone();
         $dt = new \DateTime((string) $dateTime->withNano(0), $dtz);
 
         $instant = Instant::of($dt->getTimestamp(), $dateTime->getNano());
@@ -110,7 +110,7 @@ class ZonedDateTime implements \JsonSerializable
      */
     public static function ofInstant(Instant $instant, TimeZone $timeZone) : ZonedDateTime
     {
-        $dateTimeZone = $timeZone->toDateTimeZone();
+        $dateTimeZone = $timeZone->toNativeDateTimeZone();
 
         // We need to pass a DateTimeZone to avoid a PHP warning...
         $dateTime = new \DateTime('@' . $instant->getEpochSecond(), $dateTimeZone);
@@ -204,7 +204,7 @@ class ZonedDateTime implements \JsonSerializable
             throw new DateTimeException('This DateTime object has no timezone.');
         }
 
-        $timeZone = TimeZone::fromDateTimeZone($dateTimeZone);
+        $timeZone = TimeZone::fromNativeDateTimeZone($dateTimeZone);
 
         if ($timeZone instanceof TimeZoneOffset) {
             $timeZoneOffset = $timeZone;
@@ -669,7 +669,7 @@ class ZonedDateTime implements \JsonSerializable
         $nano = 1000 * intdiv($nano, 1000);
 
         $dateTime = (string) $this->localDateTime->withNano($nano);
-        $dateTimeZone = $this->timeZone->toDateTimeZone();
+        $dateTimeZone = $this->timeZone->toNativeDateTimeZone();
 
         $format = 'Y-m-d\TH:i';
 
