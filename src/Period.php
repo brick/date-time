@@ -130,7 +130,7 @@ final class Period implements \JsonSerializable
      *
      * @throws DateTimeException If the DateInterval contains non-zero hours, minutes, seconds or microseconds.
      */
-    public static function fromDateInterval(\DateInterval $dateInterval): Period
+    public static function fromNativeDateInterval(\DateInterval $dateInterval): Period
     {
         if ($dateInterval->h !== 0) {
             throw new DateTimeException('Cannot create a Period from a DateInterval with a non-zero hour.');
@@ -159,6 +159,18 @@ final class Period implements \JsonSerializable
         }
 
         return new Period($years, $months, $days);
+    }
+
+    /**
+     * Creates a Period from a PHP DateInterval object.
+     *
+     * @throws DateTimeException If the DateInterval contains non-zero hours, minutes, seconds or microseconds.
+     *
+     * @deprecated please use fromNativeDateInterval instead
+     */
+    public static function fromDateInterval(\DateInterval $dateInterval): Period
+    {
+        return self::fromNativeDateInterval($dateInterval);
     }
 
     /**
@@ -351,8 +363,21 @@ final class Period implements \JsonSerializable
      *
      * We cannot use the constructor with the output of __toString(),
      * as it does not support negative values.
+     *
+     * @deprecated please use toNativeDateInterval instead
      */
     public function toDateInterval() : \DateInterval
+    {
+        return $this->toNativeDateInterval();
+    }
+
+    /**
+     * Returns a native DateInterval object equivalent to this Period.
+     *
+     * We cannot use the constructor with the output of __toString(),
+     * as it does not support negative values.
+     */
+    public function toNativeDateInterval() : \DateInterval
     {
         return \DateInterval::createFromDateString(\sprintf(
             '%d years %d months %d days',

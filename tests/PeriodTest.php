@@ -113,6 +113,16 @@ class PeriodTest extends AbstractTestCase
         self::assertPeriodIs($years, $months, $days, $period);
     }
 
+    /**
+     * @dataProvider providerFromDateInterval
+     */
+    public function testFromNativeDateInterval(\DateInterval $dateInterval, int $years, int $months, int $days): void
+    {
+        $period = Period::fromNativeDateInterval($dateInterval);
+        self::assertPeriodIs($years, $months, $days, $period);
+    }
+
+
     public function providerFromDateInterval(): \Generator
     {
         $withConstructor = [
@@ -374,6 +384,19 @@ class PeriodTest extends AbstractTestCase
     {
         $period = Period::of($years, $months, $days);
         $dateInterval = $period->toDateInterval();
+
+        $this->assertSame($years, $dateInterval->y);
+        $this->assertSame($months, $dateInterval->m);
+        $this->assertSame($days, $dateInterval->d);
+    }
+
+    /**
+     * @dataProvider providerToDateInterval
+     */
+    public function testToNativeDateInterval(int $years, int $months, int $days): void
+    {
+        $period = Period::of($years, $months, $days);
+        $dateInterval = $period->toNativeDateInterval();
 
         $this->assertSame($years, $dateInterval->y);
         $this->assertSame($months, $dateInterval->m);
