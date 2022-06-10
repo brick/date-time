@@ -12,12 +12,13 @@
 
 💩 **Deprecations**
 
-The following methods have been deprecated in favour of new names:
+The following methods have been deprecated in favour of new names ([#47](https://github.com/brick/date-time/issues/47)):
 
-- `Period::fromDateInterval()` 🡲 `fromNativeDateInterval()`
-- `Period::toDateInterval()` 🡲 `toNativeDateInterval()`
-- `TimeZone::fromDateTimeZone()` 🡲 `fromNativeDateTimeZone()`
-- `TimeZone::toDateTimeZone()` 🡲 `toNativeDateTimeZone()`
+- `Period::fromDateInterval()` → `fromNativeDateInterval()`
+- `Period::toDateInterval()` → `toNativeDateInterval()`
+- `TimeZone::fromDateTimeZone()` → `fromNativeDateTimeZone()`
+- `TimeZone::toDateTimeZone()` → `toNativeDateTimeZone()`
+- `LocalDateRange::toDatePeriod()` → `toNativeDatePeriod()`
 
 ## [0.4.0](https://github.com/brick/date-time/releases/tag/0.4.0) - 2021-12-23
 
