@@ -154,6 +154,12 @@ class LocalTimeTest extends AbstractTestCase
         $this->assertLocalTimeIs(14, 9, 10, 234560000, LocalTime::fromDateTime($dateTime));
     }
 
+    public function testFromNativeDateTime(): void
+    {
+        $dateTime = new \DateTime('2018-07-21 14:09:10.23456');
+        $this->assertLocalTimeIs(14, 9, 10, 234560000, LocalTime::fromNativeDateTime($dateTime));
+    }
+
     /**
      * @dataProvider providerNow
      *
@@ -1098,10 +1104,40 @@ class LocalTimeTest extends AbstractTestCase
      * @param string $dateTime The date-time string that will be parse()d by LocalTime.
      * @param string $expected The expected output from the native DateTime object.
      */
+    public function testToNativeDateTime(string $dateTime, string $expected): void
+    {
+        $zonedDateTime = LocalTime::parse($dateTime);
+        $dateTime = $zonedDateTime->toNativeDateTime();
+
+        $this->assertInstanceOf(\DateTime::class, $dateTime);
+        $this->assertSame($expected, $dateTime->format('Y-m-d\TH:i:s.uO'));
+    }
+
+    /**
+     * @dataProvider providerToDateTime
+     *
+     * @param string $dateTime The date-time string that will be parse()d by LocalTime.
+     * @param string $expected The expected output from the native DateTime object.
+     */
     public function testToDateTimeImmutable(string $dateTime, string $expected): void
     {
         $zonedDateTime = LocalTime::parse($dateTime);
         $dateTime = $zonedDateTime->toDateTimeImmutable();
+
+        $this->assertInstanceOf(\DateTimeImmutable::class, $dateTime);
+        $this->assertSame($expected, $dateTime->format('Y-m-d\TH:i:s.uO'));
+    }
+
+    /**
+     * @dataProvider providerToDateTime
+     *
+     * @param string $dateTime The date-time string that will be parse()d by LocalTime.
+     * @param string $expected The expected output from the native DateTime object.
+     */
+    public function testToNativeDateTimeImmutable(string $dateTime, string $expected): void
+    {
+        $zonedDateTime = LocalTime::parse($dateTime);
+        $dateTime = $zonedDateTime->toNativeDateTimeImmutable();
 
         $this->assertInstanceOf(\DateTimeImmutable::class, $dateTime);
         $this->assertSame($expected, $dateTime->format('Y-m-d\TH:i:s.uO'));
