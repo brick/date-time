@@ -1,5 +1,24 @@
 # Changelog
 
+## UNRELEASED *(0.4.1)*
+
+✨ **New methods**
+
+- `LocalDateRange::toPeriod()`
+- `Year::toLocalDateRange()`
+- `YearMonth::toLocalDateRange()`
+- `YearMonthRange::toLocalDateRange()`
+- `YearWeek::toLocalDateRange()`
+
+💩 **Deprecations**
+
+The following methods have been deprecated in favour of new names:
+
+- `Period::fromDateInterval()` 🡲 `fromNativeDateInterval()`
+- `Period::toDateInterval()` 🡲 `toNativeDateInterval()`
+- `TimeZone::fromDateTimeZone()` 🡲 `fromNativeDateTimeZone()`
+- `TimeZone::toDateTimeZone()` 🡲 `toNativeDateTimeZone()`
+
 ## [0.4.0](https://github.com/brick/date-time/releases/tag/0.4.0) - 2021-12-23
 
 💥 **Breaking changes**
