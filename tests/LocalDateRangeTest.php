@@ -207,6 +207,32 @@ class LocalDateRangeTest extends AbstractTestCase
      * @param string $expectedStart The expected output from the native DateTime object.
      * @param string $expectedEnd   The expected output from the native DateTime object.
      */
+    public function testToNativeDatePeriod(string $range, string $expectedStart, string $expectedEnd): void
+    {
+        $range = LocalDateRange::parse($range);
+
+        $period = $range->toNativeDatePeriod();
+
+        $rangeArray = iterator_to_array($range);
+        $periodArray = iterator_to_array($period);
+        $zip = array_map(null, $rangeArray, $periodArray);
+
+        foreach ($zip as [$date, $dateTime]) {
+            $this->assertTrue($date->isEqualTo(LocalDate::fromDateTime($dateTime)));
+        }
+
+        $this->assertSame(iterator_count($period), $range->count());
+        $this->assertSame($expectedStart, $period->start->format('Y-m-d\TH:i:s.uO'));
+        $this->assertSame($expectedEnd, $period->end->format('Y-m-d\TH:i:s.uO'));
+    }
+
+    /**
+     * @dataProvider providerToDatePeriod
+     *
+     * @param string $range         The date-time string that will be parse()d by LocalDateRange.
+     * @param string $expectedStart The expected output from the native DateTime object.
+     * @param string $expectedEnd   The expected output from the native DateTime object.
+     */
     public function testToDatePeriod(string $range, string $expectedStart, string $expectedEnd): void
     {
         $range = LocalDateRange::parse($range);
