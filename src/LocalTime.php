@@ -7,6 +7,8 @@ namespace Brick\DateTime;
 use Brick\DateTime\Field\HourOfDay;
 use Brick\DateTime\Field\MinuteOfHour;
 use Brick\DateTime\Field\SecondOfMinute;
+use Brick\DateTime\Formatter\DateTimeFormatContext;
+use Brick\DateTime\Formatter\DateTimeFormatter;
 use Brick\DateTime\Parser\DateTimeParseException;
 use Brick\DateTime\Parser\DateTimeParser;
 use Brick\DateTime\Parser\DateTimeParseResult;
@@ -648,6 +650,16 @@ final class LocalTime implements JsonSerializable, Stringable
     {
         return $this->toISOString();
     }
+
+	/**
+	 * Formats this LocalTime using given DateTimeFormatter.
+	 */
+	public function format(DateTimeFormatter $formatter): string
+	{
+		$context = DateTimeFormatContext::ofLocalTime($this);
+
+		return $formatter->format($context);
+	}
 
     /**
      * Returns the ISO 8601 representation of this time.
