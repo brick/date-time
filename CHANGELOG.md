@@ -19,6 +19,9 @@ The following methods have been deprecated in favour of new names ([#47](https:/
 - `TimeZone::fromDateTimeZone()` → `fromNativeDateTimeZone()`
 - `TimeZone::toDateTimeZone()` → `toNativeDateTimeZone()`
 - `LocalDateRange::toDatePeriod()` → `toNativeDatePeriod()`
+- `LocalDate::fromDateTime()` → `fromNativeDateTime()`
+- `LocalDate::toDateTime()` → `toNativeDateTime()`
+- `LocalDate::toDateTimeImmutable()` → `toNativeDateTimeImmutable()`
 
 ## [0.4.0](https://github.com/brick/date-time/releases/tag/0.4.0) - 2021-12-23
 
