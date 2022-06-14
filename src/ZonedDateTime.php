@@ -197,7 +197,7 @@ class ZonedDateTime implements JsonSerializable
      */
     public static function fromNativeDateTime(DateTimeInterface $dateTime): ZonedDateTime
     {
-        $localDateTime = LocalDateTime::fromDateTime($dateTime);
+        $localDateTime = LocalDateTime::fromNativeDateTime($dateTime);
 
         $dateTimeZone = $dateTime->getTimezone();
 
