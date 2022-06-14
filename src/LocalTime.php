@@ -144,7 +144,7 @@ final class LocalTime implements \JsonSerializable
     /**
      * Creates a LocalTime from a native DateTime or DateTimeImmutable object.
      */
-    public static function fromDateTime(\DateTimeInterface $dateTime) : LocalTime
+    public static function fromNativeDateTime(\DateTimeInterface $dateTime) : LocalTime
     {
         return new LocalTime(
             (int) $dateTime->format('G'),
@@ -152,6 +152,16 @@ final class LocalTime implements \JsonSerializable
             (int) $dateTime->format('s'),
             1000 * (int) $dateTime->format('u')
         );
+    }
+
+    /**
+     * Creates a LocalTime from a native DateTime or DateTimeImmutable object.
+     *
+     * @deprecated please use fromNativeDateTime instead
+     */
+    public static function fromDateTime(\DateTimeInterface $dateTime) : LocalTime
+    {
+        return self::fromNativeDateTime($dateTime);
     }
 
     /**
@@ -591,9 +601,24 @@ final class LocalTime implements \JsonSerializable
      * Note that the native DateTime object supports a precision up to the microsecond,
      * so the nanoseconds are rounded down to the nearest microsecond.
      */
-    public function toDateTime() : \DateTime
+    public function toNativeDateTime() : \DateTime
     {
         return $this->atDate(LocalDate::of(0, 1, 1))->toDateTime();
+    }
+
+    /**
+     * Converts this LocalTime to a native DateTime object.
+     *
+     * The result is a DateTime with date 0000-01-01 in the UTC time-zone.
+     *
+     * Note that the native DateTime object supports a precision up to the microsecond,
+     * so the nanoseconds are rounded down to the nearest microsecond.
+     *
+     * @deprecated please use toNativeDateTime instead
+     */
+    public function toDateTime() : \DateTime
+    {
+        return $this->toNativeDateTime();
     }
 
     /**
@@ -604,9 +629,24 @@ final class LocalTime implements \JsonSerializable
      * Note that the native DateTimeImmutable object supports a precision up to the microsecond,
      * so the nanoseconds are rounded down to the nearest microsecond.
      */
+    public function toNativeDateTimeImmutable() : \DateTimeImmutable
+    {
+        return \DateTimeImmutable::createFromMutable($this->toNativeDateTime());
+    }
+
+    /**
+     * Converts this LocalTime to a native DateTimeImmutable object.
+     *
+     * The result is a DateTimeImmutable with date 0000-01-01 in the UTC time-zone.
+     *
+     * Note that the native DateTimeImmutable object supports a precision up to the microsecond,
+     * so the nanoseconds are rounded down to the nearest microsecond.
+     *
+     * @deprecated please use toNativeDateTimeImmutable instead
+     */
     public function toDateTimeImmutable() : \DateTimeImmutable
     {
-        return \DateTimeImmutable::createFromMutable($this->toDateTime());
+        return $this->toNativeDateTimeImmutable();
     }
 
     /**

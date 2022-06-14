@@ -93,7 +93,7 @@ final class LocalDateTime implements \JsonSerializable
     {
         return new LocalDateTime(
             LocalDate::fromNativeDateTime($dateTime),
-            LocalTime::fromDateTime($dateTime)
+            LocalTime::fromNativeDateTime($dateTime)
         );
     }
 

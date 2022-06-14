@@ -18,6 +18,9 @@ The following methods have been deprecated in favour of new names ([#47](https:/
 - `Period::toDateInterval()` → `toNativeDateInterval()`
 - `TimeZone::fromDateTimeZone()` → `fromNativeDateTimeZone()`
 - `TimeZone::toDateTimeZone()` → `toNativeDateTimeZone()`
+- `LocalTime::fromDateTime()` → `fromNativeDateTime()`
+- `LocalTime::toDateTime()` → `toNativeDateTime()`
+- `LocalTime::toDateTimeImmutable()` → `toNativeDateTimeImmutable()`
 - `LocalDateRange::toDatePeriod()` → `toNativeDatePeriod()`
 - `LocalDate::fromDateTime()` → `fromNativeDateTime()`
 - `LocalDate::toDateTime()` → `toNativeDateTime()`
