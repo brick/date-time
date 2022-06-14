@@ -195,7 +195,7 @@ class ZonedDateTime implements JsonSerializable
      *
      * @throws DateTimeException If the DateTime object has no timezone.
      */
-    public static function fromDateTime(DateTimeInterface $dateTime): ZonedDateTime
+    public static function fromNativeDateTime(DateTimeInterface $dateTime): ZonedDateTime
     {
         $localDateTime = LocalDateTime::fromDateTime($dateTime);
 
@@ -216,6 +216,18 @@ class ZonedDateTime implements JsonSerializable
         $instant = Instant::of($dateTime->getTimestamp(), $localDateTime->getNano());
 
         return new ZonedDateTime($localDateTime, $timeZoneOffset, $timeZone, $instant);
+    }
+
+    /**
+     * Creates a ZonedDateTime from a native DateTime or DateTimeImmutable object.
+     *
+     * @deprecated please use fromNativeDateTime instead
+     *
+     * @throws DateTimeException If the DateTime object has no timezone.
+     */
+    public static function fromDateTime(DateTimeInterface $dateTime): ZonedDateTime
+    {
+        return self::fromNativeDateTime($dateTime);
     }
 
     /**
@@ -660,8 +672,21 @@ class ZonedDateTime implements JsonSerializable
      *
      * Note that the native DateTime object supports a precision up to the microsecond,
      * so the nanoseconds are rounded down to the nearest microsecond.
+     *
+     * @deprecated please use toNativeDateTime instead
      */
     public function toDateTime(): DateTime
+    {
+        return $this->toNativeDateTime();
+    }
+
+    /**
+     * Converts this ZonedDateTime to a native DateTime object.
+     *
+     * Note that the native DateTime object supports a precision up to the microsecond,
+     * so the nanoseconds are rounded down to the nearest microsecond.
+     */
+    public function toNativeDateTime(): DateTime
     {
         $second = $this->localDateTime->getSecond();
 
@@ -685,9 +710,17 @@ class ZonedDateTime implements JsonSerializable
         return DateTime::createFromFormat($format, $dateTime, $dateTimeZone);
     }
 
+    /**
+     * @deprecated please use toNativeDateTimeImmutable instead
+     */
     public function toDateTimeImmutable(): DateTimeImmutable
     {
-        return DateTimeImmutable::createFromMutable($this->toDateTime());
+        return $this->toNativeDateTimeImmutable();
+    }
+
+    public function toNativeDateTimeImmutable(): DateTimeImmutable
+    {
+        return DateTimeImmutable::createFromMutable($this->toNativeDateTime());
     }
 
     /**

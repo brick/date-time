@@ -25,6 +25,9 @@ The following methods have been deprecated in favour of new names ([#47](https:/
 - `LocalDate::fromDateTime()` → `fromNativeDateTime()`
 - `LocalDate::toDateTime()` → `toNativeDateTime()`
 - `LocalDate::toDateTimeImmutable()` → `toNativeDateTimeImmutable()`
+- `ZonedDateTime::fromDateTime()` → `fromNativeDateTime()`
+- `ZonedDateTime::toDateTime()` → `toNativeDateTime()`
+- `ZonedDateTime::toDateTimeImmutable()` → `toNativeDateTimeImmutable()`
 
 ## [0.4.0](https://github.com/brick/date-time/releases/tag/0.4.0) - 2021-12-23
 
