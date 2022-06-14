@@ -5,7 +5,10 @@ declare(strict_types=1);
 namespace Brick\DateTime;
 
 use Brick\DateTime\Parser\DateTimeParseException;
+use DateTimeImmutable;
 use DateTimeZone;
+
+use const PHP_VERSION_ID;
 
 /**
  * A time-zone. This is the parent class for `TimeZoneOffset` and `TimeZoneRegion`.
@@ -71,7 +74,17 @@ abstract class TimeZone
 
     public static function fromNativeDateTimeZone(DateTimeZone $dateTimeZone): TimeZone
     {
-        return TimeZone::parse($dateTimeZone->getName());
+        $parsed = TimeZone::parse($dateTimeZone->getName());
+
+        /**
+         * PHP >= 8.1.7 supports sub-minute offsets, but truncates the seconds in getName(). Only getOffset() returns
+         * the correct offset including seconds, so let's use it to make a correction if we have an offset-based TZ.
+         */
+        if ($parsed instanceof TimeZoneOffset && PHP_VERSION_ID >= 80107) {
+            return TimeZoneOffset::ofTotalSeconds($dateTimeZone->getOffset(new DateTimeImmutable()));
+        }
+
+        return $parsed;
     }
 
     /**

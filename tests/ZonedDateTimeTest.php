@@ -22,6 +22,8 @@ use DateTimeZone;
 
 use function json_encode;
 
+use const PHP_VERSION_ID;
+
 /**
  * Unit tests for class ZonedDateTime.
  */
@@ -363,9 +365,9 @@ class ZonedDateTimeTest extends AbstractTestCase
         $this->assertSame($zone, (string) $zonedDateTime->getTimeZone());
     }
 
-    public function providerParse(): array
+    public function providerParse(): iterable
     {
-        return [
+        yield from [
             ['2001-02-03T01:02Z', '2001-02-03', '01:02', 'Z', 'Z'],
             ['2001-02-03T01:02:03Z', '2001-02-03', '01:02:03', 'Z', 'Z'],
             ['2001-02-03T01:02:03.456Z', '2001-02-03', '01:02:03.456', 'Z', 'Z'],
@@ -377,6 +379,10 @@ class ZonedDateTimeTest extends AbstractTestCase
             ['2001-02-03T01:02:03-00:00[Europe/London]', '2001-02-03', '01:02:03', 'Z', 'Europe/London'],
             ['2001-02-03T01:02:03.456+00:00[Europe/London]', '2001-02-03', '01:02:03.456', 'Z', 'Europe/London'],
         ];
+
+        if (PHP_VERSION_ID >= 80107) {
+            yield ['2001-02-03T01:02:03.456+12:34:56', '2001-02-03', '01:02:03.456', '+12:34:56', '+12:34:56'];
+        }
     }
 
     /**
@@ -408,7 +414,6 @@ class ZonedDateTimeTest extends AbstractTestCase
             ['2001-02-03T04:05:06[Europe/London]'],
             ['2001-02-03T04:05.789Z[Europe/London]'],
             ['2001-02-03T04:05:06Z[Europe/London'],
-            ['2001-02-03T01:02:03.456+12:34:56'],
 
             [' 2001-02-03T01:02:03Z'],
             ['2001-02-03T01:02:03Z '],
