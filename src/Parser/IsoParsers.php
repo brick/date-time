@@ -31,7 +31,7 @@ final class IsoParsers
     /**
      * Returns a parser for an ISO local date such as `2014-12-31`.
      */
-    public static function localDate() : PatternParser
+    public static function localDate(): PatternParser
     {
         /** @var PatternParser|null $parser */
         static $parser;
@@ -54,7 +54,7 @@ final class IsoParsers
      *
      * The second and fraction of second are optional.
      */
-    public static function localTime() : PatternParser
+    public static function localTime(): PatternParser
     {
         /** @var PatternParser|null $parser */
         static $parser;
@@ -83,7 +83,7 @@ final class IsoParsers
      *
      * The second and fraction of second are optional.
      */
-    public static function localDateTime() : PatternParser
+    public static function localDateTime(): PatternParser
     {
         /** @var PatternParser|null $parser */
         static $parser;
@@ -102,7 +102,7 @@ final class IsoParsers
     /**
      * Returns a parser for a range of local dates such as `2014-01-05/2015-03-15`.
      */
-    public static function localDateRange() : PatternParser
+    public static function localDateRange(): PatternParser
     {
         /** @var PatternParser|null $parser */
         static $parser;
@@ -138,7 +138,7 @@ final class IsoParsers
      * Note that ISO 8601 does not seem to define a format for year-month ranges, but we're using the same format as
      * date ranges here.
      */
-    public static function yearMonthRange() : PatternParser
+    public static function yearMonthRange(): PatternParser
     {
         /** @var PatternParser|null $parser */
         static $parser;
@@ -167,7 +167,7 @@ final class IsoParsers
     /**
      * Returns a parser for a year-month such as `2014-12`.
      */
-    public static function yearMonth() : PatternParser
+    public static function yearMonth(): PatternParser
     {
         /** @var PatternParser|null $parser */
         static $parser;
@@ -186,7 +186,7 @@ final class IsoParsers
     /**
      * Returns a parser for a month-day such as `12-31`.
      */
-    public static function monthDay() : PatternParser
+    public static function monthDay(): PatternParser
     {
         /** @var PatternParser|null $parser */
         static $parser;
@@ -206,7 +206,7 @@ final class IsoParsers
     /**
      * Returns a parser for a time-zone offset such as `Z` or `+01:00`.
      */
-    public static function timeZoneOffset() : PatternParser
+    public static function timeZoneOffset(): PatternParser
     {
         /** @var PatternParser|null $parser */
         static $parser;
@@ -232,7 +232,7 @@ final class IsoParsers
     /**
      * Returns a parser for a time-zone region such as `Europe/London`.
      */
-    public static function timeZoneRegion() : PatternParser
+    public static function timeZoneRegion(): PatternParser
     {
         /** @var PatternParser|null $parser */
         static $parser;
@@ -249,7 +249,7 @@ final class IsoParsers
     /**
      * Returns a parser for an offset date-time such as `2004-01-31T12:45:56+01:00`.
      */
-    public static function offsetDateTime() : PatternParser
+    public static function offsetDateTime(): PatternParser
     {
         /** @var PatternParser|null $parser */
         static $parser;
@@ -267,7 +267,7 @@ final class IsoParsers
     /**
      * Returns a parser for a date-time with offset and zone such as `2011-12-03T10:15:30+01:00[Europe/Paris].
      */
-    public static function zonedDateTime() : PatternParser
+    public static function zonedDateTime(): PatternParser
     {
         /** @var PatternParser|null $parser */
         static $parser;

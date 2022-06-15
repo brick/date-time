@@ -8,6 +8,9 @@ use Brick\DateTime\DateTimeException;
 use Brick\DateTime\Instant;
 use Brick\DateTime\Parser\DateTimeParseException;
 use Brick\DateTime\TimeZoneRegion;
+use DateTimeZone;
+
+use function count;
 
 /**
  * Unit tests for class TimeZoneRegion.
@@ -28,7 +31,7 @@ class TimeZoneRegionTest extends AbstractTestCase
         TimeZoneRegion::of($region);
     }
 
-    public function providerOfInvalidRegionThrowsException() : array
+    public function providerOfInvalidRegionThrowsException(): array
     {
         return [
             [''],
@@ -54,7 +57,7 @@ class TimeZoneRegionTest extends AbstractTestCase
         TimeZoneRegion::parse($text);
     }
 
-    public function providerParseInvalidStringThrowsException() : array
+    public function providerParseInvalidStringThrowsException(): array
     {
         return [
             [''],
@@ -68,7 +71,7 @@ class TimeZoneRegionTest extends AbstractTestCase
     public function testGetAllTimeZones(bool $includeObsolete): void
     {
         $identifiers = TimeZoneRegion::getAllIdentifiers($includeObsolete);
-        $this->assertGreaterThan(1, \count($identifiers));
+        $this->assertGreaterThan(1, count($identifiers));
 
         $expectedIdentifiers = [
             'UTC',
@@ -95,7 +98,7 @@ class TimeZoneRegionTest extends AbstractTestCase
         }
     }
 
-    public function providerGetAllTimeZones() : array
+    public function providerGetAllTimeZones(): array
     {
         return [
             [false],
@@ -113,7 +116,7 @@ class TimeZoneRegionTest extends AbstractTestCase
         $this->assertSame($expectedIdentifiers, $identifiers);
     }
 
-    public function providerGetTimeZonesForCountry() : array
+    public function providerGetTimeZonesForCountry(): array
     {
         return [
             ['FR', 'Europe/Paris'],
@@ -141,7 +144,7 @@ class TimeZoneRegionTest extends AbstractTestCase
         $this->assertSame($expectedOffset, $actualOffset);
     }
 
-    public function providerGetOffset() : array
+    public function providerGetOffset(): array
     {
         return [
             ['Europe/London', 1419984000,    0],
@@ -155,7 +158,7 @@ class TimeZoneRegionTest extends AbstractTestCase
     {
         $dateTimeZone = TimeZoneRegion::of('Europe/London')->toDateTimeZone();
 
-        $this->assertInstanceOf(\DateTimeZone::class, $dateTimeZone);
+        $this->assertInstanceOf(DateTimeZone::class, $dateTimeZone);
         $this->assertSame('Europe/London', $dateTimeZone->getName());
     }
 
@@ -163,7 +166,7 @@ class TimeZoneRegionTest extends AbstractTestCase
     {
         $dateTimeZone = TimeZoneRegion::of('Europe/London')->toNativeDateTimeZone();
 
-        $this->assertInstanceOf(\DateTimeZone::class, $dateTimeZone);
+        $this->assertInstanceOf(DateTimeZone::class, $dateTimeZone);
         $this->assertSame('Europe/London', $dateTimeZone->getName());
     }
 

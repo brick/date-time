@@ -4,16 +4,26 @@ declare(strict_types=1);
 
 namespace Brick\DateTime;
 
-use Brick\DateTime\Utility\Math;
-
 use ArithmeticError;
+use Brick\DateTime\Utility\Math;
+use JsonSerializable;
+
+use function assert;
+use function intdiv;
+use function is_int;
+use function preg_match;
+use function rtrim;
+use function sprintf;
+use function str_pad;
+
+use const STR_PAD_RIGHT;
 
 /**
  * Represents a duration of time measured in seconds.
  *
  * This class is immutable.
  */
-final class Duration implements \JsonSerializable
+final class Duration implements JsonSerializable
 {
     /**
      * The duration in seconds.
@@ -36,13 +46,13 @@ final class Duration implements \JsonSerializable
     private function __construct(int $seconds, int $nanos = 0)
     {
         $this->seconds = $seconds;
-        $this->nanos   = $nanos;
+        $this->nanos = $nanos;
     }
 
     /**
      * Returns a zero length Duration.
      */
-    public static function zero() : Duration
+    public static function zero(): Duration
     {
         return new Duration(0);
     }
@@ -65,7 +75,7 @@ final class Duration implements \JsonSerializable
      *
      * @throws Parser\DateTimeParseException
      */
-    public static function parse(string $text) : Duration
+    public static function parse(string $text): Duration
     {
         $pattern =
             '/^' .
@@ -79,7 +89,7 @@ final class Duration implements \JsonSerializable
             ')?' .
             '()$/i';
 
-        if (\preg_match($pattern, $text, $matches) !== 1) {
+        if (preg_match($pattern, $text, $matches) !== 1) {
             throw Parser\DateTimeParseException::invalidDuration($text);
         }
 
@@ -94,24 +104,24 @@ final class Duration implements \JsonSerializable
         $allNegative = ($sign === '-');
         $secondsNegative = ($seconds !== '' && $seconds[0] === '-');
 
-        $nanos = \str_pad($nanos, 9, '0', \STR_PAD_RIGHT);
+        $nanos = str_pad($nanos, 9, '0', STR_PAD_RIGHT);
 
-        $days    = (int) $days;
-        $hours   = (int) $hours;
+        $days = (int) $days;
+        $hours = (int) $hours;
         $minutes = (int) $minutes;
         $seconds = (int) $seconds;
-        $nanos   = (int) $nanos;
+        $nanos = (int) $nanos;
 
         if ($secondsNegative) {
             $nanos = -$nanos;
         }
 
         if ($allNegative) {
-            $days    = -$days;
-            $hours   = -$hours;
+            $days = -$days;
+            $hours = -$hours;
             $minutes = -$minutes;
             $seconds = -$seconds;
-            $nanos   = -$nanos;
+            $nanos = -$nanos;
         }
 
         $seconds +=
@@ -142,11 +152,11 @@ final class Duration implements \JsonSerializable
      * @param int $seconds        The number of seconds of the duration.
      * @param int $nanoAdjustment The adjustment to the duration in nanoseconds.
      */
-    public static function ofSeconds(int $seconds, int $nanoAdjustment = 0) : Duration
+    public static function ofSeconds(int $seconds, int $nanoAdjustment = 0): Duration
     {
         $nanoseconds = $nanoAdjustment % LocalTime::NANOS_PER_SECOND;
         $seconds += ($nanoAdjustment - $nanoseconds) / LocalTime::NANOS_PER_SECOND;
-        \assert(\is_int($seconds));
+        assert(is_int($seconds));
 
         if ($nanoseconds < 0) {
             $nanoseconds += LocalTime::NANOS_PER_SECOND;
@@ -159,7 +169,7 @@ final class Duration implements \JsonSerializable
     /**
      * Returns a Duration from a number of milliseconds.
      */
-    public static function ofMillis(int $millis) : Duration
+    public static function ofMillis(int $millis): Duration
     {
         $seconds = intdiv($millis, LocalTime::MILLIS_PER_SECOND);
         $nanos = ($millis % LocalTime::MILLIS_PER_SECOND) * LocalTime::NANOS_PER_MILLI;
@@ -170,7 +180,7 @@ final class Duration implements \JsonSerializable
     /**
      * Returns a Duration from a number of nanoseconds.
      */
-    public static function ofNanos(int $nanos) : Duration
+    public static function ofNanos(int $nanos): Duration
     {
         return self::ofSeconds(0, $nanos);
     }
@@ -178,7 +188,7 @@ final class Duration implements \JsonSerializable
     /**
      * Returns a Duration from a number of minutes.
      */
-    public static function ofMinutes(int $minutes) : Duration
+    public static function ofMinutes(int $minutes): Duration
     {
         return new Duration(60 * $minutes);
     }
@@ -186,7 +196,7 @@ final class Duration implements \JsonSerializable
     /**
      * Returns a Duration from a number of hours.
      */
-    public static function ofHours(int $hours) : Duration
+    public static function ofHours(int $hours): Duration
     {
         return new Duration(3600 * $hours);
     }
@@ -194,7 +204,7 @@ final class Duration implements \JsonSerializable
     /**
      * Returns a Duration from a number of days.
      */
-    public static function ofDays(int $days) : Duration
+    public static function ofDays(int $days): Duration
     {
         return new Duration(86400 * $days);
     }
@@ -208,7 +218,7 @@ final class Duration implements \JsonSerializable
      * @param Instant $startInclusive The start instant, inclusive.
      * @param Instant $endExclusive   The end instant, exclusive.
      */
-    public static function between(Instant $startInclusive, Instant $endExclusive) : Duration
+    public static function between(Instant $startInclusive, Instant $endExclusive): Duration
     {
         $seconds = $endExclusive->getEpochSecond() - $startInclusive->getEpochSecond();
         $nanos = $endExclusive->getNano() - $startInclusive->getNano();
@@ -219,7 +229,7 @@ final class Duration implements \JsonSerializable
     /**
      * Returns whether this Duration is zero length.
      */
-    public function isZero() : bool
+    public function isZero(): bool
     {
         return $this->seconds === 0 && $this->nanos === 0;
     }
@@ -227,7 +237,7 @@ final class Duration implements \JsonSerializable
     /**
      * Returns whether this Duration is positive, excluding zero.
      */
-    public function isPositive() : bool
+    public function isPositive(): bool
     {
         return $this->seconds > 0 || ($this->seconds === 0 && $this->nanos !== 0);
     }
@@ -235,7 +245,7 @@ final class Duration implements \JsonSerializable
     /**
      * Returns whether this Duration is positive or zero.
      */
-    public function isPositiveOrZero() : bool
+    public function isPositiveOrZero(): bool
     {
         return $this->seconds >= 0;
     }
@@ -243,7 +253,7 @@ final class Duration implements \JsonSerializable
     /**
      * Returns whether this Duration is negative, excluding zero.
      */
-    public function isNegative() : bool
+    public function isNegative(): bool
     {
         return $this->seconds < 0;
     }
@@ -251,7 +261,7 @@ final class Duration implements \JsonSerializable
     /**
      * Returns whether this Duration is negative or zero.
      */
-    public function isNegativeOrZero() : bool
+    public function isNegativeOrZero(): bool
     {
         return $this->seconds < 0 || ($this->seconds === 0 && $this->nanos === 0);
     }
@@ -259,7 +269,7 @@ final class Duration implements \JsonSerializable
     /**
      * Returns a copy of this Duration with the specified duration added.
      */
-    public function plus(Duration $duration) : Duration
+    public function plus(Duration $duration): Duration
     {
         if ($duration->isZero()) {
             return $this;
@@ -279,7 +289,7 @@ final class Duration implements \JsonSerializable
     /**
      * Returns a copy of this Duration with the specified duration in seconds added.
      */
-    public function plusSeconds(int $seconds) : Duration
+    public function plusSeconds(int $seconds): Duration
     {
         if ($seconds === 0) {
             return $this;
@@ -291,7 +301,7 @@ final class Duration implements \JsonSerializable
     /**
      * Returns a copy of this Duration with the specified duration in minutes added.
      */
-    public function plusMinutes(int $minutes) : Duration
+    public function plusMinutes(int $minutes): Duration
     {
         return $this->plusSeconds($minutes * LocalTime::SECONDS_PER_MINUTE);
     }
@@ -299,7 +309,7 @@ final class Duration implements \JsonSerializable
     /**
      * Returns a copy of this Duration with the specified duration in hours added.
      */
-    public function plusHours(int $hours) : Duration
+    public function plusHours(int $hours): Duration
     {
         return $this->plusSeconds($hours * LocalTime::SECONDS_PER_HOUR);
     }
@@ -307,7 +317,7 @@ final class Duration implements \JsonSerializable
     /**
      * Returns a copy of this Duration with the specified duration in days added.
      */
-    public function plusDays(int $days) : Duration
+    public function plusDays(int $days): Duration
     {
         return $this->plusSeconds($days * LocalTime::SECONDS_PER_DAY);
     }
@@ -315,7 +325,7 @@ final class Duration implements \JsonSerializable
     /**
      * Returns a copy of this Duration with the specified duration added.
      */
-    public function minus(Duration $duration) : Duration
+    public function minus(Duration $duration): Duration
     {
         if ($duration->isZero()) {
             return $this;
@@ -327,7 +337,7 @@ final class Duration implements \JsonSerializable
     /**
      * Returns a copy of this Duration with the specified duration in seconds subtracted.
      */
-    public function minusSeconds(int $seconds) : Duration
+    public function minusSeconds(int $seconds): Duration
     {
         return $this->plusSeconds(-$seconds);
     }
@@ -335,7 +345,7 @@ final class Duration implements \JsonSerializable
     /**
      * Returns a copy of this Duration with the specified duration in minutes subtracted.
      */
-    public function minusMinutes(int $minutes) : Duration
+    public function minusMinutes(int $minutes): Duration
     {
         return $this->plusMinutes(-$minutes);
     }
@@ -343,7 +353,7 @@ final class Duration implements \JsonSerializable
     /**
      * Returns a copy of this Duration with the specified duration in hours subtracted.
      */
-    public function minusHours(int $hours) : Duration
+    public function minusHours(int $hours): Duration
     {
         return $this->plusHours(-$hours);
     }
@@ -351,7 +361,7 @@ final class Duration implements \JsonSerializable
     /**
      * Returns a copy of this Duration with the specified duration in days subtracted.
      */
-    public function minusDays(int $days) : Duration
+    public function minusDays(int $days): Duration
     {
         return $this->plusDays(-$days);
     }
@@ -359,7 +369,7 @@ final class Duration implements \JsonSerializable
     /**
      * Returns a copy of this Duration multiplied by the given value.
      */
-    public function multipliedBy(int $multiplicand) : Duration
+    public function multipliedBy(int $multiplicand): Duration
     {
         if ($multiplicand === 1) {
             return $this;
@@ -378,7 +388,7 @@ final class Duration implements \JsonSerializable
      *
      * @throws DateTimeException If the divisor is zero.
      */
-    public function dividedBy(int $divisor) : Duration
+    public function dividedBy(int $divisor): Duration
     {
         if ($divisor === 0) {
             throw new DateTimeException('Cannot divide a Duration by zero.');
@@ -397,14 +407,14 @@ final class Duration implements \JsonSerializable
         }
 
         $remainder = $seconds % $divisor;
-        $seconds = \intdiv($seconds, $divisor);
+        $seconds = intdiv($seconds, $divisor);
 
         $r1 = $nanos % $divisor;
-        $nanos = \intdiv($nanos, $divisor);
+        $nanos = intdiv($nanos, $divisor);
 
         $r2 = LocalTime::NANOS_PER_SECOND % $divisor;
-        $nanos += $remainder * \intdiv(LocalTime::NANOS_PER_SECOND, $divisor);
-        $nanos += \intdiv($r1 + $remainder * $r2, $divisor);
+        $nanos += $remainder * intdiv(LocalTime::NANOS_PER_SECOND, $divisor);
+        $nanos += intdiv($r1 + $remainder * $r2, $divisor);
 
         if ($nanos < 0) {
             $seconds--;
@@ -417,7 +427,7 @@ final class Duration implements \JsonSerializable
     /**
      * Returns a copy of this Duration with the length negated.
      */
-    public function negated() : Duration
+    public function negated(): Duration
     {
         if ($this->isZero()) {
             return $this;
@@ -437,7 +447,7 @@ final class Duration implements \JsonSerializable
     /**
      * Returns a copy of this Duration with a positive length.
      */
-    public function abs() : Duration
+    public function abs(): Duration
     {
         return $this->isNegative() ? $this->negated() : $this;
     }
@@ -449,7 +459,7 @@ final class Duration implements \JsonSerializable
      *
      * @return int [-1,0,1] If this duration is less than, equal to, or greater than the given duration.
      */
-    public function compareTo(Duration $that) : int
+    public function compareTo(Duration $that): int
     {
         $seconds = $this->seconds - $that->seconds;
 
@@ -469,7 +479,7 @@ final class Duration implements \JsonSerializable
     /**
      * Checks if this Duration is equal to the specified duration.
      */
-    public function isEqualTo(Duration $that) : bool
+    public function isEqualTo(Duration $that): bool
     {
         return $this->compareTo($that) === 0;
     }
@@ -477,7 +487,7 @@ final class Duration implements \JsonSerializable
     /**
      * Checks if this Duration is greater than the specified duration.
      */
-    public function isGreaterThan(Duration $that) : bool
+    public function isGreaterThan(Duration $that): bool
     {
         return $this->compareTo($that) > 0;
     }
@@ -485,7 +495,7 @@ final class Duration implements \JsonSerializable
     /**
      * Checks if this Duration is less than the specified duration.
      */
-    public function isLessThan(Duration $that) : bool
+    public function isLessThan(Duration $that): bool
     {
         return $this->compareTo($that) < 0;
     }
@@ -493,7 +503,7 @@ final class Duration implements \JsonSerializable
     /**
      * Returns the total length in seconds of this Duration.
      */
-    public function getSeconds() : int
+    public function getSeconds(): int
     {
         return $this->seconds;
     }
@@ -501,7 +511,7 @@ final class Duration implements \JsonSerializable
     /**
      * Returns the nanoseconds adjustment of this Duration, in the range 0 to 999,999,999.
      */
-    public function getNanos() : int
+    public function getNanos(): int
     {
         return $this->nanos;
     }
@@ -513,10 +523,10 @@ final class Duration implements \JsonSerializable
      *
      * @todo deprecate in favour of toMillis() - caution: rounding is different
      */
-    public function getTotalMillis() : int
+    public function getTotalMillis(): int
     {
         $millis = $this->seconds * 1000;
-        $millis += \intdiv($this->nanos, 1000000);
+        $millis += intdiv($this->nanos, 1000000);
 
         return $millis;
     }
@@ -526,15 +536,15 @@ final class Duration implements \JsonSerializable
      *
      * The result is rounded towards negative infinity.
      */
-    public function getTotalMicros() : int
+    public function getTotalMicros(): int
     {
         $micros = $this->seconds * 1000000;
-        $micros += \intdiv($this->nanos, 1000);
+        $micros += intdiv($this->nanos, 1000);
 
         return $micros;
     }
 
-    public function getTotalNanos() : int
+    public function getTotalNanos(): int
     {
         $nanos = $this->seconds * 1000000000;
         $nanos += $this->nanos;
@@ -550,9 +560,9 @@ final class Duration implements \JsonSerializable
      *
      * This instance is immutable and unaffected by this method call.
      */
-    public function toDays() : int
+    public function toDays(): int
     {
-        return \intdiv($this->seconds, LocalTime::SECONDS_PER_DAY);
+        return intdiv($this->seconds, LocalTime::SECONDS_PER_DAY);
     }
 
     /**
@@ -562,7 +572,7 @@ final class Duration implements \JsonSerializable
      *
      * This instance is immutable and unaffected by this method call.
      */
-    public function toDaysPart() : int
+    public function toDaysPart(): int
     {
         return $this->toDays();
     }
@@ -574,9 +584,9 @@ final class Duration implements \JsonSerializable
      *
      * This instance is immutable and unaffected by this method call.
      */
-    public function toHours() : int
+    public function toHours(): int
     {
-        return \intdiv($this->seconds, LocalTime::SECONDS_PER_HOUR);
+        return intdiv($this->seconds, LocalTime::SECONDS_PER_HOUR);
     }
 
     /**
@@ -587,7 +597,7 @@ final class Duration implements \JsonSerializable
      *
      * This instance is immutable and unaffected by this method call.
      */
-    public function toHoursPart() : int
+    public function toHoursPart(): int
     {
         return $this->toHours() % 24;
     }
@@ -599,9 +609,9 @@ final class Duration implements \JsonSerializable
      *
      * This instance is immutable and unaffected by this method call.
      */
-    public function toMinutes() : int
+    public function toMinutes(): int
     {
-        return \intdiv($this->seconds, LocalTime::SECONDS_PER_MINUTE);
+        return intdiv($this->seconds, LocalTime::SECONDS_PER_MINUTE);
     }
 
     /**
@@ -612,7 +622,7 @@ final class Duration implements \JsonSerializable
      *
      * This instance is immutable and unaffected by this method call.
      */
-    public function toMinutesPart() : int
+    public function toMinutesPart(): int
     {
         return $this->toMinutes() % LocalTime::MINUTES_PER_HOUR;
     }
@@ -624,7 +634,7 @@ final class Duration implements \JsonSerializable
      *
      * This instance is immutable and unaffected by this method call.
      */
-    public function toSeconds() : int
+    public function toSeconds(): int
     {
         return $this->seconds;
     }
@@ -637,7 +647,7 @@ final class Duration implements \JsonSerializable
      *
      * This instance is immutable and unaffected by this method call.
      */
-    public function toSecondsPart() : int
+    public function toSecondsPart(): int
     {
         return $this->toSeconds() % LocalTime::SECONDS_PER_MINUTE;
     }
@@ -652,7 +662,7 @@ final class Duration implements \JsonSerializable
      *
      * @throws ArithmeticError
      */
-    public function toMillis() : int
+    public function toMillis(): int
     {
         $tempSeconds = $this->seconds;
         $tempNanos = $this->nanos;
@@ -663,7 +673,7 @@ final class Duration implements \JsonSerializable
         }
 
         $millis = Math::multiplyExact($tempSeconds, LocalTime::MILLIS_PER_SECOND);
-        $millis = Math::addExact($millis, \intdiv($tempNanos, LocalTime::NANOS_PER_MILLI));
+        $millis = Math::addExact($millis, intdiv($tempNanos, LocalTime::NANOS_PER_MILLI));
 
         return $millis;
     }
@@ -678,9 +688,9 @@ final class Duration implements \JsonSerializable
      *
      * This instance is immutable and unaffected by this method call.
      */
-    public function toMillisPart() : int
+    public function toMillisPart(): int
     {
-        return \intdiv($this->nanos, LocalTime::NANOS_PER_MILLI);
+        return intdiv($this->nanos, LocalTime::NANOS_PER_MILLI);
     }
 
     /**
@@ -690,7 +700,7 @@ final class Duration implements \JsonSerializable
      *
      * @throws ArithmeticError
      */
-    public function toNanos() : int
+    public function toNanos(): int
     {
         $tempSeconds = $this->seconds;
         $tempNanos = $this->nanos;
@@ -715,7 +725,7 @@ final class Duration implements \JsonSerializable
      *
      * This instance is immutable and unaffected by this method call.
      */
-    public function toNanosPart() : int
+    public function toNanosPart(): int
     {
         return $this->nanos;
     }
@@ -723,7 +733,7 @@ final class Duration implements \JsonSerializable
     /**
      * Serializes as a string using {@see Duration::__toString()}.
      */
-    public function jsonSerialize() : string
+    public function jsonSerialize(): string
     {
         return (string) $this;
     }
@@ -739,10 +749,10 @@ final class Duration implements \JsonSerializable
      *
      * Note that multiples of 24 hours are not output as days to avoid confusion with Period.
      */
-    public function __toString() : string
+    public function __toString(): string
     {
         $seconds = $this->seconds;
-        $nanos   = $this->nanos;
+        $nanos = $this->nanos;
 
         if ($seconds === 0 && $nanos === 0) {
             return 'PT0S';
@@ -755,8 +765,8 @@ final class Duration implements \JsonSerializable
             $nanos = LocalTime::NANOS_PER_SECOND - $nanos;
         }
 
-        $hours = \intdiv($seconds, LocalTime::SECONDS_PER_HOUR);
-        $minutes = \intdiv($seconds % LocalTime::SECONDS_PER_HOUR, LocalTime::SECONDS_PER_MINUTE);
+        $hours = intdiv($seconds, LocalTime::SECONDS_PER_HOUR);
+        $minutes = intdiv($seconds % LocalTime::SECONDS_PER_HOUR, LocalTime::SECONDS_PER_MINUTE);
         $seconds = $seconds % LocalTime::SECONDS_PER_MINUTE;
 
         $string = 'PT';
@@ -775,7 +785,7 @@ final class Duration implements \JsonSerializable
         $string .= (($seconds === 0 && $negative) ? '-0' : $seconds);
 
         if ($nanos !== 0) {
-            $string .= '.' . \rtrim(\sprintf('%09d', $nanos), '0');
+            $string .= '.' . rtrim(sprintf('%09d', $nanos), '0');
         }
 
         return $string . 'S';

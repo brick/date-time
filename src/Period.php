@@ -4,12 +4,19 @@ declare(strict_types=1);
 
 namespace Brick\DateTime;
 
+use DateInterval;
+use JsonSerializable;
+
+use function intdiv;
+use function preg_match;
+use function sprintf;
+
 /**
  * A date-based amount of time in the ISO-8601 calendar system, such as '2 years, 3 months and 4 days'.
  *
  * This class is immutable.
  */
-final class Period implements \JsonSerializable
+final class Period implements JsonSerializable
 {
     private int $years;
 
@@ -26,9 +33,9 @@ final class Period implements \JsonSerializable
      */
     private function __construct(int $years, int $months, int $days)
     {
-        $this->years  = $years;
+        $this->years = $years;
         $this->months = $months;
-        $this->days   = $days;
+        $this->days = $days;
     }
 
     /**
@@ -38,27 +45,27 @@ final class Period implements \JsonSerializable
      * @param int $months The number of months.
      * @param int $days   The number of days.
      */
-    public static function of(int $years, int $months, int $days) : Period
+    public static function of(int $years, int $months, int $days): Period
     {
         return new Period($years, $months, $days);
     }
 
-    public static function ofYears(int $years) : Period
+    public static function ofYears(int $years): Period
     {
         return new Period($years, 0, 0);
     }
 
-    public static function ofMonths(int $months) : Period
+    public static function ofMonths(int $months): Period
     {
         return new Period(0, $months, 0);
     }
 
-    public static function ofWeeks(int $weeks) : Period
+    public static function ofWeeks(int $weeks): Period
     {
         return new Period(0, 0, $weeks * LocalTime::DAYS_PER_WEEK);
     }
 
-    public static function ofDays(int $days) : Period
+    public static function ofDays(int $days): Period
     {
         return new Period(0, 0, $days);
     }
@@ -66,7 +73,7 @@ final class Period implements \JsonSerializable
     /**
      * Creates a zero Period.
      */
-    public static function zero() : Period
+    public static function zero(): Period
     {
         return new Period(0, 0, 0);
     }
@@ -87,7 +94,7 @@ final class Period implements \JsonSerializable
      *
      * @throws Parser\DateTimeParseException
      */
-    public static function parse(string $text) : Period
+    public static function parse(string $text): Period
     {
         $pattern =
             '/^' .
@@ -99,7 +106,7 @@ final class Period implements \JsonSerializable
             '(?:([\-\+]?[0-9]+)D)?' .
             '()$/i';
 
-        if (\preg_match($pattern, $text, $matches) !== 1) {
+        if (preg_match($pattern, $text, $matches) !== 1) {
             throw Parser\DateTimeParseException::invalidPeriod($text);
         }
 
@@ -109,17 +116,17 @@ final class Period implements \JsonSerializable
             throw Parser\DateTimeParseException::invalidPeriod($text);
         }
 
-        $years  = (int) $years;
+        $years = (int) $years;
         $months = (int) $months;
-        $weeks  = (int) $weeks;
-        $days   = (int) $days;
+        $weeks = (int) $weeks;
+        $days = (int) $days;
 
         $days += LocalTime::DAYS_PER_WEEK * $weeks;
 
         if ($sign === '-') {
-            $years  = -$years;
+            $years = -$years;
             $months = -$months;
-            $days   = -$days;
+            $days = -$days;
         }
 
         return new Period($years, $months, $days);
@@ -130,7 +137,7 @@ final class Period implements \JsonSerializable
      *
      * @throws DateTimeException If the DateInterval contains non-zero hours, minutes, seconds or microseconds.
      */
-    public static function fromNativeDateInterval(\DateInterval $dateInterval): Period
+    public static function fromNativeDateInterval(DateInterval $dateInterval): Period
     {
         if ($dateInterval->h !== 0) {
             throw new DateTimeException('Cannot create a Period from a DateInterval with a non-zero hour.');
@@ -164,11 +171,11 @@ final class Period implements \JsonSerializable
     /**
      * Creates a Period from a PHP DateInterval object.
      *
-     * @throws DateTimeException If the DateInterval contains non-zero hours, minutes, seconds or microseconds.
-     *
      * @deprecated please use fromNativeDateInterval instead
+     *
+     * @throws DateTimeException If the DateInterval contains non-zero hours, minutes, seconds or microseconds.
      */
-    public static function fromDateInterval(\DateInterval $dateInterval): Period
+    public static function fromDateInterval(DateInterval $dateInterval): Period
     {
         return self::fromNativeDateInterval($dateInterval);
     }
@@ -187,27 +194,27 @@ final class Period implements \JsonSerializable
      * The result of this method can be a negative period if the end is before the start.
      * The negative sign will be the same in each of year, month and day.
      */
-    public static function between(LocalDate $startInclusive, LocalDate $endExclusive) : Period
+    public static function between(LocalDate $startInclusive, LocalDate $endExclusive): Period
     {
         return $startInclusive->until($endExclusive);
     }
 
-    public function getYears() : int
+    public function getYears(): int
     {
         return $this->years;
     }
 
-    public function getMonths() : int
+    public function getMonths(): int
     {
         return $this->months;
     }
 
-    public function getDays() : int
+    public function getDays(): int
     {
         return $this->days;
     }
 
-    public function withYears(int $years) : Period
+    public function withYears(int $years): Period
     {
         if ($years === $this->years) {
             return $this;
@@ -216,7 +223,7 @@ final class Period implements \JsonSerializable
         return new Period($years, $this->months, $this->days);
     }
 
-    public function withMonths(int $months) : Period
+    public function withMonths(int $months): Period
     {
         if ($months === $this->months) {
             return $this;
@@ -225,7 +232,7 @@ final class Period implements \JsonSerializable
         return new Period($this->years, $months, $this->days);
     }
 
-    public function withDays(int $days) : Period
+    public function withDays(int $days): Period
     {
         if ($days === $this->days) {
             return $this;
@@ -234,7 +241,7 @@ final class Period implements \JsonSerializable
         return new Period($this->years, $this->months, $days);
     }
 
-    public function plusYears(int $years) : Period
+    public function plusYears(int $years): Period
     {
         if ($years === 0) {
             return $this;
@@ -243,7 +250,7 @@ final class Period implements \JsonSerializable
         return new Period($this->years + $years, $this->months, $this->days);
     }
 
-    public function plusMonths(int $months) : Period
+    public function plusMonths(int $months): Period
     {
         if ($months === 0) {
             return $this;
@@ -252,7 +259,7 @@ final class Period implements \JsonSerializable
         return new Period($this->years, $this->months + $months, $this->days);
     }
 
-    public function plusDays(int $days) : Period
+    public function plusDays(int $days): Period
     {
         if ($days === 0) {
             return $this;
@@ -261,7 +268,7 @@ final class Period implements \JsonSerializable
         return new Period($this->years, $this->months, $this->days + $days);
     }
 
-    public function minusYears(int $years) : Period
+    public function minusYears(int $years): Period
     {
         if ($years === 0) {
             return $this;
@@ -270,7 +277,7 @@ final class Period implements \JsonSerializable
         return new Period($this->years - $years, $this->months, $this->days);
     }
 
-    public function minusMonths(int $months) : Period
+    public function minusMonths(int $months): Period
     {
         if ($months === 0) {
             return $this;
@@ -279,7 +286,7 @@ final class Period implements \JsonSerializable
         return new Period($this->years, $this->months - $months, $this->days);
     }
 
-    public function minusDays(int $days) : Period
+    public function minusDays(int $days): Period
     {
         if ($days === 0) {
             return $this;
@@ -291,7 +298,7 @@ final class Period implements \JsonSerializable
     /**
      * Returns a new Period with each value multiplied by the given scalar.
      */
-    public function multipliedBy(int $scalar) : Period
+    public function multipliedBy(int $scalar): Period
     {
         if ($scalar === 1) {
             return $this;
@@ -307,16 +314,16 @@ final class Period implements \JsonSerializable
     /**
      * Returns a new instance with each amount in this Period negated.
      */
-    public function negated() : Period
+    public function negated(): Period
     {
         if ($this->isZero()) {
             return $this;
         }
 
         return new Period(
-            - $this->years,
-            - $this->months,
-            - $this->days
+            -$this->years,
+            -$this->months,
+            -$this->days
         );
     }
 
@@ -332,11 +339,11 @@ final class Period implements \JsonSerializable
      * For example, a period of "1 year and -25 months" will be normalized to
      * "-1 year and -1 month".
      */
-    public function normalized() : Period
+    public function normalized(): Period
     {
         $totalMonths = $this->years * LocalTime::MONTHS_PER_YEAR + $this->months;
 
-        $splitYears = \intdiv($totalMonths, 12);
+        $splitYears = intdiv($totalMonths, 12);
         $splitMonths = $totalMonths % 12;
 
         if ($splitYears === $this->years || $splitMonths === $this->months) {
@@ -346,12 +353,12 @@ final class Period implements \JsonSerializable
         return new Period($splitYears, $splitMonths, $this->days);
     }
 
-    public function isZero() : bool
+    public function isZero(): bool
     {
         return $this->years === 0 && $this->months === 0 && $this->days === 0;
     }
 
-    public function isEqualTo(Period $that) : bool
+    public function isEqualTo(Period $that): bool
     {
         return $this->years === $that->years
             && $this->months === $that->months
@@ -366,7 +373,7 @@ final class Period implements \JsonSerializable
      *
      * @deprecated please use toNativeDateInterval instead
      */
-    public function toDateInterval() : \DateInterval
+    public function toDateInterval(): DateInterval
     {
         return $this->toNativeDateInterval();
     }
@@ -377,9 +384,9 @@ final class Period implements \JsonSerializable
      * We cannot use the constructor with the output of __toString(),
      * as it does not support negative values.
      */
-    public function toNativeDateInterval() : \DateInterval
+    public function toNativeDateInterval(): DateInterval
     {
-        return \DateInterval::createFromDateString(\sprintf(
+        return DateInterval::createFromDateString(sprintf(
             '%d years %d months %d days',
             $this->years,
             $this->months,
@@ -390,12 +397,12 @@ final class Period implements \JsonSerializable
     /**
      * Serializes as a string using {@see Period::__toString()}.
      */
-    public function jsonSerialize() : string
+    public function jsonSerialize(): string
     {
         return (string) $this;
     }
 
-    public function __toString() : string
+    public function __toString(): string
     {
         if ($this->isZero()) {
             return 'P0D';

@@ -12,25 +12,34 @@ use Brick\DateTime\Parser\DateTimeParser;
 use Brick\DateTime\Parser\DateTimeParseResult;
 use Brick\DateTime\Parser\IsoParsers;
 use Brick\DateTime\Utility\Math;
+use DateTime;
+use DateTimeImmutable;
+use DateTimeInterface;
+use JsonSerializable;
+
+use function intdiv;
+use function rtrim;
+use function sprintf;
+use function substr;
 
 /**
  * A time without a time-zone in the ISO-8601 calendar system, such as 10:15:30.
  *
  * This class is immutable.
  */
-final class LocalTime implements \JsonSerializable
+final class LocalTime implements JsonSerializable
 {
-    public const MONTHS_PER_YEAR    = 12;
-    public const DAYS_PER_WEEK      = 7;
-    public const HOURS_PER_DAY      = 24;
-    public const MINUTES_PER_HOUR   = 60;
-    public const MINUTES_PER_DAY    = 1440;
+    public const MONTHS_PER_YEAR = 12;
+    public const DAYS_PER_WEEK = 7;
+    public const HOURS_PER_DAY = 24;
+    public const MINUTES_PER_HOUR = 60;
+    public const MINUTES_PER_DAY = 1440;
     public const SECONDS_PER_MINUTE = 60;
-    public const SECONDS_PER_HOUR   = 3600;
-    public const SECONDS_PER_DAY    = 86400;
-    public const NANOS_PER_SECOND   = 1000000000;
-    public const NANOS_PER_MILLI    = 1000000;
-    public const MILLIS_PER_SECOND  = 1000;
+    public const SECONDS_PER_HOUR = 3600;
+    public const SECONDS_PER_DAY = 86400;
+    public const NANOS_PER_SECOND = 1000000000;
+    public const NANOS_PER_MILLI = 1000000;
+    public const MILLIS_PER_SECOND = 1000;
 
     /**
      * The hour, in the range 0 to 23.
@@ -62,10 +71,10 @@ final class LocalTime implements \JsonSerializable
      */
     private function __construct(int $hour, int $minute, int $second, int $nano)
     {
-        $this->hour   = $hour;
+        $this->hour = $hour;
         $this->minute = $minute;
         $this->second = $second;
-        $this->nano   = $nano;
+        $this->nano = $nano;
     }
 
     /**
@@ -76,7 +85,7 @@ final class LocalTime implements \JsonSerializable
      *
      * @throws DateTimeException
      */
-    public static function of(int $hour, int $minute, int $second = 0, int $nano = 0) : LocalTime
+    public static function of(int $hour, int $minute, int $second = 0, int $nano = 0): LocalTime
     {
         Field\HourOfDay::check($hour);
         Field\MinuteOfHour::check($minute);
@@ -94,14 +103,14 @@ final class LocalTime implements \JsonSerializable
      *
      * @throws DateTimeException
      */
-    public static function ofSecondOfDay(int $secondOfDay, int $nanoOfSecond = 0) : LocalTime
+    public static function ofSecondOfDay(int $secondOfDay, int $nanoOfSecond = 0): LocalTime
     {
         Field\SecondOfDay::check($secondOfDay);
         Field\NanoOfSecond::check($nanoOfSecond);
 
-        $hours = \intdiv($secondOfDay, self::SECONDS_PER_HOUR);
+        $hours = intdiv($secondOfDay, self::SECONDS_PER_HOUR);
         $secondOfDay -= $hours * self::SECONDS_PER_HOUR;
-        $minutes = \intdiv($secondOfDay, self::SECONDS_PER_MINUTE);
+        $minutes = intdiv($secondOfDay, self::SECONDS_PER_MINUTE);
         $secondOfDay -= $minutes * self::SECONDS_PER_MINUTE;
 
         return new LocalTime($hours, $minutes, $secondOfDay, $nanoOfSecond);
@@ -111,14 +120,14 @@ final class LocalTime implements \JsonSerializable
      * @throws DateTimeException      If the time is not valid.
      * @throws DateTimeParseException If required fields are missing from the result.
      */
-    public static function from(DateTimeParseResult $result) : LocalTime
+    public static function from(DateTimeParseResult $result): LocalTime
     {
-        $hour     = $result->getField(HourOfDay::NAME);
-        $minute   = $result->getField(MinuteOfHour::NAME);
-        $second   = $result->getOptionalField(SecondOfMinute::NAME);
+        $hour = $result->getField(HourOfDay::NAME);
+        $minute = $result->getField(MinuteOfHour::NAME);
+        $second = $result->getOptionalField(SecondOfMinute::NAME);
         $fraction = $result->getOptionalField(Field\FractionOfSecond::NAME);
 
-        $nano = \substr($fraction . '000000000', 0, 9);
+        $nano = substr($fraction . '000000000', 0, 9);
 
         return LocalTime::of((int) $hour, (int) $minute, (int) $second, (int) $nano);
     }
@@ -132,7 +141,7 @@ final class LocalTime implements \JsonSerializable
      * @throws DateTimeException      If the time is not valid.
      * @throws DateTimeParseException If the text string does not follow the expected format.
      */
-    public static function parse(string $text, ?DateTimeParser $parser = null) : LocalTime
+    public static function parse(string $text, ?DateTimeParser $parser = null): LocalTime
     {
         if (! $parser) {
             $parser = IsoParsers::localTime();
@@ -144,7 +153,7 @@ final class LocalTime implements \JsonSerializable
     /**
      * Creates a LocalTime from a native DateTime or DateTimeImmutable object.
      */
-    public static function fromNativeDateTime(\DateTimeInterface $dateTime) : LocalTime
+    public static function fromNativeDateTime(DateTimeInterface $dateTime): LocalTime
     {
         return new LocalTime(
             (int) $dateTime->format('G'),
@@ -159,7 +168,7 @@ final class LocalTime implements \JsonSerializable
      *
      * @deprecated please use fromNativeDateTime instead
      */
-    public static function fromDateTime(\DateTimeInterface $dateTime) : LocalTime
+    public static function fromDateTime(DateTimeInterface $dateTime): LocalTime
     {
         return self::fromNativeDateTime($dateTime);
     }
@@ -169,17 +178,17 @@ final class LocalTime implements \JsonSerializable
      *
      * If no clock is provided, the system clock is used.
      */
-    public static function now(TimeZone $timeZone, ?Clock $clock = null) : LocalTime
+    public static function now(TimeZone $timeZone, ?Clock $clock = null): LocalTime
     {
         return ZonedDateTime::now($timeZone, $clock)->getTime();
     }
 
-    public static function midnight() : LocalTime
+    public static function midnight(): LocalTime
     {
         return new LocalTime(0, 0, 0, 0);
     }
 
-    public static function noon() : LocalTime
+    public static function noon(): LocalTime
     {
         return new LocalTime(12, 0, 0, 0);
     }
@@ -187,7 +196,7 @@ final class LocalTime implements \JsonSerializable
     /**
      * Returns the smallest possible value for LocalTime.
      */
-    public static function min() : LocalTime
+    public static function min(): LocalTime
     {
         return new LocalTime(0, 0, 0, 0);
     }
@@ -195,7 +204,7 @@ final class LocalTime implements \JsonSerializable
     /**
      * Returns the highest possible value for LocalTime.
      */
-    public static function max() : LocalTime
+    public static function max(): LocalTime
     {
         return new LocalTime(23, 59, 59, 999999999);
     }
@@ -209,7 +218,7 @@ final class LocalTime implements \JsonSerializable
      *
      * @throws DateTimeException If the array is empty.
      */
-    public static function minOf(LocalTime ...$times) : LocalTime
+    public static function minOf(LocalTime ...$times): LocalTime
     {
         if (! $times) {
             throw new DateTimeException(__METHOD__ . ' does not accept less than 1 parameter.');
@@ -235,7 +244,7 @@ final class LocalTime implements \JsonSerializable
      *
      * @throws DateTimeException If the array is empty.
      */
-    public static function maxOf(LocalTime ...$times) : LocalTime
+    public static function maxOf(LocalTime ...$times): LocalTime
     {
         if (! $times) {
             throw new DateTimeException(__METHOD__ . ' does not accept less than 1 parameter.');
@@ -252,22 +261,22 @@ final class LocalTime implements \JsonSerializable
         return $max;
     }
 
-    public function getHour() : int
+    public function getHour(): int
     {
         return $this->hour;
     }
 
-    public function getMinute() : int
+    public function getMinute(): int
     {
         return $this->minute;
     }
 
-    public function getSecond() : int
+    public function getSecond(): int
     {
         return $this->second;
     }
 
-    public function getNano() : int
+    public function getNano(): int
     {
         return $this->nano;
     }
@@ -279,7 +288,7 @@ final class LocalTime implements \JsonSerializable
      *
      * @throws DateTimeException If the hour-of-day if not valid.
      */
-    public function withHour(int $hour) : LocalTime
+    public function withHour(int $hour): LocalTime
     {
         if ($hour === $this->hour) {
             return $this;
@@ -297,7 +306,7 @@ final class LocalTime implements \JsonSerializable
      *
      * @throws DateTimeException If the minute-of-hour if not valid.
      */
-    public function withMinute(int $minute) : LocalTime
+    public function withMinute(int $minute): LocalTime
     {
         if ($minute === $this->minute) {
             return $this;
@@ -315,7 +324,7 @@ final class LocalTime implements \JsonSerializable
      *
      * @throws DateTimeException If the second-of-minute if not valid.
      */
-    public function withSecond(int $second) : LocalTime
+    public function withSecond(int $second): LocalTime
     {
         if ($second === $this->second) {
             return $this;
@@ -333,7 +342,7 @@ final class LocalTime implements \JsonSerializable
      *
      * @throws DateTimeException If the nano-of-second if not valid.
      */
-    public function withNano(int $nano) : LocalTime
+    public function withNano(int $nano): LocalTime
     {
         if ($nano === $this->nano) {
             return $this;
@@ -349,7 +358,7 @@ final class LocalTime implements \JsonSerializable
      *
      * The calculation wraps around midnight.
      */
-    public function plusDuration(Duration $duration) : LocalTime
+    public function plusDuration(Duration $duration): LocalTime
     {
         return $this
             ->plusSeconds($duration->getSeconds())
@@ -368,7 +377,7 @@ final class LocalTime implements \JsonSerializable
      *
      * @return LocalTime A LocalTime based on this time with the hours added.
      */
-    public function plusHours(int $hours) : LocalTime
+    public function plusHours(int $hours): LocalTime
     {
         if ($hours === 0) {
             return $this;
@@ -391,7 +400,7 @@ final class LocalTime implements \JsonSerializable
      *
      * @return LocalTime A LocalTime based on this time with the minutes added.
      */
-    public function plusMinutes(int $minutes) : LocalTime
+    public function plusMinutes(int $minutes): LocalTime
     {
         if ($minutes === 0) {
             return $this;
@@ -404,7 +413,7 @@ final class LocalTime implements \JsonSerializable
             return $this;
         }
 
-        $hour = \intdiv($newMofd, self::MINUTES_PER_HOUR);
+        $hour = intdiv($newMofd, self::MINUTES_PER_HOUR);
         $minute = $newMofd % self::MINUTES_PER_HOUR;
 
         return new LocalTime($hour, $minute, $this->second, $this->nano);
@@ -417,7 +426,7 @@ final class LocalTime implements \JsonSerializable
      *
      * @return LocalTime A LocalTime based on this time with the seconds added.
      */
-    public function plusSeconds(int $seconds) : LocalTime
+    public function plusSeconds(int $seconds): LocalTime
     {
         if ($seconds === 0) {
             return $this;
@@ -430,8 +439,8 @@ final class LocalTime implements \JsonSerializable
             return $this;
         }
 
-        $hour = \intdiv($newSofd, self::SECONDS_PER_HOUR);
-        $minute = \intdiv($newSofd, self::SECONDS_PER_MINUTE) % self::MINUTES_PER_HOUR;
+        $hour = intdiv($newSofd, self::SECONDS_PER_HOUR);
+        $minute = intdiv($newSofd, self::SECONDS_PER_MINUTE) % self::MINUTES_PER_HOUR;
         $second = $newSofd % self::SECONDS_PER_MINUTE;
 
         return new LocalTime($hour, $minute, $second, $this->nano);
@@ -446,7 +455,7 @@ final class LocalTime implements \JsonSerializable
      *
      * @throws DateTimeException
      */
-    public function plusNanos(int $nanos) : LocalTime
+    public function plusNanos(int $nanos): LocalTime
     {
         if ($nanos === 0) {
             return $this;
@@ -474,27 +483,27 @@ final class LocalTime implements \JsonSerializable
      *
      * The calculation wraps around midnight.
      */
-    public function minusDuration(Duration $duration) : LocalTime
+    public function minusDuration(Duration $duration): LocalTime
     {
         return $this->plusDuration($duration->negated());
     }
 
-    public function minusHours(int $hours) : LocalTime
+    public function minusHours(int $hours): LocalTime
     {
-        return $this->plusHours(- $hours);
+        return $this->plusHours(-$hours);
     }
 
-    public function minusMinutes(int $minutes) : LocalTime
+    public function minusMinutes(int $minutes): LocalTime
     {
-        return $this->plusMinutes(- $minutes);
+        return $this->plusMinutes(-$minutes);
     }
 
-    public function minusSeconds(int $seconds) : LocalTime
+    public function minusSeconds(int $seconds): LocalTime
     {
-        return $this->plusSeconds(- $seconds);
+        return $this->plusSeconds(-$seconds);
     }
 
-    public function minusNanos(int $nanos) : LocalTime
+    public function minusNanos(int $nanos): LocalTime
     {
         return $this->plusNanos(-$nanos);
     }
@@ -506,7 +515,7 @@ final class LocalTime implements \JsonSerializable
      *
      * @return int [-1,0,1] If this time is before, on, or after the given time.
      */
-    public function compareTo(LocalTime $that) : int
+    public function compareTo(LocalTime $that): int
     {
         $seconds = $this->toSecondOfDay() - $that->toSecondOfDay();
 
@@ -528,7 +537,7 @@ final class LocalTime implements \JsonSerializable
      *
      * @param LocalTime $that The time to compare to.
      */
-    public function isEqualTo(LocalTime $that) : bool
+    public function isEqualTo(LocalTime $that): bool
     {
         return $this->compareTo($that) === 0;
     }
@@ -538,7 +547,7 @@ final class LocalTime implements \JsonSerializable
      *
      * @param LocalTime $that The time to compare to.
      */
-    public function isBefore(LocalTime $that) : bool
+    public function isBefore(LocalTime $that): bool
     {
         return $this->compareTo($that) === -1;
     }
@@ -548,7 +557,7 @@ final class LocalTime implements \JsonSerializable
      *
      * @param LocalTime $that The time to compare to.
      */
-    public function isBeforeOrEqualTo(LocalTime $that) : bool
+    public function isBeforeOrEqualTo(LocalTime $that): bool
     {
         return $this->compareTo($that) <= 0;
     }
@@ -558,7 +567,7 @@ final class LocalTime implements \JsonSerializable
      *
      * @param LocalTime $that The time to compare to.
      */
-    public function isAfter(LocalTime $that) : bool
+    public function isAfter(LocalTime $that): bool
     {
         return $this->compareTo($that) === 1;
     }
@@ -568,7 +577,7 @@ final class LocalTime implements \JsonSerializable
      *
      * @param LocalTime $that The time to compare to.
      */
-    public function isAfterOrEqualTo(LocalTime $that) : bool
+    public function isAfterOrEqualTo(LocalTime $that): bool
     {
         return $this->compareTo($that) >= 0;
     }
@@ -576,7 +585,7 @@ final class LocalTime implements \JsonSerializable
     /**
      * Combines this time with a date to create a LocalDateTime.
      */
-    public function atDate(LocalDate $date) : LocalDateTime
+    public function atDate(LocalDate $date): LocalDateTime
     {
         return new LocalDateTime($date, $this);
     }
@@ -586,7 +595,7 @@ final class LocalTime implements \JsonSerializable
      *
      * This does not include the nanoseconds.
      */
-    public function toSecondOfDay() : int
+    public function toSecondOfDay(): int
     {
         return $this->hour * self::SECONDS_PER_HOUR
             + $this->minute * self::SECONDS_PER_MINUTE
@@ -601,7 +610,7 @@ final class LocalTime implements \JsonSerializable
      * Note that the native DateTime object supports a precision up to the microsecond,
      * so the nanoseconds are rounded down to the nearest microsecond.
      */
-    public function toNativeDateTime() : \DateTime
+    public function toNativeDateTime(): DateTime
     {
         return $this->atDate(LocalDate::of(0, 1, 1))->toDateTime();
     }
@@ -616,7 +625,7 @@ final class LocalTime implements \JsonSerializable
      *
      * @deprecated please use toNativeDateTime instead
      */
-    public function toDateTime() : \DateTime
+    public function toDateTime(): DateTime
     {
         return $this->toNativeDateTime();
     }
@@ -629,9 +638,9 @@ final class LocalTime implements \JsonSerializable
      * Note that the native DateTimeImmutable object supports a precision up to the microsecond,
      * so the nanoseconds are rounded down to the nearest microsecond.
      */
-    public function toNativeDateTimeImmutable() : \DateTimeImmutable
+    public function toNativeDateTimeImmutable(): DateTimeImmutable
     {
-        return \DateTimeImmutable::createFromMutable($this->toNativeDateTime());
+        return DateTimeImmutable::createFromMutable($this->toNativeDateTime());
     }
 
     /**
@@ -644,7 +653,7 @@ final class LocalTime implements \JsonSerializable
      *
      * @deprecated please use toNativeDateTimeImmutable instead
      */
-    public function toDateTimeImmutable() : \DateTimeImmutable
+    public function toDateTimeImmutable(): DateTimeImmutable
     {
         return $this->toNativeDateTimeImmutable();
     }
@@ -652,7 +661,7 @@ final class LocalTime implements \JsonSerializable
     /**
      * Serializes as a string using {@see LocalTime::__toString()}.
      */
-    public function jsonSerialize() : string
+    public function jsonSerialize(): string
     {
         return (string) $this;
     }
@@ -670,18 +679,18 @@ final class LocalTime implements \JsonSerializable
      * the time where the omitted parts are implied to be zero.
      * The nanoseconds value, if present, can be 0 to 9 digits.
      */
-    public function __toString() : string
+    public function __toString(): string
     {
         if ($this->nano === 0) {
             if ($this->second === 0) {
-                return \sprintf('%02u:%02u', $this->hour, $this->minute);
+                return sprintf('%02u:%02u', $this->hour, $this->minute);
             } else {
-                return \sprintf('%02u:%02u:%02u', $this->hour, $this->minute, $this->second);
+                return sprintf('%02u:%02u:%02u', $this->hour, $this->minute, $this->second);
             }
         }
 
-        $nanos = \rtrim(\sprintf('%09u', $this->nano), '0');
+        $nanos = rtrim(sprintf('%09u', $this->nano), '0');
 
-        return \sprintf('%02u:%02u:%02u.%s', $this->hour, $this->minute, $this->second, $nanos);
+        return sprintf('%02u:%02u:%02u.%s', $this->hour, $this->minute, $this->second, $nanos);
     }
 }

@@ -26,7 +26,7 @@ final class MinuteOfHour
      *
      * @throws DateTimeException If the minute-of-hour is not valid.
      */
-    public static function check(int $minuteOfHour) : void
+    public static function check(int $minuteOfHour): void
     {
         if ($minuteOfHour < 0 || $minuteOfHour > 59) {
             throw DateTimeException::fieldNotInRange(self::NAME, $minuteOfHour, 0, 59);

@@ -1,3 +1,10 @@
 /vendor
 /composer.lock
 /.phpunit.result.cache
+
+# https://stackoverflow.com/a/16318111
+/tools/*
+!/tools/ecs
+/tools/ecs/*
+!/tools/ecs/composer.json
+!/tools/ecs/ecs.php

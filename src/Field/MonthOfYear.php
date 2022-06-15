@@ -26,7 +26,7 @@ final class MonthOfYear
      *
      * @throws DateTimeException If the month-of-year is not valid.
      */
-    public static function check(int $monthOfYear) : void
+    public static function check(int $monthOfYear): void
     {
         if ($monthOfYear < 1 || $monthOfYear > 12) {
             throw DateTimeException::fieldNotInRange(self::NAME, $monthOfYear, 1, 12);
@@ -41,7 +41,7 @@ final class MonthOfYear
      * @param int      $monthOfYear The month-of-year, validated.
      * @param int|null $year        An optional year the month-of-year belongs to, validated.
      */
-    public static function getLength(int $monthOfYear, ?int $year = null) : int
+    public static function getLength(int $monthOfYear, ?int $year = null): int
     {
         switch ($monthOfYear) {
             case 2:
@@ -63,18 +63,18 @@ final class MonthOfYear
      *
      * @param int $monthOfYear The month-of-year, validated.
      */
-    public static function getName(int $monthOfYear) : string
+    public static function getName(int $monthOfYear): string
     {
         $names = [
-            1  => 'January',
-            2  => 'February',
-            3  => 'March',
-            4  => 'April',
-            5  => 'May',
-            6  => 'June',
-            7  => 'July',
-            8  => 'August',
-            9  => 'September',
+            1 => 'January',
+            2 => 'February',
+            3 => 'March',
+            4 => 'April',
+            5 => 'May',
+            6 => 'June',
+            7 => 'July',
+            8 => 'August',
+            9 => 'September',
             10 => 'October',
             11 => 'November',
             12 => 'December'

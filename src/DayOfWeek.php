@@ -4,20 +4,22 @@ declare(strict_types=1);
 
 namespace Brick\DateTime;
 
+use JsonSerializable;
+
 /**
  * A day-of-week, such as Tuesday.
  *
  * This class is immutable.
  */
-final class DayOfWeek implements \JsonSerializable
+final class DayOfWeek implements JsonSerializable
 {
-    public const MONDAY    = 1;
-    public const TUESDAY   = 2;
+    public const MONDAY = 1;
+    public const TUESDAY = 2;
     public const WEDNESDAY = 3;
-    public const THURSDAY  = 4;
-    public const FRIDAY    = 5;
-    public const SATURDAY  = 6;
-    public const SUNDAY    = 7;
+    public const THURSDAY = 4;
+    public const FRIDAY = 5;
+    public const SATURDAY = 6;
+    public const SUNDAY = 7;
 
     /**
      * The ISO-8601 value for the day of the week, from 1 (Monday) to 7 (Sunday).
@@ -35,23 +37,6 @@ final class DayOfWeek implements \JsonSerializable
     }
 
     /**
-     * Returns a cached DayOfWeek instance.
-     *
-     * @param int $value The day-of-week value, validated from 1 to 7.
-     */
-    private static function get(int $value) : DayOfWeek
-    {
-        /** @var array<int, DayOfWeek> $values */
-        static $values = [];
-
-        if (! isset($values[$value])) {
-            $values[$value] = new DayOfWeek($value);
-        }
-
-        return $values[$value];
-    }
-
-    /**
      * Returns an instance of DayOfWeek for the given day-of-week value.
      *
      * @param int $dayOfWeek The day-of-week value, from 1 (Monday) to 7 (Sunday).
@@ -60,7 +45,7 @@ final class DayOfWeek implements \JsonSerializable
      *
      * @throws DateTimeException If the day-of-week is not valid.
      */
-    public static function of(int $dayOfWeek) : DayOfWeek
+    public static function of(int $dayOfWeek): DayOfWeek
     {
         Field\DayOfWeek::check($dayOfWeek);
 
@@ -72,7 +57,7 @@ final class DayOfWeek implements \JsonSerializable
      *
      * If no clock is provided, the system clock is used.
      */
-    public static function now(TimeZone $timeZone, ?Clock $clock = null) : DayOfWeek
+    public static function now(TimeZone $timeZone, ?Clock $clock = null): DayOfWeek
     {
         return LocalDate::now($timeZone, $clock)->getDayOfWeek();
     }
@@ -84,7 +69,7 @@ final class DayOfWeek implements \JsonSerializable
      *
      * @return DayOfWeek[]
      */
-    public static function all(?DayOfWeek $first = null) : array
+    public static function all(?DayOfWeek $first = null): array
     {
         $days = [];
         $first = $first ?: DayOfWeek::get(DayOfWeek::MONDAY);
@@ -93,8 +78,7 @@ final class DayOfWeek implements \JsonSerializable
         do {
             $days[] = $current;
             $current = $current->plus(1);
-        }
-        while (! $current->isEqualTo($first));
+        } while (! $current->isEqualTo($first));
 
         return $days;
     }
@@ -102,7 +86,7 @@ final class DayOfWeek implements \JsonSerializable
     /**
      * Returns a day-of-week instance for Monday.
      */
-    public static function monday() : DayOfWeek
+    public static function monday(): DayOfWeek
     {
         return DayOfWeek::get(DayOfWeek::MONDAY);
     }
@@ -110,7 +94,7 @@ final class DayOfWeek implements \JsonSerializable
     /**
      * Returns a day-of-week instance for Tuesday.
      */
-    public static function tuesday() : DayOfWeek
+    public static function tuesday(): DayOfWeek
     {
         return DayOfWeek::get(DayOfWeek::TUESDAY);
     }
@@ -118,7 +102,7 @@ final class DayOfWeek implements \JsonSerializable
     /**
      * Returns a day-of-week instance for Wednesday.
      */
-    public static function wednesday() : DayOfWeek
+    public static function wednesday(): DayOfWeek
     {
         return DayOfWeek::get(DayOfWeek::WEDNESDAY);
     }
@@ -126,7 +110,7 @@ final class DayOfWeek implements \JsonSerializable
     /**
      * Returns a day-of-week instance for Thursday.
      */
-    public static function thursday() : DayOfWeek
+    public static function thursday(): DayOfWeek
     {
         return DayOfWeek::get(DayOfWeek::THURSDAY);
     }
@@ -134,7 +118,7 @@ final class DayOfWeek implements \JsonSerializable
     /**
      * Returns a day-of-week instance for Friday.
      */
-    public static function friday() : DayOfWeek
+    public static function friday(): DayOfWeek
     {
         return DayOfWeek::get(DayOfWeek::FRIDAY);
     }
@@ -142,7 +126,7 @@ final class DayOfWeek implements \JsonSerializable
     /**
      * Returns a day-of-week instance for Saturday.
      */
-    public static function saturday() : DayOfWeek
+    public static function saturday(): DayOfWeek
     {
         return DayOfWeek::get(DayOfWeek::SATURDAY);
     }
@@ -150,7 +134,7 @@ final class DayOfWeek implements \JsonSerializable
     /**
      * Returns a day-of-week instance for Sunday.
      */
-    public static function sunday() : DayOfWeek
+    public static function sunday(): DayOfWeek
     {
         return DayOfWeek::get(DayOfWeek::SUNDAY);
     }
@@ -160,7 +144,7 @@ final class DayOfWeek implements \JsonSerializable
      *
      * @return int The day-of-week value, from 1 (Monday) to 7 (Sunday).
      */
-    public function getValue() : int
+    public function getValue(): int
     {
         return $this->value;
     }
@@ -172,7 +156,7 @@ final class DayOfWeek implements \JsonSerializable
      *
      * @return bool True if this day-of-week is equal to the given value, false otherwise.
      */
-    public function is(int $dayOfWeek) : bool
+    public function is(int $dayOfWeek): bool
     {
         return $this->value === $dayOfWeek;
     }
@@ -184,7 +168,7 @@ final class DayOfWeek implements \JsonSerializable
      * do *not* use strict object comparison to compare two DayOfWeek instances,
      * as it is possible to get a different instance for the same day using serialization.
      */
-    public function isEqualTo(DayOfWeek $that) : bool
+    public function isEqualTo(DayOfWeek $that): bool
     {
         return $this->value === $that->value;
     }
@@ -192,7 +176,7 @@ final class DayOfWeek implements \JsonSerializable
     /**
      * Returns whether this DayOfWeek is Monday to Friday.
      */
-    public function isWeekday() : bool
+    public function isWeekday(): bool
     {
         return $this->value >= self::MONDAY && $this->value <= self::FRIDAY;
     }
@@ -200,7 +184,7 @@ final class DayOfWeek implements \JsonSerializable
     /**
      * Returns whether this DayOfWeek is Saturday or Sunday.
      */
-    public function isWeekend() : bool
+    public function isWeekend(): bool
     {
         return $this->value === self::SATURDAY || $this->value === self::SUNDAY;
     }
@@ -208,7 +192,7 @@ final class DayOfWeek implements \JsonSerializable
     /**
      * Returns the DayOfWeek that is the specified number of days after this one.
      */
-    public function plus(int $days) : DayOfWeek
+    public function plus(int $days): DayOfWeek
     {
         return DayOfWeek::get((((($this->value - 1 + $days) % 7) + 7) % 7) + 1);
     }
@@ -216,15 +200,15 @@ final class DayOfWeek implements \JsonSerializable
     /**
      * Returns the DayOfWeek that is the specified number of days before this one.
      */
-    public function minus(int $days) : DayOfWeek
+    public function minus(int $days): DayOfWeek
     {
-        return $this->plus(- $days);
+        return $this->plus(-$days);
     }
 
     /**
      * Serializes as a string using {@see DayOfWeek::__toString()}.
      */
-    public function jsonSerialize() : string
+    public function jsonSerialize(): string
     {
         return (string) $this;
     }
@@ -232,7 +216,7 @@ final class DayOfWeek implements \JsonSerializable
     /**
      * Returns the capitalized English name of this day-of-week.
      */
-    public function __toString() : string
+    public function __toString(): string
     {
         return [
             1 => 'Monday',
@@ -243,5 +227,22 @@ final class DayOfWeek implements \JsonSerializable
             6 => 'Saturday',
             7 => 'Sunday'
         ][$this->value];
+    }
+
+    /**
+     * Returns a cached DayOfWeek instance.
+     *
+     * @param int $value The day-of-week value, validated from 1 to 7.
+     */
+    private static function get(int $value): DayOfWeek
+    {
+        /** @var array<int, DayOfWeek> $values */
+        static $values = [];
+
+        if (! isset($values[$value])) {
+            $values[$value] = new DayOfWeek($value);
+        }
+
+        return $values[$value];
     }
 }

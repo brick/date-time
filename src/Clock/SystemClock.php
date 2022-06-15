@@ -14,11 +14,11 @@ use Brick\DateTime\Instant;
  */
 final class SystemClock implements Clock
 {
-    public function getTime() : Instant
+    public function getTime(): Instant
     {
         [$fraction, $epochSecond] = \explode(' ', microtime());
 
-        $epochSecond    = (int) $epochSecond;
+        $epochSecond = (int) $epochSecond;
         $nanoAdjustment = 10 * (int) \substr($fraction, 2, 8);
 
         return Instant::of($epochSecond, $nanoAdjustment);

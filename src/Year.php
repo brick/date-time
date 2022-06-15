@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace Brick\DateTime;
 
-use Brick\DateTime\Field;
+use JsonSerializable;
 
 /**
  * Represents a year in the proleptic calendar.
  */
-final class Year implements \JsonSerializable
+final class Year implements JsonSerializable
 {
     public const MIN_VALUE = LocalDate::MIN_YEAR;
     public const MAX_VALUE = LocalDate::MAX_YEAR;
@@ -30,7 +30,7 @@ final class Year implements \JsonSerializable
     /**
      * @throws DateTimeException If the year is out of range.
      */
-    public static function of(int $year) : Year
+    public static function of(int $year): Year
     {
         Field\Year::check($year);
 
@@ -42,12 +42,12 @@ final class Year implements \JsonSerializable
      *
      * If no clock is provided, the system clock is used.
      */
-    public static function now(TimeZone $timeZone, ?Clock $clock = null) : Year
+    public static function now(TimeZone $timeZone, ?Clock $clock = null): Year
     {
         return new Year(LocalDate::now($timeZone, $clock)->getYear());
     }
 
-    public function getValue() : int
+    public function getValue(): int
     {
         return $this->year;
     }
@@ -63,12 +63,12 @@ final class Year implements \JsonSerializable
      * The calculation is proleptic - applying the same rules into the far future and far past.
      * This is historically inaccurate, but is correct for the ISO-8601 standard.
      */
-    public function isLeap() : bool
+    public function isLeap(): bool
     {
         return Field\Year::isLeap($this->year);
     }
 
-    public function isValidMonthDay(MonthDay $monthDay) : bool
+    public function isValidMonthDay(MonthDay $monthDay): bool
     {
         return $monthDay->isValidYear($this->year);
     }
@@ -78,7 +78,7 @@ final class Year implements \JsonSerializable
      *
      * @return int The length of this year in days, 365 or 366.
      */
-    public function getLength() : int
+    public function getLength(): int
     {
         return $this->isLeap() ? 366 : 365;
     }
@@ -94,7 +94,7 @@ final class Year implements \JsonSerializable
      *
      * @throws DateTimeException If the resulting year exceeds the supported range.
      */
-    public function plus(int $years) : Year
+    public function plus(int $years): Year
     {
         if ($years === 0) {
             return $this;
@@ -118,7 +118,7 @@ final class Year implements \JsonSerializable
      *
      * @throws DateTimeException If the resulting year exceeds the supported range.
      */
-    public function minus(int $years) : Year
+    public function minus(int $years): Year
     {
         if ($years === 0) {
             return $this;
@@ -138,7 +138,7 @@ final class Year implements \JsonSerializable
      *
      * @return int [-1, 0, 1] If this year is before, equal to, or after the given year.
      */
-    public function compareTo(Year $that) : int
+    public function compareTo(Year $that): int
     {
         if ($this->year > $that->year) {
             return 1;
@@ -158,7 +158,7 @@ final class Year implements \JsonSerializable
      *
      * @return bool True if this year is equal to the given year, false otherwise.
      */
-    public function isEqualTo(Year $that) : bool
+    public function isEqualTo(Year $that): bool
     {
         return $this->year === $that->year;
     }
@@ -170,7 +170,7 @@ final class Year implements \JsonSerializable
      *
      * @return bool True if this year is after the given year, false otherwise.
      */
-    public function isAfter(Year $that) : bool
+    public function isAfter(Year $that): bool
     {
         return $this->year > $that->year;
     }
@@ -182,7 +182,7 @@ final class Year implements \JsonSerializable
      *
      * @return bool True if this year is before the given year, false otherwise.
      */
-    public function isBefore(Year $that) : bool
+    public function isBefore(Year $that): bool
     {
         return $this->year < $that->year;
     }
@@ -192,11 +192,9 @@ final class Year implements \JsonSerializable
      *
      * @param int $dayOfYear The day-of-year to use, from 1 to 366.
      *
-     * @return LocalDate
-     *
      * @throws DateTimeException If the day-of-year is invalid for this year.
      */
-    public function atDay(int $dayOfYear) : LocalDate
+    public function atDay(int $dayOfYear): LocalDate
     {
         return LocalDate::ofYearDay($this->year, $dayOfYear);
     }
@@ -206,11 +204,9 @@ final class Year implements \JsonSerializable
      *
      * @param int $month The month-of-year to use, from 1 to 12.
      *
-     * @return YearMonth
-     *
      * @throws DateTimeException If the month is invalid.
      */
-    public function atMonth(int $month) : YearMonth
+    public function atMonth(int $month): YearMonth
     {
         return YearMonth::of($this->year, $month);
     }
@@ -223,16 +219,15 @@ final class Year implements \JsonSerializable
      *
      * @param MonthDay $monthDay The month-day to use.
      */
-    public function atMonthDay(MonthDay $monthDay) : LocalDate
+    public function atMonthDay(MonthDay $monthDay): LocalDate
     {
         return $monthDay->atYear($this->year);
     }
 
     /**
-     * Returns LocalDateRange that contains all days of this year
-     * @return LocalDateRange
+     * Returns LocalDateRange that contains all days of this year.
      */
-    public function toLocalDateRange() : LocalDateRange
+    public function toLocalDateRange(): LocalDateRange
     {
         return LocalDateRange::of(
             $this->atMonth(1)->getFirstDay(),
@@ -243,12 +238,12 @@ final class Year implements \JsonSerializable
     /**
      * Serializes as a string using {@see Year::__toString()}.
      */
-    public function jsonSerialize() : string
+    public function jsonSerialize(): string
     {
         return (string) $this;
     }
 
-    public function __toString() : string
+    public function __toString(): string
     {
         return (string) $this->year;
     }

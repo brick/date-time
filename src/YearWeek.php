@@ -4,10 +4,14 @@ declare(strict_types=1);
 
 namespace Brick\DateTime;
 
+use JsonSerializable;
+
+use function sprintf;
+
 /**
  * Represents the combination of a year and a week.
  */
-final class YearWeek implements \JsonSerializable
+final class YearWeek implements JsonSerializable
 {
     /**
      * The year, from MIN_YEAR to MAX_YEAR.
@@ -37,7 +41,7 @@ final class YearWeek implements \JsonSerializable
      *
      * @throws DateTimeException
      */
-    public static function of(int $year, int $week) : YearWeek
+    public static function of(int $year, int $week): YearWeek
     {
         Field\Year::check($year);
         Field\WeekOfYear::check($week, $year);
@@ -45,17 +49,17 @@ final class YearWeek implements \JsonSerializable
         return new YearWeek($year, $week);
     }
 
-    public static function now(TimeZone $timeZone, ?Clock $clock = null) : YearWeek
+    public static function now(TimeZone $timeZone, ?Clock $clock = null): YearWeek
     {
         return LocalDate::now($timeZone, $clock)->getYearWeek();
     }
 
-    public function getYear() : int
+    public function getYear(): int
     {
         return $this->year;
     }
 
-    public function getWeek() : int
+    public function getWeek(): int
     {
         return $this->week;
     }
@@ -63,7 +67,7 @@ final class YearWeek implements \JsonSerializable
     /**
      * @return int [-1,0,1] If this year-week is before, on, or after the given year-week.
      */
-    public function compareTo(YearWeek $that) : int
+    public function compareTo(YearWeek $that): int
     {
         if ($this->year < $that->year) {
             return -1;
@@ -81,27 +85,27 @@ final class YearWeek implements \JsonSerializable
         return 0;
     }
 
-    public function isEqualTo(YearWeek $that) : bool
+    public function isEqualTo(YearWeek $that): bool
     {
         return $this->compareTo($that) === 0;
     }
 
-    public function isBefore(YearWeek $that) : bool
+    public function isBefore(YearWeek $that): bool
     {
         return $this->compareTo($that) === -1;
     }
 
-    public function isBeforeOrEqualTo(YearWeek $that) : bool
+    public function isBeforeOrEqualTo(YearWeek $that): bool
     {
         return $this->compareTo($that) <= 0;
     }
 
-    public function isAfter(YearWeek $that) : bool
+    public function isAfter(YearWeek $that): bool
     {
         return $this->compareTo($that) === 1;
     }
 
-    public function isAfterOrEqualTo(YearWeek $that) : bool
+    public function isAfterOrEqualTo(YearWeek $that): bool
     {
         return $this->compareTo($that) >= 0;
     }
@@ -113,7 +117,7 @@ final class YearWeek implements \JsonSerializable
      *
      * @throws DateTimeException If the year is not valid.
      */
-    public function withYear(int $year) : YearWeek
+    public function withYear(int $year): YearWeek
     {
         if ($year === $this->year) {
             return $this;
@@ -137,7 +141,7 @@ final class YearWeek implements \JsonSerializable
      *
      * @throws DateTimeException If the week is not valid.
      */
-    public function withWeek(int $week) : YearWeek
+    public function withWeek(int $week): YearWeek
     {
         if ($week === $this->week) {
             return $this;
@@ -158,7 +162,7 @@ final class YearWeek implements \JsonSerializable
     /**
      * Combines this year-week with a day-of-week to create a LocalDate.
      */
-    public function atDay(int $dayOfWeek) : LocalDate
+    public function atDay(int $dayOfWeek): LocalDate
     {
         Field\DayOfWeek::check($dayOfWeek);
 
@@ -182,7 +186,7 @@ final class YearWeek implements \JsonSerializable
     /**
      * Returns the first day of this week.
      */
-    public function getFirstDay() : LocalDate
+    public function getFirstDay(): LocalDate
     {
         return $this->atDay(DayOfWeek::MONDAY);
     }
@@ -190,7 +194,7 @@ final class YearWeek implements \JsonSerializable
     /**
      * Returns the last day of this week.
      */
-    public function getLastDay() : LocalDate
+    public function getLastDay(): LocalDate
     {
         return $this->atDay(DayOfWeek::SUNDAY);
     }
@@ -200,7 +204,7 @@ final class YearWeek implements \JsonSerializable
      *
      * If the week is 53 and the new year does not have 53 weeks, the week will be adjusted to be 52.
      */
-    public function plusYears(int $years) : YearWeek
+    public function plusYears(int $years): YearWeek
     {
         if ($years === 0) {
             return $this;
@@ -212,7 +216,7 @@ final class YearWeek implements \JsonSerializable
     /**
      * Returns a copy of this YearWeek with the specified period in weeks added.
      */
-    public function plusWeeks(int $weeks) : YearWeek
+    public function plusWeeks(int $weeks): YearWeek
     {
         if ($weeks === 0) {
             return $this;
@@ -228,30 +232,29 @@ final class YearWeek implements \JsonSerializable
      *
      * If the week is 53 and the new year does not have 53 weeks, the week will be adjusted to be 52.
      */
-    public function minusYears(int $years) : YearWeek
+    public function minusYears(int $years): YearWeek
     {
-        return $this->plusYears(- $years);
+        return $this->plusYears(-$years);
     }
 
     /**
      * Returns a copy of this YearWeek with the specified period in weeks subtracted.
      */
-    public function minusWeeks(int $weeks) : YearWeek
+    public function minusWeeks(int $weeks): YearWeek
     {
-        return $this->plusWeeks(- $weeks);
+        return $this->plusWeeks(-$weeks);
     }
 
     /**
      * Returns whether this year has 53 weeks.
      */
-    public function is53WeekYear() : bool
+    public function is53WeekYear(): bool
     {
         return Field\WeekOfYear::is53WeekYear($this->year);
     }
 
     /**
-     * Returns LocalDateRange that contains all days of this year week
-     * @return LocalDateRange
+     * Returns LocalDateRange that contains all days of this year week.
      */
     public function toLocalDateRange(): LocalDateRange
     {
@@ -261,15 +264,15 @@ final class YearWeek implements \JsonSerializable
     /**
      * Serializes as a string using {@see YearWeek::__toString()}.
      */
-    public function jsonSerialize() : string
+    public function jsonSerialize(): string
     {
         return (string) $this;
     }
 
-    public function __toString() : string
+    public function __toString(): string
     {
         $pattern = ($this->year < 0 ? '%05d' : '%04d') . '-W%02d';
 
-        return \sprintf($pattern, $this->year, $this->week);
+        return sprintf($pattern, $this->year, $this->week);
     }
 }

@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Brick\DateTime\Tests\Utility;
 
 use Brick\DateTime\Utility\Math;
-
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -25,11 +24,11 @@ class MathTest extends TestCase
         $this->assertSame($expected, Math::floorDiv($a, $b));
     }
 
-    public function providerFloorDiv() : array
+    public function providerFloorDiv(): array
     {
         return [
-            [ 3,  2,  1],
-            [ 3, -2, -2],
+            [3,  2,  1],
+            [3, -2, -2],
             [-3,  2, -2],
             [-3, -2,  1]
         ];
@@ -47,11 +46,11 @@ class MathTest extends TestCase
         $this->assertSame($expected, Math::floorMod($a, $b));
     }
 
-    public function providerFloorMod() : array
+    public function providerFloorMod(): array
     {
         return [
-            [ 3,  2,  1],
-            [ 3, -2, -1],
+            [3,  2,  1],
+            [3, -2, -1],
             [-3,  2,  1],
             [-3, -2, -1]
         ];

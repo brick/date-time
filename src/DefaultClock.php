@@ -28,7 +28,7 @@ final class DefaultClock
     /**
      * Gets the default clock.
      */
-    public static function get() : Clock
+    public static function get(): Clock
     {
         if (self::$clock === null) {
             self::$clock = new SystemClock();
@@ -40,7 +40,7 @@ final class DefaultClock
     /**
      * Sets the default clock.
      */
-    public static function set(Clock $clock) : void
+    public static function set(Clock $clock): void
     {
         self::$clock = $clock;
     }
@@ -48,7 +48,7 @@ final class DefaultClock
     /**
      * Resets the default clock to the system clock.
      */
-    public static function reset() : void
+    public static function reset(): void
     {
         self::$clock = null;
     }
@@ -58,7 +58,7 @@ final class DefaultClock
      *
      * @param Instant $instant The time to freeze to.
      */
-    public static function freeze(Instant $instant) : void
+    public static function freeze(Instant $instant): void
     {
         self::set(new FixedClock($instant));
     }
@@ -68,7 +68,7 @@ final class DefaultClock
      *
      * If the current default clock is frozen, you must `reset()` it first, or the time will stay frozen.
      */
-    public static function travel(Instant $instant) : void
+    public static function travel(Instant $instant): void
     {
         $clock = self::get();
         $offset = Duration::between($clock->getTime(), $instant);
@@ -87,7 +87,7 @@ final class DefaultClock
      * If the current default clock is frozen, you must `reset()` it first, or the time will stay frozen.
      * Multiple calls to `scale()` will result in a clock with the combined scales.
      */
-    public static function scale(int $timeScale) : void
+    public static function scale(int $timeScale): void
     {
         self::set(new ScaleClock(self::get(), $timeScale));
     }

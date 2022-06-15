@@ -30,10 +30,10 @@ final class OffsetClock implements Clock
     public function __construct(Clock $referenceClock, Duration $offset)
     {
         $this->referenceClock = $referenceClock;
-        $this->offset         = $offset;
+        $this->offset = $offset;
     }
 
-    public function getTime() : Instant
+    public function getTime(): Instant
     {
         return $this->referenceClock->getTime()->plus($this->offset);
     }
