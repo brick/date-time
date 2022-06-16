@@ -8,6 +8,7 @@ use Brick\DateTime\DateTimeException;
 use Brick\DateTime\Instant;
 use Brick\DateTime\Parser\DateTimeParseException;
 use Brick\DateTime\TimeZoneOffset;
+use Brick\DateTime\TimeZoneRegion;
 
 /**
  * Units tests for class TimeZoneOffset.
