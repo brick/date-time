@@ -28,7 +28,7 @@ final class DayOfMonth
      *
      * @throws DateTimeException If the day-of-month is not valid.
      */
-    public static function check(int $dayOfMonth, ?int $monthOfYear = null, ?int $year = null) : void
+    public static function check(int $dayOfMonth, ?int $monthOfYear = null, ?int $year = null): void
     {
         if ($dayOfMonth < 1 || $dayOfMonth > 31) {
             throw DateTimeException::fieldNotInRange(self::NAME, $dayOfMonth, 1, 31);

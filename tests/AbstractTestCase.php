@@ -20,8 +20,10 @@ use Brick\DateTime\Year;
 use Brick\DateTime\YearMonth;
 use Brick\DateTime\YearMonthRange;
 use Brick\DateTime\YearWeek;
-
 use PHPUnit\Framework\TestCase;
+
+use function implode;
+use function var_export;
 
 /**
  * Base class for DateTime tests.
@@ -33,7 +35,7 @@ abstract class AbstractTestCase extends TestCase
      * @param string $expectedString The expected string representation.
      * @param object $object         The object to test.
      */
-    protected function assertIs(string $className, string $expectedString, $object): void
+    protected function assertIs(string $className, string $expectedString, object $object): void
     {
         $this->assertInstanceOf($className, $object);
         $this->assertSame($expectedString, (string) $object);
@@ -116,10 +118,6 @@ abstract class AbstractTestCase extends TestCase
         $this->assertTrue($actual->isEqualTo($expected), "$actual != $expected");
     }
 
-    /**
-     * @param int  $yearValue
-     * @param Year $year
-     */
     protected function assertYearIs(int $yearValue, Year $year): void
     {
         $this->compare([$yearValue], [
@@ -202,10 +200,10 @@ abstract class AbstractTestCase extends TestCase
     }
 
     /**
-     * @param int     $years  The expected number of years in the period.
-     * @param int     $months The expected number of months in the period.
-     * @param int     $days   The expected number of days in the period.
-     * @param Period  $period The period to test.
+     * @param int    $years  The expected number of years in the period.
+     * @param int    $months The expected number of months in the period.
+     * @param int    $days   The expected number of days in the period.
+     * @param Period $period The period to test.
      */
     protected function assertPeriodIs(int $years, int $months, int $days, Period $period): void
     {
@@ -281,15 +279,13 @@ abstract class AbstractTestCase extends TestCase
      * Exports the given values as a string.
      *
      * @param array $values The values to export.
-     *
-     * @return string
      */
-    private function export(array $values) : string
+    private function export(array $values): string
     {
-        foreach ($values as & $value) {
-            $value = \var_export($value, true);
+        foreach ($values as &$value) {
+            $value = var_export($value, true);
         }
 
-        return '(' . \implode(', ', $values) . ')';
+        return '(' . implode(', ', $values) . ')';
     }
 }

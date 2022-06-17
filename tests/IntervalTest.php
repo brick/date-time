@@ -8,6 +8,8 @@ use Brick\DateTime\DateTimeException;
 use Brick\DateTime\Instant;
 use Brick\DateTime\Interval;
 
+use function json_encode;
+
 /**
  * Unit tests for class Interval.
  */

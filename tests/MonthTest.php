@@ -6,6 +6,9 @@ namespace Brick\DateTime\Tests;
 
 use Brick\DateTime\DateTimeException;
 use Brick\DateTime\Month;
+use Generator;
+
+use function json_encode;
 
 /**
  * Unit tests for class Month.
@@ -23,18 +26,18 @@ class MonthTest extends AbstractTestCase
         $this->assertSame($expectedValue, $monthConstant);
     }
 
-    public function providerConstants() : array
+    public function providerConstants(): array
     {
         return [
-            [ 1, Month::JANUARY],
-            [ 2, Month::FEBRUARY],
-            [ 3, Month::MARCH],
-            [ 4, Month::APRIL],
-            [ 5, Month::MAY],
-            [ 6, Month::JUNE],
-            [ 7, Month::JULY],
-            [ 8, Month::AUGUST],
-            [ 9, Month::SEPTEMBER],
+            [1, Month::JANUARY],
+            [2, Month::FEBRUARY],
+            [3, Month::MARCH],
+            [4, Month::APRIL],
+            [5, Month::MAY],
+            [6, Month::JUNE],
+            [7, Month::JULY],
+            [8, Month::AUGUST],
+            [9, Month::SEPTEMBER],
             [10, Month::OCTOBER],
             [11, Month::NOVEMBER],
             [12, Month::DECEMBER]
@@ -55,7 +58,7 @@ class MonthTest extends AbstractTestCase
         Month::of($invalidMonth);
     }
 
-    public function providerOfInvalidMonthThrowsException() : array
+    public function providerOfInvalidMonthThrowsException(): array
     {
         return [
             [-1],
@@ -103,18 +106,18 @@ class MonthTest extends AbstractTestCase
         $this->assertSame($minLength, Month::of($month)->getMinLength());
     }
 
-    public function minLengthProvider() : array
+    public function minLengthProvider(): array
     {
         return [
-            [ 1, 31],
-            [ 2, 28],
-            [ 3, 31],
-            [ 4, 30],
-            [ 5, 31],
-            [ 6, 30],
-            [ 7, 31],
-            [ 8, 31],
-            [ 9, 30],
+            [1, 31],
+            [2, 28],
+            [3, 31],
+            [4, 30],
+            [5, 31],
+            [6, 30],
+            [7, 31],
+            [8, 31],
+            [9, 30],
             [10, 31],
             [11, 30],
             [12, 31]
@@ -132,18 +135,18 @@ class MonthTest extends AbstractTestCase
         $this->assertSame($minLength, Month::of($month)->getMaxLength());
     }
 
-    public function maxLengthProvider() : array
+    public function maxLengthProvider(): array
     {
         return [
-            [ 1, 31],
-            [ 2, 29],
-            [ 3, 31],
-            [ 4, 30],
-            [ 5, 31],
-            [ 6, 30],
-            [ 7, 31],
-            [ 8, 31],
-            [ 9, 30],
+            [1, 31],
+            [2, 29],
+            [3, 31],
+            [4, 30],
+            [5, 31],
+            [6, 30],
+            [7, 31],
+            [8, 31],
+            [9, 30],
             [10, 31],
             [11, 30],
             [12, 31]
@@ -162,31 +165,31 @@ class MonthTest extends AbstractTestCase
         $this->assertSame($firstDayOfYear, Month::of($month)->getFirstDayOfYear($leapYear));
     }
 
-    public function providerFirstDayOfYear() : array
+    public function providerFirstDayOfYear(): array
     {
         return [
-            [ 1, false, 1],
-            [ 2, false, 1 + 31],
-            [ 3, false, 1 + 31 + 28],
-            [ 4, false, 1 + 31 + 28 + 31],
-            [ 5, false, 1 + 31 + 28 + 31 + 30],
-            [ 6, false, 1 + 31 + 28 + 31 + 30 + 31],
-            [ 7, false, 1 + 31 + 28 + 31 + 30 + 31 + 30],
-            [ 8, false, 1 + 31 + 28 + 31 + 30 + 31 + 30 + 31],
-            [ 9, false, 1 + 31 + 28 + 31 + 30 + 31 + 30 + 31 + 31],
+            [1, false, 1],
+            [2, false, 1 + 31],
+            [3, false, 1 + 31 + 28],
+            [4, false, 1 + 31 + 28 + 31],
+            [5, false, 1 + 31 + 28 + 31 + 30],
+            [6, false, 1 + 31 + 28 + 31 + 30 + 31],
+            [7, false, 1 + 31 + 28 + 31 + 30 + 31 + 30],
+            [8, false, 1 + 31 + 28 + 31 + 30 + 31 + 30 + 31],
+            [9, false, 1 + 31 + 28 + 31 + 30 + 31 + 30 + 31 + 31],
             [10, false, 1 + 31 + 28 + 31 + 30 + 31 + 30 + 31 + 31 + 30],
             [11, false, 1 + 31 + 28 + 31 + 30 + 31 + 30 + 31 + 31 + 30 + 31],
             [12, false, 1 + 31 + 28 + 31 + 30 + 31 + 30 + 31 + 31 + 30 + 31 + 30],
 
-            [ 1, true, 1],
-            [ 2, true, 1 + 31],
-            [ 3, true, 1 + 31 + 29],
-            [ 4, true, 1 + 31 + 29 + 31],
-            [ 5, true, 1 + 31 + 29 + 31 + 30],
-            [ 6, true, 1 + 31 + 29 + 31 + 30 + 31],
-            [ 7, true, 1 + 31 + 29 + 31 + 30 + 31 + 30],
-            [ 8, true, 1 + 31 + 29 + 31 + 30 + 31 + 30 + 31],
-            [ 9, true, 1 + 31 + 29 + 31 + 30 + 31 + 30 + 31 + 31],
+            [1, true, 1],
+            [2, true, 1 + 31],
+            [3, true, 1 + 31 + 29],
+            [4, true, 1 + 31 + 29 + 31],
+            [5, true, 1 + 31 + 29 + 31 + 30],
+            [6, true, 1 + 31 + 29 + 31 + 30 + 31],
+            [7, true, 1 + 31 + 29 + 31 + 30 + 31 + 30],
+            [8, true, 1 + 31 + 29 + 31 + 30 + 31 + 30 + 31],
+            [9, true, 1 + 31 + 29 + 31 + 30 + 31 + 30 + 31 + 31],
             [10, true, 1 + 31 + 29 + 31 + 30 + 31 + 30 + 31 + 31 + 30],
             [11, true, 1 + 31 + 29 + 31 + 30 + 31 + 30 + 31 + 31 + 30 + 31],
             [12, true, 1 + 31 + 29 + 31 + 30 + 31 + 30 + 31 + 31 + 30 + 31 + 30],
@@ -208,28 +211,28 @@ class MonthTest extends AbstractTestCase
     public function providerGetLength()
     {
         return [
-            [ 1, false, 31],
-            [ 2, false, 28],
-            [ 3, false, 31],
-            [ 4, false, 30],
-            [ 5, false, 31],
-            [ 6, false, 30],
-            [ 7, false, 31],
-            [ 8, false, 31],
-            [ 9, false, 30],
+            [1, false, 31],
+            [2, false, 28],
+            [3, false, 31],
+            [4, false, 30],
+            [5, false, 31],
+            [6, false, 30],
+            [7, false, 31],
+            [8, false, 31],
+            [9, false, 30],
             [10, false, 31],
             [11, false, 30],
             [12, false, 31],
 
-            [ 1, true, 31],
-            [ 2, true, 29],
-            [ 3, true, 31],
-            [ 4, true, 30],
-            [ 5, true, 31],
-            [ 6, true, 30],
-            [ 7, true, 31],
-            [ 8, true, 31],
-            [ 9, true, 30],
+            [1, true, 31],
+            [2, true, 29],
+            [3, true, 31],
+            [4, true, 30],
+            [5, true, 31],
+            [6, true, 30],
+            [7, true, 31],
+            [8, true, 31],
+            [9, true, 30],
             [10, true, 31],
             [11, true, 30],
             [12, true, 31],
@@ -270,7 +273,7 @@ class MonthTest extends AbstractTestCase
         $this->assertMonthIs($expectedMonth, Month::of($month)->minus(-$plusMonths));
     }
 
-    public function providerPlus() : \Generator
+    public function providerPlus(): Generator
     {
         for ($month = Month::JANUARY; $month <= Month::DECEMBER; $month++) {
             for ($plusMonths = -25; $plusMonths <= 25; $plusMonths++) {
@@ -310,18 +313,18 @@ class MonthTest extends AbstractTestCase
         $this->assertSame($expectedName, (string) Month::of($month));
     }
 
-    public function providerToString() : array
+    public function providerToString(): array
     {
         return [
-            [ 1, 'January'],
-            [ 2, 'February'],
-            [ 3, 'March'],
-            [ 4, 'April'],
-            [ 5, 'May'],
-            [ 6, 'June'],
-            [ 7, 'July'],
-            [ 8, 'August'],
-            [ 9, 'September'],
+            [1, 'January'],
+            [2, 'February'],
+            [3, 'March'],
+            [4, 'April'],
+            [5, 'May'],
+            [6, 'June'],
+            [7, 'July'],
+            [8, 'August'],
+            [9, 'September'],
             [10, 'October'],
             [11, 'November'],
             [12, 'December']

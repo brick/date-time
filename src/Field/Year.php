@@ -36,7 +36,7 @@ final class Year
      *
      * @throws DateTimeException If the year is not valid.
      */
-    public static function check(int $year) : void
+    public static function check(int $year): void
     {
         if ($year < self::MIN_VALUE || $year > self::MAX_VALUE) {
             throw DateTimeException::fieldNotInRange(self::NAME, $year, self::MIN_VALUE, self::MAX_VALUE);
@@ -46,7 +46,7 @@ final class Year
     /**
      * @param int $year The year, validated.
      */
-    public static function isLeap(int $year) : bool
+    public static function isLeap(int $year): bool
     {
         return (($year & 3) === 0) && (($year % 100) !== 0 || ($year % 400) === 0);
     }

@@ -5,9 +5,14 @@ declare(strict_types=1);
 namespace Brick\DateTime\Tests;
 
 use Brick\DateTime\DateTimeException;
+use Brick\DateTime\LocalDate;
 use Brick\DateTime\Parser\DateTimeParseException;
 use Brick\DateTime\Period;
-use Brick\DateTime\LocalDate;
+use DateInterval;
+use DateTimeImmutable;
+use Generator;
+
+use function json_encode;
 
 /**
  * Unit tests for class Period.
@@ -57,7 +62,7 @@ class PeriodTest extends AbstractTestCase
         $this->assertPeriodIs($years, $months, $days, Period::parse($text));
     }
 
-    public function providerParse() : array
+    public function providerParse(): array
     {
         return [
             ['P0Y', 0, 0, 0],
@@ -86,7 +91,7 @@ class PeriodTest extends AbstractTestCase
         Period::parse($text);
     }
 
-    public function providerParseInvalidStringThrowsException() : array
+    public function providerParseInvalidStringThrowsException(): array
     {
         return [
             [' P0D'],
@@ -107,7 +112,7 @@ class PeriodTest extends AbstractTestCase
     /**
      * @dataProvider providerFromDateInterval
      */
-    public function testFromDateInterval(\DateInterval $dateInterval, int $years, int $months, int $days): void
+    public function testFromDateInterval(DateInterval $dateInterval, int $years, int $months, int $days): void
     {
         $period = Period::fromDateInterval($dateInterval);
         self::assertPeriodIs($years, $months, $days, $period);
@@ -116,14 +121,13 @@ class PeriodTest extends AbstractTestCase
     /**
      * @dataProvider providerFromDateInterval
      */
-    public function testFromNativeDateInterval(\DateInterval $dateInterval, int $years, int $months, int $days): void
+    public function testFromNativeDateInterval(DateInterval $dateInterval, int $years, int $months, int $days): void
     {
         $period = Period::fromNativeDateInterval($dateInterval);
         self::assertPeriodIs($years, $months, $days, $period);
     }
 
-
-    public function providerFromDateInterval(): \Generator
+    public function providerFromDateInterval(): Generator
     {
         $withConstructor = [
             ['P0Y', 0, 0, 0],
@@ -137,7 +141,7 @@ class PeriodTest extends AbstractTestCase
         ];
 
         foreach ($withConstructor as [$dateIntervalAsString, $years, $months, $days]) {
-            $dateInterval = new \DateInterval($dateIntervalAsString);
+            $dateInterval = new DateInterval($dateIntervalAsString);
 
             yield [$dateInterval, $years, $months, $days];
         }
@@ -152,8 +156,8 @@ class PeriodTest extends AbstractTestCase
         ];
 
         foreach ($withDateTimeDiff as [$dateTime1, $dateTime2, $years, $months, $days]) {
-            $dateTime1 = new \DateTimeImmutable($dateTime1);
-            $dateTime2 = new \DateTimeImmutable($dateTime2);
+            $dateTime1 = new DateTimeImmutable($dateTime1);
+            $dateTime2 = new DateTimeImmutable($dateTime2);
 
             yield [$dateTime1->diff($dateTime2), $years, $months, $days];
             yield [$dateTime2->diff($dateTime1), -$years, -$months, -$days];
@@ -165,8 +169,8 @@ class PeriodTest extends AbstractTestCase
      */
     public function testFromInvalidDateInterval(string $dateTime1, string $dateTime2, string $expectedMessage): void
     {
-        $dateTime1 = new \DateTimeImmutable($dateTime1);
-        $dateTime2 = new \DateTimeImmutable($dateTime2);
+        $dateTime1 = new DateTimeImmutable($dateTime1);
+        $dateTime2 = new DateTimeImmutable($dateTime2);
 
         $dateInterval = $dateTime1->diff($dateTime2);
 
@@ -303,7 +307,7 @@ class PeriodTest extends AbstractTestCase
         $this->assertPeriodIs($ny, $nm, $d, Period::of($y, $m, $d)->normalized());
     }
 
-    public function providerNormalized() : array
+    public function providerNormalized(): array
     {
         return [
             [1, 2, 3, 1, 2],
@@ -330,7 +334,7 @@ class PeriodTest extends AbstractTestCase
         $this->assertSame($isZero, Period::of($years, $months, $days)->isZero());
     }
 
-    public function providerIsZero() : array
+    public function providerIsZero(): array
     {
         return [
             [0, 0, 0, true],
@@ -360,7 +364,7 @@ class PeriodTest extends AbstractTestCase
         $this->assertSame($isEqual, $p2->isEqualTo($p1));
     }
 
-    public function providerIsEqualTo() : array
+    public function providerIsEqualTo(): array
     {
         return [
             [0, 0, 0, 0, 0, 0, true],
@@ -403,7 +407,7 @@ class PeriodTest extends AbstractTestCase
         $this->assertSame($days, $dateInterval->d);
     }
 
-    public function providerToDateInterval() : array
+    public function providerToDateInterval(): array
     {
         return [
             [1, -2, 3],
@@ -437,7 +441,7 @@ class PeriodTest extends AbstractTestCase
         $this->assertSame($expected, (string) Period::of($years, $months, $days));
     }
 
-    public function providerToString() : array
+    public function providerToString(): array
     {
         return [
             [0, 0, 0, 'P0D'],

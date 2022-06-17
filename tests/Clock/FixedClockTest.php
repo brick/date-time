@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Brick\DateTime\Tests\Clock;
 
-use Brick\DateTime\Tests\AbstractTestCase;
 use Brick\DateTime\Clock\FixedClock;
 use Brick\DateTime\Instant;
+use Brick\DateTime\Tests\AbstractTestCase;
 
 /**
  * Unit tests for class FixedClock.

@@ -4,23 +4,25 @@ declare(strict_types=1);
 
 namespace Brick\DateTime;
 
+use JsonSerializable;
+
 /**
  * Represents a month-of-year such as January.
  */
-final class Month implements \JsonSerializable
+final class Month implements JsonSerializable
 {
-    public const JANUARY   = 1;
-    public const FEBRUARY  = 2;
-    public const MARCH     = 3;
-    public const APRIL     = 4;
-    public const MAY       = 5;
-    public const JUNE      = 6;
-    public const JULY      = 7;
-    public const AUGUST    = 8;
+    public const JANUARY = 1;
+    public const FEBRUARY = 2;
+    public const MARCH = 3;
+    public const APRIL = 4;
+    public const MAY = 5;
+    public const JUNE = 6;
+    public const JULY = 7;
+    public const AUGUST = 8;
     public const SEPTEMBER = 9;
-    public const OCTOBER   = 10;
-    public const NOVEMBER  = 11;
-    public const DECEMBER  = 12;
+    public const OCTOBER = 10;
+    public const NOVEMBER = 11;
+    public const DECEMBER = 12;
 
     /**
      * The month number, from 1 (January) to 12 (December).
@@ -38,25 +40,6 @@ final class Month implements \JsonSerializable
     }
 
     /**
-     * Returns a cached Month instance.
-     *
-     * @param int $value The month value, validated from 1 to 12.
-     *
-     * @return Month The cached Month instance.
-     */
-    private static function get(int $value) : Month
-    {
-        /** @var array<int, Month> $values */
-        static $values = [];
-
-        if (! isset($values[$value])) {
-            $values[$value] = new Month($value);
-        }
-
-        return $values[$value];
-    }
-
-    /**
      * Returns an instance of Month for the given month value.
      *
      * @param int $value The month number, from 1 (January) to 12 (December).
@@ -65,7 +48,7 @@ final class Month implements \JsonSerializable
      *
      * @throws DateTimeException
      */
-    public static function of(int $value) : Month
+    public static function of(int $value): Month
     {
         Field\MonthOfYear::check($value);
 
@@ -77,7 +60,7 @@ final class Month implements \JsonSerializable
      *
      * @return Month[]
      */
-    public static function getAll() : array
+    public static function getAll(): array
     {
         $months = [];
 
@@ -93,7 +76,7 @@ final class Month implements \JsonSerializable
      *
      * @return int The month number, from 1 (January) to 12 (December).
      */
-    public function getValue() : int
+    public function getValue(): int
     {
         return $this->month;
     }
@@ -105,7 +88,7 @@ final class Month implements \JsonSerializable
      *
      * @return bool True if this month is equal to the given value, false otherwise.
      */
-    public function is(int $month) : bool
+    public function is(int $month): bool
     {
         return $this->month === $month;
     }
@@ -113,9 +96,9 @@ final class Month implements \JsonSerializable
     /**
      * Returns whether this Month equals another Month.
      */
-    public function isEqualTo(Month $that) : bool
+    public function isEqualTo(Month $that): bool
     {
-        return ($this->month === $that->month);
+        return $this->month === $that->month;
     }
 
     /**
@@ -123,7 +106,7 @@ final class Month implements \JsonSerializable
      *
      * @return int The minimum length of this month in days, from 28 to 31.
      */
-    public function getMinLength() : int
+    public function getMinLength(): int
     {
         switch ($this->month) {
             case Month::FEBRUARY:
@@ -143,7 +126,7 @@ final class Month implements \JsonSerializable
      *
      * @return int The maximum length of this month in days, from 29 to 31.
      */
-    public function getMaxLength() : int
+    public function getMaxLength(): int
     {
         switch ($this->month) {
             case Month::FEBRUARY:
@@ -164,7 +147,7 @@ final class Month implements \JsonSerializable
      * This returns the day-of-year that this month begins on, using the leap
      * year flag to determine the length of February.
      */
-    public function getFirstDayOfYear(bool $leapYear) : int
+    public function getFirstDayOfYear(bool $leapYear): int
     {
         $leap = $leapYear ? 1 : 0;
 
@@ -205,11 +188,11 @@ final class Month implements \JsonSerializable
      * April, June, September and November have 30 days.
      * All other months have 31 days.
      */
-    public function getLength(bool $leapYear) : int
+    public function getLength(bool $leapYear): int
     {
         switch ($this->month) {
             case Month::FEBRUARY:
-                return ($leapYear ? 29 : 28);
+                return $leapYear ? 29 : 28;
             case Month::APRIL:
             case Month::JUNE:
             case Month::SEPTEMBER:
@@ -226,7 +209,7 @@ final class Month implements \JsonSerializable
      * The calculation rolls around the end of the year from December to January.
      * The specified period may be negative.
      */
-    public function plus(int $months) : Month
+    public function plus(int $months): Month
     {
         return Month::get((((($this->month - 1 + $months) % 12) + 12) % 12) + 1);
     }
@@ -237,15 +220,15 @@ final class Month implements \JsonSerializable
      * The calculation rolls around the start of the year from January to December.
      * The specified period may be negative.
      */
-    public function minus(int $months) : Month
+    public function minus(int $months): Month
     {
-        return $this->plus(- $months);
+        return $this->plus(-$months);
     }
 
     /**
      * Serializes as a string using {@see Month::__toString()}.
      */
-    public function jsonSerialize() : string
+    public function jsonSerialize(): string
     {
         return (string) $this;
     }
@@ -253,21 +236,40 @@ final class Month implements \JsonSerializable
     /**
      * Returns the capitalized English name of this Month.
      */
-    public function __toString() : string
+    public function __toString(): string
     {
         return [
-            1  => 'January',
-            2  => 'February',
-            3  => 'March',
-            4  => 'April',
-            5  => 'May',
-            6  => 'June',
-            7  => 'July',
-            8  => 'August',
-            9  => 'September',
+            1 => 'January',
+            2 => 'February',
+            3 => 'March',
+            4 => 'April',
+            5 => 'May',
+            6 => 'June',
+            7 => 'July',
+            8 => 'August',
+            9 => 'September',
             10 => 'October',
             11 => 'November',
             12 => 'December'
         ][$this->month];
+    }
+
+    /**
+     * Returns a cached Month instance.
+     *
+     * @param int $value The month value, validated from 1 to 12.
+     *
+     * @return Month The cached Month instance.
+     */
+    private static function get(int $value): Month
+    {
+        /** @var array<int, Month> $values */
+        static $values = [];
+
+        if (! isset($values[$value])) {
+            $values[$value] = new Month($value);
+        }
+
+        return $values[$value];
     }
 }

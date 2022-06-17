@@ -4,18 +4,23 @@ declare(strict_types=1);
 
 namespace Brick\DateTime\Tests;
 
+use Brick\DateTime\Clock\FixedClock;
+use Brick\DateTime\DayOfWeek;
+use Brick\DateTime\Duration;
 use Brick\DateTime\Instant;
-use Brick\DateTime\LocalDateTime;
 use Brick\DateTime\LocalDate;
+use Brick\DateTime\LocalDateTime;
 use Brick\DateTime\LocalTime;
 use Brick\DateTime\Parser\DateTimeParseException;
 use Brick\DateTime\Period;
-use Brick\DateTime\Duration;
 use Brick\DateTime\TimeZone;
 use Brick\DateTime\TimeZoneOffset;
 use Brick\DateTime\ZonedDateTime;
-use Brick\DateTime\DayOfWeek;
-use Brick\DateTime\Clock\FixedClock;
+use DateTime;
+use DateTimeImmutable;
+use DateTimeZone;
+
+use function json_encode;
 
 /**
  * Unit tests for class ZonedDateTime.
@@ -52,7 +57,7 @@ class ZonedDateTimeTest extends AbstractTestCase
         $this->assertSame($nanoOfSecond, $zonedDateTime->getNano());
     }
 
-    public function providerOf() : array
+    public function providerOf(): array
     {
         return [
             // WITH OFFSET FROM UTC
@@ -331,7 +336,7 @@ class ZonedDateTimeTest extends AbstractTestCase
         $this->assertSame($formattedDatetime, (string) $zonedDateTime->getDateTime());
     }
 
-    public function providerOfInstant() : array
+    public function providerOfInstant(): array
     {
         return [
             ['2001-09-09T01:46:40', 'UTC'],
@@ -358,7 +363,7 @@ class ZonedDateTimeTest extends AbstractTestCase
         $this->assertSame($zone, (string) $zonedDateTime->getTimeZone());
     }
 
-    public function providerParse() : array
+    public function providerParse(): array
     {
         return [
             ['2001-02-03T01:02Z', '2001-02-03', '01:02', 'Z', 'Z'],
@@ -383,7 +388,7 @@ class ZonedDateTimeTest extends AbstractTestCase
         ZonedDateTime::parse($text);
     }
 
-    public function providerParseInvalidStringThrowsException() : array
+    public function providerParseInvalidStringThrowsException(): array
     {
         return [
             [''],
@@ -415,11 +420,11 @@ class ZonedDateTimeTest extends AbstractTestCase
      */
     public function testFromDateTime(string $dateTimeString, string $timeZone, string $expected): void
     {
-        $dateTime = new \DateTime($dateTimeString, new \DateTimeZone($timeZone));
+        $dateTime = new DateTime($dateTimeString, new DateTimeZone($timeZone));
         $this->assertIs(ZonedDateTime::class, $expected, ZonedDateTime::fromDateTime($dateTime));
     }
 
-    public function providerFromDateTime() : array
+    public function providerFromDateTime(): array
     {
         return [
             ['2018-07-21 14:09:10.23456', 'America/Los_Angeles', '2018-07-21T14:09:10.23456-07:00[America/Los_Angeles]'],
@@ -474,7 +479,7 @@ class ZonedDateTimeTest extends AbstractTestCase
         $this->assertSame($cmp <= 0, $z2->isAfterOrEqualTo($z1));
     }
 
-    public function providerCompareTo() : array
+    public function providerCompareTo(): array
     {
         return [
             ['2020-06-06T14:30:30Z', '2014-12-31T23:59:59.999Z', 1],
@@ -487,14 +492,6 @@ class ZonedDateTimeTest extends AbstractTestCase
             ['2020-06-06T14:30:30Z', '2020-06-06T15:30:30+02:00', 1],
             ['2020-06-06T14:30:30Z', '2020-06-06T13:30:30-02:00', -1],
         ];
-    }
-
-    private function getTestZonedDateTime() : ZonedDateTime
-    {
-        $timeZone = TimeZone::parse('America/Los_Angeles');
-        $localDateTime = LocalDateTime::parse('2000-01-20T12:34:56.123456789');
-
-        return ZonedDateTime::of($localDateTime, $timeZone);
     }
 
     public function testGetYear(): void
@@ -760,7 +757,7 @@ class ZonedDateTimeTest extends AbstractTestCase
         $zonedDateTime = ZonedDateTime::parse($dateTime);
         $dateTime = $zonedDateTime->toDateTime();
 
-        $this->assertInstanceOf(\DateTime::class, $dateTime);
+        $this->assertInstanceOf(DateTime::class, $dateTime);
         $this->assertSame($expected, $dateTime->format('Y-m-d\TH:i:s.uO'));
     }
 
@@ -775,7 +772,7 @@ class ZonedDateTimeTest extends AbstractTestCase
         $zonedDateTime = ZonedDateTime::parse($dateTime);
         $dateTime = $zonedDateTime->toDateTimeImmutable();
 
-        $this->assertInstanceOf(\DateTimeImmutable::class, $dateTime);
+        $this->assertInstanceOf(DateTimeImmutable::class, $dateTime);
         $this->assertSame($expected, $dateTime->format('Y-m-d\TH:i:s.uO'));
     }
 
@@ -811,5 +808,13 @@ class ZonedDateTimeTest extends AbstractTestCase
         $zonedDateTime = ZonedDateTime::of($localDateTime, $timeZone);
 
         $this->assertSame('2000-01-20T12:34:56.123456789-08:00[America/Los_Angeles]', (string) $zonedDateTime);
+    }
+
+    private function getTestZonedDateTime(): ZonedDateTime
+    {
+        $timeZone = TimeZone::parse('America/Los_Angeles');
+        $localDateTime = LocalDateTime::parse('2000-01-20T12:34:56.123456789');
+
+        return ZonedDateTime::of($localDateTime, $timeZone);
     }
 }

@@ -21,7 +21,7 @@ final class SecondOfDay
      *
      * @throws DateTimeException If the second-of-day is not valid.
      */
-    public static function check(int $secondOfDay) : void
+    public static function check(int $secondOfDay): void
     {
         if ($secondOfDay < 0 || $secondOfDay > 86399) {
             throw DateTimeException::fieldNotInRange(self::NAME, $secondOfDay, 0, 86399);

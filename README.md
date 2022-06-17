@@ -195,3 +195,24 @@ The following exceptions can be thrown:
 ### Doctrine mappings
 
 You can use `brick/date-time` types in your Doctrine entities using the [brick/date-time-doctrine](https://github.com/brick/date-time-doctrine) package.
+
+Contributing
+--------
+
+### Coding Style
+
+Install Easy Coding Standard tool in its own folder
+
+```sh
+composer install --working-dir=tools/ecs
+```
+
+Run coding style analysis checks
+```sh
+./tools/ecs/vendor/bin/ecs check --config tools/ecs/ecs.php
+```
+
+Or fix issues found directly
+```sh
+./tools/ecs/vendor/bin/ecs check --config tools/ecs/ecs.php --fix
+```

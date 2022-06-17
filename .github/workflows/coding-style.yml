@@ -1,0 +1,27 @@
+name: Coding Style
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  easy-coding-standard:
+    name: Easy Coding Standard
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: "8.0"
+
+      - name: Install composer dependencies
+        uses: "ramsey/composer-install@v2"
+        with:
+          working-directory: "tools/ecs"
+
+      - name: Run ECS
+        run: tools/ecs/vendor/bin/ecs check --config tools/ecs/ecs.php

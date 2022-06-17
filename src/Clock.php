@@ -9,5 +9,5 @@ interface Clock
     /**
      * Returns the current time.
      */
-    public function getTime() : Instant;
+    public function getTime(): Instant;
 }

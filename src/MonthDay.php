@@ -8,11 +8,14 @@ use Brick\DateTime\Parser\DateTimeParseException;
 use Brick\DateTime\Parser\DateTimeParser;
 use Brick\DateTime\Parser\DateTimeParseResult;
 use Brick\DateTime\Parser\IsoParsers;
+use JsonSerializable;
+
+use function sprintf;
 
 /**
  * A month-day in the ISO-8601 calendar system, such as `--12-03`.
  */
-final class MonthDay implements \JsonSerializable
+final class MonthDay implements JsonSerializable
 {
     /**
      * The month-of-year, from 1 to 12.
@@ -33,7 +36,7 @@ final class MonthDay implements \JsonSerializable
     private function __construct(int $month, int $day)
     {
         $this->month = $month;
-        $this->day   = $day;
+        $this->day = $day;
     }
 
     /**
@@ -44,7 +47,7 @@ final class MonthDay implements \JsonSerializable
      *
      * @throws DateTimeException If the month-day is not valid.
      */
-    public static function of(int $month, int $day) : MonthDay
+    public static function of(int $month, int $day): MonthDay
     {
         Field\MonthOfYear::check($month);
         Field\DayOfMonth::check($day, $month);
@@ -56,7 +59,7 @@ final class MonthDay implements \JsonSerializable
      * @throws DateTimeException      If the month-day is not valid.
      * @throws DateTimeParseException If required fields are missing from the result.
      */
-    public static function from(DateTimeParseResult $result) : MonthDay
+    public static function from(DateTimeParseResult $result): MonthDay
     {
         return MonthDay::of(
             (int) $result->getField(Field\MonthOfYear::NAME),
@@ -73,7 +76,7 @@ final class MonthDay implements \JsonSerializable
      * @throws DateTimeException      If the date is not valid.
      * @throws DateTimeParseException If the text string does not follow the expected format.
      */
-    public static function parse(string $text, ?DateTimeParser $parser = null) : MonthDay
+    public static function parse(string $text, ?DateTimeParser $parser = null): MonthDay
     {
         if (! $parser) {
             $parser = IsoParsers::monthDay();
@@ -87,7 +90,7 @@ final class MonthDay implements \JsonSerializable
      *
      * If no clock is provided, the system clock is used.
      */
-    public static function now(TimeZone $timeZone, ?Clock $clock = null) : MonthDay
+    public static function now(TimeZone $timeZone, ?Clock $clock = null): MonthDay
     {
         $date = LocalDate::now($timeZone, $clock);
 
@@ -97,7 +100,7 @@ final class MonthDay implements \JsonSerializable
     /**
      * Returns the month-of-year.
      */
-    public function getMonth() : int
+    public function getMonth(): int
     {
         return $this->month;
     }
@@ -105,7 +108,7 @@ final class MonthDay implements \JsonSerializable
     /**
      * Returns the day-of-month.
      */
-    public function getDay() : int
+    public function getDay(): int
     {
         return $this->day;
     }
@@ -115,7 +118,7 @@ final class MonthDay implements \JsonSerializable
      *
      * @return int [-1,0,1] If this date is before, on, or after the given date.
      */
-    public function compareTo(MonthDay $that) : int
+    public function compareTo(MonthDay $that): int
     {
         if ($this->month < $that->month) {
             return -1;
@@ -136,7 +139,7 @@ final class MonthDay implements \JsonSerializable
     /**
      * Returns whether this month-day is equal to the specified month-day.
      */
-    public function isEqualTo(MonthDay $that) : bool
+    public function isEqualTo(MonthDay $that): bool
     {
         return $this->compareTo($that) === 0;
     }
@@ -144,7 +147,7 @@ final class MonthDay implements \JsonSerializable
     /**
      * Returns whether this month-day is before the specified month-day.
      */
-    public function isBefore(MonthDay $that) : bool
+    public function isBefore(MonthDay $that): bool
     {
         return $this->compareTo($that) === -1;
     }
@@ -152,7 +155,7 @@ final class MonthDay implements \JsonSerializable
     /**
      * Returns whether this month-day is after the specified month-day.
      */
-    public function isAfter(MonthDay $that) : bool
+    public function isAfter(MonthDay $that): bool
     {
         return $this->compareTo($that) === 1;
     }
@@ -163,7 +166,7 @@ final class MonthDay implements \JsonSerializable
      * This method checks whether this month and day and the input year form a valid date.
      * This can only return false for February 29th.
      */
-    public function isValidYear(int $year) : bool
+    public function isValidYear(int $year): bool
     {
         return $this->month !== 2 || $this->day !== 29 || Field\Year::isLeap($year);
     }
@@ -176,7 +179,7 @@ final class MonthDay implements \JsonSerializable
      *
      * @throws DateTimeException If the month is invalid.
      */
-    public function withMonth(int $month) : MonthDay
+    public function withMonth(int $month): MonthDay
     {
         if ($month === $this->month) {
             return $this;
@@ -196,7 +199,7 @@ final class MonthDay implements \JsonSerializable
      *
      * @throws DateTimeException If the day-of-month is invalid for the month.
      */
-    public function withDay(int $day) : MonthDay
+    public function withDay(int $day): MonthDay
     {
         if ($day === $this->day) {
             return $this;
@@ -217,7 +220,7 @@ final class MonthDay implements \JsonSerializable
      *
      * @throws DateTimeException If the year is invalid.
      */
-    public function atYear(int $year) : LocalDate
+    public function atYear(int $year): LocalDate
     {
         return LocalDate::of($year, $this->month, $this->isValidYear($year) ? $this->day : 28);
     }
@@ -225,13 +228,13 @@ final class MonthDay implements \JsonSerializable
     /**
      * Serializes as a string using {@see MonthDay::__toString()}.
      */
-    public function jsonSerialize() : string
+    public function jsonSerialize(): string
     {
         return (string) $this;
     }
 
-    public function __toString() : string
+    public function __toString(): string
     {
-        return \sprintf('--%02d-%02d', $this->month, $this->day);
+        return sprintf('--%02d-%02d', $this->month, $this->day);
     }
 }

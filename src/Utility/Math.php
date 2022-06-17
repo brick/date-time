@@ -6,6 +6,9 @@ namespace Brick\DateTime\Utility;
 
 use ArithmeticError;
 
+use function intdiv;
+use function is_float;
+
 /**
  * Internal utility class for calculations on integers.
  *
@@ -16,7 +19,7 @@ final class Math
     /**
      * @throws ArithmeticError
      */
-    public static function addExact(int $a, int $b) : int
+    public static function addExact(int $a, int $b): int
     {
         $result = $a + $b;
 
@@ -30,7 +33,7 @@ final class Math
     /**
      * @throws ArithmeticError
      */
-    public static function multiplyExact(int $a, int $b) : int
+    public static function multiplyExact(int $a, int $b): int
     {
         $result = $a * $b;
 
@@ -47,9 +50,9 @@ final class Math
      * @param int $a The first argument.
      * @param int $b The second argument, non-zero.
      */
-    public static function floorDiv(int $a, int $b) : int
+    public static function floorDiv(int $a, int $b): int
     {
-        $r = \intdiv($a, $b);
+        $r = intdiv($a, $b);
 
         // If the signs are different and modulo not zero, round down.
         if (($a ^ $b) < 0 && ($r * $b !== $a)) {
@@ -68,7 +71,7 @@ final class Math
      * @param int $a The first argument.
      * @param int $b The second argument, non-zero.
      */
-    public static function floorMod(int $a, int $b) : int
+    public static function floorMod(int $a, int $b): int
     {
         return (($a % $b) + $b) % $b;
     }

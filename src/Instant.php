@@ -4,6 +4,17 @@ declare(strict_types=1);
 
 namespace Brick\DateTime;
 
+use JsonSerializable;
+
+use function assert;
+use function is_int;
+use function rtrim;
+use function str_pad;
+
+use const PHP_INT_MAX;
+use const PHP_INT_MIN;
+use const STR_PAD_LEFT;
+
 /**
  * Represents a point in time, with a nanosecond precision.
  *
@@ -11,7 +22,7 @@ namespace Brick\DateTime;
  * without any calendar concept of date, time or time zone. It is not very meaningful to humans,
  * but can be converted to a `ZonedDateTime` by providing a time zone.
  */
-final class Instant implements \JsonSerializable
+final class Instant implements JsonSerializable
 {
     /**
      * The number of seconds since the epoch of 1970-01-01T00:00:00Z.
@@ -32,7 +43,7 @@ final class Instant implements \JsonSerializable
     private function __construct(int $epochSecond, int $nano)
     {
         $this->epochSecond = $epochSecond;
-        $this->nano        = $nano;
+        $this->nano = $nano;
     }
 
     /**
@@ -50,11 +61,11 @@ final class Instant implements \JsonSerializable
      * @param int $epochSecond    The number of seconds since the UNIX epoch of 1970-01-01T00:00:00Z.
      * @param int $nanoAdjustment The adjustment to the epoch second in nanoseconds.
      */
-    public static function of(int $epochSecond, int $nanoAdjustment = 0) : Instant
+    public static function of(int $epochSecond, int $nanoAdjustment = 0): Instant
     {
         $nanos = $nanoAdjustment % LocalTime::NANOS_PER_SECOND;
         $epochSecond += ($nanoAdjustment - $nanos) / LocalTime::NANOS_PER_SECOND;
-        \assert(\is_int($epochSecond));
+        assert(is_int($epochSecond));
 
         if ($nanos < 0) {
             $nanos += LocalTime::NANOS_PER_SECOND;
@@ -64,12 +75,12 @@ final class Instant implements \JsonSerializable
         return new Instant($epochSecond, $nanos);
     }
 
-    public static function epoch() : Instant
+    public static function epoch(): Instant
     {
         return new Instant(0, 0);
     }
 
-    public static function now(?Clock $clock = null) : Instant
+    public static function now(?Clock $clock = null): Instant
     {
         if ($clock === null) {
             $clock = DefaultClock::get();
@@ -83,9 +94,9 @@ final class Instant implements \JsonSerializable
      *
      * This could be used by an application as a "far past" instant.
      */
-    public static function min() : Instant
+    public static function min(): Instant
     {
-        return new Instant(\PHP_INT_MIN, 0);
+        return new Instant(PHP_INT_MIN, 0);
     }
 
     /**
@@ -93,12 +104,12 @@ final class Instant implements \JsonSerializable
      *
      * This could be used by an application as a "far future" instant.
      */
-    public static function max() : Instant
+    public static function max(): Instant
     {
-        return new Instant(\PHP_INT_MAX, 999999999);
+        return new Instant(PHP_INT_MAX, 999999999);
     }
 
-    public function plus(Duration $duration) : Instant
+    public function plus(Duration $duration): Instant
     {
         if ($duration->isZero()) {
             return $this;
@@ -110,7 +121,7 @@ final class Instant implements \JsonSerializable
         return Instant::of($seconds, $nanos);
     }
 
-    public function minus(Duration $duration) : Instant
+    public function minus(Duration $duration): Instant
     {
         if ($duration->isZero()) {
             return $this;
@@ -119,7 +130,7 @@ final class Instant implements \JsonSerializable
         return $this->plus($duration->negated());
     }
 
-    public function plusSeconds(int $seconds) : Instant
+    public function plusSeconds(int $seconds): Instant
     {
         if ($seconds === 0) {
             return $this;
@@ -128,32 +139,32 @@ final class Instant implements \JsonSerializable
         return new Instant($this->epochSecond + $seconds, $this->nano);
     }
 
-    public function minusSeconds(int $seconds) : Instant
+    public function minusSeconds(int $seconds): Instant
     {
         return $this->plusSeconds(-$seconds);
     }
 
-    public function plusMinutes(int $minutes) : Instant
+    public function plusMinutes(int $minutes): Instant
     {
         return $this->plusSeconds($minutes * LocalTime::SECONDS_PER_MINUTE);
     }
 
-    public function minusMinutes(int $minutes) : Instant
+    public function minusMinutes(int $minutes): Instant
     {
         return $this->plusMinutes(-$minutes);
     }
 
-    public function plusHours(int $hours) : Instant
+    public function plusHours(int $hours): Instant
     {
         return $this->plusSeconds($hours * LocalTime::SECONDS_PER_HOUR);
     }
 
-    public function minusHours(int $hours) : Instant
+    public function minusHours(int $hours): Instant
     {
         return $this->plusHours(-$hours);
     }
 
-    public function plusDays(int $days) : Instant
+    public function plusDays(int $days): Instant
     {
         return $this->plusSeconds($days * LocalTime::SECONDS_PER_DAY);
     }
@@ -161,7 +172,7 @@ final class Instant implements \JsonSerializable
     /**
      * Returns a copy of this Instant with the epoch second altered.
      */
-    public function withEpochSecond(int $epochSecond) : Instant
+    public function withEpochSecond(int $epochSecond): Instant
     {
         if ($epochSecond === $this->epochSecond) {
             return $this;
@@ -175,7 +186,7 @@ final class Instant implements \JsonSerializable
      *
      * @throws DateTimeException If the nano-of-second if not valid.
      */
-    public function withNano(int $nano) : Instant
+    public function withNano(int $nano): Instant
     {
         if ($nano === $this->nano) {
             return $this;
@@ -186,17 +197,17 @@ final class Instant implements \JsonSerializable
         return new Instant($this->epochSecond, $nano);
     }
 
-    public function minusDays(int $days) : Instant
+    public function minusDays(int $days): Instant
     {
         return $this->plusDays(-$days);
     }
 
-    public function getEpochSecond() : int
+    public function getEpochSecond(): int
     {
         return $this->epochSecond;
     }
 
-    public function getNano() : int
+    public function getNano(): int
     {
         return $this->nano;
     }
@@ -206,7 +217,7 @@ final class Instant implements \JsonSerializable
      *
      * @return int [-1,0,1] If this instant is before, on, or after the given instant.
      */
-    public function compareTo(Instant $that) : int
+    public function compareTo(Instant $that): int
     {
         $seconds = $this->getEpochSecond() - $that->getEpochSecond();
 
@@ -226,7 +237,7 @@ final class Instant implements \JsonSerializable
     /**
      * Returns whether this instant equals another.
      */
-    public function isEqualTo(Instant $that) : bool
+    public function isEqualTo(Instant $that): bool
     {
         return $this->compareTo($that) === 0;
     }
@@ -234,7 +245,7 @@ final class Instant implements \JsonSerializable
     /**
      * Returns whether this instant is after another.
      */
-    public function isAfter(Instant $that) : bool
+    public function isAfter(Instant $that): bool
     {
         return $this->compareTo($that) === 1;
     }
@@ -242,7 +253,7 @@ final class Instant implements \JsonSerializable
     /**
      * Returns whether this instant is after or equal to another.
      */
-    public function isAfterOrEqualTo(Instant $that) : bool
+    public function isAfterOrEqualTo(Instant $that): bool
     {
         return $this->compareTo($that) >= 0;
     }
@@ -250,7 +261,7 @@ final class Instant implements \JsonSerializable
     /**
      * Returns whether this instant is before another.
      */
-    public function isBefore(Instant $that) : bool
+    public function isBefore(Instant $that): bool
     {
         return $this->compareTo($that) === -1;
     }
@@ -258,17 +269,17 @@ final class Instant implements \JsonSerializable
     /**
      * Returns whether this instant is before or equal to another.
      */
-    public function isBeforeOrEqualTo(Instant $that) : bool
+    public function isBeforeOrEqualTo(Instant $that): bool
     {
         return $this->compareTo($that) <= 0;
     }
 
-    public function isBetweenInclusive(Instant $from, Instant $to) : bool
+    public function isBetweenInclusive(Instant $from, Instant $to): bool
     {
         return $this->isAfterOrEqualTo($from) && $this->isBeforeOrEqualTo($to);
     }
 
-    public function isBetweenExclusive(Instant $from, Instant $to) : bool
+    public function isBetweenExclusive(Instant $from, Instant $to): bool
     {
         return $this->isAfter($from) && $this->isBefore($to);
     }
@@ -278,7 +289,7 @@ final class Instant implements \JsonSerializable
      *
      * If no clock is provided, the system clock is used.
      */
-    public function isFuture(?Clock $clock = null) : bool
+    public function isFuture(?Clock $clock = null): bool
     {
         return $this->isAfter(Instant::now($clock));
     }
@@ -288,7 +299,7 @@ final class Instant implements \JsonSerializable
      *
      * If no clock is provided, the system clock is used.
      */
-    public function isPast(?Clock $clock = null) : bool
+    public function isPast(?Clock $clock = null): bool
     {
         return $this->isBefore(Instant::now($clock));
     }
@@ -296,7 +307,7 @@ final class Instant implements \JsonSerializable
     /**
      * Returns a ZonedDateTime formed from this instant and the specified time-zone.
      */
-    public function atTimeZone(TimeZone $timeZone) : ZonedDateTime
+    public function atTimeZone(TimeZone $timeZone): ZonedDateTime
     {
         return ZonedDateTime::ofInstant($this, $timeZone);
     }
@@ -308,7 +319,7 @@ final class Instant implements \JsonSerializable
      *
      * Examples: `123456789`, `123456789.5`, `123456789.000000001`.
      */
-    public function toDecimal() : string
+    public function toDecimal(): string
     {
         $result = (string) $this->epochSecond;
 
@@ -326,12 +337,12 @@ final class Instant implements \JsonSerializable
     /**
      * Serializes as a string using {@see Instant::__toString()}.
      */
-    public function jsonSerialize() : string
+    public function jsonSerialize(): string
     {
         return (string) $this;
     }
 
-    public function __toString() : string
+    public function __toString(): string
     {
         return (string) ZonedDateTime::ofInstant($this, TimeZone::utc());
     }

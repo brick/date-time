@@ -21,7 +21,7 @@ final class NanoOfSecond
      *
      * @throws DateTimeException If the nano-of-second is not valid.
      */
-    public static function check(int $nanoOfSecond) : void
+    public static function check(int $nanoOfSecond): void
     {
         if ($nanoOfSecond < 0 || $nanoOfSecond > 999999999) {
             throw DateTimeException::fieldNotInRange(self::NAME, $nanoOfSecond, 0, 999999999);
