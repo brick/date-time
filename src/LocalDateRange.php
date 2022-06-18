@@ -250,8 +250,8 @@ final class LocalDateRange implements IteratorAggregate, Countable, JsonSerializ
      */
     public function toNativeDatePeriod(): DatePeriod
     {
-        $start = $this->getStart()->atTime(LocalTime::midnight())->toDateTime();
-        $end = $this->getEnd()->atTime(LocalTime::max())->toDateTime();
+        $start = $this->getStart()->atTime(LocalTime::midnight())->toNativeDateTime();
+        $end = $this->getEnd()->atTime(LocalTime::max())->toNativeDateTime();
         $interval = new DateInterval('P1D');
 
         return new DatePeriod($start, $interval, $end);

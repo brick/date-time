@@ -734,7 +734,7 @@ final class LocalDate implements JsonSerializable
      */
     public function toNativeDateTime(): DateTime
     {
-        return $this->atTime(LocalTime::midnight())->toDateTime();
+        return $this->atTime(LocalTime::midnight())->toNativeDateTime();
     }
 
     /**
