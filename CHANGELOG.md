@@ -1,14 +1,14 @@
 # Changelog
 
-## UNRELEASED *(0.4.1)*
+## [0.4.1](https://github.com/brick/date-time/releases/tag/0.4.1) - 2022-06-18
 
 ✨ **New methods**
 
-- `LocalDateRange::toPeriod()`
-- `Year::toLocalDateRange()`
-- `YearMonth::toLocalDateRange()`
-- `YearMonthRange::toLocalDateRange()`
-- `YearWeek::toLocalDateRange()`
+- `LocalDateRange::toPeriod()` ([#51](https://github.com/brick/date-time/issues/51))
+- `Year::toLocalDateRange()` ([#46](https://github.com/brick/date-time/pull/46))
+- `YearMonth::toLocalDateRange()` ([#46](https://github.com/brick/date-time/pull/46))
+- `YearMonthRange::toLocalDateRange()` ([#46](https://github.com/brick/date-time/pull/46))
+- `YearWeek::toLocalDateRange()` ([#46](https://github.com/brick/date-time/pull/46))
 
 💩 **Deprecations**
 
