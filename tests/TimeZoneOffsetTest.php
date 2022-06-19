@@ -82,7 +82,7 @@ class TimeZoneOffsetTest extends AbstractTestCase
             [0],
             [60],
             [3600],
-            [64800]
+            [64800],
         ];
     }
 
@@ -101,7 +101,7 @@ class TimeZoneOffsetTest extends AbstractTestCase
             [-1],
             [1],
             [-64860],
-            [64860]
+            [64860],
         ];
     }
 
@@ -154,7 +154,7 @@ class TimeZoneOffsetTest extends AbstractTestCase
             ['+00:00:'],
             ['+1:00'],
             ['+01:1'],
-            ['+01:01:1']
+            ['+01:01:1'],
         ];
     }
 
@@ -175,7 +175,7 @@ class TimeZoneOffsetTest extends AbstractTestCase
             ['+19:00'],
             ['-19:00'],
             ['-18:01'],
-            ['-18:00:01']
+            ['-18:00:01'],
         ];
     }
 

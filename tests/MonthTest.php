@@ -40,7 +40,7 @@ class MonthTest extends AbstractTestCase
             [9, Month::SEPTEMBER],
             [10, Month::OCTOBER],
             [11, Month::NOVEMBER],
-            [12, Month::DECEMBER]
+            [12, Month::DECEMBER],
         ];
     }
 
@@ -63,7 +63,7 @@ class MonthTest extends AbstractTestCase
         return [
             [-1],
             [0],
-            [13]
+            [13],
         ];
     }
 
@@ -120,7 +120,7 @@ class MonthTest extends AbstractTestCase
             [9, 30],
             [10, 31],
             [11, 30],
-            [12, 31]
+            [12, 31],
         ];
     }
 
@@ -149,7 +149,7 @@ class MonthTest extends AbstractTestCase
             [9, 30],
             [10, 31],
             [11, 30],
-            [12, 31]
+            [12, 31],
         ];
     }
 
@@ -327,7 +327,7 @@ class MonthTest extends AbstractTestCase
             [9, 'September'],
             [10, 'October'],
             [11, 'November'],
-            [12, 'December']
+            [12, 'December'],
         ];
     }
 }

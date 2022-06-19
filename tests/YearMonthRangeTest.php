@@ -76,7 +76,7 @@ class YearMonthRangeTest extends AbstractTestCase
             ['2001-02/2004-'],
             ['2001-02/-05'],
             ['2001-02/05-'],
-            [' 2001-02/03']
+            [' 2001-02/03'],
         ];
     }
 
@@ -125,7 +125,7 @@ class YearMonthRangeTest extends AbstractTestCase
             ['2001-05/2004-02', '2003-12', true],
             ['2001-05/2004-02', '2004-01', true],
             ['2001-05/2004-02', '2004-02', true],
-            ['2001-05/2004-02', '2004-03', false]
+            ['2001-05/2004-02', '2004-03', false],
         ];
     }
 
@@ -142,7 +142,7 @@ class YearMonthRangeTest extends AbstractTestCase
             '2013-12',
             '2014-01',
             '2014-02',
-            '2014-03'
+            '2014-03',
         ];
 
         for ($i = 0; $i < 2; $i++) { // Test twice to test iterator rewind

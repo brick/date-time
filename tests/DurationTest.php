@@ -52,7 +52,7 @@ class DurationTest extends AbstractTestCase
             [-4, 1000000001, -3, 1],
             [-2, -999999999, -3, 1],
             [1, -1000000001, -1, 999999999],
-            [-1, -1000000001, -3, 999999999]
+            [-1, -1000000001, -3, 999999999],
         ];
     }
 
@@ -92,7 +92,7 @@ class DurationTest extends AbstractTestCase
             [1000000002, 1, 2],
             [-2000000001, -3, 999999999],
             [PHP_INT_MAX, intdiv(PHP_INT_MAX, 1000000000), PHP_INT_MAX % 1000000000],
-            [PHP_INT_MIN, intdiv(PHP_INT_MIN, 1000000000) - 1, PHP_INT_MIN % 1000000000 + 1000000000]
+            [PHP_INT_MIN, intdiv(PHP_INT_MIN, 1000000000) - 1, PHP_INT_MIN % 1000000000 + 1000000000],
         ];
     }
 
@@ -245,7 +245,7 @@ class DurationTest extends AbstractTestCase
             ['-PT1M0.001S', -61, 999000000],
             ['-PT1M-0.001S', -60, 1000000],
             ['-PT-1M-0.001S', 60, 1000000],
-            ['-PT-1M0.001S', 59, 999000000]
+            ['-PT-1M0.001S', 59, 999000000],
         ];
     }
 
@@ -370,7 +370,7 @@ class DurationTest extends AbstractTestCase
             [0,  1,  1],
             [1, -1,  1],
             [1,  0,  1],
-            [1,  1,  1]
+            [1,  1,  1],
         ];
     }
 
@@ -442,7 +442,7 @@ class DurationTest extends AbstractTestCase
             [1, 1, 0, 0, 1],
             [1, 1, 0, 1, 1],
             [1, 1, 1, 0, 1],
-            [1, 1, 1, 1, 0]
+            [1, 1, 1, 1, 0],
         ];
     }
 
@@ -601,7 +601,7 @@ class DurationTest extends AbstractTestCase
             [1, -2, -119],
             [1, -1, -59],
             [1, 0, 1],
-            [1, 1, 61]
+            [1, 1, 61],
         ];
     }
 
@@ -629,7 +629,7 @@ class DurationTest extends AbstractTestCase
             [1, -2, -7199],
             [1, -1, -3599],
             [1, 0, 1],
-            [1, 1, 3601]
+            [1, 1, 3601],
         ];
     }
 
@@ -657,7 +657,7 @@ class DurationTest extends AbstractTestCase
             [1, -2, -172799],
             [1, -1, -86399],
             [1, 0, 1],
-            [1, 1, 86401]
+            [1, 1, 86401],
         ];
     }
 
@@ -688,7 +688,7 @@ class DurationTest extends AbstractTestCase
             [-1, 1, -2],
             [-1, -1, 0],
             [-1, PHP_INT_MAX, PHP_INT_MIN],
-            [-1, PHP_INT_MIN + 1, PHP_INT_MAX - 1]
+            [-1, PHP_INT_MIN + 1, PHP_INT_MAX - 1],
         ];
     }
 
@@ -716,7 +716,7 @@ class DurationTest extends AbstractTestCase
             [1, -2, 121],
             [1, -1, 61],
             [1, 0, 1],
-            [1, 1, -59]
+            [1, 1, -59],
         ];
     }
 
@@ -744,7 +744,7 @@ class DurationTest extends AbstractTestCase
             [1, -2, 7201],
             [1, -1, 3601],
             [1, 0, 1],
-            [1, 1, -3599]
+            [1, 1, -3599],
         ];
     }
 
@@ -772,7 +772,7 @@ class DurationTest extends AbstractTestCase
             [1, -2, 172801],
             [1, -1, 86401],
             [1, 0, 1],
-            [1, 1, -86399]
+            [1, 1, -86399],
         ];
     }
 
@@ -964,7 +964,7 @@ class DurationTest extends AbstractTestCase
             [1, 1, -2, 999999999],
             [-2, 999999999, 1, 1],
             [-1, 1, 0, 999999999],
-            [0, 999999999, -1, 1]
+            [0, 999999999, -1, 1],
         ];
     }
 
@@ -1044,7 +1044,7 @@ class DurationTest extends AbstractTestCase
             [-123, 456000001, -122544],
             [-123, 456999999, -122544],
             [123, 456000001,  123456],
-            [123, 456999999,  123456]
+            [123, 456999999,  123456],
         ];
     }
 
@@ -1067,7 +1067,7 @@ class DurationTest extends AbstractTestCase
             [-123, 456789001, -122543211],
             [-123, 456789999, -122543211],
             [123, 456789001,  123456789],
-            [123, 456789999,  123456789]
+            [123, 456789999,  123456789],
         ];
     }
 
@@ -1090,7 +1090,7 @@ class DurationTest extends AbstractTestCase
             [-2, 000000001, -1999999999],
             [-2, 999999999, -1000000001],
             [1, 000000001,  1000000001],
-            [1, 999999999,  1999999999]
+            [1, 999999999,  1999999999],
         ];
     }
 

@@ -78,7 +78,7 @@ class PeriodTest extends AbstractTestCase
             ['P-1Y-2M-3W+4D', -1, -2, -17],
             ['-P-1Y-2M-3W4D', 1, 2, 17],
             ['+P-1Y-2M+3W-4D', -1, -2, 17],
-            ['-P-1Y-2M+3W-4D', 1, 2, -17]
+            ['-P-1Y-2M+3W-4D', 1, 2, -17],
         ];
     }
 
@@ -105,7 +105,7 @@ class PeriodTest extends AbstractTestCase
             ['PXD'],
             ['PT1S'],
             ['P0D0D'],
-            ['PT0D1S']
+            ['PT0D1S'],
         ];
     }
 
@@ -317,7 +317,7 @@ class PeriodTest extends AbstractTestCase
             [1, -13, 0, 0, -1],
             [0, 14, 0, 1, 2],
             [0, -14, 0, -1, -2],
-            [-2, 6, 7, -1, -6]
+            [-2, 6, 7, -1, -6],
         ];
     }
 
@@ -340,7 +340,7 @@ class PeriodTest extends AbstractTestCase
             [0, 0, 0, true],
             [1, 0, 0, false],
             [0, 1, 0, false],
-            [0, 0, 1, false]
+            [0, 0, 1, false],
         ];
     }
 
@@ -411,7 +411,7 @@ class PeriodTest extends AbstractTestCase
     {
         return [
             [1, -2, 3],
-            [-1, 2, -3]
+            [-1, 2, -3],
         ];
     }
 

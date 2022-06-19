@@ -340,7 +340,7 @@ class ZonedDateTimeTest extends AbstractTestCase
     {
         return [
             ['2001-09-09T01:46:40', 'UTC'],
-            ['2001-09-08T18:46:40', 'America/Los_Angeles']
+            ['2001-09-08T18:46:40', 'America/Los_Angeles'],
         ];
     }
 
@@ -375,7 +375,7 @@ class ZonedDateTimeTest extends AbstractTestCase
             ['2001-02-03T01:02Z[Europe/London]', '2001-02-03', '01:02', 'Z', 'Europe/London'],
             ['2001-02-03T01:02+00:00[Europe/London]', '2001-02-03', '01:02', 'Z', 'Europe/London'],
             ['2001-02-03T01:02:03-00:00[Europe/London]', '2001-02-03', '01:02:03', 'Z', 'Europe/London'],
-            ['2001-02-03T01:02:03.456+00:00[Europe/London]', '2001-02-03', '01:02:03.456', 'Z', 'Europe/London']
+            ['2001-02-03T01:02:03.456+00:00[Europe/London]', '2001-02-03', '01:02:03.456', 'Z', 'Europe/London'],
         ];
     }
 
@@ -411,7 +411,7 @@ class ZonedDateTimeTest extends AbstractTestCase
             ['2001-02-03T01:02:03.456+12:34:56'],
 
             [' 2001-02-03T01:02:03Z'],
-            ['2001-02-03T01:02:03Z ']
+            ['2001-02-03T01:02:03Z '],
         ];
     }
 
@@ -751,7 +751,7 @@ class ZonedDateTimeTest extends AbstractTestCase
             [1234567890, '2009-02-14T00:31:29+01:00', false],
             [1234567890, '2009-02-14T00:31:31+01:00', true],
             [2345678901, '2044-04-30T17:28:20-08:00', false],
-            [2345678901, '2044-04-30T17:28:22-08:00', true]
+            [2345678901, '2044-04-30T17:28:22-08:00', true],
         ];
     }
 

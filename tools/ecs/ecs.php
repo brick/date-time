@@ -22,6 +22,7 @@ use PhpCsFixer\Fixer\Comment\SingleLineCommentStyleFixer;
 use PhpCsFixer\Fixer\ConstantNotation\NativeConstantInvocationFixer;
 use PhpCsFixer\Fixer\ControlStructure\IncludeFixer;
 use PhpCsFixer\Fixer\ControlStructure\NoUnneededControlParenthesesFixer;
+use PhpCsFixer\Fixer\ControlStructure\TrailingCommaInMultilineFixer;
 use PhpCsFixer\Fixer\FunctionNotation\FunctionTypehintSpaceFixer;
 use PhpCsFixer\Fixer\FunctionNotation\MethodArgumentSpaceFixer;
 use PhpCsFixer\Fixer\FunctionNotation\PhpdocToParamTypeFixer;
@@ -89,7 +90,7 @@ return static function (ECSConfig $ecsConfig): void {
         [
             $libRootPath . '/src',
             $libRootPath . '/tests',
-            __FILE__
+            __FILE__,
         ]
     );
 
@@ -121,7 +122,7 @@ return static function (ECSConfig $ecsConfig): void {
     ]);
 
     $ecsConfig->sets([
-        SetList::PSR_12
+        SetList::PSR_12,
     ]);
 
     $ecsConfig->rules(
@@ -191,6 +192,7 @@ return static function (ECSConfig $ecsConfig): void {
             UnaryOperatorSpacesFixer::class,
             WhitespaceAfterCommaInArrayFixer::class,
             NoTrailingCommaInSinglelineArrayFixer::class,
+            TrailingCommaInMultilineFixer::class,
         ]
     );
 
@@ -222,8 +224,8 @@ return static function (ECSConfig $ecsConfig): void {
             '@dataProvider',
             '@param',
             '@return',
-            '@throws'
-            ]
+            '@throws',
+            ],
         ]
     );
 

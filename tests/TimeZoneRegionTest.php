@@ -39,7 +39,7 @@ class TimeZoneRegionTest extends AbstractTestCase
             ['z'],
             ['+01:00'],
             ['-01:00'],
-            ['Unknown/Region']
+            ['Unknown/Region'],
         ];
     }
 
@@ -61,7 +61,7 @@ class TimeZoneRegionTest extends AbstractTestCase
     {
         return [
             [''],
-            ['Europe.London']
+            ['Europe.London'],
         ];
     }
 

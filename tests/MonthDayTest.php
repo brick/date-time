@@ -41,7 +41,7 @@ class MonthDayTest extends AbstractTestCase
             [9, 30],
             [10, 31],
             [11, 30],
-            [12, 31]
+            [12, 31],
         ];
     }
 
@@ -71,7 +71,7 @@ class MonthDayTest extends AbstractTestCase
             [9, 31],
             [10, 32],
             [11, 32],
-            [12, 32]
+            [12, 32],
         ];
     }
 
@@ -92,7 +92,7 @@ class MonthDayTest extends AbstractTestCase
         return [
             ['--01-01', 1, 1],
             ['--02-29', 2, 29],
-            ['--12-31', 12, 31]
+            ['--12-31', 12, 31],
         ];
     }
 
@@ -119,7 +119,7 @@ class MonthDayTest extends AbstractTestCase
             ['--123-01'],
             ['--01-123'],
             ['--1X-01'],
-            ['--01-1X']
+            ['--01-1X'],
         ];
     }
 
@@ -138,7 +138,7 @@ class MonthDayTest extends AbstractTestCase
             ['--00-01'],
             ['--01-00'],
             ['--01-32'],
-            ['--02-30']
+            ['--02-30'],
         ];
     }
 
@@ -276,7 +276,7 @@ class MonthDayTest extends AbstractTestCase
             [2, 29, 2001, false],
             [2, 29, 2002, false],
             [2, 29, 2003, false],
-            [2, 29, 2004, true]
+            [2, 29, 2004, true],
         ];
     }
 
@@ -315,7 +315,7 @@ class MonthDayTest extends AbstractTestCase
             [2, 29, 4, 29],
             [11, 30, 11, 30],
             [11, 30, 12, 30],
-            [11, 30, 2, 29]
+            [11, 30, 2, 29],
         ];
     }
 
@@ -336,7 +336,7 @@ class MonthDayTest extends AbstractTestCase
     {
         return [
             [1, 1, 0],
-            [12, 31, 13]
+            [12, 31, 13],
         ];
     }
 
@@ -375,7 +375,7 @@ class MonthDayTest extends AbstractTestCase
             [12, 1, 31],
             [12, 31, 1],
             [2, 1, 29],
-            [2, 29, 1]
+            [2, 29, 1],
         ];
     }
 
@@ -460,7 +460,7 @@ class MonthDayTest extends AbstractTestCase
     {
         return [
             [-1234567890],
-            [1234567890]
+            [1234567890],
         ];
     }
 
@@ -494,7 +494,7 @@ class MonthDayTest extends AbstractTestCase
             [1, 1, '--01-01'],
             [1, 31, '--01-31'],
             [12, 1, '--12-01'],
-            [12, 31, '--12-31']
+            [12, 31, '--12-31'],
         ];
     }
 }

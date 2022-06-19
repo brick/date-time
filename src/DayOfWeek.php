@@ -225,7 +225,7 @@ final class DayOfWeek implements JsonSerializable
             4 => 'Thursday',
             5 => 'Friday',
             6 => 'Saturday',
-            7 => 'Sunday'
+            7 => 'Sunday',
         ][$this->value];
     }
 

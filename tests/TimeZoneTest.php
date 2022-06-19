@@ -38,7 +38,7 @@ class TimeZoneTest extends AbstractTestCase
             ['+01:00', TimeZoneOffset::class, '+01:00'],
             ['-02:30', TimeZoneOffset::class, '-02:30'],
             ['Europe/London', TimeZoneRegion::class, 'Europe/London'],
-            ['America/Los_Angeles', TimeZoneRegion::class, 'America/Los_Angeles']
+            ['America/Los_Angeles', TimeZoneRegion::class, 'America/Los_Angeles'],
         ];
     }
 
@@ -56,7 +56,7 @@ class TimeZoneTest extends AbstractTestCase
         return [
             [''],
             ['+'],
-            ['-']
+            ['-'],
         ];
     }
 
@@ -99,7 +99,7 @@ class TimeZoneTest extends AbstractTestCase
             ['Z'],
             ['+01:00'],
             ['Europe/London'],
-            ['America/Los_Angeles']
+            ['America/Los_Angeles'],
         ];
     }
 }
