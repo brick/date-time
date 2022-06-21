@@ -1,0 +1,10 @@
+name: Coding Standards
+
+on:
+  pull_request:
+  push:
+
+jobs:
+  coding-standards:
+    name: Coding Standards
+    uses: brick/coding-standards/.github/workflows/coding-standards.yml@main
