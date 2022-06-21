@@ -1,8 +1,6 @@
 {
     "require": {
-        "symplify/easy-coding-standard": "^12.1",
-        "slevomat/coding-standard": "^8.15",
-        "squizlabs/php_codesniffer": "^3.9"
+        "brick/coding-standard": "dev-main"
     },
     "config": {
         "allow-plugins": {
