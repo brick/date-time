@@ -1,5 +1,12 @@
 # Changelog
 
+## UNRELEASED (0.4.2)
+
+✨ **New methods**
+
+- `Duration::isGreaterThanOrEqualTo()` ([#50](https://github.com/brick/date-time/pull/50))
+- `Duration::isLessThanOrEqualTo()` ([#50](https://github.com/brick/date-time/pull/50))
+
 ## [0.4.1](https://github.com/brick/date-time/releases/tag/0.4.1) - 2022-06-18
 
 ✨ **New methods**
