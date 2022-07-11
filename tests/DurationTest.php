@@ -381,14 +381,19 @@ class DurationTest extends AbstractTestCase
      * @param int $nanos1   The nanoseconds of the 1st duration.
      * @param int $seconds2 The seconds of the 2nd duration.
      * @param int $nanos2   The nanoseconds of the 2nd duration.
-     * @param int $expected The expected return value.
+     * @param int $cmp      The comparison value.
      */
-    public function testCompareTo(int $seconds1, int $nanos1, int $seconds2, int $nanos2, int $expected): void
+    public function testCompareTo(int $seconds1, int $nanos1, int $seconds2, int $nanos2, int $cmp): void
     {
         $duration1 = Duration::ofSeconds($seconds1, $nanos1);
         $duration2 = Duration::ofSeconds($seconds2, $nanos2);
 
-        $this->assertSame($expected, $duration1->compareTo($duration2));
+        $this->assertSame($cmp, $duration1->compareTo($duration2));
+        $this->assertSame($cmp === 0, $duration1->isEqualTo($duration2));
+        $this->assertSame($cmp === -1, $duration1->isLessThan($duration2));
+        $this->assertSame($cmp === 1, $duration1->isGreaterThan($duration2));
+        $this->assertSame($cmp <= 0, $duration1->isLessThanOrEqualTo($duration2));
+        $this->assertSame($cmp >= 0, $duration1->isGreaterThanOrEqualTo($duration2));
     }
 
     public function providerCompareTo(): array
