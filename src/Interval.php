@@ -41,6 +41,17 @@ final class Interval implements JsonSerializable
     }
 
     /**
+     * @param Instant $startInclusive The start instant, inclusive.
+     * @param Instant $endExclusive   The end instant, exclusive.
+     *
+     * @throws DateTimeException If the end instant is before the start instant.
+     */
+    public static function of(Instant $startInclusive, Instant $endExclusive): Interval
+    {
+        return new Interval($startInclusive, $endExclusive);
+    }
+
+    /**
      * Returns the start instant, inclusive, of this Interval.
      */
     public function getStart(): Instant
@@ -82,6 +93,44 @@ final class Interval implements JsonSerializable
     public function getDuration(): Duration
     {
         return Duration::between($this->start, $this->end);
+    }
+
+    /**
+     * Returns whether this Interval contains the given Instant.
+     */
+    public function contains(Instant $instant): bool
+    {
+        return $instant->isAfterOrEqualTo($this->start)
+            && $instant->isBefore($this->end);
+    }
+
+    /**
+     * Returns whether this Interval intersects with the given one.
+     */
+    public function intersectsWith(Interval $that): bool
+    {
+        [$prev, $next] = $this->start->isBefore($that->start)
+            ? [$this, $that]
+            : [$that, $this];
+
+        return $next->start->isBefore($prev->end);
+    }
+
+    /**
+     * Returns an Interval which is an intersection of this one with the given one.
+     *
+     * @throws DateTimeException If the Intervals do not intersect.
+     */
+    public function getIntersectionWith(Interval $that): Interval
+    {
+        if (! $this->intersectsWith($that)) {
+            throw new DateTimeException('Intervals "' . $this . '" and "' . $that . '" do not intersect.');
+        }
+
+        $latestStart = $this->start->isAfter($that->start) ? $this->start : $that->start;
+        $earliestEnd = $this->end->isBefore($that->end) ? $this->end : $that->end;
+
+        return new Interval($latestStart, $earliestEnd);
     }
 
     /**
