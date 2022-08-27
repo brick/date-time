@@ -29,7 +29,7 @@ Installation
 This library is installable via [Composer](https://getcomposer.org/):
 
 ```bash
-composer require solodkiy/date-time
+composer require solodkiy/brick-date-time
 ```
 
 Requirements
@@ -37,18 +37,28 @@ Requirements
 
 This library requires PHP 7.4 or later.
 
-Project status & release process
---------------------------------
+About this fork
+---------------
 
 While this library is still under development, it is well tested and should be stable enough to use in production environments.
+### New functional
+* UtcDateTime class
+* Instant::toUtcDateTime() method
+* LocalDateTime::fromSqlFormat() method
+* LocalDateTime::toSqlFormat() method
+* ZonedDateTime::fromSqlFormat() method
+* ZonedDateTime::toSqlFormat() method
+* ZonedDateTime::toUtcDateTime() method
+* ZonedDateTime::toPhpFormat() method
+* ZonedDateTime::toUtcSqlFormat() method
 
-The current releases are numbered `0.x.y`. When a non-breaking change is introduced (adding new methods, optimizing existing code, etc.), `y` is incremented.
+### Compatibility with brick/date-time
 
-**When a breaking change is introduced, a new `0.x` version cycle is always started.**
+| solodkiy/brick-date-time | brick/date-time |
+|--------------------------|-----------------|
+| 100.\*.\*                | 0.3.2           |
+| 101.\*.\*                | 0.4.\*          |
 
-It is therefore safe to lock your project to a given release cycle, such as `0.4.*`.
-
-If you need to upgrade to a newer release cycle, check the [release history](https://github.com/solodkiy/date-time/releases) for a list of changes introduced by each further `0.x.0` version.
 
 Overview
 --------
