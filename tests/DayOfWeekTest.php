@@ -10,6 +10,9 @@ use Brick\DateTime\DayOfWeek;
 use Brick\DateTime\Instant;
 use Brick\DateTime\LocalDate;
 use Brick\DateTime\TimeZone;
+use Generator;
+
+use function json_encode;
 
 /**
  * Unit tests for class DayOfWeek.
@@ -27,7 +30,7 @@ class DayOfWeekTest extends AbstractTestCase
         $this->assertSame($expectedValue, $dayOfWeekConstant);
     }
 
-    public function providerConstants() : array
+    public function providerConstants(): array
     {
         return [
             [1, DayOfWeek::MONDAY],
@@ -54,7 +57,7 @@ class DayOfWeekTest extends AbstractTestCase
         DayOfWeek::of($dayOfWeek);
     }
 
-    public function providerOfInvalidDayOfWeekThrowsException() : array
+    public function providerOfInvalidDayOfWeekThrowsException(): array
     {
         return [
             [-1],
@@ -76,7 +79,7 @@ class DayOfWeekTest extends AbstractTestCase
         $this->assertDayOfWeekIs($expectedDayOfWeek, DayOfWeek::now(TimeZone::parse($timeZone), $clock));
     }
 
-    public function providerNow() : array
+    public function providerNow(): array
     {
         return [
             [1388534399, '-01:00', DayOfWeek::TUESDAY],
@@ -219,7 +222,7 @@ class DayOfWeekTest extends AbstractTestCase
         $this->assertDayOfWeekIs($expectedDayOfWeek, DayOfWeek::of($dayOfWeek)->minus(-$plusDays));
     }
 
-    public function providerPlus() : \Generator
+    public function providerPlus(): Generator
     {
         for ($dayOfWeek = DayOfWeek::MONDAY; $dayOfWeek <= DayOfWeek::SUNDAY; $dayOfWeek++) {
             for ($plusDays = -15; $plusDays <= 15; $plusDays++) {
@@ -253,7 +256,7 @@ class DayOfWeekTest extends AbstractTestCase
         $this->assertTrue($localDate->getDayOfWeek()->isEqualTo($dayOfWeek));
     }
 
-    public function providerGetDayOfWeekFromLocalDate() : array
+    public function providerGetDayOfWeekFromLocalDate(): array
     {
         return [
             ['2000-01-01', DayOfWeek::SATURDAY],
@@ -294,10 +297,7 @@ class DayOfWeekTest extends AbstractTestCase
         $this->assertSame($expectedName, (string) DayOfWeek::of($dayOfWeek));
     }
 
-    /**
-     * @return array
-     */
-    public function providerToString() : array
+    public function providerToString(): array
     {
         return [
             [DayOfWeek::MONDAY,    'Monday'],

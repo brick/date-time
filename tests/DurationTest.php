@@ -10,6 +10,14 @@ use Brick\DateTime\Duration;
 use Brick\DateTime\Instant;
 use Brick\DateTime\Parser\DateTimeParseException;
 
+use function abs;
+use function count;
+use function intdiv;
+use function json_encode;
+
+use const PHP_INT_MAX;
+use const PHP_INT_MIN;
+
 /**
  * Unit tests for class Duration.
  */
@@ -34,7 +42,7 @@ class DurationTest extends AbstractTestCase
         $this->assertDurationIs($expectedSeconds, $expectedNanos, $duration);
     }
 
-    public function providerOfSeconds() : array
+    public function providerOfSeconds(): array
     {
         return [
             [3, 1, 3, 1],
@@ -77,14 +85,14 @@ class DurationTest extends AbstractTestCase
         $this->assertDurationIs($expectedSeconds, $expectedNanos, $duration);
     }
 
-    public function providerOfNanos() : array
+    public function providerOfNanos(): array
     {
         return [
             [1, 0, 1],
             [1000000002, 1, 2],
             [-2000000001, -3, 999999999],
-            [PHP_INT_MAX, \intdiv(PHP_INT_MAX, 1000000000), PHP_INT_MAX % 1000000000],
-            [PHP_INT_MIN, \intdiv(PHP_INT_MIN, 1000000000) -1, PHP_INT_MIN % 1000000000 + 1000000000]
+            [PHP_INT_MAX, intdiv(PHP_INT_MAX, 1000000000), PHP_INT_MAX % 1000000000],
+            [PHP_INT_MIN, intdiv(PHP_INT_MIN, 1000000000) - 1, PHP_INT_MIN % 1000000000 + 1000000000]
         ];
     }
 
@@ -120,7 +128,7 @@ class DurationTest extends AbstractTestCase
         $this->assertDurationIs($seconds, $nanos, Duration::between($i1, $i2));
     }
 
-    public function providerBetween() : array
+    public function providerBetween(): array
     {
         return [
             [0, 0, 0, 0, 0, 0],
@@ -153,7 +161,7 @@ class DurationTest extends AbstractTestCase
         $this->assertDurationIs($seconds, $nanos, Duration::parse($text));
     }
 
-    public function providerParse() : array
+    public function providerParse(): array
     {
         return [
             ['PT0S', 0, 0],
@@ -252,7 +260,7 @@ class DurationTest extends AbstractTestCase
         Duration::parse($text);
     }
 
-    public function providerParseFailureThrowsException() : array
+    public function providerParseFailureThrowsException(): array
     {
         return [
             [''],
@@ -351,18 +359,18 @@ class DurationTest extends AbstractTestCase
         $this->assertSame($cmp <= 0, Duration::ofSeconds($seconds, $nanos)->isNegativeOrZero());
     }
 
-    public function providerCompareToZero() : array
+    public function providerCompareToZero(): array
     {
         return [
             [-1, -1, -1],
             [-1,  0, -1],
             [-1,  1, -1],
-            [ 0, -1, -1],
-            [ 0,  0,  0],
-            [ 0,  1,  1],
-            [ 1, -1,  1],
-            [ 1,  0,  1],
-            [ 1,  1,  1]
+            [0, -1, -1],
+            [0,  0,  0],
+            [0,  1,  1],
+            [1, -1,  1],
+            [1,  0,  1],
+            [1,  1,  1]
         ];
     }
 
@@ -383,7 +391,7 @@ class DurationTest extends AbstractTestCase
         $this->assertSame($expected, $duration1->compareTo($duration2));
     }
 
-    public function providerCompareTo() : array
+    public function providerCompareTo(): array
     {
         return [
             [-1, -1, -1, -1, 0],
@@ -474,7 +482,7 @@ class DurationTest extends AbstractTestCase
         $this->assertDurationIs($s, $n, $duration1->minus($duration2));
     }
 
-    public function providerPlus() : array
+    public function providerPlus(): array
     {
         return [
             [-1, -1, -1, -1, -3, 999999998],
@@ -543,7 +551,7 @@ class DurationTest extends AbstractTestCase
         $this->assertDurationIs($expectedSeconds, $expectedNanos, $duration);
     }
 
-    public function providerPlusSeconds() : array
+    public function providerPlusSeconds(): array
     {
         return [
             [-1, 0, -1, -2, 0],
@@ -560,29 +568,25 @@ class DurationTest extends AbstractTestCase
             [1, 0,  0,  1, 0],
             [1, 0,  1,  2, 0],
 
-            [~\PHP_INT_MAX, 0, \PHP_INT_MAX, -1, 0],
-            [\PHP_INT_MAX, 0, ~\PHP_INT_MAX, -1, 0],
-            [\PHP_INT_MAX, 0, 0, \PHP_INT_MAX, 0],
+            [PHP_INT_MIN, 0, PHP_INT_MAX, -1, 0],
+            [PHP_INT_MAX, 0, PHP_INT_MIN, -1, 0],
+            [PHP_INT_MAX, 0, 0, PHP_INT_MAX, 0],
 
             [-1, -5,  2, 0,  999999995],
-            [ 1,  5, -2, -1, 5],
+            [1,  5, -2, -1, 5],
         ];
     }
 
     /**
      * @dataProvider providerPlusMinutes
-     *
-     * @param int $seconds
-     * @param int $minutesToAdd
-     * @param int $expectedSeconds
      */
-    public function testPlusMinutes(int $seconds, int $minutesToAdd, int $expectedSeconds)
+    public function testPlusMinutes(int $seconds, int $minutesToAdd, int $expectedSeconds): void
     {
         $duration = Duration::ofSeconds($seconds)->plusMinutes($minutesToAdd);
         $this->assertDurationIs($expectedSeconds, 0, $duration);
     }
 
-    public function providerPlusMinutes() : array
+    public function providerPlusMinutes(): array
     {
         return [
             [-1, -1, -61],
@@ -610,7 +614,7 @@ class DurationTest extends AbstractTestCase
         $this->assertDurationIs($expectedSeconds, 0, $duration);
     }
 
-    public function providerPlusHours() : array
+    public function providerPlusHours(): array
     {
         return [
             [-1, -1, -3601],
@@ -638,7 +642,7 @@ class DurationTest extends AbstractTestCase
         $this->assertDurationIs($expectedSeconds, 0, $duration);
     }
 
-    public function providerPlusDays() : array
+    public function providerPlusDays(): array
     {
         return [
             [-1, -1, -86401],
@@ -666,25 +670,25 @@ class DurationTest extends AbstractTestCase
         $this->assertDurationIs($expectedSeconds, 0, $duration);
     }
 
-    public function providerMinusSeconds() : array
+    public function providerMinusSeconds(): array
     {
         return [
             [0, 0, 0],
             [0, 1, -1],
             [0, -1, 1],
-            [0, \PHP_INT_MAX, - \PHP_INT_MAX],
-            [0, ~\PHP_INT_MAX + 1, \PHP_INT_MAX],
+            [0, PHP_INT_MAX, -PHP_INT_MAX],
+            [0, PHP_INT_MIN + 1, PHP_INT_MAX],
             [1, 0, 1],
             [1, 1, 0],
             [1, -1, 2],
-            [1, \PHP_INT_MAX - 1, - \PHP_INT_MAX + 2],
-            [1, ~\PHP_INT_MAX + 2, \PHP_INT_MAX],
-            [1, \PHP_INT_MAX, - \PHP_INT_MAX + 1],
+            [1, PHP_INT_MAX - 1, -PHP_INT_MAX + 2],
+            [1, PHP_INT_MIN + 2, PHP_INT_MAX],
+            [1, PHP_INT_MAX, -PHP_INT_MAX + 1],
             [-1, 0, -1],
             [-1, 1, -2],
             [-1, -1, 0],
-            [-1, \PHP_INT_MAX, ~\PHP_INT_MAX],
-            [-1, ~\PHP_INT_MAX + 1, \PHP_INT_MAX - 1]
+            [-1, PHP_INT_MAX, PHP_INT_MIN],
+            [-1, PHP_INT_MIN + 1, PHP_INT_MAX - 1]
         ];
     }
 
@@ -697,7 +701,7 @@ class DurationTest extends AbstractTestCase
         $this->assertDurationIs($expectedSeconds, 0, $duration);
     }
 
-    public function providerMinusMinutes() : array
+    public function providerMinusMinutes(): array
     {
         return [
             [-1, -1, 59],
@@ -725,7 +729,7 @@ class DurationTest extends AbstractTestCase
         $this->assertDurationIs($expectedSeconds, 0, $duration);
     }
 
-    public function providerMinusHours() : array
+    public function providerMinusHours(): array
     {
         return [
             [-1, -1, 3599],
@@ -753,7 +757,7 @@ class DurationTest extends AbstractTestCase
         $this->assertDurationIs($expectedSeconds, 0, $duration);
     }
 
-    public function providerMinusDays() : array
+    public function providerMinusDays(): array
     {
         return [
             [-1, -1, 86399],
@@ -783,7 +787,7 @@ class DurationTest extends AbstractTestCase
         $this->assertDurationIs($expectedSecond, $expectedNano, $duration);
     }
 
-    public function providerMultipliedBy() : array
+    public function providerMultipliedBy(): array
     {
         return [
             [-3, 0, -3, 9, 0],
@@ -861,8 +865,8 @@ class DurationTest extends AbstractTestCase
             [3, 0, 3, 9, 0],
             [3, 1000, 3, 9, 3000],
             [3, 999999999, 3, 11, 999999997],
-            [1, 0,  \PHP_INT_MAX, \PHP_INT_MAX, 0],
-            [1, 0, \PHP_INT_MIN, \PHP_INT_MIN, 0],
+            [1, 0,  PHP_INT_MAX, PHP_INT_MAX, 0],
+            [1, 0, PHP_INT_MIN, PHP_INT_MIN, 0],
         ];
     }
 
@@ -875,7 +879,7 @@ class DurationTest extends AbstractTestCase
         $this->assertDurationIs($expectedSeconds, $expectedNanos, $duration);
     }
 
-    public function providerDividedBy() : array
+    public function providerDividedBy(): array
     {
         return [
             [3, 0, 1, 3, 0],
@@ -951,7 +955,7 @@ class DurationTest extends AbstractTestCase
         $this->assertDurationIs($expectedSeconds, $expectedNanos, $duration->negated());
     }
 
-    public function providerNegated() : array
+    public function providerNegated(): array
     {
         return [
             [0, 0, 0, 0],
@@ -968,7 +972,7 @@ class DurationTest extends AbstractTestCase
     {
         for ($seconds = -3; $seconds <= 3; $seconds++) {
             $duration = Duration::ofSeconds($seconds)->abs();
-            $this->assertDurationIs(\abs($seconds), 0, $duration);
+            $this->assertDurationIs(abs($seconds), 0, $duration);
         }
     }
 
@@ -991,48 +995,6 @@ class DurationTest extends AbstractTestCase
             Duration::ofHours(2),
             Duration::ofDays(1),
         ]);
-    }
-
-    /**
-     * @param Duration[] $durations
-     */
-    private function doTestComparisons(array $durations): void
-    {
-        $count = \count($durations);
-
-        for ($i = 0; $i < $count; $i++) {
-            $a = $durations[$i];
-            for ($j = 0; $j < $count; $j++) {
-                $b = $durations[$j];
-                if ($i < $j) {
-                    $this->assertLessThan(0, $a->compareTo($b), $a . ' <=> ' . $b);
-                    $this->assertTrue($a->isLessThan($b), $a . ' <=> ' . $b);
-                    $this->assertFalse($a->isGreaterThan($b), $a . ' <=> ' . $b);
-                    $this->assertFalse($a->isEqualTo($b), $a . ' <=> ' . $b);
-                }
-                elseif ($i > $j) {
-                    $this->assertGreaterThan(0, $a->compareTo($b), $a . ' <=> ' . $b);
-                    $this->assertFalse($a->isLessThan($b), $a . ' <=> ' . $b);
-                    $this->assertTrue($a->isGreaterThan($b), $a . ' <=> ' . $b);
-                    $this->assertFalse($a->isEqualTo($b), $a . ' <=> ' . $b);
-                }
-                else {
-                    $this->assertSame(0, $a->compareTo($b), $a . ' <=> ' . $b);
-                    $this->assertFalse($a->isLessThan($b), $a . ' <=> ' . $b);
-                    $this->assertFalse($a->isGreaterThan($b), $a . ' <=> ' . $b);
-                    $this->assertTrue($a->isEqualTo($b), $a . ' <=> ' . $b);
-                }
-
-                if ($i <= $j) {
-                    $this->assertLessThanOrEqual(0, $a->compareTo($b), $a . ' <=> ' . $b);
-                    $this->assertFalse($a->isGreaterThan($b), $a . ' <=> ' . $b);
-                }
-                if ($i >= $j) {
-                    $this->assertGreaterThanOrEqual(0, $a->compareTo($b), $a . ' <=> ' . $b);
-                    $this->assertFalse($a->isLessThan($b), $a . ' <=> ' . $b);
-                }
-            }
-        }
     }
 
     public function testEquals(): void
@@ -1076,13 +1038,13 @@ class DurationTest extends AbstractTestCase
         $this->assertSame($expectedMillis, $duration->getTotalMillis());
     }
 
-    public function providerGetTotalMillis() : array
+    public function providerGetTotalMillis(): array
     {
         return [
             [-123, 456000001, -122544],
             [-123, 456999999, -122544],
-            [ 123, 456000001,  123456],
-            [ 123, 456999999,  123456]
+            [123, 456000001,  123456],
+            [123, 456999999,  123456]
         ];
     }
 
@@ -1099,13 +1061,13 @@ class DurationTest extends AbstractTestCase
         $this->assertSame($expectedMicros, $duration->getTotalMicros());
     }
 
-    public function providerGetTotalMicros() : array
+    public function providerGetTotalMicros(): array
     {
         return [
             [-123, 456789001, -122543211],
             [-123, 456789999, -122543211],
-            [ 123, 456789001,  123456789],
-            [ 123, 456789999,  123456789]
+            [123, 456789001,  123456789],
+            [123, 456789999,  123456789]
         ];
     }
 
@@ -1122,13 +1084,13 @@ class DurationTest extends AbstractTestCase
         $this->assertSame($expectedNanos, $duration->getTotalNanos());
     }
 
-    public function providerGetTotalNanos() : array
+    public function providerGetTotalNanos(): array
     {
         return [
             [-2, 000000001, -1999999999],
             [-2, 999999999, -1000000001],
-            [ 1, 000000001,  1000000001],
-            [ 1, 999999999,  1999999999]
+            [1, 000000001,  1000000001],
+            [1, 999999999,  1999999999]
         ];
     }
 
@@ -1140,7 +1102,7 @@ class DurationTest extends AbstractTestCase
         $this->assertSame($days, $duration->toDaysPart());
     }
 
-    public function providerToDaysPart() : array
+    public function providerToDaysPart(): array
     {
         return [
             [Duration::ofSeconds(365 * 86400 + 5 * 3600 + 48 * 60 + 46, 123456789), 365],
@@ -1160,7 +1122,7 @@ class DurationTest extends AbstractTestCase
         $this->assertSame($hours, $duration->toHoursPart());
     }
 
-    public function providerToHoursPart() : array
+    public function providerToHoursPart(): array
     {
         return [
             [Duration::ofSeconds(365 * 86400 + 5 * 3600 + 48 * 60 + 46, 123456789), 5],
@@ -1179,7 +1141,7 @@ class DurationTest extends AbstractTestCase
         $this->assertSame($minutes, $duration->toMinutesPart());
     }
 
-    public function providerToMinutesPart() : array
+    public function providerToMinutesPart(): array
     {
         return [
             [Duration::ofSeconds(365 * 86400 + 5 * 3600 + 48 * 60 + 46, 123456789), 48],
@@ -1198,7 +1160,7 @@ class DurationTest extends AbstractTestCase
         $this->assertSame($seconds, $duration->toSecondsPart());
     }
 
-    public function providerToSecondsPart() : array
+    public function providerToSecondsPart(): array
     {
         return [
             [Duration::ofSeconds(365 * 86400 + 5 * 3600 + 48 * 60 + 46, 123456789), 46],
@@ -1218,14 +1180,14 @@ class DurationTest extends AbstractTestCase
         $this->assertSame($millis, $duration->toMillis());
     }
 
-    public function providerToMillis() : array
+    public function providerToMillis(): array
     {
         return [
             [Duration::ofSeconds(321, 123456789), 321000 + 123],
             [Duration::ofMillis(PHP_INT_MAX), PHP_INT_MAX],
             [Duration::ofMillis(PHP_INT_MIN), PHP_INT_MIN],
-            [Duration::ofSeconds(\intdiv(PHP_INT_MAX, 1000), (PHP_INT_MAX % 1000) * 1000000), PHP_INT_MAX],
-            [Duration::ofSeconds(\intdiv(PHP_INT_MIN, 1000), (PHP_INT_MIN % 1000) * 1000000), PHP_INT_MIN],
+            [Duration::ofSeconds(intdiv(PHP_INT_MAX, 1000), (PHP_INT_MAX % 1000) * 1000000), PHP_INT_MAX],
+            [Duration::ofSeconds(intdiv(PHP_INT_MIN, 1000), (PHP_INT_MIN % 1000) * 1000000), PHP_INT_MIN],
         ];
     }
 
@@ -1238,11 +1200,11 @@ class DurationTest extends AbstractTestCase
         $duration->toMillis();
     }
 
-    public function providerToMillisOutOfRange() : array
+    public function providerToMillisOutOfRange(): array
     {
         return [
-            [Duration::ofSeconds(\intdiv(PHP_INT_MAX, 1000), ((PHP_INT_MAX % 1000) + 1) * 1000000)],
-            [Duration::ofSeconds(\intdiv(PHP_INT_MIN, 1000), ((PHP_INT_MIN % 1000) - 1) * 1000000)],
+            [Duration::ofSeconds(intdiv(PHP_INT_MAX, 1000), ((PHP_INT_MAX % 1000) + 1) * 1000000)],
+            [Duration::ofSeconds(intdiv(PHP_INT_MIN, 1000), ((PHP_INT_MIN % 1000) - 1) * 1000000)],
         ];
     }
 
@@ -1254,7 +1216,7 @@ class DurationTest extends AbstractTestCase
         $this->assertSame($millis, $duration->toMillisPart());
     }
 
-    public function providerToMillisPart() : array
+    public function providerToMillisPart(): array
     {
         return [
             [Duration::ofSeconds(365 * 86400 + 5 * 3600 + 48 * 60 + 46, 123456789), 123],
@@ -1274,7 +1236,7 @@ class DurationTest extends AbstractTestCase
         $this->assertSame($nanos, $duration->toNanos());
     }
 
-    public function providerToNanos() : array
+    public function providerToNanos(): array
     {
         return [
             [Duration::ofSeconds(321, 123456789), 321123456789],
@@ -1292,7 +1254,7 @@ class DurationTest extends AbstractTestCase
         $this->assertSame($nanos, $duration->toNanosPart());
     }
 
-    public function providerToNanosPart() : array
+    public function providerToNanosPart(): array
     {
         return [
             [Duration::ofSeconds(365 * 86400 + 5 * 3600 + 48 * 60 + 46, 123456789), 123456789],
@@ -1320,7 +1282,7 @@ class DurationTest extends AbstractTestCase
         $this->assertSame($expected, (string) Duration::ofSeconds($seconds, $nanos));
     }
 
-    public function providerToString() : array
+    public function providerToString(): array
     {
         return [
             [0, 0, 'PT0S'],
@@ -1383,5 +1345,45 @@ class DurationTest extends AbstractTestCase
             [-90061, 0, 'PT-25H-1M-1S'],
             [-90061, 1, 'PT-25H-1M-0.999999999S'],
         ];
+    }
+
+    /**
+     * @param Duration[] $durations
+     */
+    private function doTestComparisons(array $durations): void
+    {
+        $count = count($durations);
+
+        for ($i = 0; $i < $count; $i++) {
+            $a = $durations[$i];
+            for ($j = 0; $j < $count; $j++) {
+                $b = $durations[$j];
+                if ($i < $j) {
+                    $this->assertLessThan(0, $a->compareTo($b), $a . ' <=> ' . $b);
+                    $this->assertTrue($a->isLessThan($b), $a . ' <=> ' . $b);
+                    $this->assertFalse($a->isGreaterThan($b), $a . ' <=> ' . $b);
+                    $this->assertFalse($a->isEqualTo($b), $a . ' <=> ' . $b);
+                } elseif ($i > $j) {
+                    $this->assertGreaterThan(0, $a->compareTo($b), $a . ' <=> ' . $b);
+                    $this->assertFalse($a->isLessThan($b), $a . ' <=> ' . $b);
+                    $this->assertTrue($a->isGreaterThan($b), $a . ' <=> ' . $b);
+                    $this->assertFalse($a->isEqualTo($b), $a . ' <=> ' . $b);
+                } else {
+                    $this->assertSame(0, $a->compareTo($b), $a . ' <=> ' . $b);
+                    $this->assertFalse($a->isLessThan($b), $a . ' <=> ' . $b);
+                    $this->assertFalse($a->isGreaterThan($b), $a . ' <=> ' . $b);
+                    $this->assertTrue($a->isEqualTo($b), $a . ' <=> ' . $b);
+                }
+
+                if ($i <= $j) {
+                    $this->assertLessThanOrEqual(0, $a->compareTo($b), $a . ' <=> ' . $b);
+                    $this->assertFalse($a->isGreaterThan($b), $a . ' <=> ' . $b);
+                }
+                if ($i >= $j) {
+                    $this->assertGreaterThanOrEqual(0, $a->compareTo($b), $a . ' <=> ' . $b);
+                    $this->assertFalse($a->isLessThan($b), $a . ' <=> ' . $b);
+                }
+            }
+        }
     }
 }

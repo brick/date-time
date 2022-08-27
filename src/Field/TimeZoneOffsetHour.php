@@ -26,7 +26,7 @@ final class TimeZoneOffsetHour
      *
      * @throws DateTimeException If the offset-hour is not valid.
      */
-    public static function check(int $offsetHour) : void
+    public static function check(int $offsetHour): void
     {
         if ($offsetHour < -18 || $offsetHour > 18) {
             throw DateTimeException::fieldNotInRange(self::NAME, $offsetHour, -18, 18);

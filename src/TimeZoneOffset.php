@@ -8,6 +8,7 @@ use Brick\DateTime\Parser\DateTimeParseException;
 use Brick\DateTime\Parser\DateTimeParser;
 use Brick\DateTime\Parser\DateTimeParseResult;
 use Brick\DateTime\Parser\IsoParsers;
+use DateTimeZone;
 
 /**
  * A time-zone offset from Greenwich/UTC, such as `+02:00`.
@@ -43,7 +44,7 @@ final class TimeZoneOffset extends TimeZone
      *
      * @throws DateTimeException If the values are not in range or the signs don't match.
      */
-    public static function of(int $hours, int $minutes = 0) : TimeZoneOffset
+    public static function of(int $hours, int $minutes = 0): TimeZoneOffset
     {
         Field\TimeZoneOffsetHour::check($hours);
         Field\TimeZoneOffsetMinute::check($minutes);
@@ -72,14 +73,14 @@ final class TimeZoneOffset extends TimeZone
      *
      * @throws DateTimeException
      */
-    public static function ofTotalSeconds(int $totalSeconds) : TimeZoneOffset
+    public static function ofTotalSeconds(int $totalSeconds): TimeZoneOffset
     {
         Field\TimeZoneOffsetTotalSeconds::check($totalSeconds);
 
         return new TimeZoneOffset($totalSeconds);
     }
 
-    public static function utc() : TimeZoneOffset
+    public static function utc(): TimeZoneOffset
     {
         return new TimeZoneOffset(0);
     }
@@ -88,7 +89,7 @@ final class TimeZoneOffset extends TimeZone
      * @throws DateTimeException      If the offset is not valid.
      * @throws DateTimeParseException If required fields are missing from the result.
      */
-    public static function from(DateTimeParseResult $result) : TimeZoneOffset
+    public static function from(DateTimeParseResult $result): TimeZoneOffset
     {
         $sign = $result->getField(Field\TimeZoneOffsetSign::NAME);
 
@@ -96,14 +97,14 @@ final class TimeZoneOffset extends TimeZone
             return TimeZoneOffset::utc();
         }
 
-        $hour   = $result->getField(Field\TimeZoneOffsetHour::NAME);
+        $hour = $result->getField(Field\TimeZoneOffsetHour::NAME);
         $minute = $result->getField(Field\TimeZoneOffsetMinute::NAME);
 
-        $hour   = (int) $hour;
+        $hour = (int) $hour;
         $minute = (int) $minute;
 
         if ($sign === '-') {
-            $hour   = -$hour;
+            $hour = -$hour;
             $minute = -$minute;
         }
 
@@ -121,7 +122,7 @@ final class TimeZoneOffset extends TimeZone
      *
      * @throws DateTimeParseException
      */
-    public static function parse(string $text, ?DateTimeParser $parser = null) : TimeZone
+    public static function parse(string $text, ?DateTimeParser $parser = null): TimeZone
     {
         if (! $parser) {
             $parser = IsoParsers::timeZoneOffset();
@@ -139,16 +140,16 @@ final class TimeZoneOffset extends TimeZone
      *
      * @return int The total time-zone offset amount in seconds.
      */
-    public function getTotalSeconds() : int
+    public function getTotalSeconds(): int
     {
         return $this->totalSeconds;
     }
 
-    public function getId() : string
+    public function getId(): string
     {
         if ($this->id === null) {
             if ($this->totalSeconds < 0) {
-                $this->id = '-' . LocalTime::ofSecondOfDay(- $this->totalSeconds);
+                $this->id = '-' . LocalTime::ofSecondOfDay(-$this->totalSeconds);
             } elseif ($this->totalSeconds > 0) {
                 $this->id = '+' . LocalTime::ofSecondOfDay($this->totalSeconds);
             } else {
@@ -159,13 +160,16 @@ final class TimeZoneOffset extends TimeZone
         return $this->id;
     }
 
-    public function getOffset(Instant $pointInTime) : int
+    public function getOffset(Instant $pointInTime): int
     {
         return $this->totalSeconds;
     }
 
-    public function toDateTimeZone() : \DateTimeZone
+    /**
+     * @deprecated please use toNativeDateTimeZone instead
+     */
+    public function toDateTimeZone(): DateTimeZone
     {
-        return new \DateTimeZone($this->getId());
+        return new DateTimeZone($this->getId());
     }
 }

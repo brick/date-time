@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Brick\DateTime;
 
 use Brick\DateTime\Parser\DateTimeParseException;
+use DateTimeZone;
 
 /**
  * A time-zone. This is the parent class for `TimeZoneOffset` and `TimeZoneRegion`.
@@ -19,7 +20,7 @@ abstract class TimeZone
      *
      * @throws DateTimeParseException
      */
-    public static function parse(string $text) : TimeZone
+    public static function parse(string $text): TimeZone
     {
         if ($text === 'Z' || $text === 'z') {
             return TimeZoneOffset::utc();
@@ -36,7 +37,7 @@ abstract class TimeZone
         return TimeZoneRegion::parse($text);
     }
 
-    public static function utc() : TimeZoneOffset
+    public static function utc(): TimeZoneOffset
     {
         return TimeZoneOffset::utc();
     }
@@ -44,7 +45,7 @@ abstract class TimeZone
     /**
      * Returns the unique time-zone ID.
      */
-    abstract public function getId() : string;
+    abstract public function getId(): string;
 
     /**
      * Returns the offset from UTC at the given instant.
@@ -53,25 +54,46 @@ abstract class TimeZone
      *
      * @return int The offset from UTC in seconds.
      */
-    abstract public function getOffset(Instant $pointInTime) : int;
+    abstract public function getOffset(Instant $pointInTime): int;
 
-    public function isEqualTo(TimeZone $other) : bool
+    public function isEqualTo(TimeZone $other): bool
     {
         return $this->getId() === $other->getId();
     }
 
-    public function __toString() : string
+    /**
+     * @deprecated please use fromNativeDateTimeZone instead
+     */
+    public static function fromDateTimeZone(DateTimeZone $dateTimeZone): TimeZone
     {
-        return $this->getId();
+        return self::fromNativeDateTimeZone($dateTimeZone);
     }
 
-    public static function fromDateTimeZone(\DateTimeZone $dateTimeZone) : TimeZone
+    public static function fromNativeDateTimeZone(DateTimeZone $dateTimeZone): TimeZone
     {
         return TimeZone::parse($dateTimeZone->getName());
     }
 
     /**
      * Returns an equivalent native `DateTimeZone` object for this TimeZone.
+     *
+     * @deprecated please use toNativeDateTimeZone instead
      */
-    abstract public function toDateTimeZone() : \DateTimeZone;
+    abstract public function toDateTimeZone(): DateTimeZone;
+
+    /**
+     * Returns an equivalent native `DateTimeZone` object for this TimeZone.
+     */
+    public function toNativeDateTimeZone(): DateTimeZone
+    {
+        /**
+         * @psalm-suppress DeprecatedMethod
+         */
+        return $this->toDateTimeZone();
+    }
+
+    public function __toString(): string
+    {
+        return $this->getId();
+    }
 }

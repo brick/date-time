@@ -10,6 +10,8 @@ use Brick\DateTime\Instant;
 use Brick\DateTime\TimeZone;
 use Brick\DateTime\YearMonth;
 
+use function json_encode;
+
 /**
  * Unit tests for class YearMonth.
  */
@@ -32,7 +34,7 @@ class YearMonthTest extends AbstractTestCase
         $this->assertYearMonthIs($year, $month, YearMonth::parse($text));
     }
 
-    public function providerParse() : array
+    public function providerParse(): array
     {
         return [
             ['2011-02', 2011, 02],
@@ -54,7 +56,7 @@ class YearMonthTest extends AbstractTestCase
         YearMonth::parse($text);
     }
 
-    public function providerParseInvalidStringThrowsException() : array
+    public function providerParseInvalidStringThrowsException(): array
     {
         return [
             ['999-01'],
@@ -77,7 +79,7 @@ class YearMonthTest extends AbstractTestCase
         YearMonth::parse($text);
     }
 
-    public function providerParseInvalidYearMonthThrowsException() : array
+    public function providerParseInvalidYearMonthThrowsException(): array
     {
         return [
             ['2000-00'],
@@ -99,7 +101,7 @@ class YearMonthTest extends AbstractTestCase
         $this->assertYearMonthIs($year, $month, YearMonth::now(TimeZone::parse($timeZone), $clock));
     }
 
-    public function providerNow() : array
+    public function providerNow(): array
     {
         return [
             [946684799, '+00:00', 1999, 12],
@@ -121,7 +123,7 @@ class YearMonthTest extends AbstractTestCase
         $this->assertSame($isLeap, YearMonth::of($year, $month)->isLeapYear());
     }
 
-    public function providerIsLeapYear() : array
+    public function providerIsLeapYear(): array
     {
         return [
             [1999, 1, false],
@@ -145,7 +147,7 @@ class YearMonthTest extends AbstractTestCase
         $this->assertSame($length, YearMonth::of($year, $month)->getLengthOfMonth());
     }
 
-    public function providerGetLengthOfMonth() : array
+    public function providerGetLengthOfMonth(): array
     {
         return [
             [1999, 1, 31],
@@ -187,7 +189,7 @@ class YearMonthTest extends AbstractTestCase
         $this->assertSame($length, YearMonth::of($year, $month)->getLengthOfYear());
     }
 
-    public function providerGetLengthOfYear() : array
+    public function providerGetLengthOfYear(): array
     {
         return [
             [1999, 1, 365],
@@ -221,7 +223,7 @@ class YearMonthTest extends AbstractTestCase
      */
     public function testIsEqualTo(int $y1, int $m1, int $y2, int $m2, int $result): void
     {
-        $this->assertSame($result == 0, YearMonth::of($y1, $m1)->isEqualTo(YearMonth::of($y2, $m2)));
+        $this->assertSame($result === 0, YearMonth::of($y1, $m1)->isEqualTo(YearMonth::of($y2, $m2)));
     }
 
     /**
@@ -235,7 +237,7 @@ class YearMonthTest extends AbstractTestCase
      */
     public function testIsBefore(int $y1, int $m1, int $y2, int $m2, int $result): void
     {
-        $this->assertSame($result == -1, YearMonth::of($y1, $m1)->isBefore(YearMonth::of($y2, $m2)));
+        $this->assertSame($result === -1, YearMonth::of($y1, $m1)->isBefore(YearMonth::of($y2, $m2)));
     }
 
     /**
@@ -263,7 +265,7 @@ class YearMonthTest extends AbstractTestCase
      */
     public function testIsAfter(int $y1, int $m1, int $y2, int $m2, int $result): void
     {
-        $this->assertSame($result == 1, YearMonth::of($y1, $m1)->isAfter(YearMonth::of($y2, $m2)));
+        $this->assertSame($result === 1, YearMonth::of($y1, $m1)->isAfter(YearMonth::of($y2, $m2)));
     }
 
     /**
@@ -280,7 +282,7 @@ class YearMonthTest extends AbstractTestCase
         $this->assertSame($result >= 0, YearMonth::of($y1, $m1)->isAfterOrEqualTo(YearMonth::of($y2, $m2)));
     }
 
-    public function providerCompareTo() : array
+    public function providerCompareTo(): array
     {
         return [
             [2001, 1, 2001, 1,  0],
@@ -335,7 +337,7 @@ class YearMonthTest extends AbstractTestCase
         $this->assertLocalDateIs($year, $month, $day, YearMonth::of($year, $month)->getLastDay());
     }
 
-    public function providerGetLastDay() : array
+    public function providerGetLastDay(): array
     {
         return [
             [2000, 1, 31],
@@ -366,7 +368,7 @@ class YearMonthTest extends AbstractTestCase
         $this->assertYearMonthIs(2005, 1, $yearMonth->plusYears(0));
     }
 
-    public function providerPlusYears() : array
+    public function providerPlusYears(): array
     {
         return [
             [2003, 11, 7, 2010, 11],
@@ -383,7 +385,7 @@ class YearMonthTest extends AbstractTestCase
         $this->assertYearMonthIs($expectedYear, $expectedMonth, $yearMonth->minusYears($plusYears));
     }
 
-    public function providerMinusYears() : array
+    public function providerMinusYears(): array
     {
         return [
             [2003, 11, 7, 1996, 11],
@@ -400,7 +402,7 @@ class YearMonthTest extends AbstractTestCase
         $this->assertYearMonthIs($expectedYear, $expectedMonth, $yearMonth->plusMonths($plusMonths));
     }
 
-    public function providerPlusMonths() : array
+    public function providerPlusMonths(): array
     {
         return [
             [2015, 11, -12, 2014, 11],
@@ -424,7 +426,7 @@ class YearMonthTest extends AbstractTestCase
         $this->assertYearMonthIs($expectedYear, $expectedMonth, $yearMonth->minusMonths($plusMonths));
     }
 
-    public function providerMinusMonths() : array
+    public function providerMinusMonths(): array
     {
         return [
             [2015, 11, -2, 2016, 1],
@@ -436,6 +438,24 @@ class YearMonthTest extends AbstractTestCase
             [2015, 11, 12, 2014, 11],
             [1963, 1, -4813, 2364, 2],
             [1789, 10, 7939, 1128, 3],
+        ];
+    }
+
+    /**
+     * @dataProvider providerToLocalDateRange
+     */
+    public function testToLocalDateRange(int $year, int $month, string $expectedRange): void
+    {
+        $this->assertSame($expectedRange, (string) YearMonth::of($year, $month)->toLocalDateRange());
+    }
+
+    public function providerToLocalDateRange(): array
+    {
+        return [
+            [1900, 2, '1900-02-01/1900-02-28'],
+            [2000, 2, '2000-02-01/2000-02-29'], // Leap year
+            [2001, 2, '2001-02-01/2001-02-28'],
+            [3000, 12, '3000-12-01/3000-12-31'],
         ];
     }
 

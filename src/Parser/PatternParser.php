@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace Brick\DateTime\Parser;
 
+use function preg_match;
+use function sprintf;
+
 /**
  * Matches a regular expression pattern to a set of date-time fields.
  */
@@ -23,10 +26,10 @@ final class PatternParser implements DateTimeParser
     public function __construct(string $pattern, array $fields)
     {
         $this->pattern = $pattern;
-        $this->fields  = $fields;
+        $this->fields = $fields;
     }
 
-    public function getPattern() : string
+    public function getPattern(): string
     {
         return $this->pattern;
     }
@@ -34,17 +37,17 @@ final class PatternParser implements DateTimeParser
     /**
      * @return string[]
      */
-    public function getFields() : array
+    public function getFields(): array
     {
         return $this->fields;
     }
 
-    public function parse(string $text) : DateTimeParseResult
+    public function parse(string $text): DateTimeParseResult
     {
         $pattern = '/^' . $this->pattern . '$/';
 
-        if (\preg_match($pattern, $text, $matches) !== 1) {
-            throw new DateTimeParseException(\sprintf('Failed to parse "%s".', $text));
+        if (preg_match($pattern, $text, $matches) !== 1) {
+            throw new DateTimeParseException(sprintf('Failed to parse "%s".', $text));
         }
 
         $result = new DateTimeParseResult();

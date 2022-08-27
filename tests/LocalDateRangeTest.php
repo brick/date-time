@@ -9,6 +9,11 @@ use Brick\DateTime\LocalDate;
 use Brick\DateTime\LocalDateRange;
 use Brick\DateTime\Parser\DateTimeParseException;
 
+use function array_map;
+use function iterator_count;
+use function iterator_to_array;
+use function json_encode;
+
 /**
  * Unit tests for class LocalDateRange.
  */
@@ -48,7 +53,7 @@ class LocalDateRangeTest extends AbstractTestCase
         $this->assertLocalDateRangeIs($y1, $m1, $d1, $y2, $m2, $d2, LocalDateRange::parse($text));
     }
 
-    public function providerParse() : array
+    public function providerParse(): array
     {
         return [
             ['2001-02-03/04', 2001, 2, 3, 2001, 2, 4],
@@ -68,7 +73,7 @@ class LocalDateRangeTest extends AbstractTestCase
         LocalDateRange::parse($text);
     }
 
-    public function providerParseInvalidRangeThrowsException() : array
+    public function providerParseInvalidRangeThrowsException(): array
     {
         return [
             ['2001-02-03'],
@@ -98,7 +103,7 @@ class LocalDateRangeTest extends AbstractTestCase
         )->isEqualTo(LocalDateRange::parse($testRange)));
     }
 
-    public function providerIsEqualTo() : array
+    public function providerIsEqualTo(): array
     {
         return [
             ['2001-02-03/2004-05-06', true],
@@ -119,7 +124,7 @@ class LocalDateRangeTest extends AbstractTestCase
         $this->assertSame($contains, LocalDateRange::parse($range)->contains(LocalDate::parse($date)));
     }
 
-    public function providerContains() : array
+    public function providerContains(): array
     {
         return [
             ['2001-02-03/2004-05-06', '2001-02-02', false],
@@ -137,7 +142,7 @@ class LocalDateRangeTest extends AbstractTestCase
     public function testIterator(): void
     {
         $start = LocalDate::of(2013, 12, 29);
-        $end   = LocalDate::of(2014, 1, 3);
+        $end = LocalDate::of(2014, 1, 3);
 
         $range = LocalDateRange::of($start, $end);
 
@@ -172,7 +177,7 @@ class LocalDateRangeTest extends AbstractTestCase
         $this->assertCount($count, LocalDateRange::parse($range));
     }
 
-    public function providerCount() : array
+    public function providerCount(): array
     {
         return [
             ['2010-01-01/2010-01-01', 1],
@@ -198,6 +203,32 @@ class LocalDateRangeTest extends AbstractTestCase
             LocalDate::of(2008, 12, 31),
             LocalDate::of(2011, 1, 1)
         ));
+    }
+
+    /**
+     * @dataProvider providerToDatePeriod
+     *
+     * @param string $range         The date-time string that will be parse()d by LocalDateRange.
+     * @param string $expectedStart The expected output from the native DateTime object.
+     * @param string $expectedEnd   The expected output from the native DateTime object.
+     */
+    public function testToNativeDatePeriod(string $range, string $expectedStart, string $expectedEnd): void
+    {
+        $range = LocalDateRange::parse($range);
+
+        $period = $range->toNativeDatePeriod();
+
+        $rangeArray = iterator_to_array($range);
+        $periodArray = iterator_to_array($period);
+        $zip = array_map(null, $rangeArray, $periodArray);
+
+        foreach ($zip as [$date, $dateTime]) {
+            $this->assertTrue($date->isEqualTo(LocalDate::fromDateTime($dateTime)));
+        }
+
+        $this->assertSame(iterator_count($period), $range->count());
+        $this->assertSame($expectedStart, $period->start->format('Y-m-d\TH:i:s.uO'));
+        $this->assertSame($expectedEnd, $period->end->format('Y-m-d\TH:i:s.uO'));
     }
 
     /**
@@ -247,7 +278,7 @@ class LocalDateRangeTest extends AbstractTestCase
         $this->assertSame($expectedResult, $bRange->intersectsWith($aRange));
     }
 
-    public function providerIntersectsWith() : array
+    public function providerIntersectsWith(): array
     {
         return [
             ['2010-01-01/2010-01-01', '2010-01-01/2010-01-01', true],
@@ -270,11 +301,11 @@ class LocalDateRangeTest extends AbstractTestCase
         $aRange = LocalDateRange::parse($a);
         $bRange = LocalDateRange::parse($b);
 
-        $this->assertSame($expectedIntersection, (string)$aRange->getIntersectionWith($bRange));
-        $this->assertSame($expectedIntersection, (string)$bRange->getIntersectionWith($aRange));
+        $this->assertSame($expectedIntersection, (string) $aRange->getIntersectionWith($bRange));
+        $this->assertSame($expectedIntersection, (string) $bRange->getIntersectionWith($aRange));
     }
 
-    public function providerGetIntersectionWith() : array
+    public function providerGetIntersectionWith(): array
     {
         return [
             ['2010-01-01/2010-01-01', '2010-01-01/2010-01-01', '2010-01-01/2010-01-01'],
@@ -354,6 +385,44 @@ class LocalDateRangeTest extends AbstractTestCase
             ['2021-06-15/2021-07-07', '2021-07-06', '2021-06-15/2021-07-06'],
             ['2021-06-15/2021-07-07', '2021-07-07', '2021-06-15/2021-07-07'],
             ['2021-06-15/2021-07-07', '2021-07-08', '2021-06-15/2021-07-08'],
+        ];
+    }
+
+    /**
+     * @dataProvider providerToPeriod
+     */
+    public function testToPeriod(string $dateRange, string $expectedPeriod): void
+    {
+        $dateRange = LocalDateRange::parse($dateRange);
+
+        $this->assertSame($expectedPeriod, (string) $dateRange->toPeriod());
+    }
+
+    public function providerToPeriod(): array
+    {
+        return [
+            ['2020-01-28/2020-03-01', 'P1M2D'],
+            ['2020-01-29/2029-03-01', 'P9Y1M1D'],
+            ['2020-01-29/2030-03-01', 'P10Y1M1D'],
+            ['2020-01-28/2029-03-01', 'P9Y1M1D'],
+            ['2020-01-28/2030-03-01', 'P10Y1M1D'],
+            ['2020-02-28/2020-04-01', 'P1M4D'],
+            ['2020-02-29/2020-04-01', 'P1M3D'],
+            ['2020-03-01/2020-04-01', 'P1M'],
+            ['2020-03-02/2020-04-01', 'P30D'],
+            ['2021-01-01/2021-01-01', 'P0D'],
+            ['2021-01-28/2021-03-01', 'P1M1D'],
+            ['2021-02-28/2021-04-01', 'P1M4D'],
+            ['2021-02-28/2021-04-01', 'P1M4D'],
+            ['2021-03-01/2021-04-01', 'P1M'],
+            ['2021-03-02/2021-04-01', 'P30D'],
+            ['2021-02-28/2022-04-01', 'P1Y1M4D'],
+            ['2021-03-01/2022-04-01', 'P1Y1M'],
+            ['2021-03-02/2022-04-01', 'P1Y30D'],
+            ['2021-03-03/2022-04-01', 'P1Y29D'],
+            ['2021-03-30/2022-04-01', 'P1Y2D'],
+            ['2021-03-31/2022-04-01', 'P1Y1D'],
+            ['2021-04-01/2022-04-01', 'P1Y'],
         ];
     }
 }

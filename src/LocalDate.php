@@ -4,18 +4,26 @@ declare(strict_types=1);
 
 namespace Brick\DateTime;
 
+use Brick\DateTime\Parser\DateTimeParseException;
 use Brick\DateTime\Parser\DateTimeParser;
 use Brick\DateTime\Parser\DateTimeParseResult;
-use Brick\DateTime\Parser\DateTimeParseException;
 use Brick\DateTime\Parser\IsoParsers;
 use Brick\DateTime\Utility\Math;
+use DateTime;
+use DateTimeImmutable;
+use DateTimeInterface;
+use JsonSerializable;
+
+use function intdiv;
+use function min;
+use function sprintf;
 
 /**
  * A date without a time-zone in the ISO-8601 calendar system, such as `2007-12-03`.
  *
  * This class is immutable.
  */
-final class LocalDate implements \JsonSerializable
+final class LocalDate implements JsonSerializable
 {
     /**
      * The minimum supported year for instances of `LocalDate`, -999,999.
@@ -61,9 +69,9 @@ final class LocalDate implements \JsonSerializable
      */
     private function __construct(int $year, int $month, int $day)
     {
-        $this->year  = $year;
+        $this->year = $year;
         $this->month = $month;
-        $this->day   = $day;
+        $this->day = $day;
     }
 
     /**
@@ -75,7 +83,7 @@ final class LocalDate implements \JsonSerializable
      *
      * @throws DateTimeException If the date is not valid.
      */
-    public static function of(int $year, int $month, int $day) : LocalDate
+    public static function of(int $year, int $month, int $day): LocalDate
     {
         Field\Year::check($year);
         Field\MonthOfYear::check($month);
@@ -92,14 +100,14 @@ final class LocalDate implements \JsonSerializable
      *
      * @throws DateTimeException If either value is not valid.
      */
-    public static function ofYearDay(int $year, int $dayOfYear) : LocalDate
+    public static function ofYearDay(int $year, int $dayOfYear): LocalDate
     {
         Field\Year::check($year);
         Field\DayOfYear::check($dayOfYear, $year);
 
         $isLeap = Field\Year::isLeap($year);
 
-        $monthOfYear = Month::of(\intdiv($dayOfYear - 1, 31) + 1);
+        $monthOfYear = Month::of(intdiv($dayOfYear - 1, 31) + 1);
         $monthEnd = $monthOfYear->getFirstDayOfYear($isLeap) + $monthOfYear->getLength($isLeap) - 1;
 
         if ($dayOfYear > $monthEnd) {
@@ -115,11 +123,11 @@ final class LocalDate implements \JsonSerializable
      * @throws DateTimeException      If the date is not valid.
      * @throws DateTimeParseException If required fields are missing from the result.
      */
-    public static function from(DateTimeParseResult $result) : LocalDate
+    public static function from(DateTimeParseResult $result): LocalDate
     {
-        $year  = (int) $result->getField(Field\Year::NAME);
+        $year = (int) $result->getField(Field\Year::NAME);
         $month = (int) $result->getField(Field\MonthOfYear::NAME);
-        $day   = (int) $result->getField(Field\DayOfMonth::NAME);
+        $day = (int) $result->getField(Field\DayOfMonth::NAME);
 
         return LocalDate::of($year, $month, $day);
     }
@@ -133,7 +141,7 @@ final class LocalDate implements \JsonSerializable
      * @throws DateTimeException      If the date is not valid.
      * @throws DateTimeParseException If the text string does not follow the expected format.
      */
-    public static function parse(string $text, ?DateTimeParser $parser = null) : LocalDate
+    public static function parse(string $text, ?DateTimeParser $parser = null): LocalDate
     {
         if (! $parser) {
             $parser = IsoParsers::localDate();
@@ -145,13 +153,23 @@ final class LocalDate implements \JsonSerializable
     /**
      * Creates a LocalDate from a native DateTime or DateTimeImmutable object.
      */
-    public static function fromDateTime(\DateTimeInterface $dateTime) : LocalDate
+    public static function fromNativeDateTime(DateTimeInterface $dateTime): LocalDate
     {
         return new LocalDate(
             (int) $dateTime->format('Y'),
             (int) $dateTime->format('n'),
             (int) $dateTime->format('j')
         );
+    }
+
+    /**
+     * Creates a LocalDate from a native DateTime or DateTimeImmutable object.
+     *
+     * @deprecated please use fromNativeDateTime instead
+     */
+    public static function fromDateTime(DateTimeInterface $dateTime): LocalDate
+    {
+        return self::fromNativeDateTime($dateTime);
     }
 
     /**
@@ -162,7 +180,7 @@ final class LocalDate implements \JsonSerializable
      *
      * @throws DateTimeException If the resulting date has a year out of range.
      */
-    public static function ofEpochDay(int $epochDay) : LocalDate
+    public static function ofEpochDay(int $epochDay): LocalDate
     {
         $zeroDay = $epochDay + self::DAYS_0000_TO_1970;
         // Find the march-based year.
@@ -170,25 +188,25 @@ final class LocalDate implements \JsonSerializable
         $adjust = 0;
         if ($zeroDay < 0) {
             // Adjust negative years to positive for calculation.
-            $adjustCycles = \intdiv(($zeroDay + 1), self::DAYS_PER_CYCLE) - 1;
+            $adjustCycles = intdiv(($zeroDay + 1), self::DAYS_PER_CYCLE) - 1;
             $adjust = $adjustCycles * 400;
             $zeroDay += -$adjustCycles * self::DAYS_PER_CYCLE;
         }
-        $yearEst = \intdiv(400 * $zeroDay + 591, self::DAYS_PER_CYCLE);
-        $doyEst = $zeroDay - (365 * $yearEst + \intdiv($yearEst, 4) - \intdiv($yearEst, 100) + \intdiv($yearEst, 400));
+        $yearEst = intdiv(400 * $zeroDay + 591, self::DAYS_PER_CYCLE);
+        $doyEst = $zeroDay - (365 * $yearEst + intdiv($yearEst, 4) - intdiv($yearEst, 100) + intdiv($yearEst, 400));
         if ($doyEst < 0) {
             // Fix estimate.
             $yearEst--;
-            $doyEst = $zeroDay - (365 * $yearEst + \intdiv($yearEst, 4) - \intdiv($yearEst, 100) + \intdiv($yearEst, 400));
+            $doyEst = $zeroDay - (365 * $yearEst + intdiv($yearEst, 4) - intdiv($yearEst, 100) + intdiv($yearEst, 400));
         }
         $yearEst += $adjust; // Reset any negative year.
         $marchDoy0 = $doyEst;
 
         // Convert march-based values back to January-based.
-        $marchMonth0 = \intdiv($marchDoy0 * 5 + 2, 153);
+        $marchMonth0 = intdiv($marchDoy0 * 5 + 2, 153);
         $month = ($marchMonth0 + 2) % 12 + 1;
-        $dom = $marchDoy0 - \intdiv($marchMonth0 * 306 + 5, 10) + 1;
-        $yearEst += \intdiv($marchMonth0, 10);
+        $dom = $marchDoy0 - intdiv($marchMonth0 * 306 + 5, 10) + 1;
+        $yearEst += intdiv($marchMonth0, 10);
 
         // Check year now we are certain it is correct.
         Field\Year::check($yearEst);
@@ -201,7 +219,7 @@ final class LocalDate implements \JsonSerializable
      *
      * If no clock is provided, the system clock is used.
      */
-    public static function now(TimeZone $timeZone, ?Clock $clock = null) : LocalDate
+    public static function now(TimeZone $timeZone, ?Clock $clock = null): LocalDate
     {
         return ZonedDateTime::now($timeZone, $clock)->getDate();
     }
@@ -211,7 +229,7 @@ final class LocalDate implements \JsonSerializable
      *
      * This can be used by an application as a "far past" date.
      */
-    public static function min() : LocalDate
+    public static function min(): LocalDate
     {
         return LocalDate::of(self::MIN_YEAR, 1, 1);
     }
@@ -221,7 +239,7 @@ final class LocalDate implements \JsonSerializable
      *
      * This can be used by an application as a "far future" date.
      */
-    public static function max() : LocalDate
+    public static function max(): LocalDate
     {
         return LocalDate::of(self::MAX_YEAR, 12, 31);
     }
@@ -235,7 +253,7 @@ final class LocalDate implements \JsonSerializable
      *
      * @throws DateTimeException If the array is empty.
      */
-    public static function minOf(LocalDate ...$dates) : LocalDate
+    public static function minOf(LocalDate ...$dates): LocalDate
     {
         if (! $dates) {
             throw new DateTimeException(__METHOD__ . ' does not accept less than 1 parameter.');
@@ -261,7 +279,7 @@ final class LocalDate implements \JsonSerializable
      *
      * @throws DateTimeException If the array is empty.
      */
-    public static function maxOf(LocalDate ...$dates) : LocalDate
+    public static function maxOf(LocalDate ...$dates): LocalDate
     {
         if (! $dates) {
             throw new DateTimeException(__METHOD__ . ' does not accept less than 1 parameter.');
@@ -278,27 +296,27 @@ final class LocalDate implements \JsonSerializable
         return $max;
     }
 
-    public function getYear() : int
+    public function getYear(): int
     {
         return $this->year;
     }
 
-    public function getMonth() : int
+    public function getMonth(): int
     {
         return $this->month;
     }
 
-    public function getDay() : int
+    public function getDay(): int
     {
         return $this->day;
     }
 
-    public function getYearMonth() : YearMonth
+    public function getYearMonth(): YearMonth
     {
         return YearMonth::of($this->year, $this->month);
     }
 
-    public function getDayOfWeek() : DayOfWeek
+    public function getDayOfWeek(): DayOfWeek
     {
         return DayOfWeek::of(Math::floorMod($this->toEpochDay() + 3, 7) + 1);
     }
@@ -306,12 +324,12 @@ final class LocalDate implements \JsonSerializable
     /**
      * Returns the day-of-year, from 1 to 365, or 366 in a leap year.
      */
-    public function getDayOfYear() : int
+    public function getDayOfYear(): int
     {
         return Month::of($this->month)->getFirstDayOfYear($this->isLeapYear()) + $this->day - 1;
     }
 
-    public function getYearWeek() : YearWeek
+    public function getYearWeek(): YearWeek
     {
         $year = $this->year;
         $week = intdiv($this->getDayOfYear() - $this->getDayOfWeek()->getValue() + 10, 7);
@@ -334,7 +352,7 @@ final class LocalDate implements \JsonSerializable
      *
      * @throws DateTimeException If the year is outside the valid range.
      */
-    public function withYear(int $year) : LocalDate
+    public function withYear(int $year): LocalDate
     {
         if ($year === $this->year) {
             return $this;
@@ -352,7 +370,7 @@ final class LocalDate implements \JsonSerializable
      *
      * @throws DateTimeException If the month is invalid.
      */
-    public function withMonth(int $month) : LocalDate
+    public function withMonth(int $month): LocalDate
     {
         if ($month === $this->month) {
             return $this;
@@ -370,7 +388,7 @@ final class LocalDate implements \JsonSerializable
      *
      * @throws DateTimeException If the day is invalid for the current year and month.
      */
-    public function withDay(int $day) : LocalDate
+    public function withDay(int $day): LocalDate
     {
         if ($day === $this->day) {
             return $this;
@@ -384,7 +402,7 @@ final class LocalDate implements \JsonSerializable
     /**
      * Returns a copy of this LocalDate with the specified Period added.
      */
-    public function plusPeriod(Period $period) : LocalDate
+    public function plusPeriod(Period $period): LocalDate
     {
         return $this
             ->plusYears($period->getYears())
@@ -400,7 +418,7 @@ final class LocalDate implements \JsonSerializable
      *
      * @throws DateTimeException If the resulting year is out of range.
      */
-    public function plusYears(int $years) : LocalDate
+    public function plusYears(int $years): LocalDate
     {
         if ($years === 0) {
             return $this;
@@ -415,7 +433,7 @@ final class LocalDate implements \JsonSerializable
      * If the day-of-month is invalid for the resulting year and month,
      * it will be changed to the last valid day of the month.
      */
-    public function plusMonths(int $months) : LocalDate
+    public function plusMonths(int $months): LocalDate
     {
         $month = $this->month + $months - 1;
 
@@ -430,7 +448,7 @@ final class LocalDate implements \JsonSerializable
     /**
      * Returns a copy of this LocalDate with the specified period in weeks added.
      */
-    public function plusWeeks(int $weeks) : LocalDate
+    public function plusWeeks(int $weeks): LocalDate
     {
         if ($weeks === 0) {
             return $this;
@@ -442,7 +460,7 @@ final class LocalDate implements \JsonSerializable
     /**
      * Returns a copy of this LocalDate with the specified period in days added.
      */
-    public function plusDays(int $days) : LocalDate
+    public function plusDays(int $days): LocalDate
     {
         if ($days === 0) {
             return $this;
@@ -458,7 +476,7 @@ final class LocalDate implements \JsonSerializable
      *
      * Note: this is currently a naive implementation that could be greatly improved.
      */
-    public function plusWeekdays(int $days) : LocalDate
+    public function plusWeekdays(int $days): LocalDate
     {
         $result = $this;
 
@@ -490,7 +508,7 @@ final class LocalDate implements \JsonSerializable
      * If the current date is on a weekend and the number of days is zero, the result is the current date.
      * This is a slightly different behaviour from PHP DateTime's "- n weekdays", that would return the next monday.
      */
-    public function minusWeekdays(int $days) : LocalDate
+    public function minusWeekdays(int $days): LocalDate
     {
         return $this->plusWeekdays(-$days);
     }
@@ -498,7 +516,7 @@ final class LocalDate implements \JsonSerializable
     /**
      * Returns a copy of this LocalDate with the specified Period subtracted.
      */
-    public function minusPeriod(Period $period) : LocalDate
+    public function minusPeriod(Period $period): LocalDate
     {
         return $this->plusPeriod($period->negated());
     }
@@ -506,33 +524,33 @@ final class LocalDate implements \JsonSerializable
     /**
      * Returns a copy of this LocalDate with the specified period in years subtracted.
      */
-    public function minusYears(int $years) : LocalDate
+    public function minusYears(int $years): LocalDate
     {
-        return $this->plusYears(- $years);
+        return $this->plusYears(-$years);
     }
 
     /**
      * Returns a copy of this LocalDate with the specified period in months subtracted.
      */
-    public function minusMonths(int $months) : LocalDate
+    public function minusMonths(int $months): LocalDate
     {
-        return $this->plusMonths(- $months);
+        return $this->plusMonths(-$months);
     }
 
     /**
      * Returns a copy of this LocalDate with the specified period in weeks subtracted.
      */
-    public function minusWeeks(int $weeks) : LocalDate
+    public function minusWeeks(int $weeks): LocalDate
     {
-        return $this->plusWeeks(- $weeks);
+        return $this->plusWeeks(-$weeks);
     }
 
     /**
      * Returns a copy of this LocalDate with the specified period in days subtracted.
      */
-    public function minusDays(int $days) : LocalDate
+    public function minusDays(int $days): LocalDate
     {
-        return $this->plusDays(- $days);
+        return $this->plusDays(-$days);
     }
 
     /**
@@ -540,7 +558,7 @@ final class LocalDate implements \JsonSerializable
      *
      * @return int [-1,0,1] If this date is before, on, or after the given date.
      */
-    public function compareTo(LocalDate $that) : int
+    public function compareTo(LocalDate $that): int
     {
         if ($this->year < $that->year) {
             return -1;
@@ -564,27 +582,27 @@ final class LocalDate implements \JsonSerializable
         return 0;
     }
 
-    public function isEqualTo(LocalDate $that) : bool
+    public function isEqualTo(LocalDate $that): bool
     {
         return $this->compareTo($that) === 0;
     }
 
-    public function isBefore(LocalDate $that) : bool
+    public function isBefore(LocalDate $that): bool
     {
         return $this->compareTo($that) === -1;
     }
 
-    public function isBeforeOrEqualTo(LocalDate $that) : bool
+    public function isBeforeOrEqualTo(LocalDate $that): bool
     {
         return $this->compareTo($that) <= 0;
     }
 
-    public function isAfter(LocalDate $that) : bool
+    public function isAfter(LocalDate $that): bool
     {
         return $this->compareTo($that) === 1;
     }
 
-    public function isAfterOrEqualTo(LocalDate $that) : bool
+    public function isAfterOrEqualTo(LocalDate $that): bool
     {
         return $this->compareTo($that) >= 0;
     }
@@ -605,7 +623,7 @@ final class LocalDate implements \JsonSerializable
      *
      * For example, from `2010-01-15` to `2011-03-18` is 1 year, 2 months and 3 days.
      */
-    public function until(LocalDate $endDateExclusive) : Period
+    public function until(LocalDate $endDateExclusive): Period
     {
         $totalMonths = $endDateExclusive->getProlepticMonth() - $this->getProlepticMonth();
         $days = $endDateExclusive->day - $this->day;
@@ -619,7 +637,7 @@ final class LocalDate implements \JsonSerializable
             $days -= $endDateExclusive->getLengthOfMonth();
         }
 
-        $years = \intdiv($totalMonths, 12);
+        $years = intdiv($totalMonths, 12);
         $months = $totalMonths % 12;
 
         return Period::of($years, $months, $days);
@@ -631,7 +649,7 @@ final class LocalDate implements \JsonSerializable
      * The start date is included, but the end date is not.
      * For example, `2018-02-15` to `2018-04-01` is 45 days.
      */
-    public function daysUntil(LocalDate $endDateExclusive) : int
+    public function daysUntil(LocalDate $endDateExclusive): int
     {
         return $endDateExclusive->toEpochDay() - $this->toEpochDay();
     }
@@ -639,7 +657,7 @@ final class LocalDate implements \JsonSerializable
     /**
      * Returns a local date-time formed from this date at the specified time.
      */
-    public function atTime(LocalTime $time) : LocalDateTime
+    public function atTime(LocalTime $time): LocalDateTime
     {
         return new LocalDateTime($this, $time);
     }
@@ -647,7 +665,7 @@ final class LocalDate implements \JsonSerializable
     /**
      * Checks if the year is a leap year, according to the ISO proleptic calendar system rules.
      */
-    public function isLeapYear() : bool
+    public function isLeapYear(): bool
     {
         return Field\Year::isLeap($this->year);
     }
@@ -655,7 +673,7 @@ final class LocalDate implements \JsonSerializable
     /**
      * Returns the length of the year represented by this date, in days.
      */
-    public function getLengthOfYear() : int
+    public function getLengthOfYear(): int
     {
         return $this->isLeapYear() ? 366 : 365;
     }
@@ -663,7 +681,7 @@ final class LocalDate implements \JsonSerializable
     /**
      * Returns the length of the month represented by this date, in days.
      */
-    public function getLengthOfMonth() : int
+    public function getLengthOfMonth(): int
     {
         return Field\MonthOfYear::getLength($this->month, $this->year);
     }
@@ -671,7 +689,7 @@ final class LocalDate implements \JsonSerializable
     /**
      * Returns the number of days since the UNIX epoch of 1st January 1970.
      */
-    public function toEpochDay() : int
+    public function toEpochDay(): int
     {
         $y = $this->year;
         $m = $this->month;
@@ -679,12 +697,12 @@ final class LocalDate implements \JsonSerializable
         $total = 365 * $y;
 
         if ($y >= 0) {
-            $total += \intdiv($y + 3, 4) - \intdiv($y + 99, 100) + \intdiv($y + 399, 400);
+            $total += intdiv($y + 3, 4) - intdiv($y + 99, 100) + intdiv($y + 399, 400);
         } else {
-            $total -= \intdiv($y, -4) - \intdiv($y, -100) + \intdiv($y, -400);
+            $total -= intdiv($y, -4) - intdiv($y, -100) + intdiv($y, -400);
         }
 
-        $total += \intdiv(367 * $m - 362, 12);
+        $total += intdiv(367 * $m - 362, 12);
         $total += $this->day - 1;
 
         if ($m > 2) {
@@ -701,10 +719,34 @@ final class LocalDate implements \JsonSerializable
      * Converts this LocalDate to a native DateTime object.
      *
      * The result is a DateTime with time 00:00 in the UTC time-zone.
+     *
+     * @deprecated please use toNativeDateTime instead
      */
-    public function toDateTime() : \DateTime
+    public function toDateTime(): DateTime
     {
-        return $this->atTime(LocalTime::midnight())->toDateTime();
+        return $this->toNativeDateTime();
+    }
+
+    /**
+     * Converts this LocalDate to a native DateTime object.
+     *
+     * The result is a DateTime with time 00:00 in the UTC time-zone.
+     */
+    public function toNativeDateTime(): DateTime
+    {
+        return $this->atTime(LocalTime::midnight())->toNativeDateTime();
+    }
+
+    /**
+     * Converts this LocalDate to a native DateTimeImmutable object.
+     *
+     * The result is a DateTimeImmutable with time 00:00 in the UTC time-zone.
+     *
+     * @deprecated please use toNativeDateTimeImmutable instead
+     */
+    public function toDateTimeImmutable(): DateTimeImmutable
+    {
+        return $this->toNativeDateTimeImmutable();
     }
 
     /**
@@ -712,19 +754,27 @@ final class LocalDate implements \JsonSerializable
      *
      * The result is a DateTimeImmutable with time 00:00 in the UTC time-zone.
      */
-    public function toDateTimeImmutable() : \DateTimeImmutable
+    public function toNativeDateTimeImmutable(): DateTimeImmutable
     {
-        return \DateTimeImmutable::createFromMutable($this->toDateTime());
+        return DateTimeImmutable::createFromMutable($this->toNativeDateTime());
+    }
+
+    /**
+     * Serializes as a string using {@see LocalDate::__toString()}.
+     */
+    public function jsonSerialize(): string
+    {
+        return (string) $this;
     }
 
     /**
      * Returns the ISO 8601 representation of this LocalDate.
      */
-    public function __toString() : string
+    public function __toString(): string
     {
         $pattern = ($this->year < 0 ? '%05d' : '%04d') . '-%02d-%02d';
 
-        return \sprintf($pattern, $this->year, $this->month, $this->day);
+        return sprintf($pattern, $this->year, $this->month, $this->day);
     }
 
     /**
@@ -734,24 +784,16 @@ final class LocalDate implements \JsonSerializable
      * @param int $month The month-of-year to represent, validated from 1 to 12.
      * @param int $day   The day-of-month to represent, validated from 1 to 31.
      */
-    private function resolvePreviousValid(int $year, int $month, int $day) : LocalDate
+    private function resolvePreviousValid(int $year, int $month, int $day): LocalDate
     {
         if ($day > 28) {
-            $day = \min($day, YearMonth::of($year, $month)->getLengthOfMonth());
+            $day = min($day, YearMonth::of($year, $month)->getLengthOfMonth());
         }
 
         return new LocalDate($year, $month, $day);
     }
 
-    /**
-     * Serializes as a string using {@see LocalDate::__toString()}.
-     */
-    public function jsonSerialize() : string
-    {
-        return (string) $this;
-    }
-
-    private function getProlepticMonth() : int
+    private function getProlepticMonth(): int
     {
         return $this->year * 12 + $this->month - 1;
     }

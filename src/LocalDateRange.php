@@ -8,6 +8,12 @@ use Brick\DateTime\Parser\DateTimeParseException;
 use Brick\DateTime\Parser\DateTimeParser;
 use Brick\DateTime\Parser\DateTimeParseResult;
 use Brick\DateTime\Parser\IsoParsers;
+use Countable;
+use DateInterval;
+use DatePeriod;
+use Generator;
+use IteratorAggregate;
+use JsonSerializable;
 
 /**
  * Represents an inclusive range of local dates.
@@ -15,7 +21,7 @@ use Brick\DateTime\Parser\IsoParsers;
  * This object is iterable and countable: the iterator returns all the LocalDate objects contained
  * in the range, while `count()` returns the total number of dates contained in the range.
  */
-final class LocalDateRange implements \IteratorAggregate, \Countable, \JsonSerializable
+final class LocalDateRange implements IteratorAggregate, Countable, JsonSerializable
 {
     /**
      * The start date, inclusive.
@@ -34,7 +40,7 @@ final class LocalDateRange implements \IteratorAggregate, \Countable, \JsonSeria
     private function __construct(LocalDate $start, LocalDate $end)
     {
         $this->start = $start;
-        $this->end   = $end;
+        $this->end = $end;
     }
 
     /**
@@ -45,7 +51,7 @@ final class LocalDateRange implements \IteratorAggregate, \Countable, \JsonSeria
      *
      * @throws DateTimeException If the end date is before the start date.
      */
-    public static function of(LocalDate $start, LocalDate $end) : LocalDateRange
+    public static function of(LocalDate $start, LocalDate $end): LocalDateRange
     {
         if ($end->isBefore($start)) {
             throw new DateTimeException('The end date must not be before the start date.');
@@ -62,7 +68,7 @@ final class LocalDateRange implements \IteratorAggregate, \Countable, \JsonSeria
      * @throws DateTimeException      If the date range is not valid.
      * @throws DateTimeParseException If required fields are missing from the result.
      */
-    public static function from(DateTimeParseResult $result) : LocalDateRange
+    public static function from(DateTimeParseResult $result): LocalDateRange
     {
         $startDate = LocalDate::from($result);
 
@@ -94,7 +100,7 @@ final class LocalDateRange implements \IteratorAggregate, \Countable, \JsonSeria
      * @throws DateTimeException      If either of the dates is not valid.
      * @throws DateTimeParseException If the text string does not follow the expected format.
      */
-    public static function parse(string $text, ?DateTimeParser $parser = null) : LocalDateRange
+    public static function parse(string $text, ?DateTimeParser $parser = null): LocalDateRange
     {
         if (! $parser) {
             $parser = IsoParsers::localDateRange();
@@ -106,7 +112,7 @@ final class LocalDateRange implements \IteratorAggregate, \Countable, \JsonSeria
     /**
      * Returns the start date, inclusive.
      */
-    public function getStart() : LocalDate
+    public function getStart(): LocalDate
     {
         return $this->start;
     }
@@ -114,7 +120,7 @@ final class LocalDateRange implements \IteratorAggregate, \Countable, \JsonSeria
     /**
      * Returns the end date, inclusive.
      */
-    public function getEnd() : LocalDate
+    public function getEnd(): LocalDate
     {
         return $this->end;
     }
@@ -126,7 +132,7 @@ final class LocalDateRange implements \IteratorAggregate, \Countable, \JsonSeria
      *
      * @return bool True if this range equals the given one, false otherwise.
      */
-    public function isEqualTo(LocalDateRange $that) : bool
+    public function isEqualTo(LocalDateRange $that): bool
     {
         return $this->start->isEqualTo($that->start)
             && $this->end->isEqualTo($that->end);
@@ -139,7 +145,7 @@ final class LocalDateRange implements \IteratorAggregate, \Countable, \JsonSeria
      *
      * @return bool True if this range contains the given date, false otherwise.
      */
-    public function contains(LocalDate $date) : bool
+    public function contains(LocalDate $date): bool
     {
         return ! ($date->isBefore($this->start) || $date->isAfter($this->end));
     }
@@ -147,7 +153,7 @@ final class LocalDateRange implements \IteratorAggregate, \Countable, \JsonSeria
     /**
      * Returns whether this LocalDateRange intersects with the given date range.
      */
-    public function intersectsWith(LocalDateRange $that) : bool
+    public function intersectsWith(LocalDateRange $that): bool
     {
         return $this->contains($that->start)
             || $this->contains($that->end)
@@ -160,14 +166,14 @@ final class LocalDateRange implements \IteratorAggregate, \Countable, \JsonSeria
      *
      * @throws DateTimeException If the ranges do not intersect.
      */
-    public function getIntersectionWith(LocalDateRange $that) : LocalDateRange
+    public function getIntersectionWith(LocalDateRange $that): LocalDateRange
     {
-        if (!$this->intersectsWith($that)) {
+        if (! $this->intersectsWith($that)) {
             throw new DateTimeException('Ranges "' . $this . '" and "' . $that . '" do not intersect.');
         }
 
         $intersectStart = $this->start->isBefore($that->start) ? $that->start : $this->start;
-        $intersectEnd = $this->end->isAfter($that->end) ? $that->end: $this->end;
+        $intersectEnd = $this->end->isAfter($that->end) ? $that->end : $this->end;
 
         return new LocalDateRange($intersectStart, $intersectEnd);
     }
@@ -197,11 +203,21 @@ final class LocalDateRange implements \IteratorAggregate, \Countable, \JsonSeria
     }
 
     /**
+     * Returns the Period between the start date and end date.
+     *
+     * See `Period::between()` for how this is calculated.
+     */
+    public function toPeriod(): Period
+    {
+        return Period::between($this->start, $this->end);
+    }
+
+    /**
      * Returns an iterator for all the dates contained in this range.
      *
-     * @return \Generator<LocalDate>
+     * @return Generator<LocalDate>
      */
-    public function getIterator() : \Generator
+    public function getIterator(): Generator
     {
         for ($current = $this->start; $current->isBeforeOrEqualTo($this->end); $current = $current->plusDays(1)) {
             yield $current;
@@ -213,7 +229,7 @@ final class LocalDateRange implements \IteratorAggregate, \Countable, \JsonSeria
      *
      * @return int The number of days, >= 1.
      */
-    public function count() : int
+    public function count(): int
     {
         return $this->end->toEpochDay() - $this->start->toEpochDay() + 1;
     }
@@ -221,7 +237,7 @@ final class LocalDateRange implements \IteratorAggregate, \Countable, \JsonSeria
     /**
      * Serializes as a string using {@see LocalDateRange::__toString()}.
      */
-    public function jsonSerialize() : string
+    public function jsonSerialize(): string
     {
         return (string) $this;
     }
@@ -232,19 +248,27 @@ final class LocalDateRange implements \IteratorAggregate, \Countable, \JsonSeria
      * The result is a DatePeriod->start with time 00:00 and a DatePeriod->end
      * with time 23:59:59.999999 in the UTC time-zone.
      */
-    public function toDatePeriod() : \DatePeriod
+    public function toNativeDatePeriod(): DatePeriod
     {
-        $start = $this->getStart()->atTime(LocalTime::midnight())->toDateTime();
-        $end = $this->getEnd()->atTime(LocalTime::max())->toDateTime();
-        $interval = new \DateInterval('P1D');
+        $start = $this->getStart()->atTime(LocalTime::midnight())->toNativeDateTime();
+        $end = $this->getEnd()->atTime(LocalTime::max())->toNativeDateTime();
+        $interval = new DateInterval('P1D');
 
-        return new \DatePeriod($start, $interval, $end);
+        return new DatePeriod($start, $interval, $end);
+    }
+
+    /**
+     * @deprecated please use toNativeDatePeriod instead
+     */
+    public function toDatePeriod(): DatePeriod
+    {
+        return $this->toNativeDatePeriod();
     }
 
     /**
      * Returns an ISO 8601 string representation of this date range.
      */
-    public function __toString() : string
+    public function __toString(): string
     {
         return $this->start . '/' . $this->end;
     }

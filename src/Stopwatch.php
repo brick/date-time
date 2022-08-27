@@ -32,7 +32,7 @@ final class Stopwatch
             $clock = DefaultClock::get();
         }
 
-        $this->clock    = $clock;
+        $this->clock = $clock;
         $this->duration = Duration::zero();
     }
 
@@ -41,7 +41,7 @@ final class Stopwatch
      *
      * If the timer is already started, this method does nothing.
      */
-    public function start() : void
+    public function start(): void
     {
         if ($this->startTime === null) {
             $this->startTime = $this->clock->getTime();
@@ -53,7 +53,7 @@ final class Stopwatch
      *
      * If the timer is already stopped, this method does nothing.
      */
-    public function stop() : void
+    public function stop(): void
     {
         if ($this->startTime === null) {
             return;
@@ -69,12 +69,12 @@ final class Stopwatch
     /**
      * Returns the time this stopwatch has been started at, or null if it is not running.
      */
-    public function getStartTime() : ?Instant
+    public function getStartTime(): ?Instant
     {
         return $this->startTime;
     }
 
-    public function isRunning() : bool
+    public function isRunning(): bool
     {
         return $this->startTime !== null;
     }
@@ -85,7 +85,7 @@ final class Stopwatch
      * This includes the times between previous start() and stop() calls if any,
      * as well as the time since the stopwatch was last started if it is running.
      */
-    public function getElapsedTime() : Duration
+    public function getElapsedTime(): Duration
     {
         if ($this->startTime === null) {
             return $this->duration;

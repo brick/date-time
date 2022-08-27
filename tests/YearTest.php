@@ -11,6 +11,11 @@ use Brick\DateTime\MonthDay;
 use Brick\DateTime\TimeZone;
 use Brick\DateTime\Year;
 
+use function json_encode;
+
+use const PHP_INT_MAX;
+use const PHP_INT_MIN;
+
 /**
  * Unit tests for class Year.
  */
@@ -30,11 +35,11 @@ class YearTest extends AbstractTestCase
         Year::of($invalidYear);
     }
 
-    public function providerOfInvalidYearThrowsException() : array
+    public function providerOfInvalidYearThrowsException(): array
     {
         return [
-            [~\PHP_INT_MAX],
-            [\PHP_INT_MAX],
+            [PHP_INT_MIN],
+            [PHP_INT_MAX],
             [-1000000000],
             [1000000000]
         ];
@@ -53,7 +58,7 @@ class YearTest extends AbstractTestCase
         $this->assertYearIs($expectedYear, Year::now(TimeZone::parse($timeZone), $clock));
     }
 
-    public function providerNow() : array
+    public function providerNow(): array
     {
         return [
             [1388534399, '-01:00', 2013],
@@ -76,7 +81,7 @@ class YearTest extends AbstractTestCase
         $this->assertSame($isLeap, Year::of($year)->isLeap());
     }
 
-    public function providerIsLeap() : array
+    public function providerIsLeap(): array
     {
         return [
             [1595, false],
@@ -150,7 +155,7 @@ class YearTest extends AbstractTestCase
         $this->assertSame($isValid, Year::of($year)->isValidMonthDay(MonthDay::of($month, $day)));
     }
 
-    public function providerIsValidMonthDay() : array
+    public function providerIsValidMonthDay(): array
     {
         return [
             [1999, 1, 31, true],
@@ -176,7 +181,7 @@ class YearTest extends AbstractTestCase
         $this->assertSame($length, Year::of($year)->getLength());
     }
 
-    public function providerGetLength() : array
+    public function providerGetLength(): array
     {
         return [
             [1595, 365],
@@ -245,7 +250,7 @@ class YearTest extends AbstractTestCase
         $this->assertYearIs($expectedYear, Year::of($year)->plus($plusYears));
     }
 
-    public function providerPlus() : array
+    public function providerPlus(): array
     {
         return [
             [2014, 0, 2014],
@@ -262,7 +267,7 @@ class YearTest extends AbstractTestCase
         $this->assertYearIs($expectedYear, Year::of($year)->minus($minusYears));
     }
 
-    public function providerMinus() : array
+    public function providerMinus(): array
     {
         return [
             [2014, 0, 2014],
@@ -319,7 +324,7 @@ class YearTest extends AbstractTestCase
         $this->assertSame($cmp === -1, Year::of($year1)->isBefore(Year::of($year2)));
     }
 
-    public function providerCompareTo() : array
+    public function providerCompareTo(): array
     {
         return [
             [-1999, -1999, 0],
@@ -363,7 +368,7 @@ class YearTest extends AbstractTestCase
         $this->assertLocalDateIs($year, $month, $day, Year::of($year)->atDay($dayOfYear));
     }
 
-    public function providerAtDay() : array
+    public function providerAtDay(): array
     {
         return [
             [2007, 59, 2, 28],
@@ -397,7 +402,7 @@ class YearTest extends AbstractTestCase
         Year::of(2000)->atMonth($invalidMonth);
     }
 
-    public function providerAtInvalidMonthThrowsException() : array
+    public function providerAtInvalidMonthThrowsException(): array
     {
         return [
             [-1],
@@ -420,7 +425,7 @@ class YearTest extends AbstractTestCase
         $this->assertLocalDateIs($year, $month, $expectedDay, Year::of($year)->atMonthDay($monthDay));
     }
 
-    public function providerAtMonthDay() : array
+    public function providerAtMonthDay(): array
     {
         return [
             [2007, 2, 28, 28],
@@ -430,6 +435,23 @@ class YearTest extends AbstractTestCase
             [2009, 2, 28, 28],
             [2009, 2, 29, 28],
             [2010, 1, 31, 31]
+        ];
+    }
+
+    /**
+     * @dataProvider providerToLocalDateRange
+     */
+    public function testToLocalDateRange(int $year, string $expectedRange): void
+    {
+        $this->assertSame($expectedRange, (string) Year::of($year)->toLocalDateRange());
+    }
+
+    public function providerToLocalDateRange(): array
+    {
+        return [
+            [1900, '1900-01-01/1900-12-31'],
+            [2020, '2020-01-01/2020-12-31'],
+            [3000, '3000-01-01/3000-12-31'],
         ];
     }
 

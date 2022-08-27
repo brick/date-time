@@ -8,6 +8,10 @@ use Brick\DateTime\Parser\DateTimeParseException;
 use Brick\DateTime\Parser\DateTimeParser;
 use Brick\DateTime\Parser\DateTimeParseResult;
 use Brick\DateTime\Parser\IsoParsers;
+use Countable;
+use Generator;
+use IteratorAggregate;
+use JsonSerializable;
 
 /**
  * Represents an inclusive range of year-months.
@@ -15,7 +19,7 @@ use Brick\DateTime\Parser\IsoParsers;
  * This object is iterable and countable: the iterator returns all the YearMonth objects contained
  * in the range, while `count()` returns the total number of year-months contained in the range.
  */
-class YearMonthRange implements \IteratorAggregate, \Countable, \JsonSerializable
+class YearMonthRange implements IteratorAggregate, Countable, JsonSerializable
 {
     /**
      * The start year-month, inclusive.
@@ -34,7 +38,7 @@ class YearMonthRange implements \IteratorAggregate, \Countable, \JsonSerializabl
     private function __construct(YearMonth $start, YearMonth $end)
     {
         $this->start = $start;
-        $this->end   = $end;
+        $this->end = $end;
     }
 
     /**
@@ -45,7 +49,7 @@ class YearMonthRange implements \IteratorAggregate, \Countable, \JsonSerializabl
      *
      * @throws DateTimeException If the end year-month is before the start year-month.
      */
-    public static function of(YearMonth $start, YearMonth $end) : YearMonthRange
+    public static function of(YearMonth $start, YearMonth $end): YearMonthRange
     {
         if ($end->isBefore($start)) {
             throw new DateTimeException('The end year-month must not be before the start year-month.');
@@ -62,7 +66,7 @@ class YearMonthRange implements \IteratorAggregate, \Countable, \JsonSerializabl
      * @throws DateTimeException      If the year-month range is not valid.
      * @throws DateTimeParseException If required fields are missing from the result.
      */
-    public static function from(DateTimeParseResult $result) : YearMonthRange
+    public static function from(DateTimeParseResult $result): YearMonthRange
     {
         $start = YearMonth::from($result);
 
@@ -89,7 +93,7 @@ class YearMonthRange implements \IteratorAggregate, \Countable, \JsonSerializabl
      * @throws DateTimeException      If either of the year-months is not valid.
      * @throws DateTimeParseException If the text string does not follow the expected format.
      */
-    public static function parse(string $text, ?DateTimeParser $parser = null) : YearMonthRange
+    public static function parse(string $text, ?DateTimeParser $parser = null): YearMonthRange
     {
         if (! $parser) {
             $parser = IsoParsers::yearMonthRange();
@@ -101,7 +105,7 @@ class YearMonthRange implements \IteratorAggregate, \Countable, \JsonSerializabl
     /**
      * Returns the start year-month, inclusive.
      */
-    public function getStart() : YearMonth
+    public function getStart(): YearMonth
     {
         return $this->start;
     }
@@ -109,7 +113,7 @@ class YearMonthRange implements \IteratorAggregate, \Countable, \JsonSerializabl
     /**
      * Returns the end year-month, inclusive.
      */
-    public function getEnd() : YearMonth
+    public function getEnd(): YearMonth
     {
         return $this->end;
     }
@@ -121,7 +125,7 @@ class YearMonthRange implements \IteratorAggregate, \Countable, \JsonSerializabl
      *
      * @return bool True if this range equals the given one, false otherwise.
      */
-    public function isEqualTo(YearMonthRange $that) : bool
+    public function isEqualTo(YearMonthRange $that): bool
     {
         return $this->start->isEqualTo($that->start) && $this->end->isEqualTo($that->end);
     }
@@ -133,7 +137,7 @@ class YearMonthRange implements \IteratorAggregate, \Countable, \JsonSerializabl
      *
      * @return bool True if this range contains the given year-month, false otherwise.
      */
-    public function contains(YearMonth $yearMonth) : bool
+    public function contains(YearMonth $yearMonth): bool
     {
         return $yearMonth->isAfterOrEqualTo($this->start) && $yearMonth->isBeforeOrEqualTo($this->end);
     }
@@ -141,9 +145,9 @@ class YearMonthRange implements \IteratorAggregate, \Countable, \JsonSerializabl
     /**
      * Returns an iterator for all the year-months contained in this range.
      *
-     * @return \Generator<YearMonth>
+     * @return Generator<YearMonth>
      */
-    public function getIterator() : \Generator
+    public function getIterator(): Generator
     {
         for ($current = $this->start; $current->isBeforeOrEqualTo($this->end); $current = $current->plusMonths(1)) {
             yield $current;
@@ -155,7 +159,7 @@ class YearMonthRange implements \IteratorAggregate, \Countable, \JsonSerializabl
      *
      * @return int The number of year-months, >= 1.
      */
-    public function count() : int
+    public function count(): int
     {
         return 12 * ($this->end->getYear() - $this->start->getYear())
             + ($this->end->getMonth() - $this->start->getMonth())
@@ -163,9 +167,20 @@ class YearMonthRange implements \IteratorAggregate, \Countable, \JsonSerializabl
     }
 
     /**
+     * Returns LocalDateRange that contains all days of this year-months range.
+     */
+    public function toLocalDateRange(): LocalDateRange
+    {
+        return LocalDateRange::of(
+            $this->getStart()->getFirstDay(),
+            $this->getEnd()->getLastDay()
+        );
+    }
+
+    /**
      * Serializes as a string using {@see YearMonthRange::__toString()}.
      */
-    public function jsonSerialize() : string
+    public function jsonSerialize(): string
     {
         return (string) $this;
     }
@@ -176,7 +191,7 @@ class YearMonthRange implements \IteratorAggregate, \Countable, \JsonSerializabl
      * ISO 8601 does not seem to provide a standard notation for year-month ranges, but we're using the same format as
      * date ranges.
      */
-    public function __toString() : string
+    public function __toString(): string
     {
         return $this->start . '/' . $this->end;
     }

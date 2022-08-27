@@ -40,11 +40,11 @@ final class ScaleClock implements Clock
     public function __construct(Clock $referenceClock, int $timeScale)
     {
         $this->referenceClock = $referenceClock;
-        $this->startTime      = $referenceClock->getTime();
-        $this->timeScale      = $timeScale;
+        $this->startTime = $referenceClock->getTime();
+        $this->timeScale = $timeScale;
     }
 
-    public function getTime() : Instant
+    public function getTime(): Instant
     {
         $duration = Duration::between($this->startTime, $this->referenceClock->getTime());
         $duration = $duration->multipliedBy($this->timeScale);

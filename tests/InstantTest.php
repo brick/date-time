@@ -10,6 +10,11 @@ use Brick\DateTime\Duration;
 use Brick\DateTime\Instant;
 use Brick\DateTime\TimeZone;
 
+use function json_encode;
+
+use const PHP_INT_MAX;
+use const PHP_INT_MIN;
+
 /**
  * Unit tests for class Instant.
  */
@@ -31,7 +36,7 @@ class InstantTest extends AbstractTestCase
         $this->assertSame($expectedNanos, $duration->getNano());
     }
 
-    public function providerOf() : array
+    public function providerOf(): array
     {
         return [
             [3, 1, 3, 1],
@@ -58,12 +63,12 @@ class InstantTest extends AbstractTestCase
 
     public function testMin(): void
     {
-        $this->assertInstantIs(~\PHP_INT_MAX, 0, Instant::min());
+        $this->assertInstantIs(PHP_INT_MIN, 0, Instant::min());
     }
 
     public function testMax(): void
     {
-        $this->assertInstantIs(\PHP_INT_MAX, 999999999, Instant::max());
+        $this->assertInstantIs(PHP_INT_MAX, 999999999, Instant::max());
     }
 
     /**
@@ -98,7 +103,7 @@ class InstantTest extends AbstractTestCase
         $this->assertInstantIs($expectedSecond, $expectedNano, $result);
     }
 
-    public function providerPlus() : array
+    public function providerPlus(): array
     {
         return [
             [123456, 789, 0, 0, 123456, 789],
@@ -137,7 +142,7 @@ class InstantTest extends AbstractTestCase
         $this->assertInstantIs($expectedSecond, $nano, $result);
     }
 
-    public function providerPlusSeconds() : array
+    public function providerPlusSeconds(): array
     {
         return [
             [123456, 789, 0, 123456, 789],
@@ -178,7 +183,7 @@ class InstantTest extends AbstractTestCase
         $this->assertInstantIs($expectedSecond, $nano, $result);
     }
 
-    public function providerPlusMinutes() : array
+    public function providerPlusMinutes(): array
     {
         return [
             [123456, 789, 0, 123456, 789],
@@ -199,7 +204,7 @@ class InstantTest extends AbstractTestCase
      * @param int $plusHours      The number of hours to add.
      * @param int $expectedSecond The expected second of the result.
      */
-    public function testPlusHours(int $second, int $nano, int $plusHours, int $expectedSecond)
+    public function testPlusHours(int $second, int $nano, int $plusHours, int $expectedSecond): void
     {
         $result = Instant::of($second, $nano)->plusHours($plusHours);
         $this->assertInstantIs($expectedSecond, $nano, $result);
@@ -219,7 +224,7 @@ class InstantTest extends AbstractTestCase
         $this->assertInstantIs($expectedSecond, $nano, $result);
     }
 
-    public function providerPlusHours() : array
+    public function providerPlusHours(): array
     {
         return [
             [123456, 789, 0, 123456, 789],
@@ -260,7 +265,7 @@ class InstantTest extends AbstractTestCase
         $this->assertInstantIs($expectedSecond, $nano, $result);
     }
 
-    public function providerPlusDays() : array
+    public function providerPlusDays(): array
     {
         return [
             [123456, 789, 0, 123456, 789],
@@ -296,7 +301,7 @@ class InstantTest extends AbstractTestCase
         $instant->withNano($nano);
     }
 
-    public function providerWithInvalidNanoThrowsException() : array
+    public function providerWithInvalidNanoThrowsException(): array
     {
         return [
             [-1],
@@ -418,7 +423,7 @@ class InstantTest extends AbstractTestCase
         $this->assertSame($cmp === -1, Instant::of($testSecond, $testNano)->isPast($clock));
     }
 
-    public function providerCompareTo() : array
+    public function providerCompareTo(): array
     {
         return [
             [-1, -1, -1, -1,  0],
@@ -448,60 +453,60 @@ class InstantTest extends AbstractTestCase
             [-1,  1,  1, -1, -1],
             [-1,  1,  1,  0, -1],
             [-1,  1,  1,  1, -1],
-            [ 0, -1, -1, -1,  1],
-            [ 0, -1, -1,  0,  1],
-            [ 0, -1, -1,  1,  1],
-            [ 0, -1,  0, -1,  0],
-            [ 0, -1,  0,  0, -1],
-            [ 0, -1,  0,  1, -1],
-            [ 0, -1,  1, -1, -1],
-            [ 0, -1,  1,  0, -1],
-            [ 0, -1,  1,  1, -1],
-            [ 0,  0, -1, -1,  1],
-            [ 0,  0, -1,  0,  1],
-            [ 0,  0, -1,  1,  1],
-            [ 0,  0,  0, -1,  1],
-            [ 0,  0,  0,  0,  0],
-            [ 0,  0,  0,  1, -1],
-            [ 0,  0,  1, -1, -1],
-            [ 0,  0,  1,  0, -1],
-            [ 0,  0,  1,  1, -1],
-            [ 0,  1, -1, -1,  1],
-            [ 0,  1, -1,  0,  1],
-            [ 0,  1, -1,  1,  1],
-            [ 0,  1,  0, -1,  1],
-            [ 0,  1,  0,  0,  1],
-            [ 0,  1,  0,  1,  0],
-            [ 0,  1,  1, -1, -1],
-            [ 0,  1,  1,  0, -1],
-            [ 0,  1,  1,  1, -1],
-            [ 1, -1, -1, -1,  1],
-            [ 1, -1, -1,  0,  1],
-            [ 1, -1, -1,  1,  1],
-            [ 1, -1,  0, -1,  1],
-            [ 1, -1,  0,  0,  1],
-            [ 1, -1,  0,  1,  1],
-            [ 1, -1,  1, -1,  0],
-            [ 1, -1,  1,  0, -1],
-            [ 1, -1,  1,  1, -1],
-            [ 1,  0, -1, -1,  1],
-            [ 1,  0, -1,  0,  1],
-            [ 1,  0, -1,  1,  1],
-            [ 1,  0,  0, -1,  1],
-            [ 1,  0,  0,  0,  1],
-            [ 1,  0,  0,  1,  1],
-            [ 1,  0,  1, -1,  1],
-            [ 1,  0,  1,  0,  0],
-            [ 1,  0,  1,  1, -1],
-            [ 1,  1, -1, -1,  1],
-            [ 1,  1, -1,  0,  1],
-            [ 1,  1, -1,  1,  1],
-            [ 1,  1,  0, -1,  1],
-            [ 1,  1,  0,  0,  1],
-            [ 1,  1,  0,  1,  1],
-            [ 1,  1,  1, -1,  1],
-            [ 1,  1,  1,  0,  1],
-            [ 1,  1,  1,  1,  0],
+            [0, -1, -1, -1,  1],
+            [0, -1, -1,  0,  1],
+            [0, -1, -1,  1,  1],
+            [0, -1,  0, -1,  0],
+            [0, -1,  0,  0, -1],
+            [0, -1,  0,  1, -1],
+            [0, -1,  1, -1, -1],
+            [0, -1,  1,  0, -1],
+            [0, -1,  1,  1, -1],
+            [0,  0, -1, -1,  1],
+            [0,  0, -1,  0,  1],
+            [0,  0, -1,  1,  1],
+            [0,  0,  0, -1,  1],
+            [0,  0,  0,  0,  0],
+            [0,  0,  0,  1, -1],
+            [0,  0,  1, -1, -1],
+            [0,  0,  1,  0, -1],
+            [0,  0,  1,  1, -1],
+            [0,  1, -1, -1,  1],
+            [0,  1, -1,  0,  1],
+            [0,  1, -1,  1,  1],
+            [0,  1,  0, -1,  1],
+            [0,  1,  0,  0,  1],
+            [0,  1,  0,  1,  0],
+            [0,  1,  1, -1, -1],
+            [0,  1,  1,  0, -1],
+            [0,  1,  1,  1, -1],
+            [1, -1, -1, -1,  1],
+            [1, -1, -1,  0,  1],
+            [1, -1, -1,  1,  1],
+            [1, -1,  0, -1,  1],
+            [1, -1,  0,  0,  1],
+            [1, -1,  0,  1,  1],
+            [1, -1,  1, -1,  0],
+            [1, -1,  1,  0, -1],
+            [1, -1,  1,  1, -1],
+            [1,  0, -1, -1,  1],
+            [1,  0, -1,  0,  1],
+            [1,  0, -1,  1,  1],
+            [1,  0,  0, -1,  1],
+            [1,  0,  0,  0,  1],
+            [1,  0,  0,  1,  1],
+            [1,  0,  1, -1,  1],
+            [1,  0,  1,  0,  0],
+            [1,  0,  1,  1, -1],
+            [1,  1, -1, -1,  1],
+            [1,  1, -1,  0,  1],
+            [1,  1, -1,  1,  1],
+            [1,  1,  0, -1,  1],
+            [1,  1,  0,  0,  1],
+            [1,  1,  0,  1,  1],
+            [1,  1,  1, -1,  1],
+            [1,  1,  1,  0,  1],
+            [1,  1,  1,  1,  0],
         ];
     }
 
@@ -512,7 +517,7 @@ class InstantTest extends AbstractTestCase
      * @param int  $nanos     The nano seconds value.
      * @param bool $isBetween Check the secs and nanos are between.
      */
-    public function testIsBetweenInclusive(int $seconds, int $nanos, $isBetween): void
+    public function testIsBetweenInclusive(int $seconds, int $nanos, bool $isBetween): void
     {
         $this->assertSame($isBetween, Instant::of($seconds, $nanos)->isBetweenInclusive(
             Instant::of(-1, -1),
@@ -527,7 +532,7 @@ class InstantTest extends AbstractTestCase
      * @param int  $nanos     The nano seconds value.
      * @param bool $isBetween Check the secs and nanos are between.
      */
-    public function testIsBetweenExclusive(int $seconds, int $nanos, $isBetween): void
+    public function testIsBetweenExclusive(int $seconds, int $nanos, bool $isBetween): void
     {
         $this->assertSame($isBetween, Instant::of($seconds, $nanos)->isBetweenExclusive(
             Instant::of(-1, -1),
@@ -535,7 +540,7 @@ class InstantTest extends AbstractTestCase
         ));
     }
 
-    public function providerIsBetweenExclusive() : array
+    public function providerIsBetweenExclusive(): array
     {
         return [
             [-1, -2, false],
@@ -552,10 +557,7 @@ class InstantTest extends AbstractTestCase
         ];
     }
 
-    /**
-     * @return array
-     */
-    public function providerIsBetweenInclusive() : array
+    public function providerIsBetweenInclusive(): array
     {
         return [
             [-1, -2, false],
@@ -625,7 +627,7 @@ class InstantTest extends AbstractTestCase
         $this->assertSame($expectedString, (string) Instant::of($epochSecond, $nano));
     }
 
-    public function providerToString() : array
+    public function providerToString(): array
     {
         return [
             [-2000000000, 0, '1906-08-16T20:26:40Z'],

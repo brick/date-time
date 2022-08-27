@@ -8,6 +8,7 @@ use Brick\DateTime\DateTimeException;
 use Brick\DateTime\Instant;
 use Brick\DateTime\Parser\DateTimeParseException;
 use Brick\DateTime\TimeZoneOffset;
+use DateTimeZone;
 
 /**
  * Units tests for class TimeZoneOffset.
@@ -26,7 +27,7 @@ class TimeZoneOffsetTest extends AbstractTestCase
         $this->assertTimeZoneOffsetIs($totalSeconds, TimeZoneOffset::of($hours, $minutes));
     }
 
-    public function providerOf() : array
+    public function providerOf(): array
     {
         return [
             [0, 0, 0],
@@ -52,7 +53,7 @@ class TimeZoneOffsetTest extends AbstractTestCase
         TimeZoneOffset::of($hours, $minutes);
     }
 
-    public function providerOfInvalidValuesThrowsException() : array
+    public function providerOfInvalidValuesThrowsException(): array
     {
         return [
             [0, 60],
@@ -72,7 +73,7 @@ class TimeZoneOffsetTest extends AbstractTestCase
         $this->assertTimeZoneOffsetIs($totalSeconds, TimeZoneOffset::ofTotalSeconds($totalSeconds));
     }
 
-    public function providerTotalSeconds() : array
+    public function providerTotalSeconds(): array
     {
         return [
             [-64800],
@@ -94,7 +95,7 @@ class TimeZoneOffsetTest extends AbstractTestCase
         TimeZoneOffset::ofTotalSeconds($totalSeconds);
     }
 
-    public function providerOfInvalidTotalSecondsThrowsException() : array
+    public function providerOfInvalidTotalSecondsThrowsException(): array
     {
         return [
             [-1],
@@ -120,7 +121,7 @@ class TimeZoneOffsetTest extends AbstractTestCase
         $this->assertTimeZoneOffsetIs($totalSeconds, TimeZoneOffset::parse($text));
     }
 
-    public function providerParse() : array
+    public function providerParse(): array
     {
         return [
             ['+00:00', 0],
@@ -143,7 +144,7 @@ class TimeZoneOffsetTest extends AbstractTestCase
         TimeZoneOffset::parse($text);
     }
 
-    public function providerParseInvalidStringThrowsException() : array
+    public function providerParseInvalidStringThrowsException(): array
     {
         return [
             [''],
@@ -166,7 +167,7 @@ class TimeZoneOffsetTest extends AbstractTestCase
         TimeZoneOffset::parse($text);
     }
 
-    public function providerParseValueStringThrowsException() : array
+    public function providerParseValueStringThrowsException(): array
     {
         return [
             ['+18:00:01'],
@@ -200,7 +201,7 @@ class TimeZoneOffsetTest extends AbstractTestCase
         $this->assertSame($string, (string) TimeZoneOffset::ofTotalSeconds($totalSeconds));
     }
 
-    public function providerGetId() : array
+    public function providerGetId(): array
     {
         return [
             [0, 'Z'],
@@ -229,7 +230,15 @@ class TimeZoneOffsetTest extends AbstractTestCase
     {
         $dateTimeZone = TimeZoneOffset::ofTotalSeconds(-18000)->toDateTimeZone();
 
-        $this->assertInstanceOf(\DateTimeZone::class, $dateTimeZone);
+        $this->assertInstanceOf(DateTimeZone::class, $dateTimeZone);
+        $this->assertSame('-05:00', $dateTimeZone->getName());
+    }
+
+    public function testToNativeDateTimeZone(): void
+    {
+        $dateTimeZone = TimeZoneOffset::ofTotalSeconds(-18000)->toNativeDateTimeZone();
+
+        $this->assertInstanceOf(DateTimeZone::class, $dateTimeZone);
         $this->assertSame('-05:00', $dateTimeZone->getName());
     }
 }

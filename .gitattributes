@@ -4,4 +4,5 @@
 phpunit.xml    export-ignore
 psalm.xml      export-ignore
 README.md      export-ignore
+tools/         export-ignore
 tests/         export-ignore

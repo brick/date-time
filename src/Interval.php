@@ -4,13 +4,15 @@ declare(strict_types=1);
 
 namespace Brick\DateTime;
 
+use JsonSerializable;
+
 /**
  * Represents a period of time between two instants, inclusive of the start instant and exclusive of the end.
  * The end instant is always greater than or equal to the start instant.
  *
  * This class is immutable.
  */
-final class Interval implements \JsonSerializable
+final class Interval implements JsonSerializable
 {
     /**
      * The start instant, inclusive.
@@ -41,7 +43,7 @@ final class Interval implements \JsonSerializable
     /**
      * Returns the start instant, inclusive, of this Interval.
      */
-    public function getStart() : Instant
+    public function getStart(): Instant
     {
         return $this->start;
     }
@@ -49,7 +51,7 @@ final class Interval implements \JsonSerializable
     /**
      * Returns the end instant, exclusive, of this Interval.
      */
-    public function getEnd() : Instant
+    public function getEnd(): Instant
     {
         return $this->end;
     }
@@ -59,7 +61,7 @@ final class Interval implements \JsonSerializable
      *
      * @throws DateTimeException If the given start instant is after the current end instant.
      */
-    public function withStart(Instant $start) : Interval
+    public function withStart(Instant $start): Interval
     {
         return new Interval($start, $this->end);
     }
@@ -69,7 +71,7 @@ final class Interval implements \JsonSerializable
      *
      * @throws DateTimeException If the given end instant is before the current start instant.
      */
-    public function withEnd(Instant $end) : Interval
+    public function withEnd(Instant $end): Interval
     {
         return new Interval($this->start, $end);
     }
@@ -77,7 +79,7 @@ final class Interval implements \JsonSerializable
     /**
      * Returns a Duration representing the time elapsed in this Interval.
      */
-    public function getDuration() : Duration
+    public function getDuration(): Duration
     {
         return Duration::between($this->start, $this->end);
     }
@@ -85,12 +87,12 @@ final class Interval implements \JsonSerializable
     /**
      * Serializes as a string using {@see Interval::__toString()}.
      */
-    public function jsonSerialize() : string
+    public function jsonSerialize(): string
     {
         return (string) $this;
     }
 
-    public function __toString() : string
+    public function __toString(): string
     {
         return $this->start . '/' . $this->end;
     }

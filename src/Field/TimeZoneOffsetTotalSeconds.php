@@ -28,7 +28,7 @@ final class TimeZoneOffsetTotalSeconds
      *
      * @throws DateTimeException If the offset-seconds is not valid.
      */
-    public static function check(int $offsetSeconds) : void
+    public static function check(int $offsetSeconds): void
     {
         if ($offsetSeconds < -self::MAX_SECONDS || $offsetSeconds > self::MAX_SECONDS) {
             throw DateTimeException::fieldNotInRange(self::NAME, $offsetSeconds, -self::MAX_SECONDS, self::MAX_SECONDS);

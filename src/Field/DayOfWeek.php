@@ -21,7 +21,7 @@ final class DayOfWeek
      *
      * @throws DateTimeException If the day-of-week is not valid.
      */
-    public static function check(int $dayOfWeek) : void
+    public static function check(int $dayOfWeek): void
     {
         if ($dayOfWeek < 1 || $dayOfWeek > 7) {
             throw DateTimeException::fieldNotInRange(self::NAME, $dayOfWeek, 1, 7);

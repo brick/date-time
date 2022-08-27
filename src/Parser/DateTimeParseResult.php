@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace Brick\DateTime\Parser;
 
+use function array_shift;
+use function sprintf;
+
 /**
  * Result of a date-time string parsing.
  */
@@ -14,7 +17,7 @@ final class DateTimeParseResult
      */
     private array $fields = [];
 
-    public function addField(string $name, string $value) : void
+    public function addField(string $name, string $value): void
     {
         $this->fields[$name][] = $value;
     }
@@ -22,7 +25,7 @@ final class DateTimeParseResult
     /**
      * Returns whether this result has at least one value for the given field.
      */
-    public function hasField(string $name) : bool
+    public function hasField(string $name): bool
     {
         return isset($this->fields[$name]) && $this->fields[$name];
     }
@@ -36,12 +39,12 @@ final class DateTimeParseResult
      *
      * @throws DateTimeParseException If the field is not present in this set.
      */
-    public function getField(string $name) : string
+    public function getField(string $name): string
     {
         $value = $this->getOptionalField($name);
 
         if ($value === '') {
-            throw new DateTimeParseException(\sprintf('Field %s is not present in the parsed result.', $name));
+            throw new DateTimeParseException(sprintf('Field %s is not present in the parsed result.', $name));
         }
 
         return $value;
@@ -50,11 +53,11 @@ final class DateTimeParseResult
     /**
      * Returns the first value for the given field, or an empty string if not present.
      */
-    public function getOptionalField(string $name) : string
+    public function getOptionalField(string $name): string
     {
         if (isset($this->fields[$name])) {
             if ($this->fields[$name]) {
-                return \array_shift($this->fields[$name]);
+                return array_shift($this->fields[$name]);
             }
         }
 

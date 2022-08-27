@@ -4,20 +4,23 @@ declare(strict_types=1);
 
 namespace Brick\DateTime\Tests;
 
+use Brick\DateTime\Clock\FixedClock;
 use Brick\DateTime\DateTimeException;
 use Brick\DateTime\DayOfWeek;
-use Brick\DateTime\YearWeek;
-use Brick\DateTime\TimeZone;
-use Brick\DateTime\LocalDate;
-use Brick\DateTime\Clock\FixedClock;
 use Brick\DateTime\Instant;
+use Brick\DateTime\LocalDate;
+use Brick\DateTime\LocalDateRange;
+use Brick\DateTime\TimeZone;
+use Brick\DateTime\YearWeek;
+
+use function json_encode;
 
 /**
  * Unit tests for class YearWeek.
  */
 class YearWeekTest extends AbstractTestCase
 {
-    public function provider53WeekYear() : array
+    public function provider53WeekYear(): array
     {
         return [
             [4],
@@ -114,7 +117,7 @@ class YearWeekTest extends AbstractTestCase
         $this->assertLocalDateIs($year, $month, $dayOfMonth, $actual);
     }
 
-    public function providerAtDay() : array
+    public function providerAtDay(): array
     {
         return [
             [2014, 52, DayOfWeek::MONDAY,    2014, 12, 22],
@@ -190,17 +193,7 @@ class YearWeekTest extends AbstractTestCase
         }
     }
 
-    private function assertCompareTo(int $expected, YearWeek $a, YearWeek $b): void
-    {
-        $this->assertSame($expected, $a->compareTo($b));
-        $this->assertSame($expected === -1 || $expected === 0, $a->isBeforeOrEqualTo($b));
-        $this->assertSame($expected === -1, $a->isBefore($b));
-        $this->assertSame($expected === 0, $a->isEqualTo($b));
-        $this->assertSame($expected === 1, $a->isAfter($b));
-        $this->assertSame($expected === 1 || $expected === 0, $a->isAfterOrEqualTo($b));
-    }
-
-    public function providerWithYear() : array
+    public function providerWithYear(): array
     {
         return [
             [2015,  1, 2015, 2015,  1],
@@ -219,7 +212,7 @@ class YearWeekTest extends AbstractTestCase
         $this->assertYearWeekIs($expectedYear, $expectedWeek, $yearWeek);
     }
 
-    public function providerWithWeek() : array
+    public function providerWithWeek(): array
     {
         return [
             [2014,  1, 53, 2015,  1],
@@ -237,7 +230,7 @@ class YearWeekTest extends AbstractTestCase
         $this->assertYearWeekIs($expectedYear, $expectedWeek, $yearWeek);
     }
 
-    public function providerPlusYears() : array
+    public function providerPlusYears(): array
     {
         return [
             [2015, 1, -2, 2013, 1],
@@ -271,7 +264,7 @@ class YearWeekTest extends AbstractTestCase
         $this->assertYearWeekIs($expectedYear, $expectedWeek, $yearWeek);
     }
 
-    public function providerPlusWeeks() : array
+    public function providerPlusWeeks(): array
     {
         return [
             [2015, 1, -261, 2009, 53],
@@ -308,20 +301,20 @@ class YearWeekTest extends AbstractTestCase
         $this->assertYearWeekIs($expectedYear, $expectedWeek, $yearWeek);
     }
 
-    public function providerToString() : array
+    public function providerToString(): array
     {
         return [
             [-12345,  1, '-12345-W01'],
-            [ -1234, 12,  '-1234-W12'],
-            [  -123,  3,  '-0123-W03'],
-            [   -12, 10,  '-0012-W10'],
-            [    -1,  9,  '-0001-W09'],
-            [     0, 11,   '0000-W11'],
-            [     1,  7,   '0001-W07'],
-            [    12, 10,   '0012-W10'],
-            [   123,  4,   '0123-W04'],
-            [  1234, 12,   '1234-W12'],
-            [ 12345,  8,  '12345-W08'],
+            [-1234, 12,  '-1234-W12'],
+            [-123,  3,  '-0123-W03'],
+            [-12, 10,  '-0012-W10'],
+            [-1,  9,  '-0001-W09'],
+            [0, 11,   '0000-W11'],
+            [1,  7,   '0001-W07'],
+            [12, 10,   '0012-W10'],
+            [123,  4,   '0123-W04'],
+            [1234, 12,   '1234-W12'],
+            [12345,  8,  '12345-W08'],
         ];
     }
 
@@ -368,7 +361,18 @@ class YearWeekTest extends AbstractTestCase
         $this->assertIs(LocalDate::class, $lastDay, $yearWeek->getLastDay());
     }
 
-    public function providerGetFirstLastDay() : array
+    /**
+     * @dataProvider providerGetFirstLastDay
+     */
+    public function testToLocalDateRange(int $year, int $week, string $firstDay, string $lastDay): void
+    {
+        $yearWeek = YearWeek::of($year, $week);
+        $expectedDateRange = (string) LocalDateRange::parse($firstDay . '/' . $lastDay);
+
+        $this->assertSame($expectedDateRange, (string) $yearWeek->toLocalDateRange());
+    }
+
+    public function providerGetFirstLastDay(): array
     {
         return [
             [2000,  1, '2000-01-03', '2000-01-09'],
@@ -456,5 +460,15 @@ class YearWeekTest extends AbstractTestCase
             [2020, 52, '2020-12-21', '2020-12-27'],
             [2020, 53, '2020-12-28', '2021-01-03'],
         ];
+    }
+
+    private function assertCompareTo(int $expected, YearWeek $a, YearWeek $b): void
+    {
+        $this->assertSame($expected, $a->compareTo($b));
+        $this->assertSame($expected === -1 || $expected === 0, $a->isBeforeOrEqualTo($b));
+        $this->assertSame($expected === -1, $a->isBefore($b));
+        $this->assertSame($expected === 0, $a->isEqualTo($b));
+        $this->assertSame($expected === 1, $a->isAfter($b));
+        $this->assertSame($expected === 1 || $expected === 0, $a->isAfterOrEqualTo($b));
     }
 }

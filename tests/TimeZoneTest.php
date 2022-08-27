@@ -8,6 +8,7 @@ use Brick\DateTime\Parser\DateTimeParseException;
 use Brick\DateTime\TimeZone;
 use Brick\DateTime\TimeZoneOffset;
 use Brick\DateTime\TimeZoneRegion;
+use DateTimeZone;
 
 /**
  * Unit tests for class TimeZone.
@@ -29,7 +30,7 @@ class TimeZoneTest extends AbstractTestCase
         $this->assertSame($id, $timeZone->getId());
     }
 
-    public function providerParse() : array
+    public function providerParse(): array
     {
         return [
             ['Z', TimeZoneOffset::class, 'Z'],
@@ -50,7 +51,7 @@ class TimeZoneTest extends AbstractTestCase
         TimeZone::parse($text);
     }
 
-    public function providerParseInvalidStringThrowsException() : array
+    public function providerParseInvalidStringThrowsException(): array
     {
         return [
             [''],
@@ -77,11 +78,22 @@ class TimeZoneTest extends AbstractTestCase
      */
     public function testFromDateTimeZone(string $tz): void
     {
-        $dateTimeZone = new \DateTimeZone($tz);
+        $dateTimeZone = new DateTimeZone($tz);
         $this->assertSame($tz, TimeZone::fromDateTimeZone($dateTimeZone)->getId());
     }
 
-    public function providerFromDateTimeZone() : array
+    /**
+     * @dataProvider providerFromDateTimeZone
+     *
+     * @param string $tz The time-zone name.
+     */
+    public function testFromNativeDateTimeZone(string $tz): void
+    {
+        $dateTimeZone = new DateTimeZone($tz);
+        $this->assertSame($tz, TimeZone::fromNativeDateTimeZone($dateTimeZone)->getId());
+    }
+
+    public function providerFromDateTimeZone(): array
     {
         return [
             ['Z'],

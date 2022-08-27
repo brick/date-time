@@ -23,12 +23,12 @@ final class FixedClock implements Clock
         $this->instant = $instant;
     }
 
-    public function getTime() : Instant
+    public function getTime(): Instant
     {
         return $this->instant;
     }
 
-    public function setTime(Instant $instant) : void
+    public function setTime(Instant $instant): void
     {
         $this->instant = $instant;
     }
@@ -36,7 +36,7 @@ final class FixedClock implements Clock
     /**
      * Moves the clock by a number of seconds and/or nanos.
      */
-    public function move(int $seconds, int $nanos = 0) : void
+    public function move(int $seconds, int $nanos = 0): void
     {
         $duration = Duration::ofSeconds($seconds, $nanos);
         $this->instant = $this->instant->plus($duration);
