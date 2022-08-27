@@ -849,19 +849,8 @@ class ZonedDateTimeTest extends AbstractTestCase
         $this->assertSame('2000-01-20T12:34:56.123456789-08:00[America/Los_Angeles]', (string) $zonedDateTime);
     }
 
-    private function getTestZonedDateTime(): ZonedDateTime
-    {
-        $timeZone = TimeZone::parse('America/Los_Angeles');
-        $localDateTime = LocalDateTime::parse('2000-01-20T12:34:56.123456789');
-
-        return ZonedDateTime::of($localDateTime, $timeZone);
-    }
 
     /**
-     * @param string $dateTime
-     * @param string $format
-     * @param string $expected
-     * @return void
      * @dataProvider provideToPhpFormat
      */
     public function testToNativeFormat(string $dateTime, string $format, string $expected): void
@@ -873,10 +862,6 @@ class ZonedDateTimeTest extends AbstractTestCase
     }
 
     /**
-     * @param string $dateTime
-     * @param string $format
-     * @param string $expected
-     * @return void
      * @dataProvider provideToPhpFormat
      */
     public function testToPhpFormat(string $dateTime, string $format, string $expected): void
@@ -919,10 +904,6 @@ class ZonedDateTimeTest extends AbstractTestCase
     }
 
     /**
-     * @param string $dateTime
-     * @param int $precision
-     * @param string $expected
-     * @return void
      * @dataProvider provideToUtcSqlFormat
      */
     public function testToUtcSqlFormat(string $dateTime, int $precision, string $expected): void
@@ -975,10 +956,6 @@ class ZonedDateTimeTest extends AbstractTestCase
     }
 
     /**
-     * @param string $input
-     * @param string $timeZone
-     * @param string $expected
-     * @return void
      * @dataProvider provideFromSqlFormat
      */
     public function testFromSqlFormat(string $input, string $timeZone, string $expected): void
@@ -1030,10 +1007,6 @@ class ZonedDateTimeTest extends AbstractTestCase
     }
 
     /**
-     * @param string $input
-     * @param string $timeZone
-     * @param string $expected
-     * @return void
      * @dataProvider provideFromSqlFormatInvalidCases
      */
     public function testFromSqlFormatInvalidCases(string $input, string $timeZone, string $expected): void
@@ -1063,5 +1036,13 @@ class ZonedDateTimeTest extends AbstractTestCase
                 'Input expected to be in "Y-m-d H:i:s" format. Got "2018-10-23T12:13:14Z"'
             ],
         ];
+    }
+
+    private function getTestZonedDateTime(): ZonedDateTime
+    {
+        $timeZone = TimeZone::parse('America/Los_Angeles');
+        $localDateTime = LocalDateTime::parse('2000-01-20T12:34:56.123456789');
+
+        return ZonedDateTime::of($localDateTime, $timeZone);
     }
 }

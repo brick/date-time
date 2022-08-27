@@ -11,6 +11,7 @@ use Brick\DateTime\Parser\IsoParsers;
 use DateTime;
 use DateTimeImmutable;
 use DateTimeInterface;
+use InvalidArgumentException;
 use JsonSerializable;
 
 use function intdiv;
@@ -176,9 +177,7 @@ class ZonedDateTime implements JsonSerializable
     }
 
     /**
-     * @param string $input "Y-m-d H:i:s.u" or "Y-m-d H:i:s"
-     * @param TimeZone $timeZone
-     * @return ZonedDateTime
+     * @param string $input Format "Y-m-d H:i:s.u" or "Y-m-d H:i:s".
      */
     public static function fromSqlFormat(string $input, TimeZone $timeZone): ZonedDateTime
     {
@@ -745,7 +744,7 @@ class ZonedDateTime implements JsonSerializable
         return DateTimeImmutable::createFromMutable($this->toNativeDateTime());
     }
 
-    public function toUtcDateTime() : UtcDateTime
+    public function toUtcDateTime(): UtcDateTime
     {
         return UtcDateTime::ofInstant($this->instant);
     }
@@ -761,8 +760,6 @@ class ZonedDateTime implements JsonSerializable
     }
 
     /**
-     * @param string $format
-     * @return string
      * @deprecated please use toNativeFormat instead
      */
     public function toPhpFormat(string $format): string
@@ -771,14 +768,14 @@ class ZonedDateTime implements JsonSerializable
     }
 
     /**
-     * @param int $precision
      * @return string "Y-m-d H:i:s.u" or "Y-m-d H:i:s"
      */
-    public function toUtcSqlFormat(int $precision) : string
+    public function toUtcSqlFormat(int $precision): string
     {
         if ($precision < 0 || $precision > 9) {
-            throw new \InvalidArgumentException('Precision must be between 0 and 9. Got: '. $precision);
+            throw new InvalidArgumentException('Precision must be between 0 and 9. Got: ' . $precision);
         }
+
         return $this->toUtcDateTime()->getDateTime()->toSqlFormat($precision);
     }
 

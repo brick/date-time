@@ -12,9 +12,17 @@ use Brick\DateTime\Utility\Math;
 use DateTime;
 use DateTimeImmutable;
 use DateTimeInterface;
+use DateTimeZone;
+use InvalidArgumentException;
 use JsonSerializable;
 
 use function intdiv;
+use function is_numeric;
+use function str_pad;
+use function strpos;
+use function substr;
+
+use const STR_PAD_LEFT;
 
 /**
  * A date-time without a time-zone in the ISO-8601 calendar system, such as 2007-12-03T10:15:30.
@@ -75,8 +83,7 @@ final class LocalDateTime implements JsonSerializable
     }
 
     /**
-     * @param string $input "Y-m-d H:i:s.u" or "Y-m-d H:i:s"
-     * @return LocalDateTime
+     * @param string $input Format "Y-m-d H:i:s.u" or "Y-m-d H:i:s".
      */
     public static function fromSqlFormat(string $input): LocalDateTime
     {
@@ -86,22 +93,21 @@ final class LocalDateTime implements JsonSerializable
         if ($dotPos !== false) {
             $fractionalPart = substr($originalInput, $dotPos + 1);
             $input = substr($originalInput, 0, $dotPos);
-            if (!is_numeric($fractionalPart)) {
-                throw new \InvalidArgumentException('Incorrect fractional part in format. Got "' . $originalInput. '"');
+            if (! is_numeric($fractionalPart)) {
+                throw new InvalidArgumentException('Incorrect fractional part in format. Got "' . $originalInput . '"');
             }
             $fractionalPart = substr($fractionalPart, 0, 9); // Remove numbers from right
             $fractionalPart = str_pad($fractionalPart, 9, '0');
-            $nano = (int)$fractionalPart;
+            $nano = (int) $fractionalPart;
         }
 
-        $dateTime = \DateTimeImmutable::createFromFormat('Y-m-d H:i:s', $input, new \DateTimeZone('UTC'));
+        $dateTime = DateTimeImmutable::createFromFormat('Y-m-d H:i:s', $input, new DateTimeZone('UTC'));
         if ($dateTime === false) {
-            throw new \InvalidArgumentException('Input expected to be in "Y-m-d H:i:s" format. Got "' . $originalInput. '"');
+            throw new InvalidArgumentException('Input expected to be in "Y-m-d H:i:s" format. Got "' . $originalInput . '"');
         }
 
         return self::fromNativeDateTime($dateTime)->withNano($nano);
     }
-
 
     /**
      * Obtains an instance of `LocalDateTime` from a text string.
@@ -770,29 +776,26 @@ final class LocalDateTime implements JsonSerializable
         return DateTimeImmutable::createFromMutable($this->toNativeDateTime());
     }
 
-    /**
-     * @param int $precision
-     * @return string
-     */
-    public function toSqlFormat(int $precision) : string
+    public function toSqlFormat(int $precision): string
     {
         $nanoSize = 9;
         if ($precision < 0 || $precision > $nanoSize) {
-            throw new \InvalidArgumentException('Precision must be between 0 and ' .$nanoSize . '. Got: '. $precision);
+            throw new InvalidArgumentException('Precision must be between 0 and ' . $nanoSize . '. Got: ' . $precision);
         }
 
         $result = $this->date
             . ' '
-            . str_pad((string)$this->getHour(), 2, '0', STR_PAD_LEFT)
+            . str_pad((string) $this->getHour(), 2, '0', STR_PAD_LEFT)
             . ':'
-            . str_pad((string)$this->getMinute(), 2, '0', STR_PAD_LEFT)
+            . str_pad((string) $this->getMinute(), 2, '0', STR_PAD_LEFT)
             . ':'
-            . str_pad((string)$this->getSecond(), 2, '0', STR_PAD_LEFT);
+            . str_pad((string) $this->getSecond(), 2, '0', STR_PAD_LEFT);
 
         if ($precision > 0) {
-            $nano = str_pad((string)$this->getNano(), $nanoSize, '0', STR_PAD_LEFT);
+            $nano = str_pad((string) $this->getNano(), $nanoSize, '0', STR_PAD_LEFT);
             $result .= '.' . substr($nano, 0, $precision);
         }
+
         return $result;
     }
 

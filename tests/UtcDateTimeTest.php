@@ -4,19 +4,10 @@ declare(strict_types=1);
 
 namespace Brick\DateTime\Tests;
 
-use Brick\DateTime\Instant;
 use Brick\DateTime\LocalDateTime;
-use Brick\DateTime\LocalDate;
-use Brick\DateTime\LocalTime;
-use Brick\DateTime\Parser\DateTimeParseException;
-use Brick\DateTime\Period;
-use Brick\DateTime\Duration;
 use Brick\DateTime\TimeZone;
-use Brick\DateTime\TimeZoneOffset;
 use Brick\DateTime\UtcDateTime;
 use Brick\DateTime\ZonedDateTime;
-use Brick\DateTime\DayOfWeek;
-use Brick\DateTime\Clock\FixedClock;
 
 /**
  * Unit tests for class ZonedDateTime.
@@ -45,9 +36,7 @@ class UtcDateTimeTest extends AbstractTestCase
 
     /**
      * @dataProvider providerFromDateTime
-     * @param string $dateTimeString
-     * @param string $timeZone
-     * @param string $expected
+     *
      * @throws \Exception
      */
     public function testFromDateTime(string $dateTimeString, string $timeZone, string $expected): void
@@ -56,7 +45,7 @@ class UtcDateTimeTest extends AbstractTestCase
         $this->assertIs(UtcDateTime::class, $expected, UtcDateTime::fromDateTime($dateTime));
     }
 
-    public function providerFromDateTime() : array
+    public function providerFromDateTime(): array
     {
         return [
             ['2018-07-21 14:09:10.23456', 'America/Los_Angeles', '2018-07-21T21:09:10.23456Z'],
@@ -86,7 +75,7 @@ class UtcDateTimeTest extends AbstractTestCase
         $this->assertSame($zone, (string) $zonedDateTime->getTimeZone());
     }
 
-    public function providerParse() : array
+    public function providerParse(): array
     {
         return [
             ['2001-02-03T01:02Z', '2001-02-03', '01:02', 'Z', 'Z'],
