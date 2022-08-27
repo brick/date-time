@@ -49,7 +49,7 @@ While this library is still under development, it is well tested and should be s
 * ZonedDateTime::fromSqlFormat() method
 * ZonedDateTime::toSqlFormat() method
 * ZonedDateTime::toUtcDateTime() method
-* ZonedDateTime::toPhpFormat() method
+* ZonedDateTime::toNativeFormat() method
 * ZonedDateTime::toUtcSqlFormat() method
 
 ### Compatibility with brick/date-time

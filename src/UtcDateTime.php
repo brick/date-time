@@ -113,9 +113,23 @@ final class UtcDateTime extends ZonedDateTime
         return $result;
     }
 
+    /**
+     * @param \DateTimeInterface $dateTime
+     * @return UtcDateTime
+     * @deprecated please use fromNativeDateTime instead
+     */
     public static function fromDateTime(\DateTimeInterface $dateTime): UtcDateTime
     {
-        $result = parent::fromDateTime($dateTime);
+        return self::fromNativeDateTime($dateTime);
+    }
+
+    /**
+     * @param \DateTimeInterface $dateTime
+     * @return UtcDateTime
+     */
+    public static function fromNativeDateTime(\DateTimeInterface $dateTime): UtcDateTime
+    {
+        $result = parent::fromNativeDateTime($dateTime);
         if (!$result->getTimeZone()->isEqualTo(TimeZone::utc())) {
             $result = $result->withTimeZoneSameInstant(TimeZone::utc());
         }
@@ -161,7 +175,7 @@ final class UtcDateTime extends ZonedDateTime
                 'Incorrect precision. Expected value between 0 and 9, got: ' . $precision
             );
         }
-        $result = $this->toPhpFormat('Y-m-d\TH:i:s');
+        $result = $this->toNativeFormat('Y-m-d\TH:i:s');
 
         if ($precision > 0) {
             $nano = str_pad((string)$this->getNano(), 9, '0', STR_PAD_LEFT);

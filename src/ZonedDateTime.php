@@ -750,14 +750,24 @@ class ZonedDateTime implements JsonSerializable
         return UtcDateTime::ofInstant($this->instant);
     }
 
-    public function toPhpFormat(string $format) : string
+    public function toNativeFormat(string $format): string
     {
-        $result = $this->toDateTime()->format($format);
+        $result = $this->toNativeDateTime()->format($format);
         if ($result === false) {
             throw new DateTimeException('Cannot format date to "' . $format . '"');
         }
 
         return $result;
+    }
+
+    /**
+     * @param string $format
+     * @return string
+     * @deprecated please use toNativeFormat instead
+     */
+    public function toPhpFormat(string $format): string
+    {
+        return $this->toNativeFormat($format);
     }
 
     /**

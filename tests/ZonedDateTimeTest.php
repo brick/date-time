@@ -864,6 +864,21 @@ class ZonedDateTimeTest extends AbstractTestCase
      * @return void
      * @dataProvider provideToPhpFormat
      */
+    public function testToNativeFormat(string $dateTime, string $format, string $expected): void
+    {
+        $zonedDateTime = ZonedDateTime::parse($dateTime);
+        $result = $zonedDateTime->toNativeFormat($format);
+
+        $this->assertSame($expected, $result);
+    }
+
+    /**
+     * @param string $dateTime
+     * @param string $format
+     * @param string $expected
+     * @return void
+     * @dataProvider provideToPhpFormat
+     */
     public function testToPhpFormat(string $dateTime, string $format, string $expected): void
     {
         $zonedDateTime = ZonedDateTime::parse($dateTime);

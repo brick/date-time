@@ -19,7 +19,7 @@
         "vimeo/psalm": "4.23.0"
     },
     "replaces": {
-        "brick/date-time": "0.4.0",
+        "brick/date-time": "0.4.1",
         "solodkiy/date-time": "0.4.0-p7"
     },
     "suggest": {

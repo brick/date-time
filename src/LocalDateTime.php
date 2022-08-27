@@ -99,7 +99,7 @@ final class LocalDateTime implements JsonSerializable
             throw new \InvalidArgumentException('Input expected to be in "Y-m-d H:i:s" format. Got "' . $originalInput. '"');
         }
 
-        return self::fromDateTime($dateTime)->withNano($nano);
+        return self::fromNativeDateTime($dateTime)->withNano($nano);
     }
 
 
