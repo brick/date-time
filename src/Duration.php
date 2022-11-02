@@ -491,11 +491,11 @@ final class Duration implements JsonSerializable
     {
         return $this->compareTo($that) > 0;
     }
-    
+
     /**
      * Checks if this Duration is greater than or equal to the specified duration.
      */
-    public function isGreaterThanOrEqualTo(Duration $that) : bool
+    public function isGreaterThanOrEqualTo(Duration $that): bool
     {
         return $this->compareTo($that) >= 0;
     }
@@ -507,11 +507,11 @@ final class Duration implements JsonSerializable
     {
         return $this->compareTo($that) < 0;
     }
-    
+
     /**
      * Checks if this Duration is less than or equal to the specified duration.
      */
-    public function isLessThanOrEqualTo(Duration $that) : bool
+    public function isLessThanOrEqualTo(Duration $that): bool
     {
         return $this->compareTo($that) <= 0;
     }
