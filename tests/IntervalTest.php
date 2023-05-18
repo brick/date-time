@@ -193,7 +193,7 @@ class IntervalTest extends AbstractTestCase
         $interval2 = new Interval(Instant::of($start2), Instant::of($end2));
         $expected = new Interval(Instant::of($expectedStart), Instant::of($expectedEnd));
 
-        $this->assertEquals($expected, $interval1->getIntersectionWith($interval2));
+        $this->assertTrue($expected->isEqualTo($interval1->getIntersectionWith($interval2)));
     }
 
     public function providerGetIntersectionWith(): array
@@ -236,6 +236,39 @@ class IntervalTest extends AbstractTestCase
         $this->expectExceptionMessage('Intervals "1970-01-02T03:46:40Z/1970-01-03T07:33:20Z" and "1970-01-04T11:20Z/1970-01-05T15:06:40Z" do not intersect.');
 
         $interval1->getIntersectionWith($interval2);
+    }
+
+    /** @dataProvider providerIsEqualTo */
+    public function testIsEqualTo(Interval $a, Interval $b, bool $expectedResult): void
+    {
+        $this->assertSame($expectedResult, $a->isEqualTo($b));
+        $this->assertSame($expectedResult, $b->isEqualTo($a));
+    }
+
+    public function providerIsEqualTo(): array
+    {
+        return [
+            'start is not equal' => [
+                Interval::of(Instant::of(100000), Instant::of(200000)),
+                Interval::of(Instant::of(150000), Instant::of(200000)),
+                false,
+            ],
+            'end is not equal' => [
+                Interval::of(Instant::of(100000), Instant::of(200000)),
+                Interval::of(Instant::of(100000), Instant::of(250000)),
+                false,
+            ],
+            'both start and end are not equal' => [
+                Interval::of(Instant::of(100000), Instant::of(200000)),
+                Interval::of(Instant::of(150000), Instant::of(250000)),
+                false,
+            ],
+            'intervals are equal' => [
+                Interval::of(Instant::of(100000), Instant::of(200000)),
+                Interval::of(Instant::of(100000), Instant::of(200000)),
+                true,
+            ],
+        ];
     }
 
     public function testJsonSerialize(): void

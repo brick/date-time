@@ -133,6 +133,12 @@ final class Interval implements JsonSerializable
         return new Interval($latestStart, $earliestEnd);
     }
 
+    public function isEqualTo(Interval $that): bool
+    {
+        return $this->start->isEqualTo($that->start)
+            && $this->end->isEqualTo($that->end);
+    }
+
     /**
      * Serializes as a string using {@see Interval::__toString()}.
      */
