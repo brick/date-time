@@ -25,6 +25,8 @@ final class Interval implements JsonSerializable
     private Instant $end;
 
     /**
+     * @deprecated Use {@see Interval::of()} instead.
+     *
      * @param Instant $startInclusive The start instant, inclusive.
      * @param Instant $endExclusive   The end instant, exclusive.
      *
@@ -74,7 +76,7 @@ final class Interval implements JsonSerializable
      */
     public function withStart(Instant $start): Interval
     {
-        return new Interval($start, $this->end);
+        return Interval::of($start, $this->end);
     }
 
     /**
@@ -84,7 +86,7 @@ final class Interval implements JsonSerializable
      */
     public function withEnd(Instant $end): Interval
     {
-        return new Interval($this->start, $end);
+        return Interval::of($this->start, $end);
     }
 
     /**
@@ -130,7 +132,7 @@ final class Interval implements JsonSerializable
         $latestStart = $this->start->isAfter($that->start) ? $this->start : $that->start;
         $earliestEnd = $this->end->isBefore($that->end) ? $this->end : $that->end;
 
-        return new Interval($latestStart, $earliestEnd);
+        return Interval::of($latestStart, $earliestEnd);
     }
 
     public function isEqualTo(Interval $that): bool

@@ -23,21 +23,10 @@ class IntervalTest extends AbstractTestCase
         $this->expectException(DateTimeException::class);
         $this->expectExceptionMessage('The end instant must not be before the start instant.');
 
-        new Interval($end, $start);
+        Interval::of($end, $start);
     }
 
     public function testGetStartEnd(): void
-    {
-        $start = Instant::of(2000000000, 987654321);
-        $end = Instant::of(2000000009, 123456789);
-
-        $interval = new Interval($start, $end);
-
-        $this->assertInstantIs(2000000000, 987654321, $interval->getStart());
-        $this->assertInstantIs(2000000009, 123456789, $interval->getEnd());
-    }
-
-    public function testGetStartEndUsingOf(): void
     {
         $start = Instant::of(2000000000, 987654321);
         $end = Instant::of(2000000009, 123456789);
@@ -48,12 +37,23 @@ class IntervalTest extends AbstractTestCase
         $this->assertInstantIs(2000000009, 123456789, $interval->getEnd());
     }
 
+    public function testGetStartEndUsingDeprecatedPublicConstructor(): void
+    {
+        $start = Instant::of(2000000000, 987654321);
+        $end = Instant::of(2000000009, 123456789);
+
+        $interval = new Interval($start, $end);
+
+        $this->assertInstantIs(2000000000, 987654321, $interval->getStart());
+        $this->assertInstantIs(2000000009, 123456789, $interval->getEnd());
+    }
+
     /**
      * @depends testGetStartEnd
      */
     public function testWithStart(): void
     {
-        $interval = new Interval(
+        $interval = Interval::of(
             Instant::of(2000000000),
             Instant::of(2000000001)
         );
@@ -76,7 +76,7 @@ class IntervalTest extends AbstractTestCase
      */
     public function testWithEnd(): void
     {
-        $interval = new Interval(
+        $interval = Interval::of(
             Instant::of(2000000000),
             Instant::of(2000000001)
         );
@@ -96,7 +96,7 @@ class IntervalTest extends AbstractTestCase
 
     public function testGetDuration(): void
     {
-        $interval = new Interval(
+        $interval = Interval::of(
             Instant::of(1999999999, 555555),
             Instant::of(2000000001, 111)
         );
@@ -109,7 +109,7 @@ class IntervalTest extends AbstractTestCase
     /** @dataProvider providerContains */
     public function testContains(int $start, int $end, int $now, bool $expected, string $errorMessage): void
     {
-        $interval = new Interval(Instant::of($start), Instant::of($end));
+        $interval = Interval::of(Instant::of($start), Instant::of($end));
 
         $this->assertSame($expected, $interval->contains(Instant::of($now)), $errorMessage);
     }
@@ -144,8 +144,8 @@ class IntervalTest extends AbstractTestCase
     /** @dataProvider providerIntersectsWith */
     public function testIntersectsWith(int $start1, int $end1, int $start2, int $end2, bool $expected): void
     {
-        $interval1 = new Interval(Instant::of($start1), Instant::of($end1));
-        $interval2 = new Interval(Instant::of($start2), Instant::of($end2));
+        $interval1 = Interval::of(Instant::of($start1), Instant::of($end1));
+        $interval2 = Interval::of(Instant::of($start2), Instant::of($end2));
         $this->assertSame($expected, $interval1->intersectsWith($interval2));
     }
 
@@ -189,9 +189,9 @@ class IntervalTest extends AbstractTestCase
         int $expectedStart,
         int $expectedEnd
     ): void {
-        $interval1 = new Interval(Instant::of($start1), Instant::of($end1));
-        $interval2 = new Interval(Instant::of($start2), Instant::of($end2));
-        $expected = new Interval(Instant::of($expectedStart), Instant::of($expectedEnd));
+        $interval1 = Interval::of(Instant::of($start1), Instant::of($end1));
+        $interval2 = Interval::of(Instant::of($start2), Instant::of($end2));
+        $expected = Interval::of(Instant::of($expectedStart), Instant::of($expectedEnd));
 
         $this->assertTrue($expected->isEqualTo($interval1->getIntersectionWith($interval2)));
     }
@@ -229,8 +229,8 @@ class IntervalTest extends AbstractTestCase
 
     public function testGetIntersectionWithInvalidParams(): void
     {
-        $interval1 = new Interval(Instant::of(100000), Instant::of(200000));
-        $interval2 = new Interval(Instant::of(300000), Instant::of(400000));
+        $interval1 = Interval::of(Instant::of(100000), Instant::of(200000));
+        $interval2 = Interval::of(Instant::of(300000), Instant::of(400000));
 
         $this->expectException(DateTimeException::class);
         $this->expectExceptionMessage('Intervals "1970-01-02T03:46:40Z/1970-01-03T07:33:20Z" and "1970-01-04T11:20Z/1970-01-05T15:06:40Z" do not intersect.');
@@ -273,7 +273,7 @@ class IntervalTest extends AbstractTestCase
 
     public function testJsonSerialize(): void
     {
-        $interval = new Interval(
+        $interval = Interval::of(
             Instant::of(1000000000),
             Instant::of(2000000000)
         );
@@ -283,7 +283,7 @@ class IntervalTest extends AbstractTestCase
 
     public function testToString(): void
     {
-        $interval = new Interval(
+        $interval = Interval::of(
             Instant::of(1000000000),
             Instant::of(2000000000)
         );
