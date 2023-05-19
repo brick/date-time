@@ -1,11 +1,20 @@
 # Changelog
 
-## UNRELEASED (0.4.2)
+## [0.4.2](https://github.com/brick/date-time/releases/tag/0.4.2) - 2023-05-19
 
 ✨ **New methods**
 
 - `Duration::isGreaterThanOrEqualTo()` ([#50](https://github.com/brick/date-time/pull/50))
 - `Duration::isLessThanOrEqualTo()` ([#50](https://github.com/brick/date-time/pull/50))
+- `Interval::of()` ([#64](https://github.com/brick/date-time/pull/64))
+- `Interval::contains()` ([#64](https://github.com/brick/date-time/pull/64))
+- `Interval::intersectsWith()` ([#64](https://github.com/brick/date-time/pull/64))
+- `Interval::getIntersectionWith()` ([#64](https://github.com/brick/date-time/pull/64))
+- `Interval::isEqualTo()` ([#64](https://github.com/brick/date-time/pull/64))
+
+💩 **Deprecations**
+
+- `Interval` constructor is deprecated in favour of `Interval::of()`
 
 ## [0.4.1](https://github.com/brick/date-time/releases/tag/0.4.1) - 2022-06-18
 
