@@ -216,15 +216,15 @@ return static function (ECSConfig $ecsConfig): void {
     $ecsConfig->ruleWithConfiguration(
         DocCommentSpacingSniff::class,
         [
-        'linesCountBetweenAnnotationsGroups' => 1,
-        'annotationsGroups' => [
-            '@todo',
-            '@internal,@deprecated',
-            '@link,@see,@uses',
-            '@dataProvider',
-            '@param',
-            '@return',
-            '@throws',
+            'linesCountBetweenAnnotationsGroups' => 1,
+            'annotationsGroups' => [
+                '@todo',
+                '@internal,@deprecated',
+                '@link,@see,@uses',
+                '@dataProvider',
+                '@param',
+                '@return',
+                '@throws',
             ],
         ]
     );
