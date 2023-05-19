@@ -14,7 +14,7 @@
 
 💩 **Deprecations**
 
-- `Interval` constructor is deprecated in favour of `Interval::of()`
+- `Interval` constructor is deprecated in favour of `Interval::of()` ([#64](https://github.com/brick/date-time/pull/64))
 
 ## [0.4.1](https://github.com/brick/date-time/releases/tag/0.4.1) - 2022-06-18
 
