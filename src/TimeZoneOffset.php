@@ -122,7 +122,7 @@ final class TimeZoneOffset extends TimeZone
      *
      * @throws DateTimeParseException
      */
-    public static function parse(string $text, ?DateTimeParser $parser = null): TimeZone
+    public static function parse(string $text, ?DateTimeParser $parser = null): TimeZoneOffset
     {
         if (! $parser) {
             $parser = IsoParsers::timeZoneOffset();
