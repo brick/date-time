@@ -109,7 +109,7 @@ final class LocalDate implements JsonSerializable
 
         $isLeap = Field\Year::isLeap($year);
 
-        $monthOfYear = Month::of(intdiv($dayOfYear - 1, 31) + 1);
+        $monthOfYear = Month::from(intdiv($dayOfYear - 1, 31) + 1);
         $monthEnd = $monthOfYear->getFirstDayOfYear($isLeap) + $monthOfYear->getLength($isLeap) - 1;
 
         if ($dayOfYear > $monthEnd) {
@@ -118,7 +118,7 @@ final class LocalDate implements JsonSerializable
 
         $dayOfMonth = $dayOfYear - $monthOfYear->getFirstDayOfYear($isLeap) + 1;
 
-        return LocalDate::of($year, $monthOfYear->getValue(), $dayOfMonth);
+        return LocalDate::of($year, $monthOfYear->value, $dayOfMonth);
     }
 
     /**
@@ -332,7 +332,7 @@ final class LocalDate implements JsonSerializable
      */
     public function getDayOfYear(): int
     {
-        return Month::of($this->month)->getFirstDayOfYear($this->isLeapYear()) + $this->day - 1;
+        return Month::from($this->month)->getFirstDayOfYear($this->isLeapYear()) + $this->day - 1;
     }
 
     public function getYearWeek(): YearWeek
