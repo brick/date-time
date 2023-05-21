@@ -37,17 +37,6 @@ class IntervalTest extends AbstractTestCase
         $this->assertInstantIs(2000000009, 123456789, $interval->getEnd());
     }
 
-    public function testGetStartEndUsingDeprecatedPublicConstructor(): void
-    {
-        $start = Instant::of(2000000000, 987654321);
-        $end = Instant::of(2000000009, 123456789);
-
-        $interval = new Interval($start, $end);
-
-        $this->assertInstantIs(2000000000, 987654321, $interval->getStart());
-        $this->assertInstantIs(2000000009, 123456789, $interval->getEnd());
-    }
-
     /**
      * @depends testGetStartEnd
      */

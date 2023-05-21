@@ -25,19 +25,11 @@ final class Interval implements JsonSerializable
     private Instant $end;
 
     /**
-     * @deprecated Use {@see Interval::of()} instead.
-     *
      * @param Instant $startInclusive The start instant, inclusive.
-     * @param Instant $endExclusive   The end instant, exclusive.
-     *
-     * @throws DateTimeException If the end instant is before the start instant.
+     * @param Instant $endExclusive   The end instant, exclusive, validated as not before the start instant.
      */
-    public function __construct(Instant $startInclusive, Instant $endExclusive)
+    private function __construct(Instant $startInclusive, Instant $endExclusive)
     {
-        if ($endExclusive->isBefore($startInclusive)) {
-            throw new DateTimeException('The end instant must not be before the start instant.');
-        }
-
         $this->start = $startInclusive;
         $this->end = $endExclusive;
     }
@@ -50,6 +42,10 @@ final class Interval implements JsonSerializable
      */
     public static function of(Instant $startInclusive, Instant $endExclusive): Interval
     {
+        if ($endExclusive->isBefore($startInclusive)) {
+            throw new DateTimeException('The end instant must not be before the start instant.');
+        }
+
         return new Interval($startInclusive, $endExclusive);
     }
 
@@ -132,7 +128,7 @@ final class Interval implements JsonSerializable
         $latestStart = $this->start->isAfter($that->start) ? $this->start : $that->start;
         $earliestEnd = $this->end->isBefore($that->end) ? $this->end : $that->end;
 
-        return Interval::of($latestStart, $earliestEnd);
+        return new Interval($latestStart, $earliestEnd);
     }
 
     public function isEqualTo(Interval $that): bool

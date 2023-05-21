@@ -1,5 +1,11 @@
 # Changelog
 
+## UNRELEASED (0.5.0)
+
+💥 **Breaking changes**
+
+- Deprecated `Interval` constructor is now `private`; please use `Interval::of()` instead
+
 ## [0.4.3](https://github.com/brick/date-time/releases/tag/0.4.3) - 2023-06-20
 
 🔧 **Improvements**
