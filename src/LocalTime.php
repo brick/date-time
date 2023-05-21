@@ -164,16 +164,6 @@ final class LocalTime implements JsonSerializable
     }
 
     /**
-     * Creates a LocalTime from a native DateTime or DateTimeImmutable object.
-     *
-     * @deprecated please use fromNativeDateTime instead
-     */
-    public static function fromDateTime(DateTimeInterface $dateTime): LocalTime
-    {
-        return self::fromNativeDateTime($dateTime);
-    }
-
-    /**
      * Returns the current local time in the given time-zone, according to the given clock.
      *
      * If no clock is provided, the system clock is used.
@@ -616,21 +606,6 @@ final class LocalTime implements JsonSerializable
     }
 
     /**
-     * Converts this LocalTime to a native DateTime object.
-     *
-     * The result is a DateTime with date 0000-01-01 in the UTC time-zone.
-     *
-     * Note that the native DateTime object supports a precision up to the microsecond,
-     * so the nanoseconds are rounded down to the nearest microsecond.
-     *
-     * @deprecated please use toNativeDateTime instead
-     */
-    public function toDateTime(): DateTime
-    {
-        return $this->toNativeDateTime();
-    }
-
-    /**
      * Converts this LocalTime to a native DateTimeImmutable object.
      *
      * The result is a DateTimeImmutable with date 0000-01-01 in the UTC time-zone.
@@ -641,21 +616,6 @@ final class LocalTime implements JsonSerializable
     public function toNativeDateTimeImmutable(): DateTimeImmutable
     {
         return DateTimeImmutable::createFromMutable($this->toNativeDateTime());
-    }
-
-    /**
-     * Converts this LocalTime to a native DateTimeImmutable object.
-     *
-     * The result is a DateTimeImmutable with date 0000-01-01 in the UTC time-zone.
-     *
-     * Note that the native DateTimeImmutable object supports a precision up to the microsecond,
-     * so the nanoseconds are rounded down to the nearest microsecond.
-     *
-     * @deprecated please use toNativeDateTimeImmutable instead
-     */
-    public function toDateTimeImmutable(): DateTimeImmutable
-    {
-        return $this->toNativeDateTimeImmutable();
     }
 
     /**

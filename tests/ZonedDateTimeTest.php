@@ -440,16 +440,7 @@ class ZonedDateTimeTest extends AbstractTestCase
     }
 
     /**
-     * @dataProvider providerFromDateTime
-     */
-    public function testFromDateTime(string $dateTimeString, string $timeZone, string $expected): void
-    {
-        $dateTime = new DateTime($dateTimeString, new DateTimeZone($timeZone));
-        $this->assertIs(ZonedDateTime::class, $expected, ZonedDateTime::fromDateTime($dateTime));
-    }
-
-    /**
-     * @dataProvider providerFromDateTime
+     * @dataProvider providerFromNativeDateTime
      */
     public function testFromNativeDateTime(string $dateTimeString, string $timeZone, string $expected): void
     {
@@ -457,7 +448,7 @@ class ZonedDateTimeTest extends AbstractTestCase
         $this->assertIs(ZonedDateTime::class, $expected, ZonedDateTime::fromNativeDateTime($dateTime));
     }
 
-    public function providerFromDateTime(): array
+    public function providerFromNativeDateTime(): array
     {
         return [
             ['2018-07-21 14:09:10.23456', 'America/Los_Angeles', '2018-07-21T14:09:10.23456-07:00[America/Los_Angeles]'],
@@ -780,22 +771,7 @@ class ZonedDateTimeTest extends AbstractTestCase
     }
 
     /**
-     * @dataProvider providerToDateTime
-     *
-     * @param string $dateTime The date-time string that will be parse()d by ZonedDateTime.
-     * @param string $expected The expected output from the native DateTime object.
-     */
-    public function testToDateTime(string $dateTime, string $expected): void
-    {
-        $zonedDateTime = ZonedDateTime::parse($dateTime);
-        $dateTime = $zonedDateTime->toDateTime();
-
-        $this->assertInstanceOf(DateTime::class, $dateTime);
-        $this->assertSame($expected, $dateTime->format('Y-m-d\TH:i:s.uO'));
-    }
-
-    /**
-     * @dataProvider providerToDateTime
+     * @dataProvider providerToNativeDateTime
      *
      * @param string $dateTime The date-time string that will be parse()d by ZonedDateTime.
      * @param string $expected The expected output from the native DateTime object.
@@ -810,22 +786,7 @@ class ZonedDateTimeTest extends AbstractTestCase
     }
 
     /**
-     * @dataProvider providerToDateTime
-     *
-     * @param string $dateTime The date-time string that will be parse()d by ZonedDateTime.
-     * @param string $expected The expected output from the native DateTime object.
-     */
-    public function testToDateTimeImmutable(string $dateTime, string $expected): void
-    {
-        $zonedDateTime = ZonedDateTime::parse($dateTime);
-        $dateTime = $zonedDateTime->toDateTimeImmutable();
-
-        $this->assertInstanceOf(DateTimeImmutable::class, $dateTime);
-        $this->assertSame($expected, $dateTime->format('Y-m-d\TH:i:s.uO'));
-    }
-
-    /**
-     * @dataProvider providerToDateTime
+     * @dataProvider providerToNativeDateTime
      *
      * @param string $dateTime The date-time string that will be parse()d by ZonedDateTime.
      * @param string $expected The expected output from the native DateTime object.
@@ -839,7 +800,7 @@ class ZonedDateTimeTest extends AbstractTestCase
         $this->assertSame($expected, $dateTime->format('Y-m-d\TH:i:s.uO'));
     }
 
-    public function providerToDateTime(): array
+    public function providerToNativeDateTime(): array
     {
         return [
             ['2018-10-18T12:34Z',                        '2018-10-18T12:34:00.000000+0000'],

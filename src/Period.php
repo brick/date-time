@@ -169,18 +169,6 @@ final class Period implements JsonSerializable
     }
 
     /**
-     * Creates a Period from a PHP DateInterval object.
-     *
-     * @deprecated please use fromNativeDateInterval instead
-     *
-     * @throws DateTimeException If the DateInterval contains non-zero hours, minutes, seconds or microseconds.
-     */
-    public static function fromDateInterval(DateInterval $dateInterval): Period
-    {
-        return self::fromNativeDateInterval($dateInterval);
-    }
-
-    /**
      * Returns a Period consisting of the number of years, months, and days between two dates.
      *
      * The start date is included, but the end date is not.
@@ -363,19 +351,6 @@ final class Period implements JsonSerializable
         return $this->years === $that->years
             && $this->months === $that->months
             && $this->days === $that->days;
-    }
-
-    /**
-     * Returns a native DateInterval object equivalent to this Period.
-     *
-     * We cannot use the constructor with the output of __toString(),
-     * as it does not support negative values.
-     *
-     * @deprecated please use toNativeDateInterval instead
-     */
-    public function toDateInterval(): DateInterval
-    {
-        return $this->toNativeDateInterval();
     }
 
     /**

@@ -5,6 +5,27 @@
 💥 **Breaking changes**
 
 - Deprecated `Interval` constructor is now `private`; please use `Interval::of()` instead
+- The following deprecated methods have been removed, please use the new names:
+  
+  | Class Name       | Old Method Name         | New Method Name               |
+  |------------------|-------------------------|-------------------------------|
+  | `LocalDate`      | `fromDateTime()`        | `fromNativeDateTime()`        |
+  | `LocalDate`      | `toDateTime()`          | `toNativeDateTime()`          |
+  | `LocalDate`      | `toDateTimeImmutable()` | `toNativeDateTimeImmutable()` |
+  | `LocalDateRange` | `toDatePeriod()`        | `toNativeDatePeriod()`        |
+  | `LocalDateTime`  | `fromDateTime()`        | `fromNativeDateTime()`        |
+  | `LocalDateTime`  | `toDateTime()`          | `toNativeDateTime()`          |
+  | `LocalDateTime`  | `toDateTimeImmutable()` | `toNativeDateTimeImmutable()` |
+  | `LocalTime`      | `fromDateTime()`        | `fromNativeDateTime()`        |
+  | `LocalTime`      | `toDateTime()`          | `toNativeDateTime()`          |
+  | `LocalTime`      | `toDateTimeImmutable()` | `toNativeDateTimeImmutable()` |
+  | `Period`         | `fromDateInterval()`    | `fromNativeDateInterval()`    |
+  | `Period`         | `toDateInterval()`      | `toNativeDateInterval()`      |
+  | `TimeZone`       | `fromDateTimeZone()`    | `fromNativeDateTimeZone()`    |
+  | `TimeZone`       | `toDateTimeZone()`      | `toNativeDateTimeZone()`      |
+  | `ZonedDateTime`  | `fromDateTime()`        | `fromNativeDateTime()`        |
+  | `ZonedDateTime`  | `toDateTime()`          | `toNativeDateTime()`          |
+  | `ZonedDateTime`  | `toDateTimeImmutable()` | `toNativeDateTimeImmutable()` |
 
 ## [0.4.3](https://github.com/brick/date-time/releases/tag/0.4.3) - 2023-06-20
 

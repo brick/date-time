@@ -154,14 +154,6 @@ class TimeZoneRegionTest extends AbstractTestCase
         ];
     }
 
-    public function testToDateTimeZone(): void
-    {
-        $dateTimeZone = TimeZoneRegion::of('Europe/London')->toDateTimeZone();
-
-        $this->assertInstanceOf(DateTimeZone::class, $dateTimeZone);
-        $this->assertSame('Europe/London', $dateTimeZone->getName());
-    }
-
     public function testToNativeDateTimeZone(): void
     {
         $dateTimeZone = TimeZoneRegion::of('Europe/London')->toNativeDateTimeZone();

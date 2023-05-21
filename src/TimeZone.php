@@ -64,14 +64,6 @@ abstract class TimeZone
         return $this->getId() === $other->getId();
     }
 
-    /**
-     * @deprecated please use fromNativeDateTimeZone instead
-     */
-    public static function fromDateTimeZone(DateTimeZone $dateTimeZone): TimeZone
-    {
-        return self::fromNativeDateTimeZone($dateTimeZone);
-    }
-
     public static function fromNativeDateTimeZone(DateTimeZone $dateTimeZone): TimeZone
     {
         $parsed = TimeZone::parse($dateTimeZone->getName());
@@ -95,21 +87,8 @@ abstract class TimeZone
 
     /**
      * Returns an equivalent native `DateTimeZone` object for this TimeZone.
-     *
-     * @deprecated please use toNativeDateTimeZone instead
      */
-    abstract public function toDateTimeZone(): DateTimeZone;
-
-    /**
-     * Returns an equivalent native `DateTimeZone` object for this TimeZone.
-     */
-    public function toNativeDateTimeZone(): DateTimeZone
-    {
-        /**
-         * @psalm-suppress DeprecatedMethod
-         */
-        return $this->toDateTimeZone();
-    }
+    abstract public function toNativeDateTimeZone(): DateTimeZone;
 
     public function __toString(): string
     {

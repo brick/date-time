@@ -163,16 +163,6 @@ final class LocalDate implements JsonSerializable
     }
 
     /**
-     * Creates a LocalDate from a native DateTime or DateTimeImmutable object.
-     *
-     * @deprecated please use fromNativeDateTime instead
-     */
-    public static function fromDateTime(DateTimeInterface $dateTime): LocalDate
-    {
-        return self::fromNativeDateTime($dateTime);
-    }
-
-    /**
      * Obtains an instance of `LocalDate` from the epoch day count.
      *
      * The Epoch Day count is a simple incrementing count of days
@@ -719,34 +709,10 @@ final class LocalDate implements JsonSerializable
      * Converts this LocalDate to a native DateTime object.
      *
      * The result is a DateTime with time 00:00 in the UTC time-zone.
-     *
-     * @deprecated please use toNativeDateTime instead
-     */
-    public function toDateTime(): DateTime
-    {
-        return $this->toNativeDateTime();
-    }
-
-    /**
-     * Converts this LocalDate to a native DateTime object.
-     *
-     * The result is a DateTime with time 00:00 in the UTC time-zone.
      */
     public function toNativeDateTime(): DateTime
     {
         return $this->atTime(LocalTime::midnight())->toNativeDateTime();
-    }
-
-    /**
-     * Converts this LocalDate to a native DateTimeImmutable object.
-     *
-     * The result is a DateTimeImmutable with time 00:00 in the UTC time-zone.
-     *
-     * @deprecated please use toNativeDateTimeImmutable instead
-     */
-    public function toDateTimeImmutable(): DateTimeImmutable
-    {
-        return $this->toNativeDateTimeImmutable();
     }
 
     /**

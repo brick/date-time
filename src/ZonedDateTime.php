@@ -219,18 +219,6 @@ class ZonedDateTime implements JsonSerializable
     }
 
     /**
-     * Creates a ZonedDateTime from a native DateTime or DateTimeImmutable object.
-     *
-     * @deprecated please use fromNativeDateTime instead
-     *
-     * @throws DateTimeException If the DateTime object has no timezone.
-     */
-    public static function fromDateTime(DateTimeInterface $dateTime): ZonedDateTime
-    {
-        return self::fromNativeDateTime($dateTime);
-    }
-
-    /**
      * Returns the `LocalDateTime` part of this `ZonedDateTime`.
      */
     public function getDateTime(): LocalDateTime
@@ -672,19 +660,6 @@ class ZonedDateTime implements JsonSerializable
      *
      * Note that the native DateTime object supports a precision up to the microsecond,
      * so the nanoseconds are rounded down to the nearest microsecond.
-     *
-     * @deprecated please use toNativeDateTime instead
-     */
-    public function toDateTime(): DateTime
-    {
-        return $this->toNativeDateTime();
-    }
-
-    /**
-     * Converts this ZonedDateTime to a native DateTime object.
-     *
-     * Note that the native DateTime object supports a precision up to the microsecond,
-     * so the nanoseconds are rounded down to the nearest microsecond.
      */
     public function toNativeDateTime(): DateTime
     {
@@ -708,14 +683,6 @@ class ZonedDateTime implements JsonSerializable
         }
 
         return DateTime::createFromFormat($format, $dateTime, $dateTimeZone);
-    }
-
-    /**
-     * @deprecated please use toNativeDateTimeImmutable instead
-     */
-    public function toDateTimeImmutable(): DateTimeImmutable
-    {
-        return $this->toNativeDateTimeImmutable();
     }
 
     public function toNativeDateTimeImmutable(): DateTimeImmutable
