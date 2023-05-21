@@ -20,17 +20,17 @@ use function json_encode;
 class DayOfWeekTest extends AbstractTestCase
 {
     /**
-     * @dataProvider providerConstants
+     * @dataProvider providerValues
      *
-     * @param int $expectedValue     The expected value of the constant.
-     * @param int $dayOfWeekConstant The day-of-week constant.
+     * @param int       $expectedValue The expected value of the constant.
+     * @param DayOfWeek $dayOfWeek     The day-of-week instance.
      */
-    public function testConstants(int $expectedValue, int $dayOfWeekConstant): void
+    public function testValues(int $expectedValue, DayOfWeek $dayOfWeek): void
     {
-        self::assertSame($expectedValue, $dayOfWeekConstant);
+        self::assertSame($expectedValue, $dayOfWeek->value);
     }
 
-    public function providerConstants(): array
+    public function providerValues(): array
     {
         return [
             [1, DayOfWeek::MONDAY],
@@ -45,7 +45,8 @@ class DayOfWeekTest extends AbstractTestCase
 
     public function testOf(): void
     {
-        self::assertDayOfWeekIs(5, DayOfWeek::of(5));
+        self::assertSame(DayOfWeek::FRIDAY, DayOfWeek::of(5));
+        self::assertSame(DayOfWeek::FRIDAY, DayOfWeek::of(DayOfWeek::FRIDAY));
     }
 
     /**
@@ -69,14 +70,14 @@ class DayOfWeekTest extends AbstractTestCase
     /**
      * @dataProvider providerNow
      *
-     * @param int    $epochSecond       The epoch second to set the clock time to.
-     * @param string $timeZone          The time-zone to get the current day-of-week in.
-     * @param int    $expectedDayOfWeek The expected day-of-week, from 1 to 7.
+     * @param int       $epochSecond       The epoch second to set the clock time to.
+     * @param string    $timeZone          The time-zone to get the current day-of-week in.
+     * @param DayOfWeek $expectedDayOfWeek The expected day-of-week.
      */
-    public function testNow(int $epochSecond, string $timeZone, int $expectedDayOfWeek): void
+    public function testNow(int $epochSecond, string $timeZone, DayOfWeek $expectedDayOfWeek): void
     {
         $clock = new FixedClock(Instant::of($epochSecond));
-        self::assertDayOfWeekIs($expectedDayOfWeek, DayOfWeek::now(TimeZone::parse($timeZone), $clock));
+        self::assertSame($expectedDayOfWeek, DayOfWeek::now(TimeZone::parse($timeZone), $clock));
     }
 
     public function providerNow(): array
@@ -93,11 +94,11 @@ class DayOfWeekTest extends AbstractTestCase
 
     public function testAll(): void
     {
-        for ($day = DayOfWeek::MONDAY; $day <= DayOfWeek::SUNDAY; $day++) {
-            $dayOfWeek = DayOfWeek::of($day);
+        for ($day = DayOfWeek::MONDAY->value; $day <= DayOfWeek::SUNDAY->value; $day++) {
+            $dayOfWeek = DayOfWeek::from($day);
 
             foreach (DayOfWeek::all($dayOfWeek) as $dow) {
-                self::assertTrue($dow->isEqualTo($dayOfWeek));
+                self::assertSame($dayOfWeek, $dow);
                 $dayOfWeek = $dayOfWeek->plus(1);
             }
         }
@@ -105,53 +106,54 @@ class DayOfWeekTest extends AbstractTestCase
 
     public function testMonday(): void
     {
-        self::assertDayOfWeekIs(DayOfWeek::MONDAY, DayOfWeek::monday());
+        self::assertSame(DayOfWeek::MONDAY, DayOfWeek::monday());
     }
 
     public function testTuesday(): void
     {
-        self::assertDayOfWeekIs(DayOfWeek::TUESDAY, DayOfWeek::tuesday());
+        self::assertSame(DayOfWeek::TUESDAY, DayOfWeek::tuesday());
     }
 
     public function testWednesday(): void
     {
-        self::assertDayOfWeekIs(DayOfWeek::WEDNESDAY, DayOfWeek::wednesday());
+        self::assertSame(DayOfWeek::WEDNESDAY, DayOfWeek::wednesday());
     }
 
     public function testThursday(): void
     {
-        self::assertDayOfWeekIs(DayOfWeek::THURSDAY, DayOfWeek::thursday());
+        self::assertSame(DayOfWeek::THURSDAY, DayOfWeek::thursday());
     }
 
     public function testFriday(): void
     {
-        self::assertDayOfWeekIs(DayOfWeek::FRIDAY, DayOfWeek::friday());
+        self::assertSame(DayOfWeek::FRIDAY, DayOfWeek::friday());
     }
 
     public function testSaturday(): void
     {
-        self::assertDayOfWeekIs(DayOfWeek::SATURDAY, DayOfWeek::saturday());
+        self::assertSame(DayOfWeek::SATURDAY, DayOfWeek::saturday());
     }
 
     public function testSunday(): void
     {
-        self::assertDayOfWeekIs(DayOfWeek::SUNDAY, DayOfWeek::sunday());
+        self::assertSame(DayOfWeek::SUNDAY, DayOfWeek::sunday());
     }
 
     public function testIs(): void
     {
-        for ($i = DayOfWeek::MONDAY; $i <= DayOfWeek::SUNDAY; $i++) {
-            for ($j = DayOfWeek::MONDAY; $j <= DayOfWeek::SUNDAY; $j++) {
-                self::assertSame($i === $j, DayOfWeek::of($i)->is($j));
+        for ($i = DayOfWeek::MONDAY->value; $i <= DayOfWeek::SUNDAY->value; $i++) {
+            for ($j = DayOfWeek::MONDAY->value; $j <= DayOfWeek::SUNDAY->value; $j++) {
+                self::assertSame($i === $j, DayOfWeek::from($i)->is($j));
+                self::assertSame($i === $j, DayOfWeek::from($i)->is(DayOfWeek::from($j)));
             }
         }
     }
 
     public function testIsEqualTo(): void
     {
-        for ($i = DayOfWeek::MONDAY; $i <= DayOfWeek::SUNDAY; $i++) {
-            for ($j = DayOfWeek::MONDAY; $j <= DayOfWeek::SUNDAY; $j++) {
-                self::assertSame($i === $j, DayOfWeek::of($i)->isEqualTo(DayOfWeek::of($j)));
+        for ($i = DayOfWeek::MONDAY->value; $i <= DayOfWeek::SUNDAY->value; $i++) {
+            for ($j = DayOfWeek::MONDAY->value; $j <= DayOfWeek::SUNDAY->value; $j++) {
+                self::assertSame($i === $j, DayOfWeek::from($i)->isEqualTo(DayOfWeek::from($j)));
             }
         }
     }
@@ -167,13 +169,13 @@ class DayOfWeekTest extends AbstractTestCase
     public function providerIsWeekday(): array
     {
         return [
-            [DayOfWeek::monday(), true],
-            [DayOfWeek::tuesday(), true],
-            [DayOfWeek::wednesday(), true],
-            [DayOfWeek::thursday(), true],
-            [DayOfWeek::friday(), true],
-            [DayOfWeek::saturday(), false],
-            [DayOfWeek::sunday(), false],
+            [DayOfWeek::MONDAY, true],
+            [DayOfWeek::TUESDAY, true],
+            [DayOfWeek::WEDNESDAY, true],
+            [DayOfWeek::THURSDAY, true],
+            [DayOfWeek::FRIDAY, true],
+            [DayOfWeek::SATURDAY, false],
+            [DayOfWeek::SUNDAY, false],
         ];
     }
 
@@ -188,43 +190,43 @@ class DayOfWeekTest extends AbstractTestCase
     public function providerIsWeekend(): array
     {
         return [
-            [DayOfWeek::monday(), false],
-            [DayOfWeek::tuesday(), false],
-            [DayOfWeek::wednesday(), false],
-            [DayOfWeek::thursday(), false],
-            [DayOfWeek::friday(), false],
-            [DayOfWeek::saturday(), true],
-            [DayOfWeek::sunday(), true],
+            [DayOfWeek::MONDAY, false],
+            [DayOfWeek::TUESDAY, false],
+            [DayOfWeek::WEDNESDAY, false],
+            [DayOfWeek::THURSDAY, false],
+            [DayOfWeek::FRIDAY, false],
+            [DayOfWeek::SATURDAY, true],
+            [DayOfWeek::SUNDAY, true],
         ];
     }
 
     /**
      * @dataProvider providerPlus
      *
-     * @param int $dayOfWeek         The base day-of-week value.
-     * @param int $plusDays          The number of days to add.
-     * @param int $expectedDayOfWeek The expected day-of-week value, from 1 to 7.
+     * @param DayOfWeek $dayOfWeek         The base day-of-week.
+     * @param int       $plusDays          The number of days to add.
+     * @param DayOfWeek $expectedDayOfWeek The expected day-of-week.
      */
-    public function testPlus(int $dayOfWeek, int $plusDays, int $expectedDayOfWeek): void
+    public function testPlus(DayOfWeek $dayOfWeek, int $plusDays, DayOfWeek $expectedDayOfWeek): void
     {
-        self::assertDayOfWeekIs($expectedDayOfWeek, DayOfWeek::of($dayOfWeek)->plus($plusDays));
+        self::assertSame($expectedDayOfWeek, $dayOfWeek->plus($plusDays));
     }
 
     /**
      * @dataProvider providerPlus
      *
-     * @param int $dayOfWeek         The base day-of-week value.
-     * @param int $plusDays          The number of days to add.
-     * @param int $expectedDayOfWeek The expected day-of-week value, from 1 to 7.
+     * @param DayOfWeek $dayOfWeek         The base day-of-week.
+     * @param int       $plusDays          The number of days to add.
+     * @param DayOfWeek $expectedDayOfWeek The expected day-of-week.
      */
-    public function testMinus(int $dayOfWeek, int $plusDays, int $expectedDayOfWeek): void
+    public function testMinus(DayOfWeek $dayOfWeek, int $plusDays, DayOfWeek $expectedDayOfWeek): void
     {
-        self::assertDayOfWeekIs($expectedDayOfWeek, DayOfWeek::of($dayOfWeek)->minus(-$plusDays));
+        self::assertSame($expectedDayOfWeek, $dayOfWeek->minus(-$plusDays));
     }
 
     public function providerPlus(): Generator
     {
-        for ($dayOfWeek = DayOfWeek::MONDAY; $dayOfWeek <= DayOfWeek::SUNDAY; $dayOfWeek++) {
+        for ($dayOfWeek = DayOfWeek::MONDAY->value; $dayOfWeek <= DayOfWeek::SUNDAY->value; $dayOfWeek++) {
             for ($plusDays = -15; $plusDays <= 15; $plusDays++) {
                 $expectedDayOfWeek = $dayOfWeek + $plusDays;
 
@@ -235,7 +237,7 @@ class DayOfWeekTest extends AbstractTestCase
                     $expectedDayOfWeek -= 7;
                 }
 
-                yield [$dayOfWeek, $plusDays, $expectedDayOfWeek];
+                yield [DayOfWeek::from($dayOfWeek), $plusDays, DayOfWeek::from($expectedDayOfWeek)];
             }
         }
     }
@@ -245,15 +247,14 @@ class DayOfWeekTest extends AbstractTestCase
      *
      * @dataProvider providerGetDayOfWeekFromLocalDate
      *
-     * @param string $localDate The local date to test, as a string.
-     * @param int    $dayOfWeek The day-of-week number that matches the local date.
+     * @param string    $localDate The local date to test, as a string.
+     * @param DayOfWeek $dayOfWeek The day-of-week that matches the local date.
      */
-    public function testGetDayOfWeekFromLocalDate(string $localDate, int $dayOfWeek): void
+    public function testGetDayOfWeekFromLocalDate(string $localDate, DayOfWeek $dayOfWeek): void
     {
         $localDate = LocalDate::parse($localDate);
-        $dayOfWeek = DayOfWeek::of($dayOfWeek);
 
-        self::assertTrue($localDate->getDayOfWeek()->isEqualTo($dayOfWeek));
+        self::assertSame($dayOfWeek, $localDate->getDayOfWeek());
     }
 
     public function providerGetDayOfWeekFromLocalDate(): array
@@ -278,23 +279,23 @@ class DayOfWeekTest extends AbstractTestCase
     /**
      * @dataProvider providerToString
      *
-     * @param int    $dayOfWeek    The day-of-week value, from 1 to 7.
-     * @param string $expectedName The expected name.
+     * @param DayOfWeek $dayOfWeek    The day-of-week.
+     * @param string    $expectedName The expected name.
      */
-    public function testJsonSerialize(int $dayOfWeek, string $expectedName): void
+    public function testJsonSerialize(DayOfWeek $dayOfWeek, string $expectedName): void
     {
-        self::assertSame(json_encode($expectedName), json_encode(DayOfWeek::of($dayOfWeek)));
+        self::assertSame(json_encode($expectedName), json_encode($dayOfWeek));
     }
 
     /**
      * @dataProvider providerToString
      *
-     * @param int    $dayOfWeek    The day-of-week value, from 1 to 7.
-     * @param string $expectedName The expected name.
+     * @param DayOfWeek $dayOfWeek    The day-of-week.
+     * @param string    $expectedName The expected name.
      */
-    public function testToString(int $dayOfWeek, string $expectedName): void
+    public function testToString(DayOfWeek $dayOfWeek, string $expectedName): void
     {
-        self::assertSame($expectedName, (string) DayOfWeek::of($dayOfWeek));
+        self::assertSame($expectedName, $dayOfWeek->toString());
     }
 
     public function providerToString(): array

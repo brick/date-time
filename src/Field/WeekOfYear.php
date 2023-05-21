@@ -54,8 +54,8 @@ final class WeekOfYear
         $date = LocalDate::of($year, 1, 1);
         $dayOfWeek = $date->getDayOfWeek();
 
-        return $dayOfWeek->is(DayOfWeek::THURSDAY)
-            || ($dayOfWeek->is(DayOfWeek::WEDNESDAY) && $date->isLeapYear());
+        return $dayOfWeek === DayOfWeek::THURSDAY
+            || ($dayOfWeek === DayOfWeek::WEDNESDAY && $date->isLeapYear());
     }
 
     /**
