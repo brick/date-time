@@ -55,9 +55,9 @@ Overview
 
 ### Main classes
 
-The following classes represent the date-time concepts:
+The following classes/enums represent the date-time concepts:
 
-- `DayOfWeek`: a day-of-week such as Monday
+- `DayOfWeek`: a day-of-week such as Monday (`enum`)
 - `Duration`: a duration measured in seconds and nanoseconds
 - `Instant`: a point in time, with a nanosecond precision
 - `Interval`: a period of time between two instants

@@ -5,18 +5,37 @@
 💥 **Breaking changes**
 
 - Minimum PHP version is now 8.1
+- `DayOfWeek`:
+  - `DayOfWeek` is now an `enum`: constants `MONDAY`, `TUESDAY`, etc. are now `DayOfWeek` instances, not integers
+  - the `__toString()` method is removed, use `toString()` instead (enums disallow magic methods)
+  - the `all()` method does not accept `null` anymore, and defaults to `DayOfWeek::MONDAY`
 - `Month`:
   - `Month`is now an `enum`: constants `JANUARY`, `FEBRUARY`, etc. are now `Month` instances, not integers
   - the `__toString()` method is removed, use `toString()` instead (enums disallow magic methods)
 
 💩 **Deprecations**
 
+- `DayOfWeek`:
+  - the `of()` method is deprecated, use `DayOfWeek::from()` instead
+  - the following methods are deprecated, use enum values instead:
+    - `DayOfWeek::monday()` → `DayOfWeek::MONDAY`
+    - `DayOfWeek::tuesday()` → `DayOfWeek::TUESDAY`
+    - `DayOfWeek::wednesday()` → `DayOfWeek::WEDNESDAY`
+    - `DayOfWeek::thursday()` → `DayOfWeek::THURSDAY`
+    - `DayOfWeek::friday()` → `DayOfWeek::FRIDAY`
+    - `DayOfWeek::saturday()` → `DayOfWeek::SATURDAY`
+    - `DayOfWeek::sunday()` → `DayOfWeek::SUNDAY`
+  - the `getValue()` method is deprecated, use `$dayOfWeek->value` instead
+  - the `is()` method is deprecated, compare values with `$dayOfWeek->value` instead
+  - the `isEqualTo()` method is deprecated, use strict equality `===` between `DayOfWeek` instances instead.
 - `Month`:
   - the `of()` method is deprecated, use `Month::from()` instead
   - the `getAll()` method is deprecated, use `Month::cases()` instead
   - the `getValue()` method is deprecated, use `$month->value` instead
   - the `is()` method is deprecated, compare values with `$month->value` instead
   - the `isEqualTo()` method is deprecated, use strict equality `===` between `Month` instances instead
+- `YearWeek`:
+  - the `atDay()` method now accepts a `DayOfWeek` instance, passing an integer is deprecated
 
 ## [0.5.5](https://github.com/brick/date-time/releases/tag/0.5.5) - 2023-10-20
 

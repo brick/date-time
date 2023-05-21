@@ -20,6 +20,15 @@ use function json_encode;
  */
 class YearWeekTest extends AbstractTestCase
 {
+    /**
+     * @dataProvider provider53WeekYear
+     */
+    public function testIs53WeekYear(int $year): void
+    {
+        $yearWeek = YearWeek::of($year, 1);
+        self::assertTrue($yearWeek->is53WeekYear());
+    }
+
     public function provider53WeekYear(): array
     {
         return [
@@ -98,22 +107,16 @@ class YearWeekTest extends AbstractTestCase
     }
 
     /**
-     * @dataProvider provider53WeekYear
-     */
-    public function testIs53WeekYear(int $year): void
-    {
-        $yearWeek = YearWeek::of($year, 1);
-        self::assertTrue($yearWeek->is53WeekYear());
-    }
-
-    /**
      * @dataProvider providerAtDay
      */
-    public function testAtDay(int $weekBasedYear, int $weekOfWeekBasedYear, int $dayOfWeek, int $year, int $month, int $dayOfMonth): void
+    public function testAtDay(int $weekBasedYear, int $weekOfWeekBasedYear, DayOfWeek $dayOfWeek, int $year, int $month, int $dayOfMonth): void
     {
         $yearWeek = YearWeek::of($weekBasedYear, $weekOfWeekBasedYear);
-        $actual = $yearWeek->atDay($dayOfWeek);
 
+        $actual = $yearWeek->atDay($dayOfWeek);
+        self::assertLocalDateIs($year, $month, $dayOfMonth, $actual);
+
+        $actual = $yearWeek->atDay($dayOfWeek->value);
         self::assertLocalDateIs($year, $month, $dayOfMonth, $actual);
     }
 

@@ -6,6 +6,7 @@ namespace Brick\DateTime\Tests;
 
 use Brick\DateTime\Clock\FixedClock;
 use Brick\DateTime\DateTimeException;
+use Brick\DateTime\DayOfWeek;
 use Brick\DateTime\Instant;
 use Brick\DateTime\LocalDate;
 use Brick\DateTime\LocalTime;
@@ -200,43 +201,43 @@ class LocalDateTest extends AbstractTestCase
     /**
      * @dataProvider providerDayOfWeek
      *
-     * @param int $year      The year to test.
-     * @param int $month     The month to test.
-     * @param int $day       The day-of-month to test.
-     * @param int $dayOfWeek The expected day-of-week number.
+     * @param int       $year      The year to test.
+     * @param int       $month     The month to test.
+     * @param int       $day       The day-of-month to test.
+     * @param DayOfWeek $dayOfWeek The expected day-of-week.
      */
-    public function testGetDayOfWeek(int $year, int $month, int $day, int $dayOfWeek): void
+    public function testGetDayOfWeek(int $year, int $month, int $day, DayOfWeek $dayOfWeek): void
     {
-        self::assertDayOfWeekIs($dayOfWeek, LocalDate::of($year, $month, $day)->getDayOfWeek());
+        self::assertSame($dayOfWeek, LocalDate::of($year, $month, $day)->getDayOfWeek());
     }
 
     public function providerDayOfWeek(): array
     {
         return [
-            [2000, 1, 3, 1],
-            [2000, 2, 8, 2],
-            [2000, 3, 8, 3],
-            [2000, 4, 6, 4],
-            [2000, 5, 5, 5],
-            [2000, 6, 3, 6],
-            [2000, 7, 9, 7],
-            [2000, 8, 7, 1],
-            [2000, 9, 5, 2],
-            [2000, 10, 11, 3],
-            [2000, 11, 16, 4],
-            [2000, 12, 29, 5],
-            [2001, 1, 1, 1],
-            [2001, 2, 6, 2],
-            [2001, 3, 7, 3],
-            [2001, 4, 5, 4],
-            [2001, 5, 4, 5],
-            [2001, 6, 9, 6],
-            [2001, 7, 8, 7],
-            [2001, 8, 6, 1],
-            [2001, 9, 4, 2],
-            [2001, 10, 10, 3],
-            [2001, 11, 15, 4],
-            [2001, 12, 21, 5],
+            [2000, 1, 3, DayOfWeek::MONDAY],
+            [2000, 2, 8, DayOfWeek::TUESDAY],
+            [2000, 3, 8, DayOfWeek::WEDNESDAY],
+            [2000, 4, 6, DayOfWeek::THURSDAY],
+            [2000, 5, 5, DayOfWeek::FRIDAY],
+            [2000, 6, 3, DayOfWeek::SATURDAY],
+            [2000, 7, 9, DayOfWeek::SUNDAY],
+            [2000, 8, 7, DayOfWeek::MONDAY],
+            [2000, 9, 5, DayOfWeek::TUESDAY],
+            [2000, 10, 11, DayOfWeek::WEDNESDAY],
+            [2000, 11, 16, DayOfWeek::THURSDAY],
+            [2000, 12, 29, DayOfWeek::FRIDAY],
+            [2001, 1, 1, DayOfWeek::MONDAY],
+            [2001, 2, 6, DayOfWeek::TUESDAY],
+            [2001, 3, 7, DayOfWeek::WEDNESDAY],
+            [2001, 4, 5, DayOfWeek::THURSDAY],
+            [2001, 5, 4, DayOfWeek::FRIDAY],
+            [2001, 6, 9, DayOfWeek::SATURDAY],
+            [2001, 7, 8, DayOfWeek::SUNDAY],
+            [2001, 8, 6, DayOfWeek::MONDAY],
+            [2001, 9, 4, DayOfWeek::TUESDAY],
+            [2001, 10, 10, DayOfWeek::WEDNESDAY],
+            [2001, 11, 15, DayOfWeek::THURSDAY],
+            [2001, 12, 21, DayOfWeek::FRIDAY],
         ];
     }
 

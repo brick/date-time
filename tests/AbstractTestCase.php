@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Brick\DateTime\Tests;
 
-use Brick\DateTime\DayOfWeek;
 use Brick\DateTime\Duration;
 use Brick\DateTime\Instant;
 use Brick\DateTime\LocalDate;
@@ -161,17 +160,6 @@ abstract class AbstractTestCase extends TestCase
         $this->compare([$month, $day], [
             $monthDay->getMonth(),
             $monthDay->getDay(),
-        ]);
-    }
-
-    /**
-     * @param int       $dayOfWeekValue The expected day-of-week value, from 1 to 7.
-     * @param DayOfWeek $dayOfWeek      The DayOfWeek instance to test.
-     */
-    protected function assertDayOfWeekIs(int $dayOfWeekValue, DayOfWeek $dayOfWeek): void
-    {
-        $this->compare([$dayOfWeekValue], [
-            $dayOfWeek->getValue(),
         ]);
     }
 

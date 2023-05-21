@@ -10,8 +10,11 @@ use Brick\DateTime\Parser\DateTimeParseResult;
 use Brick\DateTime\Parser\IsoParsers;
 use JsonSerializable;
 
+use function is_int;
 use function str_pad;
+use function trigger_error;
 
+use const E_USER_DEPRECATED;
 use const STR_PAD_LEFT;
 
 /**
@@ -198,12 +201,20 @@ final class YearWeek implements JsonSerializable
     /**
      * Combines this year-week with a day-of-week to create a LocalDate.
      */
-    public function atDay(int $dayOfWeek): LocalDate
+    public function atDay(DayOfWeek|int $dayOfWeek): LocalDate
     {
-        Field\DayOfWeek::check($dayOfWeek);
+        if (is_int($dayOfWeek)) {
+            // usually we don't use trigger_error() for deprecations, but we can't rely on @deprecated for a parameter type change;
+            // maybe we should revisit using trigger_error() unconditionally for deprecations in the future.
+            trigger_error('Passing an integer to YearWeek::atDay() is deprecated, pass a DayOfWeek instance instead.', E_USER_DEPRECATED);
 
-        $correction = LocalDate::of($this->year, 1, 4)->getDayOfWeek()->getValue() + 3;
-        $dayOfYear = $this->week * 7 + $dayOfWeek - $correction;
+            Field\DayOfWeek::check($dayOfWeek);
+
+            $dayOfWeek = DayOfWeek::from($dayOfWeek);
+        }
+
+        $correction = LocalDate::of($this->year, 1, 4)->getDayOfWeek()->value + 3;
+        $dayOfYear = $this->week * 7 + $dayOfWeek->value - $correction;
         $maxDaysOfYear = Field\Year::isLeap($this->year) ? 366 : 365;
 
         if ($dayOfYear > $maxDaysOfYear) {

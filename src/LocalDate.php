@@ -324,7 +324,7 @@ final class LocalDate implements JsonSerializable
 
     public function getDayOfWeek(): DayOfWeek
     {
-        return DayOfWeek::of(Math::floorMod($this->toEpochDay() + 3, 7) + 1);
+        return DayOfWeek::from(Math::floorMod($this->toEpochDay() + 3, 7) + 1);
     }
 
     /**
@@ -338,7 +338,7 @@ final class LocalDate implements JsonSerializable
     public function getYearWeek(): YearWeek
     {
         $year = $this->year;
-        $week = intdiv($this->getDayOfYear() - $this->getDayOfWeek()->getValue() + 10, 7);
+        $week = intdiv($this->getDayOfYear() - $this->getDayOfWeek()->value + 10, 7);
 
         if ($week === 0) {
             $year--;
