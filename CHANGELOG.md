@@ -5,6 +5,18 @@
 💥 **Breaking changes**
 
 - Minimum PHP version is now 8.1
+- `Month`:
+  - `Month`is now an `enum`: constants `JANUARY`, `FEBRUARY`, etc. are now `Month` instances, not integers
+  - the `__toString()` method is removed, use `toString()` instead (enums disallow magic methods)
+
+💩 **Deprecations**
+
+- `Month`:
+  - the `of()` method is deprecated, use `Month::from()` instead
+  - the `getAll()` method is deprecated, use `Month::cases()` instead
+  - the `getValue()` method is deprecated, use `$month->value` instead
+  - the `is()` method is deprecated, compare values with `$month->value` instead
+  - the `isEqualTo()` method is deprecated, use strict equality `===` between `Month` instances instead
 
 ## [0.5.4](https://github.com/brick/date-time/releases/tag/0.5.4) - 2023-10-16
 

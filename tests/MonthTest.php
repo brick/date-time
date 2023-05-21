@@ -16,17 +16,17 @@ use function json_encode;
 class MonthTest extends AbstractTestCase
 {
     /**
-     * @dataProvider providerConstants
+     * @dataProvider providerValues
      *
-     * @param int $expectedValue The expected value of the constant.
-     * @param int $monthConstant The month constant.
+     * @param int   $expectedValue The expected value of the constant.
+     * @param Month $month         The month instance.
      */
-    public function testConstants(int $expectedValue, int $monthConstant): void
+    public function testValues(int $expectedValue, Month $month): void
     {
-        self::assertSame($expectedValue, $monthConstant);
+        self::assertSame($expectedValue, $month->value);
     }
 
-    public function providerConstants(): array
+    public function providerValues(): array
     {
         return [
             [1, Month::JANUARY],
@@ -46,7 +46,8 @@ class MonthTest extends AbstractTestCase
 
     public function testOf(): void
     {
-        self::assertMonthIs(8, Month::of(8));
+        self::assertSame(Month::AUGUST, Month::of(8));
+        self::assertSame(Month::AUGUST, Month::of(Month::AUGUST));
     }
 
     /**
@@ -69,28 +70,29 @@ class MonthTest extends AbstractTestCase
 
     public function testGetAll(): void
     {
-        $currentMonth = Month::JANUARY;
+        $currentMonth = Month::JANUARY->value;
 
         foreach (Month::getAll() as $month) {
-            self::assertMonthIs($currentMonth, $month);
+            self::assertSame($currentMonth, $month->value);
             $currentMonth++;
         }
     }
 
     public function testIs(): void
     {
-        for ($i = Month::JANUARY; $i <= Month::DECEMBER; $i++) {
-            for ($j = Month::JANUARY; $j <= Month::DECEMBER; $j++) {
-                self::assertSame($i === $j, Month::of($i)->is($j));
+        for ($i = Month::JANUARY->value; $i <= Month::DECEMBER->value; $i++) {
+            for ($j = Month::JANUARY->value; $j <= Month::DECEMBER->value; $j++) {
+                self::assertSame($i === $j, Month::from($i)->is($j));
+                self::assertSame($i === $j, Month::from($i)->is(Month::from($j)));
             }
         }
     }
 
     public function testIsEqualTo(): void
     {
-        for ($i = Month::JANUARY; $i <= Month::DECEMBER; $i++) {
-            for ($j = Month::JANUARY; $j <= Month::DECEMBER; $j++) {
-                self::assertSame($i === $j, Month::of($i)->isEqualTo(Month::of($j)));
+        for ($i = Month::JANUARY->value; $i <= Month::DECEMBER->value; $i++) {
+            for ($j = Month::JANUARY->value; $j <= Month::DECEMBER->value; $j++) {
+                self::assertSame($i === $j, Month::from($i)->isEqualTo(Month::from($j)));
             }
         }
     }
@@ -103,7 +105,7 @@ class MonthTest extends AbstractTestCase
      */
     public function testGetMinLength(int $month, int $minLength): void
     {
-        self::assertSame($minLength, Month::of($month)->getMinLength());
+        self::assertSame($minLength, Month::from($month)->getMinLength());
     }
 
     public function minLengthProvider(): array
@@ -132,7 +134,7 @@ class MonthTest extends AbstractTestCase
      */
     public function testGetMaxLength(int $month, int $minLength): void
     {
-        self::assertSame($minLength, Month::of($month)->getMaxLength());
+        self::assertSame($minLength, Month::from($month)->getMaxLength());
     }
 
     public function maxLengthProvider(): array
@@ -162,7 +164,7 @@ class MonthTest extends AbstractTestCase
      */
     public function testFirstDayOfYear(int $month, bool $leapYear, int $firstDayOfYear): void
     {
-        self::assertSame($firstDayOfYear, Month::of($month)->getFirstDayOfYear($leapYear));
+        self::assertSame($firstDayOfYear, Month::from($month)->getFirstDayOfYear($leapYear));
     }
 
     public function providerFirstDayOfYear(): array
@@ -199,52 +201,52 @@ class MonthTest extends AbstractTestCase
     /**
      * @dataProvider providerGetLength
      *
-     * @param int  $month          The number of the month to test.
-     * @param bool $leapYear       Whether to test on a leap year.
-     * @param int  $expectedLength The expected month length.
+     * @param Month $month          The month to test.
+     * @param bool  $leapYear       Whether to test on a leap year.
+     * @param int   $expectedLength The expected month length.
      */
-    public function testGetLength(int $month, bool $leapYear, int $expectedLength): void
+    public function testGetLength(Month $month, bool $leapYear, int $expectedLength): void
     {
-        self::assertSame($expectedLength, Month::of($month)->getLength($leapYear));
+        self::assertSame($expectedLength, $month->getLength($leapYear));
     }
 
-    public function providerGetLength()
+    public function providerGetLength(): array
     {
         return [
-            [1, false, 31],
-            [2, false, 28],
-            [3, false, 31],
-            [4, false, 30],
-            [5, false, 31],
-            [6, false, 30],
-            [7, false, 31],
-            [8, false, 31],
-            [9, false, 30],
-            [10, false, 31],
-            [11, false, 30],
-            [12, false, 31],
+            [Month::JANUARY, false, 31],
+            [Month::FEBRUARY, false, 28],
+            [Month::MARCH, false, 31],
+            [Month::APRIL, false, 30],
+            [Month::MAY, false, 31],
+            [Month::JUNE, false, 30],
+            [Month::JULY, false, 31],
+            [Month::AUGUST, false, 31],
+            [Month::SEPTEMBER, false, 30],
+            [Month::OCTOBER, false, 31],
+            [Month::NOVEMBER, false, 30],
+            [Month::DECEMBER, false, 31],
 
-            [1, true, 31],
-            [2, true, 29],
-            [3, true, 31],
-            [4, true, 30],
-            [5, true, 31],
-            [6, true, 30],
-            [7, true, 31],
-            [8, true, 31],
-            [9, true, 30],
-            [10, true, 31],
-            [11, true, 30],
-            [12, true, 31],
+            [Month::JANUARY, true, 31],
+            [Month::FEBRUARY, true, 29],
+            [Month::MARCH, true, 31],
+            [Month::APRIL, true, 30],
+            [Month::MAY, true, 31],
+            [Month::JUNE, true, 30],
+            [Month::JULY, true, 31],
+            [Month::AUGUST, true, 31],
+            [Month::SEPTEMBER, true, 30],
+            [Month::OCTOBER, true, 31],
+            [Month::NOVEMBER, true, 30],
+            [Month::DECEMBER, true, 31],
         ];
     }
 
     public function testPlusMinusEntireYears(): void
     {
-        foreach (Month::getAll() as $month) {
+        foreach (Month::cases() as $month) {
             foreach ([-24, -12, 0, 12, 24] as $monthsToAdd) {
-                self::assertTrue($month->plus($monthsToAdd)->isEqualTo($month));
-                self::assertTrue($month->minus($monthsToAdd)->isEqualTo($month));
+                self::assertSame($month, $month->plus($monthsToAdd));
+                self::assertSame($month, $month->minus($monthsToAdd));
             }
         }
     }
@@ -252,30 +254,30 @@ class MonthTest extends AbstractTestCase
     /**
      * @dataProvider providerPlus
      *
-     * @param int $month         The base month number.
-     * @param int $plusMonths    The number of months to add.
-     * @param int $expectedMonth The expected month number.
+     * @param Month $month         The base month.
+     * @param int   $plusMonths    The number of months to add.
+     * @param Month $expectedMonth The expected.
      */
-    public function testPlus(int $month, int $plusMonths, int $expectedMonth): void
+    public function testPlus(Month $month, int $plusMonths, Month $expectedMonth): void
     {
-        self::assertMonthIs($expectedMonth, Month::of($month)->plus($plusMonths));
+        self::assertSame($expectedMonth, $month->plus($plusMonths));
     }
 
     /**
      * @dataProvider providerPlus
      *
-     * @param int $month         The base month number.
-     * @param int $plusMonths    The number of months to add.
-     * @param int $expectedMonth The expected month number.
+     * @param Month $month         The base month.
+     * @param int   $plusMonths    The number of months to add.
+     * @param Month $expectedMonth The expected month.
      */
-    public function testMinus(int $month, int $plusMonths, int $expectedMonth): void
+    public function testMinus(Month $month, int $plusMonths, Month $expectedMonth): void
     {
-        self::assertMonthIs($expectedMonth, Month::of($month)->minus(-$plusMonths));
+        self::assertSame($expectedMonth, $month->minus(-$plusMonths));
     }
 
     public function providerPlus(): Generator
     {
-        for ($month = Month::JANUARY; $month <= Month::DECEMBER; $month++) {
+        for ($month = Month::JANUARY->value; $month <= Month::DECEMBER->value; $month++) {
             for ($plusMonths = -25; $plusMonths <= 25; $plusMonths++) {
                 $expectedMonth = $month + $plusMonths;
 
@@ -286,7 +288,7 @@ class MonthTest extends AbstractTestCase
                     $expectedMonth -= 12;
                 }
 
-                yield [$month, $plusMonths, $expectedMonth];
+                yield [Month::from($month), $plusMonths, Month::from($expectedMonth)];
             }
         }
     }
@@ -294,40 +296,40 @@ class MonthTest extends AbstractTestCase
     /**
      * @dataProvider providerToString
      *
-     * @param int    $month        The month number.
+     * @param Month  $month        The month.
      * @param string $expectedName The expected month name.
      */
-    public function testJsonSerialize(int $month, string $expectedName): void
+    public function testJsonSerialize(Month $month, string $expectedName): void
     {
-        self::assertSame(json_encode($expectedName), json_encode(Month::of($month)));
+        self::assertSame(json_encode($expectedName), json_encode($month));
     }
 
     /**
      * @dataProvider providerToString
      *
-     * @param int    $month        The month number.
+     * @param Month  $month        The month.
      * @param string $expectedName The expected month name.
      */
-    public function testToString(int $month, string $expectedName): void
+    public function testToString(Month $month, string $expectedName): void
     {
-        self::assertSame($expectedName, (string) Month::of($month));
+        self::assertSame($expectedName, $month->toString());
     }
 
     public function providerToString(): array
     {
         return [
-            [1, 'January'],
-            [2, 'February'],
-            [3, 'March'],
-            [4, 'April'],
-            [5, 'May'],
-            [6, 'June'],
-            [7, 'July'],
-            [8, 'August'],
-            [9, 'September'],
-            [10, 'October'],
-            [11, 'November'],
-            [12, 'December'],
+            [Month::JANUARY, 'January'],
+            [Month::FEBRUARY, 'February'],
+            [Month::MARCH, 'March'],
+            [Month::APRIL, 'April'],
+            [Month::MAY, 'May'],
+            [Month::JUNE, 'June'],
+            [Month::JULY, 'July'],
+            [Month::AUGUST, 'August'],
+            [Month::SEPTEMBER, 'September'],
+            [Month::OCTOBER, 'October'],
+            [Month::NOVEMBER, 'November'],
+            [Month::DECEMBER, 'December'],
         ];
     }
 }

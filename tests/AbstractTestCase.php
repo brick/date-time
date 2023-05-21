@@ -165,17 +165,6 @@ abstract class AbstractTestCase extends TestCase
     }
 
     /**
-     * @param int   $monthValue The expected month-of-year value, from 1 to 12.
-     * @param Month $month      The Month instance to test.
-     */
-    protected function assertMonthIs(int $monthValue, Month $month): void
-    {
-        $this->compare([$monthValue], [
-            $month->getValue(),
-        ]);
-    }
-
-    /**
      * @param int       $dayOfWeekValue The expected day-of-week value, from 1 to 7.
      * @param DayOfWeek $dayOfWeek      The DayOfWeek instance to test.
      */
