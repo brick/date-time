@@ -198,7 +198,7 @@ class TimeZoneOffsetTest extends AbstractTestCase
     }
 
     /**
-     * @dataProvider providerParseValueStringThrowsException
+     * @dataProvider providerParseInvalidValueThrowsException
      */
     public function testParseInvalidValueThrowsException(string $text): void
     {
@@ -206,7 +206,7 @@ class TimeZoneOffsetTest extends AbstractTestCase
         TimeZoneOffset::parse($text);
     }
 
-    public function providerParseValueStringThrowsException(): iterable
+    public function providerParseInvalidValueThrowsException(): iterable
     {
         yield from [
             ['+18:00:01'],
