@@ -1418,8 +1418,8 @@ class LocalDateTest extends AbstractTestCase
      */
     public function testToNativeDateTime(string $dateTime, string $expected): void
     {
-        $zonedDateTime = LocalDate::parse($dateTime);
-        $dateTime = $zonedDateTime->toNativeDateTime();
+        $localDate = LocalDate::parse($dateTime);
+        $dateTime = $localDate->toNativeDateTime();
 
         $this->assertInstanceOf(DateTime::class, $dateTime);
         $this->assertSame($expected, $dateTime->format('Y-m-d\TH:i:s.uO'));
@@ -1433,8 +1433,8 @@ class LocalDateTest extends AbstractTestCase
      */
     public function testToDateTime(string $dateTime, string $expected): void
     {
-        $zonedDateTime = LocalDate::parse($dateTime);
-        $dateTime = $zonedDateTime->toDateTime();
+        $localDate = LocalDate::parse($dateTime);
+        $dateTime = $localDate->toDateTime();
 
         $this->assertInstanceOf(DateTime::class, $dateTime);
         $this->assertSame($expected, $dateTime->format('Y-m-d\TH:i:s.uO'));
@@ -1448,8 +1448,8 @@ class LocalDateTest extends AbstractTestCase
      */
     public function testToNativeDateTimeImmutable(string $dateTime, string $expected): void
     {
-        $zonedDateTime = LocalDate::parse($dateTime);
-        $dateTime = $zonedDateTime->toNativeDateTimeImmutable();
+        $localDate = LocalDate::parse($dateTime);
+        $dateTime = $localDate->toNativeDateTimeImmutable();
 
         $this->assertInstanceOf(DateTimeImmutable::class, $dateTime);
         $this->assertSame($expected, $dateTime->format('Y-m-d\TH:i:s.uO'));
@@ -1463,8 +1463,8 @@ class LocalDateTest extends AbstractTestCase
      */
     public function testToDateTimeImmutable(string $dateTime, string $expected): void
     {
-        $zonedDateTime = LocalDate::parse($dateTime);
-        $dateTime = $zonedDateTime->toDateTimeImmutable();
+        $localDate = LocalDate::parse($dateTime);
+        $dateTime = $localDate->toDateTimeImmutable();
 
         $this->assertInstanceOf(DateTimeImmutable::class, $dateTime);
         $this->assertSame($expected, $dateTime->format('Y-m-d\TH:i:s.uO'));

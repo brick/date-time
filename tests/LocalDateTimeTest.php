@@ -1072,8 +1072,8 @@ class LocalDateTimeTest extends AbstractTestCase
      */
     public function testAtTimeZone(string $dateTime, string $timeZone, int $epochSeconds, int $nanos): void
     {
-        $zonedDateTime = LocalDateTime::parse($dateTime)->atTimeZone(TimeZone::parse($timeZone));
-        $this->assertInstantIs($epochSeconds, $nanos, $zonedDateTime->getInstant());
+        $localDateTime = LocalDateTime::parse($dateTime)->atTimeZone(TimeZone::parse($timeZone));
+        $this->assertInstantIs($epochSeconds, $nanos, $localDateTime->getInstant());
     }
 
     public function providerAtTimeZone(): array
@@ -1168,8 +1168,8 @@ class LocalDateTimeTest extends AbstractTestCase
      */
     public function testToNativeDateTime(string $dateTime, string $expected): void
     {
-        $zonedDateTime = LocalDateTime::parse($dateTime);
-        $dateTime = $zonedDateTime->toNativeDateTime();
+        $localDateTime = LocalDateTime::parse($dateTime);
+        $dateTime = $localDateTime->toNativeDateTime();
 
         $this->assertInstanceOf(DateTime::class, $dateTime);
         $this->assertSame($expected, $dateTime->format('Y-m-d\TH:i:s.uO'));
@@ -1183,8 +1183,8 @@ class LocalDateTimeTest extends AbstractTestCase
      */
     public function testToDateTime(string $dateTime, string $expected): void
     {
-        $zonedDateTime = LocalDateTime::parse($dateTime);
-        $dateTime = $zonedDateTime->toDateTime();
+        $localDateTime = LocalDateTime::parse($dateTime);
+        $dateTime = $localDateTime->toDateTime();
 
         $this->assertInstanceOf(DateTime::class, $dateTime);
         $this->assertSame($expected, $dateTime->format('Y-m-d\TH:i:s.uO'));
@@ -1198,8 +1198,8 @@ class LocalDateTimeTest extends AbstractTestCase
      */
     public function testToNativeDateTimeImmutable(string $dateTime, string $expected): void
     {
-        $zonedDateTime = LocalDateTime::parse($dateTime);
-        $dateTime = $zonedDateTime->toNativeDateTimeImmutable();
+        $localDateTime = LocalDateTime::parse($dateTime);
+        $dateTime = $localDateTime->toNativeDateTimeImmutable();
 
         $this->assertInstanceOf(DateTimeImmutable::class, $dateTime);
         $this->assertSame($expected, $dateTime->format('Y-m-d\TH:i:s.uO'));
@@ -1213,8 +1213,8 @@ class LocalDateTimeTest extends AbstractTestCase
      */
     public function testToDateTimeImmutable(string $dateTime, string $expected): void
     {
-        $zonedDateTime = LocalDateTime::parse($dateTime);
-        $dateTime = $zonedDateTime->toDateTimeImmutable();
+        $localDateTime = LocalDateTime::parse($dateTime);
+        $dateTime = $localDateTime->toDateTimeImmutable();
 
         $this->assertInstanceOf(DateTimeImmutable::class, $dateTime);
         $this->assertSame($expected, $dateTime->format('Y-m-d\TH:i:s.uO'));
