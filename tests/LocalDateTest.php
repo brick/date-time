@@ -201,43 +201,53 @@ class LocalDateTest extends AbstractTestCase
     /**
      * @dataProvider providerDayOfWeek
      *
-     * @param int       $year      The year to test.
-     * @param int       $month     The month to test.
-     * @param int       $day       The day-of-month to test.
+     * @param string    $localDate The local date to test, as a string.
      * @param DayOfWeek $dayOfWeek The expected day-of-week.
      */
-    public function testGetDayOfWeek(int $year, int $month, int $day, DayOfWeek $dayOfWeek): void
+    public function testGetDayOfWeek(string $localDate, DayOfWeek $dayOfWeek): void
     {
-        self::assertSame($dayOfWeek, LocalDate::of($year, $month, $day)->getDayOfWeek());
+        self::assertSame($dayOfWeek, LocalDate::parse($localDate)->getDayOfWeek());
     }
 
     public function providerDayOfWeek(): array
     {
         return [
-            [2000, 1, 3, DayOfWeek::MONDAY],
-            [2000, 2, 8, DayOfWeek::TUESDAY],
-            [2000, 3, 8, DayOfWeek::WEDNESDAY],
-            [2000, 4, 6, DayOfWeek::THURSDAY],
-            [2000, 5, 5, DayOfWeek::FRIDAY],
-            [2000, 6, 3, DayOfWeek::SATURDAY],
-            [2000, 7, 9, DayOfWeek::SUNDAY],
-            [2000, 8, 7, DayOfWeek::MONDAY],
-            [2000, 9, 5, DayOfWeek::TUESDAY],
-            [2000, 10, 11, DayOfWeek::WEDNESDAY],
-            [2000, 11, 16, DayOfWeek::THURSDAY],
-            [2000, 12, 29, DayOfWeek::FRIDAY],
-            [2001, 1, 1, DayOfWeek::MONDAY],
-            [2001, 2, 6, DayOfWeek::TUESDAY],
-            [2001, 3, 7, DayOfWeek::WEDNESDAY],
-            [2001, 4, 5, DayOfWeek::THURSDAY],
-            [2001, 5, 4, DayOfWeek::FRIDAY],
-            [2001, 6, 9, DayOfWeek::SATURDAY],
-            [2001, 7, 8, DayOfWeek::SUNDAY],
-            [2001, 8, 6, DayOfWeek::MONDAY],
-            [2001, 9, 4, DayOfWeek::TUESDAY],
-            [2001, 10, 10, DayOfWeek::WEDNESDAY],
-            [2001, 11, 15, DayOfWeek::THURSDAY],
-            [2001, 12, 21, DayOfWeek::FRIDAY],
+            ['2000-01-01', DayOfWeek::SATURDAY],
+            ['2000-01-03', DayOfWeek::MONDAY],
+            ['2000-02-08', DayOfWeek::TUESDAY],
+            ['2000-03-08', DayOfWeek::WEDNESDAY],
+            ['2000-04-06', DayOfWeek::THURSDAY],
+            ['2000-05-05', DayOfWeek::FRIDAY],
+            ['2000-06-03', DayOfWeek::SATURDAY],
+            ['2000-07-09', DayOfWeek::SUNDAY],
+            ['2000-08-07', DayOfWeek::MONDAY],
+            ['2000-09-05', DayOfWeek::TUESDAY],
+            ['2000-10-11', DayOfWeek::WEDNESDAY],
+            ['2000-11-16', DayOfWeek::THURSDAY],
+            ['2000-12-29', DayOfWeek::FRIDAY],
+            ['2001-01-01', DayOfWeek::MONDAY],
+            ['2001-02-06', DayOfWeek::TUESDAY],
+            ['2001-03-07', DayOfWeek::WEDNESDAY],
+            ['2001-04-05', DayOfWeek::THURSDAY],
+            ['2001-05-04', DayOfWeek::FRIDAY],
+            ['2001-06-09', DayOfWeek::SATURDAY],
+            ['2001-07-08', DayOfWeek::SUNDAY],
+            ['2001-08-06', DayOfWeek::MONDAY],
+            ['2001-09-04', DayOfWeek::TUESDAY],
+            ['2001-10-10', DayOfWeek::WEDNESDAY],
+            ['2001-11-15', DayOfWeek::THURSDAY],
+            ['2001-12-21', DayOfWeek::FRIDAY],
+            ['2002-01-01', DayOfWeek::TUESDAY],
+            ['2003-01-01', DayOfWeek::WEDNESDAY],
+            ['2004-01-01', DayOfWeek::THURSDAY],
+            ['2005-01-01', DayOfWeek::SATURDAY],
+            ['2006-01-01', DayOfWeek::SUNDAY],
+            ['2007-01-01', DayOfWeek::MONDAY],
+            ['2008-01-01', DayOfWeek::TUESDAY],
+            ['2009-01-01', DayOfWeek::THURSDAY],
+            ['2010-01-01', DayOfWeek::FRIDAY],
+            ['2011-01-01', DayOfWeek::SATURDAY],
+            ['2012-01-01', DayOfWeek::SUNDAY],
         ];
     }
 

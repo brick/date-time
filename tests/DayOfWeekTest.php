@@ -8,7 +8,6 @@ use Brick\DateTime\Clock\FixedClock;
 use Brick\DateTime\DateTimeException;
 use Brick\DateTime\DayOfWeek;
 use Brick\DateTime\Instant;
-use Brick\DateTime\LocalDate;
 use Brick\DateTime\TimeZone;
 use Generator;
 
@@ -240,40 +239,6 @@ class DayOfWeekTest extends AbstractTestCase
                 yield [DayOfWeek::from($dayOfWeek), $plusDays, DayOfWeek::from($expectedDayOfWeek)];
             }
         }
-    }
-
-    /**
-     * @todo belongs to LocalDate tests
-     *
-     * @dataProvider providerGetDayOfWeekFromLocalDate
-     *
-     * @param string    $localDate The local date to test, as a string.
-     * @param DayOfWeek $dayOfWeek The day-of-week that matches the local date.
-     */
-    public function testGetDayOfWeekFromLocalDate(string $localDate, DayOfWeek $dayOfWeek): void
-    {
-        $localDate = LocalDate::parse($localDate);
-
-        self::assertSame($dayOfWeek, $localDate->getDayOfWeek());
-    }
-
-    public function providerGetDayOfWeekFromLocalDate(): array
-    {
-        return [
-            ['2000-01-01', DayOfWeek::SATURDAY],
-            ['2001-01-01', DayOfWeek::MONDAY],
-            ['2002-01-01', DayOfWeek::TUESDAY],
-            ['2003-01-01', DayOfWeek::WEDNESDAY],
-            ['2004-01-01', DayOfWeek::THURSDAY],
-            ['2005-01-01', DayOfWeek::SATURDAY],
-            ['2006-01-01', DayOfWeek::SUNDAY],
-            ['2007-01-01', DayOfWeek::MONDAY],
-            ['2008-01-01', DayOfWeek::TUESDAY],
-            ['2009-01-01', DayOfWeek::THURSDAY],
-            ['2010-01-01', DayOfWeek::FRIDAY],
-            ['2011-01-01', DayOfWeek::SATURDAY],
-            ['2012-01-01', DayOfWeek::SUNDAY],
-        ];
     }
 
     /**
