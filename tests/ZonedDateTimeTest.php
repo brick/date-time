@@ -394,9 +394,9 @@ class ZonedDateTimeTest extends AbstractTestCase
         ZonedDateTime::parse($text);
     }
 
-    public function providerParseInvalidStringThrowsException(): array
+    public function providerParseInvalidStringThrowsException(): iterable
     {
-        return [
+        yield from [
             [''],
             ['2001'],
             ['2001-'],
@@ -418,6 +418,12 @@ class ZonedDateTimeTest extends AbstractTestCase
             [' 2001-02-03T01:02:03Z'],
             ['2001-02-03T01:02:03Z '],
         ];
+
+        if (PHP_VERSION_ID < 80107) {
+            yield from [
+                ['2001-02-03T01:02:03.456+12:34:56'],
+            ];
+        }
     }
 
     /**

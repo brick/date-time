@@ -220,7 +220,7 @@ class TimeZoneOffsetTest extends AbstractTestCase
         if (PHP_VERSION_ID < 80107) {
             yield from [
                 ['+01:00:30'],
-                ['+01:00:30'],
+                ['-01:00:30'],
             ];
         }
     }
