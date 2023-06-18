@@ -319,10 +319,21 @@ class TimeZoneOffsetTest extends AbstractTestCase
             [-18000, '-05:00'],
         ];
 
-        if (PHP_VERSION_ID >= 80107) {
+        if ((PHP_VERSION_ID >= 80107 && PHP_VERSION_ID < 80120)
+            || (PHP_VERSION_ID >= 80200 && PHP_VERSION_ID < 80207)
+        ) {
             yield from [
                 [-1, '-00:00'],
                 [3630, '+01:00'],
+            ];
+        }
+
+        if ((PHP_VERSION_ID >= 80120 && PHP_VERSION_ID < 80200)
+            || PHP_VERSION_ID >= 80207
+        ) {
+            yield from [
+                [-1, '-00:00:01'],
+                [3630, '+01:00:30'],
             ];
         }
     }

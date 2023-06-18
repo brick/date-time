@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Brick\DateTime\Tests;
 
 use Brick\DateTime\Clock\FixedClock;
+use Brick\DateTime\DateTimeException;
 use Brick\DateTime\DayOfWeek;
 use Brick\DateTime\Duration;
 use Brick\DateTime\Instant;
@@ -394,9 +395,9 @@ class ZonedDateTimeTest extends AbstractTestCase
         ZonedDateTime::parse($text);
     }
 
-    public function providerParseInvalidStringThrowsException(): iterable
+    public function providerParseInvalidStringThrowsException(): array
     {
-        yield from [
+        return [
             [''],
             ['2001'],
             ['2001-'],
@@ -418,12 +419,24 @@ class ZonedDateTimeTest extends AbstractTestCase
             [' 2001-02-03T01:02:03Z'],
             ['2001-02-03T01:02:03Z '],
         ];
+    }
 
-        if (PHP_VERSION_ID < 80107) {
-            yield from [
-                ['2001-02-03T01:02:03.456+12:34:56'],
-            ];
-        }
+    /**
+     * @dataProvider providerParseSecondsOffsetThrowsException
+     *
+     * @requires PHP < 8.1.7
+     */
+    public function testParseSecondsOffsetThrowsException(string $text): void
+    {
+        $this->expectException(DateTimeException::class);
+        ZonedDateTime::parse($text);
+    }
+
+    public function providerParseSecondsOffsetThrowsException(): array
+    {
+        return [
+            ['2001-02-03T01:02:03.456+12:34:56'],
+        ];
     }
 
     /**
