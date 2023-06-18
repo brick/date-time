@@ -79,8 +79,14 @@ abstract class TimeZone
         /**
          * PHP >= 8.1.7 supports sub-minute offsets, but truncates the seconds in getName(). Only getOffset() returns
          * the correct offset including seconds, so let's use it to make a correction if we have an offset-based TZ.
+         * This has been fixed in PHP 8.1.20 and PHP 8.2.7.
          */
-        if ($parsed instanceof TimeZoneOffset && PHP_VERSION_ID >= 80107) {
+        if ($parsed instanceof TimeZoneOffset
+            && (
+                (PHP_VERSION_ID >= 80107 && PHP_VERSION_ID < 80120)
+                || (PHP_VERSION_ID >= 80200 && PHP_VERSION_ID < 80207)
+            )
+        ) {
             return TimeZoneOffset::ofTotalSeconds($dateTimeZone->getOffset(new DateTimeImmutable()));
         }
 
