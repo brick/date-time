@@ -35,7 +35,7 @@ final class TimeZoneOffset extends TimeZone
     }
 
     /**
-     * Obtains an instance of `TimeZoneOffset` using an offset in hours, minutes and (if supported) seconds.
+     * Obtains an instance of `TimeZoneOffset` using an offset in hours, minutes and seconds. Seconds are only supported since PHP 8.1.7.
      *
      * The total number of seconds must not exceed 64,800 seconds.
      *
