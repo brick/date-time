@@ -27,7 +27,7 @@ final class TimeZoneOffset extends TimeZone
     /**
      * Private constructor. Use a factory method to obtain an instance.
      *
-     * @param int $totalSeconds The total offset in seconds, validated from -64800 to +64800, as a multiple of 60.
+     * @param int $totalSeconds The total offset in seconds, validated from -64800 to +64800.
      */
     private function __construct(int $totalSeconds)
     {
@@ -35,29 +35,34 @@ final class TimeZoneOffset extends TimeZone
     }
 
     /**
-     * Obtains an instance of `TimeZoneOffset` using an offset in hours and minutes.
+     * Obtains an instance of `TimeZoneOffset` using an offset in hours, minutes and seconds. Seconds are only supported since PHP 8.1.7.
      *
      * The total number of seconds must not exceed 64,800 seconds.
      *
      * @param int $hours   The time-zone offset in hours.
      * @param int $minutes The time-zone offset in minutes, from 0 to 59, sign matching hours.
+     * @param int $seconds The time-zone offset in seconds, from 0 to 59, sign matching hours and minute. This is only supported since PHP 8.1.7.
      *
      * @throws DateTimeException If the values are not in range or the signs don't match.
      */
-    public static function of(int $hours, int $minutes = 0): TimeZoneOffset
+    public static function of(int $hours, int $minutes = 0, int $seconds = 0): TimeZoneOffset
     {
         Field\TimeZoneOffsetHour::check($hours);
         Field\TimeZoneOffsetMinute::check($minutes);
+        Field\TimeZoneOffsetSecond::check($seconds);
 
-        $err = ($hours > 0 && $minutes < 0)
-            || ($hours < 0 && $minutes > 0);
+        $err = ($hours > 0 && ($minutes < 0 || $seconds < 0))
+            || ($hours < 0 && ($minutes > 0 || $seconds > 0))
+            || ($minutes > 0 && $seconds < 0)
+            || ($minutes < 0 && $seconds > 0);
 
         if ($err) {
-            throw new DateTimeException('Time zone offset hours and minutes must have the same sign');
+            throw new DateTimeException('Time zone offset hours, minutes and seconds must have the same sign');
         }
 
         $totalSeconds = $hours * LocalTime::SECONDS_PER_HOUR
-            + $minutes * LocalTime::SECONDS_PER_MINUTE;
+            + $minutes * LocalTime::SECONDS_PER_MINUTE
+            + $seconds;
 
         Field\TimeZoneOffsetTotalSeconds::check($totalSeconds);
 
@@ -99,16 +104,19 @@ final class TimeZoneOffset extends TimeZone
 
         $hour = $result->getField(Field\TimeZoneOffsetHour::NAME);
         $minute = $result->getField(Field\TimeZoneOffsetMinute::NAME);
+        $second = $result->getOptionalField(Field\TimeZoneOffsetSecond::NAME);
 
         $hour = (int) $hour;
         $minute = (int) $minute;
+        $second = (int) $second;
 
         if ($sign === '-') {
             $hour = -$hour;
             $minute = -$minute;
+            $second = -$second;
         }
 
-        return self::of($hour, $minute);
+        return self::of($hour, $minute, $second);
     }
 
     /**
@@ -117,8 +125,10 @@ final class TimeZoneOffset extends TimeZone
      * The following ISO 8601 formats are accepted:
      *
      * * `Z` - for UTC
-     * * `+hh:mm`
-     * * `-hh:mm`
+     * * `±hh:mm`
+     * * `±hh:mm:ss`
+     *
+     * Note that ± means either the plus or minus symbol.
      *
      * @throws DateTimeParseException
      */

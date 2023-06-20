@@ -26,7 +26,7 @@ class DateTimeException extends RuntimeException
 
     public static function timeZoneOffsetSecondsMustBeMultipleOf60(int $offsetSeconds): self
     {
-        return new self(sprintf('The time zone offset of %d seconds is not a multiple of 60', $offsetSeconds));
+        return new self(sprintf('The time zone offset of %d seconds is not a multiple of 60. Sub-minute offsets are only supported in PHP 8.1.7 and above.', $offsetSeconds));
     }
 
     public static function unknownTimeZoneRegion(string $region): self
