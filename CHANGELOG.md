@@ -1,5 +1,16 @@
 # Changelog
 
+## [0.4.3](https://github.com/brick/date-time/releases/tag/0.4.3) - 2023-06-20
+
+🔧 **Improvements**
+
+- `TimeZoneOffset::parse()` return type has been narrowed to `TimeZoneOffset`
+- Support for seconds in `TimeZoneOffset` has been added back ([#60](https://github.com/brick/date-time/pull/60)) (@jiripudil)
+
+🐛 **Bug fixes**
+
+- Old date/times could fail to be parsed by `ZonedDateTime` due to sub-minute timezone offsets ([#44](https://github.com/brick/date-time/pull/44))
+
 ## [0.4.2](https://github.com/brick/date-time/releases/tag/0.4.2) - 2023-05-19
 
 ✨ **New methods**
