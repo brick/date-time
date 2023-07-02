@@ -53,7 +53,7 @@ class LocalDateTest extends AbstractTestCase
             [2007, 0, 1],
             [2007, 13, 1],
             [PHP_INT_MIN, 1, 1],
-            [PHP_INT_MAX, 1, 1]
+            [PHP_INT_MAX, 1, 1],
         ];
     }
 
@@ -129,7 +129,7 @@ class LocalDateTest extends AbstractTestCase
             [1000, 1972,  9, 27],
             [10000, 1997,  5, 19],
             [100000, 2243, 10, 17],
-            [1000000, 4707, 11, 29]
+            [1000000, 4707, 11, 29],
         ];
     }
 
@@ -166,7 +166,7 @@ class LocalDateTest extends AbstractTestCase
             [0, '-01:00', 1969, 12, 31],
             [0, '+00:00', 1970, 1, 1],
             [1407970800, '+01:00', 2014, 8, 14],
-            [1407970800, '-01:00', 2014, 8, 13]
+            [1407970800, '-01:00', 2014, 8, 13],
         ];
     }
 
@@ -236,7 +236,7 @@ class LocalDateTest extends AbstractTestCase
             [2001, 9, 4, 2],
             [2001, 10, 10, 3],
             [2001, 11, 15, 4],
-            [2001, 12, 21, 5]
+            [2001, 12, 21, 5],
         ];
     }
 
@@ -316,7 +316,7 @@ class LocalDateTest extends AbstractTestCase
             [2001, 11, 1, 305],
             [2001, 11, 30, 334],
             [2001, 12, 1, 335],
-            [2001, 12, 31, 365]
+            [2001, 12, 31, 365],
         ];
     }
 
@@ -494,7 +494,7 @@ class LocalDateTest extends AbstractTestCase
             [2008, 2, 28, 2009, 28],
             [2008, 2, 29, 2008, 29],
             [2008, 2, 29, 2009, 28],
-            [2008, 2, 29, 2012, 29]
+            [2008, 2, 29, 2012, 29],
         ];
     }
 
@@ -513,7 +513,7 @@ class LocalDateTest extends AbstractTestCase
     {
         return [
             [-1000000],
-            [1000000]
+            [1000000],
         ];
     }
 
@@ -548,7 +548,7 @@ class LocalDateTest extends AbstractTestCase
             [2007, 3, 31, 10, 31],
             [2008, 3, 31, 11, 30],
             [2007, 3, 31, 12, 31],
-            [2008, 4, 30, 12, 30]
+            [2008, 4, 30, 12, 30],
         ];
     }
 
@@ -567,7 +567,7 @@ class LocalDateTest extends AbstractTestCase
     {
         return [
             [0],
-            [13]
+            [13],
         ];
     }
 
@@ -591,7 +591,7 @@ class LocalDateTest extends AbstractTestCase
             [2007, 6, 2, 2],
             [2007, 1, 1, 31],
             [2008, 2, 28, 29],
-            [2010, 2, 27, 28]
+            [2010, 2, 27, 28],
         ];
     }
 
@@ -616,7 +616,7 @@ class LocalDateTest extends AbstractTestCase
             [2007, 1, 1, 32],
             [2007, 2, 1, 29],
             [2008, 2, 1, 30],
-            [2009, 4, 1, 31]
+            [2009, 4, 1, 31],
         ];
     }
 
@@ -675,7 +675,7 @@ class LocalDateTest extends AbstractTestCase
             [2001, 2, 3,  0,   0,  30, 2001,  3,  5],
             [2001, 2, 3,  0,  30,  50, 2003,  9, 22],
             [2001, 2, 3,  0,   0, -30, 2001,  1,  4],
-            [2001, 2, 3,  0, -30, -50, 1998,  6, 14]
+            [2001, 2, 3,  0, -30, -50, 1998,  6, 14],
         ];
     }
 
@@ -702,7 +702,7 @@ class LocalDateTest extends AbstractTestCase
             [2015, 2, 3, 1, 2016, 2, 3],
             [2016, 3, 4, -1, 2015, 3, 4],
             [2000, 2, 29, 1, 2001, 2, 28],
-            [2000, 2, 29, -1, 1999, 2, 28]
+            [2000, 2, 29, -1, 1999, 2, 28],
         ];
     }
 
@@ -738,7 +738,7 @@ class LocalDateTest extends AbstractTestCase
             [2012, 12, 31, 2, 2013, 2, 28],
             [2012, 12, 31, 3, 2013, 3, 31],
             [2013, 12, 31, 2, 2014, 2, 28],
-            [2013, 12, 31, 4, 2014, 4, 30]
+            [2013, 12, 31, 4, 2014, 4, 30],
         ];
     }
 
@@ -767,7 +767,7 @@ class LocalDateTest extends AbstractTestCase
             [2014, 7, 31, 30, 2015, 2, 26],
             [2014, 8, 2, 30, 2015, 2, 28],
             [2014, 8, 3, 30, 2015, 3, 1],
-            [2014, 7, 31, -9, 2014, 5, 29]
+            [2014, 7, 31, -9, 2014, 5, 29],
         ];
     }
 
@@ -797,7 +797,7 @@ class LocalDateTest extends AbstractTestCase
             [2012, 1, 1, 365, 2012, 12, 31],
             [2012, 1, 1, 366, 2013, 1, 1],
             [2012, 1, 2, -1, 2012, 1, 1],
-            [2012, 1, 1, -1, 2011, 12, 31]
+            [2012, 1, 1, -1, 2011, 12, 31],
         ];
     }
 
@@ -1002,7 +1002,7 @@ class LocalDateTest extends AbstractTestCase
             [2015, 2, 3, 1, 2014, 2, 3],
             [2016, 3, 4, -1, 2015, 3, 4],
             [2000, 2, 29, 1, 1999, 2, 28],
-            [2000, 2, 29, -1, 2001, 2, 28]
+            [2000, 2, 29, -1, 2001, 2, 28],
         ];
     }
 
@@ -1038,7 +1038,7 @@ class LocalDateTest extends AbstractTestCase
             [2012, 12, 31, 1, 2012, 11, 30],
             [2012, 12, 31, 2, 2012, 10, 31],
             [2013, 12, 31, -2, 2014, 2, 28],
-            [2013, 12, 31, -26, 2016, 2, 29]
+            [2013, 12, 31, -26, 2016, 2, 29],
         ];
     }
 
@@ -1067,7 +1067,7 @@ class LocalDateTest extends AbstractTestCase
             [2014, 7, 31, 30, 2014, 1, 2],
             [2014, 8, 2, 30, 2014, 1, 4],
             [2014, 8, 3, 50, 2013, 8, 18],
-            [2014, 7, 31, -50, 2015, 7, 16]
+            [2014, 7, 31, -50, 2015, 7, 16],
         ];
     }
 
@@ -1236,7 +1236,7 @@ class LocalDateTest extends AbstractTestCase
             ['2020-01-01', '2022-01-01', 731],
             ['2018-01-15', '2018-02-15', 31],
             ['2018-02-15', '2018-03-15', 28],
-            ['1900-02-18', '2031-09-27', 48068]
+            ['1900-02-18', '2031-09-27', 48068],
         ];
     }
 
@@ -1283,7 +1283,7 @@ class LocalDateTest extends AbstractTestCase
             [2000, 6, 16, true],
             [2004, 7, 17, true],
             [2007, 8, 18, false],
-            [2008, 9, 18, true]
+            [2008, 9, 18, true],
         ];
     }
 
@@ -1384,7 +1384,7 @@ class LocalDateTest extends AbstractTestCase
     {
         return [
             [999, 1, 2, '0999-01-02'],
-            [-2, 1, 1, '-0002-01-01']
+            [-2, 1, 1, '-0002-01-01'],
         ];
     }
 
@@ -1418,8 +1418,8 @@ class LocalDateTest extends AbstractTestCase
      */
     public function testToNativeDateTime(string $dateTime, string $expected): void
     {
-        $zonedDateTime = LocalDate::parse($dateTime);
-        $dateTime = $zonedDateTime->toNativeDateTime();
+        $localDate = LocalDate::parse($dateTime);
+        $dateTime = $localDate->toNativeDateTime();
 
         $this->assertInstanceOf(DateTime::class, $dateTime);
         $this->assertSame($expected, $dateTime->format('Y-m-d\TH:i:s.uO'));
@@ -1433,8 +1433,8 @@ class LocalDateTest extends AbstractTestCase
      */
     public function testToDateTime(string $dateTime, string $expected): void
     {
-        $zonedDateTime = LocalDate::parse($dateTime);
-        $dateTime = $zonedDateTime->toDateTime();
+        $localDate = LocalDate::parse($dateTime);
+        $dateTime = $localDate->toDateTime();
 
         $this->assertInstanceOf(DateTime::class, $dateTime);
         $this->assertSame($expected, $dateTime->format('Y-m-d\TH:i:s.uO'));
@@ -1448,8 +1448,8 @@ class LocalDateTest extends AbstractTestCase
      */
     public function testToNativeDateTimeImmutable(string $dateTime, string $expected): void
     {
-        $zonedDateTime = LocalDate::parse($dateTime);
-        $dateTime = $zonedDateTime->toNativeDateTimeImmutable();
+        $localDate = LocalDate::parse($dateTime);
+        $dateTime = $localDate->toNativeDateTimeImmutable();
 
         $this->assertInstanceOf(DateTimeImmutable::class, $dateTime);
         $this->assertSame($expected, $dateTime->format('Y-m-d\TH:i:s.uO'));
@@ -1463,8 +1463,8 @@ class LocalDateTest extends AbstractTestCase
      */
     public function testToDateTimeImmutable(string $dateTime, string $expected): void
     {
-        $zonedDateTime = LocalDate::parse($dateTime);
-        $dateTime = $zonedDateTime->toDateTimeImmutable();
+        $localDate = LocalDate::parse($dateTime);
+        $dateTime = $localDate->toDateTimeImmutable();
 
         $this->assertInstanceOf(DateTimeImmutable::class, $dateTime);
         $this->assertSame($expected, $dateTime->format('Y-m-d\TH:i:s.uO'));

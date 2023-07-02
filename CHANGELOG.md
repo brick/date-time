@@ -1,5 +1,8 @@
 # Changelog
 
+## [101.2.0](https://github.com/solodkiy/brick-date-time/releases/tag/101.2.0)
+* Replaces [brick/date-time 0.4.3](https://github.com/brick/date-time/releases/tag/0.4.3)
+
 ## [101.1.0](https://github.com/solodkiy/brick-date-time/releases/tag/101.1.0)
 * Replaces [brick/date-time 0.4.1](https://github.com/brick/date-time/releases/tag/0.4.1)
 * Deprecate `ZonedDateTime::toPhpFormat()`. Use `ZonedDateTime::toNatvieFormat()` instead

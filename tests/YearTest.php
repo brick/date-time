@@ -41,7 +41,7 @@ class YearTest extends AbstractTestCase
             [PHP_INT_MIN],
             [PHP_INT_MAX],
             [-1000000000],
-            [1000000000]
+            [1000000000],
         ];
     }
 
@@ -138,7 +138,7 @@ class YearTest extends AbstractTestCase
             [2002, false],
             [2003, false],
             [2004, true],
-            [2005, false]
+            [2005, false],
         ];
     }
 
@@ -166,7 +166,7 @@ class YearTest extends AbstractTestCase
             [2001, 2, 28, true],
             [1999, 2, 29, false],
             [2000, 2, 29, true],
-            [2001, 2, 29, false]
+            [2001, 2, 29, false],
         ];
     }
 
@@ -238,7 +238,7 @@ class YearTest extends AbstractTestCase
             [2002, 365],
             [2003, 365],
             [2004, 366],
-            [2005, 365]
+            [2005, 365],
         ];
     }
 
@@ -255,7 +255,7 @@ class YearTest extends AbstractTestCase
         return [
             [2014, 0, 2014],
             [2014, 16, 2030],
-            [2014, -16, 1998]
+            [2014, -16, 1998],
         ];
     }
 
@@ -272,7 +272,7 @@ class YearTest extends AbstractTestCase
         return [
             [2014, 0, 2014],
             [2014, 16, 1998],
-            [2014, -16, 2030]
+            [2014, -16, 2030],
         ];
     }
 
@@ -407,7 +407,7 @@ class YearTest extends AbstractTestCase
         return [
             [-1],
             [0],
-            [13]
+            [13],
         ];
     }
 
@@ -434,7 +434,7 @@ class YearTest extends AbstractTestCase
             [2008, 2, 29, 29],
             [2009, 2, 28, 28],
             [2009, 2, 29, 28],
-            [2010, 1, 31, 31]
+            [2010, 1, 31, 31],
         ];
     }
 

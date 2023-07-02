@@ -44,7 +44,7 @@ class LocalTimeTest extends AbstractTestCase
             [0, -1, 0],
             [0, 60, 0],
             [0, 0, -1],
-            [0, 0, 60]
+            [0, 0, 60],
         ];
     }
 
@@ -79,7 +79,7 @@ class LocalTimeTest extends AbstractTestCase
             [43199, 11, 59, 59],
             [43200, 12, 0, 0],
             [43201, 12, 0, 1],
-            [86399, 23, 59, 59]
+            [86399, 23, 59, 59],
         ];
     }
 
@@ -98,7 +98,7 @@ class LocalTimeTest extends AbstractTestCase
             [-1, 0],
             [86400, 0],
             [0, -1],
-            [0, 1000000000]
+            [0, 1000000000],
         ];
     }
 
@@ -121,7 +121,7 @@ class LocalTimeTest extends AbstractTestCase
             ['01:02', 1, 2, 0, 0],
             ['12:34:56', 12, 34, 56, 0],
             ['12:34:56.78', 12, 34, 56, 780000000],
-            ['12:34:56.789123456', 12, 34, 56, 789123456]
+            ['12:34:56.789123456', 12, 34, 56, 789123456],
         ];
     }
 
@@ -148,7 +148,7 @@ class LocalTimeTest extends AbstractTestCase
             ['12:34.567'],
             [' 12:34'],
             ['12:34:56 '],
-            ['12:34:56.7 ']
+            ['12:34:56.7 '],
         ];
     }
 
@@ -188,7 +188,7 @@ class LocalTimeTest extends AbstractTestCase
             [1409574896, 0, 0, 12, 34, 56, 0],
             [1409574896, 123, 0, 12, 34, 56, 123],
             [1409574896, 0, 3600, 13, 34, 56, 0],
-            [1409574896, 123456, 5400, 14, 4, 56, 123456]
+            [1409574896, 123456, 5400, 14, 4, 56, 123456],
         ];
     }
 
@@ -226,7 +226,7 @@ class LocalTimeTest extends AbstractTestCase
     {
         return [
             [12],
-            [23]
+            [23],
         ];
     }
 
@@ -243,7 +243,7 @@ class LocalTimeTest extends AbstractTestCase
     {
         return [
             [-1],
-            [24]
+            [24],
         ];
     }
 
@@ -261,7 +261,7 @@ class LocalTimeTest extends AbstractTestCase
     {
         return [
             [34],
-            [45]
+            [45],
         ];
     }
 
@@ -278,7 +278,7 @@ class LocalTimeTest extends AbstractTestCase
     {
         return [
             [-1],
-            [60]
+            [60],
         ];
     }
 
@@ -296,7 +296,7 @@ class LocalTimeTest extends AbstractTestCase
     {
         return [
             [56],
-            [45]
+            [45],
         ];
     }
 
@@ -313,7 +313,7 @@ class LocalTimeTest extends AbstractTestCase
     {
         return [
             [-1],
-            [60]
+            [60],
         ];
     }
 
@@ -331,7 +331,7 @@ class LocalTimeTest extends AbstractTestCase
     {
         return [
             [789],
-            [123456]
+            [123456],
         ];
     }
 
@@ -348,7 +348,7 @@ class LocalTimeTest extends AbstractTestCase
     {
         return [
             [-1],
-            [1000000000]
+            [1000000000],
         ];
     }
 
@@ -400,7 +400,7 @@ class LocalTimeTest extends AbstractTestCase
             [12, 34, 56, 123456789, 123, 456, 12, 36, 59, 123457245],
             [12, 34, 56, 123456789, -123, -456, 12, 32, 53, 123456333],
             [12, 34, 56, 987654321, 123456, 987654321, 22, 52, 33, 975308642],
-            [12, 34, 56, 987654321, -123456, -987654321, 2, 17, 20, 0]
+            [12, 34, 56, 987654321, -123456, -987654321, 2, 17, 20, 0],
         ];
     }
 
@@ -459,7 +459,7 @@ class LocalTimeTest extends AbstractTestCase
             [23, 1, 0],
             [23, 23, 22],
             [23, 24, 23],
-            [23, 25, 0]
+            [23, 25, 0],
         ];
     }
 
@@ -540,7 +540,7 @@ class LocalTimeTest extends AbstractTestCase
             [23, 59, 61, 1, 0],
             [23, 59, 1439, 23, 58],
             [23, 59, 1440, 23, 59],
-            [23, 59, 1441, 0, 0]
+            [23, 59, 1441, 0, 0],
         ];
     }
 
@@ -702,7 +702,7 @@ class LocalTimeTest extends AbstractTestCase
             [23, 59, 58, 987654321, 1, 23, 59, 58, 987654322],
             [23, 59, 58, 987654321, 123456789, 23, 59, 59, 111111110],
             [23, 59, 58, 987654321, 1987654321, 0, 0, 0, 975308642],
-            [23, 59, 58, 987654321, 2123456789, 0, 0, 1, 111111110]
+            [23, 59, 58, 987654321, 2123456789, 0, 0, 1, 111111110],
         ];
     }
 
@@ -1021,7 +1021,7 @@ class LocalTimeTest extends AbstractTestCase
             [0, 1, 0, 60],
             [0, 0, 1, 1],
             [12, 34, 56, 45296],
-            [23, 59, 59, 86399]
+            [23, 59, 59, 86399],
         ];
     }
 
@@ -1095,8 +1095,8 @@ class LocalTimeTest extends AbstractTestCase
      */
     public function testToDateTime(string $dateTime, string $expected): void
     {
-        $zonedDateTime = LocalTime::parse($dateTime);
-        $dateTime = $zonedDateTime->toDateTime();
+        $localTime = LocalTime::parse($dateTime);
+        $dateTime = $localTime->toDateTime();
 
         $this->assertInstanceOf(DateTime::class, $dateTime);
         $this->assertSame($expected, $dateTime->format('Y-m-d\TH:i:s.uO'));
@@ -1110,8 +1110,8 @@ class LocalTimeTest extends AbstractTestCase
      */
     public function testToNativeDateTime(string $dateTime, string $expected): void
     {
-        $zonedDateTime = LocalTime::parse($dateTime);
-        $dateTime = $zonedDateTime->toNativeDateTime();
+        $localTime = LocalTime::parse($dateTime);
+        $dateTime = $localTime->toNativeDateTime();
 
         $this->assertInstanceOf(DateTime::class, $dateTime);
         $this->assertSame($expected, $dateTime->format('Y-m-d\TH:i:s.uO'));
@@ -1125,8 +1125,8 @@ class LocalTimeTest extends AbstractTestCase
      */
     public function testToDateTimeImmutable(string $dateTime, string $expected): void
     {
-        $zonedDateTime = LocalTime::parse($dateTime);
-        $dateTime = $zonedDateTime->toDateTimeImmutable();
+        $localTime = LocalTime::parse($dateTime);
+        $dateTime = $localTime->toDateTimeImmutable();
 
         $this->assertInstanceOf(DateTimeImmutable::class, $dateTime);
         $this->assertSame($expected, $dateTime->format('Y-m-d\TH:i:s.uO'));
@@ -1140,8 +1140,8 @@ class LocalTimeTest extends AbstractTestCase
      */
     public function testToNativeDateTimeImmutable(string $dateTime, string $expected): void
     {
-        $zonedDateTime = LocalTime::parse($dateTime);
-        $dateTime = $zonedDateTime->toNativeDateTimeImmutable();
+        $localTime = LocalTime::parse($dateTime);
+        $dateTime = $localTime->toNativeDateTimeImmutable();
 
         $this->assertInstanceOf(DateTimeImmutable::class, $dateTime);
         $this->assertSame($expected, $dateTime->format('Y-m-d\TH:i:s.uO'));

@@ -39,7 +39,7 @@ class DayOfWeekTest extends AbstractTestCase
             [4, DayOfWeek::THURSDAY],
             [5, DayOfWeek::FRIDAY],
             [6, DayOfWeek::SATURDAY],
-            [7, DayOfWeek::SUNDAY]
+            [7, DayOfWeek::SUNDAY],
         ];
     }
 
@@ -62,7 +62,7 @@ class DayOfWeekTest extends AbstractTestCase
         return [
             [-1],
             [0],
-            [8]
+            [8],
         ];
     }
 
@@ -306,7 +306,7 @@ class DayOfWeekTest extends AbstractTestCase
             [DayOfWeek::THURSDAY,  'Thursday'],
             [DayOfWeek::FRIDAY,    'Friday'],
             [DayOfWeek::SATURDAY,  'Saturday'],
-            [DayOfWeek::SUNDAY,    'Sunday']
+            [DayOfWeek::SUNDAY,    'Sunday'],
         ];
     }
 }

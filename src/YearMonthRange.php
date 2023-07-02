@@ -18,6 +18,8 @@ use JsonSerializable;
  *
  * This object is iterable and countable: the iterator returns all the YearMonth objects contained
  * in the range, while `count()` returns the total number of year-months contained in the range.
+ *
+ * @template-implements IteratorAggregate<YearMonth>
  */
 class YearMonthRange implements IteratorAggregate, Countable, JsonSerializable
 {

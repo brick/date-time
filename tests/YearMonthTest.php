@@ -41,7 +41,7 @@ class YearMonthTest extends AbstractTestCase
             ['0908-11', 908, 11],
             ['-0050-01', -50, 1],
             ['-12345-02', -12345, 2],
-            ['12345-03', 12345, 3]
+            ['12345-03', 12345, 3],
         ];
     }
 
@@ -64,7 +64,7 @@ class YearMonthTest extends AbstractTestCase
             ['2010-01-01'],
             [' 2010-10'],
             ['2010-10 '],
-            ['2010.10']
+            ['2010.10'],
         ];
     }
 
@@ -83,7 +83,7 @@ class YearMonthTest extends AbstractTestCase
     {
         return [
             ['2000-00'],
-            ['2000-13']
+            ['2000-13'],
         ];
     }
 
@@ -131,7 +131,7 @@ class YearMonthTest extends AbstractTestCase
             [2001, 3, false],
             [2002, 4, false],
             [2003, 5, false],
-            [2004, 6, true]
+            [2004, 6, true],
         ];
     }
 
@@ -173,7 +173,7 @@ class YearMonthTest extends AbstractTestCase
             [1999, 11, 30],
             [2000, 11, 30],
             [1999, 12, 31],
-            [2000, 12, 31]
+            [2000, 12, 31],
         ];
     }
 
@@ -194,7 +194,7 @@ class YearMonthTest extends AbstractTestCase
         return [
             [1999, 1, 365],
             [2000, 1, 366],
-            [2001, 1, 365]
+            [2001, 1, 365],
         ];
     }
 

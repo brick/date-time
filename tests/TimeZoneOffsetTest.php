@@ -8,7 +8,9 @@ use Brick\DateTime\DateTimeException;
 use Brick\DateTime\Instant;
 use Brick\DateTime\Parser\DateTimeParseException;
 use Brick\DateTime\TimeZoneOffset;
-use DateTimeZone;
+use DateTimeImmutable;
+
+use const PHP_VERSION_ID;
 
 /**
  * Units tests for class TimeZoneOffset.
@@ -22,47 +24,61 @@ class TimeZoneOffsetTest extends AbstractTestCase
      * @param int $minutes      The minutes part of the offset.
      * @param int $totalSeconds The expected total number of seconds.
      */
-    public function testOf(int $hours, int $minutes, int $totalSeconds): void
+    public function testOf(int $hours, int $minutes, int $seconds, int $totalSeconds): void
     {
-        $this->assertTimeZoneOffsetIs($totalSeconds, TimeZoneOffset::of($hours, $minutes));
+        $this->assertTimeZoneOffsetIs($totalSeconds, TimeZoneOffset::of($hours, $minutes, $seconds));
     }
 
-    public function providerOf(): array
+    public function providerOf(): iterable
     {
-        return [
-            [0, 0, 0],
-            [0, 1, 60],
-            [1, 0, 3600],
-            [1, 2, 3720],
+        yield from [
+            [0, 0, 0, 0],
+            [0, 1, 0, 60],
+            [1, 0, 0, 3600],
+            [1, 2, 0, 3720],
 
-            [-1, -1, -3660],
-            [-1, 0, -3600],
-            [0, -1, -60],
-            [0, 1, 60],
-            [1, 0, 3600],
-            [1, 1, 3660],
+            [-1, -1, 0, -3660],
+            [-1, 0, 0, -3600],
+            [0, -1, 0, -60],
+            [0, 1, 0, 60],
+            [1, 0, 0, 3600],
+            [1, 1, 0, 3660],
         ];
+
+        if (PHP_VERSION_ID >= 80107) {
+            yield from [
+                [1, 0, 30, 3630],
+                [-1, 0, -30, -3630],
+            ];
+        }
     }
 
     /**
      * @dataProvider providerOfInvalidValuesThrowsException
      */
-    public function testOfInvalidValuesThrowsException(int $hours, int $minutes): void
+    public function testOfInvalidValuesThrowsException(int $hours, int $minutes, int $seconds): void
     {
         $this->expectException(DateTimeException::class);
-        TimeZoneOffset::of($hours, $minutes);
+        TimeZoneOffset::of($hours, $minutes, $seconds);
     }
 
-    public function providerOfInvalidValuesThrowsException(): array
+    public function providerOfInvalidValuesThrowsException(): iterable
     {
-        return [
-            [0, 60],
-            [0, -60],
-            [1, -1],
-            [-1, 1],
-            [19, 0],
-            [-19, 0],
+        yield from [
+            [0, 60, 0],
+            [0, -60, 0],
+            [1, -1, 0],
+            [-1, 1, 0],
+            [19, 0, 0],
+            [-19, 0, 0],
         ];
+
+        if (PHP_VERSION_ID < 80107) {
+            yield from [
+                [1, 0, 30],
+                [-1, 0, -30],
+            ];
+        }
     }
 
     /**
@@ -73,17 +89,26 @@ class TimeZoneOffsetTest extends AbstractTestCase
         $this->assertTimeZoneOffsetIs($totalSeconds, TimeZoneOffset::ofTotalSeconds($totalSeconds));
     }
 
-    public function providerTotalSeconds(): array
+    public function providerTotalSeconds(): iterable
     {
-        return [
+        yield from [
             [-64800],
             [-3600],
             [-60],
             [0],
             [60],
             [3600],
-            [64800]
+            [64800],
         ];
+
+        if (PHP_VERSION_ID >= 80107) {
+            yield from [
+                [-3630],
+                [-1],
+                [1],
+                [3630],
+            ];
+        }
     }
 
     /**
@@ -95,14 +120,21 @@ class TimeZoneOffsetTest extends AbstractTestCase
         TimeZoneOffset::ofTotalSeconds($totalSeconds);
     }
 
-    public function providerOfInvalidTotalSecondsThrowsException(): array
+    public function providerOfInvalidTotalSecondsThrowsException(): iterable
     {
-        return [
-            [-1],
-            [1],
+        yield from [
             [-64860],
-            [64860]
+            [64860],
         ];
+
+        if (PHP_VERSION_ID < 80107) {
+            yield from [
+                [-3630],
+                [-1],
+                [1],
+                [3630],
+            ];
+        }
     }
 
     public function testUtc(): void
@@ -121,9 +153,9 @@ class TimeZoneOffsetTest extends AbstractTestCase
         $this->assertTimeZoneOffsetIs($totalSeconds, TimeZoneOffset::parse($text));
     }
 
-    public function providerParse(): array
+    public function providerParse(): iterable
     {
-        return [
+        yield from [
             ['+00:00', 0],
             ['-00:00', 0],
             ['+01:00', 3600],
@@ -133,6 +165,13 @@ class TimeZoneOffsetTest extends AbstractTestCase
             ['+18:00', 64800],
             ['-18:00', -64800],
         ];
+
+        if (PHP_VERSION_ID >= 80107) {
+            yield from [
+                ['+01:00:30', 3630],
+                ['-01:00:30', -3630],
+            ];
+        }
     }
 
     /**
@@ -154,12 +193,12 @@ class TimeZoneOffsetTest extends AbstractTestCase
             ['+00:00:'],
             ['+1:00'],
             ['+01:1'],
-            ['+01:01:1']
+            ['+01:01:1'],
         ];
     }
 
     /**
-     * @dataProvider providerParseValueStringThrowsException
+     * @dataProvider providerParseInvalidValueThrowsException
      */
     public function testParseInvalidValueThrowsException(string $text): void
     {
@@ -167,16 +206,23 @@ class TimeZoneOffsetTest extends AbstractTestCase
         TimeZoneOffset::parse($text);
     }
 
-    public function providerParseValueStringThrowsException(): array
+    public function providerParseInvalidValueThrowsException(): iterable
     {
-        return [
+        yield from [
             ['+18:00:01'],
             ['+18:01'],
             ['+19:00'],
             ['-19:00'],
             ['-18:01'],
-            ['-18:00:01']
+            ['-18:00:01'],
         ];
+
+        if (PHP_VERSION_ID < 80107) {
+            yield from [
+                ['+01:00:30'],
+                ['-01:00:30'],
+            ];
+        }
     }
 
     /**
@@ -201,9 +247,9 @@ class TimeZoneOffsetTest extends AbstractTestCase
         $this->assertSame($string, (string) TimeZoneOffset::ofTotalSeconds($totalSeconds));
     }
 
-    public function providerGetId(): array
+    public function providerGetId(): iterable
     {
-        return [
+        yield from [
             [0, 'Z'],
             [60, '+00:01'],
             [120, '+00:02'],
@@ -216,6 +262,19 @@ class TimeZoneOffsetTest extends AbstractTestCase
             [-7380, '-02:03'],
             [-64800, '-18:00'],
         ];
+
+        if (PHP_VERSION_ID >= 80107) {
+            yield from [
+                [30, '+00:00:30'],
+                [90, '+00:01:30'],
+                [3599, '+00:59:59'],
+                [3601, '+01:00:01'],
+                [-30, '-00:00:30'],
+                [-90, '-00:01:30'],
+                [-3599, '-00:59:59'],
+                [-3601, '-01:00:01'],
+            ];
+        }
     }
 
     public function testGetOffset(): void
@@ -226,19 +285,56 @@ class TimeZoneOffsetTest extends AbstractTestCase
         $this->assertSame(-18000, $timeZoneOffset->getOffset($whateverInstant));
     }
 
-    public function testToDateTimeZone(): void
+    /**
+     * @dataProvider providerToNativeDateTimeZone
+     *
+     * @param int    $totalSeconds The total offset seconds.
+     * @param string $string       The expected string.
+     */
+    public function testToDateTimeZone(int $totalSeconds, string $string): void
     {
-        $dateTimeZone = TimeZoneOffset::ofTotalSeconds(-18000)->toDateTimeZone();
+        $dateTimeZone = TimeZoneOffset::ofTotalSeconds($totalSeconds)->toDateTimeZone();
 
-        $this->assertInstanceOf(DateTimeZone::class, $dateTimeZone);
-        $this->assertSame('-05:00', $dateTimeZone->getName());
+        $this->assertSame($string, $dateTimeZone->getName());
+        $this->assertSame($totalSeconds, $dateTimeZone->getOffset(new DateTimeImmutable()));
     }
 
-    public function testToNativeDateTimeZone(): void
+    /**
+     * @dataProvider providerToNativeDateTimeZone
+     *
+     * @param int    $totalSeconds The total offset seconds.
+     * @param string $string       The expected string.
+     */
+    public function testToNativeDateTimeZone(int $totalSeconds, string $string): void
     {
-        $dateTimeZone = TimeZoneOffset::ofTotalSeconds(-18000)->toNativeDateTimeZone();
+        $dateTimeZone = TimeZoneOffset::ofTotalSeconds($totalSeconds)->toNativeDateTimeZone();
 
-        $this->assertInstanceOf(DateTimeZone::class, $dateTimeZone);
-        $this->assertSame('-05:00', $dateTimeZone->getName());
+        $this->assertSame($string, $dateTimeZone->getName());
+        $this->assertSame($totalSeconds, $dateTimeZone->getOffset(new DateTimeImmutable()));
+    }
+
+    public function providerToNativeDateTimeZone(): iterable
+    {
+        yield from [
+            [-18000, '-05:00'],
+        ];
+
+        if ((PHP_VERSION_ID >= 80107 && PHP_VERSION_ID < 80120)
+            || (PHP_VERSION_ID >= 80200 && PHP_VERSION_ID < 80207)
+        ) {
+            yield from [
+                [-1, '-00:00'],
+                [3630, '+01:00'],
+            ];
+        }
+
+        if ((PHP_VERSION_ID >= 80120 && PHP_VERSION_ID < 80200)
+            || PHP_VERSION_ID >= 80207
+        ) {
+            yield from [
+                [-1, '-00:00:01'],
+                [3630, '+01:00:30'],
+            ];
+        }
     }
 }

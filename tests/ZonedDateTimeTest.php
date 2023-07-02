@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Brick\DateTime\Tests;
 
 use Brick\DateTime\Clock\FixedClock;
+use Brick\DateTime\DateTimeException;
 use Brick\DateTime\DayOfWeek;
 use Brick\DateTime\Duration;
 use Brick\DateTime\Instant;
@@ -21,6 +22,8 @@ use DateTimeImmutable;
 use DateTimeZone;
 
 use function json_encode;
+
+use const PHP_VERSION_ID;
 
 /**
  * Unit tests for class ZonedDateTime.
@@ -340,7 +343,7 @@ class ZonedDateTimeTest extends AbstractTestCase
     {
         return [
             ['2001-09-09T01:46:40', 'UTC'],
-            ['2001-09-08T18:46:40', 'America/Los_Angeles']
+            ['2001-09-08T18:46:40', 'America/Los_Angeles'],
         ];
     }
 
@@ -363,9 +366,9 @@ class ZonedDateTimeTest extends AbstractTestCase
         $this->assertSame($zone, (string) $zonedDateTime->getTimeZone());
     }
 
-    public function providerParse(): array
+    public function providerParse(): iterable
     {
-        return [
+        yield from [
             ['2001-02-03T01:02Z', '2001-02-03', '01:02', 'Z', 'Z'],
             ['2001-02-03T01:02:03Z', '2001-02-03', '01:02:03', 'Z', 'Z'],
             ['2001-02-03T01:02:03.456Z', '2001-02-03', '01:02:03.456', 'Z', 'Z'],
@@ -375,8 +378,12 @@ class ZonedDateTimeTest extends AbstractTestCase
             ['2001-02-03T01:02Z[Europe/London]', '2001-02-03', '01:02', 'Z', 'Europe/London'],
             ['2001-02-03T01:02+00:00[Europe/London]', '2001-02-03', '01:02', 'Z', 'Europe/London'],
             ['2001-02-03T01:02:03-00:00[Europe/London]', '2001-02-03', '01:02:03', 'Z', 'Europe/London'],
-            ['2001-02-03T01:02:03.456+00:00[Europe/London]', '2001-02-03', '01:02:03.456', 'Z', 'Europe/London']
+            ['2001-02-03T01:02:03.456+00:00[Europe/London]', '2001-02-03', '01:02:03.456', 'Z', 'Europe/London'],
         ];
+
+        if (PHP_VERSION_ID >= 80107) {
+            yield ['2001-02-03T01:02:03.456+12:34:56', '2001-02-03', '01:02:03.456', '+12:34:56', '+12:34:56'];
+        }
     }
 
     /**
@@ -408,10 +415,27 @@ class ZonedDateTimeTest extends AbstractTestCase
             ['2001-02-03T04:05:06[Europe/London]'],
             ['2001-02-03T04:05.789Z[Europe/London]'],
             ['2001-02-03T04:05:06Z[Europe/London'],
-            ['2001-02-03T01:02:03.456+12:34:56'],
 
             [' 2001-02-03T01:02:03Z'],
-            ['2001-02-03T01:02:03Z ']
+            ['2001-02-03T01:02:03Z '],
+        ];
+    }
+
+    /**
+     * @dataProvider providerParseSecondsOffsetThrowsException
+     *
+     * @requires PHP < 8.1.7
+     */
+    public function testParseSecondsOffsetThrowsException(string $text): void
+    {
+        $this->expectException(DateTimeException::class);
+        ZonedDateTime::parse($text);
+    }
+
+    public function providerParseSecondsOffsetThrowsException(): array
+    {
+        return [
+            ['2001-02-03T01:02:03.456+12:34:56'],
         ];
     }
 
@@ -751,7 +775,7 @@ class ZonedDateTimeTest extends AbstractTestCase
             [1234567890, '2009-02-14T00:31:29+01:00', false],
             [1234567890, '2009-02-14T00:31:31+01:00', true],
             [2345678901, '2044-04-30T17:28:20-08:00', false],
-            [2345678901, '2044-04-30T17:28:22-08:00', true]
+            [2345678901, '2044-04-30T17:28:22-08:00', true],
         ];
     }
 

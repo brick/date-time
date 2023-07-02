@@ -50,7 +50,7 @@ abstract class AbstractTestCase extends TestCase
     {
         $this->compare([$epochSecond, $nano], [
             $instant->getEpochSecond(),
-            $instant->getNano()
+            $instant->getNano(),
         ]);
     }
 
@@ -65,7 +65,7 @@ abstract class AbstractTestCase extends TestCase
         $this->compare([$year, $month, $day], [
             $date->getYear(),
             $date->getMonth(),
-            $date->getDay()
+            $date->getDay(),
         ]);
     }
 
@@ -82,7 +82,7 @@ abstract class AbstractTestCase extends TestCase
             $time->getHour(),
             $time->getMinute(),
             $time->getSecond(),
-            $time->getNano()
+            $time->getNano(),
         ]);
     }
 
@@ -105,7 +105,7 @@ abstract class AbstractTestCase extends TestCase
             $dateTime->getHour(),
             $dateTime->getMinute(),
             $dateTime->getSecond(),
-            $dateTime->getNano()
+            $dateTime->getNano(),
         ]);
     }
 
@@ -121,7 +121,7 @@ abstract class AbstractTestCase extends TestCase
     protected function assertYearIs(int $yearValue, Year $year): void
     {
         $this->compare([$yearValue], [
-            $year->getValue()
+            $year->getValue(),
         ]);
     }
 
@@ -134,7 +134,7 @@ abstract class AbstractTestCase extends TestCase
     {
         $this->compare([$year, $month], [
             $yearMonth->getYear(),
-            $yearMonth->getMonth()
+            $yearMonth->getMonth(),
         ]);
     }
 
@@ -147,7 +147,7 @@ abstract class AbstractTestCase extends TestCase
     {
         $this->compare([$year, $week], [
             $yearWeek->getYear(),
-            $yearWeek->getWeek()
+            $yearWeek->getWeek(),
         ]);
     }
 
@@ -160,7 +160,7 @@ abstract class AbstractTestCase extends TestCase
     {
         $this->compare([$month, $day], [
             $monthDay->getMonth(),
-            $monthDay->getDay()
+            $monthDay->getDay(),
         ]);
     }
 
@@ -171,7 +171,7 @@ abstract class AbstractTestCase extends TestCase
     protected function assertMonthIs(int $monthValue, Month $month): void
     {
         $this->compare([$monthValue], [
-            $month->getValue()
+            $month->getValue(),
         ]);
     }
 
@@ -182,7 +182,7 @@ abstract class AbstractTestCase extends TestCase
     protected function assertDayOfWeekIs(int $dayOfWeekValue, DayOfWeek $dayOfWeek): void
     {
         $this->compare([$dayOfWeekValue], [
-            $dayOfWeek->getValue()
+            $dayOfWeek->getValue(),
         ]);
     }
 
@@ -195,7 +195,7 @@ abstract class AbstractTestCase extends TestCase
     {
         $this->compare([$seconds, $nanos], [
             $duration->getSeconds(),
-            $duration->getNanos()
+            $duration->getNanos(),
         ]);
     }
 
@@ -210,7 +210,7 @@ abstract class AbstractTestCase extends TestCase
         $this->compare([$years, $months, $days], [
             $period->getYears(),
             $period->getMonths(),
-            $period->getDays()
+            $period->getDays(),
         ]);
     }
 
@@ -258,7 +258,7 @@ abstract class AbstractTestCase extends TestCase
     protected function assertTimeZoneOffsetIs(int $totalSeconds, TimeZoneOffset $timeZoneOffset): void
     {
         $this->compare([$totalSeconds], [
-            $timeZoneOffset->getTotalSeconds()
+            $timeZoneOffset->getTotalSeconds(),
         ]);
     }
 

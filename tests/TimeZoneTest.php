@@ -10,6 +10,8 @@ use Brick\DateTime\TimeZoneOffset;
 use Brick\DateTime\TimeZoneRegion;
 use DateTimeZone;
 
+use const PHP_VERSION_ID;
+
 /**
  * Unit tests for class TimeZone.
  */
@@ -30,16 +32,20 @@ class TimeZoneTest extends AbstractTestCase
         $this->assertSame($id, $timeZone->getId());
     }
 
-    public function providerParse(): array
+    public function providerParse(): iterable
     {
-        return [
+        yield from [
             ['Z', TimeZoneOffset::class, 'Z'],
             ['z', TimeZoneOffset::class, 'Z'],
             ['+01:00', TimeZoneOffset::class, '+01:00'],
             ['-02:30', TimeZoneOffset::class, '-02:30'],
             ['Europe/London', TimeZoneRegion::class, 'Europe/London'],
-            ['America/Los_Angeles', TimeZoneRegion::class, 'America/Los_Angeles']
+            ['America/Los_Angeles', TimeZoneRegion::class, 'America/Los_Angeles'],
         ];
+
+        if (PHP_VERSION_ID >= 80107) {
+            yield ['-02:30:30', TimeZoneOffset::class, '-02:30:30'];
+        }
     }
 
     /**
@@ -56,7 +62,7 @@ class TimeZoneTest extends AbstractTestCase
         return [
             [''],
             ['+'],
-            ['-']
+            ['-'],
         ];
     }
 
@@ -93,13 +99,17 @@ class TimeZoneTest extends AbstractTestCase
         $this->assertSame($tz, TimeZone::fromNativeDateTimeZone($dateTimeZone)->getId());
     }
 
-    public function providerFromDateTimeZone(): array
+    public function providerFromDateTimeZone(): iterable
     {
-        return [
+        yield from [
             ['Z'],
             ['+01:00'],
             ['Europe/London'],
-            ['America/Los_Angeles']
+            ['America/Los_Angeles'],
         ];
+
+        if (PHP_VERSION_ID >= 80107) {
+            yield ['-02:30:30'];
+        }
     }
 }

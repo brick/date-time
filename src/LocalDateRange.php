@@ -20,6 +20,8 @@ use JsonSerializable;
  *
  * This object is iterable and countable: the iterator returns all the LocalDate objects contained
  * in the range, while `count()` returns the total number of dates contained in the range.
+ *
+ * @template-implements IteratorAggregate<LocalDate>
  */
 final class LocalDateRange implements IteratorAggregate, Countable, JsonSerializable
 {
