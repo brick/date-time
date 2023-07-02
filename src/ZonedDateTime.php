@@ -436,6 +436,15 @@ class ZonedDateTime implements JsonSerializable
     }
 
     /**
+     * Returns Duration between current and second ZonedDataTime
+     * Duration will be negative if second ZonedDateTime before current
+     */
+    public function getDurationTo(ZonedDateTime $secondZonedDateTime): Duration
+    {
+        return Duration::between($this->getInstant(), $secondZonedDateTime->getInstant());
+    }
+
+    /**
      * Returns a copy of this ZonedDateTime with the specified period in years added.
      */
     public function plusYears(int $years): ZonedDateTime
