@@ -63,7 +63,7 @@ final class Duration implements JsonSerializable
      * This will parse the ISO-8601 duration format `PnDTnHnMn.nS`
      * which is the format returned by `__toString()`.
      *
-     * All of the values (days, hours, minutes, seconds, nanoseconds) are optional,
+     * All the values (days, hours, minutes, seconds, nanoseconds) are optional,
      * but the duration must at least contain one of the (days, hours, minutes, seconds) values.
      *
      * A day is considered to by 24 hours, or 86400 seconds.
@@ -143,7 +143,7 @@ final class Duration implements JsonSerializable
      * This method allows an arbitrary number of nanoseconds to be passed in.
      * The factory will alter the values of the second and nanosecond in order
      * to ensure that the stored nanosecond is in the range 0 to 999,999,999.
-     * For example, the following will result in the exactly the same duration:
+     * For example, the following will result in exactly the same duration:
      *
      * * Duration::ofSeconds(3, 1);
      * * Duration::ofSeconds(4, -999999999);
