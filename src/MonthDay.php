@@ -92,13 +92,22 @@ final class MonthDay implements JsonSerializable
     {
         $date = LocalDate::now($timeZone, $clock);
 
-        return new MonthDay($date->getMonth(), $date->getDay());
+        return new MonthDay($date->getMonthValue(), $date->getDay());
     }
 
     /**
-     * Returns the month-of-year.
+     * @deprecated Use getMonthValue() instead.
+     *             In a future version, getMonth() will return the Month enum.
      */
     public function getMonth(): int
+    {
+        return $this->month;
+    }
+
+    /**
+     * Returns the month-of-year value from 1 to 12.
+     */
+    public function getMonthValue(): int
     {
         return $this->month;
     }

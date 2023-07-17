@@ -164,7 +164,7 @@ class YearMonthRange implements IteratorAggregate, Countable, JsonSerializable
     public function count(): int
     {
         return 12 * ($this->end->getYear() - $this->start->getYear())
-            + ($this->end->getMonth() - $this->start->getMonth())
+            + ($this->end->getMonthValue() - $this->start->getMonthValue())
             + 1;
     }
 
