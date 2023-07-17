@@ -200,9 +200,21 @@ final class LocalDateTime implements JsonSerializable
         return $this->date->getYear();
     }
 
+    /**
+     * @deprecated Use getMonthValue() instead.
+     *             In a future version, getMonth() will return the Month enum.
+     */
     public function getMonth(): int
     {
-        return $this->date->getMonth();
+        return $this->date->getMonthValue();
+    }
+
+    /**
+     * Returns the month-of-year value from 1 to 12.
+     */
+    public function getMonthValue(): int
+    {
+        return $this->date->getMonthValue();
     }
 
     public function getDay(): int
