@@ -127,7 +127,7 @@ final class LocalTime implements JsonSerializable
         $second = $result->getOptionalField(SecondOfMinute::NAME);
         $fraction = $result->getOptionalField(Field\FractionOfSecond::NAME);
 
-        $nano = substr($fraction . '000000000', 0, 9);
+        $nano = str_pad($fraction, 9, '0');
 
         return LocalTime::of((int) $hour, (int) $minute, (int) $second, (int) $nano);
     }
