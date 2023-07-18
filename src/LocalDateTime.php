@@ -217,9 +217,17 @@ final class LocalDateTime implements JsonSerializable
         return $this->date->getMonthValue();
     }
 
+    /**
+     * @deprecated Use getDayOfMonth() instead.
+     */
     public function getDay(): int
     {
-        return $this->date->getDay();
+        return $this->date->getDayOfMonth();
+    }
+
+    public function getDayOfMonth(): int
+    {
+        return $this->date->getDayOfMonth();
     }
 
     public function getDayOfWeek(): DayOfWeek

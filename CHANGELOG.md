@@ -29,8 +29,10 @@
   - the `is()` method is deprecated, compare values with `$dayOfWeek->value` instead
   - the `isEqualTo()` method is deprecated, use strict equality `===` between `DayOfWeek` instances instead.
 - `LocalDate`:
+  - `getDay()` is deprecated, use `getDayOfMonth()` instead
   - `getMonth()` is deprecated, use `getMonthValue()` instead (`getMonth()` will be repurposed to return a `Month` instance in a future release)
 - `LocalDateTime`:
+  - `getDay()` is deprecated, use `getDayOfMonth()` instead
   - `getMonth()` is deprecated, use `getMonthValue()` instead (`getMonth()` will be repurposed to return a `Month` instance in a future release)
 - `Month`:
   - the `of()` method is deprecated, use `Month::from()` instead
@@ -39,12 +41,14 @@
   - the `is()` method is deprecated, compare values with `$month->value` instead
   - the `isEqualTo()` method is deprecated, use strict equality `===` between `Month` instances instead
 - `MonthDay`:
+  - `getDay()` is deprecated, use `getDayOfMonth()` instead
   - `getMonth()` is deprecated, use `getMonthValue()` instead (`getMonth()` will be repurposed to return a `Month` instance in a future release)
 - `YearMonth`:
   - `getMonth()` is deprecated, use `getMonthValue()` instead (`getMonth()` will be repurposed to return a `Month` instance in a future release)
 - `YearWeek`:
   - the `atDay()` method now accepts a `DayOfWeek` instance, passing an integer is deprecated
 - `ZonedDateTime`:
+  - `getDay()` is deprecated, use `getDayOfMonth()` instead
   - `getMonth()` is deprecated, use `getMonthValue()` instead (`getMonth()` will be repurposed to return a `Month` instance in a future release)
 
 ## [0.5.4](https://github.com/brick/date-time/releases/tag/0.5.4) - 2023-10-16
