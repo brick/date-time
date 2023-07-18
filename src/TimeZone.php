@@ -75,8 +75,8 @@ abstract class TimeZone
          */
         if ($parsed instanceof TimeZoneOffset
             && (
-                (PHP_VERSION_ID >= 80107 && PHP_VERSION_ID < 80120)
-                || (PHP_VERSION_ID >= 80200 && PHP_VERSION_ID < 80207)
+                (PHP_VERSION_ID >= 8_01_07 && PHP_VERSION_ID < 8_01_20)
+                || (PHP_VERSION_ID >= 8_02_00 && PHP_VERSION_ID < 8_02_07)
             )
         ) {
             return TimeZoneOffset::ofTotalSeconds($dateTimeZone->getOffset(new DateTimeImmutable()));

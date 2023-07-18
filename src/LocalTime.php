@@ -37,8 +37,8 @@ final class LocalTime implements JsonSerializable
     public const SECONDS_PER_MINUTE = 60;
     public const SECONDS_PER_HOUR = 3600;
     public const SECONDS_PER_DAY = 86400;
-    public const NANOS_PER_SECOND = 1000000000;
-    public const NANOS_PER_MILLI = 1000000;
+    public const NANOS_PER_SECOND = 1_000_000_000;
+    public const NANOS_PER_MILLI = 1_000_000;
     public const MILLIS_PER_SECOND = 1000;
 
     /**
@@ -196,7 +196,7 @@ final class LocalTime implements JsonSerializable
      */
     public static function max(): LocalTime
     {
-        return new LocalTime(23, 59, 59, 999999999);
+        return new LocalTime(23, 59, 59, 999_999_999);
     }
 
     /**

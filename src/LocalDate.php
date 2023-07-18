@@ -28,12 +28,12 @@ final class LocalDate implements JsonSerializable
     /**
      * The minimum supported year for instances of `LocalDate`, -999,999.
      */
-    public const MIN_YEAR = -999999;
+    public const MIN_YEAR = -999_999;
 
     /**
      * The maximum supported year for instances of `LocalDate`, 999,999.
      */
-    public const MAX_YEAR = 999999;
+    public const MAX_YEAR = 999_999;
 
     /**
      * The number of days from year zero to year 1970.

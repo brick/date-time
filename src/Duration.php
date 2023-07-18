@@ -542,7 +542,7 @@ final class Duration implements JsonSerializable
     public function getTotalMillis(): int
     {
         $millis = $this->seconds * 1000;
-        $millis += intdiv($this->nanos, 1000000);
+        $millis += intdiv($this->nanos, 1_000_000);
 
         return $millis;
     }
@@ -554,7 +554,7 @@ final class Duration implements JsonSerializable
      */
     public function getTotalMicros(): int
     {
-        $micros = $this->seconds * 1000000;
+        $micros = $this->seconds * 1_000_000;
         $micros += intdiv($this->nanos, 1000);
 
         return $micros;
@@ -562,7 +562,7 @@ final class Duration implements JsonSerializable
 
     public function getTotalNanos(): int
     {
-        $nanos = $this->seconds * 1000000000;
+        $nanos = $this->seconds * 1_000_000_000;
         $nanos += $this->nanos;
 
         return $nanos;
