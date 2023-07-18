@@ -64,7 +64,7 @@ abstract class AbstractTestCase extends TestCase
         $this->compare([$year, $month, $day], [
             $date->getYear(),
             $date->getMonthValue(),
-            $date->getDay(),
+            $date->getDayOfMonth(),
         ]);
     }
 
@@ -100,7 +100,7 @@ abstract class AbstractTestCase extends TestCase
         $this->compare([$y, $m, $d, $h, $i, $s, $n], [
             $dateTime->getYear(),
             $dateTime->getMonthValue(),
-            $dateTime->getDay(),
+            $dateTime->getDayOfMonth(),
             $dateTime->getHour(),
             $dateTime->getMinute(),
             $dateTime->getSecond(),
@@ -159,7 +159,7 @@ abstract class AbstractTestCase extends TestCase
     {
         $this->compare([$month, $day], [
             $monthDay->getMonthValue(),
-            $monthDay->getDay(),
+            $monthDay->getDayOfMonth(),
         ]);
     }
 

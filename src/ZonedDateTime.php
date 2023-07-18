@@ -264,9 +264,17 @@ class ZonedDateTime implements JsonSerializable
         return $this->localDateTime->getMonthValue();
     }
 
+    /**
+     * @deprecated Use getDayOfMonth() instead.
+     */
     public function getDay(): int
     {
-        return $this->localDateTime->getDay();
+        return $this->localDateTime->getDayOfMonth();
+    }
+
+    public function getDayOfMonth(): int
+    {
+        return $this->localDateTime->getDayOfMonth();
     }
 
     public function getDayOfWeek(): DayOfWeek

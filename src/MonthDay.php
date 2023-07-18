@@ -92,7 +92,7 @@ final class MonthDay implements JsonSerializable
     {
         $date = LocalDate::now($timeZone, $clock);
 
-        return new MonthDay($date->getMonthValue(), $date->getDay());
+        return new MonthDay($date->getMonthValue(), $date->getDayOfMonth());
     }
 
     /**
@@ -113,9 +113,17 @@ final class MonthDay implements JsonSerializable
     }
 
     /**
-     * Returns the day-of-month.
+     * @deprecated Use getDayOfMonth() instead.
      */
     public function getDay(): int
+    {
+        return $this->day;
+    }
+
+    /**
+     * Returns the day-of-month.
+     */
+    public function getDayOfMonth(): int
     {
         return $this->day;
     }
