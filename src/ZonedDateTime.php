@@ -436,8 +436,8 @@ class ZonedDateTime implements JsonSerializable
     }
 
     /**
-     * Returns Duration between current and second ZonedDataTime
-     * Duration will be negative if second ZonedDateTime before current
+     * Returns a Duration representing the time elapsed between this ZonedDateTime and the given one.
+     * This method will return a negative duration if the given ZonedDateTime is before the current one.
      */
     public function getDurationTo(ZonedDateTime $secondZonedDateTime): Duration
     {
