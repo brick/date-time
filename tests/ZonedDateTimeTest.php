@@ -834,14 +834,6 @@ class ZonedDateTimeTest extends AbstractTestCase
         $this->assertSame('2000-01-20T12:34:56.123456789-08:00[America/Los_Angeles]', (string) $zonedDateTime);
     }
 
-    private function getTestZonedDateTime(): ZonedDateTime
-    {
-        $timeZone = TimeZone::parse('America/Los_Angeles');
-        $localDateTime = LocalDateTime::parse('2000-01-20T12:34:56.123456789');
-
-        return ZonedDateTime::of($localDateTime, $timeZone);
-    }
-
     /**
      * @dataProvider providerGetDurationTo
      */
@@ -863,5 +855,13 @@ class ZonedDateTimeTest extends AbstractTestCase
             ['2023-01-01T10:00:00Z',            '2023-01-02T10:00:00Z',             Duration::ofSeconds(24 * 60 * 60)],
             ['2023-01-02T10:00:00Z',            '2023-01-01T10:00:00Z',             Duration::ofSeconds(-24 * 60 * 60)],
         ];
+    }
+
+    private function getTestZonedDateTime(): ZonedDateTime
+    {
+        $timeZone = TimeZone::parse('America/Los_Angeles');
+        $localDateTime = LocalDateTime::parse('2000-01-20T12:34:56.123456789');
+
+        return ZonedDateTime::of($localDateTime, $timeZone);
     }
 }
