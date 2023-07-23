@@ -20,7 +20,7 @@ use JsonSerializable;
 use function intdiv;
 use function rtrim;
 use function sprintf;
-use function substr;
+use function str_pad;
 
 /**
  * A time without a time-zone in the ISO-8601 calendar system, such as 10:15:30.
