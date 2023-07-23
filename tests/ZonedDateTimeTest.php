@@ -837,23 +837,23 @@ class ZonedDateTimeTest extends AbstractTestCase
     /**
      * @dataProvider providerGetDurationTo
      */
-    public function testGetDurationTo(string $firstDate, string $secondDate, Duration $expectedResult): void
+    public function testGetDurationTo(string $firstDate, string $secondDate, int $expectedSeconds, int $expectedNanos): void
     {
         $actualResult = ZonedDateTime::parse($firstDate)->getDurationTo(ZonedDateTime::parse($secondDate));
 
-        $this->assertDurationIs($expectedResult->getSeconds(), $expectedResult->getNanos(), $actualResult);
+        $this->assertDurationIs($expectedSeconds, $expectedNanos, $actualResult);
     }
 
     public function providerGetDurationTo(): array
     {
         return [
-            ['2023-01-01T10:00:00Z',            '2023-01-01T10:00:00Z',             Duration::ofSeconds(0)],
-            ['2023-01-01T10:00:00Z',            '2023-01-01T10:00:10Z',             Duration::ofSeconds(10)],
-            ['2023-01-01T10:00:00.001Z',        '2023-01-01T10:00:10.002Z',         Duration::ofSeconds(10, 1000000)],
-            ['2023-01-01T10:00:00.001Z',        '2023-01-01T13:00:10.002+03:00',    Duration::ofSeconds(10, 1000000)],
-            ['2023-01-01T10:00:00.000000001Z',  '2023-01-01T10:00:00.000000009Z',   Duration::ofSeconds(0, 8)],
-            ['2023-01-01T10:00:00Z',            '2023-01-02T10:00:00Z',             Duration::ofSeconds(24 * 60 * 60)],
-            ['2023-01-02T10:00:00Z',            '2023-01-01T10:00:00Z',             Duration::ofSeconds(-24 * 60 * 60)],
+            ['2023-01-01T10:00:00Z',           '2023-01-01T10:00:00Z',           0, 0],
+            ['2023-01-01T10:00:00Z',           '2023-01-01T10:00:10Z',           10, 0],
+            ['2023-01-01T10:00:00.001Z',       '2023-01-01T10:00:10.002Z',       10, 1000000],
+            ['2023-01-01T10:00:00.001Z',       '2023-01-01T13:00:10.002+03:00',  10, 1000000],
+            ['2023-01-01T10:00:00.000000001Z', '2023-01-01T10:00:00.000000009Z', 0, 8],
+            ['2023-01-01T10:00:00Z',           '2023-01-02T10:00:00Z',           24 * 60 * 60, 0],
+            ['2023-01-02T10:00:00Z',           '2023-01-01T10:00:00Z',           -24 * 60 * 60, 0],
         ];
     }
 
