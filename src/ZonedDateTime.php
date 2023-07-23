@@ -436,6 +436,15 @@ class ZonedDateTime implements JsonSerializable
     }
 
     /**
+     * Returns a Duration representing the time elapsed between this ZonedDateTime and the given one.
+     * This method will return a negative duration if the given ZonedDateTime is before the current one.
+     */
+    public function getDurationTo(ZonedDateTime $that): Duration
+    {
+        return Duration::between($this->getInstant(), $that->getInstant());
+    }
+
+    /**
      * Returns a copy of this ZonedDateTime with the specified period in years added.
      */
     public function plusYears(int $years): ZonedDateTime
