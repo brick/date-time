@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.5.1](https://github.com/brick/date-time/releases/tag/0.5.1) - 2023-08-01
+
+✨ **New methods**
+
+- `ZonedDateTime::getDurationTo()` ([#71](https://github.com/brick/date-time/pull/71)) ([@solodkiy](https://github.com/solodkiy))
+
 ## [0.5.0](https://github.com/brick/date-time/releases/tag/0.5.0) - 2023-06-25
 
 💥 **Breaking changes**
