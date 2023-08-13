@@ -1,5 +1,10 @@
 # Changelog
 
+## [102.0.0](https://github.com/solodkiy/brick-date-time/releases/tag/102.0.0)
+* Replaces [brick/date-time 0.5.1](https://github.com/brick/date-time/releases/tag/0.5.1)
+
+Be aware of [breaking changes](https://github.com/brick/date-time/releases/tag/0.5.0)
+
 ## [101.2.0](https://github.com/solodkiy/brick-date-time/releases/tag/101.2.0)
 * Replaces [brick/date-time 0.4.3](https://github.com/brick/date-time/releases/tag/0.4.3)
 

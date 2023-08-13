@@ -28,12 +28,12 @@ final class LocalDate implements JsonSerializable
     /**
      * The minimum supported year for instances of `LocalDate`, -999,999.
      */
-    public const MIN_YEAR = -999999;
+    public const MIN_YEAR = -999_999;
 
     /**
      * The maximum supported year for instances of `LocalDate`, 999,999.
      */
-    public const MAX_YEAR = 999999;
+    public const MAX_YEAR = 999_999;
 
     /**
      * The number of days from year zero to year 1970.
@@ -160,16 +160,6 @@ final class LocalDate implements JsonSerializable
             (int) $dateTime->format('n'),
             (int) $dateTime->format('j')
         );
-    }
-
-    /**
-     * Creates a LocalDate from a native DateTime or DateTimeImmutable object.
-     *
-     * @deprecated please use fromNativeDateTime instead
-     */
-    public static function fromDateTime(DateTimeInterface $dateTime): LocalDate
-    {
-        return self::fromNativeDateTime($dateTime);
     }
 
     /**
@@ -719,34 +709,10 @@ final class LocalDate implements JsonSerializable
      * Converts this LocalDate to a native DateTime object.
      *
      * The result is a DateTime with time 00:00 in the UTC time-zone.
-     *
-     * @deprecated please use toNativeDateTime instead
-     */
-    public function toDateTime(): DateTime
-    {
-        return $this->toNativeDateTime();
-    }
-
-    /**
-     * Converts this LocalDate to a native DateTime object.
-     *
-     * The result is a DateTime with time 00:00 in the UTC time-zone.
      */
     public function toNativeDateTime(): DateTime
     {
         return $this->atTime(LocalTime::midnight())->toNativeDateTime();
-    }
-
-    /**
-     * Converts this LocalDate to a native DateTimeImmutable object.
-     *
-     * The result is a DateTimeImmutable with time 00:00 in the UTC time-zone.
-     *
-     * @deprecated please use toNativeDateTimeImmutable instead
-     */
-    public function toDateTimeImmutable(): DateTimeImmutable
-    {
-        return $this->toNativeDateTimeImmutable();
     }
 
     /**

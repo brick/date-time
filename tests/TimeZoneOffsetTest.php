@@ -291,20 +291,6 @@ class TimeZoneOffsetTest extends AbstractTestCase
      * @param int    $totalSeconds The total offset seconds.
      * @param string $string       The expected string.
      */
-    public function testToDateTimeZone(int $totalSeconds, string $string): void
-    {
-        $dateTimeZone = TimeZoneOffset::ofTotalSeconds($totalSeconds)->toDateTimeZone();
-
-        $this->assertSame($string, $dateTimeZone->getName());
-        $this->assertSame($totalSeconds, $dateTimeZone->getOffset(new DateTimeImmutable()));
-    }
-
-    /**
-     * @dataProvider providerToNativeDateTimeZone
-     *
-     * @param int    $totalSeconds The total offset seconds.
-     * @param string $string       The expected string.
-     */
     public function testToNativeDateTimeZone(int $totalSeconds, string $string): void
     {
         $dateTimeZone = TimeZoneOffset::ofTotalSeconds($totalSeconds)->toNativeDateTimeZone();

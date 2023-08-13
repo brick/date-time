@@ -133,12 +133,6 @@ class LocalDateTest extends AbstractTestCase
         ];
     }
 
-    public function testFromDateTime(): void
-    {
-        $dateTime = new DateTime('2018-07-21');
-        $this->assertLocalDateIs(2018, 7, 21, LocalDate::fromDateTime($dateTime));
-    }
-
     public function testFromNativeDateTime(): void
     {
         $dateTime = new DateTime('2018-07-21');
@@ -1411,7 +1405,7 @@ class LocalDateTest extends AbstractTestCase
     }
 
     /**
-     * @dataProvider providerToDateTime
+     * @dataProvider providerToNativeDateTime
      *
      * @param string $dateTime The date-time string that will be parse()d by LocalDate.
      * @param string $expected The expected output from the native DateTime object.
@@ -1426,22 +1420,7 @@ class LocalDateTest extends AbstractTestCase
     }
 
     /**
-     * @dataProvider providerToDateTime
-     *
-     * @param string $dateTime The date-time string that will be parse()d by LocalDate.
-     * @param string $expected The expected output from the native DateTime object.
-     */
-    public function testToDateTime(string $dateTime, string $expected): void
-    {
-        $localDate = LocalDate::parse($dateTime);
-        $dateTime = $localDate->toDateTime();
-
-        $this->assertInstanceOf(DateTime::class, $dateTime);
-        $this->assertSame($expected, $dateTime->format('Y-m-d\TH:i:s.uO'));
-    }
-
-    /**
-     * @dataProvider providerToDateTime
+     * @dataProvider providerToNativeDateTime
      *
      * @param string $dateTime The date-time string that will be parse()d by LocalDate.
      * @param string $expected The expected output from the native DateTime object.
@@ -1455,22 +1434,7 @@ class LocalDateTest extends AbstractTestCase
         $this->assertSame($expected, $dateTime->format('Y-m-d\TH:i:s.uO'));
     }
 
-    /**
-     * @dataProvider providerToDateTime
-     *
-     * @param string $dateTime The date-time string that will be parse()d by LocalDate.
-     * @param string $expected The expected output from the native DateTime object.
-     */
-    public function testToDateTimeImmutable(string $dateTime, string $expected): void
-    {
-        $localDate = LocalDate::parse($dateTime);
-        $dateTime = $localDate->toDateTimeImmutable();
-
-        $this->assertInstanceOf(DateTimeImmutable::class, $dateTime);
-        $this->assertSame($expected, $dateTime->format('Y-m-d\TH:i:s.uO'));
-    }
-
-    public function providerToDateTime(): array
+    public function providerToNativeDateTime(): array
     {
         return [
             ['2011-07-31', '2011-07-31T00:00:00.000000+0000'],

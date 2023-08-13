@@ -24,12 +24,12 @@ final class Year
     /**
      * The minimum allowed value.
      */
-    public const MIN_VALUE = -999999;
+    public const MIN_VALUE = -999_999;
 
     /**
      * The maximum allowed value.
      */
-    public const MAX_VALUE = 999999;
+    public const MAX_VALUE = 999_999;
 
     /**
      * @param int $year The year to check.

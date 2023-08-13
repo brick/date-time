@@ -23,8 +23,8 @@ final class NanoOfSecond
      */
     public static function check(int $nanoOfSecond): void
     {
-        if ($nanoOfSecond < 0 || $nanoOfSecond > 999999999) {
-            throw DateTimeException::fieldNotInRange(self::NAME, $nanoOfSecond, 0, 999999999);
+        if ($nanoOfSecond < 0 || $nanoOfSecond > 999_999_999) {
+            throw DateTimeException::fieldNotInRange(self::NAME, $nanoOfSecond, 0, 999_999_999);
         }
     }
 }

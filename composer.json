@@ -19,8 +19,10 @@
         "vimeo/psalm": "5.11.0"
     },
     "replaces": {
-        "brick/date-time": "0.4.3",
-        "solodkiy/date-time": "0.4.0-p7"
+        "brick/date-time": "0.5.1"
+    },
+    "conflict": {
+        "solodkiy/date-time": "*"
     },
     "suggest": {
         "ext-timezonedb": "This PECL extension provides up-to-date timezone information"

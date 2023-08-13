@@ -110,16 +110,7 @@ class PeriodTest extends AbstractTestCase
     }
 
     /**
-     * @dataProvider providerFromDateInterval
-     */
-    public function testFromDateInterval(DateInterval $dateInterval, int $years, int $months, int $days): void
-    {
-        $period = Period::fromDateInterval($dateInterval);
-        self::assertPeriodIs($years, $months, $days, $period);
-    }
-
-    /**
-     * @dataProvider providerFromDateInterval
+     * @dataProvider providerFromNativeDateInterval
      */
     public function testFromNativeDateInterval(DateInterval $dateInterval, int $years, int $months, int $days): void
     {
@@ -127,7 +118,7 @@ class PeriodTest extends AbstractTestCase
         self::assertPeriodIs($years, $months, $days, $period);
     }
 
-    public function providerFromDateInterval(): Generator
+    public function providerFromNativeDateInterval(): Generator
     {
         $withConstructor = [
             ['P0Y', 0, 0, 0],
@@ -165,9 +156,9 @@ class PeriodTest extends AbstractTestCase
     }
 
     /**
-     * @dataProvider providerFromInvalidDateInterval
+     * @dataProvider providerFromInvalidNativeDateInterval
      */
-    public function testFromInvalidDateInterval(string $dateTime1, string $dateTime2, string $expectedMessage): void
+    public function testFromInvalidNativeDateInterval(string $dateTime1, string $dateTime2, string $expectedMessage): void
     {
         $dateTime1 = new DateTimeImmutable($dateTime1);
         $dateTime2 = new DateTimeImmutable($dateTime2);
@@ -175,12 +166,12 @@ class PeriodTest extends AbstractTestCase
         $dateInterval = $dateTime1->diff($dateTime2);
 
         $this->expectException(DateTimeException::class);
-        $this->expectDeprecationMessage($expectedMessage);
+        $this->expectExceptionMessage($expectedMessage);
 
-        Period::fromDateInterval($dateInterval);
+        Period::fromNativeDateInterval($dateInterval);
     }
 
-    public function providerFromInvalidDateInterval(): array
+    public function providerFromInvalidNativeDateInterval(): array
     {
         return [
             ['2020-01-01 00:00:00', '2020-01-01 01:00:00', 'Cannot create a Period from a DateInterval with a non-zero hour.'],
@@ -382,20 +373,7 @@ class PeriodTest extends AbstractTestCase
     }
 
     /**
-     * @dataProvider providerToDateInterval
-     */
-    public function testToDateInterval(int $years, int $months, int $days): void
-    {
-        $period = Period::of($years, $months, $days);
-        $dateInterval = $period->toDateInterval();
-
-        $this->assertSame($years, $dateInterval->y);
-        $this->assertSame($months, $dateInterval->m);
-        $this->assertSame($days, $dateInterval->d);
-    }
-
-    /**
-     * @dataProvider providerToDateInterval
+     * @dataProvider providerToNativeDateInterval
      */
     public function testToNativeDateInterval(int $years, int $months, int $days): void
     {
@@ -407,7 +385,7 @@ class PeriodTest extends AbstractTestCase
         $this->assertSame($days, $dateInterval->d);
     }
 
-    public function providerToDateInterval(): array
+    public function providerToNativeDateInterval(): array
     {
         return [
             [1, -2, 3],

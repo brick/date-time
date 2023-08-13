@@ -106,7 +106,7 @@ final class Instant implements JsonSerializable
      */
     public static function max(): Instant
     {
-        return new Instant(PHP_INT_MAX, 999999999);
+        return new Instant(PHP_INT_MAX, 999_999_999);
     }
 
     public function plus(Duration $duration): Instant

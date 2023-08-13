@@ -20,7 +20,7 @@ use JsonSerializable;
 use function intdiv;
 use function rtrim;
 use function sprintf;
-use function substr;
+use function str_pad;
 
 /**
  * A time without a time-zone in the ISO-8601 calendar system, such as 10:15:30.
@@ -37,8 +37,8 @@ final class LocalTime implements JsonSerializable
     public const SECONDS_PER_MINUTE = 60;
     public const SECONDS_PER_HOUR = 3600;
     public const SECONDS_PER_DAY = 86400;
-    public const NANOS_PER_SECOND = 1000000000;
-    public const NANOS_PER_MILLI = 1000000;
+    public const NANOS_PER_SECOND = 1_000_000_000;
+    public const NANOS_PER_MILLI = 1_000_000;
     public const MILLIS_PER_SECOND = 1000;
 
     /**
@@ -127,7 +127,7 @@ final class LocalTime implements JsonSerializable
         $second = $result->getOptionalField(SecondOfMinute::NAME);
         $fraction = $result->getOptionalField(Field\FractionOfSecond::NAME);
 
-        $nano = substr($fraction . '000000000', 0, 9);
+        $nano = str_pad($fraction, 9, '0');
 
         return LocalTime::of((int) $hour, (int) $minute, (int) $second, (int) $nano);
     }
@@ -164,16 +164,6 @@ final class LocalTime implements JsonSerializable
     }
 
     /**
-     * Creates a LocalTime from a native DateTime or DateTimeImmutable object.
-     *
-     * @deprecated please use fromNativeDateTime instead
-     */
-    public static function fromDateTime(DateTimeInterface $dateTime): LocalTime
-    {
-        return self::fromNativeDateTime($dateTime);
-    }
-
-    /**
      * Returns the current local time in the given time-zone, according to the given clock.
      *
      * If no clock is provided, the system clock is used.
@@ -206,7 +196,7 @@ final class LocalTime implements JsonSerializable
      */
     public static function max(): LocalTime
     {
-        return new LocalTime(23, 59, 59, 999999999);
+        return new LocalTime(23, 59, 59, 999_999_999);
     }
 
     /**
@@ -616,21 +606,6 @@ final class LocalTime implements JsonSerializable
     }
 
     /**
-     * Converts this LocalTime to a native DateTime object.
-     *
-     * The result is a DateTime with date 0000-01-01 in the UTC time-zone.
-     *
-     * Note that the native DateTime object supports a precision up to the microsecond,
-     * so the nanoseconds are rounded down to the nearest microsecond.
-     *
-     * @deprecated please use toNativeDateTime instead
-     */
-    public function toDateTime(): DateTime
-    {
-        return $this->toNativeDateTime();
-    }
-
-    /**
      * Converts this LocalTime to a native DateTimeImmutable object.
      *
      * The result is a DateTimeImmutable with date 0000-01-01 in the UTC time-zone.
@@ -641,21 +616,6 @@ final class LocalTime implements JsonSerializable
     public function toNativeDateTimeImmutable(): DateTimeImmutable
     {
         return DateTimeImmutable::createFromMutable($this->toNativeDateTime());
-    }
-
-    /**
-     * Converts this LocalTime to a native DateTimeImmutable object.
-     *
-     * The result is a DateTimeImmutable with date 0000-01-01 in the UTC time-zone.
-     *
-     * Note that the native DateTimeImmutable object supports a precision up to the microsecond,
-     * so the nanoseconds are rounded down to the nearest microsecond.
-     *
-     * @deprecated please use toNativeDateTimeImmutable instead
-     */
-    public function toDateTimeImmutable(): DateTimeImmutable
-    {
-        return $this->toNativeDateTimeImmutable();
     }
 
     /**

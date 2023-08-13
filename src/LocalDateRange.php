@@ -260,14 +260,6 @@ final class LocalDateRange implements IteratorAggregate, Countable, JsonSerializ
     }
 
     /**
-     * @deprecated please use toNativeDatePeriod instead
-     */
-    public function toDatePeriod(): DatePeriod
-    {
-        return $this->toNativeDatePeriod();
-    }
-
-    /**
      * Returns an ISO 8601 string representation of this date range.
      */
     public function __toString(): string

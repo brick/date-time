@@ -36,7 +36,7 @@ final class TimeZoneOffsetTotalSeconds
             throw DateTimeException::fieldNotInRange(self::NAME, $offsetSeconds, -self::MAX_SECONDS, self::MAX_SECONDS);
         }
 
-        if ($offsetSeconds % 60 !== 0 && PHP_VERSION_ID < 80107) {
+        if ($offsetSeconds % 60 !== 0 && PHP_VERSION_ID < 8_01_07) {
             throw DateTimeException::timeZoneOffsetSecondsMustBeMultipleOf60($offsetSeconds);
         }
     }

@@ -152,12 +152,6 @@ class LocalTimeTest extends AbstractTestCase
         ];
     }
 
-    public function testFromDateTime(): void
-    {
-        $dateTime = new DateTime('2018-07-21 14:09:10.23456');
-        $this->assertLocalTimeIs(14, 9, 10, 234560000, LocalTime::fromDateTime($dateTime));
-    }
-
     public function testFromNativeDateTime(): void
     {
         $dateTime = new DateTime('2018-07-21 14:09:10.23456');
@@ -1088,22 +1082,7 @@ class LocalTimeTest extends AbstractTestCase
     }
 
     /**
-     * @dataProvider providerToDateTime
-     *
-     * @param string $dateTime The date-time string that will be parse()d by LocalTime.
-     * @param string $expected The expected output from the native DateTime object.
-     */
-    public function testToDateTime(string $dateTime, string $expected): void
-    {
-        $localTime = LocalTime::parse($dateTime);
-        $dateTime = $localTime->toDateTime();
-
-        $this->assertInstanceOf(DateTime::class, $dateTime);
-        $this->assertSame($expected, $dateTime->format('Y-m-d\TH:i:s.uO'));
-    }
-
-    /**
-     * @dataProvider providerToDateTime
+     * @dataProvider providerToNativeDateTime
      *
      * @param string $dateTime The date-time string that will be parse()d by LocalTime.
      * @param string $expected The expected output from the native DateTime object.
@@ -1118,22 +1097,7 @@ class LocalTimeTest extends AbstractTestCase
     }
 
     /**
-     * @dataProvider providerToDateTime
-     *
-     * @param string $dateTime The date-time string that will be parse()d by LocalTime.
-     * @param string $expected The expected output from the native DateTime object.
-     */
-    public function testToDateTimeImmutable(string $dateTime, string $expected): void
-    {
-        $localTime = LocalTime::parse($dateTime);
-        $dateTime = $localTime->toDateTimeImmutable();
-
-        $this->assertInstanceOf(DateTimeImmutable::class, $dateTime);
-        $this->assertSame($expected, $dateTime->format('Y-m-d\TH:i:s.uO'));
-    }
-
-    /**
-     * @dataProvider providerToDateTime
+     * @dataProvider providerToNativeDateTime
      *
      * @param string $dateTime The date-time string that will be parse()d by LocalTime.
      * @param string $expected The expected output from the native DateTime object.
@@ -1147,7 +1111,7 @@ class LocalTimeTest extends AbstractTestCase
         $this->assertSame($expected, $dateTime->format('Y-m-d\TH:i:s.uO'));
     }
 
-    public function providerToDateTime()
+    public function providerToNativeDateTime()
     {
         return [
             ['12:34',              '0000-01-01T12:34:00.000000+0000'],

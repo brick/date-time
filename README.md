@@ -42,22 +42,23 @@ About this fork
 
 While this library is still under development, it is well tested and should be stable enough to use in production environments.
 ### New functional
-* UtcDateTime class
-* Instant::toUtcDateTime() method
-* LocalDateTime::fromSqlFormat() method
-* LocalDateTime::toSqlFormat() method
-* ZonedDateTime::fromSqlFormat() method
-* ZonedDateTime::toSqlFormat() method
-* ZonedDateTime::toUtcDateTime() method
-* ZonedDateTime::toNativeFormat() method
-* ZonedDateTime::toUtcSqlFormat() method
+* new `UtcDateTime` class
+* `Instant::toUtcDateTime()` method
+* `LocalDateTime::fromSqlFormat()` method
+* `LocalDateTime::toSqlFormat()` method
+* `ZonedDateTime::fromSqlFormat()` method
+* `ZonedDateTime::toSqlFormat()` method
+* `ZonedDateTime::toUtcDateTime()` method
+* `ZonedDateTime::toNativeFormat()` method
+* `ZonedDateTime::toUtcSqlFormat()` method
 
 ### Compatibility with brick/date-time
 
 | solodkiy/brick-date-time | brick/date-time |
 |--------------------------|-----------------|
-| 100.\*.\*                | 0.3.2           |
+| 102.\*.\*                | 0.5.\*          |
 | 101.\*.\*                | 0.4.\*          |
+| 100.\*.\*                | 0.3.2           |
 
 
 Overview
@@ -84,6 +85,8 @@ The following classes represent the date-time concepts:
 - `YearMonth`: a combination of a year and a month, such as `2014-08`
 - `ZonedDateTime`: a date-time with a time-zone, such as `2014-08-31T10:15:30+01:00`.
    This class is conceptually equivalent to the native `DateTime` class
+- `UtcDateTime`: a date-time with a UTC time-zone, such as `2014-08-31T10:15:30Z`. 
+   This class is sub-class of ZonedDateTime
 
 These classes belong to the `Brick\DateTime` namespace.
 
