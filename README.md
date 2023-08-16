@@ -74,7 +74,7 @@ The following classes represent the date-time concepts:
 - `YearMonth`: a combination of a year and a month, such as `2014-08`
 - `ZonedDateTime`: a date-time with a time-zone, such as `2014-08-31T10:15:30+01:00`.
    This class is conceptually equivalent to the native `DateTime` class
-- `TimeStamp` : get current timestamp   
+- `TimeStamp` : get current timestamp and create a new timestamp
 
 These classes belong to the `Brick\DateTime` namespace.
 
