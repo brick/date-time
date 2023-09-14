@@ -25,7 +25,10 @@ class DurationTest extends AbstractTestCase
 {
     public function testZero(): void
     {
-        $this->assertDurationIs(0, 0, Duration::zero());
+        $zero = Duration::zero();
+
+        $this->assertDurationIs(0, 0, $zero);
+        $this->assertSame($zero, Duration::zero());
     }
 
     /**

@@ -159,12 +159,18 @@ class LocalDateTimeTest extends AbstractTestCase
 
     public function testMin(): void
     {
-        $this->assertLocalDateTimeIs(Year::MIN_VALUE, 1, 1, 0, 0, 0, 0, LocalDateTime::min());
+        $min = LocalDateTime::min();
+
+        $this->assertLocalDateTimeIs(Year::MIN_VALUE, 1, 1, 0, 0, 0, 0, $min);
+        $this->assertSame($min, LocalDateTime::min());
     }
 
     public function testMax(): void
     {
-        $this->assertLocalDateTimeIs(Year::MAX_VALUE, 12, 31, 23, 59, 59, 999999999, LocalDateTime::max());
+        $max = LocalDateTime::max();
+
+        $this->assertLocalDateTimeIs(Year::MAX_VALUE, 12, 31, 23, 59, 59, 999999999, $max);
+        $this->assertSame($max, LocalDateTime::max());
     }
 
     public function testMinMaxOf(): void

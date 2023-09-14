@@ -52,7 +52,10 @@ class InstantTest extends AbstractTestCase
 
     public function testEpoch(): void
     {
-        $this->assertInstantIs(0, 0, Instant::epoch());
+        $epoch = Instant::epoch();
+
+        $this->assertInstantIs(0, 0, $epoch);
+        $this->assertSame($epoch, Instant::epoch());
     }
 
     public function testNow(): void
@@ -63,12 +66,18 @@ class InstantTest extends AbstractTestCase
 
     public function testMin(): void
     {
-        $this->assertInstantIs(PHP_INT_MIN, 0, Instant::min());
+        $min = Instant::min();
+
+        $this->assertInstantIs(PHP_INT_MIN, 0, $min);
+        $this->assertSame($min, Instant::min());
     }
 
     public function testMax(): void
     {
-        $this->assertInstantIs(PHP_INT_MAX, 999999999, Instant::max());
+        $max = Instant::max();
+
+        $this->assertInstantIs(PHP_INT_MAX, 999999999, $max);
+        $this->assertSame($max, Instant::max());
     }
 
     /**

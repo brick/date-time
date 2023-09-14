@@ -166,12 +166,18 @@ class LocalDateTest extends AbstractTestCase
 
     public function testMin(): void
     {
-        $this->assertLocalDateIs(Year::MIN_VALUE, 1, 1, LocalDate::min());
+        $min = LocalDate::min();
+
+        $this->assertLocalDateIs(Year::MIN_VALUE, 1, 1, $min);
+        $this->assertSame($min, LocalDate::min());
     }
 
     public function testMax(): void
     {
-        $this->assertLocalDateIs(Year::MAX_VALUE, 12, 31, LocalDate::max());
+        $max = LocalDate::max();
+
+        $this->assertLocalDateIs(Year::MAX_VALUE, 12, 31, $max);
+        $this->assertSame($max, LocalDate::max());
     }
 
     /**
