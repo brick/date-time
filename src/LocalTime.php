@@ -175,12 +175,19 @@ final class LocalTime implements JsonSerializable
 
     public static function midnight(): LocalTime
     {
-        return new LocalTime(0, 0, 0, 0);
+        return self::min();
     }
 
     public static function noon(): LocalTime
     {
-        return new LocalTime(12, 0, 0, 0);
+        /** @var LocalTime|null $noon */
+        static $noon;
+
+        if ($noon) {
+            return $noon;
+        }
+
+        return $noon = new LocalTime(12, 0, 0, 0);
     }
 
     /**
@@ -188,7 +195,14 @@ final class LocalTime implements JsonSerializable
      */
     public static function min(): LocalTime
     {
-        return new LocalTime(0, 0, 0, 0);
+        /** @var LocalTime|null $min */
+        static $min;
+
+        if ($min) {
+            return $min;
+        }
+
+        return $min = new LocalTime(0, 0, 0, 0);
     }
 
     /**
@@ -196,7 +210,14 @@ final class LocalTime implements JsonSerializable
      */
     public static function max(): LocalTime
     {
-        return new LocalTime(23, 59, 59, 999_999_999);
+        /** @var LocalTime|null $max */
+        static $max;
+
+        if ($max) {
+            return $max;
+        }
+
+        return $max = new LocalTime(23, 59, 59, 999_999_999);
     }
 
     /**

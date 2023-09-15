@@ -221,7 +221,14 @@ final class LocalDate implements JsonSerializable
      */
     public static function min(): LocalDate
     {
-        return LocalDate::of(self::MIN_YEAR, 1, 1);
+        /** @var LocalDate|null $min */
+        static $min;
+
+        if ($min) {
+            return $min;
+        }
+
+        return $min = LocalDate::of(self::MIN_YEAR, 1, 1);
     }
 
     /**
@@ -231,7 +238,14 @@ final class LocalDate implements JsonSerializable
      */
     public static function max(): LocalDate
     {
-        return LocalDate::of(self::MAX_YEAR, 12, 31);
+        /** @var LocalDate|null $max */
+        static $max;
+
+        if ($max) {
+            return $max;
+        }
+
+        return $max = LocalDate::of(self::MAX_YEAR, 12, 31);
     }
 
     /**

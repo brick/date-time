@@ -108,7 +108,14 @@ final class LocalDateTime implements JsonSerializable
      */
     public static function min(): LocalDateTime
     {
-        return new LocalDateTime(LocalDate::min(), LocalTime::min());
+        /** @var LocalDateTime|null $min */
+        static $min;
+
+        if ($min) {
+            return $min;
+        }
+
+        return $min = new LocalDateTime(LocalDate::min(), LocalTime::min());
     }
 
     /**
@@ -116,7 +123,14 @@ final class LocalDateTime implements JsonSerializable
      */
     public static function max(): LocalDateTime
     {
-        return new LocalDateTime(LocalDate::max(), LocalTime::max());
+        /** @var LocalDateTime|null $max */
+        static $max;
+
+        if ($max) {
+            return $max;
+        }
+
+        return $max = new LocalDateTime(LocalDate::max(), LocalTime::max());
     }
 
     /**

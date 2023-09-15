@@ -46,7 +46,10 @@ class PeriodTest extends AbstractTestCase
 
     public function testZero(): void
     {
-        $this->assertPeriodIs(0, 0, 0, Period::zero());
+        $zero = Period::zero();
+
+        $this->assertPeriodIs(0, 0, 0, $zero);
+        $this->assertSame($zero, Period::zero());
     }
 
     /**

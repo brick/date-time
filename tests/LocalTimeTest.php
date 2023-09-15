@@ -188,22 +188,34 @@ class LocalTimeTest extends AbstractTestCase
 
     public function testMidnight(): void
     {
-        $this->assertLocalTimeIs(0, 0, 0, 0, LocalTime::midnight());
+        $midnight = LocalTime::midnight();
+
+        $this->assertLocalTimeIs(0, 0, 0, 0, $midnight);
+        $this->assertSame($midnight, LocalTime::midnight());
     }
 
     public function testNoon(): void
     {
-        $this->assertLocalTimeIs(12, 0, 0, 0, LocalTime::noon());
+        $noon = LocalTime::noon();
+
+        $this->assertLocalTimeIs(12, 0, 0, 0, $noon);
+        $this->assertSame($noon, LocalTime::noon());
     }
 
     public function testMin(): void
     {
-        $this->assertLocalTimeIs(0, 0, 0, 0, LocalTime::min());
+        $min = LocalTime::min();
+
+        $this->assertLocalTimeIs(0, 0, 0, 0, $min);
+        $this->assertSame($min, LocalTime::min());
     }
 
     public function testMax(): void
     {
-        $this->assertLocalTimeIs(23, 59, 59, 999999999, LocalTime::max());
+        $max = LocalTime::max();
+
+        $this->assertLocalTimeIs(23, 59, 59, 999999999, $max);
+        $this->assertSame($max, LocalTime::max());
     }
 
     /**

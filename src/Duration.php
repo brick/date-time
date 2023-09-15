@@ -54,7 +54,14 @@ final class Duration implements JsonSerializable
      */
     public static function zero(): Duration
     {
-        return new Duration(0);
+        /** @var Duration|null $zero */
+        static $zero;
+
+        if ($zero) {
+            return $zero;
+        }
+
+        return $zero = new Duration(0);
     }
 
     /**

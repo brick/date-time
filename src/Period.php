@@ -75,7 +75,14 @@ final class Period implements JsonSerializable
      */
     public static function zero(): Period
     {
-        return new Period(0, 0, 0);
+        /** @var Period|null $zero */
+        static $zero;
+
+        if ($zero) {
+            return $zero;
+        }
+
+        return $zero = new Period(0, 0, 0);
     }
 
     /**
