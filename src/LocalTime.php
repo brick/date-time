@@ -214,10 +214,10 @@ final class LocalTime implements JsonSerializable
             throw new DateTimeException(__METHOD__ . ' does not accept less than 1 parameter.');
         }
 
-        $min = LocalTime::max();
+        $min = null;
 
         foreach ($times as $time) {
-            if ($time->isBefore($min)) {
+            if ($min === null || $time->isBefore($min)) {
                 $min = $time;
             }
         }
@@ -240,10 +240,10 @@ final class LocalTime implements JsonSerializable
             throw new DateTimeException(__METHOD__ . ' does not accept less than 1 parameter.');
         }
 
-        $max = LocalTime::min();
+        $max = null;
 
         foreach ($times as $time) {
-            if ($time->isAfter($max)) {
+            if ($max === null || $time->isAfter($max)) {
                 $max = $time;
             }
         }
