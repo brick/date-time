@@ -52,11 +52,11 @@ final class Instant implements JsonSerializable
      * This method allows an arbitrary number of nanoseconds to be passed in.
      * The factory will alter the values of the second and nanosecond in order
      * to ensure that the stored nanosecond is in the range 0 to 999,999,999.
-     * For example, the following will result in the exactly the same duration:
+     * For example, the following will result in the exactly the same Instant:
      *
      * * Instant::of(3, 1);
-     * * Duration::of(4, -999999999);
-     * * Duration::of(2, 1000000001);
+     * * Instant::of(4, -999999999);
+     * * Instant::of(2, 1000000001);
      *
      * @param int $epochSecond    The number of seconds since the UNIX epoch of 1970-01-01T00:00:00Z.
      * @param int $nanoAdjustment The adjustment to the epoch second in nanoseconds.
