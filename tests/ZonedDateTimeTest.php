@@ -857,6 +857,29 @@ class ZonedDateTimeTest extends AbstractTestCase
         ];
     }
 
+    /**
+     * @dataProvider providerGetIntervalTo
+     */
+    public function testGetIntervalTo(string $firstDate, string $secondDate, string $expectedInterval): void
+    {
+        $actualResult = ZonedDateTime::parse($firstDate)->getIntervalTo(ZonedDateTime::parse($secondDate));
+
+        $this->assertSame($expectedInterval, (string)$actualResult);
+    }
+
+    public function providerGetIntervalTo(): array
+    {
+        return [
+            ['2023-01-01T10:00:00Z',           '2023-01-01T10:00:00Z',           '2023-01-01T10:00Z/2023-01-01T10:00Z'],
+            ['2023-01-01T10:00:00Z',           '2023-01-01T10:00:10Z',           '2023-01-01T10:00Z/2023-01-01T10:00:10Z'],
+            ['2023-01-01T10:00:00.001Z',       '2023-01-01T10:00:10.002Z',       '2023-01-01T10:00:00.001Z/2023-01-01T10:00:10.002Z'],
+            ['2023-01-01T10:00:00.001Z',       '2023-01-01T13:00:10.002+03:00',  '2023-01-01T10:00:00.001Z/2023-01-01T10:00:10.002Z'],
+            ['2023-01-01T10:00:00.001+03:00',  '2023-01-01T13:00:10.002+03:00',  '2023-01-01T07:00:00.001Z/2023-01-01T10:00:10.002Z'],
+            ['2023-01-01T10:00:00.000000001Z', '2023-01-01T10:00:00.000000009Z', '2023-01-01T10:00:00.000000001Z/2023-01-01T10:00:00.000000009Z'],
+            ['2023-01-01T10:00:00Z',           '2023-01-02T10:00:00Z',           '2023-01-01T10:00Z/2023-01-02T10:00Z'],
+        ];
+    }
+
     private function getTestZonedDateTime(): ZonedDateTime
     {
         $timeZone = TimeZone::parse('America/Los_Angeles');

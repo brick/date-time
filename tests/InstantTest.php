@@ -584,6 +584,27 @@ class InstantTest extends AbstractTestCase
     }
 
     /**
+     * @dataProvider providerGetIntervalTo
+     */
+    public function testGetIntervalTo(int $firstSecond, int $firstNano, int $secondSecond, int $secondNano, string $expectedInterval): void
+    {
+        $actualResult = Instant::of($firstSecond, $firstNano)->getIntervalTo(Instant::of($secondSecond, $secondNano));
+
+        $this->assertSame($expectedInterval, (string)$actualResult);
+    }
+
+    public function providerGetIntervalTo(): array
+    {
+        return [
+            [1672567200, 0,       1672567200, 0,       '2023-01-01T10:00Z/2023-01-01T10:00Z'],
+            [1672567200, 0,       1672567210, 0,       '2023-01-01T10:00Z/2023-01-01T10:00:10Z'],
+            [1672567200, 1000000, 1672567210, 2000000, '2023-01-01T10:00:00.001Z/2023-01-01T10:00:10.002Z'],
+            [1672567200, 1,       1672567200, 9,       '2023-01-01T10:00:00.000000001Z/2023-01-01T10:00:00.000000009Z'],
+            [1672567200, 0,       1672653600, 0,       '2023-01-01T10:00Z/2023-01-02T10:00Z'],
+        ];
+    }
+
+    /**
      * @dataProvider providerToDecimal
      *
      * @param int    $second   The epoch second.

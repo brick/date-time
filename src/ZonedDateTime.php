@@ -436,6 +436,15 @@ class ZonedDateTime implements JsonSerializable
     }
 
     /**
+     * Returns Interval from this ZonedDateTime and the given one (exclusive).
+     * @throws DateTimeException If given date is before this date
+     * */
+    public function getIntervalTo(ZonedDateTime $that): Interval
+    {
+        return $this->getInstant()->getIntervalTo($that->getInstant());
+    }
+
+    /**
      * Returns a Duration representing the time elapsed between this ZonedDateTime and the given one.
      * This method will return a negative duration if the given ZonedDateTime is before the current one.
      */
