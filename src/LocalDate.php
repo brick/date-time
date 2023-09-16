@@ -470,6 +470,13 @@ final class LocalDate implements JsonSerializable
             return $this;
         }
 
+        // Performance optimization for a common use case.
+        if ($days === 1) {
+            return $this->day >= 28 && $this->day === $this->getLengthOfMonth()
+                ? new self($this->year + intdiv($this->month, 12), ($this->month % 12) + 1, 1)
+                : new self($this->year, $this->month, $this->day + 1);
+        }
+
         return LocalDate::ofEpochDay($this->toEpochDay() + $days);
     }
 
