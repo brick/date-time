@@ -52,7 +52,7 @@ final class Instant implements JsonSerializable
      * This method allows an arbitrary number of nanoseconds to be passed in.
      * The factory will alter the values of the second and nanosecond in order
      * to ensure that the stored nanosecond is in the range 0 to 999,999,999.
-     * For example, the following will result in the exactly the same Instant:
+     * For example, the following will result in exactly the same instant:
      *
      * * Instant::of(3, 1);
      * * Instant::of(4, -999999999);
