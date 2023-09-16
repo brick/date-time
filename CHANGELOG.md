@@ -1,5 +1,15 @@
 # Changelog
 
+## [0.5.2](https://github.com/brick/date-time/releases/tag/0.5.2) - 2023-09-17
+
+⚡️ **Performance optimizations**
+
+- These methods got a small performance boost: `Local(Date|Time|DateTime)` `minOf()`/`maxOf()` ([#76](https://github.com/brick/date-time/pull/76))
+- Static objects returned by factory methods are now cached ([#77](https://github.com/brick/date-time/pull/77))
+- The special case `LocalDate::plusDays(1)` is now much faster ([#79](https://github.com/brick/date-time/pull/79))
+
+Thanks to [@gnutix](https://github.com/gnutix)!
+
 ## [0.5.1](https://github.com/brick/date-time/releases/tag/0.5.1) - 2023-08-01
 
 ✨ **New methods**
