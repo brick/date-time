@@ -8,7 +8,7 @@
 - Static objects returned by factory methods are now cached ([#77](https://github.com/brick/date-time/pull/77))
 - The special case `LocalDate::plusDays(1)` is now much faster ([#79](https://github.com/brick/date-time/pull/79))
 
-Thanks to [@gnutix](https://github.com/gnutix)!
+Thanks to [@gnutix](https://github.com/gnutix) and [@BastienClement](https://github.com/BastienClement)!
 
 ## [0.5.1](https://github.com/brick/date-time/releases/tag/0.5.1) - 2023-08-01
 
