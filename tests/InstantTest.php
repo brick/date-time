@@ -586,11 +586,11 @@ class InstantTest extends AbstractTestCase
     /**
      * @dataProvider providerGetIntervalTo
      */
-    public function testGetIntervalTo(int $firstSecond, int $firstNano, int $secondSecond, int $secondNano, string $expectedInterval): void
+    public function testGetIntervalTo(int $second1, int $nano1, int $second2, int $nano2, string $expectedInterval): void
     {
-        $actualResult = Instant::of($firstSecond, $firstNano)->getIntervalTo(Instant::of($secondSecond, $secondNano));
+        $actualResult = Instant::of($second1, $nano1)->getIntervalTo(Instant::of($second2, $nano2));
 
-        $this->assertSame($expectedInterval, (string)$actualResult);
+        $this->assertSame($expectedInterval, (string) $actualResult);
     }
 
     public function providerGetIntervalTo(): array
