@@ -26,7 +26,7 @@ class TimeZoneOffsetTest extends AbstractTestCase
      */
     public function testOf(int $hours, int $minutes, int $seconds, int $totalSeconds): void
     {
-        $this->assertTimeZoneOffsetIs($totalSeconds, TimeZoneOffset::of($hours, $minutes, $seconds));
+        self::assertTimeZoneOffsetIs($totalSeconds, TimeZoneOffset::of($hours, $minutes, $seconds));
     }
 
     public function providerOf(): iterable
@@ -86,7 +86,7 @@ class TimeZoneOffsetTest extends AbstractTestCase
      */
     public function testOfTotalSeconds(int $totalSeconds): void
     {
-        $this->assertTimeZoneOffsetIs($totalSeconds, TimeZoneOffset::ofTotalSeconds($totalSeconds));
+        self::assertTimeZoneOffsetIs($totalSeconds, TimeZoneOffset::ofTotalSeconds($totalSeconds));
     }
 
     public function providerTotalSeconds(): iterable
@@ -141,8 +141,8 @@ class TimeZoneOffsetTest extends AbstractTestCase
     {
         $utc = TimeZoneOffset::utc();
 
-        $this->assertTimeZoneOffsetIs(0, $utc);
-        $this->assertSame($utc, TimeZoneOffset::utc());
+        self::assertTimeZoneOffsetIs(0, $utc);
+        self::assertSame($utc, TimeZoneOffset::utc());
     }
 
     /**
@@ -153,7 +153,7 @@ class TimeZoneOffsetTest extends AbstractTestCase
      */
     public function testParse(string $text, int $totalSeconds): void
     {
-        $this->assertTimeZoneOffsetIs($totalSeconds, TimeZoneOffset::parse($text));
+        self::assertTimeZoneOffsetIs($totalSeconds, TimeZoneOffset::parse($text));
     }
 
     public function providerParse(): iterable
@@ -236,7 +236,7 @@ class TimeZoneOffsetTest extends AbstractTestCase
      */
     public function testGetId(int $totalSeconds, string $expectedId): void
     {
-        $this->assertSame($expectedId, TimeZoneOffset::ofTotalSeconds($totalSeconds)->getId());
+        self::assertSame($expectedId, TimeZoneOffset::ofTotalSeconds($totalSeconds)->getId());
     }
 
     /**
@@ -247,7 +247,7 @@ class TimeZoneOffsetTest extends AbstractTestCase
      */
     public function testToString(int $totalSeconds, string $string): void
     {
-        $this->assertSame($string, (string) TimeZoneOffset::ofTotalSeconds($totalSeconds));
+        self::assertSame($string, (string) TimeZoneOffset::ofTotalSeconds($totalSeconds));
     }
 
     public function providerGetId(): iterable
@@ -285,7 +285,7 @@ class TimeZoneOffsetTest extends AbstractTestCase
         $whateverInstant = Instant::of(123456789, 987654321);
         $timeZoneOffset = TimeZoneOffset::ofTotalSeconds(-18000);
 
-        $this->assertSame(-18000, $timeZoneOffset->getOffset($whateverInstant));
+        self::assertSame(-18000, $timeZoneOffset->getOffset($whateverInstant));
     }
 
     /**
@@ -298,8 +298,8 @@ class TimeZoneOffsetTest extends AbstractTestCase
     {
         $dateTimeZone = TimeZoneOffset::ofTotalSeconds($totalSeconds)->toNativeDateTimeZone();
 
-        $this->assertSame($string, $dateTimeZone->getName());
-        $this->assertSame($totalSeconds, $dateTimeZone->getOffset(new DateTimeImmutable()));
+        self::assertSame($string, $dateTimeZone->getName());
+        self::assertSame($totalSeconds, $dateTimeZone->getOffset(new DateTimeImmutable()));
     }
 
     public function providerToNativeDateTimeZone(): iterable

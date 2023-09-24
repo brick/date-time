@@ -18,7 +18,7 @@ class YearMonthRangeTest extends AbstractTestCase
 {
     public function testOf(): void
     {
-        $this->assertYearMonthRangeIs(2001, 2, 2004, 5, YearMonthRange::of(
+        self::assertYearMonthRangeIs(2001, 2, 2004, 5, YearMonthRange::of(
             YearMonth::of(2001, 2),
             YearMonth::of(2004, 5)
         ));
@@ -45,7 +45,7 @@ class YearMonthRangeTest extends AbstractTestCase
      */
     public function testParse(string $text, int $y1, int $m1, int $y2, int $m2): void
     {
-        $this->assertYearMonthRangeIs($y1, $m1, $y2, $m2, YearMonthRange::parse($text));
+        self::assertYearMonthRangeIs($y1, $m1, $y2, $m2, YearMonthRange::parse($text));
     }
 
     public function providerParse(): array
@@ -88,7 +88,7 @@ class YearMonthRangeTest extends AbstractTestCase
      */
     public function testIsEqualTo(string $testRange, bool $isEqual): void
     {
-        $this->assertSame($isEqual, YearMonthRange::of(
+        self::assertSame($isEqual, YearMonthRange::of(
             YearMonth::of(2001, 2),
             YearMonth::of(2004, 5)
         )->isEqualTo(YearMonthRange::parse($testRange)));
@@ -110,7 +110,7 @@ class YearMonthRangeTest extends AbstractTestCase
      */
     public function testContains(string $range, string $yearMonth, bool $contains): void
     {
-        $this->assertSame($contains, YearMonthRange::parse($range)->contains(YearMonth::parse($yearMonth)));
+        self::assertSame($contains, YearMonthRange::parse($range)->contains(YearMonth::parse($yearMonth)));
     }
 
     public function providerContains(): array
@@ -152,7 +152,7 @@ class YearMonthRangeTest extends AbstractTestCase
                 $actual[] = (string) $yearMonth;
             }
 
-            $this->assertSame($expected, $actual);
+            self::assertSame($expected, $actual);
         }
     }
 
@@ -164,7 +164,7 @@ class YearMonthRangeTest extends AbstractTestCase
      */
     public function testCount(string $range, int $count): void
     {
-        $this->assertCount($count, YearMonthRange::parse($range));
+        self::assertCount($count, YearMonthRange::parse($range));
     }
 
     public function providerCount(): array
@@ -183,7 +183,7 @@ class YearMonthRangeTest extends AbstractTestCase
      */
     public function testToLocalDateRange(string $yearMonthRange, string $expectedRange): void
     {
-        $this->assertSame($expectedRange, (string) YearMonthRange::parse($yearMonthRange)->toLocalDateRange());
+        self::assertSame($expectedRange, (string) YearMonthRange::parse($yearMonthRange)->toLocalDateRange());
     }
 
     public function providerToLocalDateRange(): array
@@ -199,7 +199,7 @@ class YearMonthRangeTest extends AbstractTestCase
 
     public function testJsonSerialize(): void
     {
-        $this->assertSame(json_encode('2008-12/2011-01'), json_encode(YearMonthRange::of(
+        self::assertSame(json_encode('2008-12/2011-01'), json_encode(YearMonthRange::of(
             YearMonth::of(2008, 12),
             YearMonth::of(2011, 1)
         )));
@@ -207,7 +207,7 @@ class YearMonthRangeTest extends AbstractTestCase
 
     public function testToString(): void
     {
-        $this->assertSame('2008-12/2011-01', (string) YearMonthRange::of(
+        self::assertSame('2008-12/2011-01', (string) YearMonthRange::of(
             YearMonth::of(2008, 12),
             YearMonth::of(2011, 1)
         ));

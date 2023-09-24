@@ -23,7 +23,7 @@ class MonthDayTest extends AbstractTestCase
      */
     public function testOf(int $month, int $day): void
     {
-        $this->assertMonthDayIs($month, $day, MonthDay::of($month, $day));
+        self::assertMonthDayIs($month, $day, MonthDay::of($month, $day));
     }
 
     public function providerOf(): array
@@ -84,7 +84,7 @@ class MonthDayTest extends AbstractTestCase
      */
     public function testParse(string $text, int $month, int $day): void
     {
-        $this->assertMonthDayIs($month, $day, MonthDay::parse($text));
+        self::assertMonthDayIs($month, $day, MonthDay::parse($text));
     }
 
     public function providerParse(): array
@@ -153,7 +153,7 @@ class MonthDayTest extends AbstractTestCase
     public function testNow(int $epochSecond, string $timeZone, int $month, int $day): void
     {
         $clock = new FixedClock(Instant::of($epochSecond));
-        $this->assertMonthDayIs($month, $day, MonthDay::now(TimeZone::parse($timeZone), $clock));
+        self::assertMonthDayIs($month, $day, MonthDay::now(TimeZone::parse($timeZone), $clock));
     }
 
     public function providerNow(): array
@@ -177,7 +177,7 @@ class MonthDayTest extends AbstractTestCase
      */
     public function testCompareTo(int $m1, int $d1, int $m2, int $d2, int $result): void
     {
-        $this->assertSame($result, MonthDay::of($m1, $d1)->compareTo(MonthDay::of($m2, $d2)));
+        self::assertSame($result, MonthDay::of($m1, $d1)->compareTo(MonthDay::of($m2, $d2)));
     }
 
     /**
@@ -191,7 +191,7 @@ class MonthDayTest extends AbstractTestCase
      */
     public function testIsEqualTo(int $m1, int $d1, int $m2, int $d2, int $result): void
     {
-        $this->assertSame($result === 0, MonthDay::of($m1, $d1)->isEqualTo(MonthDay::of($m2, $d2)));
+        self::assertSame($result === 0, MonthDay::of($m1, $d1)->isEqualTo(MonthDay::of($m2, $d2)));
     }
 
     /**
@@ -205,7 +205,7 @@ class MonthDayTest extends AbstractTestCase
      */
     public function testIsBefore(int $m1, int $d1, int $m2, int $d2, int $result): void
     {
-        $this->assertSame($result === -1, MonthDay::of($m1, $d1)->isBefore(MonthDay::of($m2, $d2)));
+        self::assertSame($result === -1, MonthDay::of($m1, $d1)->isBefore(MonthDay::of($m2, $d2)));
     }
 
     /**
@@ -219,7 +219,7 @@ class MonthDayTest extends AbstractTestCase
      */
     public function testIsAfter(int $m1, int $d1, int $m2, int $d2, int $result): void
     {
-        $this->assertSame($result === 1, MonthDay::of($m1, $d1)->isAfter(MonthDay::of($m2, $d2)));
+        self::assertSame($result === 1, MonthDay::of($m1, $d1)->isAfter(MonthDay::of($m2, $d2)));
     }
 
     public function providerCompareTo(): array
@@ -254,7 +254,7 @@ class MonthDayTest extends AbstractTestCase
      */
     public function testIsValidYear(int $month, int $day, int $year, bool $isValid): void
     {
-        $this->assertSame($isValid, MonthDay::of($month, $day)->isValidYear($year));
+        self::assertSame($isValid, MonthDay::of($month, $day)->isValidYear($year));
     }
 
     public function providerIsValidYear(): array
@@ -293,8 +293,8 @@ class MonthDayTest extends AbstractTestCase
         $monthDay = MonthDay::of($month, $day);
         $newMonthDay = $monthDay->withMonth($newMonth);
 
-        $this->assertMonthDayIs($month, $day, $monthDay);
-        $this->assertMonthDayIs($newMonth, $expectedDay, $newMonthDay);
+        self::assertMonthDayIs($month, $day, $monthDay);
+        self::assertMonthDayIs($newMonth, $expectedDay, $newMonthDay);
     }
 
     public function providerWithMonth(): array
@@ -347,8 +347,8 @@ class MonthDayTest extends AbstractTestCase
         $monthDay = MonthDay::of($month, $day);
         $newMonthDay = $monthDay->withDay($day);
 
-        $this->assertMonthDayIs($month, $day, $monthDay);
-        $this->assertMonthDayIs($month, $day, $newMonthDay);
+        self::assertMonthDayIs($month, $day, $monthDay);
+        self::assertMonthDayIs($month, $day, $newMonthDay);
     }
 
     /**
@@ -363,8 +363,8 @@ class MonthDayTest extends AbstractTestCase
         $monthDay = MonthDay::of($month, $day);
         $newMonthDay = $monthDay->withDay($newDay);
 
-        $this->assertMonthDayIs($month, $day, $monthDay);
-        $this->assertMonthDayIs($month, $newDay, $newMonthDay);
+        self::assertMonthDayIs($month, $day, $monthDay);
+        self::assertMonthDayIs($month, $newDay, $newMonthDay);
     }
 
     public function providerWithDay(): array
@@ -432,7 +432,7 @@ class MonthDayTest extends AbstractTestCase
      */
     public function testAtYear(int $month, int $day, int $year, int $expectedDay): void
     {
-        $this->assertLocalDateIs($year, $month, $expectedDay, MonthDay::of($month, $day)->atYear($year));
+        self::assertLocalDateIs($year, $month, $expectedDay, MonthDay::of($month, $day)->atYear($year));
     }
 
     public function providerAtYear(): array
@@ -473,7 +473,7 @@ class MonthDayTest extends AbstractTestCase
      */
     public function testJsonSerialize(int $month, int $day, string $string): void
     {
-        $this->assertSame(json_encode($string), json_encode(MonthDay::of($month, $day)));
+        self::assertSame(json_encode($string), json_encode(MonthDay::of($month, $day)));
     }
 
     /**
@@ -485,7 +485,7 @@ class MonthDayTest extends AbstractTestCase
      */
     public function testToString(int $month, int $day, string $string): void
     {
-        $this->assertSame($string, (string) MonthDay::of($month, $day));
+        self::assertSame($string, (string) MonthDay::of($month, $day));
     }
 
     public function providerToString(): array
