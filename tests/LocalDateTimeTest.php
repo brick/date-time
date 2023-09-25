@@ -31,13 +31,13 @@ class LocalDateTimeTest extends AbstractTestCase
         $date = LocalDate::of(2001, 12, 23);
         $time = LocalTime::of(12, 34, 56, 987654321);
 
-        $this->assertLocalDateTimeIs(2001, 12, 23, 12, 34, 56, 987654321, new LocalDateTime($date, $time));
+        self::assertLocalDateTimeIs(2001, 12, 23, 12, 34, 56, 987654321, new LocalDateTime($date, $time));
     }
 
     public function testFromNativeDateTime(): void
     {
         $dateTime = new DateTime('2018-07-21 14:09:10.23456');
-        $this->assertLocalDateTimeIs(2018, 7, 21, 14, 9, 10, 234560000, LocalDateTime::fromNativeDateTime($dateTime));
+        self::assertLocalDateTimeIs(2018, 7, 21, 14, 9, 10, 234560000, LocalDateTime::fromNativeDateTime($dateTime));
     }
 
     /**
@@ -58,7 +58,7 @@ class LocalDateTimeTest extends AbstractTestCase
     {
         $clock = new FixedClock(Instant::of($second, $nano));
         $timeZone = TimeZoneOffset::ofTotalSeconds($offset);
-        $this->assertLocalDateTimeIs($y, $m, $d, $h, $i, $s, $n, LocalDateTime::now($timeZone, $clock));
+        self::assertLocalDateTimeIs($y, $m, $d, $h, $i, $s, $n, LocalDateTime::now($timeZone, $clock));
     }
 
     public function providerNow(): array
@@ -85,7 +85,7 @@ class LocalDateTimeTest extends AbstractTestCase
      */
     public function testParse(string $t, int $y, int $m, int $d, int $h, int $i, int $s, int $n): void
     {
-        $this->assertLocalDateTimeIs($y, $m, $d, $h, $i, $s, $n, LocalDateTime::parse($t));
+        self::assertLocalDateTimeIs($y, $m, $d, $h, $i, $s, $n, LocalDateTime::parse($t));
     }
 
     public function providerParse(): array
@@ -161,16 +161,16 @@ class LocalDateTimeTest extends AbstractTestCase
     {
         $min = LocalDateTime::min();
 
-        $this->assertLocalDateTimeIs(Year::MIN_VALUE, 1, 1, 0, 0, 0, 0, $min);
-        $this->assertSame($min, LocalDateTime::min());
+        self::assertLocalDateTimeIs(Year::MIN_VALUE, 1, 1, 0, 0, 0, 0, $min);
+        self::assertSame($min, LocalDateTime::min());
     }
 
     public function testMax(): void
     {
         $max = LocalDateTime::max();
 
-        $this->assertLocalDateTimeIs(Year::MAX_VALUE, 12, 31, 23, 59, 59, 999999999, $max);
-        $this->assertSame($max, LocalDateTime::max());
+        self::assertLocalDateTimeIs(Year::MAX_VALUE, 12, 31, 23, 59, 59, 999999999, $max);
+        self::assertSame($max, LocalDateTime::max());
     }
 
     public function testMinMaxOf(): void
@@ -179,8 +179,8 @@ class LocalDateTimeTest extends AbstractTestCase
         $b = LocalDateTime::parse('2005-12-31T23:59:59.999999999');
         $c = LocalDateTime::parse('2006-07-12T05:22:11');
 
-        $this->assertSame($a, LocalDateTime::minOf($a, $b, $c));
-        $this->assertSame($c, LocalDateTime::maxOf($a, $b, $c));
+        self::assertSame($a, LocalDateTime::minOf($a, $b, $c));
+        self::assertSame($c, LocalDateTime::maxOf($a, $b, $c));
     }
 
     public function testMinOfZeroElementsThrowsException(): void
@@ -206,7 +206,7 @@ class LocalDateTimeTest extends AbstractTestCase
     public function testGetDayOfWeek(int $year, int $month, int $day, int $dayOfWeek): void
     {
         $dateTime = LocalDateTime::of($year, $month, $day, 15, 30, 45);
-        $this->assertDayOfWeekIs($dayOfWeek, $dateTime->getDayOfWeek());
+        self::assertDayOfWeekIs($dayOfWeek, $dateTime->getDayOfWeek());
     }
 
     public function providerGetDayOfWeek(): array
@@ -240,7 +240,7 @@ class LocalDateTimeTest extends AbstractTestCase
     public function testGetDayOfYear(int $year, int $month, int $day, int $dayOfYear): void
     {
         $dateTime = LocalDate::of($year, $month, $day)->atTime(LocalTime::midnight());
-        $this->assertSame($dayOfYear, $dateTime->getDayOfYear());
+        self::assertSame($dayOfYear, $dateTime->getDayOfYear());
     }
 
     public function providerGetDayOfYear(): array
@@ -265,7 +265,7 @@ class LocalDateTimeTest extends AbstractTestCase
     {
         $dateTime = LocalDate::of(2001, 2, 3)->atTime(LocalTime::of(4, 5, 6, 789));
         $newDate = LocalDate::of($y, $m, $d);
-        $this->assertLocalDateTimeIs($y, $m, $d, 4, 5, 6, 789, $dateTime->withDate($newDate));
+        self::assertLocalDateTimeIs($y, $m, $d, 4, 5, 6, 789, $dateTime->withDate($newDate));
     }
 
     public function providerWithDate(): array
@@ -288,7 +288,7 @@ class LocalDateTimeTest extends AbstractTestCase
     {
         $dateTime = LocalDate::of(2001, 2, 3)->atTime(LocalTime::of(4, 5, 6, 789));
         $newTime = LocalTime::of($h, $m, $s, $n);
-        $this->assertLocalDateTimeIs(2001, 2, 3, $h, $m, $s, $n, $dateTime->withTime($newTime));
+        self::assertLocalDateTimeIs(2001, 2, 3, $h, $m, $s, $n, $dateTime->withTime($newTime));
     }
 
     public function providerWithTime(): array
@@ -313,7 +313,7 @@ class LocalDateTimeTest extends AbstractTestCase
         $date = LocalDate::of($year, $month, $day);
         $time = LocalTime::of(1, 2, 3, 123456789);
         $localDateTime = $date->atTime($time)->withYear($newYear);
-        $this->assertLocalDateTimeIs($newYear, $month, $expectedDay, 1, 2, 3, 123456789, $localDateTime);
+        self::assertLocalDateTimeIs($newYear, $month, $expectedDay, 1, 2, 3, 123456789, $localDateTime);
     }
 
     public function providerWithYear(): array
@@ -361,7 +361,7 @@ class LocalDateTimeTest extends AbstractTestCase
         $date = LocalDate::of($year, $month, $day);
         $time = LocalTime::of(1, 2, 3, 123456789);
         $localDateTime = $date->atTime($time)->withMonth($newMonth);
-        $this->assertLocalDateTimeIs($year, $newMonth, $expectedDay, 1, 2, 3, 123456789, $localDateTime);
+        self::assertLocalDateTimeIs($year, $newMonth, $expectedDay, 1, 2, 3, 123456789, $localDateTime);
     }
 
     public function providerWithMonth(): array
@@ -416,7 +416,7 @@ class LocalDateTimeTest extends AbstractTestCase
         $date = LocalDate::of($year, $month, $day);
         $time = LocalTime::of(1, 2, 3, 123456789);
         $localDateTime = $date->atTime($time)->withDay($newDay);
-        $this->assertLocalDateTimeIs($year, $month, $newDay, 1, 2, 3, 123456789, $localDateTime);
+        self::assertLocalDateTimeIs($year, $month, $newDay, 1, 2, 3, 123456789, $localDateTime);
     }
 
     public function providerWithDay(): array
@@ -462,7 +462,7 @@ class LocalDateTimeTest extends AbstractTestCase
     public function testWithHour(int $hour): void
     {
         $localDateTime = LocalDate::of(2001, 2, 3)->atTime(LocalTime::of(12, 34, 56, 123456789));
-        $this->assertLocalDateTimeIs(2001, 2, 3, $hour, 34, 56, 123456789, $localDateTime->withHour($hour));
+        self::assertLocalDateTimeIs(2001, 2, 3, $hour, 34, 56, 123456789, $localDateTime->withHour($hour));
     }
 
     public function providerWithHour(): array
@@ -498,7 +498,7 @@ class LocalDateTimeTest extends AbstractTestCase
     public function testWithMinute(int $minute): void
     {
         $localDateTime = LocalDate::of(2001, 2, 3)->atTime(LocalTime::of(12, 34, 56, 123456789));
-        $this->assertLocalDateTimeIs(2001, 2, 3, 12, $minute, 56, 123456789, $localDateTime->withMinute($minute));
+        self::assertLocalDateTimeIs(2001, 2, 3, 12, $minute, 56, 123456789, $localDateTime->withMinute($minute));
     }
 
     public function providerWithMinute(): array
@@ -534,7 +534,7 @@ class LocalDateTimeTest extends AbstractTestCase
     public function testWithSecond(int $second): void
     {
         $localDateTime = LocalDate::of(2001, 2, 3)->atTime(LocalTime::of(12, 34, 56, 123456789));
-        $this->assertLocalDateTimeIs(2001, 2, 3, 12, 34, $second, 123456789, $localDateTime->withSecond($second));
+        self::assertLocalDateTimeIs(2001, 2, 3, 12, 34, $second, 123456789, $localDateTime->withSecond($second));
     }
 
     public function providerWithSecond(): array
@@ -570,7 +570,7 @@ class LocalDateTimeTest extends AbstractTestCase
     public function testWithNano(int $nano): void
     {
         $localDateTime = LocalDate::of(2001, 2, 3)->atTime(LocalTime::of(12, 34, 56, 123456789));
-        $this->assertLocalDateTimeIs(2001, 2, 3, 12, 34, 56, $nano, $localDateTime->withNano($nano));
+        self::assertLocalDateTimeIs(2001, 2, 3, 12, 34, 56, $nano, $localDateTime->withNano($nano));
     }
 
     public function providerWithNano(): array
@@ -616,7 +616,7 @@ class LocalDateTimeTest extends AbstractTestCase
         $dateTime = LocalDate::of($y, $m, $d)->atTime(LocalTime::of(12, 34, 56, 123456789));
         $period = Period::of($py, $pm, $pd);
 
-        $this->assertLocalDateTimeIs($ey, $em, $ed, 12, 34, 56, 123456789, $dateTime->plusPeriod($period));
+        self::assertLocalDateTimeIs($ey, $em, $ed, 12, 34, 56, 123456789, $dateTime->plusPeriod($period));
     }
 
     /**
@@ -637,7 +637,7 @@ class LocalDateTimeTest extends AbstractTestCase
         $dateTime = LocalDate::of($y, $m, $d)->atTime(LocalTime::of(12, 34, 56, 123456789));
         $period = Period::of($py, $pm, $pd);
 
-        $this->assertLocalDateTimeIs($ey, $em, $ed, 12, 34, 56, 123456789, $dateTime->minusPeriod($period->negated()));
+        self::assertLocalDateTimeIs($ey, $em, $ed, 12, 34, 56, 123456789, $dateTime->minusPeriod($period->negated()));
     }
 
     public function providerPeriod(): array
@@ -674,7 +674,7 @@ class LocalDateTimeTest extends AbstractTestCase
     {
         $localDateTime = LocalDate::of(2001, 2, 3)->atTime(LocalTime::of(4, 5, 6, 123456789));
         $duration = Duration::ofSeconds($ds, $dn);
-        $this->assertLocalDateTimeIs($y, $m, $d, $h, $i, $s, $n, $localDateTime->plusDuration($duration));
+        self::assertLocalDateTimeIs($y, $m, $d, $h, $i, $s, $n, $localDateTime->plusDuration($duration));
     }
 
     /**
@@ -694,7 +694,7 @@ class LocalDateTimeTest extends AbstractTestCase
     {
         $localDateTime = LocalDate::of(2001, 2, 3)->atTime(LocalTime::of(4, 5, 6, 123456789));
         $duration = Duration::ofSeconds(-$ds, -$dn);
-        $this->assertLocalDateTimeIs($y, $m, $d, $h, $i, $s, $n, $localDateTime->minusDuration($duration));
+        self::assertLocalDateTimeIs($y, $m, $d, $h, $i, $s, $n, $localDateTime->minusDuration($duration));
     }
 
     public function providerDuration(): array
@@ -718,7 +718,7 @@ class LocalDateTimeTest extends AbstractTestCase
     public function testPlusYears(string $dateTime, int $years, string $expectedDateTime): void
     {
         $actualDateTime = LocalDateTime::parse($dateTime)->plusYears($years);
-        $this->assertSame($expectedDateTime, (string) $actualDateTime);
+        self::assertSame($expectedDateTime, (string) $actualDateTime);
     }
 
     public function providerPlusYears(): array
@@ -740,7 +740,7 @@ class LocalDateTimeTest extends AbstractTestCase
     public function testPlusMonths(string $dateTime, int $months, string $expectedDateTime): void
     {
         $actualDateTime = LocalDateTime::parse($dateTime)->plusMonths($months);
-        $this->assertSame($expectedDateTime, (string) $actualDateTime);
+        self::assertSame($expectedDateTime, (string) $actualDateTime);
     }
 
     public function providerPlusMonths(): array
@@ -762,7 +762,7 @@ class LocalDateTimeTest extends AbstractTestCase
     public function testPlusWeeks(string $dateTime, int $weeks, string $expectedDateTime): void
     {
         $actualDateTime = LocalDateTime::parse($dateTime)->plusWeeks($weeks);
-        $this->assertSame($expectedDateTime, (string) $actualDateTime);
+        self::assertSame($expectedDateTime, (string) $actualDateTime);
     }
 
     public function providerPlusWeeks(): array
@@ -784,7 +784,7 @@ class LocalDateTimeTest extends AbstractTestCase
     public function testPlusDays(string $dateTime, int $days, string $expectedDateTime): void
     {
         $actualDateTime = LocalDateTime::parse($dateTime)->plusDays($days);
-        $this->assertSame($expectedDateTime, (string) $actualDateTime);
+        self::assertSame($expectedDateTime, (string) $actualDateTime);
     }
 
     public function providerPlusDays(): array
@@ -806,7 +806,7 @@ class LocalDateTimeTest extends AbstractTestCase
     public function testPlusHours(string $dateTime, int $hours, string $expectedDateTime): void
     {
         $actualDateTime = LocalDateTime::parse($dateTime)->plusHours($hours);
-        $this->assertSame($expectedDateTime, (string) $actualDateTime);
+        self::assertSame($expectedDateTime, (string) $actualDateTime);
     }
 
     public function providerPlusHours(): array
@@ -828,7 +828,7 @@ class LocalDateTimeTest extends AbstractTestCase
     public function testPlusMinutes(string $dateTime, int $minutes, string $expectedDateTime): void
     {
         $actualDateTime = LocalDateTime::parse($dateTime)->plusMinutes($minutes);
-        $this->assertSame($expectedDateTime, (string) $actualDateTime);
+        self::assertSame($expectedDateTime, (string) $actualDateTime);
     }
 
     public function providerPlusMinutes(): array
@@ -850,7 +850,7 @@ class LocalDateTimeTest extends AbstractTestCase
     public function testPlusSeconds(string $dateTime, int $seconds, string $expectedDateTime): void
     {
         $actualDateTime = LocalDateTime::parse($dateTime)->plusSeconds($seconds);
-        $this->assertSame($expectedDateTime, (string) $actualDateTime);
+        self::assertSame($expectedDateTime, (string) $actualDateTime);
     }
 
     public function providerPlusSeconds(): array
@@ -872,7 +872,7 @@ class LocalDateTimeTest extends AbstractTestCase
     public function testPlusNanos(string $dateTime, int $nanosToAdd, string $expectedDateTime): void
     {
         $actualDateTime = LocalDateTime::parse($dateTime)->plusNanos($nanosToAdd);
-        $this->assertSame($expectedDateTime, (string) $actualDateTime);
+        self::assertSame($expectedDateTime, (string) $actualDateTime);
     }
 
     public function providerPlusNanos(): array
@@ -895,7 +895,7 @@ class LocalDateTimeTest extends AbstractTestCase
     public function testMinusYears(string $dateTime, int $years, string $expectedDateTime): void
     {
         $actualDateTime = LocalDateTime::parse($dateTime)->minusYears($years);
-        $this->assertSame($expectedDateTime, (string) $actualDateTime);
+        self::assertSame($expectedDateTime, (string) $actualDateTime);
     }
 
     public function providerMinusYears(): array
@@ -917,7 +917,7 @@ class LocalDateTimeTest extends AbstractTestCase
     public function testMinusMonths(string $dateTime, int $months, string $expectedDateTime): void
     {
         $actualDateTime = LocalDateTime::parse($dateTime)->minusMonths($months);
-        $this->assertSame($expectedDateTime, (string) $actualDateTime);
+        self::assertSame($expectedDateTime, (string) $actualDateTime);
     }
 
     public function providerMinusMonths(): array
@@ -939,7 +939,7 @@ class LocalDateTimeTest extends AbstractTestCase
     public function testMinusWeeks(string $dateTime, int $weeks, string $expectedDateTime): void
     {
         $actualDateTime = LocalDateTime::parse($dateTime)->minusWeeks($weeks);
-        $this->assertSame($expectedDateTime, (string) $actualDateTime);
+        self::assertSame($expectedDateTime, (string) $actualDateTime);
     }
 
     public function providerMinusWeeks(): array
@@ -961,7 +961,7 @@ class LocalDateTimeTest extends AbstractTestCase
     public function testMinusDays(string $dateTime, int $days, string $expectedDateTime): void
     {
         $actualDateTime = LocalDateTime::parse($dateTime)->minusDays($days);
-        $this->assertSame($expectedDateTime, (string) $actualDateTime);
+        self::assertSame($expectedDateTime, (string) $actualDateTime);
     }
 
     public function providerMinusDays(): array
@@ -983,7 +983,7 @@ class LocalDateTimeTest extends AbstractTestCase
     public function testMinusHours(string $dateTime, int $hours, string $expectedDateTime): void
     {
         $actualDateTime = LocalDateTime::parse($dateTime)->minusHours($hours);
-        $this->assertSame($expectedDateTime, (string) $actualDateTime);
+        self::assertSame($expectedDateTime, (string) $actualDateTime);
     }
 
     public function providerMinusHours(): array
@@ -1005,7 +1005,7 @@ class LocalDateTimeTest extends AbstractTestCase
     public function testMinusMinutes(string $dateTime, int $minutes, string $expectedDateTime): void
     {
         $actualDateTime = LocalDateTime::parse($dateTime)->minusMinutes($minutes);
-        $this->assertSame($expectedDateTime, (string) $actualDateTime);
+        self::assertSame($expectedDateTime, (string) $actualDateTime);
     }
 
     public function providerMinusMinutes(): array
@@ -1027,7 +1027,7 @@ class LocalDateTimeTest extends AbstractTestCase
     public function testMinusSeconds(string $dateTime, int $seconds, string $expectedDateTime): void
     {
         $actualDateTime = LocalDateTime::parse($dateTime)->minusSeconds($seconds);
-        $this->assertSame($expectedDateTime, (string) $actualDateTime);
+        self::assertSame($expectedDateTime, (string) $actualDateTime);
     }
 
     public function providerMinusSeconds(): array
@@ -1049,7 +1049,7 @@ class LocalDateTimeTest extends AbstractTestCase
     public function testMinusNanos(string $dateTime, int $nanosToSubtract, string $expectedDateTime): void
     {
         $actualDateTime = LocalDateTime::parse($dateTime)->minusNanos($nanosToSubtract);
-        $this->assertSame($expectedDateTime, (string) $actualDateTime);
+        self::assertSame($expectedDateTime, (string) $actualDateTime);
     }
 
     public function providerMinusNanos(): array
@@ -1073,7 +1073,7 @@ class LocalDateTimeTest extends AbstractTestCase
     public function testAtTimeZone(string $dateTime, string $timeZone, int $epochSeconds, int $nanos): void
     {
         $localDateTime = LocalDateTime::parse($dateTime)->atTimeZone(TimeZone::parse($timeZone));
-        $this->assertInstantIs($epochSeconds, $nanos, $localDateTime->getInstant());
+        self::assertInstantIs($epochSeconds, $nanos, $localDateTime->getInstant());
     }
 
     public function providerAtTimeZone(): array
@@ -1098,13 +1098,13 @@ class LocalDateTimeTest extends AbstractTestCase
         $dateTime1 = LocalDateTime::parse($dateTime1);
         $dateTime2 = LocalDateTime::parse($dateTime2);
 
-        $this->assertSame($result, $dateTime1->compareTo($dateTime2));
+        self::assertSame($result, $dateTime1->compareTo($dateTime2));
 
-        $this->assertSame($result === 0, $dateTime1->isEqualTo($dateTime2));
-        $this->assertSame($result === 1, $dateTime1->isAfter($dateTime2));
-        $this->assertSame($result === -1, $dateTime1->isBefore($dateTime2));
-        $this->assertSame($result >= 0, $dateTime1->isAfterOrEqualTo($dateTime2));
-        $this->assertSame($result <= 0, $dateTime1->isBeforeOrEqualTo($dateTime2));
+        self::assertSame($result === 0, $dateTime1->isEqualTo($dateTime2));
+        self::assertSame($result === 1, $dateTime1->isAfter($dateTime2));
+        self::assertSame($result === -1, $dateTime1->isBefore($dateTime2));
+        self::assertSame($result >= 0, $dateTime1->isAfterOrEqualTo($dateTime2));
+        self::assertSame($result <= 0, $dateTime1->isBeforeOrEqualTo($dateTime2));
     }
 
     public function providerCompareTo(): array
@@ -1136,7 +1136,7 @@ class LocalDateTimeTest extends AbstractTestCase
         $clock = new FixedClock(Instant::of($clockTimestamp));
         $localDateTime = LocalDateTime::parse($localDateTime);
         $timeZone = TimeZoneOffset::parse($offset);
-        $this->assertSame($isFuture, $localDateTime->isFuture($timeZone, $clock));
+        self::assertSame($isFuture, $localDateTime->isFuture($timeZone, $clock));
     }
 
     /**
@@ -1147,7 +1147,7 @@ class LocalDateTimeTest extends AbstractTestCase
         $clock = new FixedClock(Instant::of($clockTimestamp));
         $localDateTime = LocalDateTime::parse($localDateTime);
         $timeZone = TimeZoneOffset::parse($offset);
-        $this->assertSame(! $isFuture, $localDateTime->isPast($timeZone, $clock));
+        self::assertSame(! $isFuture, $localDateTime->isPast($timeZone, $clock));
     }
 
     public function providerForPastFuture(): array
@@ -1171,8 +1171,8 @@ class LocalDateTimeTest extends AbstractTestCase
         $localDateTime = LocalDateTime::parse($dateTime);
         $dateTime = $localDateTime->toNativeDateTime();
 
-        $this->assertInstanceOf(DateTime::class, $dateTime);
-        $this->assertSame($expected, $dateTime->format('Y-m-d\TH:i:s.uO'));
+        self::assertInstanceOf(DateTime::class, $dateTime);
+        self::assertSame($expected, $dateTime->format('Y-m-d\TH:i:s.uO'));
     }
 
     /**
@@ -1186,8 +1186,8 @@ class LocalDateTimeTest extends AbstractTestCase
         $localDateTime = LocalDateTime::parse($dateTime);
         $dateTime = $localDateTime->toNativeDateTimeImmutable();
 
-        $this->assertInstanceOf(DateTimeImmutable::class, $dateTime);
-        $this->assertSame($expected, $dateTime->format('Y-m-d\TH:i:s.uO'));
+        self::assertInstanceOf(DateTimeImmutable::class, $dateTime);
+        self::assertSame($expected, $dateTime->format('Y-m-d\TH:i:s.uO'));
     }
 
     public function providerToNativeDateTime(): array
@@ -1217,7 +1217,7 @@ class LocalDateTimeTest extends AbstractTestCase
      */
     public function testJsonSerialize(int $year, int $month, int $day, int $hour, int $minute, int $second, int $nano, string $expected): void
     {
-        $this->assertSame(json_encode($expected), json_encode(LocalDateTime::of($year, $month, $day, $hour, $minute, $second, $nano)));
+        self::assertSame(json_encode($expected), json_encode(LocalDateTime::of($year, $month, $day, $hour, $minute, $second, $nano)));
     }
 
     /**
@@ -1234,7 +1234,7 @@ class LocalDateTimeTest extends AbstractTestCase
      */
     public function testToString(int $year, int $month, int $day, int $hour, int $minute, int $second, int $nano, string $expected): void
     {
-        $this->assertSame($expected, (string) LocalDateTime::of($year, $month, $day, $hour, $minute, $second, $nano));
+        self::assertSame($expected, (string) LocalDateTime::of($year, $month, $day, $hour, $minute, $second, $nano));
     }
 
     public function providerToString(): array

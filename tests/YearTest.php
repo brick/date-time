@@ -23,7 +23,7 @@ class YearTest extends AbstractTestCase
 {
     public function testOf(): void
     {
-        $this->assertYearIs(1987, Year::of(1987));
+        self::assertYearIs(1987, Year::of(1987));
     }
 
     /**
@@ -55,7 +55,7 @@ class YearTest extends AbstractTestCase
     public function testNow(int $epochSecond, string $timeZone, int $expectedYear): void
     {
         $clock = new FixedClock(Instant::of($epochSecond));
-        $this->assertYearIs($expectedYear, Year::now(TimeZone::parse($timeZone), $clock));
+        self::assertYearIs($expectedYear, Year::now(TimeZone::parse($timeZone), $clock));
     }
 
     public function providerNow(): array
@@ -78,7 +78,7 @@ class YearTest extends AbstractTestCase
      */
     public function testIsLeap(int $year, bool $isLeap): void
     {
-        $this->assertSame($isLeap, Year::of($year)->isLeap());
+        self::assertSame($isLeap, Year::of($year)->isLeap());
     }
 
     public function providerIsLeap(): array
@@ -152,7 +152,7 @@ class YearTest extends AbstractTestCase
      */
     public function testIsValidMonthDay(int $year, int $month, int $day, bool $isValid): void
     {
-        $this->assertSame($isValid, Year::of($year)->isValidMonthDay(MonthDay::of($month, $day)));
+        self::assertSame($isValid, Year::of($year)->isValidMonthDay(MonthDay::of($month, $day)));
     }
 
     public function providerIsValidMonthDay(): array
@@ -178,7 +178,7 @@ class YearTest extends AbstractTestCase
      */
     public function testGetLength(int $year, int $length): void
     {
-        $this->assertSame($length, Year::of($year)->getLength());
+        self::assertSame($length, Year::of($year)->getLength());
     }
 
     public function providerGetLength(): array
@@ -247,7 +247,7 @@ class YearTest extends AbstractTestCase
      */
     public function testPlus(int $year, int $plusYears, int $expectedYear): void
     {
-        $this->assertYearIs($expectedYear, Year::of($year)->plus($plusYears));
+        self::assertYearIs($expectedYear, Year::of($year)->plus($plusYears));
     }
 
     public function providerPlus(): array
@@ -264,7 +264,7 @@ class YearTest extends AbstractTestCase
      */
     public function testMinus(int $year, int $minusYears, int $expectedYear): void
     {
-        $this->assertYearIs($expectedYear, Year::of($year)->minus($minusYears));
+        self::assertYearIs($expectedYear, Year::of($year)->minus($minusYears));
     }
 
     public function providerMinus(): array
@@ -285,7 +285,7 @@ class YearTest extends AbstractTestCase
      */
     public function testCompareTo(int $year1, int $year2, int $cmp): void
     {
-        $this->assertSame($cmp, Year::of($year1)->compareTo(Year::of($year2)));
+        self::assertSame($cmp, Year::of($year1)->compareTo(Year::of($year2)));
     }
 
     /**
@@ -297,7 +297,7 @@ class YearTest extends AbstractTestCase
      */
     public function testIsEqualTo(int $year1, int $year2, int $cmp): void
     {
-        $this->assertSame($cmp === 0, Year::of($year1)->isEqualTo(Year::of($year2)));
+        self::assertSame($cmp === 0, Year::of($year1)->isEqualTo(Year::of($year2)));
     }
 
     /**
@@ -309,7 +309,7 @@ class YearTest extends AbstractTestCase
      */
     public function testIsAfter(int $year1, int $year2, int $cmp): void
     {
-        $this->assertSame($cmp === 1, Year::of($year1)->isAfter(Year::of($year2)));
+        self::assertSame($cmp === 1, Year::of($year1)->isAfter(Year::of($year2)));
     }
 
     /**
@@ -321,7 +321,7 @@ class YearTest extends AbstractTestCase
      */
     public function testIsBefore(int $year1, int $year2, int $cmp): void
     {
-        $this->assertSame($cmp === -1, Year::of($year1)->isBefore(Year::of($year2)));
+        self::assertSame($cmp === -1, Year::of($year1)->isBefore(Year::of($year2)));
     }
 
     public function providerCompareTo(): array
@@ -365,7 +365,7 @@ class YearTest extends AbstractTestCase
      */
     public function testAtDay(int $year, int $dayOfYear, int $month, int $day): void
     {
-        $this->assertLocalDateIs($year, $month, $day, Year::of($year)->atDay($dayOfYear));
+        self::assertLocalDateIs($year, $month, $day, Year::of($year)->atDay($dayOfYear));
     }
 
     public function providerAtDay(): array
@@ -390,7 +390,7 @@ class YearTest extends AbstractTestCase
 
     public function testAtMonth(): void
     {
-        $this->assertYearMonthIs(2014, 7, Year::of(2014)->atMonth(7));
+        self::assertYearMonthIs(2014, 7, Year::of(2014)->atMonth(7));
     }
 
     /**
@@ -422,7 +422,7 @@ class YearTest extends AbstractTestCase
     public function testAtMonthDay(int $year, int $month, int $day, int $expectedDay): void
     {
         $monthDay = MonthDay::of($month, $day);
-        $this->assertLocalDateIs($year, $month, $expectedDay, Year::of($year)->atMonthDay($monthDay));
+        self::assertLocalDateIs($year, $month, $expectedDay, Year::of($year)->atMonthDay($monthDay));
     }
 
     public function providerAtMonthDay(): array
@@ -443,7 +443,7 @@ class YearTest extends AbstractTestCase
      */
     public function testToLocalDateRange(int $year, string $expectedRange): void
     {
-        $this->assertSame($expectedRange, (string) Year::of($year)->toLocalDateRange());
+        self::assertSame($expectedRange, (string) Year::of($year)->toLocalDateRange());
     }
 
     public function providerToLocalDateRange(): array
@@ -457,11 +457,11 @@ class YearTest extends AbstractTestCase
 
     public function testJsonSerialize(): void
     {
-        $this->assertSame(json_encode('1987'), json_encode(Year::of(1987)));
+        self::assertSame(json_encode('1987'), json_encode(Year::of(1987)));
     }
 
     public function testToString(): void
     {
-        $this->assertSame('1987', (string) Year::of(1987));
+        self::assertSame('1987', (string) Year::of(1987));
     }
 }

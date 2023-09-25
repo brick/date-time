@@ -28,8 +28,8 @@ class TimeZoneTest extends AbstractTestCase
     {
         $timeZone = TimeZone::parse($text);
 
-        $this->assertInstanceOf($class, $timeZone);
-        $this->assertSame($id, $timeZone->getId());
+        self::assertInstanceOf($class, $timeZone);
+        self::assertSame($id, $timeZone->getId());
     }
 
     public function providerParse(): iterable
@@ -70,14 +70,14 @@ class TimeZoneTest extends AbstractTestCase
     {
         $utc = TimeZone::utc();
 
-        $this->assertTimeZoneOffsetIs(0, $utc);
-        $this->assertSame($utc, TimeZone::utc());
+        self::assertTimeZoneOffsetIs(0, $utc);
+        self::assertSame($utc, TimeZone::utc());
     }
 
     public function testIsEqualTo(): void
     {
-        $this->assertTrue(TimeZone::utc()->isEqualTo(TimeZoneOffset::ofTotalSeconds(0)));
-        $this->assertFalse(TimeZone::utc()->isEqualTo(TimeZoneOffset::ofTotalSeconds(3600)));
+        self::assertTrue(TimeZone::utc()->isEqualTo(TimeZoneOffset::ofTotalSeconds(0)));
+        self::assertFalse(TimeZone::utc()->isEqualTo(TimeZoneOffset::ofTotalSeconds(3600)));
     }
 
     /**
@@ -88,7 +88,7 @@ class TimeZoneTest extends AbstractTestCase
     public function testFromNativeDateTimeZone(string $tz): void
     {
         $dateTimeZone = new DateTimeZone($tz);
-        $this->assertSame($tz, TimeZone::fromNativeDateTimeZone($dateTimeZone)->getId());
+        self::assertSame($tz, TimeZone::fromNativeDateTimeZone($dateTimeZone)->getId());
     }
 
     public function providerFromNativeDateTimeZone(): iterable

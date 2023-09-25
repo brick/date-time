@@ -35,8 +35,8 @@ class ScaleClockTest extends AbstractTestCase
 
         $actualTime = $scaleClock->getTime();
 
-        $this->assertInstanceOf(Instant::class, $actualTime);
-        $this->assertSame($expectedInstant, $actualTime->toDecimal());
+        self::assertInstanceOf(Instant::class, $actualTime);
+        self::assertSame($expectedInstant, $actualTime->toDecimal());
     }
 
     public function providerScaleClock(): array

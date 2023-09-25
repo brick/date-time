@@ -32,8 +32,8 @@ class InstantTest extends AbstractTestCase
     {
         $duration = Instant::of($seconds, $nanoAdjustment);
 
-        $this->assertSame($expectedSeconds, $duration->getEpochSecond());
-        $this->assertSame($expectedNanos, $duration->getNano());
+        self::assertSame($expectedSeconds, $duration->getEpochSecond());
+        self::assertSame($expectedNanos, $duration->getNano());
     }
 
     public function providerOf(): array
@@ -54,30 +54,30 @@ class InstantTest extends AbstractTestCase
     {
         $epoch = Instant::epoch();
 
-        $this->assertInstantIs(0, 0, $epoch);
-        $this->assertSame($epoch, Instant::epoch());
+        self::assertInstantIs(0, 0, $epoch);
+        self::assertSame($epoch, Instant::epoch());
     }
 
     public function testNow(): void
     {
         $clock = new FixedClock(Instant::of(123456789, 987654321));
-        $this->assertInstantIs(123456789, 987654321, Instant::now($clock));
+        self::assertInstantIs(123456789, 987654321, Instant::now($clock));
     }
 
     public function testMin(): void
     {
         $min = Instant::min();
 
-        $this->assertInstantIs(PHP_INT_MIN, 0, $min);
-        $this->assertSame($min, Instant::min());
+        self::assertInstantIs(PHP_INT_MIN, 0, $min);
+        self::assertSame($min, Instant::min());
     }
 
     public function testMax(): void
     {
         $max = Instant::max();
 
-        $this->assertInstantIs(PHP_INT_MAX, 999999999, $max);
-        $this->assertSame($max, Instant::max());
+        self::assertInstantIs(PHP_INT_MAX, 999999999, $max);
+        self::assertSame($max, Instant::max());
     }
 
     /**
@@ -93,7 +93,7 @@ class InstantTest extends AbstractTestCase
     public function testPlus(int $second, int $nano, int $plusSeconds, int $plusNanos, int $expectedSecond, int $expectedNano): void
     {
         $result = Instant::of($second, $nano)->plus(Duration::ofSeconds($plusSeconds, $plusNanos));
-        $this->assertInstantIs($expectedSecond, $expectedNano, $result);
+        self::assertInstantIs($expectedSecond, $expectedNano, $result);
     }
 
     /**
@@ -109,7 +109,7 @@ class InstantTest extends AbstractTestCase
     public function testMinus(int $second, int $nano, int $plusSeconds, int $plusNanos, int $expectedSecond, int $expectedNano): void
     {
         $result = Instant::of($second, $nano)->minus(Duration::ofSeconds(-$plusSeconds, -$plusNanos));
-        $this->assertInstantIs($expectedSecond, $expectedNano, $result);
+        self::assertInstantIs($expectedSecond, $expectedNano, $result);
     }
 
     public function providerPlus(): array
@@ -134,7 +134,7 @@ class InstantTest extends AbstractTestCase
     public function testPlusSeconds(int $second, int $nano, int $plusSeconds, int $expectedSecond): void
     {
         $result = Instant::of($second, $nano)->plusSeconds($plusSeconds);
-        $this->assertInstantIs($expectedSecond, $nano, $result);
+        self::assertInstantIs($expectedSecond, $nano, $result);
     }
 
     /**
@@ -148,7 +148,7 @@ class InstantTest extends AbstractTestCase
     public function testMinusSeconds(int $second, int $nano, int $plusSeconds, int $expectedSecond): void
     {
         $result = Instant::of($second, $nano)->minusSeconds(-$plusSeconds);
-        $this->assertInstantIs($expectedSecond, $nano, $result);
+        self::assertInstantIs($expectedSecond, $nano, $result);
     }
 
     public function providerPlusSeconds(): array
@@ -175,7 +175,7 @@ class InstantTest extends AbstractTestCase
     public function testPlusMinutes(int $second, int $nano, int $plusMinutes, int $expectedSecond): void
     {
         $result = Instant::of($second, $nano)->plusMinutes($plusMinutes);
-        $this->assertInstantIs($expectedSecond, $nano, $result);
+        self::assertInstantIs($expectedSecond, $nano, $result);
     }
 
     /**
@@ -189,7 +189,7 @@ class InstantTest extends AbstractTestCase
     public function testMinusMinutes(int $second, int $nano, int $plusMinutes, int $expectedSecond): void
     {
         $result = Instant::of($second, $nano)->minusMinutes(-$plusMinutes);
-        $this->assertInstantIs($expectedSecond, $nano, $result);
+        self::assertInstantIs($expectedSecond, $nano, $result);
     }
 
     public function providerPlusMinutes(): array
@@ -216,7 +216,7 @@ class InstantTest extends AbstractTestCase
     public function testPlusHours(int $second, int $nano, int $plusHours, int $expectedSecond): void
     {
         $result = Instant::of($second, $nano)->plusHours($plusHours);
-        $this->assertInstantIs($expectedSecond, $nano, $result);
+        self::assertInstantIs($expectedSecond, $nano, $result);
     }
 
     /**
@@ -230,7 +230,7 @@ class InstantTest extends AbstractTestCase
     public function testMinusHours(int $second, int $nano, int $plusHours, int $expectedSecond): void
     {
         $result = Instant::of($second, $nano)->minusHours(-$plusHours);
-        $this->assertInstantIs($expectedSecond, $nano, $result);
+        self::assertInstantIs($expectedSecond, $nano, $result);
     }
 
     public function providerPlusHours(): array
@@ -257,7 +257,7 @@ class InstantTest extends AbstractTestCase
     public function testPlusDays(int $second, int $nano, int $plusDays, int $expectedSecond): void
     {
         $result = Instant::of($second, $nano)->plusDays($plusDays);
-        $this->assertInstantIs($expectedSecond, $nano, $result);
+        self::assertInstantIs($expectedSecond, $nano, $result);
     }
 
     /**
@@ -271,7 +271,7 @@ class InstantTest extends AbstractTestCase
     public function testMinusDays(int $second, int $nano, int $plusDays, int $expectedSecond): void
     {
         $result = Instant::of($second, $nano)->minusDays(-$plusDays);
-        $this->assertInstantIs($expectedSecond, $nano, $result);
+        self::assertInstantIs($expectedSecond, $nano, $result);
     }
 
     public function providerPlusDays(): array
@@ -290,13 +290,13 @@ class InstantTest extends AbstractTestCase
     public function testWithEpochSecond(): void
     {
         $instant = Instant::of(1234567890, 987654321);
-        $this->assertInstantIs(2345678901, 987654321, $instant->withEpochSecond(2345678901));
+        self::assertInstantIs(2345678901, 987654321, $instant->withEpochSecond(2345678901));
     }
 
     public function testWithNano(): void
     {
         $instant = Instant::of(1234567890, 987654321);
-        $this->assertInstantIs(1234567890, 123456789, $instant->withNano(123456789));
+        self::assertInstantIs(1234567890, 123456789, $instant->withNano(123456789));
     }
 
     /**
@@ -329,7 +329,7 @@ class InstantTest extends AbstractTestCase
      */
     public function testCompareTo(int $s1, int $n1, int $s2, int $n2, int $cmp): void
     {
-        $this->assertSame($cmp, Instant::of($s1, $n1)->compareTo(Instant::of($s2, $n2)));
+        self::assertSame($cmp, Instant::of($s1, $n1)->compareTo(Instant::of($s2, $n2)));
     }
 
     /**
@@ -343,7 +343,7 @@ class InstantTest extends AbstractTestCase
      */
     public function testIsEqualTo(int $s1, int $n1, int $s2, int $n2, int $cmp): void
     {
-        $this->assertSame($cmp === 0, Instant::of($s1, $n1)->isEqualTo(Instant::of($s2, $n2)));
+        self::assertSame($cmp === 0, Instant::of($s1, $n1)->isEqualTo(Instant::of($s2, $n2)));
     }
 
     /**
@@ -357,7 +357,7 @@ class InstantTest extends AbstractTestCase
      */
     public function testIsAfter(int $s1, int $n1, int $s2, int $n2, int $cmp): void
     {
-        $this->assertSame($cmp === 1, Instant::of($s1, $n1)->isAfter(Instant::of($s2, $n2)));
+        self::assertSame($cmp === 1, Instant::of($s1, $n1)->isAfter(Instant::of($s2, $n2)));
     }
 
     /**
@@ -371,7 +371,7 @@ class InstantTest extends AbstractTestCase
      */
     public function testIsAfterOrEqualTo(int $s1, int $n1, int $s2, int $n2, int $cmp): void
     {
-        $this->assertSame($cmp >= 0, Instant::of($s1, $n1)->isAfterOrEqualTo(Instant::of($s2, $n2)));
+        self::assertSame($cmp >= 0, Instant::of($s1, $n1)->isAfterOrEqualTo(Instant::of($s2, $n2)));
     }
 
     /**
@@ -385,7 +385,7 @@ class InstantTest extends AbstractTestCase
      */
     public function testIsBefore(int $s1, int $n1, int $s2, int $n2, int $cmp): void
     {
-        $this->assertSame($cmp === -1, Instant::of($s1, $n1)->isBefore(Instant::of($s2, $n2)));
+        self::assertSame($cmp === -1, Instant::of($s1, $n1)->isBefore(Instant::of($s2, $n2)));
     }
 
     /**
@@ -399,7 +399,7 @@ class InstantTest extends AbstractTestCase
      */
     public function testIsBeforeOrEqualTo(int $s1, int $n1, int $s2, int $n2, int $cmp): void
     {
-        $this->assertSame($cmp <= 0, Instant::of($s1, $n1)->isBeforeOrEqualTo(Instant::of($s2, $n2)));
+        self::assertSame($cmp <= 0, Instant::of($s1, $n1)->isBeforeOrEqualTo(Instant::of($s2, $n2)));
     }
 
     /**
@@ -414,7 +414,7 @@ class InstantTest extends AbstractTestCase
     public function testIsFuture(int $testSecond, int $testNano, int $nowSecond, int $nowNano, int $cmp): void
     {
         $clock = new FixedClock(Instant::of($nowSecond, $nowNano));
-        $this->assertSame($cmp === 1, Instant::of($testSecond, $testNano)->isFuture($clock));
+        self::assertSame($cmp === 1, Instant::of($testSecond, $testNano)->isFuture($clock));
     }
 
     /**
@@ -429,7 +429,7 @@ class InstantTest extends AbstractTestCase
     public function testIsPast(int $testSecond, int $testNano, int $nowSecond, int $nowNano, int $cmp): void
     {
         $clock = new FixedClock(Instant::of($nowSecond, $nowNano));
-        $this->assertSame($cmp === -1, Instant::of($testSecond, $testNano)->isPast($clock));
+        self::assertSame($cmp === -1, Instant::of($testSecond, $testNano)->isPast($clock));
     }
 
     public function providerCompareTo(): array
@@ -528,7 +528,7 @@ class InstantTest extends AbstractTestCase
      */
     public function testIsBetweenInclusive(int $seconds, int $nanos, bool $isBetween): void
     {
-        $this->assertSame($isBetween, Instant::of($seconds, $nanos)->isBetweenInclusive(
+        self::assertSame($isBetween, Instant::of($seconds, $nanos)->isBetweenInclusive(
             Instant::of(-1, -1),
             Instant::of(1, 1)
         ));
@@ -543,7 +543,7 @@ class InstantTest extends AbstractTestCase
      */
     public function testIsBetweenExclusive(int $seconds, int $nanos, bool $isBetween): void
     {
-        $this->assertSame($isBetween, Instant::of($seconds, $nanos)->isBetweenExclusive(
+        self::assertSame($isBetween, Instant::of($seconds, $nanos)->isBetweenExclusive(
             Instant::of(-1, -1),
             Instant::of(1, 1)
         ));
@@ -592,7 +592,7 @@ class InstantTest extends AbstractTestCase
      */
     public function testToDecimal(int $second, int $nano, string $expected): void
     {
-        $this->assertSame($expected, Instant::of($second, $nano)->toDecimal());
+        self::assertSame($expected, Instant::of($second, $nano)->toDecimal());
     }
 
     public function providerToDecimal()
@@ -621,7 +621,7 @@ class InstantTest extends AbstractTestCase
      */
     public function testJsonSerialize(int $epochSecond, int $nano, string $expectedString): void
     {
-        $this->assertSame(json_encode($expectedString), json_encode(Instant::of($epochSecond, $nano)));
+        self::assertSame(json_encode($expectedString), json_encode(Instant::of($epochSecond, $nano)));
     }
 
     /**
@@ -633,7 +633,7 @@ class InstantTest extends AbstractTestCase
      */
     public function testToString(int $epochSecond, int $nano, string $expectedString): void
     {
-        $this->assertSame($expectedString, (string) Instant::of($epochSecond, $nano));
+        self::assertSame($expectedString, (string) Instant::of($epochSecond, $nano));
     }
 
     public function providerToString(): array
@@ -655,7 +655,7 @@ class InstantTest extends AbstractTestCase
         $timeZone = TimeZone::utc();
         $instant = Instant::of(1000000000);
         $result = $instant->atTimeZone($timeZone);
-        $this->assertSame(1000000000, $result->getInstant()->getEpochSecond());
-        $this->assertSame('2001-09-09T01:46:40', (string) $result->getDateTime());
+        self::assertSame(1000000000, $result->getInstant()->getEpochSecond());
+        self::assertSame('2001-09-09T01:46:40', (string) $result->getDateTime());
     }
 }
