@@ -334,6 +334,16 @@ final class Instant implements JsonSerializable
     }
 
     /**
+     * Returns an Interval from this Instant (inclusive) to the given one (exclusive).
+     *
+     * @throws DateTimeException If the given Instant is before this Instant.
+     */
+    public function getIntervalTo(Instant $that): Interval
+    {
+        return Interval::of($this, $that);
+    }
+
+    /**
      * Returns a decimal representation of the timestamp represented by this instant.
      *
      * The output does not have trailing decimal zeros.
