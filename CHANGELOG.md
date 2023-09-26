@@ -1,5 +1,14 @@
 # Changelog
 
+## [0.5.3](https://github.com/brick/date-time/releases/tag/0.5.3) - 2023-09-27
+
+✨ **New methods**
+
+- `Instant::getIntervalTo()` ([#81](https://github.com/brick/date-time/pull/81))
+- `ZonedDateTime::getIntervalTo()` ([#81](https://github.com/brick/date-time/pull/81))
+
+Thanks to [@solodkiy](https://github.com/solodkiy)!
+
 ## [0.5.2](https://github.com/brick/date-time/releases/tag/0.5.2) - 2023-09-17
 
 ⚡️ **Performance optimizations**
