@@ -864,7 +864,7 @@ class ZonedDateTimeTest extends AbstractTestCase
     {
         $actualResult = ZonedDateTime::parse($firstDate)->getIntervalTo(ZonedDateTime::parse($secondDate));
 
-        $this->assertSame($expectedInterval, (string) $actualResult);
+        self::assertSame($expectedInterval, (string) $actualResult);
     }
 
     public function providerGetIntervalTo(): array

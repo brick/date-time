@@ -590,7 +590,7 @@ class InstantTest extends AbstractTestCase
     {
         $actualResult = Instant::of($second1, $nano1)->getIntervalTo(Instant::of($second2, $nano2));
 
-        $this->assertSame($expectedInterval, (string) $actualResult);
+        self::assertSame($expectedInterval, (string) $actualResult);
     }
 
     public function providerGetIntervalTo(): array
