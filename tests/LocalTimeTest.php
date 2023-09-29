@@ -1076,6 +1076,10 @@ class LocalTimeTest extends AbstractTestCase
     public function providerToString(): array
     {
         return [
+            [0, 0, 0, 0, '00:00'],
+            [0, 1, 0, 0, '00:01'],
+            [0, 0, 1, 0, '00:00:01'],
+            [0, 0, 0, 1, '00:00:00.000000001'],
             [1, 2, 0, 0, '01:02'],
             [1, 2, 3, 0, '01:02:03'],
             [1, 2, 3, 4, '01:02:03.000000004'],

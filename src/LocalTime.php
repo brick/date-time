@@ -19,8 +19,9 @@ use JsonSerializable;
 
 use function intdiv;
 use function rtrim;
-use function sprintf;
 use function str_pad;
+
+use const STR_PAD_LEFT;
 
 /**
  * A time without a time-zone in the ISO-8601 calendar system, such as 10:15:30.
@@ -662,17 +663,12 @@ final class LocalTime implements JsonSerializable
      */
     public function toISOString(): string
     {
-        if ($this->nano === 0) {
-            if ($this->second === 0) {
-                return sprintf('%02u:%02u', $this->hour, $this->minute);
-            } else {
-                return sprintf('%02u:%02u:%02u', $this->hour, $this->minute, $this->second);
-            }
-        }
-
-        $nanos = rtrim(sprintf('%09u', $this->nano), '0');
-
-        return sprintf('%02u:%02u:%02u.%s', $this->hour, $this->minute, $this->second, $nanos);
+        // This code is optimized for high performance
+        return ($this->hour < 10 ? '0' . $this->hour : $this->hour)
+            . ':'
+            . ($this->minute < 10 ? '0' . $this->minute : $this->minute)
+            . ($this->second !== 0 || $this->nano !== 0 ? ':' . ($this->second < 10 ? '0' . $this->second : $this->second) : '')
+            . ($this->nano !== 0 ? '.' . rtrim(str_pad((string) $this->nano, 9, '0', STR_PAD_LEFT), '0') : '');
     }
 
     /**
