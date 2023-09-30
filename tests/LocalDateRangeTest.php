@@ -8,6 +8,7 @@ use Brick\DateTime\DateTimeException;
 use Brick\DateTime\LocalDate;
 use Brick\DateTime\LocalDateRange;
 use Brick\DateTime\Parser\DateTimeParseException;
+use Brick\DateTime\TimeZone;
 
 use function array_map;
 use function iterator_count;
@@ -237,6 +238,28 @@ class LocalDateRangeTest extends AbstractTestCase
             ['2010-01-01/2010-01-01', '2010-01-01T00:00:00.000000+0000', '2010-01-01T23:59:59.999999+0000'],
             ['2010-01-01/2010-01-02', '2010-01-01T00:00:00.000000+0000', '2010-01-02T23:59:59.999999+0000'],
             ['2010-01-01/2010-12-31', '2010-01-01T00:00:00.000000+0000', '2010-12-31T23:59:59.999999+0000'],
+        ];
+    }
+
+    /**
+     * @dataProvider providerToInterval
+     */
+    public function testToInterval(string $range, string $timeZone, string $expectedInterval): void
+    {
+        $actualResult = LocalDateRange::parse($range)->toInterval(TimeZone::parse($timeZone));
+        self::assertSame($expectedInterval, (string) $actualResult);
+    }
+
+    public function providerToInterval(): array
+    {
+        return [
+            ['2010-01-01/2010-01-01', 'UTC', '2010-01-01T00:00Z/2010-01-02T00:00Z'],
+            ['2010-01-01/2020-12-31', 'UTC', '2010-01-01T00:00Z/2021-01-01T00:00Z'],
+            ['2022-03-20/2022-03-26', 'Europe/London', '2022-03-20T00:00Z/2022-03-27T00:00Z'],
+            ['2022-03-20/2022-03-27', 'Europe/London', '2022-03-20T00:00Z/2022-03-27T23:00Z'],
+            ['2022-03-20/2022-03-26', 'Europe/Berlin', '2022-03-19T23:00Z/2022-03-26T23:00Z'],
+            ['2022-03-20/2022-03-27', 'Europe/Berlin', '2022-03-19T23:00Z/2022-03-27T22:00Z'],
+            ['2022-01-01/2022-12-31', 'Europe/Berlin', '2021-12-31T23:00Z/2022-12-31T23:00Z'],
         ];
     }
 

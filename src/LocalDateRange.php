@@ -245,6 +245,25 @@ final class LocalDateRange implements IteratorAggregate, Countable, JsonSerializ
     }
 
     /**
+     * Converts this LocalDateRange to Interval instance.
+     *
+     * The result is Interval from 00:00 start date and 00:00 end date + one day (because end in Interval is exclude)
+     * in the given time-zone.
+     */
+    public function toInterval(TimeZone $timeZone): Interval
+    {
+        $startZonedDateTime = $this->getStart()
+            ->atTime(LocalTime::min())
+            ->atTimeZone($timeZone);
+        $endZonedDateTime = $this->getEnd()
+            ->plusDays(1)
+            ->atTime(LocalTime::min())
+            ->atTimeZone($timeZone);
+
+        return $startZonedDateTime->getIntervalTo($endZonedDateTime);
+    }
+
+    /**
      * Converts this LocalDateRange to a native DatePeriod object.
      *
      * The result is a DatePeriod->start with time 00:00 and a DatePeriod->end
