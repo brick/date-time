@@ -35,6 +35,46 @@ class YearTest extends AbstractTestCase
         Year::of($invalidYear);
     }
 
+    /**
+     * @dataProvider providerParse
+     */
+    public function testParse(string $string, int $expectedYear): void
+    {
+        self::assertYearIs($expectedYear, Year::parse($string));
+    }
+
+    public function providerParse(): array
+    {
+        return [
+            ['-2023', -2023],
+            ['-0100', -100],
+            ['1987', 1987],
+            ['121241', 121241],
+        ];
+    }
+
+    /**
+     * @dataProvider providerParseInvalidYearThrowsException
+     */
+    public function testParseInvalidYearThrowsException(string $invalidValue): void
+    {
+        $this->expectException(DateTimeException::class);
+        $this->expectExceptionMessage('Failed to parse "' . $invalidValue . '"');
+
+        Year::parse($invalidValue);
+    }
+
+    public function providerParseInvalidYearThrowsException(): array
+    {
+        return [
+            [''],
+            ['+2000'],
+            ['-100'],
+            ['ABC'],
+            ['9999999999'],
+        ];
+    }
+
     public function providerOfInvalidYearThrowsException(): array
     {
         return [

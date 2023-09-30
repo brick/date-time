@@ -4,6 +4,10 @@ declare(strict_types=1);
 
 namespace Brick\DateTime;
 
+use Brick\DateTime\Parser\DateTimeParseException;
+use Brick\DateTime\Parser\DateTimeParser;
+use Brick\DateTime\Parser\DateTimeParseResult;
+use Brick\DateTime\Parser\IsoParsers;
 use JsonSerializable;
 
 /**
@@ -35,6 +39,35 @@ final class Year implements JsonSerializable
         Field\Year::check($year);
 
         return new Year($year);
+    }
+
+    /**
+     * @throws DateTimeException      If the year is not valid.
+     * @throws DateTimeParseException If required fields are missing from the result.
+     */
+    public static function from(DateTimeParseResult $result): Year
+    {
+        $year = (int) $result->getField(Field\Year::NAME);
+
+        return Year::of($year);
+    }
+
+    /**
+     * Obtains an instance of `Year` from a text string.
+     *
+     * @param string              $text   The text to parse, such as `2007`.
+     * @param DateTimeParser|null $parser The parser to use, defaults to the ISO 8601 parser.
+     *
+     * @throws DateTimeException      If the year is not valid.
+     * @throws DateTimeParseException If the text string does not follow the expected format.
+     */
+    public static function parse(string $text, ?DateTimeParser $parser = null): Year
+    {
+        if (! $parser) {
+            $parser = IsoParsers::year();
+        }
+
+        return Year::from($parser->parse($text));
     }
 
     /**

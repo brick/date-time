@@ -167,6 +167,23 @@ final class IsoParsers
     }
 
     /**
+     * Returns a parser for a year such as `2014`.
+     */
+    public static function year(): PatternParser
+    {
+        /** @var PatternParser|null $parser */
+        static $parser;
+
+        if ($parser) {
+            return $parser;
+        }
+
+        return $parser = (new PatternParserBuilder())
+            ->appendCapturePattern(Year::PATTERN, Year::NAME)
+            ->toParser();
+    }
+
+    /**
      * Returns a parser for a year-month such as `2014-12`.
      */
     public static function yearMonth(): PatternParser
