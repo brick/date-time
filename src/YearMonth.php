@@ -300,6 +300,8 @@ final class YearMonth implements JsonSerializable
      */
     public function __toString(): string
     {
-        return sprintf('%02u-%02u', $this->year, $this->month);
+        $pattern = ($this->year < 0 ? '%05d' : '%04d') . '-%02d';
+
+        return sprintf($pattern, $this->year, $this->month);
     }
 }
