@@ -640,17 +640,17 @@ final class LocalTime implements JsonSerializable
     }
 
     /**
-     * Serializes as a string using {@see LocalTime::__toString()}.
+     * Serializes as a string using {@see LocalTime::toISOString()}.
      */
     public function jsonSerialize(): string
     {
-        return (string) $this;
+        return $this->toISOString();
     }
 
     /**
-     * Returns this time as a string, such as 10:15.
+     * Returns the ISO 8601 representation of this time.
      *
-     * The output will be one of the following ISO-8601 formats:
+     * The output will be one of the following formats:
      *
      * * `HH:mm`
      * * `HH:mm:ss`
@@ -660,7 +660,7 @@ final class LocalTime implements JsonSerializable
      * the time where the omitted parts are implied to be zero.
      * The nanoseconds value, if present, can be 0 to 9 digits.
      */
-    public function __toString(): string
+    public function toISOString(): string
     {
         if ($this->nano === 0) {
             if ($this->second === 0) {
@@ -673,5 +673,13 @@ final class LocalTime implements JsonSerializable
         $nanos = rtrim(sprintf('%09u', $this->nano), '0');
 
         return sprintf('%02u:%02u:%02u.%s', $this->hour, $this->minute, $this->second, $nanos);
+    }
+
+    /**
+     * {@see LocalTime::toISOString()}.
+     */
+    public function __toString(): string
+    {
+        return $this->toISOString();
     }
 }

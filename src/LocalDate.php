@@ -747,21 +747,29 @@ final class LocalDate implements JsonSerializable
     }
 
     /**
-     * Serializes as a string using {@see LocalDate::__toString()}.
+     * Serializes as a string using {@see LocalDate::toISOString()}.
      */
     public function jsonSerialize(): string
     {
-        return (string) $this;
+        return $this->toISOString();
     }
 
     /**
-     * Returns the ISO 8601 representation of this LocalDate.
+     * Returns the ISO 8601 representation of this date.
      */
-    public function __toString(): string
+    public function toISOString(): string
     {
         $pattern = ($this->year < 0 ? '%05d' : '%04d') . '-%02d-%02d';
 
         return sprintf($pattern, $this->year, $this->month, $this->day);
+    }
+
+    /**
+     * {@see LocalDate::toISOString()}.
+     */
+    public function __toString(): string
+    {
+        return $this->toISOString();
     }
 
     /**

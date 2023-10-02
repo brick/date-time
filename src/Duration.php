@@ -754,15 +754,15 @@ final class Duration implements JsonSerializable
     }
 
     /**
-     * Serializes as a string using {@see Duration::__toString()}.
+     * Serializes as a string using {@see Duration::toISOString()}.
      */
     public function jsonSerialize(): string
     {
-        return (string) $this;
+        return $this->toISOString();
     }
 
     /**
-     * Returns an ISO-8601 string representation of this duration.
+     * Returns the ISO 8601 representation of this duration.
      *
      * The format of the returned string will be PTnHnMn.nS, where n is
      * the relevant hours, minutes, seconds or nanoseconds part of the duration.
@@ -772,7 +772,7 @@ final class Duration implements JsonSerializable
      *
      * Note that multiples of 24 hours are not output as days to avoid confusion with Period.
      */
-    public function __toString(): string
+    public function toISOString(): string
     {
         $seconds = $this->seconds;
         $nanos = $this->nanos;
@@ -812,5 +812,13 @@ final class Duration implements JsonSerializable
         }
 
         return $string . 'S';
+    }
+
+    /**
+     * {@see Duration::toISOString()}.
+     */
+    public function __toString(): string
+    {
+        return $this->toISOString();
     }
 }

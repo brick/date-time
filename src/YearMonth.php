@@ -288,20 +288,28 @@ final class YearMonth implements JsonSerializable
     }
 
     /**
-     * Serializes as a string using {@see YearMonth::__toString()}.
+     * Serializes as a string using {@see YearMonth::toISOString()}.
      */
     public function jsonSerialize(): string
     {
-        return (string) $this;
+        return $this->toISOString();
     }
 
     /**
-     * Returns the ISO 8601 representation of this YearMonth.
+     * Returns the ISO 8601 representation of this year-month.
      */
-    public function __toString(): string
+    public function toISOString(): string
     {
         $pattern = ($this->year < 0 ? '%05d' : '%04d') . '-%02d';
 
         return sprintf($pattern, $this->year, $this->month);
+    }
+
+    /**
+     * {@see YearMonth::toISOString()}.
+     */
+    public function __toString(): string
+    {
+        return $this->toISOString();
     }
 }

@@ -226,15 +226,26 @@ final class MonthDay implements JsonSerializable
     }
 
     /**
-     * Serializes as a string using {@see MonthDay::__toString()}.
+     * Serializes as a string using {@see MonthDay::toISOString()}.
      */
     public function jsonSerialize(): string
     {
-        return (string) $this;
+        return $this->toISOString();
     }
 
-    public function __toString(): string
+    /**
+     * Returns the ISO 8601 representation of this month-day.
+     */
+    public function toISOString(): string
     {
         return sprintf('--%02d-%02d', $this->month, $this->day);
+    }
+
+    /**
+     * {@see MonthDay::toISOString()}.
+     */
+    public function __toString(): string
+    {
+        return $this->toISOString();
     }
 }

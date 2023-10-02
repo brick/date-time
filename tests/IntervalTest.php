@@ -260,23 +260,44 @@ class IntervalTest extends AbstractTestCase
         ];
     }
 
-    public function testJsonSerialize(): void
+    /** @dataProvider providerToString */
+    public function testJsonSerialize(int $epochSecondStart, int $epochSecondEnd, string $expectedString): void
     {
         $interval = Interval::of(
-            Instant::of(1000000000),
-            Instant::of(2000000000)
+            Instant::of($epochSecondStart),
+            Instant::of($epochSecondEnd)
         );
 
-        self::assertSame(json_encode('2001-09-09T01:46:40Z/2033-05-18T03:33:20Z'), json_encode($interval));
+        self::assertSame(json_encode($expectedString), json_encode($interval));
     }
 
-    public function testToString(): void
+    /** @dataProvider providerToString */
+    public function testToISOString(int $epochSecondStart, int $epochSecondEnd, string $expectedString): void
     {
         $interval = Interval::of(
-            Instant::of(1000000000),
-            Instant::of(2000000000)
+            Instant::of($epochSecondStart),
+            Instant::of($epochSecondEnd)
         );
 
-        self::assertSame('2001-09-09T01:46:40Z/2033-05-18T03:33:20Z', (string) $interval);
+        self::assertSame($expectedString, $interval->toISOString());
+    }
+
+    /** @dataProvider providerToString */
+    public function testToString(int $epochSecondStart, int $epochSecondEnd, string $expectedString): void
+    {
+        $interval = Interval::of(
+            Instant::of($epochSecondStart),
+            Instant::of($epochSecondEnd)
+        );
+
+        self::assertSame($expectedString, (string) $interval);
+    }
+
+    public function providerToString(): array
+    {
+        return [
+            [1000000000, 1000000000, '2001-09-09T01:46:40Z/2001-09-09T01:46:40Z'],
+            [1000000000, 2000000000, '2001-09-09T01:46:40Z/2033-05-18T03:33:20Z'],
+        ];
     }
 }

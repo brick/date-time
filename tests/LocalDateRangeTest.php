@@ -189,20 +189,66 @@ class LocalDateRangeTest extends AbstractTestCase
         ];
     }
 
-    public function testJsonSerialize(): void
-    {
-        self::assertSame(json_encode('2008-12-31/2011-01-01'), json_encode(LocalDateRange::of(
-            LocalDate::of(2008, 12, 31),
-            LocalDate::of(2011, 1, 1)
-        )));
+    /** @dataProvider providerToString */
+    public function testJsonSerialize(
+        int $yearStart,
+        int $monthStart,
+        int $dayStart,
+        int $yearEnd,
+        int $monthEnd,
+        int $dayEnd,
+        string $expectedString
+    ): void {
+        $dateRange = LocalDateRange::of(
+            LocalDate::of($yearStart, $monthStart, $dayStart),
+            LocalDate::of($yearEnd, $monthEnd, $dayEnd)
+        );
+
+        self::assertSame(json_encode($expectedString), json_encode($dateRange));
     }
 
-    public function testToString(): void
+    /** @dataProvider providerToString */
+    public function testToISOString(
+        int $yearStart,
+        int $monthStart,
+        int $dayStart,
+        int $yearEnd,
+        int $monthEnd,
+        int $dayEnd,
+        string $expectedString
+    ): void {
+        $dateRange = LocalDateRange::of(
+            LocalDate::of($yearStart, $monthStart, $dayStart),
+            LocalDate::of($yearEnd, $monthEnd, $dayEnd)
+        );
+
+        self::assertSame($expectedString, $dateRange->toISOString());
+    }
+
+    /** @dataProvider providerToString */
+    public function testToString(
+        int $yearStart,
+        int $monthStart,
+        int $dayStart,
+        int $yearEnd,
+        int $monthEnd,
+        int $dayEnd,
+        string $expectedString
+    ): void {
+        $dateRange = LocalDateRange::of(
+            LocalDate::of($yearStart, $monthStart, $dayStart),
+            LocalDate::of($yearEnd, $monthEnd, $dayEnd)
+        );
+
+        self::assertSame($expectedString, (string) $dateRange);
+    }
+
+    public function providerToString(): array
     {
-        self::assertSame('2008-12-31/2011-01-01', (string) LocalDateRange::of(
-            LocalDate::of(2008, 12, 31),
-            LocalDate::of(2011, 1, 1)
-        ));
+        return [
+            [2008, 12, 31, 2008, 12, 31, '2008-12-31/2008-12-31'],
+            [2008, 12, 31, 2011, 1, 1, '2008-12-31/2011-01-01'],
+        ];
     }
 
     /**

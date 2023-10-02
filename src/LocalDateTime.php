@@ -716,16 +716,27 @@ final class LocalDateTime implements JsonSerializable
     }
 
     /**
-     * Serializes as a string using {@see LocalDateTime::__toString()}.
+     * Serializes as a string using {@see LocalDateTime::toISOString()}.
      */
     public function jsonSerialize(): string
     {
-        return (string) $this;
+        return $this->toISOString();
     }
 
-    public function __toString(): string
+    /**
+     * Returns the ISO 8601 representation of this date time.
+     */
+    public function toISOString(): string
     {
         return $this->date . 'T' . $this->time;
+    }
+
+    /**
+     * {@see LocalDateTime::toISOString()}.
+     */
+    public function __toString(): string
+    {
+        return $this->toISOString();
     }
 
     /**

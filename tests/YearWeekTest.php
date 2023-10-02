@@ -330,6 +330,15 @@ class YearWeekTest extends AbstractTestCase
     /**
      * @dataProvider providerToString
      */
+    public function testToISOString(int $year, int $week, string $expected): void
+    {
+        $yearWeek = YearWeek::of($year, $week);
+        self::assertSame($expected, $yearWeek->toISOString());
+    }
+
+    /**
+     * @dataProvider providerToString
+     */
     public function testToString(int $year, int $week, string $expected): void
     {
         $yearWeek = YearWeek::of($year, $week);

@@ -1285,6 +1285,14 @@ class DurationTest extends AbstractTestCase
     /**
      * @dataProvider providerToString
      */
+    public function testToISOString(int $seconds, int $nanos, string $expected): void
+    {
+        self::assertSame($expected, Duration::ofSeconds($seconds, $nanos)->toISOString());
+    }
+
+    /**
+     * @dataProvider providerToString
+     */
     public function testToString(int $seconds, int $nanos, string $expected): void
     {
         self::assertSame($expected, (string) Duration::ofSeconds($seconds, $nanos));
