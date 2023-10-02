@@ -19,6 +19,11 @@ final class WeekOfYear
     public const NAME = 'week-of-year';
 
     /**
+     * The regular expression pattern of the ISO 8601 representation.
+     */
+    public const PATTERN = '[0-9]{2}';
+
+    /**
      * @param int      $weekOfYear The week-of-year to check.
      * @param int|null $year       An optional year to check against, validated.
      *

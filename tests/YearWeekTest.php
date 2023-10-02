@@ -336,6 +336,49 @@ class YearWeekTest extends AbstractTestCase
         self::assertSame($expected, (string) $yearWeek);
     }
 
+    /**
+     * @dataProvider providerParse
+     */
+    public function testParse(string $string, int $expectedYear, int $expectedWeek): void
+    {
+        $yearWeek = YearWeek::parse($string);
+        self::assertYearWeekIs($expectedYear, $expectedWeek, $yearWeek);
+    }
+
+    public function providerParse(): array
+    {
+        return [
+            ['-2000-W12', -2000, 12],
+            ['-0100-W01', -100, 1],
+            ['2015-W01', 2015, 1],
+            ['2015-W48', 2015, 48],
+            ['2026-W53', 2026, 53],
+            ['120195-W23', 120195, 23],
+        ];
+    }
+
+    /**
+     * @dataProvider providerParseInvalidYearWeekThrowsException
+     */
+    public function testParseInvalidYearWeekThrowsException(string $invalidValue, ?string $error = null): void
+    {
+        $this->expectException(DateTimeException::class);
+        $this->expectExceptionMessage($error ?? 'Failed to parse "' . $invalidValue . '"');
+
+        YearWeek::parse($invalidValue);
+    }
+
+    public function providerParseInvalidYearWeekThrowsException(): array
+    {
+        return [
+            [''],
+            ['+2000-W01'],
+            ['2000W01'],
+            ['2000-W54', 'Invalid week-of-year: 54 is not in the range 1 to 53.'],
+            ['2025-W53', 'Year 2025 does not have 53 weeks'],
+        ];
+    }
+
     public function testNow(): void
     {
         $now = new FixedClock(Instant::of(2000000000));

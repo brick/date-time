@@ -4,6 +4,10 @@ declare(strict_types=1);
 
 namespace Brick\DateTime;
 
+use Brick\DateTime\Parser\DateTimeParseException;
+use Brick\DateTime\Parser\DateTimeParser;
+use Brick\DateTime\Parser\DateTimeParseResult;
+use Brick\DateTime\Parser\IsoParsers;
 use JsonSerializable;
 
 use function sprintf;
@@ -47,6 +51,36 @@ final class YearWeek implements JsonSerializable
         Field\WeekOfYear::check($week, $year);
 
         return new YearWeek($year, $week);
+    }
+
+    /**
+     * @throws DateTimeException      If the year-week is not valid.
+     * @throws DateTimeParseException If required fields are missing from the result.
+     */
+    public static function from(DateTimeParseResult $result): YearWeek
+    {
+        return YearWeek::of(
+            (int) $result->getField(Field\Year::NAME),
+            (int) $result->getField(Field\WeekOfYear::NAME)
+        );
+    }
+
+    /**
+     * Obtains an instance of `YearWeek` from a text string.
+     *
+     * @param string              $text   The text to parse, such as `2007-W48`.
+     * @param DateTimeParser|null $parser The parser to use, defaults to the ISO 8601 parser.
+     *
+     * @throws DateTimeException      If the year-week is not valid.
+     * @throws DateTimeParseException If the text string does not follow the expected format.
+     */
+    public static function parse(string $text, ?DateTimeParser $parser = null): YearWeek
+    {
+        if (! $parser) {
+            $parser = IsoParsers::yearWeek();
+        }
+
+        return YearWeek::from($parser->parse($text));
     }
 
     public static function now(TimeZone $timeZone, ?Clock $clock = null): YearWeek
