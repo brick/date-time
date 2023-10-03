@@ -269,15 +269,26 @@ final class Year implements JsonSerializable
     }
 
     /**
-     * Serializes as a string using {@see Year::__toString()}.
+     * Serializes as a string using {@see Year::toISOString()}.
      */
     public function jsonSerialize(): string
     {
-        return (string) $this;
+        return $this->toISOString();
     }
 
-    public function __toString(): string
+    /**
+     * Returns the ISO 8601 representation of this year.
+     */
+    public function toISOString(): string
     {
         return (string) $this->year;
+    }
+
+    /**
+     * {@see Year::toISOString()}.
+     */
+    public function __toString(): string
+    {
+        return $this->toISOString();
     }
 }

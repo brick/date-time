@@ -197,19 +197,44 @@ class YearMonthRangeTest extends AbstractTestCase
         ];
     }
 
-    public function testJsonSerialize(): void
+    /** @dataProvider providerToString */
+    public function testJsonSerialize(int $yearStart, int $monthStart, int $yearEnd, int $monthEnd, string $expectedString): void
     {
-        self::assertSame(json_encode('2008-12/2011-01'), json_encode(YearMonthRange::of(
-            YearMonth::of(2008, 12),
-            YearMonth::of(2011, 1)
-        )));
+        $yearMonthRange = YearMonthRange::of(
+            YearMonth::of($yearStart, $monthStart),
+            YearMonth::of($yearEnd, $monthEnd)
+        );
+
+        self::assertSame(json_encode($expectedString), json_encode($yearMonthRange));
     }
 
-    public function testToString(): void
+    /** @dataProvider providerToString */
+    public function testToISOString(int $yearStart, int $monthStart, int $yearEnd, int $monthEnd, string $expectedString): void
     {
-        self::assertSame('2008-12/2011-01', (string) YearMonthRange::of(
-            YearMonth::of(2008, 12),
-            YearMonth::of(2011, 1)
-        ));
+        $yearMonthRange = YearMonthRange::of(
+            YearMonth::of($yearStart, $monthStart),
+            YearMonth::of($yearEnd, $monthEnd)
+        );
+
+        self::assertSame($expectedString, $yearMonthRange->toISOString());
+    }
+
+    /** @dataProvider providerToString */
+    public function testToString(int $yearStart, int $monthStart, int $yearEnd, int $monthEnd, string $expectedString): void
+    {
+        $yearMonthRange = YearMonthRange::of(
+            YearMonth::of($yearStart, $monthStart),
+            YearMonth::of($yearEnd, $monthEnd)
+        );
+
+        self::assertSame($expectedString, (string) $yearMonthRange);
+    }
+
+    public function providerToString(): array
+    {
+        return [
+            [2008, 12, 2008, 12, '2008-12/2008-12'],
+            [2008, 12, 2011, 1, '2008-12/2011-01'],
+        ];
     }
 }

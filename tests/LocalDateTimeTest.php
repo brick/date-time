@@ -1232,6 +1232,23 @@ class LocalDateTimeTest extends AbstractTestCase
      * @param int    $nano     The nano-of-second.
      * @param string $expected The expected result string.
      */
+    public function testToISOString(int $year, int $month, int $day, int $hour, int $minute, int $second, int $nano, string $expected): void
+    {
+        self::assertSame($expected, LocalDateTime::of($year, $month, $day, $hour, $minute, $second, $nano)->toISOString());
+    }
+
+    /**
+     * @dataProvider providerToString
+     *
+     * @param int    $year     The year.
+     * @param int    $month    The month.
+     * @param int    $day      The day-of-month.
+     * @param int    $hour     The hour-of-day.
+     * @param int    $minute   The minute-of-hour.
+     * @param int    $second   The second-of-minute.
+     * @param int    $nano     The nano-of-second.
+     * @param string $expected The expected result string.
+     */
     public function testToString(int $year, int $month, int $day, int $hour, int $minute, int $second, int $nano, string $expected): void
     {
         self::assertSame($expected, (string) LocalDateTime::of($year, $month, $day, $hour, $minute, $second, $nano));

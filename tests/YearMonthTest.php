@@ -459,13 +459,53 @@ class YearMonthTest extends AbstractTestCase
         ];
     }
 
-    public function testJsonSerialize(): void
+    /**
+     * @dataProvider providerToString
+     */
+    public function testJsonSerialize(int $year, int $week, string $expectedString): void
     {
-        self::assertSame(json_encode('2013-09'), json_encode(YearMonth::of(2013, 9)));
+        self::assertSame(json_encode($expectedString), json_encode(YearMonth::of($year, $week)));
     }
 
-    public function testToString(): void
+    /**
+     * @dataProvider providerToString
+     */
+    public function testToISOString(int $year, int $month, string $expectedString): void
     {
-        self::assertSame('2013-09', (string) YearMonth::of(2013, 9));
+        self::assertSame($expectedString, YearMonth::of($year, $month)->toISOString());
+    }
+
+    /**
+     * @dataProvider providerToString
+     *
+     * @param int    $year     The year.
+     * @param int    $month    The month.
+     * @param string $expected The expected result string.
+     */
+    public function testToString(int $year, int $month, string $expected): void
+    {
+        self::assertSame($expected, (string) YearMonth::of($year, $month));
+    }
+
+    public function providerToString(): array
+    {
+        return [
+            [-999999, 12, '-999999-12'],
+            [-185321, 11, '-185321-11'],
+            [-18532, 11, '-18532-11'],
+            [-2023, 11, '-2023-11'],
+            [-2023, 11, '-2023-11'],
+            [-2023, 1, '-2023-01'],
+            [-999, 1, '-0999-01'],
+            [-2, 1, '-0002-01'],
+            [2, 1, '0002-01'],
+            [999, 1, '0999-01'],
+            [2023, 1, '2023-01'],
+            [2023, 11, '2023-11'],
+            [2023, 11, '2023-11'],
+            [18532, 11, '18532-11'],
+            [185321, 11, '185321-11'],
+            [999999, 12, '999999-12'],
+        ];
     }
 }

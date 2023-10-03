@@ -1054,6 +1054,20 @@ class LocalTimeTest extends AbstractTestCase
      * @param int    $n The nanosecond.
      * @param string $r The expected result.
      */
+    public function testToISOString(int $h, int $m, int $s, int $n, string $r): void
+    {
+        self::assertSame($r, LocalTime::of($h, $m, $s, $n)->toISOString());
+    }
+
+    /**
+     * @dataProvider providerToString
+     *
+     * @param int    $h The hour.
+     * @param int    $m The minute.
+     * @param int    $s The second.
+     * @param int    $n The nanosecond.
+     * @param string $r The expected result.
+     */
     public function testToString(int $h, int $m, int $s, int $n, string $r): void
     {
         self::assertSame($r, (string) LocalTime::of($h, $m, $s, $n));

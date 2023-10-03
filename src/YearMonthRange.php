@@ -180,11 +180,11 @@ class YearMonthRange implements IteratorAggregate, Countable, JsonSerializable
     }
 
     /**
-     * Serializes as a string using {@see YearMonthRange::__toString()}.
+     * Serializes as a string using {@see YearMonthRange::toISOString()}.
      */
     public function jsonSerialize(): string
     {
-        return (string) $this;
+        return $this->toISOString();
     }
 
     /**
@@ -193,8 +193,16 @@ class YearMonthRange implements IteratorAggregate, Countable, JsonSerializable
      * ISO 8601 does not seem to provide a standard notation for year-month ranges, but we're using the same format as
      * date ranges.
      */
-    public function __toString(): string
+    public function toISOString(): string
     {
         return $this->start . '/' . $this->end;
+    }
+
+    /**
+     * {@see YearMonthRange::toISOString()}.
+     */
+    public function __toString(): string
+    {
+        return $this->toISOString();
     }
 }

@@ -296,17 +296,28 @@ final class YearWeek implements JsonSerializable
     }
 
     /**
-     * Serializes as a string using {@see YearWeek::__toString()}.
+     * Serializes as a string using {@see YearWeek::toISOString()}.
      */
     public function jsonSerialize(): string
     {
-        return (string) $this;
+        return $this->toISOString();
     }
 
-    public function __toString(): string
+    /**
+     * Returns the ISO 8601 representation of this year-week.
+     */
+    public function toISOString(): string
     {
         $pattern = ($this->year < 0 ? '%05d' : '%04d') . '-W%02d';
 
         return sprintf($pattern, $this->year, $this->week);
+    }
+
+    /**
+     * {@see YearWeek::toISOString()}.
+     */
+    public function __toString(): string
+    {
+        return $this->toISOString();
     }
 }

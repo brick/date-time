@@ -495,13 +495,30 @@ class YearTest extends AbstractTestCase
         ];
     }
 
-    public function testJsonSerialize(): void
+    /** @dataProvider providerToString */
+    public function testJsonSerialize(int $year, string $expectedString): void
     {
-        self::assertSame(json_encode('1987'), json_encode(Year::of(1987)));
+        self::assertSame(json_encode($expectedString), json_encode(Year::of($year)));
     }
 
-    public function testToString(): void
+    /** @dataProvider providerToString */
+    public function testToISOString(int $year, string $expectedString): void
     {
-        self::assertSame('1987', (string) Year::of(1987));
+        self::assertSame($expectedString, Year::of($year)->toISOString());
+    }
+
+    /** @dataProvider providerToString */
+    public function testToString(int $year, string $expectedString): void
+    {
+        self::assertSame($expectedString, (string) Year::of($year));
+    }
+
+    public function providerToString(): array
+    {
+        return [
+            [-100, '-100'],
+            [1987, '1987'],
+            [105781, '105781'],
+        ];
     }
 }

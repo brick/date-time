@@ -138,15 +138,26 @@ final class Interval implements JsonSerializable
     }
 
     /**
-     * Serializes as a string using {@see Interval::__toString()}.
+     * Serializes as a string using {@see Interval::toISOString()}.
      */
     public function jsonSerialize(): string
     {
-        return (string) $this;
+        return $this->toISOString();
     }
 
-    public function __toString(): string
+    /**
+     * Returns the ISO 8601 representation of this interval.
+     */
+    public function toISOString(): string
     {
         return $this->start . '/' . $this->end;
+    }
+
+    /**
+     * {@see Interval::toISOString()}.
+     */
+    public function __toString(): string
+    {
+        return $this->toISOString();
     }
 }

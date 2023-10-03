@@ -814,24 +814,39 @@ class ZonedDateTimeTest extends AbstractTestCase
         ];
     }
 
-    public function testJsonSerialize(): void
+    /** @dataProvider providerToString */
+    public function testJsonSerialize(string $localDateTime, string $timeZone, string $expectedString): void
     {
-        $timeZone = TimeZone::parse('America/Los_Angeles');
-        $localDateTime = '2000-01-20T12:34:56.123456789';
         $localDateTime = LocalDateTime::parse($localDateTime);
-        $zonedDateTime = ZonedDateTime::of($localDateTime, $timeZone);
+        $zonedDateTime = ZonedDateTime::of($localDateTime, TimeZone::parse($timeZone));
 
-        self::assertSame(json_encode('2000-01-20T12:34:56.123456789-08:00[America/Los_Angeles]'), json_encode($zonedDateTime));
+        self::assertSame(json_encode($expectedString), json_encode($zonedDateTime));
     }
 
-    public function testToString(): void
+    /** @dataProvider providerToString */
+    public function testToISOString(string $localDateTime, string $timeZone, string $expectedString): void
     {
-        $timeZone = TimeZone::parse('America/Los_Angeles');
-        $localDateTime = '2000-01-20T12:34:56.123456789';
         $localDateTime = LocalDateTime::parse($localDateTime);
-        $zonedDateTime = ZonedDateTime::of($localDateTime, $timeZone);
+        $zonedDateTime = ZonedDateTime::of($localDateTime, TimeZone::parse($timeZone));
 
-        self::assertSame('2000-01-20T12:34:56.123456789-08:00[America/Los_Angeles]', (string) $zonedDateTime);
+        self::assertSame($expectedString, $zonedDateTime->toISOString());
+    }
+
+    /** @dataProvider providerToString */
+    public function testToString(string $localDateTime, string $timeZone, string $expectedString): void
+    {
+        $localDateTime = LocalDateTime::parse($localDateTime);
+        $zonedDateTime = ZonedDateTime::of($localDateTime, TimeZone::parse($timeZone));
+
+        self::assertSame($expectedString, (string) $zonedDateTime);
+    }
+
+    public function providerToString(): array
+    {
+        return [
+            ['2000-01-20T12:34:56.123456789', 'America/Los_Angeles', '2000-01-20T12:34:56.123456789-08:00[America/Los_Angeles]'],
+            ['2000-01-20T12:34:56.123456789', '-07:00', '2000-01-20T12:34:56.123456789-07:00'],
+        ];
     }
 
     /**

@@ -417,6 +417,19 @@ class PeriodTest extends AbstractTestCase
      * @param int    $days     The number of days in the period.
      * @param string $expected The expected string output.
      */
+    public function testToISOString(int $years, int $months, int $days, string $expected): void
+    {
+        self::assertSame($expected, Period::of($years, $months, $days)->toISOString());
+    }
+
+    /**
+     * @dataProvider providerToString
+     *
+     * @param int    $years    The number of years in the period.
+     * @param int    $months   The number of months in the period.
+     * @param int    $days     The number of days in the period.
+     * @param string $expected The expected string output.
+     */
     public function testToString(int $years, int $months, int $days, string $expected): void
     {
         self::assertSame($expected, (string) Period::of($years, $months, $days));

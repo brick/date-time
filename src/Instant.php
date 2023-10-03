@@ -366,15 +366,26 @@ final class Instant implements JsonSerializable
     }
 
     /**
-     * Serializes as a string using {@see Instant::__toString()}.
+     * Serializes as a string using {@see Instant::toISOString()}.
      */
     public function jsonSerialize(): string
     {
-        return (string) $this;
+        return $this->toISOString();
     }
 
-    public function __toString(): string
+    /**
+     * Returns the ISO 8601 representation of this instant.
+     */
+    public function toISOString(): string
     {
         return (string) ZonedDateTime::ofInstant($this, TimeZone::utc());
+    }
+
+    /**
+     * {@see Instant::toISOString()}.
+     */
+    public function __toString(): string
+    {
+        return $this->toISOString();
     }
 }

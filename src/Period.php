@@ -377,14 +377,17 @@ final class Period implements JsonSerializable
     }
 
     /**
-     * Serializes as a string using {@see Period::__toString()}.
+     * Serializes as a string using {@see Period::toISOString()}.
      */
     public function jsonSerialize(): string
     {
-        return (string) $this;
+        return $this->toISOString();
     }
 
-    public function __toString(): string
+    /**
+     * Returns the ISO 8601 representation of this period.
+     */
+    public function toISOString(): string
     {
         if ($this->isZero()) {
             return 'P0D';
@@ -403,5 +406,13 @@ final class Period implements JsonSerializable
         }
 
         return $string;
+    }
+
+    /**
+     * {@see Period::toISOString()}.
+     */
+    public function __toString(): string
+    {
+        return $this->toISOString();
     }
 }

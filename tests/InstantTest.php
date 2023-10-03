@@ -652,6 +652,18 @@ class InstantTest extends AbstractTestCase
      * @param int    $nano           The nano adjustment to the epoch second.
      * @param string $expectedString The expected string output.
      */
+    public function testToISOString(int $epochSecond, int $nano, string $expectedString): void
+    {
+        self::assertSame($expectedString, Instant::of($epochSecond, $nano)->toISOString());
+    }
+
+    /**
+     * @dataProvider providerToString
+     *
+     * @param int    $epochSecond    The epoch second to test.
+     * @param int    $nano           The nano adjustment to the epoch second.
+     * @param string $expectedString The expected string output.
+     */
     public function testToString(int $epochSecond, int $nano, string $expectedString): void
     {
         self::assertSame($expectedString, (string) Instant::of($epochSecond, $nano));
