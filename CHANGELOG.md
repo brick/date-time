@@ -1,5 +1,39 @@
 # Changelog
 
+## UNRELEASED (0.5.4)
+
+🐛 **Bug fixes**
+
+- `YearMonth::__toString()` would return an invalid string for years `< 1000` ([#87](https://github.com/brick/date-time/pull/87))
+
+✨ **New methods**
+
+- `Year::parse()` and `Year::from()` ([#86](https://github.com/brick/date-time/pull/86))
+- `YearWeek::parse()` and `YearWeek::from()` ([#86](https://github.com/brick/date-time/pull/86))
+- the following classes now have a `toISOString()` method: ([#87](https://github.com/brick/date-time/pull/87))
+  - `Duration`
+  - `Instant`
+  - `Interval`
+  - `LocalDate`
+  - `LocalDateRange`
+  - `LocalDateTime`
+  - `LocalTime`
+  - `MonthDay`
+  - `Period`
+  - `Year`
+  - `YearMonth`
+  - `YearMonthRange`
+  - `YearWeek`
+  - `ZonedDateTime`
+
+The `toISOString()` methods return the same result as `__toString()`, but are better suited for the nullsafe operator:
+
+```php
+$date?->toISOString();
+```
+
+Thanks to [@gnutix](https://github.com/gnutix)!
+
 ## [0.5.3](https://github.com/brick/date-time/releases/tag/0.5.3) - 2023-09-27
 
 ✨ **New methods**
