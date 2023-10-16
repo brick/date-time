@@ -13,9 +13,9 @@ use function intdiv;
 use function is_int;
 use function preg_match;
 use function rtrim;
-use function sprintf;
 use function str_pad;
 
+use const STR_PAD_LEFT;
 use const STR_PAD_RIGHT;
 
 /**
@@ -808,7 +808,7 @@ final class Duration implements JsonSerializable
         $string .= (($seconds === 0 && $negative) ? '-0' : $seconds);
 
         if ($nanos !== 0) {
-            $string .= '.' . rtrim(sprintf('%09d', $nanos), '0');
+            $string .= '.' . rtrim(str_pad((string) $nanos, 9, '0', STR_PAD_LEFT), '0');
         }
 
         return $string . 'S';

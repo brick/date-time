@@ -16,7 +16,9 @@ use JsonSerializable;
 
 use function intdiv;
 use function min;
-use function sprintf;
+use function str_pad;
+
+use const STR_PAD_LEFT;
 
 /**
  * A date without a time-zone in the ISO-8601 calendar system, such as `2007-12-03`.
@@ -759,9 +761,19 @@ final class LocalDate implements JsonSerializable
      */
     public function toISOString(): string
     {
-        $pattern = ($this->year < 0 ? '%05d' : '%04d') . '-%02d-%02d';
-
-        return sprintf($pattern, $this->year, $this->month, $this->day);
+        // This code is optimized for high performance
+        return ($this->year < 1000 && $this->year > -1000
+                ? (
+                    $this->year < 0
+                        ? '-' . str_pad((string) -$this->year, 4, '0', STR_PAD_LEFT)
+                        : str_pad((string) $this->year, 4, '0', STR_PAD_LEFT)
+                )
+                : $this->year
+            )
+            . '-'
+            . ($this->month < 10 ? '0' . $this->month : $this->month)
+            . '-'
+            . ($this->day < 10 ? '0' . $this->day : $this->day);
     }
 
     /**

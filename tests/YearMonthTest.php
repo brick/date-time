@@ -462,9 +462,9 @@ class YearMonthTest extends AbstractTestCase
     /**
      * @dataProvider providerToString
      */
-    public function testJsonSerialize(int $year, int $week, string $expectedString): void
+    public function testJsonSerialize(int $year, int $month, string $expectedString): void
     {
-        self::assertSame(json_encode($expectedString), json_encode(YearMonth::of($year, $week)));
+        self::assertSame(json_encode($expectedString), json_encode(YearMonth::of($year, $month)));
     }
 
     /**
