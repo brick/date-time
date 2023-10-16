@@ -410,7 +410,7 @@ class YearWeekTest extends AbstractTestCase
         $yearWeek = YearWeek::of($year, $week);
 
         self::assertIs(LocalDate::class, $firstDay, $yearWeek->getFirstDay());
-        $this->assertIs(LocalDate::class, $lastDay, $yearWeek->getLastDay());
+        self::assertIs(LocalDate::class, $lastDay, $yearWeek->getLastDay());
     }
 
     /**
