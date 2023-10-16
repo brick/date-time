@@ -34,7 +34,7 @@ $date?->toISOString();
 
 ⚡️ **Performance optimizations**
 
-- Most `__toString()` methods got a small performance boost
+- Most `__toString()` methods got a small performance boost ([#85](https://github.com/brick/date-time/pull/85))
 
 Thanks to [@gnutix](https://github.com/gnutix)!
 
