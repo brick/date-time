@@ -1,6 +1,6 @@
 # Changelog
 
-## UNRELEASED (0.5.4)
+## [0.5.4](https://github.com/brick/date-time/releases/tag/0.5.4) - 2023-10-16
 
 🐛 **Bug fixes**
 
@@ -31,6 +31,10 @@ The `toISOString()` methods return the same result as `__toString()`, but are be
 ```php
 $date?->toISOString();
 ```
+
+⚡️ **Performance optimizations**
+
+- Most `__toString()` methods got a small performance boost
 
 Thanks to [@gnutix](https://github.com/gnutix)!
 
