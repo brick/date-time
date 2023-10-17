@@ -26,12 +26,12 @@ final class YearWeek implements JsonSerializable, Stringable
     /**
      * The year, from MIN_YEAR to MAX_YEAR.
      */
-    private int $year;
+    private readonly int $year;
 
     /**
      * The week number, from 1 to 53. Must be valid for the year.
      */
-    private int $week;
+    private readonly int $week;
 
     /**
      * @param int $year The year, validated from MIN_YEAR to MAX_YEAR.

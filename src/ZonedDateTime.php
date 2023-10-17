@@ -27,12 +27,12 @@ class ZonedDateTime implements JsonSerializable, Stringable
     /**
      * The local date-time.
      */
-    private LocalDateTime $localDateTime;
+    private readonly LocalDateTime $localDateTime;
 
     /**
      * The time-zone offset from UTC/Greenwich.
      */
-    private TimeZoneOffset $timeZoneOffset;
+    private readonly TimeZoneOffset $timeZoneOffset;
 
     /**
      * The time-zone.
@@ -40,12 +40,12 @@ class ZonedDateTime implements JsonSerializable, Stringable
      * It is either a TimeZoneRegion if this ZonedDateTime is region-based,
      * or the same instance as the offset if this ZonedDateTime is offset-based.
      */
-    private TimeZone $timeZone;
+    private readonly TimeZone $timeZone;
 
     /**
      * The instant represented by this ZonedDateTime.
      */
-    private Instant $instant;
+    private readonly Instant $instant;
 
     /**
      * Private constructor. Use a factory method to obtain an instance.

@@ -17,7 +17,7 @@ use Exception;
  */
 final class TimeZoneRegion extends TimeZone
 {
-    private DateTimeZone $zone;
+    private readonly DateTimeZone $zone;
 
     /**
      * Private constructor. Use a factory method to obtain an instance.

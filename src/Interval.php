@@ -18,12 +18,12 @@ final class Interval implements JsonSerializable, Stringable
     /**
      * The start instant, inclusive.
      */
-    private Instant $start;
+    private readonly Instant $start;
 
     /**
      * The end instant, exclusive.
      */
-    private Instant $end;
+    private readonly Instant $end;
 
     /**
      * @param Instant $startInclusive The start instant, inclusive.

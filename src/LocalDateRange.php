@@ -29,12 +29,12 @@ final class LocalDateRange implements IteratorAggregate, Countable, JsonSerializ
     /**
      * The start date, inclusive.
      */
-    private LocalDate $start;
+    private readonly LocalDate $start;
 
     /**
      * The end date, inclusive.
      */
-    private LocalDate $end;
+    private readonly LocalDate $end;
 
     /**
      * @param LocalDate $start The start date, inclusive.

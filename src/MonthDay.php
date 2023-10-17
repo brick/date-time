@@ -19,12 +19,12 @@ final class MonthDay implements JsonSerializable, Stringable
     /**
      * The month-of-year, from 1 to 12.
      */
-    private int $month;
+    private readonly int $month;
 
     /**
      * The day-of-month, from 1 to 31.
      */
-    private int $day;
+    private readonly int $day;
 
     /**
      * Private constructor. Use of() to obtain an instance.

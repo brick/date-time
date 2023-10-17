@@ -24,12 +24,12 @@ final class YearMonth implements JsonSerializable, Stringable
     /**
      * The year, from MIN_YEAR to MAX_YEAR.
      */
-    private int $year;
+    private readonly int $year;
 
     /**
      * The month, from 1 to 12.
      */
-    private int $month;
+    private readonly int $month;
 
     /**
      * @param int $year  The year, validated from MIN_YEAR to MAX_YEAR.
