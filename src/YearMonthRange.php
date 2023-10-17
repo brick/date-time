@@ -27,12 +27,12 @@ class YearMonthRange implements IteratorAggregate, Countable, JsonSerializable, 
     /**
      * The start year-month, inclusive.
      */
-    private YearMonth $start;
+    private readonly YearMonth $start;
 
     /**
      * The end year-month, inclusive.
      */
-    private YearMonth $end;
+    private readonly YearMonth $end;
 
     /**
      * @param YearMonth $start The start year-month, inclusive.

@@ -19,11 +19,11 @@ use function sprintf;
  */
 final class Period implements JsonSerializable, Stringable
 {
-    private int $years;
+    private readonly int $years;
 
-    private int $months;
+    private readonly int $months;
 
-    private int $days;
+    private readonly int $days;
 
     /**
      * Private constructor. Use of() to obtain an instance.

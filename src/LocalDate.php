@@ -51,17 +51,17 @@ final class LocalDate implements JsonSerializable, Stringable
     /**
      * The year.
      */
-    private int $year;
+    private readonly int $year;
 
     /**
      * The month-of-year.
      */
-    private int $month;
+    private readonly int $month;
 
     /**
      * The day-of-month.
      */
-    private int $day;
+    private readonly int $day;
 
     /**
      * Private constructor. Use of() to obtain an instance.

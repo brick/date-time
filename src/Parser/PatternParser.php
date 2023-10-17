@@ -12,12 +12,12 @@ use function sprintf;
  */
 final class PatternParser implements DateTimeParser
 {
-    private string $pattern;
+    private readonly string $pattern;
 
     /**
      * @var string[]
      */
-    private array $fields;
+    private readonly array $fields;
 
     /**
      * @param string   $pattern The regular expression pattern.

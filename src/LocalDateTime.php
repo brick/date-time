@@ -24,9 +24,9 @@ use function intdiv;
  */
 final class LocalDateTime implements JsonSerializable, Stringable
 {
-    private LocalDate $date;
+    private readonly LocalDate $date;
 
-    private LocalTime $time;
+    private readonly LocalTime $time;
 
     public function __construct(LocalDate $date, LocalTime $time)
     {

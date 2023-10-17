@@ -9,7 +9,7 @@ namespace Brick\DateTime;
  */
 final class Stopwatch
 {
-    private Clock $clock;
+    private readonly Clock $clock;
 
     /**
      * The total time the stopwatch has been running, excluding the time elapsed since it was started.
