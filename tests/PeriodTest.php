@@ -14,6 +14,8 @@ use Generator;
 
 use function json_encode;
 
+use const JSON_THROW_ON_ERROR;
+
 /**
  * Unit tests for class Period.
  */
@@ -406,7 +408,7 @@ class PeriodTest extends AbstractTestCase
      */
     public function testJsonSerialize(int $years, int $months, int $days, string $expected): void
     {
-        self::assertSame(json_encode($expected), json_encode(Period::of($years, $months, $days)));
+        self::assertSame(json_encode($expected, JSON_THROW_ON_ERROR), json_encode(Period::of($years, $months, $days), JSON_THROW_ON_ERROR));
     }
 
     /**

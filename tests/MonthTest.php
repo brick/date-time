@@ -10,6 +10,8 @@ use Generator;
 
 use function json_encode;
 
+use const JSON_THROW_ON_ERROR;
+
 /**
  * Unit tests for class Month.
  */
@@ -301,7 +303,7 @@ class MonthTest extends AbstractTestCase
      */
     public function testJsonSerialize(Month $month, string $expectedName): void
     {
-        self::assertSame(json_encode($expectedName), json_encode($month));
+        self::assertSame(json_encode($expectedName, JSON_THROW_ON_ERROR), json_encode($month, JSON_THROW_ON_ERROR));
     }
 
     /**

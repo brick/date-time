@@ -10,6 +10,8 @@ use Brick\DateTime\Interval;
 
 use function json_encode;
 
+use const JSON_THROW_ON_ERROR;
+
 /**
  * Unit tests for class Interval.
  */
@@ -268,7 +270,7 @@ class IntervalTest extends AbstractTestCase
             Instant::of($epochSecondEnd)
         );
 
-        self::assertSame(json_encode($expectedString), json_encode($interval));
+        self::assertSame(json_encode($expectedString, JSON_THROW_ON_ERROR), json_encode($interval, JSON_THROW_ON_ERROR));
     }
 
     /** @dataProvider providerToString */

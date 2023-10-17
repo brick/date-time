@@ -12,6 +12,7 @@ use Brick\DateTime\TimeZone;
 
 use function json_encode;
 
+use const JSON_THROW_ON_ERROR;
 use const PHP_INT_MAX;
 use const PHP_INT_MIN;
 
@@ -642,7 +643,7 @@ class InstantTest extends AbstractTestCase
      */
     public function testJsonSerialize(int $epochSecond, int $nano, string $expectedString): void
     {
-        self::assertSame(json_encode($expectedString), json_encode(Instant::of($epochSecond, $nano)));
+        self::assertSame(json_encode($expectedString, JSON_THROW_ON_ERROR), json_encode(Instant::of($epochSecond, $nano), JSON_THROW_ON_ERROR));
     }
 
     /**

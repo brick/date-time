@@ -18,6 +18,7 @@ use DateTimeImmutable;
 
 use function json_encode;
 
+use const JSON_THROW_ON_ERROR;
 use const PHP_INT_MAX;
 use const PHP_INT_MIN;
 
@@ -1381,7 +1382,7 @@ class LocalDateTest extends AbstractTestCase
      */
     public function testJsonSerialize(int $year, int $month, int $day, string $expected): void
     {
-        self::assertSame(json_encode($expected), json_encode(LocalDate::of($year, $month, $day)));
+        self::assertSame(json_encode($expected, JSON_THROW_ON_ERROR), json_encode(LocalDate::of($year, $month, $day), JSON_THROW_ON_ERROR));
     }
 
     /**

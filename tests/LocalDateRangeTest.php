@@ -14,6 +14,8 @@ use function iterator_count;
 use function iterator_to_array;
 use function json_encode;
 
+use const JSON_THROW_ON_ERROR;
+
 /**
  * Unit tests for class LocalDateRange.
  */
@@ -204,7 +206,7 @@ class LocalDateRangeTest extends AbstractTestCase
             LocalDate::of($yearEnd, $monthEnd, $dayEnd)
         );
 
-        self::assertSame(json_encode($expectedString), json_encode($dateRange));
+        self::assertSame(json_encode($expectedString, JSON_THROW_ON_ERROR), json_encode($dateRange, JSON_THROW_ON_ERROR));
     }
 
     /** @dataProvider providerToString */

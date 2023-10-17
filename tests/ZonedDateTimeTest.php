@@ -23,6 +23,7 @@ use DateTimeZone;
 
 use function json_encode;
 
+use const JSON_THROW_ON_ERROR;
 use const PHP_VERSION_ID;
 
 /**
@@ -825,7 +826,7 @@ class ZonedDateTimeTest extends AbstractTestCase
         $localDateTime = LocalDateTime::parse($localDateTime);
         $zonedDateTime = ZonedDateTime::of($localDateTime, TimeZone::parse($timeZone));
 
-        self::assertSame(json_encode($expectedString), json_encode($zonedDateTime));
+        self::assertSame(json_encode($expectedString, JSON_THROW_ON_ERROR), json_encode($zonedDateTime, JSON_THROW_ON_ERROR));
     }
 
     /** @dataProvider providerToString */
