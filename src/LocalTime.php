@@ -16,6 +16,7 @@ use DateTime;
 use DateTimeImmutable;
 use DateTimeInterface;
 use JsonSerializable;
+use Stringable;
 
 use function intdiv;
 use function rtrim;
@@ -28,7 +29,7 @@ use const STR_PAD_LEFT;
  *
  * This class is immutable.
  */
-final class LocalTime implements JsonSerializable
+final class LocalTime implements JsonSerializable, Stringable
 {
     public const MONTHS_PER_YEAR = 12;
     public const DAYS_PER_WEEK = 7;

@@ -7,6 +7,7 @@ namespace Brick\DateTime;
 use ArithmeticError;
 use Brick\DateTime\Utility\Math;
 use JsonSerializable;
+use Stringable;
 
 use function assert;
 use function intdiv;
@@ -23,7 +24,7 @@ use const STR_PAD_RIGHT;
  *
  * This class is immutable.
  */
-final class Duration implements JsonSerializable
+final class Duration implements JsonSerializable, Stringable
 {
     /**
      * The duration in seconds.

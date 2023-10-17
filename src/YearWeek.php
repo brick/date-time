@@ -9,6 +9,7 @@ use Brick\DateTime\Parser\DateTimeParser;
 use Brick\DateTime\Parser\DateTimeParseResult;
 use Brick\DateTime\Parser\IsoParsers;
 use JsonSerializable;
+use Stringable;
 
 use function is_int;
 use function str_pad;
@@ -20,7 +21,7 @@ use const STR_PAD_LEFT;
 /**
  * Represents the combination of a year and a week.
  */
-final class YearWeek implements JsonSerializable
+final class YearWeek implements JsonSerializable, Stringable
 {
     /**
      * The year, from MIN_YEAR to MAX_YEAR.

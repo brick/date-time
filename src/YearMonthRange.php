@@ -12,6 +12,7 @@ use Countable;
 use Generator;
 use IteratorAggregate;
 use JsonSerializable;
+use Stringable;
 
 /**
  * Represents an inclusive range of year-months.
@@ -21,7 +22,7 @@ use JsonSerializable;
  *
  * @template-implements IteratorAggregate<YearMonth>
  */
-class YearMonthRange implements IteratorAggregate, Countable, JsonSerializable
+class YearMonthRange implements IteratorAggregate, Countable, JsonSerializable, Stringable
 {
     /**
      * The start year-month, inclusive.

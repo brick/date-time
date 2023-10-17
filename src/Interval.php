@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Brick\DateTime;
 
 use JsonSerializable;
+use Stringable;
 
 /**
  * Represents a period of time between two instants, inclusive of the start instant and exclusive of the end.
@@ -12,7 +13,7 @@ use JsonSerializable;
  *
  * This class is immutable.
  */
-final class Interval implements JsonSerializable
+final class Interval implements JsonSerializable, Stringable
 {
     /**
      * The start instant, inclusive.
