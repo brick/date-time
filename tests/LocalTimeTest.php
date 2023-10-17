@@ -17,6 +17,8 @@ use DateTimeImmutable;
 
 use function json_encode;
 
+use const JSON_THROW_ON_ERROR;
+
 /**
  * Unit tests for class LocalTime.
  */
@@ -1042,7 +1044,7 @@ class LocalTimeTest extends AbstractTestCase
      */
     public function testJsonSerialize(int $h, int $m, int $s, int $n, string $r): void
     {
-        self::assertSame(json_encode($r), json_encode(LocalTime::of($h, $m, $s, $n)));
+        self::assertSame(json_encode($r, JSON_THROW_ON_ERROR), json_encode(LocalTime::of($h, $m, $s, $n), JSON_THROW_ON_ERROR));
     }
 
     /**

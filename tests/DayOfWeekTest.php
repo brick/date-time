@@ -13,6 +13,8 @@ use Generator;
 
 use function json_encode;
 
+use const JSON_THROW_ON_ERROR;
+
 /**
  * Unit tests for class DayOfWeek.
  */
@@ -249,7 +251,7 @@ class DayOfWeekTest extends AbstractTestCase
      */
     public function testJsonSerialize(DayOfWeek $dayOfWeek, string $expectedName): void
     {
-        self::assertSame(json_encode($expectedName), json_encode($dayOfWeek));
+        self::assertSame(json_encode($expectedName, JSON_THROW_ON_ERROR), json_encode($dayOfWeek, JSON_THROW_ON_ERROR));
     }
 
     /**

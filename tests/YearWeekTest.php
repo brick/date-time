@@ -15,6 +15,8 @@ use Brick\DateTime\YearWeek;
 
 use function json_encode;
 
+use const JSON_THROW_ON_ERROR;
+
 /**
  * Unit tests for class YearWeek.
  */
@@ -327,7 +329,7 @@ class YearWeekTest extends AbstractTestCase
     public function testJsonSerialize(int $year, int $week, string $expected): void
     {
         $yearWeek = YearWeek::of($year, $week);
-        self::assertSame(json_encode($expected), json_encode($yearWeek));
+        self::assertSame(json_encode($expected, JSON_THROW_ON_ERROR), json_encode($yearWeek, JSON_THROW_ON_ERROR));
     }
 
     /**
