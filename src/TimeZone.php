@@ -7,6 +7,7 @@ namespace Brick\DateTime;
 use Brick\DateTime\Parser\DateTimeParseException;
 use DateTimeImmutable;
 use DateTimeZone;
+use Stringable;
 
 use const PHP_VERSION_ID;
 
@@ -16,7 +17,7 @@ use const PHP_VERSION_ID;
  * * `TimeZoneOffset` represents a fixed offset from UTC such as `+02:00`.
  * * `TimeZoneRegion` represents a geographical region such as `Europe/London`.
  */
-abstract class TimeZone
+abstract class TimeZone implements Stringable
 {
     /**
      * Obtains an instance of `TimeZone` from a string representation.

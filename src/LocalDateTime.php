@@ -13,6 +13,7 @@ use DateTime;
 use DateTimeImmutable;
 use DateTimeInterface;
 use JsonSerializable;
+use Stringable;
 
 use function intdiv;
 
@@ -21,7 +22,7 @@ use function intdiv;
  *
  * This class is immutable.
  */
-final class LocalDateTime implements JsonSerializable
+final class LocalDateTime implements JsonSerializable, Stringable
 {
     private LocalDate $date;
 

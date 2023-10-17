@@ -9,11 +9,12 @@ use Brick\DateTime\Parser\DateTimeParser;
 use Brick\DateTime\Parser\DateTimeParseResult;
 use Brick\DateTime\Parser\IsoParsers;
 use JsonSerializable;
+use Stringable;
 
 /**
  * Represents a year in the proleptic calendar.
  */
-final class Year implements JsonSerializable
+final class Year implements JsonSerializable, Stringable
 {
     public const MIN_VALUE = LocalDate::MIN_YEAR;
     public const MAX_VALUE = LocalDate::MAX_YEAR;

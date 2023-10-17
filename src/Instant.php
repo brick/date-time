@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Brick\DateTime;
 
 use JsonSerializable;
+use Stringable;
 
 use function assert;
 use function is_int;
@@ -22,7 +23,7 @@ use const STR_PAD_LEFT;
  * without any calendar concept of date, time or time zone. It is not very meaningful to humans,
  * but can be converted to a `ZonedDateTime` by providing a time zone.
  */
-final class Instant implements JsonSerializable
+final class Instant implements JsonSerializable, Stringable
 {
     /**
      * The number of seconds since the epoch of 1970-01-01T00:00:00Z.

@@ -13,6 +13,7 @@ use DateTime;
 use DateTimeImmutable;
 use DateTimeInterface;
 use JsonSerializable;
+use Stringable;
 
 use function intdiv;
 use function min;
@@ -25,7 +26,7 @@ use const STR_PAD_LEFT;
  *
  * This class is immutable.
  */
-final class LocalDate implements JsonSerializable
+final class LocalDate implements JsonSerializable, Stringable
 {
     /**
      * The minimum supported year for instances of `LocalDate`, -999,999.

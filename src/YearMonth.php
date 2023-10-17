@@ -10,6 +10,7 @@ use Brick\DateTime\Parser\DateTimeParseResult;
 use Brick\DateTime\Parser\IsoParsers;
 use Brick\DateTime\Utility\Math;
 use JsonSerializable;
+use Stringable;
 
 use function str_pad;
 
@@ -18,7 +19,7 @@ use const STR_PAD_LEFT;
 /**
  * Represents the combination of a year and a month.
  */
-final class YearMonth implements JsonSerializable
+final class YearMonth implements JsonSerializable, Stringable
 {
     /**
      * The year, from MIN_YEAR to MAX_YEAR.

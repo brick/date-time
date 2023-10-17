@@ -12,6 +12,7 @@ use DateTime;
 use DateTimeImmutable;
 use DateTimeInterface;
 use JsonSerializable;
+use Stringable;
 
 use function intdiv;
 
@@ -21,7 +22,7 @@ use function intdiv;
  * A ZonedDateTime can be viewed as a LocalDateTime along with a time zone
  * and targets a specific point in time.
  */
-class ZonedDateTime implements JsonSerializable
+class ZonedDateTime implements JsonSerializable, Stringable
 {
     /**
      * The local date-time.

@@ -9,11 +9,12 @@ use Brick\DateTime\Parser\DateTimeParser;
 use Brick\DateTime\Parser\DateTimeParseResult;
 use Brick\DateTime\Parser\IsoParsers;
 use JsonSerializable;
+use Stringable;
 
 /**
  * A month-day in the ISO-8601 calendar system, such as `--12-03`.
  */
-final class MonthDay implements JsonSerializable
+final class MonthDay implements JsonSerializable, Stringable
 {
     /**
      * The month-of-year, from 1 to 12.
