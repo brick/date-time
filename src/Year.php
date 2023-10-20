@@ -10,6 +10,10 @@ use Brick\DateTime\Parser\DateTimeParseResult;
 use Brick\DateTime\Parser\IsoParsers;
 use JsonSerializable;
 
+use function str_pad;
+
+use const STR_PAD_LEFT;
+
 /**
  * Represents a year in the proleptic calendar.
  */
@@ -281,7 +285,14 @@ final class Year implements JsonSerializable
      */
     public function toISOString(): string
     {
-        return (string) $this->year;
+        // This code is optimized for high performance
+        return $this->year < 1000 && $this->year > -1000
+            ? (
+                $this->year < 0
+                ? '-' . str_pad((string) -$this->year, 4, '0', STR_PAD_LEFT)
+                : str_pad((string) $this->year, 4, '0', STR_PAD_LEFT)
+            )
+            : (string) $this->year;
     }
 
     /**

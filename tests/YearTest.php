@@ -516,7 +516,9 @@ class YearTest extends AbstractTestCase
     public function providerToString(): array
     {
         return [
-            [-100, '-100'],
+            [-100, '-0100'],
+            [100, '0100'],
+            [0, '0000'],
             [1987, '1987'],
             [105781, '105781'],
         ];
