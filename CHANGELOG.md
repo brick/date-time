@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.5.5](https://github.com/brick/date-time/releases/tag/0.5.5) - 2023-10-20
+
+🐛 **Bug fixes**
+
+- `Year::toISOString()` / `__toString()` did not respect ISO 8601; years with less than 4 digits are now left-padded with zeros ([#90](https://github.com/brick/date-time/pull/90))
+
+Thanks to [@andreaswolf](https://github.com/andreaswolf)!
+
 ## [0.5.4](https://github.com/brick/date-time/releases/tag/0.5.4) - 2023-10-16
 
 🐛 **Bug fixes**
