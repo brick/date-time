@@ -18,6 +18,7 @@
         "vimeo/psalm": "5.15.0"
     },
     "suggest": {
+        "ext-intl": "This extension is required for locale-based formatting",
         "ext-timezonedb": "This PECL extension provides up-to-date timezone information"
     },
     "autoload": {

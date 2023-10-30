@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Brick\DateTime;
 
+use Brick\DateTime\Formatter\DateTimeFormatContext;
+use Brick\DateTime\Formatter\DateTimeFormatter;
 use Brick\DateTime\Parser\DateTimeParseException;
 use Brick\DateTime\Parser\DateTimeParser;
 use Brick\DateTime\Parser\DateTimeParseResult;
@@ -775,6 +777,16 @@ final class LocalDate implements JsonSerializable, Stringable
     public function jsonSerialize(): string
     {
         return $this->toISOString();
+    }
+
+    /**
+     * Formats this LocalDate using given DateTimeFormatter.
+     */
+    public function format(DateTimeFormatter $formatter): string
+    {
+        $context = DateTimeFormatContext::ofLocalDate($this);
+
+        return $formatter->format($context);
     }
 
     /**

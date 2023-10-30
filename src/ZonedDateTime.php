@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Brick\DateTime;
 
+use Brick\DateTime\Formatter\DateTimeFormatContext;
+use Brick\DateTime\Formatter\DateTimeFormatter;
 use Brick\DateTime\Parser\DateTimeParseException;
 use Brick\DateTime\Parser\DateTimeParser;
 use Brick\DateTime\Parser\DateTimeParseResult;
@@ -728,6 +730,16 @@ class ZonedDateTime implements JsonSerializable, Stringable
     public function toNativeDateTimeImmutable(): DateTimeImmutable
     {
         return DateTimeImmutable::createFromMutable($this->toNativeDateTime());
+    }
+
+    /**
+     * Formats this ZonedDateTime using given DateTimeFormatter.
+     */
+    public function format(DateTimeFormatter $formatter): string
+    {
+        $context = DateTimeFormatContext::ofZonedDateTime($this);
+
+        return $formatter->format($context);
     }
 
     /**
