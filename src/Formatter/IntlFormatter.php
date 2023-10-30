@@ -19,8 +19,6 @@ use function in_array;
 use function sprintf;
 use function str_split;
 
-use const PHP_VERSION_ID;
-
 /**
  * Formats the value using the Intl extension.
  */
@@ -88,10 +86,6 @@ final class IntlFormatter implements DateTimeFormatter
      */
     public static function ofSkeleton(string $locale, string $skeleton): self
     {
-        if (PHP_VERSION_ID < 80100) {
-            throw new DateTimeFormatException('IntlFormatter::ofSkeleton() is only available in PHP 8.1 and above.');
-        }
-
         $generator = new IntlDatePatternGenerator($locale);
         $pattern = $generator->getBestPattern($skeleton);
 

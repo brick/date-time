@@ -35,7 +35,7 @@ class NativeFormatterTest extends AbstractTestCase
         }
 
         $formatted = $value->format($formatter);
-        $this->assertSame($expectedResult, $formatted);
+        self::assertSame($expectedResult, $formatted);
     }
 
     public function provideTestFormatData(): iterable

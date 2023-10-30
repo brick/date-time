@@ -651,15 +651,15 @@ final class LocalTime implements JsonSerializable, Stringable
         return $this->toISOString();
     }
 
-	/**
-	 * Formats this LocalTime using given DateTimeFormatter.
-	 */
-	public function format(DateTimeFormatter $formatter): string
-	{
-		$context = DateTimeFormatContext::ofLocalTime($this);
+    /**
+     * Formats this LocalTime using given DateTimeFormatter.
+     */
+    public function format(DateTimeFormatter $formatter): string
+    {
+        $context = DateTimeFormatContext::ofLocalTime($this);
 
-		return $formatter->format($context);
-	}
+        return $formatter->format($context);
+    }
 
     /**
      * Returns the ISO 8601 representation of this time.

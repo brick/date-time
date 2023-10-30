@@ -35,7 +35,7 @@ class IntlFormatterTest extends AbstractTestCase
         }
 
         $formatted = $value->format($formatter);
-        $this->assertSame($expectedResult, $formatted);
+        self::assertSame($expectedResult, $formatted);
     }
 
     public function provideTestOfDateData(): iterable
@@ -72,7 +72,7 @@ class IntlFormatterTest extends AbstractTestCase
         }
 
         $formatted = $value->format($formatter);
-        $this->assertSame($expectedResult, $formatted);
+        self::assertSame($expectedResult, $formatted);
     }
 
     public function provideTestOfDateTimeData(): iterable
@@ -83,23 +83,23 @@ class IntlFormatterTest extends AbstractTestCase
         $dateTime = LocalDateTime::of(2022, 6, 8, 13, 37, 42, 999999999);
         yield [$dateTime, IntlFormatter::FULL, IntlFormatter::FULL, new DateTimeFormatException('IntlFormatter with a long or full time part cannot be used to format Brick\DateTime\LocalDateTime.')];
         yield [$dateTime, IntlFormatter::FULL, IntlFormatter::LONG, new DateTimeFormatException('IntlFormatter with a long or full time part cannot be used to format Brick\DateTime\LocalDateTime.')];
-        yield [$dateTime, IntlFormatter::FULL, IntlFormatter::MEDIUM, 'Wednesday, June 8, 2022 at 1:37:42 PM'];
-        yield [$dateTime, IntlFormatter::FULL, IntlFormatter::SHORT, 'Wednesday, June 8, 2022 at 1:37 PM'];
-        yield [$dateTime, IntlFormatter::LONG, IntlFormatter::SHORT, 'June 8, 2022 at 1:37 PM'];
-        yield [$dateTime, IntlFormatter::MEDIUM, IntlFormatter::MEDIUM, 'Jun 8, 2022, 1:37:42 PM'];
+        yield [$dateTime, IntlFormatter::FULL, IntlFormatter::MEDIUM, 'Wednesday, June 8, 2022 at 1:37:42 PM'];
+        yield [$dateTime, IntlFormatter::FULL, IntlFormatter::SHORT, 'Wednesday, June 8, 2022 at 1:37 PM'];
+        yield [$dateTime, IntlFormatter::LONG, IntlFormatter::SHORT, 'June 8, 2022 at 1:37 PM'];
+        yield [$dateTime, IntlFormatter::MEDIUM, IntlFormatter::MEDIUM, 'Jun 8, 2022, 1:37:42 PM'];
         yield [$dateTime, IntlFormatter::SHORT, IntlFormatter::LONG, new DateTimeFormatException('IntlFormatter with a long or full time part cannot be used to format Brick\DateTime\LocalDateTime.')];
 
         $time = LocalTime::of(13, 37, 42, 999999999);
         yield [$time, IntlFormatter::FULL, IntlFormatter::FULL, new DateTimeFormatException('IntlFormatter with a date part cannot be used to format Brick\DateTime\LocalTime.')];
 
         $zoned = ZonedDateTime::of($dateTime, TimeZoneRegion::of('Europe/Prague'));
-        yield [$zoned, IntlFormatter::FULL, IntlFormatter::FULL, 'Wednesday, June 8, 2022 at 1:37:42 PM Central European Summer Time'];
-        yield [$zoned, IntlFormatter::FULL, IntlFormatter::LONG, 'Wednesday, June 8, 2022 at 1:37:42 PM GMT+2'];
-        yield [$zoned, IntlFormatter::FULL, IntlFormatter::MEDIUM, 'Wednesday, June 8, 2022 at 1:37:42 PM'];
-        yield [$zoned, IntlFormatter::FULL, IntlFormatter::SHORT, 'Wednesday, June 8, 2022 at 1:37 PM'];
-        yield [$zoned, IntlFormatter::LONG, IntlFormatter::SHORT, 'June 8, 2022 at 1:37 PM'];
-        yield [$zoned, IntlFormatter::MEDIUM, IntlFormatter::MEDIUM, 'Jun 8, 2022, 1:37:42 PM'];
-        yield [$zoned, IntlFormatter::SHORT, IntlFormatter::LONG, '6/8/22, 1:37:42 PM GMT+2'];
+        yield [$zoned, IntlFormatter::FULL, IntlFormatter::FULL, 'Wednesday, June 8, 2022 at 1:37:42 PM Central European Summer Time'];
+        yield [$zoned, IntlFormatter::FULL, IntlFormatter::LONG, 'Wednesday, June 8, 2022 at 1:37:42 PM GMT+2'];
+        yield [$zoned, IntlFormatter::FULL, IntlFormatter::MEDIUM, 'Wednesday, June 8, 2022 at 1:37:42 PM'];
+        yield [$zoned, IntlFormatter::FULL, IntlFormatter::SHORT, 'Wednesday, June 8, 2022 at 1:37 PM'];
+        yield [$zoned, IntlFormatter::LONG, IntlFormatter::SHORT, 'June 8, 2022 at 1:37 PM'];
+        yield [$zoned, IntlFormatter::MEDIUM, IntlFormatter::MEDIUM, 'Jun 8, 2022, 1:37:42 PM'];
+        yield [$zoned, IntlFormatter::SHORT, IntlFormatter::LONG, '6/8/22, 1:37:42 PM GMT+2'];
     }
 
     /**
@@ -118,7 +118,7 @@ class IntlFormatterTest extends AbstractTestCase
         }
 
         $formatted = $value->format($formatter);
-        $this->assertSame($expectedResult, $formatted);
+        self::assertSame($expectedResult, $formatted);
     }
 
     public function provideTestOfTimeData(): iterable
@@ -132,11 +132,11 @@ class IntlFormatterTest extends AbstractTestCase
         $time = LocalTime::of(13, 37, 42, 999999999);
         yield [$time, IntlFormatter::FULL, new DateTimeFormatException('IntlFormatter with a long or full time part cannot be used to format Brick\DateTime\LocalTime.')];
         yield [$time, IntlFormatter::LONG, new DateTimeFormatException('IntlFormatter with a long or full time part cannot be used to format Brick\DateTime\LocalTime.')];
-        yield [$time, IntlFormatter::MEDIUM, '1:37:42 PM'];
-        yield [$time, IntlFormatter::SHORT, '1:37 PM'];
+        yield [$time, IntlFormatter::MEDIUM, '1:37:42 PM'];
+        yield [$time, IntlFormatter::SHORT, '1:37 PM'];
 
         $zoned = ZonedDateTime::of($dateTime, TimeZoneRegion::of('Europe/Prague'));
-        yield [$zoned, IntlFormatter::FULL, '1:37:42 PM Central European Summer Time'];
+        yield [$zoned, IntlFormatter::FULL, '1:37:42 PM Central European Summer Time'];
     }
 
     /**
@@ -155,7 +155,7 @@ class IntlFormatterTest extends AbstractTestCase
         }
 
         $formatted = $value->format($formatter);
-        $this->assertSame($expectedResult, $formatted);
+        self::assertSame($expectedResult, $formatted);
     }
 
     public function provideTestOfPatternData(): iterable
@@ -204,7 +204,7 @@ class IntlFormatterTest extends AbstractTestCase
         }
 
         $formatted = $value->format($formatter);
-        $this->assertSame($expectedResult, $formatted);
+        self::assertSame($expectedResult, $formatted);
     }
 
     public function provideTestOfSkeletonData(): iterable
