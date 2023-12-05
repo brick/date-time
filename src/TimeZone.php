@@ -48,6 +48,8 @@ abstract class TimeZone implements Stringable
 
     /**
      * Returns the unique time-zone ID.
+     *
+     * @psalm-return non-empty-string
      */
     abstract public function getId(): string;
 

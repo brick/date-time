@@ -21,6 +21,8 @@ final class TimeZoneOffset extends TimeZone
      * The string representation of this time-zone offset.
      *
      * This is generated on-the-fly, and will be null before the first call to getId().
+     *
+     * @psalm-var non-empty-string|null
      */
     private ?string $id = null;
 
