@@ -15,7 +15,7 @@ use DateTimeZone;
  */
 final class TimeZoneOffset extends TimeZone
 {
-    private int $totalSeconds;
+    private readonly int $totalSeconds;
 
     /**
      * The string representation of this time-zone offset.

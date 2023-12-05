@@ -13,6 +13,8 @@ use Brick\DateTime\TimeZone;
 
 use function json_encode;
 
+use const JSON_THROW_ON_ERROR;
+
 /**
  * Unit tests for class MonthDay.
  */
@@ -473,7 +475,7 @@ class MonthDayTest extends AbstractTestCase
      */
     public function testJsonSerialize(int $month, int $day, string $string): void
     {
-        self::assertSame(json_encode($string), json_encode(MonthDay::of($month, $day)));
+        self::assertSame(json_encode($string, JSON_THROW_ON_ERROR), json_encode(MonthDay::of($month, $day), JSON_THROW_ON_ERROR));
     }
 
     /**

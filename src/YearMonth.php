@@ -10,6 +10,7 @@ use Brick\DateTime\Parser\DateTimeParseResult;
 use Brick\DateTime\Parser\IsoParsers;
 use Brick\DateTime\Utility\Math;
 use JsonSerializable;
+use Stringable;
 
 use function str_pad;
 
@@ -18,17 +19,17 @@ use const STR_PAD_LEFT;
 /**
  * Represents the combination of a year and a month.
  */
-final class YearMonth implements JsonSerializable
+final class YearMonth implements JsonSerializable, Stringable
 {
     /**
      * The year, from MIN_YEAR to MAX_YEAR.
      */
-    private int $year;
+    private readonly int $year;
 
     /**
      * The month, from 1 to 12.
      */
-    private int $month;
+    private readonly int $month;
 
     /**
      * @param int $year  The year, validated from MIN_YEAR to MAX_YEAR.
@@ -95,7 +96,7 @@ final class YearMonth implements JsonSerializable
     {
         $localDate = LocalDate::now($timeZone, $clock);
 
-        return new YearMonth($localDate->getYear(), $localDate->getMonth());
+        return new YearMonth($localDate->getYear(), $localDate->getMonthValue());
     }
 
     public function getYear(): int
@@ -103,7 +104,19 @@ final class YearMonth implements JsonSerializable
         return $this->year;
     }
 
+    /**
+     * @deprecated Use getMonthValue() instead.
+     *             In a future version, getMonth() will return the Month enum.
+     */
     public function getMonth(): int
+    {
+        return $this->month;
+    }
+
+    /**
+     * Returns the month-of-year value from 1 to 12.
+     */
+    public function getMonthValue(): int
     {
         return $this->month;
     }
@@ -121,7 +134,7 @@ final class YearMonth implements JsonSerializable
      */
     public function getLengthOfMonth(): int
     {
-        return Month::of($this->month)->getLength($this->isLeapYear());
+        return Month::from($this->month)->getLength($this->isLeapYear());
     }
 
     /**

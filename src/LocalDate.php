@@ -13,6 +13,7 @@ use DateTime;
 use DateTimeImmutable;
 use DateTimeInterface;
 use JsonSerializable;
+use Stringable;
 
 use function intdiv;
 use function min;
@@ -25,7 +26,7 @@ use const STR_PAD_LEFT;
  *
  * This class is immutable.
  */
-final class LocalDate implements JsonSerializable
+final class LocalDate implements JsonSerializable, Stringable
 {
     /**
      * The minimum supported year for instances of `LocalDate`, -999,999.
@@ -50,17 +51,17 @@ final class LocalDate implements JsonSerializable
     /**
      * The year.
      */
-    private int $year;
+    private readonly int $year;
 
     /**
      * The month-of-year.
      */
-    private int $month;
+    private readonly int $month;
 
     /**
      * The day-of-month.
      */
-    private int $day;
+    private readonly int $day;
 
     /**
      * Private constructor. Use of() to obtain an instance.
@@ -109,7 +110,7 @@ final class LocalDate implements JsonSerializable
 
         $isLeap = Field\Year::isLeap($year);
 
-        $monthOfYear = Month::of(intdiv($dayOfYear - 1, 31) + 1);
+        $monthOfYear = Month::from(intdiv($dayOfYear - 1, 31) + 1);
         $monthEnd = $monthOfYear->getFirstDayOfYear($isLeap) + $monthOfYear->getLength($isLeap) - 1;
 
         if ($dayOfYear > $monthEnd) {
@@ -118,7 +119,7 @@ final class LocalDate implements JsonSerializable
 
         $dayOfMonth = $dayOfYear - $monthOfYear->getFirstDayOfYear($isLeap) + 1;
 
-        return LocalDate::of($year, $monthOfYear->getValue(), $dayOfMonth);
+        return LocalDate::of($year, $monthOfYear->value, $dayOfMonth);
     }
 
     /**
@@ -307,12 +308,32 @@ final class LocalDate implements JsonSerializable
         return $this->year;
     }
 
+    /**
+     * @deprecated Use getMonthValue() instead.
+     *             In a future version, getMonth() will return the Month enum.
+     */
     public function getMonth(): int
     {
         return $this->month;
     }
 
+    /**
+     * Returns the month-of-year value from 1 to 12.
+     */
+    public function getMonthValue(): int
+    {
+        return $this->month;
+    }
+
+    /**
+     * @deprecated Use getDayOfMonth() instead.
+     */
     public function getDay(): int
+    {
+        return $this->day;
+    }
+
+    public function getDayOfMonth(): int
     {
         return $this->day;
     }
@@ -324,7 +345,7 @@ final class LocalDate implements JsonSerializable
 
     public function getDayOfWeek(): DayOfWeek
     {
-        return DayOfWeek::of(Math::floorMod($this->toEpochDay() + 3, 7) + 1);
+        return DayOfWeek::from(Math::floorMod($this->toEpochDay() + 3, 7) + 1);
     }
 
     /**
@@ -332,13 +353,13 @@ final class LocalDate implements JsonSerializable
      */
     public function getDayOfYear(): int
     {
-        return Month::of($this->month)->getFirstDayOfYear($this->isLeapYear()) + $this->day - 1;
+        return Month::from($this->month)->getFirstDayOfYear($this->isLeapYear()) + $this->day - 1;
     }
 
     public function getYearWeek(): YearWeek
     {
         $year = $this->year;
-        $week = intdiv($this->getDayOfYear() - $this->getDayOfWeek()->getValue() + 10, 7);
+        $week = intdiv($this->getDayOfYear() - $this->getDayOfWeek()->value + 10, 7);
 
         if ($week === 0) {
             $year--;

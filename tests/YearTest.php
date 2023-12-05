@@ -13,6 +13,7 @@ use Brick\DateTime\Year;
 
 use function json_encode;
 
+use const JSON_THROW_ON_ERROR;
 use const PHP_INT_MAX;
 use const PHP_INT_MIN;
 
@@ -498,7 +499,7 @@ class YearTest extends AbstractTestCase
     /** @dataProvider providerToString */
     public function testJsonSerialize(int $year, string $expectedString): void
     {
-        self::assertSame(json_encode($expectedString), json_encode(Year::of($year)));
+        self::assertSame(json_encode($expectedString, JSON_THROW_ON_ERROR), json_encode(Year::of($year), JSON_THROW_ON_ERROR));
     }
 
     /** @dataProvider providerToString */

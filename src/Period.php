@@ -6,6 +6,7 @@ namespace Brick\DateTime;
 
 use DateInterval;
 use JsonSerializable;
+use Stringable;
 
 use function intdiv;
 use function preg_match;
@@ -16,13 +17,13 @@ use function sprintf;
  *
  * This class is immutable.
  */
-final class Period implements JsonSerializable
+final class Period implements JsonSerializable, Stringable
 {
-    private int $years;
+    private readonly int $years;
 
-    private int $months;
+    private readonly int $months;
 
-    private int $days;
+    private readonly int $days;
 
     /**
      * Private constructor. Use of() to obtain an instance.

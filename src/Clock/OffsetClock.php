@@ -16,12 +16,12 @@ final class OffsetClock implements Clock
     /**
      * The reference clock.
      */
-    private Clock $referenceClock;
+    private readonly Clock $referenceClock;
 
     /**
      * The offset to apply to the clock.
      */
-    private Duration $offset;
+    private readonly Duration $offset;
 
     /**
      * @param Clock    $referenceClock The reference clock.

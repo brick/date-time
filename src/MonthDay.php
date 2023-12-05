@@ -9,21 +9,22 @@ use Brick\DateTime\Parser\DateTimeParser;
 use Brick\DateTime\Parser\DateTimeParseResult;
 use Brick\DateTime\Parser\IsoParsers;
 use JsonSerializable;
+use Stringable;
 
 /**
  * A month-day in the ISO-8601 calendar system, such as `--12-03`.
  */
-final class MonthDay implements JsonSerializable
+final class MonthDay implements JsonSerializable, Stringable
 {
     /**
      * The month-of-year, from 1 to 12.
      */
-    private int $month;
+    private readonly int $month;
 
     /**
      * The day-of-month, from 1 to 31.
      */
-    private int $day;
+    private readonly int $day;
 
     /**
      * Private constructor. Use of() to obtain an instance.
@@ -92,11 +93,12 @@ final class MonthDay implements JsonSerializable
     {
         $date = LocalDate::now($timeZone, $clock);
 
-        return new MonthDay($date->getMonth(), $date->getDay());
+        return new MonthDay($date->getMonthValue(), $date->getDayOfMonth());
     }
 
     /**
-     * Returns the month-of-year.
+     * @deprecated Use getMonthValue() instead.
+     *             In a future version, getMonth() will return the Month enum.
      */
     public function getMonth(): int
     {
@@ -104,9 +106,25 @@ final class MonthDay implements JsonSerializable
     }
 
     /**
-     * Returns the day-of-month.
+     * Returns the month-of-year value from 1 to 12.
+     */
+    public function getMonthValue(): int
+    {
+        return $this->month;
+    }
+
+    /**
+     * @deprecated Use getDayOfMonth() instead.
      */
     public function getDay(): int
+    {
+        return $this->day;
+    }
+
+    /**
+     * Returns the day-of-month.
+     */
+    public function getDayOfMonth(): int
     {
         return $this->day;
     }

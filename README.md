@@ -55,9 +55,9 @@ Overview
 
 ### Main classes
 
-The following classes represent the date-time concepts:
+The following classes/enums represent the date-time concepts:
 
-- `DayOfWeek`: a day-of-week such as Monday
+- `DayOfWeek`: a day-of-week such as Monday (`enum`)
 - `Duration`: a duration measured in seconds and nanoseconds
 - `Instant`: a point in time, with a nanosecond precision
 - `Interval`: a period of time between two instants
@@ -65,7 +65,7 @@ The following classes represent the date-time concepts:
 - `LocalDateRange`: an inclusive range of local dates, such as `2014-01-01/2014-12-31`
 - `LocalDateTime`: a date-time without a time-zone, such as `2014-08-31T10:15:30`
 - `LocalTime`: an isolated time such as `10:15:30`
-- `Month`: a month-of-year such as January
+- `Month`: a month-of-year such as January (`enum`)
 - `MonthDay`: a combination of a month and a day, without a year, such as `--12-31`
 - `Period`: a date-based amount of time, such as '2 years, 3 months and 4 days'
 - `TimeZoneOffset`: an offset-based time-zone, such as `+01:00`

@@ -14,6 +14,7 @@ use DatePeriod;
 use Generator;
 use IteratorAggregate;
 use JsonSerializable;
+use Stringable;
 
 /**
  * Represents an inclusive range of local dates.
@@ -23,17 +24,17 @@ use JsonSerializable;
  *
  * @template-implements IteratorAggregate<LocalDate>
  */
-final class LocalDateRange implements IteratorAggregate, Countable, JsonSerializable
+final class LocalDateRange implements IteratorAggregate, Countable, JsonSerializable, Stringable
 {
     /**
      * The start date, inclusive.
      */
-    private LocalDate $start;
+    private readonly LocalDate $start;
 
     /**
      * The end date, inclusive.
      */
-    private LocalDate $end;
+    private readonly LocalDate $end;
 
     /**
      * @param LocalDate $start The start date, inclusive.

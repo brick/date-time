@@ -6,6 +6,7 @@ namespace Brick\DateTime\Tests;
 
 use Brick\DateTime\Clock\FixedClock;
 use Brick\DateTime\DateTimeException;
+use Brick\DateTime\DayOfWeek;
 use Brick\DateTime\Duration;
 use Brick\DateTime\Field\Year;
 use Brick\DateTime\Instant;
@@ -20,6 +21,8 @@ use DateTime;
 use DateTimeImmutable;
 
 use function json_encode;
+
+use const JSON_THROW_ON_ERROR;
 
 /**
  * Unit tests for class LocalDateTime.
@@ -198,34 +201,34 @@ class LocalDateTimeTest extends AbstractTestCase
     /**
      * @dataProvider providerGetDayOfWeek
      *
-     * @param int $year      The year to test.
-     * @param int $month     The month to test.
-     * @param int $day       The day-of-month to test.
-     * @param int $dayOfWeek The expected day-of-week number.
+     * @param int       $year      The year to test.
+     * @param int       $month     The month to test.
+     * @param int       $day       The day-of-month to test.
+     * @param DayOfWeek $dayOfWeek The expected day-of-week.
      */
-    public function testGetDayOfWeek(int $year, int $month, int $day, int $dayOfWeek): void
+    public function testGetDayOfWeek(int $year, int $month, int $day, DayOfWeek $dayOfWeek): void
     {
         $dateTime = LocalDateTime::of($year, $month, $day, 15, 30, 45);
-        self::assertDayOfWeekIs($dayOfWeek, $dateTime->getDayOfWeek());
+        self::assertSame($dayOfWeek, $dateTime->getDayOfWeek());
     }
 
     public function providerGetDayOfWeek(): array
     {
         return [
-            [2000, 1, 3, 1],
-            [2000, 2, 8, 2],
-            [2000, 3, 8, 3],
-            [2000, 4, 6, 4],
-            [2000, 5, 5, 5],
-            [2000, 6, 3, 6],
-            [2000, 7, 9, 7],
-            [2001, 1, 1, 1],
-            [2001, 2, 6, 2],
-            [2001, 3, 7, 3],
-            [2001, 4, 5, 4],
-            [2001, 5, 4, 5],
-            [2001, 6, 9, 6],
-            [2001, 7, 8, 7],
+            [2000, 1, 3, DayOfWeek::MONDAY],
+            [2000, 2, 8, DayOfWeek::TUESDAY],
+            [2000, 3, 8, DayOfWeek::WEDNESDAY],
+            [2000, 4, 6, DayOfWeek::THURSDAY],
+            [2000, 5, 5, DayOfWeek::FRIDAY],
+            [2000, 6, 3, DayOfWeek::SATURDAY],
+            [2000, 7, 9, DayOfWeek::SUNDAY],
+            [2001, 1, 1, DayOfWeek::MONDAY],
+            [2001, 2, 6, DayOfWeek::TUESDAY],
+            [2001, 3, 7, DayOfWeek::WEDNESDAY],
+            [2001, 4, 5, DayOfWeek::THURSDAY],
+            [2001, 5, 4, DayOfWeek::FRIDAY],
+            [2001, 6, 9, DayOfWeek::SATURDAY],
+            [2001, 7, 8, DayOfWeek::SUNDAY],
         ];
     }
 
@@ -1217,7 +1220,7 @@ class LocalDateTimeTest extends AbstractTestCase
      */
     public function testJsonSerialize(int $year, int $month, int $day, int $hour, int $minute, int $second, int $nano, string $expected): void
     {
-        self::assertSame(json_encode($expected), json_encode(LocalDateTime::of($year, $month, $day, $hour, $minute, $second, $nano)));
+        self::assertSame(json_encode($expected, JSON_THROW_ON_ERROR), json_encode(LocalDateTime::of($year, $month, $day, $hour, $minute, $second, $nano), JSON_THROW_ON_ERROR));
     }
 
     /**

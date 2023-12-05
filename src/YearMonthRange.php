@@ -12,6 +12,7 @@ use Countable;
 use Generator;
 use IteratorAggregate;
 use JsonSerializable;
+use Stringable;
 
 /**
  * Represents an inclusive range of year-months.
@@ -21,17 +22,17 @@ use JsonSerializable;
  *
  * @template-implements IteratorAggregate<YearMonth>
  */
-class YearMonthRange implements IteratorAggregate, Countable, JsonSerializable
+class YearMonthRange implements IteratorAggregate, Countable, JsonSerializable, Stringable
 {
     /**
      * The start year-month, inclusive.
      */
-    private YearMonth $start;
+    private readonly YearMonth $start;
 
     /**
      * The end year-month, inclusive.
      */
-    private YearMonth $end;
+    private readonly YearMonth $end;
 
     /**
      * @param YearMonth $start The start year-month, inclusive.
@@ -164,7 +165,7 @@ class YearMonthRange implements IteratorAggregate, Countable, JsonSerializable
     public function count(): int
     {
         return 12 * ($this->end->getYear() - $this->start->getYear())
-            + ($this->end->getMonth() - $this->start->getMonth())
+            + ($this->end->getMonthValue() - $this->start->getMonthValue())
             + 1;
     }
 

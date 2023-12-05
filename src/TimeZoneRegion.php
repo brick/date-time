@@ -12,15 +12,12 @@ use DateTime;
 use DateTimeZone;
 use Exception;
 
-use function assert;
-use function is_array;
-
 /**
  * A geographical region where the same time-zone rules apply, such as `Europe/London`.
  */
 final class TimeZoneRegion extends TimeZone
 {
-    private DateTimeZone $zone;
+    private readonly DateTimeZone $zone;
 
     /**
      * Private constructor. Use a factory method to obtain an instance.
@@ -69,15 +66,11 @@ final class TimeZoneRegion extends TimeZone
      */
     public static function getAllIdentifiers(bool $includeObsolete = false): array
     {
-        $identifiers = DateTimeZone::listIdentifiers(
+        return DateTimeZone::listIdentifiers(
             $includeObsolete
                 ? DateTimeZone::ALL_WITH_BC
                 : DateTimeZone::ALL
         );
-
-        assert(is_array($identifiers));
-
-        return $identifiers;
     }
 
     /**
@@ -91,11 +84,7 @@ final class TimeZoneRegion extends TimeZone
      */
     public static function getIdentifiersForCountry(string $countryCode): array
     {
-        $identifiers = DateTimeZone::listIdentifiers(DateTimeZone::PER_COUNTRY, $countryCode);
-
-        assert(is_array($identifiers));
-
-        return $identifiers;
+        return DateTimeZone::listIdentifiers(DateTimeZone::PER_COUNTRY, $countryCode);
     }
 
     /**

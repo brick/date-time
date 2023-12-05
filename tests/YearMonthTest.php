@@ -12,6 +12,8 @@ use Brick\DateTime\YearMonth;
 
 use function json_encode;
 
+use const JSON_THROW_ON_ERROR;
+
 /**
  * Unit tests for class YearMonth.
  */
@@ -464,7 +466,7 @@ class YearMonthTest extends AbstractTestCase
      */
     public function testJsonSerialize(int $year, int $month, string $expectedString): void
     {
-        self::assertSame(json_encode($expectedString), json_encode(YearMonth::of($year, $month)));
+        self::assertSame(json_encode($expectedString, JSON_THROW_ON_ERROR), json_encode(YearMonth::of($year, $month), JSON_THROW_ON_ERROR));
     }
 
     /**

@@ -15,6 +15,7 @@ use function count;
 use function intdiv;
 use function json_encode;
 
+use const JSON_THROW_ON_ERROR;
 use const PHP_INT_MAX;
 use const PHP_INT_MIN;
 
@@ -1279,7 +1280,7 @@ class DurationTest extends AbstractTestCase
      */
     public function testJsonSerialize(int $seconds, int $nanos, string $expected): void
     {
-        self::assertSame(json_encode($expected), json_encode(Duration::ofSeconds($seconds, $nanos)));
+        self::assertSame(json_encode($expected, JSON_THROW_ON_ERROR), json_encode(Duration::ofSeconds($seconds, $nanos), JSON_THROW_ON_ERROR));
     }
 
     /**

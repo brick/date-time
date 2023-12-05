@@ -11,6 +11,8 @@ use Brick\DateTime\YearMonthRange;
 
 use function json_encode;
 
+use const JSON_THROW_ON_ERROR;
+
 /**
  * Unit tests for class YearMonthRange.
  */
@@ -205,7 +207,7 @@ class YearMonthRangeTest extends AbstractTestCase
             YearMonth::of($yearEnd, $monthEnd)
         );
 
-        self::assertSame(json_encode($expectedString), json_encode($yearMonthRange));
+        self::assertSame(json_encode($expectedString, JSON_THROW_ON_ERROR), json_encode($yearMonthRange, JSON_THROW_ON_ERROR));
     }
 
     /** @dataProvider providerToString */

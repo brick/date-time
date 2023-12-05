@@ -23,6 +23,7 @@ use DateTimeZone;
 
 use function json_encode;
 
+use const JSON_THROW_ON_ERROR;
 use const PHP_VERSION_ID;
 
 /**
@@ -525,7 +526,7 @@ class ZonedDateTimeTest extends AbstractTestCase
 
     public function testGetMonth(): void
     {
-        self::assertSame(1, $this->getTestZonedDateTime()->getMonth());
+        self::assertSame(1, $this->getTestZonedDateTime()->getMonthValue());
     }
 
     public function testGetDay(): void
@@ -533,9 +534,14 @@ class ZonedDateTimeTest extends AbstractTestCase
         self::assertSame(20, $this->getTestZonedDateTime()->getDay());
     }
 
+    public function testGetDayOfMonth(): void
+    {
+        self::assertSame(20, $this->getTestZonedDateTime()->getDayOfMonth());
+    }
+
     public function testGetDayOfWeek(): void
     {
-        self::assertDayOfWeekIs(DayOfWeek::THURSDAY, $this->getTestZonedDateTime()->getDayOfWeek());
+        self::assertSame(DayOfWeek::THURSDAY, $this->getTestZonedDateTime()->getDayOfWeek());
     }
 
     public function testGetDayOfYear(): void
@@ -820,7 +826,7 @@ class ZonedDateTimeTest extends AbstractTestCase
         $localDateTime = LocalDateTime::parse($localDateTime);
         $zonedDateTime = ZonedDateTime::of($localDateTime, TimeZone::parse($timeZone));
 
-        self::assertSame(json_encode($expectedString), json_encode($zonedDateTime));
+        self::assertSame(json_encode($expectedString, JSON_THROW_ON_ERROR), json_encode($zonedDateTime, JSON_THROW_ON_ERROR));
     }
 
     /** @dataProvider providerToString */

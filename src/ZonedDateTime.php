@@ -12,6 +12,7 @@ use DateTime;
 use DateTimeImmutable;
 use DateTimeInterface;
 use JsonSerializable;
+use Stringable;
 
 use function intdiv;
 
@@ -21,17 +22,17 @@ use function intdiv;
  * A ZonedDateTime can be viewed as a LocalDateTime along with a time zone
  * and targets a specific point in time.
  */
-class ZonedDateTime implements JsonSerializable
+class ZonedDateTime implements JsonSerializable, Stringable
 {
     /**
      * The local date-time.
      */
-    private LocalDateTime $localDateTime;
+    private readonly LocalDateTime $localDateTime;
 
     /**
      * The time-zone offset from UTC/Greenwich.
      */
-    private TimeZoneOffset $timeZoneOffset;
+    private readonly TimeZoneOffset $timeZoneOffset;
 
     /**
      * The time-zone.
@@ -39,12 +40,12 @@ class ZonedDateTime implements JsonSerializable
      * It is either a TimeZoneRegion if this ZonedDateTime is region-based,
      * or the same instance as the offset if this ZonedDateTime is offset-based.
      */
-    private TimeZone $timeZone;
+    private readonly TimeZone $timeZone;
 
     /**
      * The instant represented by this ZonedDateTime.
      */
-    private Instant $instant;
+    private readonly Instant $instant;
 
     /**
      * Private constructor. Use a factory method to obtain an instance.
@@ -247,14 +248,34 @@ class ZonedDateTime implements JsonSerializable
         return $this->localDateTime->getYear();
     }
 
+    /**
+     * @deprecated Use getMonthValue() instead.
+     *             In a future version, getMonth() will return the Month enum.
+     */
     public function getMonth(): int
     {
-        return $this->localDateTime->getMonth();
+        return $this->localDateTime->getMonthValue();
     }
 
+    /**
+     * Returns the month-of-year value from 1 to 12.
+     */
+    public function getMonthValue(): int
+    {
+        return $this->localDateTime->getMonthValue();
+    }
+
+    /**
+     * @deprecated Use getDayOfMonth() instead.
+     */
     public function getDay(): int
     {
-        return $this->localDateTime->getDay();
+        return $this->localDateTime->getDayOfMonth();
+    }
+
+    public function getDayOfMonth(): int
+    {
+        return $this->localDateTime->getDayOfMonth();
     }
 
     public function getDayOfWeek(): DayOfWeek

@@ -16,17 +16,17 @@ final class ScaleClock implements Clock
     /**
      * The reference clock.
      */
-    private Clock $referenceClock;
+    private readonly Clock $referenceClock;
 
     /**
      * The start time.
      */
-    private Instant $startTime;
+    private readonly Instant $startTime;
 
     /**
      * The time scale.
      */
-    private int $timeScale;
+    private readonly int $timeScale;
 
     /**
      * - a scale > 1 makes the time move at an accelerated pace;

@@ -16,6 +16,7 @@ use DateTime;
 use DateTimeImmutable;
 use DateTimeInterface;
 use JsonSerializable;
+use Stringable;
 
 use function intdiv;
 use function rtrim;
@@ -28,7 +29,7 @@ use const STR_PAD_LEFT;
  *
  * This class is immutable.
  */
-final class LocalTime implements JsonSerializable
+final class LocalTime implements JsonSerializable, Stringable
 {
     public const MONTHS_PER_YEAR = 12;
     public const DAYS_PER_WEEK = 7;
@@ -45,22 +46,22 @@ final class LocalTime implements JsonSerializable
     /**
      * The hour, in the range 0 to 23.
      */
-    private int $hour;
+    private readonly int $hour;
 
     /**
      * The minute, in the range 0 to 59.
      */
-    private int $minute;
+    private readonly int $minute;
 
     /**
      * The second, in the range 0 to 59.
      */
-    private int $second;
+    private readonly int $second;
 
     /**
      * The nanosecond, in the range 0 to 999,999,999.
      */
-    private int $nano;
+    private readonly int $nano;
 
     /**
      * Private constructor. Use of() to obtain an instance.

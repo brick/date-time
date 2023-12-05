@@ -13,6 +13,7 @@ use DateTime;
 use DateTimeImmutable;
 use DateTimeInterface;
 use JsonSerializable;
+use Stringable;
 
 use function intdiv;
 
@@ -21,11 +22,11 @@ use function intdiv;
  *
  * This class is immutable.
  */
-final class LocalDateTime implements JsonSerializable
+final class LocalDateTime implements JsonSerializable, Stringable
 {
-    private LocalDate $date;
+    private readonly LocalDate $date;
 
-    private LocalTime $time;
+    private readonly LocalTime $time;
 
     public function __construct(LocalDate $date, LocalTime $time)
     {
@@ -200,14 +201,34 @@ final class LocalDateTime implements JsonSerializable
         return $this->date->getYear();
     }
 
+    /**
+     * @deprecated Use getMonthValue() instead.
+     *             In a future version, getMonth() will return the Month enum.
+     */
     public function getMonth(): int
     {
-        return $this->date->getMonth();
+        return $this->date->getMonthValue();
     }
 
+    /**
+     * Returns the month-of-year value from 1 to 12.
+     */
+    public function getMonthValue(): int
+    {
+        return $this->date->getMonthValue();
+    }
+
+    /**
+     * @deprecated Use getDayOfMonth() instead.
+     */
     public function getDay(): int
     {
-        return $this->date->getDay();
+        return $this->date->getDayOfMonth();
+    }
+
+    public function getDayOfMonth(): int
+    {
+        return $this->date->getDayOfMonth();
     }
 
     public function getDayOfWeek(): DayOfWeek

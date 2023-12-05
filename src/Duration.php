@@ -7,6 +7,7 @@ namespace Brick\DateTime;
 use ArithmeticError;
 use Brick\DateTime\Utility\Math;
 use JsonSerializable;
+use Stringable;
 
 use function assert;
 use function intdiv;
@@ -23,19 +24,19 @@ use const STR_PAD_RIGHT;
  *
  * This class is immutable.
  */
-final class Duration implements JsonSerializable
+final class Duration implements JsonSerializable, Stringable
 {
     /**
      * The duration in seconds.
      */
-    private int $seconds;
+    private readonly int $seconds;
 
     /**
      * The nanoseconds adjustment to the duration, in the range 0 to 999,999,999.
      *
      * A duration of -1 nanoseconds is stored as -1 seconds plus 999,999,999 nanoseconds.
      */
-    private int $nanos;
+    private readonly int $nanos;
 
     /**
      * Private constructor. Use one of the factory methods to obtain a Duration.

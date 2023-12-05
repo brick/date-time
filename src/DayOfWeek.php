@@ -7,49 +7,41 @@ namespace Brick\DateTime;
 use JsonSerializable;
 
 /**
- * A day-of-week, such as Tuesday.
- *
- * This class is immutable.
+ * Represents a day-of-week such as Tuesday.
  */
-final class DayOfWeek implements JsonSerializable
+enum DayOfWeek: int implements JsonSerializable
 {
-    public const MONDAY = 1;
-    public const TUESDAY = 2;
-    public const WEDNESDAY = 3;
-    public const THURSDAY = 4;
-    public const FRIDAY = 5;
-    public const SATURDAY = 6;
-    public const SUNDAY = 7;
-
-    /**
-     * The ISO-8601 value for the day of the week, from 1 (Monday) to 7 (Sunday).
-     */
-    private int $value;
-
-    /**
-     * Private constructor. Use a factory method to obtain an instance.
-     *
-     * @param int $value The day-of-week value, validated from 1 to 7.
-     */
-    private function __construct(int $value)
-    {
-        $this->value = $value;
-    }
+    case MONDAY = 1;
+    case TUESDAY = 2;
+    case WEDNESDAY = 3;
+    case THURSDAY = 4;
+    case FRIDAY = 5;
+    case SATURDAY = 6;
+    case SUNDAY = 7;
 
     /**
      * Returns an instance of DayOfWeek for the given day-of-week value.
      *
-     * @param int $dayOfWeek The day-of-week value, from 1 (Monday) to 7 (Sunday).
+     * This method accepts DayOfWeek instances in addition to integers, for backward compatibility with v0.5 constants
+     * that are now enum instances.
+     *
+     * @deprecated Use DayOfWeek::from() to get a DayOfWeek instance from its integer value.
+     *
+     * @param DayOfWeek|int $dayOfWeek The day-of-week value, from 1 (Monday) to 7 (Sunday).
      *
      * @return DayOfWeek The DayOfWeek instance.
      *
      * @throws DateTimeException If the day-of-week is not valid.
      */
-    public static function of(int $dayOfWeek): DayOfWeek
+    public static function of(DayOfWeek|int $dayOfWeek): DayOfWeek
     {
+        if ($dayOfWeek instanceof DayOfWeek) {
+            return $dayOfWeek;
+        }
+
         Field\DayOfWeek::check($dayOfWeek);
 
-        return DayOfWeek::get($dayOfWeek);
+        return DayOfWeek::from($dayOfWeek);
     }
 
     /**
@@ -65,82 +57,97 @@ final class DayOfWeek implements JsonSerializable
     /**
      * Returns the seven days of the week in an array.
      *
-     * @param DayOfWeek|null $first The day to return first. Optional, defaults to Monday.
+     * @param DayOfWeek $first The day to return first. Optional, defaults to Monday.
      *
      * @return DayOfWeek[]
      */
-    public static function all(?DayOfWeek $first = null): array
+    public static function all(DayOfWeek $first = DayOfWeek::MONDAY): array
     {
         $days = [];
-        $first = $first ?: DayOfWeek::get(DayOfWeek::MONDAY);
         $current = $first;
 
         do {
             $days[] = $current;
             $current = $current->plus(1);
-        } while (! $current->isEqualTo($first));
+        } while ($current !== $first);
 
         return $days;
     }
 
     /**
      * Returns a day-of-week instance for Monday.
+     *
+     * @deprecated Use DayOfWeek::MONDAY instead.
      */
     public static function monday(): DayOfWeek
     {
-        return DayOfWeek::get(DayOfWeek::MONDAY);
+        return DayOfWeek::MONDAY;
     }
 
     /**
      * Returns a day-of-week instance for Tuesday.
+     *
+     * @deprecated Use DayOfWeek::TUESDAY instead.
      */
     public static function tuesday(): DayOfWeek
     {
-        return DayOfWeek::get(DayOfWeek::TUESDAY);
+        return DayOfWeek::TUESDAY;
     }
 
     /**
      * Returns a day-of-week instance for Wednesday.
+     *
+     * @deprecated Use DayOfWeek::WEDNESDAY instead.
      */
     public static function wednesday(): DayOfWeek
     {
-        return DayOfWeek::get(DayOfWeek::WEDNESDAY);
+        return DayOfWeek::WEDNESDAY;
     }
 
     /**
      * Returns a day-of-week instance for Thursday.
+     *
+     * @deprecated Use DayOfWeek::THURSDAY instead.
      */
     public static function thursday(): DayOfWeek
     {
-        return DayOfWeek::get(DayOfWeek::THURSDAY);
+        return DayOfWeek::THURSDAY;
     }
 
     /**
      * Returns a day-of-week instance for Friday.
+     *
+     * @deprecated Use DayOfWeek::FRIDAY instead.
      */
     public static function friday(): DayOfWeek
     {
-        return DayOfWeek::get(DayOfWeek::FRIDAY);
+        return DayOfWeek::FRIDAY;
     }
 
     /**
      * Returns a day-of-week instance for Saturday.
+     *
+     * @deprecated Use DayOfWeek::SATURDAY instead.
      */
     public static function saturday(): DayOfWeek
     {
-        return DayOfWeek::get(DayOfWeek::SATURDAY);
+        return DayOfWeek::SATURDAY;
     }
 
     /**
      * Returns a day-of-week instance for Sunday.
+     *
+     * @deprecated Use DayOfWeek::SUNDAY instead.
      */
     public static function sunday(): DayOfWeek
     {
-        return DayOfWeek::get(DayOfWeek::SUNDAY);
+        return DayOfWeek::SUNDAY;
     }
 
     /**
      * Returns the ISO 8601 value of this DayOfWeek.
+     *
+     * @deprecated Use DayOfWeek::$value instead.
      *
      * @return int The day-of-week value, from 1 (Monday) to 7 (Sunday).
      */
@@ -152,12 +159,22 @@ final class DayOfWeek implements JsonSerializable
     /**
      * Checks if this day-of-week matches the given day-of-week value.
      *
-     * @param int $dayOfWeek The day-of-week value to test against.
+     * This method accepts DayOfWeek instances in addition to integers, for backward compatibility with v0.5 constants
+     * that are now enum instances.
+     *
+     * @deprecated Use === instead for strict equality between DayOfWeek instances,
+     *             or $dayOfWeekEnum->value === $dayOfWeek for equality with a day-of-week integer value.
+     *
+     * @param DayOfWeek|int $dayOfWeek The day-of-week value to test against.
      *
      * @return bool True if this day-of-week is equal to the given value, false otherwise.
      */
-    public function is(int $dayOfWeek): bool
+    public function is(DayOfWeek|int $dayOfWeek): bool
     {
+        if ($dayOfWeek instanceof DayOfWeek) {
+            return $this === $dayOfWeek;
+        }
+
         return $this->value === $dayOfWeek;
     }
 
@@ -167,10 +184,12 @@ final class DayOfWeek implements JsonSerializable
      * Even though of() returns the same instance if the same day is requested several times,
      * do *not* use strict object comparison to compare two DayOfWeek instances,
      * as it is possible to get a different instance for the same day using serialization.
+     *
+     * @deprecated Use strict equality between DayOfWeek instances instead.
      */
     public function isEqualTo(DayOfWeek $that): bool
     {
-        return $this->value === $that->value;
+        return $this === $that;
     }
 
     /**
@@ -178,7 +197,7 @@ final class DayOfWeek implements JsonSerializable
      */
     public function isWeekday(): bool
     {
-        return $this->value >= self::MONDAY && $this->value <= self::FRIDAY;
+        return $this->value <= self::FRIDAY->value;
     }
 
     /**
@@ -186,7 +205,7 @@ final class DayOfWeek implements JsonSerializable
      */
     public function isWeekend(): bool
     {
-        return $this->value === self::SATURDAY || $this->value === self::SUNDAY;
+        return $this === self::SATURDAY || $this === self::SUNDAY;
     }
 
     /**
@@ -194,7 +213,7 @@ final class DayOfWeek implements JsonSerializable
      */
     public function plus(int $days): DayOfWeek
     {
-        return DayOfWeek::get((((($this->value - 1 + $days) % 7) + 7) % 7) + 1);
+        return DayOfWeek::from((((($this->value - 1 + $days) % 7) + 7) % 7) + 1);
     }
 
     /**
@@ -206,43 +225,26 @@ final class DayOfWeek implements JsonSerializable
     }
 
     /**
-     * Serializes as a string using {@see DayOfWeek::__toString()}.
+     * Serializes as a string using {@see DayOfWeek::toString()}.
      */
     public function jsonSerialize(): string
     {
-        return (string) $this;
+        return $this->toString();
     }
 
     /**
      * Returns the capitalized English name of this day-of-week.
      */
-    public function __toString(): string
+    public function toString(): string
     {
-        return [
-            1 => 'Monday',
-            2 => 'Tuesday',
-            3 => 'Wednesday',
-            4 => 'Thursday',
-            5 => 'Friday',
-            6 => 'Saturday',
-            7 => 'Sunday',
-        ][$this->value];
-    }
-
-    /**
-     * Returns a cached DayOfWeek instance.
-     *
-     * @param int $value The day-of-week value, validated from 1 to 7.
-     */
-    private static function get(int $value): DayOfWeek
-    {
-        /** @var array<int, DayOfWeek> $values */
-        static $values = [];
-
-        if (! isset($values[$value])) {
-            $values[$value] = new DayOfWeek($value);
-        }
-
-        return $values[$value];
+        return match ($this) {
+            self::MONDAY => 'Monday',
+            self::TUESDAY => 'Tuesday',
+            self::WEDNESDAY => 'Wednesday',
+            self::THURSDAY => 'Thursday',
+            self::FRIDAY => 'Friday',
+            self::SATURDAY => 'Saturday',
+            self::SUNDAY => 'Sunday',
+        };
     }
 }
