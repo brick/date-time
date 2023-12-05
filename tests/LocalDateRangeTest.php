@@ -55,7 +55,7 @@ class LocalDateRangeTest extends AbstractTestCase
         self::assertLocalDateRangeIs($y1, $m1, $d1, $y2, $m2, $d2, LocalDateRange::parse($text));
     }
 
-    public function providerParse(): array
+    public static function providerParse(): array
     {
         return [
             ['2001-02-03/04', 2001, 2, 3, 2001, 2, 4],
@@ -75,7 +75,7 @@ class LocalDateRangeTest extends AbstractTestCase
         LocalDateRange::parse($text);
     }
 
-    public function providerParseInvalidRangeThrowsException(): array
+    public static function providerParseInvalidRangeThrowsException(): array
     {
         return [
             ['2001-02-03'],
@@ -105,7 +105,7 @@ class LocalDateRangeTest extends AbstractTestCase
         )->isEqualTo(LocalDateRange::parse($testRange)));
     }
 
-    public function providerIsEqualTo(): array
+    public static function providerIsEqualTo(): array
     {
         return [
             ['2001-02-03/2004-05-06', true],
@@ -126,7 +126,7 @@ class LocalDateRangeTest extends AbstractTestCase
         self::assertSame($contains, LocalDateRange::parse($range)->contains(LocalDate::parse($date)));
     }
 
-    public function providerContains(): array
+    public static function providerContains(): array
     {
         return [
             ['2001-02-03/2004-05-06', '2001-02-02', false],
@@ -179,7 +179,7 @@ class LocalDateRangeTest extends AbstractTestCase
         self::assertCount($count, LocalDateRange::parse($range));
     }
 
-    public function providerCount(): array
+    public static function providerCount(): array
     {
         return [
             ['2010-01-01/2010-01-01', 1],
@@ -245,7 +245,7 @@ class LocalDateRangeTest extends AbstractTestCase
         self::assertSame($expectedString, (string) $dateRange);
     }
 
-    public function providerToString(): array
+    public static function providerToString(): array
     {
         return [
             [2008, 12, 31, 2008, 12, 31, '2008-12-31/2008-12-31'],
@@ -279,7 +279,7 @@ class LocalDateRangeTest extends AbstractTestCase
         self::assertSame($expectedEnd, $period->end->format('Y-m-d\TH:i:s.uO'));
     }
 
-    public function providerToNativeDatePeriod(): array
+    public static function providerToNativeDatePeriod(): array
     {
         return [
             ['2010-01-01/2010-01-01', '2010-01-01T00:00:00.000000+0000', '2010-01-01T23:59:59.999999+0000'],
@@ -300,7 +300,7 @@ class LocalDateRangeTest extends AbstractTestCase
         self::assertSame($expectedResult, $bRange->intersectsWith($aRange));
     }
 
-    public function providerIntersectsWith(): array
+    public static function providerIntersectsWith(): array
     {
         return [
             ['2010-01-01/2010-01-01', '2010-01-01/2010-01-01', true],
@@ -327,7 +327,7 @@ class LocalDateRangeTest extends AbstractTestCase
         self::assertSame($expectedIntersection, (string) $bRange->getIntersectionWith($aRange));
     }
 
-    public function providerGetIntersectionWith(): array
+    public static function providerGetIntersectionWith(): array
     {
         return [
             ['2010-01-01/2010-01-01', '2010-01-01/2010-01-01', '2010-01-01/2010-01-01'],
@@ -367,7 +367,7 @@ class LocalDateRangeTest extends AbstractTestCase
         }
     }
 
-    public function providerWithStart(): array
+    public static function providerWithStart(): array
     {
         return [
             ['2021-06-15/2021-07-07', '2021-05-29', '2021-05-29/2021-07-07'],
@@ -398,7 +398,7 @@ class LocalDateRangeTest extends AbstractTestCase
         }
     }
 
-    public function providerWithEnd(): array
+    public static function providerWithEnd(): array
     {
         return [
             ['2021-06-15/2021-07-07', '2021-06-14', null],
@@ -420,7 +420,7 @@ class LocalDateRangeTest extends AbstractTestCase
         self::assertSame($expectedPeriod, (string) $dateRange->toPeriod());
     }
 
-    public function providerToPeriod(): array
+    public static function providerToPeriod(): array
     {
         return [
             ['2020-01-28/2020-03-01', 'P1M2D'],

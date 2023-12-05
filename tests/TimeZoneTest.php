@@ -32,7 +32,7 @@ class TimeZoneTest extends AbstractTestCase
         self::assertSame($id, $timeZone->getId());
     }
 
-    public function providerParse(): iterable
+    public static function providerParse(): iterable
     {
         yield from [
             ['Z', TimeZoneOffset::class, 'Z'],
@@ -57,7 +57,7 @@ class TimeZoneTest extends AbstractTestCase
         TimeZone::parse($text);
     }
 
-    public function providerParseInvalidStringThrowsException(): array
+    public static function providerParseInvalidStringThrowsException(): array
     {
         return [
             [''],
@@ -91,7 +91,7 @@ class TimeZoneTest extends AbstractTestCase
         self::assertSame($tz, TimeZone::fromNativeDateTimeZone($dateTimeZone)->getId());
     }
 
-    public function providerFromNativeDateTimeZone(): iterable
+    public static function providerFromNativeDateTimeZone(): iterable
     {
         yield from [
             ['Z'],

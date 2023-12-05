@@ -32,7 +32,7 @@ class OffsetClockTest extends AbstractTestCase
         self::assertInstantIs($expectedSecond, $expectedNano, $clock->getTime());
     }
 
-    public function providerOffsetClock(): array
+    public static function providerOffsetClock(): array
     {
         return [
             [1000, 0, 'PT0.5S', 1000, 500000000],

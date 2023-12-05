@@ -61,7 +61,7 @@ class ZonedDateTimeTest extends AbstractTestCase
         self::assertSame($nanoOfSecond, $zonedDateTime->getNano());
     }
 
-    public function providerOf(): array
+    public static function providerOf(): array
     {
         return [
             // WITH OFFSET FROM UTC
@@ -340,7 +340,7 @@ class ZonedDateTimeTest extends AbstractTestCase
         self::assertSame($formattedDatetime, (string) $zonedDateTime->getDateTime());
     }
 
-    public function providerOfInstant(): array
+    public static function providerOfInstant(): array
     {
         return [
             ['2001-09-09T01:46:40', 'UTC'],
@@ -367,7 +367,7 @@ class ZonedDateTimeTest extends AbstractTestCase
         self::assertSame($zone, (string) $zonedDateTime->getTimeZone());
     }
 
-    public function providerParse(): iterable
+    public static function providerParse(): iterable
     {
         yield from [
             ['2001-02-03T01:02Z', '2001-02-03', '01:02', 'Z', 'Z'],
@@ -396,7 +396,7 @@ class ZonedDateTimeTest extends AbstractTestCase
         ZonedDateTime::parse($text);
     }
 
-    public function providerParseInvalidStringThrowsException(): array
+    public static function providerParseInvalidStringThrowsException(): array
     {
         return [
             [''],
@@ -433,7 +433,7 @@ class ZonedDateTimeTest extends AbstractTestCase
         ZonedDateTime::parse($text);
     }
 
-    public function providerParseSecondsOffsetThrowsException(): array
+    public static function providerParseSecondsOffsetThrowsException(): array
     {
         return [
             ['2001-02-03T01:02:03.456+12:34:56'],
@@ -449,7 +449,7 @@ class ZonedDateTimeTest extends AbstractTestCase
         self::assertIs(ZonedDateTime::class, $expected, ZonedDateTime::fromNativeDateTime($dateTime));
     }
 
-    public function providerFromNativeDateTime(): array
+    public static function providerFromNativeDateTime(): array
     {
         return [
             ['2018-07-21 14:09:10.23456', 'America/Los_Angeles', '2018-07-21T14:09:10.23456-07:00[America/Los_Angeles]'],
@@ -504,7 +504,7 @@ class ZonedDateTimeTest extends AbstractTestCase
         self::assertSame($cmp <= 0, $z2->isAfterOrEqualTo($z1));
     }
 
-    public function providerCompareTo(): array
+    public static function providerCompareTo(): array
     {
         return [
             ['2020-06-06T14:30:30Z', '2014-12-31T23:59:59.999Z', 1],
@@ -771,7 +771,7 @@ class ZonedDateTimeTest extends AbstractTestCase
         self::assertSame(! $isFuture, $zonedDateTime->isPast($clock));
     }
 
-    public function providerForPastFuture(): array
+    public static function providerForPastFuture(): array
     {
         return [
             [1234567890, '2009-02-14T00:31:29+01:00', false],
@@ -811,7 +811,7 @@ class ZonedDateTimeTest extends AbstractTestCase
         self::assertSame($expected, $dateTime->format('Y-m-d\TH:i:s.uO'));
     }
 
-    public function providerToNativeDateTime(): array
+    public static function providerToNativeDateTime(): array
     {
         return [
             ['2018-10-18T12:34Z',                        '2018-10-18T12:34:00.000000+0000'],
@@ -852,7 +852,7 @@ class ZonedDateTimeTest extends AbstractTestCase
         self::assertSame($expectedString, (string) $zonedDateTime);
     }
 
-    public function providerToString(): array
+    public static function providerToString(): array
     {
         return [
             ['2000-01-20T12:34:56.123456789', 'America/Los_Angeles', '2000-01-20T12:34:56.123456789-08:00[America/Los_Angeles]'],
@@ -870,7 +870,7 @@ class ZonedDateTimeTest extends AbstractTestCase
         self::assertDurationIs($expectedSeconds, $expectedNanos, $actualResult);
     }
 
-    public function providerGetDurationTo(): array
+    public static function providerGetDurationTo(): array
     {
         return [
             ['2023-01-01T10:00:00Z',           '2023-01-01T10:00:00Z',           0, 0],
@@ -893,7 +893,7 @@ class ZonedDateTimeTest extends AbstractTestCase
         self::assertSame($expectedInterval, (string) $actualResult);
     }
 
-    public function providerGetIntervalTo(): array
+    public static function providerGetIntervalTo(): array
     {
         return [
             ['2023-01-01T10:00:00Z',           '2023-01-01T10:00:00Z',           '2023-01-01T10:00Z/2023-01-01T10:00Z'],

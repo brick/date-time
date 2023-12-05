@@ -29,7 +29,7 @@ class TimeZoneOffsetTest extends AbstractTestCase
         self::assertTimeZoneOffsetIs($totalSeconds, TimeZoneOffset::of($hours, $minutes, $seconds));
     }
 
-    public function providerOf(): iterable
+    public static function providerOf(): iterable
     {
         yield from [
             [0, 0, 0, 0],
@@ -62,7 +62,7 @@ class TimeZoneOffsetTest extends AbstractTestCase
         TimeZoneOffset::of($hours, $minutes, $seconds);
     }
 
-    public function providerOfInvalidValuesThrowsException(): iterable
+    public static function providerOfInvalidValuesThrowsException(): iterable
     {
         yield from [
             [0, 60, 0],
@@ -89,7 +89,7 @@ class TimeZoneOffsetTest extends AbstractTestCase
         self::assertTimeZoneOffsetIs($totalSeconds, TimeZoneOffset::ofTotalSeconds($totalSeconds));
     }
 
-    public function providerTotalSeconds(): iterable
+    public static function providerTotalSeconds(): iterable
     {
         yield from [
             [-64800],
@@ -120,7 +120,7 @@ class TimeZoneOffsetTest extends AbstractTestCase
         TimeZoneOffset::ofTotalSeconds($totalSeconds);
     }
 
-    public function providerOfInvalidTotalSecondsThrowsException(): iterable
+    public static function providerOfInvalidTotalSecondsThrowsException(): iterable
     {
         yield from [
             [-64860],
@@ -156,7 +156,7 @@ class TimeZoneOffsetTest extends AbstractTestCase
         self::assertTimeZoneOffsetIs($totalSeconds, TimeZoneOffset::parse($text));
     }
 
-    public function providerParse(): iterable
+    public static function providerParse(): iterable
     {
         yield from [
             ['+00:00', 0],
@@ -186,7 +186,7 @@ class TimeZoneOffsetTest extends AbstractTestCase
         TimeZoneOffset::parse($text);
     }
 
-    public function providerParseInvalidStringThrowsException(): array
+    public static function providerParseInvalidStringThrowsException(): array
     {
         return [
             [''],
@@ -209,7 +209,7 @@ class TimeZoneOffsetTest extends AbstractTestCase
         TimeZoneOffset::parse($text);
     }
 
-    public function providerParseInvalidValueThrowsException(): iterable
+    public static function providerParseInvalidValueThrowsException(): iterable
     {
         yield from [
             ['+18:00:01'],
@@ -250,7 +250,7 @@ class TimeZoneOffsetTest extends AbstractTestCase
         self::assertSame($string, (string) TimeZoneOffset::ofTotalSeconds($totalSeconds));
     }
 
-    public function providerGetId(): iterable
+    public static function providerGetId(): iterable
     {
         yield from [
             [0, 'Z'],
@@ -302,7 +302,7 @@ class TimeZoneOffsetTest extends AbstractTestCase
         self::assertSame($totalSeconds, $dateTimeZone->getOffset(new DateTimeImmutable()));
     }
 
-    public function providerToNativeDateTimeZone(): iterable
+    public static function providerToNativeDateTimeZone(): iterable
     {
         yield from [
             [-18000, '-05:00'],

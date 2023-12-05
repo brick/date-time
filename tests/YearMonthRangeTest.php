@@ -50,7 +50,7 @@ class YearMonthRangeTest extends AbstractTestCase
         self::assertYearMonthRangeIs($y1, $m1, $y2, $m2, YearMonthRange::parse($text));
     }
 
-    public function providerParse(): array
+    public static function providerParse(): array
     {
         return [
             ['2001-02/04', 2001, 2, 2001, 4],
@@ -69,7 +69,7 @@ class YearMonthRangeTest extends AbstractTestCase
         YearMonthRange::parse($text);
     }
 
-    public function providerParseInvalidRangeThrowsException(): array
+    public static function providerParseInvalidRangeThrowsException(): array
     {
         return [
             ['2001-02'],
@@ -96,7 +96,7 @@ class YearMonthRangeTest extends AbstractTestCase
         )->isEqualTo(YearMonthRange::parse($testRange)));
     }
 
-    public function providerIsEqualTo(): array
+    public static function providerIsEqualTo(): array
     {
         return [
             ['2001-02/2004-05', true],
@@ -115,7 +115,7 @@ class YearMonthRangeTest extends AbstractTestCase
         self::assertSame($contains, YearMonthRange::parse($range)->contains(YearMonth::parse($yearMonth)));
     }
 
-    public function providerContains(): array
+    public static function providerContains(): array
     {
         return [
             ['2001-05/2004-02', '2001-04', false],
@@ -169,7 +169,7 @@ class YearMonthRangeTest extends AbstractTestCase
         self::assertCount($count, YearMonthRange::parse($range));
     }
 
-    public function providerCount(): array
+    public static function providerCount(): array
     {
         return [
             ['2010-01/2010-01', 1],
@@ -188,7 +188,7 @@ class YearMonthRangeTest extends AbstractTestCase
         self::assertSame($expectedRange, (string) YearMonthRange::parse($yearMonthRange)->toLocalDateRange());
     }
 
-    public function providerToLocalDateRange(): array
+    public static function providerToLocalDateRange(): array
     {
         return [
             ['1900-01/1900-12', '1900-01-01/1900-12-31'],
@@ -232,7 +232,7 @@ class YearMonthRangeTest extends AbstractTestCase
         self::assertSame($expectedString, (string) $yearMonthRange);
     }
 
-    public function providerToString(): array
+    public static function providerToString(): array
     {
         return [
             [2008, 12, 2008, 12, '2008-12/2008-12'],

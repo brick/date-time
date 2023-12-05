@@ -38,7 +38,7 @@ class LocalTimeTest extends AbstractTestCase
         LocalTime::of($hour, $minute, $second);
     }
 
-    public function providerOfInvalidTimeThrowsException(): array
+    public static function providerOfInvalidTimeThrowsException(): array
     {
         return [
             [-1, 0, 0],
@@ -64,7 +64,7 @@ class LocalTimeTest extends AbstractTestCase
         self::assertLocalTimeIs($hour, $minute, $second, 123, $localTime);
     }
 
-    public function providerOfSecondOfDay(): array
+    public static function providerOfSecondOfDay(): array
     {
         return [
             [0, 0, 0, 0],
@@ -94,7 +94,7 @@ class LocalTimeTest extends AbstractTestCase
         LocalTime::ofSecondOfDay($secondOfDay, $nanoOfSecond);
     }
 
-    public function providerOfInvalidSecondOfDayThrowsException(): array
+    public static function providerOfInvalidSecondOfDayThrowsException(): array
     {
         return [
             [-1, 0],
@@ -117,7 +117,7 @@ class LocalTimeTest extends AbstractTestCase
         self::assertSame($nano, $time->getNano());
     }
 
-    public function providerParse(): array
+    public static function providerParse(): array
     {
         return [
             ['01:02', 1, 2, 0, 0],
@@ -136,7 +136,7 @@ class LocalTimeTest extends AbstractTestCase
         LocalTime::parse($text);
     }
 
-    public function providerParseInvalidStringThrowsException(): array
+    public static function providerParseInvalidStringThrowsException(): array
     {
         return [
             ['12'],
@@ -178,7 +178,7 @@ class LocalTimeTest extends AbstractTestCase
         self::assertLocalTimeIs($h, $m, $s, $n, LocalTime::now($timeZone, $clock));
     }
 
-    public function providerNow(): array
+    public static function providerNow(): array
     {
         return [
             [1409574896, 0, 0, 12, 34, 56, 0],
@@ -230,7 +230,7 @@ class LocalTimeTest extends AbstractTestCase
         self::assertLocalTimeIs($hour, 34, 56, 789, LocalTime::of(12, 34, 56, 789)->withHour($hour));
     }
 
-    public function providerWithHour(): array
+    public static function providerWithHour(): array
     {
         return [
             [12],
@@ -247,7 +247,7 @@ class LocalTimeTest extends AbstractTestCase
         LocalTime::of(12, 34, 56)->withHour($invalidHour);
     }
 
-    public function providerWithInvalidHourThrowsException(): array
+    public static function providerWithInvalidHourThrowsException(): array
     {
         return [
             [-1],
@@ -265,7 +265,7 @@ class LocalTimeTest extends AbstractTestCase
         self::assertLocalTimeIs(12, $minute, 56, 789, LocalTime::of(12, 34, 56, 789)->withMinute($minute));
     }
 
-    public function providerWithMinute(): array
+    public static function providerWithMinute(): array
     {
         return [
             [34],
@@ -282,7 +282,7 @@ class LocalTimeTest extends AbstractTestCase
         LocalTime::of(12, 34, 56)->withMinute($invalidMinute);
     }
 
-    public function providerWithInvalidMinuteThrowsException(): array
+    public static function providerWithInvalidMinuteThrowsException(): array
     {
         return [
             [-1],
@@ -300,7 +300,7 @@ class LocalTimeTest extends AbstractTestCase
         self::assertLocalTimeIs(12, 34, $second, 789, LocalTime::of(12, 34, 56, 789)->withSecond($second));
     }
 
-    public function providerWithSecond(): array
+    public static function providerWithSecond(): array
     {
         return [
             [56],
@@ -317,7 +317,7 @@ class LocalTimeTest extends AbstractTestCase
         LocalTime::of(12, 34, 56)->withSecond($invalidSecond);
     }
 
-    public function providerWithInvalidSecondThrowsException(): array
+    public static function providerWithInvalidSecondThrowsException(): array
     {
         return [
             [-1],
@@ -335,7 +335,7 @@ class LocalTimeTest extends AbstractTestCase
         self::assertLocalTimeIs(12, 34, 56, $nano, LocalTime::of(12, 34, 56, 789)->withNano($nano));
     }
 
-    public function providerWithNano(): array
+    public static function providerWithNano(): array
     {
         return [
             [789],
@@ -352,7 +352,7 @@ class LocalTimeTest extends AbstractTestCase
         LocalTime::of(12, 34, 56)->withNano($invalidNano);
     }
 
-    public function providerWithInvalidNanoThrowsException(): array
+    public static function providerWithInvalidNanoThrowsException(): array
     {
         return [
             [-1],
@@ -402,7 +402,7 @@ class LocalTimeTest extends AbstractTestCase
         self::assertLocalTimeIs($eh, $em, $es, $en, $localTime->minusDuration($duration));
     }
 
-    public function providerDuration(): array
+    public static function providerDuration(): array
     {
         return [
             [12, 34, 56, 123456789, 123, 456, 12, 36, 59, 123457245],
@@ -438,7 +438,7 @@ class LocalTimeTest extends AbstractTestCase
         self::assertLocalTimeIs($eh, 34, 56, 789, $result);
     }
 
-    public function providerPlusHours(): array
+    public static function providerPlusHours(): array
     {
         return [
             [0, -25, 23],
@@ -501,7 +501,7 @@ class LocalTimeTest extends AbstractTestCase
         self::assertLocalTimeIs($eh, $em, 56, 789, $result);
     }
 
-    public function providerPlusMinutes(): array
+    public static function providerPlusMinutes(): array
     {
         return [
             [0, 0, -1441, 23, 59],
@@ -586,7 +586,7 @@ class LocalTimeTest extends AbstractTestCase
         self::assertLocalTimeIs($eh, $em, $es, 123456789, $result);
     }
 
-    public function providerPlusSeconds(): array
+    public static function providerPlusSeconds(): array
     {
         return [
             [0, 0, 0, -86401, 23, 59, 59],
@@ -687,7 +687,7 @@ class LocalTimeTest extends AbstractTestCase
         self::assertLocalTimeIs($eh, $em, $es, $en, $result);
     }
 
-    public function providerPlusNanos(): array
+    public static function providerPlusNanos(): array
     {
         return [
             [0, 0, 1, 123, -2100000123, 23, 59, 58, 900000000],
@@ -740,7 +740,7 @@ class LocalTimeTest extends AbstractTestCase
         self::assertSame($cmp >= 0, $t1->isAfterOrEqualTo($t2));
     }
 
-    public function providerCompareTo(): array
+    public static function providerCompareTo(): array
     {
         return [
             [0, 0, 0, 0, 0, 0, 0, 0, 0],
@@ -1021,7 +1021,7 @@ class LocalTimeTest extends AbstractTestCase
         self::assertSame($result, $time->withNano(123)->toSecondOfDay());
     }
 
-    public function providerToSecondOfDay(): array
+    public static function providerToSecondOfDay(): array
     {
         return [
             [0, 0, 0, 0],
@@ -1075,7 +1075,7 @@ class LocalTimeTest extends AbstractTestCase
         self::assertSame($r, (string) LocalTime::of($h, $m, $s, $n));
     }
 
-    public function providerToString(): array
+    public static function providerToString(): array
     {
         return [
             [0, 0, 0, 0, '00:00'],
@@ -1143,7 +1143,7 @@ class LocalTimeTest extends AbstractTestCase
         self::assertSame($expected, $dateTime->format('Y-m-d\TH:i:s.uO'));
     }
 
-    public function providerToNativeDateTime()
+    public static function providerToNativeDateTime(): array
     {
         return [
             ['12:34',              '0000-01-01T12:34:00.000000+0000'],

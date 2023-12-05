@@ -67,7 +67,7 @@ class PeriodTest extends AbstractTestCase
         self::assertPeriodIs($years, $months, $days, Period::parse($text));
     }
 
-    public function providerParse(): array
+    public static function providerParse(): array
     {
         return [
             ['P0Y', 0, 0, 0],
@@ -96,7 +96,7 @@ class PeriodTest extends AbstractTestCase
         Period::parse($text);
     }
 
-    public function providerParseInvalidStringThrowsException(): array
+    public static function providerParseInvalidStringThrowsException(): array
     {
         return [
             [' P0D'],
@@ -123,7 +123,7 @@ class PeriodTest extends AbstractTestCase
         self::assertPeriodIs($years, $months, $days, $period);
     }
 
-    public function providerFromNativeDateInterval(): Generator
+    public static function providerFromNativeDateInterval(): Generator
     {
         $withConstructor = [
             ['P0Y', 0, 0, 0],
@@ -176,7 +176,7 @@ class PeriodTest extends AbstractTestCase
         Period::fromNativeDateInterval($dateInterval);
     }
 
-    public function providerFromInvalidNativeDateInterval(): array
+    public static function providerFromInvalidNativeDateInterval(): array
     {
         return [
             ['2020-01-01 00:00:00', '2020-01-01 01:00:00', 'Cannot create a Period from a DateInterval with a non-zero hour.'],
@@ -303,7 +303,7 @@ class PeriodTest extends AbstractTestCase
         self::assertPeriodIs($ny, $nm, $d, Period::of($y, $m, $d)->normalized());
     }
 
-    public function providerNormalized(): array
+    public static function providerNormalized(): array
     {
         return [
             [1, 2, 3, 1, 2],
@@ -330,7 +330,7 @@ class PeriodTest extends AbstractTestCase
         self::assertSame($isZero, Period::of($years, $months, $days)->isZero());
     }
 
-    public function providerIsZero(): array
+    public static function providerIsZero(): array
     {
         return [
             [0, 0, 0, true],
@@ -360,7 +360,7 @@ class PeriodTest extends AbstractTestCase
         self::assertSame($isEqual, $p2->isEqualTo($p1));
     }
 
-    public function providerIsEqualTo(): array
+    public static function providerIsEqualTo(): array
     {
         return [
             [0, 0, 0, 0, 0, 0, true],
@@ -390,7 +390,7 @@ class PeriodTest extends AbstractTestCase
         self::assertSame($days, $dateInterval->d);
     }
 
-    public function providerToNativeDateInterval(): array
+    public static function providerToNativeDateInterval(): array
     {
         return [
             [1, -2, 3],
@@ -437,7 +437,7 @@ class PeriodTest extends AbstractTestCase
         self::assertSame($expected, (string) Period::of($years, $months, $days));
     }
 
-    public function providerToString(): array
+    public static function providerToString(): array
     {
         return [
             [0, 0, 0, 'P0D'],

@@ -105,7 +105,7 @@ class IntervalTest extends AbstractTestCase
         self::assertSame($expected, $interval->contains(Instant::of($now)), $errorMessage);
     }
 
-    public function providerContains(): array
+    public static function providerContains(): array
     {
         return [
             'at the start' => [
@@ -140,7 +140,7 @@ class IntervalTest extends AbstractTestCase
         self::assertSame($expected, $interval1->intersectsWith($interval2));
     }
 
-    public function providerIntersectsWith(): array
+    public static function providerIntersectsWith(): array
     {
         return [
             'second is after first' => [
@@ -187,7 +187,7 @@ class IntervalTest extends AbstractTestCase
         self::assertTrue($expected->isEqualTo($interval1->getIntersectionWith($interval2)));
     }
 
-    public function providerGetIntersectionWith(): array
+    public static function providerGetIntersectionWith(): array
     {
         return [
             'first before second' => [
@@ -236,7 +236,7 @@ class IntervalTest extends AbstractTestCase
         self::assertSame($expectedResult, $b->isEqualTo($a));
     }
 
-    public function providerIsEqualTo(): array
+    public static function providerIsEqualTo(): array
     {
         return [
             'start is not equal' => [
@@ -295,7 +295,7 @@ class IntervalTest extends AbstractTestCase
         self::assertSame($expectedString, (string) $interval);
     }
 
-    public function providerToString(): array
+    public static function providerToString(): array
     {
         return [
             [1000000000, 1000000000, '2001-09-09T01:46:40Z/2001-09-09T01:46:40Z'],

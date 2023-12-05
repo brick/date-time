@@ -24,7 +24,7 @@ class MathTest extends TestCase
         self::assertSame($expected, Math::floorDiv($a, $b));
     }
 
-    public function providerFloorDiv(): array
+    public static function providerFloorDiv(): array
     {
         return [
             [3,  2,  1],
@@ -46,7 +46,7 @@ class MathTest extends TestCase
         self::assertSame($expected, Math::floorMod($a, $b));
     }
 
-    public function providerFloorMod(): array
+    public static function providerFloorMod(): array
     {
         return [
             [3,  2,  1],

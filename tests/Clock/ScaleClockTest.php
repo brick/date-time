@@ -39,7 +39,7 @@ class ScaleClockTest extends AbstractTestCase
         self::assertSame($expectedInstant, $actualTime->toDecimal());
     }
 
-    public function providerScaleClock(): array
+    public static function providerScaleClock(): array
     {
         return [
             [1000, 0, 'PT0.5S', 50, '1025'],

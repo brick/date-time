@@ -44,7 +44,7 @@ class YearTest extends AbstractTestCase
         self::assertYearIs($expectedYear, Year::parse($string));
     }
 
-    public function providerParse(): array
+    public static function providerParse(): array
     {
         return [
             ['-2023', -2023],
@@ -65,7 +65,7 @@ class YearTest extends AbstractTestCase
         Year::parse($invalidValue);
     }
 
-    public function providerParseInvalidYearThrowsException(): array
+    public static function providerParseInvalidYearThrowsException(): array
     {
         return [
             [''],
@@ -76,7 +76,7 @@ class YearTest extends AbstractTestCase
         ];
     }
 
-    public function providerOfInvalidYearThrowsException(): array
+    public static function providerOfInvalidYearThrowsException(): array
     {
         return [
             [PHP_INT_MIN],
@@ -99,7 +99,7 @@ class YearTest extends AbstractTestCase
         self::assertYearIs($expectedYear, Year::now(TimeZone::parse($timeZone), $clock));
     }
 
-    public function providerNow(): array
+    public static function providerNow(): array
     {
         return [
             [1388534399, '-01:00', 2013],
@@ -122,7 +122,7 @@ class YearTest extends AbstractTestCase
         self::assertSame($isLeap, Year::of($year)->isLeap());
     }
 
-    public function providerIsLeap(): array
+    public static function providerIsLeap(): array
     {
         return [
             [1595, false],
@@ -196,7 +196,7 @@ class YearTest extends AbstractTestCase
         self::assertSame($isValid, Year::of($year)->isValidMonthDay(MonthDay::of($month, $day)));
     }
 
-    public function providerIsValidMonthDay(): array
+    public static function providerIsValidMonthDay(): array
     {
         return [
             [1999, 1, 31, true],
@@ -222,7 +222,7 @@ class YearTest extends AbstractTestCase
         self::assertSame($length, Year::of($year)->getLength());
     }
 
-    public function providerGetLength(): array
+    public static function providerGetLength(): array
     {
         return [
             [1595, 365],
@@ -291,7 +291,7 @@ class YearTest extends AbstractTestCase
         self::assertYearIs($expectedYear, Year::of($year)->plus($plusYears));
     }
 
-    public function providerPlus(): array
+    public static function providerPlus(): array
     {
         return [
             [2014, 0, 2014],
@@ -308,7 +308,7 @@ class YearTest extends AbstractTestCase
         self::assertYearIs($expectedYear, Year::of($year)->minus($minusYears));
     }
 
-    public function providerMinus(): array
+    public static function providerMinus(): array
     {
         return [
             [2014, 0, 2014],
@@ -365,7 +365,7 @@ class YearTest extends AbstractTestCase
         self::assertSame($cmp === -1, Year::of($year1)->isBefore(Year::of($year2)));
     }
 
-    public function providerCompareTo(): array
+    public static function providerCompareTo(): array
     {
         return [
             [-1999, -1999, 0],
@@ -409,7 +409,7 @@ class YearTest extends AbstractTestCase
         self::assertLocalDateIs($year, $month, $day, Year::of($year)->atDay($dayOfYear));
     }
 
-    public function providerAtDay(): array
+    public static function providerAtDay(): array
     {
         return [
             [2007, 59, 2, 28],
@@ -443,7 +443,7 @@ class YearTest extends AbstractTestCase
         Year::of(2000)->atMonth($invalidMonth);
     }
 
-    public function providerAtInvalidMonthThrowsException(): array
+    public static function providerAtInvalidMonthThrowsException(): array
     {
         return [
             [-1],
@@ -466,7 +466,7 @@ class YearTest extends AbstractTestCase
         self::assertLocalDateIs($year, $month, $expectedDay, Year::of($year)->atMonthDay($monthDay));
     }
 
-    public function providerAtMonthDay(): array
+    public static function providerAtMonthDay(): array
     {
         return [
             [2007, 2, 28, 28],
@@ -487,7 +487,7 @@ class YearTest extends AbstractTestCase
         self::assertSame($expectedRange, (string) Year::of($year)->toLocalDateRange());
     }
 
-    public function providerToLocalDateRange(): array
+    public static function providerToLocalDateRange(): array
     {
         return [
             [1900, '1900-01-01/1900-12-31'],
@@ -514,7 +514,7 @@ class YearTest extends AbstractTestCase
         self::assertSame($expectedString, (string) Year::of($year));
     }
 
-    public function providerToString(): array
+    public static function providerToString(): array
     {
         return [
             [-105781, '-105781'],

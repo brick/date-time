@@ -31,7 +31,7 @@ class YearWeekTest extends AbstractTestCase
         self::assertTrue($yearWeek->is53WeekYear());
     }
 
-    public function provider53WeekYear(): array
+    public static function provider53WeekYear(): array
     {
         return [
             [4],
@@ -122,7 +122,7 @@ class YearWeekTest extends AbstractTestCase
         self::assertLocalDateIs($year, $month, $dayOfMonth, $actual);
     }
 
-    public function providerAtDay(): array
+    public static function providerAtDay(): array
     {
         return [
             [2014, 52, DayOfWeek::MONDAY,    2014, 12, 22],
@@ -198,7 +198,7 @@ class YearWeekTest extends AbstractTestCase
         }
     }
 
-    public function providerWithYear(): array
+    public static function providerWithYear(): array
     {
         return [
             [2015,  1, 2015, 2015,  1],
@@ -217,7 +217,7 @@ class YearWeekTest extends AbstractTestCase
         self::assertYearWeekIs($expectedYear, $expectedWeek, $yearWeek);
     }
 
-    public function providerWithWeek(): array
+    public static function providerWithWeek(): array
     {
         return [
             [2014,  1, 53, 2015,  1],
@@ -235,7 +235,7 @@ class YearWeekTest extends AbstractTestCase
         self::assertYearWeekIs($expectedYear, $expectedWeek, $yearWeek);
     }
 
-    public function providerPlusYears(): array
+    public static function providerPlusYears(): array
     {
         return [
             [2015, 1, -2, 2013, 1],
@@ -269,7 +269,7 @@ class YearWeekTest extends AbstractTestCase
         self::assertYearWeekIs($expectedYear, $expectedWeek, $yearWeek);
     }
 
-    public function providerPlusWeeks(): array
+    public static function providerPlusWeeks(): array
     {
         return [
             [2015, 1, -261, 2009, 53],
@@ -306,7 +306,7 @@ class YearWeekTest extends AbstractTestCase
         self::assertYearWeekIs($expectedYear, $expectedWeek, $yearWeek);
     }
 
-    public function providerToString(): array
+    public static function providerToString(): array
     {
         return [
             [-12345,  1, '-12345-W01'],
@@ -359,7 +359,7 @@ class YearWeekTest extends AbstractTestCase
         self::assertYearWeekIs($expectedYear, $expectedWeek, $yearWeek);
     }
 
-    public function providerParse(): array
+    public static function providerParse(): array
     {
         return [
             ['-2000-W12', -2000, 12],
@@ -382,7 +382,7 @@ class YearWeekTest extends AbstractTestCase
         YearWeek::parse($invalidValue);
     }
 
-    public function providerParseInvalidYearWeekThrowsException(): array
+    public static function providerParseInvalidYearWeekThrowsException(): array
     {
         return [
             [''],
@@ -429,7 +429,7 @@ class YearWeekTest extends AbstractTestCase
         self::assertSame($expectedDateRange, (string) $yearWeek->toLocalDateRange());
     }
 
-    public function providerGetFirstLastDay(): array
+    public static function providerGetFirstLastDay(): array
     {
         return [
             [2000,  1, '2000-01-03', '2000-01-09'],

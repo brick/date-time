@@ -46,7 +46,7 @@ class DurationTest extends AbstractTestCase
         self::assertDurationIs($expectedSeconds, $expectedNanos, $duration);
     }
 
-    public function providerOfSeconds(): array
+    public static function providerOfSeconds(): array
     {
         return [
             [3, 1, 3, 1],
@@ -69,7 +69,7 @@ class DurationTest extends AbstractTestCase
         self::assertSame($millis, $duration->getTotalMillis());
     }
 
-    public function providerOfMillis(): array
+    public static function providerOfMillis(): array
     {
         return [
             [1000],
@@ -89,7 +89,7 @@ class DurationTest extends AbstractTestCase
         self::assertDurationIs($expectedSeconds, $expectedNanos, $duration);
     }
 
-    public function providerOfNanos(): array
+    public static function providerOfNanos(): array
     {
         return [
             [1, 0, 1],
@@ -132,7 +132,7 @@ class DurationTest extends AbstractTestCase
         self::assertDurationIs($seconds, $nanos, Duration::between($i1, $i2));
     }
 
-    public function providerBetween(): array
+    public static function providerBetween(): array
     {
         return [
             [0, 0, 0, 0, 0, 0],
@@ -165,7 +165,7 @@ class DurationTest extends AbstractTestCase
         self::assertDurationIs($seconds, $nanos, Duration::parse($text));
     }
 
-    public function providerParse(): array
+    public static function providerParse(): array
     {
         return [
             ['PT0S', 0, 0],
@@ -264,7 +264,7 @@ class DurationTest extends AbstractTestCase
         Duration::parse($text);
     }
 
-    public function providerParseFailureThrowsException(): array
+    public static function providerParseFailureThrowsException(): array
     {
         return [
             [''],
@@ -363,7 +363,7 @@ class DurationTest extends AbstractTestCase
         self::assertSame($cmp <= 0, Duration::ofSeconds($seconds, $nanos)->isNegativeOrZero());
     }
 
-    public function providerCompareToZero(): array
+    public static function providerCompareToZero(): array
     {
         return [
             [-1, -1, -1],
@@ -400,7 +400,7 @@ class DurationTest extends AbstractTestCase
         self::assertSame($cmp >= 0, $duration1->isGreaterThanOrEqualTo($duration2));
     }
 
-    public function providerCompareTo(): array
+    public static function providerCompareTo(): array
     {
         return [
             [-1, -1, -1, -1, 0],
@@ -491,7 +491,7 @@ class DurationTest extends AbstractTestCase
         self::assertDurationIs($s, $n, $duration1->minus($duration2));
     }
 
-    public function providerPlus(): array
+    public static function providerPlus(): array
     {
         return [
             [-1, -1, -1, -1, -3, 999999998],
@@ -560,7 +560,7 @@ class DurationTest extends AbstractTestCase
         self::assertDurationIs($expectedSeconds, $expectedNanos, $duration);
     }
 
-    public function providerPlusSeconds(): array
+    public static function providerPlusSeconds(): array
     {
         return [
             [-1, 0, -1, -2, 0],
@@ -595,7 +595,7 @@ class DurationTest extends AbstractTestCase
         self::assertDurationIs($expectedSeconds, 0, $duration);
     }
 
-    public function providerPlusMinutes(): array
+    public static function providerPlusMinutes(): array
     {
         return [
             [-1, -1, -61],
@@ -623,7 +623,7 @@ class DurationTest extends AbstractTestCase
         self::assertDurationIs($expectedSeconds, 0, $duration);
     }
 
-    public function providerPlusHours(): array
+    public static function providerPlusHours(): array
     {
         return [
             [-1, -1, -3601],
@@ -651,7 +651,7 @@ class DurationTest extends AbstractTestCase
         self::assertDurationIs($expectedSeconds, 0, $duration);
     }
 
-    public function providerPlusDays(): array
+    public static function providerPlusDays(): array
     {
         return [
             [-1, -1, -86401],
@@ -679,7 +679,7 @@ class DurationTest extends AbstractTestCase
         self::assertDurationIs($expectedSeconds, 0, $duration);
     }
 
-    public function providerMinusSeconds(): array
+    public static function providerMinusSeconds(): array
     {
         return [
             [0, 0, 0],
@@ -710,7 +710,7 @@ class DurationTest extends AbstractTestCase
         self::assertDurationIs($expectedSeconds, 0, $duration);
     }
 
-    public function providerMinusMinutes(): array
+    public static function providerMinusMinutes(): array
     {
         return [
             [-1, -1, 59],
@@ -738,7 +738,7 @@ class DurationTest extends AbstractTestCase
         self::assertDurationIs($expectedSeconds, 0, $duration);
     }
 
-    public function providerMinusHours(): array
+    public static function providerMinusHours(): array
     {
         return [
             [-1, -1, 3599],
@@ -766,7 +766,7 @@ class DurationTest extends AbstractTestCase
         self::assertDurationIs($expectedSeconds, 0, $duration);
     }
 
-    public function providerMinusDays(): array
+    public static function providerMinusDays(): array
     {
         return [
             [-1, -1, 86399],
@@ -796,7 +796,7 @@ class DurationTest extends AbstractTestCase
         self::assertDurationIs($expectedSecond, $expectedNano, $duration);
     }
 
-    public function providerMultipliedBy(): array
+    public static function providerMultipliedBy(): array
     {
         return [
             [-3, 0, -3, 9, 0],
@@ -888,7 +888,7 @@ class DurationTest extends AbstractTestCase
         self::assertDurationIs($expectedSeconds, $expectedNanos, $duration);
     }
 
-    public function providerDividedBy(): array
+    public static function providerDividedBy(): array
     {
         return [
             [3, 0, 1, 3, 0],
@@ -964,7 +964,7 @@ class DurationTest extends AbstractTestCase
         self::assertDurationIs($expectedSeconds, $expectedNanos, $duration->negated());
     }
 
-    public function providerNegated(): array
+    public static function providerNegated(): array
     {
         return [
             [0, 0, 0, 0],
@@ -1047,7 +1047,7 @@ class DurationTest extends AbstractTestCase
         self::assertSame($expectedMillis, $duration->getTotalMillis());
     }
 
-    public function providerGetTotalMillis(): array
+    public static function providerGetTotalMillis(): array
     {
         return [
             [-123, 456000001, -122544],
@@ -1070,7 +1070,7 @@ class DurationTest extends AbstractTestCase
         self::assertSame($expectedMicros, $duration->getTotalMicros());
     }
 
-    public function providerGetTotalMicros(): array
+    public static function providerGetTotalMicros(): array
     {
         return [
             [-123, 456789001, -122543211],
@@ -1093,7 +1093,7 @@ class DurationTest extends AbstractTestCase
         self::assertSame($expectedNanos, $duration->getTotalNanos());
     }
 
-    public function providerGetTotalNanos(): array
+    public static function providerGetTotalNanos(): array
     {
         return [
             [-2, 000000001, -1999999999],
@@ -1111,7 +1111,7 @@ class DurationTest extends AbstractTestCase
         self::assertSame($days, $duration->toDaysPart());
     }
 
-    public function providerToDaysPart(): array
+    public static function providerToDaysPart(): array
     {
         return [
             [Duration::ofSeconds(365 * 86400 + 5 * 3600 + 48 * 60 + 46, 123456789), 365],
@@ -1131,7 +1131,7 @@ class DurationTest extends AbstractTestCase
         self::assertSame($hours, $duration->toHoursPart());
     }
 
-    public function providerToHoursPart(): array
+    public static function providerToHoursPart(): array
     {
         return [
             [Duration::ofSeconds(365 * 86400 + 5 * 3600 + 48 * 60 + 46, 123456789), 5],
@@ -1150,7 +1150,7 @@ class DurationTest extends AbstractTestCase
         self::assertSame($minutes, $duration->toMinutesPart());
     }
 
-    public function providerToMinutesPart(): array
+    public static function providerToMinutesPart(): array
     {
         return [
             [Duration::ofSeconds(365 * 86400 + 5 * 3600 + 48 * 60 + 46, 123456789), 48],
@@ -1169,7 +1169,7 @@ class DurationTest extends AbstractTestCase
         self::assertSame($seconds, $duration->toSecondsPart());
     }
 
-    public function providerToSecondsPart(): array
+    public static function providerToSecondsPart(): array
     {
         return [
             [Duration::ofSeconds(365 * 86400 + 5 * 3600 + 48 * 60 + 46, 123456789), 46],
@@ -1189,7 +1189,7 @@ class DurationTest extends AbstractTestCase
         self::assertSame($millis, $duration->toMillis());
     }
 
-    public function providerToMillis(): array
+    public static function providerToMillis(): array
     {
         return [
             [Duration::ofSeconds(321, 123456789), 321000 + 123],
@@ -1209,7 +1209,7 @@ class DurationTest extends AbstractTestCase
         $duration->toMillis();
     }
 
-    public function providerToMillisOutOfRange(): array
+    public static function providerToMillisOutOfRange(): array
     {
         return [
             [Duration::ofSeconds(intdiv(PHP_INT_MAX, 1000), ((PHP_INT_MAX % 1000) + 1) * 1000000)],
@@ -1225,7 +1225,7 @@ class DurationTest extends AbstractTestCase
         self::assertSame($millis, $duration->toMillisPart());
     }
 
-    public function providerToMillisPart(): array
+    public static function providerToMillisPart(): array
     {
         return [
             [Duration::ofSeconds(365 * 86400 + 5 * 3600 + 48 * 60 + 46, 123456789), 123],
@@ -1245,7 +1245,7 @@ class DurationTest extends AbstractTestCase
         self::assertSame($nanos, $duration->toNanos());
     }
 
-    public function providerToNanos(): array
+    public static function providerToNanos(): array
     {
         return [
             [Duration::ofSeconds(321, 123456789), 321123456789],
@@ -1263,7 +1263,7 @@ class DurationTest extends AbstractTestCase
         self::assertSame($nanos, $duration->toNanosPart());
     }
 
-    public function providerToNanosPart(): array
+    public static function providerToNanosPart(): array
     {
         return [
             [Duration::ofSeconds(365 * 86400 + 5 * 3600 + 48 * 60 + 46, 123456789), 123456789],
@@ -1299,7 +1299,7 @@ class DurationTest extends AbstractTestCase
         self::assertSame($expected, (string) Duration::ofSeconds($seconds, $nanos));
     }
 
-    public function providerToString(): array
+    public static function providerToString(): array
     {
         return [
             [0, 0, 'PT0S'],

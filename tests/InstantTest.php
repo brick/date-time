@@ -37,7 +37,7 @@ class InstantTest extends AbstractTestCase
         self::assertSame($expectedNanos, $duration->getNano());
     }
 
-    public function providerOf(): array
+    public static function providerOf(): array
     {
         return [
             [3, 1, 3, 1],
@@ -113,7 +113,7 @@ class InstantTest extends AbstractTestCase
         self::assertInstantIs($expectedSecond, $expectedNano, $result);
     }
 
-    public function providerPlus(): array
+    public static function providerPlus(): array
     {
         return [
             [123456, 789, 0, 0, 123456, 789],
@@ -152,7 +152,7 @@ class InstantTest extends AbstractTestCase
         self::assertInstantIs($expectedSecond, $nano, $result);
     }
 
-    public function providerPlusSeconds(): array
+    public static function providerPlusSeconds(): array
     {
         return [
             [123456, 789, 0, 123456, 789],
@@ -193,7 +193,7 @@ class InstantTest extends AbstractTestCase
         self::assertInstantIs($expectedSecond, $nano, $result);
     }
 
-    public function providerPlusMinutes(): array
+    public static function providerPlusMinutes(): array
     {
         return [
             [123456, 789, 0, 123456, 789],
@@ -234,7 +234,7 @@ class InstantTest extends AbstractTestCase
         self::assertInstantIs($expectedSecond, $nano, $result);
     }
 
-    public function providerPlusHours(): array
+    public static function providerPlusHours(): array
     {
         return [
             [123456, 789, 0, 123456, 789],
@@ -275,7 +275,7 @@ class InstantTest extends AbstractTestCase
         self::assertInstantIs($expectedSecond, $nano, $result);
     }
 
-    public function providerPlusDays(): array
+    public static function providerPlusDays(): array
     {
         return [
             [123456, 789, 0, 123456, 789],
@@ -311,7 +311,7 @@ class InstantTest extends AbstractTestCase
         $instant->withNano($nano);
     }
 
-    public function providerWithInvalidNanoThrowsException(): array
+    public static function providerWithInvalidNanoThrowsException(): array
     {
         return [
             [-1],
@@ -433,7 +433,7 @@ class InstantTest extends AbstractTestCase
         self::assertSame($cmp === -1, Instant::of($testSecond, $testNano)->isPast($clock));
     }
 
-    public function providerCompareTo(): array
+    public static function providerCompareTo(): array
     {
         return [
             [-1, -1, -1, -1,  0],
@@ -550,7 +550,7 @@ class InstantTest extends AbstractTestCase
         ));
     }
 
-    public function providerIsBetweenExclusive(): array
+    public static function providerIsBetweenExclusive(): array
     {
         return [
             [-1, -2, false],
@@ -567,7 +567,7 @@ class InstantTest extends AbstractTestCase
         ];
     }
 
-    public function providerIsBetweenInclusive(): array
+    public static function providerIsBetweenInclusive(): array
     {
         return [
             [-1, -2, false],
@@ -594,7 +594,7 @@ class InstantTest extends AbstractTestCase
         self::assertSame($expectedInterval, (string) $actualResult);
     }
 
-    public function providerGetIntervalTo(): array
+    public static function providerGetIntervalTo(): array
     {
         return [
             [1672567200, 0,       1672567200, 0,       '2023-01-01T10:00Z/2023-01-01T10:00Z'],
@@ -617,7 +617,7 @@ class InstantTest extends AbstractTestCase
         self::assertSame($expected, Instant::of($second, $nano)->toDecimal());
     }
 
-    public function providerToDecimal()
+    public static function providerToDecimal(): array
     {
         return [
             [123456789, 0, '123456789'],
@@ -670,7 +670,7 @@ class InstantTest extends AbstractTestCase
         self::assertSame($expectedString, (string) Instant::of($epochSecond, $nano));
     }
 
-    public function providerToString(): array
+    public static function providerToString(): array
     {
         return [
             [-2000000000, 0, '1906-08-16T20:26:40Z'],

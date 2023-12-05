@@ -28,7 +28,7 @@ class MonthDayTest extends AbstractTestCase
         self::assertMonthDayIs($month, $day, MonthDay::of($month, $day));
     }
 
-    public function providerOf(): array
+    public static function providerOf(): array
     {
         return [
             [1, 1],
@@ -56,7 +56,7 @@ class MonthDayTest extends AbstractTestCase
         MonthDay::of($month, $day);
     }
 
-    public function providerOfThrowsExceptionOnInvalidMonthDay(): array
+    public static function providerOfThrowsExceptionOnInvalidMonthDay(): array
     {
         return [
             [0, 1],
@@ -89,7 +89,7 @@ class MonthDayTest extends AbstractTestCase
         self::assertMonthDayIs($month, $day, MonthDay::parse($text));
     }
 
-    public function providerParse(): array
+    public static function providerParse(): array
     {
         return [
             ['--01-01', 1, 1],
@@ -107,7 +107,7 @@ class MonthDayTest extends AbstractTestCase
         MonthDay::parse($text);
     }
 
-    public function providerParseInvalidStringThrowsException(): array
+    public static function providerParseInvalidStringThrowsException(): array
     {
         return [
             ['01-01'],
@@ -134,7 +134,7 @@ class MonthDayTest extends AbstractTestCase
         MonthDay::parse($text);
     }
 
-    public function providerParseInvalidDateThrowsException(): array
+    public static function providerParseInvalidDateThrowsException(): array
     {
         return [
             ['--00-01'],
@@ -158,7 +158,7 @@ class MonthDayTest extends AbstractTestCase
         self::assertMonthDayIs($month, $day, MonthDay::now(TimeZone::parse($timeZone), $clock));
     }
 
-    public function providerNow(): array
+    public static function providerNow(): array
     {
         return [
             [946684799, '+00:00', 12, 31],
@@ -224,7 +224,7 @@ class MonthDayTest extends AbstractTestCase
         self::assertSame($result === 1, MonthDay::of($m1, $d1)->isAfter(MonthDay::of($m2, $d2)));
     }
 
-    public function providerCompareTo(): array
+    public static function providerCompareTo(): array
     {
         return [
             [1, 1, 1, 1,  0],
@@ -259,7 +259,7 @@ class MonthDayTest extends AbstractTestCase
         self::assertSame($isValid, MonthDay::of($month, $day)->isValidYear($year));
     }
 
-    public function providerIsValidYear(): array
+    public static function providerIsValidYear(): array
     {
         return [
             [1, 1, 2000, true],
@@ -299,7 +299,7 @@ class MonthDayTest extends AbstractTestCase
         self::assertMonthDayIs($newMonth, $expectedDay, $newMonthDay);
     }
 
-    public function providerWithMonth(): array
+    public static function providerWithMonth(): array
     {
         return [
             [1, 1, 1, 1],
@@ -334,7 +334,7 @@ class MonthDayTest extends AbstractTestCase
         MonthDay::of($month, $day)->withMonth($newMonth);
     }
 
-    public function providerWithInvalidMonthThrowsException(): array
+    public static function providerWithInvalidMonthThrowsException(): array
     {
         return [
             [1, 1, 0],
@@ -369,7 +369,7 @@ class MonthDayTest extends AbstractTestCase
         self::assertMonthDayIs($month, $newDay, $newMonthDay);
     }
 
-    public function providerWithDay(): array
+    public static function providerWithDay(): array
     {
         return [
             [1, 1, 31],
@@ -394,7 +394,7 @@ class MonthDayTest extends AbstractTestCase
         MonthDay::of($month, $day)->withDay($newDay);
     }
 
-    public function providerWithInvalidDayThrowsException(): array
+    public static function providerWithInvalidDayThrowsException(): array
     {
         return [
             [12, 31, 32],
@@ -437,7 +437,7 @@ class MonthDayTest extends AbstractTestCase
         self::assertLocalDateIs($year, $month, $expectedDay, MonthDay::of($month, $day)->atYear($year));
     }
 
-    public function providerAtYear(): array
+    public static function providerAtYear(): array
     {
         return [
             [1, 31, 2000, 31],
@@ -458,7 +458,7 @@ class MonthDayTest extends AbstractTestCase
         MonthDay::of(1, 1)->atYear($year);
     }
 
-    public function providerAtInvalidYearThrowsException(): array
+    public static function providerAtInvalidYearThrowsException(): array
     {
         return [
             [-1234567890],
@@ -502,7 +502,7 @@ class MonthDayTest extends AbstractTestCase
         self::assertSame($string, (string) MonthDay::of($month, $day));
     }
 
-    public function providerToString(): array
+    public static function providerToString(): array
     {
         return [
             [1, 1, '--01-01'],

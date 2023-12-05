@@ -31,7 +31,7 @@ class TimeZoneRegionTest extends AbstractTestCase
         TimeZoneRegion::of($region);
     }
 
-    public function providerOfInvalidRegionThrowsException(): array
+    public static function providerOfInvalidRegionThrowsException(): array
     {
         return [
             [''],
@@ -57,7 +57,7 @@ class TimeZoneRegionTest extends AbstractTestCase
         TimeZoneRegion::parse($text);
     }
 
-    public function providerParseInvalidStringThrowsException(): array
+    public static function providerParseInvalidStringThrowsException(): array
     {
         return [
             [''],
@@ -98,7 +98,7 @@ class TimeZoneRegionTest extends AbstractTestCase
         }
     }
 
-    public function providerGetAllTimeZones(): array
+    public static function providerGetAllTimeZones(): array
     {
         return [
             [false],
@@ -116,7 +116,7 @@ class TimeZoneRegionTest extends AbstractTestCase
         self::assertSame($expectedIdentifiers, $identifiers);
     }
 
-    public function providerGetTimeZonesForCountry(): array
+    public static function providerGetTimeZonesForCountry(): array
     {
         return [
             ['FR', 'Europe/Paris'],
@@ -144,7 +144,7 @@ class TimeZoneRegionTest extends AbstractTestCase
         self::assertSame($expectedOffset, $actualOffset);
     }
 
-    public function providerGetOffset(): array
+    public static function providerGetOffset(): array
     {
         return [
             ['Europe/London', 1419984000,    0],

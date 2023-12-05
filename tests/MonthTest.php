@@ -29,7 +29,7 @@ class MonthTest extends AbstractTestCase
         self::assertSame($expectedValue, $month->getValue());
     }
 
-    public function providerValues(): array
+    public static function providerValues(): array
     {
         return [
             [1, Month::JANUARY],
@@ -62,7 +62,7 @@ class MonthTest extends AbstractTestCase
         Month::of($invalidMonth);
     }
 
-    public function providerOfInvalidMonthThrowsException(): array
+    public static function providerOfInvalidMonthThrowsException(): array
     {
         return [
             [-1],
@@ -111,7 +111,7 @@ class MonthTest extends AbstractTestCase
         self::assertSame($minLength, Month::from($month)->getMinLength());
     }
 
-    public function minLengthProvider(): array
+    public static function minLengthProvider(): array
     {
         return [
             [1, 31],
@@ -140,7 +140,7 @@ class MonthTest extends AbstractTestCase
         self::assertSame($minLength, Month::from($month)->getMaxLength());
     }
 
-    public function maxLengthProvider(): array
+    public static function maxLengthProvider(): array
     {
         return [
             [1, 31],
@@ -170,7 +170,7 @@ class MonthTest extends AbstractTestCase
         self::assertSame($firstDayOfYear, Month::from($month)->getFirstDayOfYear($leapYear));
     }
 
-    public function providerFirstDayOfYear(): array
+    public static function providerFirstDayOfYear(): array
     {
         return [
             [1, false, 1],
@@ -213,7 +213,7 @@ class MonthTest extends AbstractTestCase
         self::assertSame($expectedLength, $month->getLength($leapYear));
     }
 
-    public function providerGetLength(): array
+    public static function providerGetLength(): array
     {
         return [
             [Month::JANUARY, false, 31],
@@ -278,7 +278,7 @@ class MonthTest extends AbstractTestCase
         self::assertSame($expectedMonth, $month->minus(-$plusMonths));
     }
 
-    public function providerPlus(): Generator
+    public static function providerPlus(): Generator
     {
         for ($month = Month::JANUARY->value; $month <= Month::DECEMBER->value; $month++) {
             for ($plusMonths = -25; $plusMonths <= 25; $plusMonths++) {
@@ -318,7 +318,7 @@ class MonthTest extends AbstractTestCase
         self::assertSame($expectedName, $month->toString());
     }
 
-    public function providerToString(): array
+    public static function providerToString(): array
     {
         return [
             [Month::JANUARY, 'January'],

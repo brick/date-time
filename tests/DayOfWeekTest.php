@@ -32,7 +32,7 @@ class DayOfWeekTest extends AbstractTestCase
         self::assertSame($expectedValue, $dayOfWeek->getValue());
     }
 
-    public function providerValues(): array
+    public static function providerValues(): array
     {
         return [
             [1, DayOfWeek::MONDAY],
@@ -60,7 +60,7 @@ class DayOfWeekTest extends AbstractTestCase
         DayOfWeek::of($dayOfWeek);
     }
 
-    public function providerOfInvalidDayOfWeekThrowsException(): array
+    public static function providerOfInvalidDayOfWeekThrowsException(): array
     {
         return [
             [-1],
@@ -82,7 +82,7 @@ class DayOfWeekTest extends AbstractTestCase
         self::assertSame($expectedDayOfWeek, DayOfWeek::now(TimeZone::parse($timeZone), $clock));
     }
 
-    public function providerNow(): array
+    public static function providerNow(): array
     {
         return [
             [1388534399, '-01:00', DayOfWeek::TUESDAY],
@@ -168,7 +168,7 @@ class DayOfWeekTest extends AbstractTestCase
         self::assertSame($isWeekday, $dayOfWeek->isWeekday());
     }
 
-    public function providerIsWeekday(): array
+    public static function providerIsWeekday(): array
     {
         return [
             [DayOfWeek::MONDAY, true],
@@ -189,7 +189,7 @@ class DayOfWeekTest extends AbstractTestCase
         self::assertSame($isWeekend, $dayOfWeek->isWeekend());
     }
 
-    public function providerIsWeekend(): array
+    public static function providerIsWeekend(): array
     {
         return [
             [DayOfWeek::MONDAY, false],
@@ -226,7 +226,7 @@ class DayOfWeekTest extends AbstractTestCase
         self::assertSame($expectedDayOfWeek, $dayOfWeek->minus(-$plusDays));
     }
 
-    public function providerPlus(): Generator
+    public static function providerPlus(): Generator
     {
         for ($dayOfWeek = DayOfWeek::MONDAY->value; $dayOfWeek <= DayOfWeek::SUNDAY->value; $dayOfWeek++) {
             for ($plusDays = -15; $plusDays <= 15; $plusDays++) {
@@ -266,7 +266,7 @@ class DayOfWeekTest extends AbstractTestCase
         self::assertSame($expectedName, $dayOfWeek->toString());
     }
 
-    public function providerToString(): array
+    public static function providerToString(): array
     {
         return [
             [DayOfWeek::MONDAY,    'Monday'],
