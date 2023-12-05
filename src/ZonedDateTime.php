@@ -203,7 +203,9 @@ class ZonedDateTime implements JsonSerializable, Stringable
         $dateTimeZone = $dateTime->getTimezone();
 
         if ($dateTimeZone === false) {
+            // @codeCoverageIgnoreStart
             throw new DateTimeException('This DateTime object has no timezone.');
+            // @codeCoverageIgnoreEnd
         }
 
         $timeZone = TimeZone::fromNativeDateTimeZone($dateTimeZone);

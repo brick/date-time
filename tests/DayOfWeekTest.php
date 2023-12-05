@@ -29,6 +29,7 @@ class DayOfWeekTest extends AbstractTestCase
     public function testValues(int $expectedValue, DayOfWeek $dayOfWeek): void
     {
         self::assertSame($expectedValue, $dayOfWeek->value);
+        self::assertSame($expectedValue, $dayOfWeek->getValue());
     }
 
     public function providerValues(): array

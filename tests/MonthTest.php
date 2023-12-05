@@ -26,6 +26,7 @@ class MonthTest extends AbstractTestCase
     public function testValues(int $expectedValue, Month $month): void
     {
         self::assertSame($expectedValue, $month->value);
+        self::assertSame($expectedValue, $month->getValue());
     }
 
     public function providerValues(): array
