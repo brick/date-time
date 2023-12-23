@@ -41,7 +41,7 @@ final class TimeZoneRegion extends TimeZone
 
         try {
             return new TimeZoneRegion(new DateTimeZone($id));
-        } catch (Exception $e) {
+        } catch (Exception) {
             throw DateTimeException::unknownTimeZoneRegion($id);
         }
     }
