@@ -19,7 +19,7 @@
         "vimeo/psalm": "5.15.0"
     },
     "replace": {
-        "brick/date-time": "0.5.1"
+        "brick/date-time": "0.5.5"
     },
     "conflict": {
         "solodkiy/date-time": "*"
