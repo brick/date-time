@@ -33,8 +33,8 @@ class IntervalTest extends AbstractTestCase
 
         $interval = Interval::of($start, $end);
 
-        $this->assertInstantIs(2000000000, 987654321, $interval->getStart());
-        $this->assertInstantIs(2000000009, 123456789, $interval->getEnd());
+        self::assertInstantIs(2000000000, 987654321, $interval->getStart());
+        self::assertInstantIs(2000000009, 123456789, $interval->getEnd());
     }
 
     /**
@@ -49,15 +49,15 @@ class IntervalTest extends AbstractTestCase
 
         $newInterval = $interval->withStart(Instant::of(1999999999, 999999999));
 
-        $this->assertNotSame($newInterval, $interval);
+        self::assertNotSame($newInterval, $interval);
 
         // ensure that the original isn't changed
-        $this->assertInstantIs(2000000000, 0, $interval->getStart());
-        $this->assertInstantIs(2000000001, 0, $interval->getEnd());
+        self::assertInstantIs(2000000000, 0, $interval->getStart());
+        self::assertInstantIs(2000000001, 0, $interval->getEnd());
 
         // test the new instance
-        $this->assertInstantIs(1999999999, 999999999, $newInterval->getStart());
-        $this->assertInstantIs(2000000001, 0, $newInterval->getEnd());
+        self::assertInstantIs(1999999999, 999999999, $newInterval->getStart());
+        self::assertInstantIs(2000000001, 0, $newInterval->getEnd());
     }
 
     /**
@@ -72,15 +72,15 @@ class IntervalTest extends AbstractTestCase
 
         $newInterval = $interval->withEnd(Instant::of(2000000002, 222222222));
 
-        $this->assertNotSame($newInterval, $interval);
+        self::assertNotSame($newInterval, $interval);
 
         // ensure that the original isn't changed
-        $this->assertInstantIs(2000000000, 0, $interval->getStart());
-        $this->assertInstantIs(2000000001, 0, $interval->getEnd());
+        self::assertInstantIs(2000000000, 0, $interval->getStart());
+        self::assertInstantIs(2000000001, 0, $interval->getEnd());
 
         // test the new instance
-        $this->assertInstantIs(2000000000, 0, $newInterval->getStart());
-        $this->assertInstantIs(2000000002, 222222222, $newInterval->getEnd());
+        self::assertInstantIs(2000000000, 0, $newInterval->getStart());
+        self::assertInstantIs(2000000002, 222222222, $newInterval->getEnd());
     }
 
     public function testGetDuration(): void
@@ -92,7 +92,7 @@ class IntervalTest extends AbstractTestCase
 
         $duration = $interval->getDuration();
 
-        $this->assertDurationIs(1, 999444556, $duration);
+        self::assertDurationIs(1, 999444556, $duration);
     }
 
     /** @dataProvider providerContains */
@@ -100,7 +100,7 @@ class IntervalTest extends AbstractTestCase
     {
         $interval = Interval::of(Instant::of($start), Instant::of($end));
 
-        $this->assertSame($expected, $interval->contains(Instant::of($now)), $errorMessage);
+        self::assertSame($expected, $interval->contains(Instant::of($now)), $errorMessage);
     }
 
     public function providerContains(): array
@@ -135,7 +135,7 @@ class IntervalTest extends AbstractTestCase
     {
         $interval1 = Interval::of(Instant::of($start1), Instant::of($end1));
         $interval2 = Interval::of(Instant::of($start2), Instant::of($end2));
-        $this->assertSame($expected, $interval1->intersectsWith($interval2));
+        self::assertSame($expected, $interval1->intersectsWith($interval2));
     }
 
     public function providerIntersectsWith(): array
@@ -182,7 +182,7 @@ class IntervalTest extends AbstractTestCase
         $interval2 = Interval::of(Instant::of($start2), Instant::of($end2));
         $expected = Interval::of(Instant::of($expectedStart), Instant::of($expectedEnd));
 
-        $this->assertTrue($expected->isEqualTo($interval1->getIntersectionWith($interval2)));
+        self::assertTrue($expected->isEqualTo($interval1->getIntersectionWith($interval2)));
     }
 
     public function providerGetIntersectionWith(): array
@@ -230,8 +230,8 @@ class IntervalTest extends AbstractTestCase
     /** @dataProvider providerIsEqualTo */
     public function testIsEqualTo(Interval $a, Interval $b, bool $expectedResult): void
     {
-        $this->assertSame($expectedResult, $a->isEqualTo($b));
-        $this->assertSame($expectedResult, $b->isEqualTo($a));
+        self::assertSame($expectedResult, $a->isEqualTo($b));
+        self::assertSame($expectedResult, $b->isEqualTo($a));
     }
 
     public function providerIsEqualTo(): array
@@ -260,23 +260,44 @@ class IntervalTest extends AbstractTestCase
         ];
     }
 
-    public function testJsonSerialize(): void
+    /** @dataProvider providerToString */
+    public function testJsonSerialize(int $epochSecondStart, int $epochSecondEnd, string $expectedString): void
     {
         $interval = Interval::of(
-            Instant::of(1000000000),
-            Instant::of(2000000000)
+            Instant::of($epochSecondStart),
+            Instant::of($epochSecondEnd)
         );
 
-        $this->assertSame(json_encode('2001-09-09T01:46:40Z/2033-05-18T03:33:20Z'), json_encode($interval));
+        self::assertSame(json_encode($expectedString), json_encode($interval));
     }
 
-    public function testToString(): void
+    /** @dataProvider providerToString */
+    public function testToISOString(int $epochSecondStart, int $epochSecondEnd, string $expectedString): void
     {
         $interval = Interval::of(
-            Instant::of(1000000000),
-            Instant::of(2000000000)
+            Instant::of($epochSecondStart),
+            Instant::of($epochSecondEnd)
         );
 
-        $this->assertSame('2001-09-09T01:46:40Z/2033-05-18T03:33:20Z', (string) $interval);
+        self::assertSame($expectedString, $interval->toISOString());
+    }
+
+    /** @dataProvider providerToString */
+    public function testToString(int $epochSecondStart, int $epochSecondEnd, string $expectedString): void
+    {
+        $interval = Interval::of(
+            Instant::of($epochSecondStart),
+            Instant::of($epochSecondEnd)
+        );
+
+        self::assertSame($expectedString, (string) $interval);
+    }
+
+    public function providerToString(): array
+    {
+        return [
+            [1000000000, 1000000000, '2001-09-09T01:46:40Z/2001-09-09T01:46:40Z'],
+            [1000000000, 2000000000, '2001-09-09T01:46:40Z/2033-05-18T03:33:20Z'],
+        ];
     }
 }

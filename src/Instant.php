@@ -52,11 +52,11 @@ final class Instant implements JsonSerializable
      * This method allows an arbitrary number of nanoseconds to be passed in.
      * The factory will alter the values of the second and nanosecond in order
      * to ensure that the stored nanosecond is in the range 0 to 999,999,999.
-     * For example, the following will result in the exactly the same duration:
+     * For example, the following will result in exactly the same instant:
      *
      * * Instant::of(3, 1);
-     * * Duration::of(4, -999999999);
-     * * Duration::of(2, 1000000001);
+     * * Instant::of(4, -999999999);
+     * * Instant::of(2, 1000000001);
      *
      * @param int $epochSecond    The number of seconds since the UNIX epoch of 1970-01-01T00:00:00Z.
      * @param int $nanoAdjustment The adjustment to the epoch second in nanoseconds.
@@ -77,7 +77,14 @@ final class Instant implements JsonSerializable
 
     public static function epoch(): Instant
     {
-        return new Instant(0, 0);
+        /** @var Instant|null $epoch */
+        static $epoch;
+
+        if ($epoch) {
+            return $epoch;
+        }
+
+        return $epoch = new Instant(0, 0);
     }
 
     public static function now(?Clock $clock = null): Instant
@@ -96,7 +103,14 @@ final class Instant implements JsonSerializable
      */
     public static function min(): Instant
     {
-        return new Instant(PHP_INT_MIN, 0);
+        /** @var Instant|null $min */
+        static $min;
+
+        if ($min) {
+            return $min;
+        }
+
+        return $min = new Instant(PHP_INT_MIN, 0);
     }
 
     /**
@@ -106,7 +120,14 @@ final class Instant implements JsonSerializable
      */
     public static function max(): Instant
     {
-        return new Instant(PHP_INT_MAX, 999_999_999);
+        /** @var Instant|null $max */
+        static $max;
+
+        if ($max) {
+            return $max;
+        }
+
+        return $max = new Instant(PHP_INT_MAX, 999_999_999);
     }
 
     public function plus(Duration $duration): Instant
@@ -313,6 +334,16 @@ final class Instant implements JsonSerializable
     }
 
     /**
+     * Returns an Interval from this Instant (inclusive) to the given one (exclusive).
+     *
+     * @throws DateTimeException If the given Instant is before this Instant.
+     */
+    public function getIntervalTo(Instant $that): Interval
+    {
+        return Interval::of($this, $that);
+    }
+
+    /**
      * Returns a UtcDateTime formed from this instant.
      */
     public function toUtcDateTime(): UtcDateTime
@@ -343,15 +374,26 @@ final class Instant implements JsonSerializable
     }
 
     /**
-     * Serializes as a string using {@see Instant::__toString()}.
+     * Serializes as a string using {@see Instant::toISOString()}.
      */
     public function jsonSerialize(): string
     {
-        return (string) $this;
+        return $this->toISOString();
     }
 
-    public function __toString(): string
+    /**
+     * Returns the ISO 8601 representation of this instant.
+     */
+    public function toISOString(): string
     {
         return (string) ZonedDateTime::ofInstant($this, TimeZone::utc());
+    }
+
+    /**
+     * {@see Instant::toISOString()}.
+     */
+    public function __toString(): string
+    {
+        return $this->toISOString();
     }
 }

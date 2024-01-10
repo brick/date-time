@@ -37,8 +37,8 @@ abstract class AbstractTestCase extends TestCase
      */
     protected function assertIs(string $className, string $expectedString, object $object): void
     {
-        $this->assertInstanceOf($className, $object);
-        $this->assertSame($expectedString, (string) $object);
+        self::assertInstanceOf($className, $object);
+        self::assertSame($expectedString, (string) $object);
     }
 
     /**
@@ -115,7 +115,7 @@ abstract class AbstractTestCase extends TestCase
      */
     protected function assertLocalDateTimeEquals(LocalDateTime $expected, LocalDateTime $actual): void
     {
-        $this->assertTrue($actual->isEqualTo($expected), "$actual != $expected");
+        self::assertTrue($actual->isEqualTo($expected), "$actual != $expected");
     }
 
     protected function assertYearIs(int $yearValue, Year $year): void
@@ -225,8 +225,8 @@ abstract class AbstractTestCase extends TestCase
      */
     protected function assertLocalDateRangeIs(int $y1, int $m1, int $d1, int $y2, int $m2, int $d2, LocalDateRange $range): void
     {
-        $this->assertLocalDateIs($y1, $m1, $d1, $range->getStart());
-        $this->assertLocalDateIs($y2, $m2, $d2, $range->getEnd());
+        self::assertLocalDateIs($y1, $m1, $d1, $range->getStart());
+        self::assertLocalDateIs($y2, $m2, $d2, $range->getEnd());
     }
 
     /**
@@ -238,8 +238,8 @@ abstract class AbstractTestCase extends TestCase
      */
     protected function assertYearMonthRangeIs(int $y1, int $m1, int $y2, int $m2, YearMonthRange $range): void
     {
-        $this->assertYearMonthIs($y1, $m1, $range->getStart());
-        $this->assertYearMonthIs($y2, $m2, $range->getEnd());
+        self::assertYearMonthIs($y1, $m1, $range->getStart());
+        self::assertYearMonthIs($y2, $m2, $range->getEnd());
     }
 
     /**
@@ -248,7 +248,7 @@ abstract class AbstractTestCase extends TestCase
      */
     protected function assertTimeZoneEquals(TimeZone $expected, TimeZone $actual): void
     {
-        $this->assertTrue($actual->isEqualTo($expected), "$actual != $expected");
+        self::assertTrue($actual->isEqualTo($expected), "$actual != $expected");
     }
 
     /**
@@ -271,7 +271,7 @@ abstract class AbstractTestCase extends TestCase
         $message = $this->export($actual) . ' !== ' . $this->export($expected);
 
         foreach ($expected as $key => $value) {
-            $this->assertSame($value, $actual[$key], $message);
+            self::assertSame($value, $actual[$key], $message);
         }
     }
 

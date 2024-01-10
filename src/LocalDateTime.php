@@ -143,7 +143,14 @@ final class LocalDateTime implements JsonSerializable
      */
     public static function min(): LocalDateTime
     {
-        return new LocalDateTime(LocalDate::min(), LocalTime::min());
+        /** @var LocalDateTime|null $min */
+        static $min;
+
+        if ($min) {
+            return $min;
+        }
+
+        return $min = new LocalDateTime(LocalDate::min(), LocalTime::min());
     }
 
     /**
@@ -151,7 +158,14 @@ final class LocalDateTime implements JsonSerializable
      */
     public static function max(): LocalDateTime
     {
-        return new LocalDateTime(LocalDate::max(), LocalTime::max());
+        /** @var LocalDateTime|null $max */
+        static $max;
+
+        if ($max) {
+            return $max;
+        }
+
+        return $max = new LocalDateTime(LocalDate::max(), LocalTime::max());
     }
 
     /**
@@ -169,10 +183,10 @@ final class LocalDateTime implements JsonSerializable
             throw new DateTimeException(__METHOD__ . ' does not accept less than 1 parameter.');
         }
 
-        $min = LocalDateTime::max();
+        $min = null;
 
         foreach ($times as $time) {
-            if ($time->isBefore($min)) {
+            if ($min === null || $time->isBefore($min)) {
                 $min = $time;
             }
         }
@@ -195,10 +209,10 @@ final class LocalDateTime implements JsonSerializable
             throw new DateTimeException(__METHOD__ . ' does not accept less than 1 parameter.');
         }
 
-        $max = LocalDateTime::min();
+        $max = null;
 
         foreach ($times as $time) {
-            if ($time->isAfter($max)) {
+            if ($max === null || $time->isAfter($max)) {
                 $max = $time;
             }
         }
@@ -760,16 +774,27 @@ final class LocalDateTime implements JsonSerializable
     }
 
     /**
-     * Serializes as a string using {@see LocalDateTime::__toString()}.
+     * Serializes as a string using {@see LocalDateTime::toISOString()}.
      */
     public function jsonSerialize(): string
     {
-        return (string) $this;
+        return $this->toISOString();
     }
 
-    public function __toString(): string
+    /**
+     * Returns the ISO 8601 representation of this date time.
+     */
+    public function toISOString(): string
     {
         return $this->date . 'T' . $this->time;
+    }
+
+    /**
+     * {@see LocalDateTime::toISOString()}.
+     */
+    public function __toString(): string
+    {
+        return $this->toISOString();
     }
 
     /**

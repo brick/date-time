@@ -4,9 +4,15 @@ declare(strict_types=1);
 
 namespace Brick\DateTime;
 
+use Brick\DateTime\Parser\DateTimeParseException;
+use Brick\DateTime\Parser\DateTimeParser;
+use Brick\DateTime\Parser\DateTimeParseResult;
+use Brick\DateTime\Parser\IsoParsers;
 use JsonSerializable;
 
-use function sprintf;
+use function str_pad;
+
+use const STR_PAD_LEFT;
 
 /**
  * Represents the combination of a year and a week.
@@ -47,6 +53,36 @@ final class YearWeek implements JsonSerializable
         Field\WeekOfYear::check($week, $year);
 
         return new YearWeek($year, $week);
+    }
+
+    /**
+     * @throws DateTimeException      If the year-week is not valid.
+     * @throws DateTimeParseException If required fields are missing from the result.
+     */
+    public static function from(DateTimeParseResult $result): YearWeek
+    {
+        return YearWeek::of(
+            (int) $result->getField(Field\Year::NAME),
+            (int) $result->getField(Field\WeekOfYear::NAME)
+        );
+    }
+
+    /**
+     * Obtains an instance of `YearWeek` from a text string.
+     *
+     * @param string              $text   The text to parse, such as `2007-W48`.
+     * @param DateTimeParser|null $parser The parser to use, defaults to the ISO 8601 parser.
+     *
+     * @throws DateTimeException      If the year-week is not valid.
+     * @throws DateTimeParseException If the text string does not follow the expected format.
+     */
+    public static function parse(string $text, ?DateTimeParser $parser = null): YearWeek
+    {
+        if (! $parser) {
+            $parser = IsoParsers::yearWeek();
+        }
+
+        return YearWeek::from($parser->parse($text));
     }
 
     public static function now(TimeZone $timeZone, ?Clock $clock = null): YearWeek
@@ -262,17 +298,36 @@ final class YearWeek implements JsonSerializable
     }
 
     /**
-     * Serializes as a string using {@see YearWeek::__toString()}.
+     * Serializes as a string using {@see YearWeek::toISOString()}.
      */
     public function jsonSerialize(): string
     {
-        return (string) $this;
+        return $this->toISOString();
     }
 
+    /**
+     * Returns the ISO 8601 representation of this year-week.
+     */
+    public function toISOString(): string
+    {
+        // This code is optimized for high performance
+        return ($this->year < 1000 && $this->year > -1000
+                ? (
+                    $this->year < 0
+                        ? '-' . str_pad((string) -$this->year, 4, '0', STR_PAD_LEFT)
+                        : str_pad((string) $this->year, 4, '0', STR_PAD_LEFT)
+                )
+                : $this->year
+            )
+            . '-W'
+            . ($this->week < 10 ? '0' . $this->week : $this->week);
+    }
+
+    /**
+     * {@see YearWeek::toISOString()}.
+     */
     public function __toString(): string
     {
-        $pattern = ($this->year < 0 ? '%05d' : '%04d') . '-W%02d';
-
-        return sprintf($pattern, $this->year, $this->week);
+        return $this->toISOString();
     }
 }

@@ -15,6 +15,7 @@ use Brick\DateTime\Field\TimeZoneOffsetMinute;
 use Brick\DateTime\Field\TimeZoneOffsetSecond;
 use Brick\DateTime\Field\TimeZoneOffsetSign;
 use Brick\DateTime\Field\TimeZoneRegion;
+use Brick\DateTime\Field\WeekOfYear;
 use Brick\DateTime\Field\Year;
 
 /**
@@ -166,6 +167,23 @@ final class IsoParsers
     }
 
     /**
+     * Returns a parser for a year such as `2014`.
+     */
+    public static function year(): PatternParser
+    {
+        /** @var PatternParser|null $parser */
+        static $parser;
+
+        if ($parser) {
+            return $parser;
+        }
+
+        return $parser = (new PatternParserBuilder())
+            ->appendCapturePattern(Year::PATTERN, Year::NAME)
+            ->toParser();
+    }
+
+    /**
      * Returns a parser for a year-month such as `2014-12`.
      */
     public static function yearMonth(): PatternParser
@@ -181,6 +199,25 @@ final class IsoParsers
             ->appendCapturePattern(Year::PATTERN, Year::NAME)
             ->appendLiteral('-')
             ->appendCapturePattern(MonthOfYear::PATTERN, MonthOfYear::NAME)
+            ->toParser();
+    }
+
+    /**
+     * Returns a parser for a year-week such as `2014-W15`.
+     */
+    public static function yearWeek(): PatternParser
+    {
+        /** @var PatternParser|null $parser */
+        static $parser;
+
+        if ($parser) {
+            return $parser;
+        }
+
+        return $parser = (new PatternParserBuilder())
+            ->appendCapturePattern(Year::PATTERN, Year::NAME)
+            ->appendLiteral('-W')
+            ->appendCapturePattern(WeekOfYear::PATTERN, WeekOfYear::NAME)
             ->toParser();
     }
 

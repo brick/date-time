@@ -19,7 +19,7 @@ class TimeZoneRegionTest extends AbstractTestCase
 {
     public function testOf(): void
     {
-        $this->assertSame('Europe/London', TimeZoneRegion::of('Europe/London')->getId());
+        self::assertSame('Europe/London', TimeZoneRegion::of('Europe/London')->getId());
     }
 
     /**
@@ -45,7 +45,7 @@ class TimeZoneRegionTest extends AbstractTestCase
 
     public function testParse(): void
     {
-        $this->assertSame('Europe/London', TimeZoneRegion::parse('Europe/London')->getId());
+        self::assertSame('Europe/London', TimeZoneRegion::parse('Europe/London')->getId());
     }
 
     /**
@@ -71,7 +71,7 @@ class TimeZoneRegionTest extends AbstractTestCase
     public function testGetAllTimeZones(bool $includeObsolete): void
     {
         $identifiers = TimeZoneRegion::getAllIdentifiers($includeObsolete);
-        $this->assertGreaterThan(1, count($identifiers));
+        self::assertGreaterThan(1, count($identifiers));
 
         $expectedIdentifiers = [
             'UTC',
@@ -86,14 +86,14 @@ class TimeZoneRegionTest extends AbstractTestCase
         ];
 
         foreach ($expectedIdentifiers as $identifier) {
-            $this->assertContains($identifier, $identifiers);
+            self::assertContains($identifier, $identifiers);
         }
 
         foreach ($expectedObsoleteIdentifiers as $identifier) {
             if ($includeObsolete) {
-                $this->assertContains($identifier, $identifiers);
+                self::assertContains($identifier, $identifiers);
             } else {
-                $this->assertNotContains($identifier, $identifiers);
+                self::assertNotContains($identifier, $identifiers);
             }
         }
     }
@@ -113,7 +113,7 @@ class TimeZoneRegionTest extends AbstractTestCase
     {
         $identifiers = TimeZoneRegion::getIdentifiersForCountry($countryCode);
 
-        $this->assertSame($expectedIdentifiers, $identifiers);
+        self::assertSame($expectedIdentifiers, $identifiers);
     }
 
     public function providerGetTimeZonesForCountry(): array
@@ -141,7 +141,7 @@ class TimeZoneRegionTest extends AbstractTestCase
     public function testGetOffset(string $region, int $epochSecond, int $expectedOffset): void
     {
         $actualOffset = TimeZoneRegion::of($region)->getOffset(Instant::of($epochSecond));
-        $this->assertSame($expectedOffset, $actualOffset);
+        self::assertSame($expectedOffset, $actualOffset);
     }
 
     public function providerGetOffset(): array
@@ -158,17 +158,17 @@ class TimeZoneRegionTest extends AbstractTestCase
     {
         $dateTimeZone = TimeZoneRegion::of('Europe/London')->toNativeDateTimeZone();
 
-        $this->assertInstanceOf(DateTimeZone::class, $dateTimeZone);
-        $this->assertSame('Europe/London', $dateTimeZone->getName());
+        self::assertInstanceOf(DateTimeZone::class, $dateTimeZone);
+        self::assertSame('Europe/London', $dateTimeZone->getName());
     }
 
     public function testGetId(): void
     {
-        $this->assertSame('Europe/Paris', TimeZoneRegion::of('Europe/Paris')->getId());
+        self::assertSame('Europe/Paris', TimeZoneRegion::of('Europe/Paris')->getId());
     }
 
     public function testToString(): void
     {
-        $this->assertSame('America/Los_Angeles', (string) TimeZoneRegion::of('America/Los_Angeles'));
+        self::assertSame('America/Los_Angeles', (string) TimeZoneRegion::of('America/Los_Angeles'));
     }
 }

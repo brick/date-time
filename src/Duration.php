@@ -13,9 +13,9 @@ use function intdiv;
 use function is_int;
 use function preg_match;
 use function rtrim;
-use function sprintf;
 use function str_pad;
 
+use const STR_PAD_LEFT;
 use const STR_PAD_RIGHT;
 
 /**
@@ -54,7 +54,14 @@ final class Duration implements JsonSerializable
      */
     public static function zero(): Duration
     {
-        return new Duration(0);
+        /** @var Duration|null $zero */
+        static $zero;
+
+        if ($zero) {
+            return $zero;
+        }
+
+        return $zero = new Duration(0);
     }
 
     /**
@@ -747,15 +754,15 @@ final class Duration implements JsonSerializable
     }
 
     /**
-     * Serializes as a string using {@see Duration::__toString()}.
+     * Serializes as a string using {@see Duration::toISOString()}.
      */
     public function jsonSerialize(): string
     {
-        return (string) $this;
+        return $this->toISOString();
     }
 
     /**
-     * Returns an ISO-8601 string representation of this duration.
+     * Returns the ISO 8601 representation of this duration.
      *
      * The format of the returned string will be PTnHnMn.nS, where n is
      * the relevant hours, minutes, seconds or nanoseconds part of the duration.
@@ -765,7 +772,7 @@ final class Duration implements JsonSerializable
      *
      * Note that multiples of 24 hours are not output as days to avoid confusion with Period.
      */
-    public function __toString(): string
+    public function toISOString(): string
     {
         $seconds = $this->seconds;
         $nanos = $this->nanos;
@@ -801,9 +808,17 @@ final class Duration implements JsonSerializable
         $string .= (($seconds === 0 && $negative) ? '-0' : $seconds);
 
         if ($nanos !== 0) {
-            $string .= '.' . rtrim(sprintf('%09d', $nanos), '0');
+            $string .= '.' . rtrim(str_pad((string) $nanos, 9, '0', STR_PAD_LEFT), '0');
         }
 
         return $string . 'S';
+    }
+
+    /**
+     * {@see Duration::toISOString()}.
+     */
+    public function __toString(): string
+    {
+        return $this->toISOString();
     }
 }

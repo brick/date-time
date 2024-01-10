@@ -28,7 +28,7 @@ namespace Brick\DateTime\Tests\Clock
         {
             $clock = new SystemClock();
 
-            $this->assertInstantIs(14079491701, 555276000, $clock->getTime());
+            self::assertInstantIs(14079491701, 555276000, $clock->getTime());
         }
     }
 }

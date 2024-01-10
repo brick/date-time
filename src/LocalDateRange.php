@@ -237,11 +237,11 @@ final class LocalDateRange implements IteratorAggregate, Countable, JsonSerializ
     }
 
     /**
-     * Serializes as a string using {@see LocalDateRange::__toString()}.
+     * Serializes as a string using {@see LocalDateRange::toISOString()}.
      */
     public function jsonSerialize(): string
     {
-        return (string) $this;
+        return $this->toISOString();
     }
 
     /**
@@ -260,10 +260,18 @@ final class LocalDateRange implements IteratorAggregate, Countable, JsonSerializ
     }
 
     /**
-     * Returns an ISO 8601 string representation of this date range.
+     * Returns the ISO 8601 representation of this date range.
+     */
+    public function toISOString(): string
+    {
+        return $this->start . '/' . $this->end;
+    }
+
+    /**
+     * {@see LocalDateRange::toISOString()}.
      */
     public function __toString(): string
     {
-        return $this->start . '/' . $this->end;
+        return $this->toISOString();
     }
 }

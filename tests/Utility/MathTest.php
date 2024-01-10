@@ -21,7 +21,7 @@ class MathTest extends TestCase
      */
     public function testFloorDiv(int $a, int $b, int $expected): void
     {
-        $this->assertSame($expected, Math::floorDiv($a, $b));
+        self::assertSame($expected, Math::floorDiv($a, $b));
     }
 
     public function providerFloorDiv(): array
@@ -43,7 +43,7 @@ class MathTest extends TestCase
      */
     public function testFloorMod(int $a, int $b, int $expected): void
     {
-        $this->assertSame($expected, Math::floorMod($a, $b));
+        self::assertSame($expected, Math::floorMod($a, $b));
     }
 
     public function providerFloorMod(): array

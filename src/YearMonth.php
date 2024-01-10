@@ -11,7 +11,9 @@ use Brick\DateTime\Parser\IsoParsers;
 use Brick\DateTime\Utility\Math;
 use JsonSerializable;
 
-use function sprintf;
+use function str_pad;
+
+use const STR_PAD_LEFT;
 
 /**
  * Represents the combination of a year and a month.
@@ -288,18 +290,36 @@ final class YearMonth implements JsonSerializable
     }
 
     /**
-     * Serializes as a string using {@see YearMonth::__toString()}.
+     * Serializes as a string using {@see YearMonth::toISOString()}.
      */
     public function jsonSerialize(): string
     {
-        return (string) $this;
+        return $this->toISOString();
     }
 
     /**
-     * Returns the ISO 8601 representation of this YearMonth.
+     * Returns the ISO 8601 representation of this year-month.
+     */
+    public function toISOString(): string
+    {
+        // This code is optimized for high performance
+        return ($this->year < 1000 && $this->year > -1000
+                ? (
+                    $this->year < 0
+                        ? '-' . str_pad((string) -$this->year, 4, '0', STR_PAD_LEFT)
+                        : str_pad((string) $this->year, 4, '0', STR_PAD_LEFT)
+                )
+                : $this->year
+            )
+            . '-'
+            . ($this->month < 10 ? '0' . $this->month : $this->month);
+    }
+
+    /**
+     * {@see YearMonth::toISOString()}.
      */
     public function __toString(): string
     {
-        return sprintf('%02u-%02u', $this->year, $this->month);
+        return $this->toISOString();
     }
 }

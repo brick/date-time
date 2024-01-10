@@ -457,6 +457,16 @@ class ZonedDateTime implements JsonSerializable
     }
 
     /**
+     * Returns an Interval from this ZonedDateTime (inclusive) to the given one (exclusive).
+     *
+     * @throws DateTimeException If the given ZonedDateTime is before this ZonedDateTime.
+     */
+    public function getIntervalTo(ZonedDateTime $that): Interval
+    {
+        return $this->getInstant()->getIntervalTo($that->getInstant());
+    }
+
+    /**
      * Returns a Duration representing the time elapsed between this ZonedDateTime and the given one.
      * This method will return a negative duration if the given ZonedDateTime is before the current one.
      */
@@ -756,14 +766,17 @@ class ZonedDateTime implements JsonSerializable
     }
 
     /**
-     * Serializes as a string using {@see ZonedDateTime::__toString()}.
+     * Serializes as a string using {@see ZonedDateTime::toISOString()}.
      */
     public function jsonSerialize(): string
     {
-        return (string) $this;
+        return $this->toISOString();
     }
 
-    public function __toString(): string
+    /**
+     * Returns the ISO 8601 representation of this zoned date time.
+     */
+    public function toISOString(): string
     {
         $string = $this->localDateTime . $this->timeZoneOffset;
 
@@ -772,5 +785,13 @@ class ZonedDateTime implements JsonSerializable
         }
 
         return $string;
+    }
+
+    /**
+     * {@see ZonedDateTime::toISOString()}.
+     */
+    public function __toString(): string
+    {
+        return $this->toISOString();
     }
 }

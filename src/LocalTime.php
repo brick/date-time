@@ -19,8 +19,9 @@ use JsonSerializable;
 
 use function intdiv;
 use function rtrim;
-use function sprintf;
 use function str_pad;
+
+use const STR_PAD_LEFT;
 
 /**
  * A time without a time-zone in the ISO-8601 calendar system, such as 10:15:30.
@@ -175,12 +176,19 @@ final class LocalTime implements JsonSerializable
 
     public static function midnight(): LocalTime
     {
-        return new LocalTime(0, 0, 0, 0);
+        return self::min();
     }
 
     public static function noon(): LocalTime
     {
-        return new LocalTime(12, 0, 0, 0);
+        /** @var LocalTime|null $noon */
+        static $noon;
+
+        if ($noon) {
+            return $noon;
+        }
+
+        return $noon = new LocalTime(12, 0, 0, 0);
     }
 
     /**
@@ -188,7 +196,14 @@ final class LocalTime implements JsonSerializable
      */
     public static function min(): LocalTime
     {
-        return new LocalTime(0, 0, 0, 0);
+        /** @var LocalTime|null $min */
+        static $min;
+
+        if ($min) {
+            return $min;
+        }
+
+        return $min = new LocalTime(0, 0, 0, 0);
     }
 
     /**
@@ -196,7 +211,14 @@ final class LocalTime implements JsonSerializable
      */
     public static function max(): LocalTime
     {
-        return new LocalTime(23, 59, 59, 999_999_999);
+        /** @var LocalTime|null $max */
+        static $max;
+
+        if ($max) {
+            return $max;
+        }
+
+        return $max = new LocalTime(23, 59, 59, 999_999_999);
     }
 
     /**
@@ -214,10 +236,10 @@ final class LocalTime implements JsonSerializable
             throw new DateTimeException(__METHOD__ . ' does not accept less than 1 parameter.');
         }
 
-        $min = LocalTime::max();
+        $min = null;
 
         foreach ($times as $time) {
-            if ($time->isBefore($min)) {
+            if ($min === null || $time->isBefore($min)) {
                 $min = $time;
             }
         }
@@ -240,10 +262,10 @@ final class LocalTime implements JsonSerializable
             throw new DateTimeException(__METHOD__ . ' does not accept less than 1 parameter.');
         }
 
-        $max = LocalTime::min();
+        $max = null;
 
         foreach ($times as $time) {
-            if ($time->isAfter($max)) {
+            if ($max === null || $time->isAfter($max)) {
                 $max = $time;
             }
         }
@@ -619,17 +641,17 @@ final class LocalTime implements JsonSerializable
     }
 
     /**
-     * Serializes as a string using {@see LocalTime::__toString()}.
+     * Serializes as a string using {@see LocalTime::toISOString()}.
      */
     public function jsonSerialize(): string
     {
-        return (string) $this;
+        return $this->toISOString();
     }
 
     /**
-     * Returns this time as a string, such as 10:15.
+     * Returns the ISO 8601 representation of this time.
      *
-     * The output will be one of the following ISO-8601 formats:
+     * The output will be one of the following formats:
      *
      * * `HH:mm`
      * * `HH:mm:ss`
@@ -639,18 +661,21 @@ final class LocalTime implements JsonSerializable
      * the time where the omitted parts are implied to be zero.
      * The nanoseconds value, if present, can be 0 to 9 digits.
      */
+    public function toISOString(): string
+    {
+        // This code is optimized for high performance
+        return ($this->hour < 10 ? '0' . $this->hour : $this->hour)
+            . ':'
+            . ($this->minute < 10 ? '0' . $this->minute : $this->minute)
+            . ($this->second !== 0 || $this->nano !== 0 ? ':' . ($this->second < 10 ? '0' . $this->second : $this->second) : '')
+            . ($this->nano !== 0 ? '.' . rtrim(str_pad((string) $this->nano, 9, '0', STR_PAD_LEFT), '0') : '');
+    }
+
+    /**
+     * {@see LocalTime::toISOString()}.
+     */
     public function __toString(): string
     {
-        if ($this->nano === 0) {
-            if ($this->second === 0) {
-                return sprintf('%02u:%02u', $this->hour, $this->minute);
-            } else {
-                return sprintf('%02u:%02u:%02u', $this->hour, $this->minute, $this->second);
-            }
-        }
-
-        $nanos = rtrim(sprintf('%09u', $this->nano), '0');
-
-        return sprintf('%02u:%02u:%02u.%s', $this->hour, $this->minute, $this->second, $nanos);
+        return $this->toISOString();
     }
 }

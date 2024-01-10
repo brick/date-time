@@ -10,8 +10,6 @@ use Brick\DateTime\Parser\DateTimeParseResult;
 use Brick\DateTime\Parser\IsoParsers;
 use JsonSerializable;
 
-use function sprintf;
-
 /**
  * A month-day in the ISO-8601 calendar system, such as `--12-03`.
  */
@@ -226,15 +224,30 @@ final class MonthDay implements JsonSerializable
     }
 
     /**
-     * Serializes as a string using {@see MonthDay::__toString()}.
+     * Serializes as a string using {@see MonthDay::toISOString()}.
      */
     public function jsonSerialize(): string
     {
-        return (string) $this;
+        return $this->toISOString();
     }
 
+    /**
+     * Returns the ISO 8601 representation of this month-day.
+     */
+    public function toISOString(): string
+    {
+        // This code is optimized for high performance
+        return '--'
+            . ($this->month < 10 ? '0' . $this->month : $this->month)
+            . '-'
+            . ($this->day < 10 ? '0' . $this->day : $this->day);
+    }
+
+    /**
+     * {@see MonthDay::toISOString()}.
+     */
     public function __toString(): string
     {
-        return sprintf('--%02d-%02d', $this->month, $this->day);
+        return $this->toISOString();
     }
 }

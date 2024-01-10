@@ -27,7 +27,7 @@ class DayOfWeekTest extends AbstractTestCase
      */
     public function testConstants(int $expectedValue, int $dayOfWeekConstant): void
     {
-        $this->assertSame($expectedValue, $dayOfWeekConstant);
+        self::assertSame($expectedValue, $dayOfWeekConstant);
     }
 
     public function providerConstants(): array
@@ -45,7 +45,7 @@ class DayOfWeekTest extends AbstractTestCase
 
     public function testOf(): void
     {
-        $this->assertDayOfWeekIs(5, DayOfWeek::of(5));
+        self::assertDayOfWeekIs(5, DayOfWeek::of(5));
     }
 
     /**
@@ -76,7 +76,7 @@ class DayOfWeekTest extends AbstractTestCase
     public function testNow(int $epochSecond, string $timeZone, int $expectedDayOfWeek): void
     {
         $clock = new FixedClock(Instant::of($epochSecond));
-        $this->assertDayOfWeekIs($expectedDayOfWeek, DayOfWeek::now(TimeZone::parse($timeZone), $clock));
+        self::assertDayOfWeekIs($expectedDayOfWeek, DayOfWeek::now(TimeZone::parse($timeZone), $clock));
     }
 
     public function providerNow(): array
@@ -97,7 +97,7 @@ class DayOfWeekTest extends AbstractTestCase
             $dayOfWeek = DayOfWeek::of($day);
 
             foreach (DayOfWeek::all($dayOfWeek) as $dow) {
-                $this->assertTrue($dow->isEqualTo($dayOfWeek));
+                self::assertTrue($dow->isEqualTo($dayOfWeek));
                 $dayOfWeek = $dayOfWeek->plus(1);
             }
         }
@@ -105,44 +105,44 @@ class DayOfWeekTest extends AbstractTestCase
 
     public function testMonday(): void
     {
-        $this->assertDayOfWeekIs(DayOfWeek::MONDAY, DayOfWeek::monday());
+        self::assertDayOfWeekIs(DayOfWeek::MONDAY, DayOfWeek::monday());
     }
 
     public function testTuesday(): void
     {
-        $this->assertDayOfWeekIs(DayOfWeek::TUESDAY, DayOfWeek::tuesday());
+        self::assertDayOfWeekIs(DayOfWeek::TUESDAY, DayOfWeek::tuesday());
     }
 
     public function testWednesday(): void
     {
-        $this->assertDayOfWeekIs(DayOfWeek::WEDNESDAY, DayOfWeek::wednesday());
+        self::assertDayOfWeekIs(DayOfWeek::WEDNESDAY, DayOfWeek::wednesday());
     }
 
     public function testThursday(): void
     {
-        $this->assertDayOfWeekIs(DayOfWeek::THURSDAY, DayOfWeek::thursday());
+        self::assertDayOfWeekIs(DayOfWeek::THURSDAY, DayOfWeek::thursday());
     }
 
     public function testFriday(): void
     {
-        $this->assertDayOfWeekIs(DayOfWeek::FRIDAY, DayOfWeek::friday());
+        self::assertDayOfWeekIs(DayOfWeek::FRIDAY, DayOfWeek::friday());
     }
 
     public function testSaturday(): void
     {
-        $this->assertDayOfWeekIs(DayOfWeek::SATURDAY, DayOfWeek::saturday());
+        self::assertDayOfWeekIs(DayOfWeek::SATURDAY, DayOfWeek::saturday());
     }
 
     public function testSunday(): void
     {
-        $this->assertDayOfWeekIs(DayOfWeek::SUNDAY, DayOfWeek::sunday());
+        self::assertDayOfWeekIs(DayOfWeek::SUNDAY, DayOfWeek::sunday());
     }
 
     public function testIs(): void
     {
         for ($i = DayOfWeek::MONDAY; $i <= DayOfWeek::SUNDAY; $i++) {
             for ($j = DayOfWeek::MONDAY; $j <= DayOfWeek::SUNDAY; $j++) {
-                $this->assertSame($i === $j, DayOfWeek::of($i)->is($j));
+                self::assertSame($i === $j, DayOfWeek::of($i)->is($j));
             }
         }
     }
@@ -151,7 +151,7 @@ class DayOfWeekTest extends AbstractTestCase
     {
         for ($i = DayOfWeek::MONDAY; $i <= DayOfWeek::SUNDAY; $i++) {
             for ($j = DayOfWeek::MONDAY; $j <= DayOfWeek::SUNDAY; $j++) {
-                $this->assertSame($i === $j, DayOfWeek::of($i)->isEqualTo(DayOfWeek::of($j)));
+                self::assertSame($i === $j, DayOfWeek::of($i)->isEqualTo(DayOfWeek::of($j)));
             }
         }
     }
@@ -161,7 +161,7 @@ class DayOfWeekTest extends AbstractTestCase
      */
     public function testIsWeekday(DayOfWeek $dayOfWeek, bool $isWeekday): void
     {
-        $this->assertSame($isWeekday, $dayOfWeek->isWeekday());
+        self::assertSame($isWeekday, $dayOfWeek->isWeekday());
     }
 
     public function providerIsWeekday(): array
@@ -182,7 +182,7 @@ class DayOfWeekTest extends AbstractTestCase
      */
     public function testIsWeekend(DayOfWeek $dayOfWeek, bool $isWeekend): void
     {
-        $this->assertSame($isWeekend, $dayOfWeek->isWeekend());
+        self::assertSame($isWeekend, $dayOfWeek->isWeekend());
     }
 
     public function providerIsWeekend(): array
@@ -207,7 +207,7 @@ class DayOfWeekTest extends AbstractTestCase
      */
     public function testPlus(int $dayOfWeek, int $plusDays, int $expectedDayOfWeek): void
     {
-        $this->assertDayOfWeekIs($expectedDayOfWeek, DayOfWeek::of($dayOfWeek)->plus($plusDays));
+        self::assertDayOfWeekIs($expectedDayOfWeek, DayOfWeek::of($dayOfWeek)->plus($plusDays));
     }
 
     /**
@@ -219,7 +219,7 @@ class DayOfWeekTest extends AbstractTestCase
      */
     public function testMinus(int $dayOfWeek, int $plusDays, int $expectedDayOfWeek): void
     {
-        $this->assertDayOfWeekIs($expectedDayOfWeek, DayOfWeek::of($dayOfWeek)->minus(-$plusDays));
+        self::assertDayOfWeekIs($expectedDayOfWeek, DayOfWeek::of($dayOfWeek)->minus(-$plusDays));
     }
 
     public function providerPlus(): Generator
@@ -253,7 +253,7 @@ class DayOfWeekTest extends AbstractTestCase
         $localDate = LocalDate::parse($localDate);
         $dayOfWeek = DayOfWeek::of($dayOfWeek);
 
-        $this->assertTrue($localDate->getDayOfWeek()->isEqualTo($dayOfWeek));
+        self::assertTrue($localDate->getDayOfWeek()->isEqualTo($dayOfWeek));
     }
 
     public function providerGetDayOfWeekFromLocalDate(): array
@@ -283,7 +283,7 @@ class DayOfWeekTest extends AbstractTestCase
      */
     public function testJsonSerialize(int $dayOfWeek, string $expectedName): void
     {
-        $this->assertSame(json_encode($expectedName), json_encode(DayOfWeek::of($dayOfWeek)));
+        self::assertSame(json_encode($expectedName), json_encode(DayOfWeek::of($dayOfWeek)));
     }
 
     /**
@@ -294,7 +294,7 @@ class DayOfWeekTest extends AbstractTestCase
      */
     public function testToString(int $dayOfWeek, string $expectedName): void
     {
-        $this->assertSame($expectedName, (string) DayOfWeek::of($dayOfWeek));
+        self::assertSame($expectedName, (string) DayOfWeek::of($dayOfWeek));
     }
 
     public function providerToString(): array

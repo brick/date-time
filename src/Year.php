@@ -4,7 +4,15 @@ declare(strict_types=1);
 
 namespace Brick\DateTime;
 
+use Brick\DateTime\Parser\DateTimeParseException;
+use Brick\DateTime\Parser\DateTimeParser;
+use Brick\DateTime\Parser\DateTimeParseResult;
+use Brick\DateTime\Parser\IsoParsers;
 use JsonSerializable;
+
+use function str_pad;
+
+use const STR_PAD_LEFT;
 
 /**
  * Represents a year in the proleptic calendar.
@@ -35,6 +43,35 @@ final class Year implements JsonSerializable
         Field\Year::check($year);
 
         return new Year($year);
+    }
+
+    /**
+     * @throws DateTimeException      If the year is not valid.
+     * @throws DateTimeParseException If required fields are missing from the result.
+     */
+    public static function from(DateTimeParseResult $result): Year
+    {
+        $year = (int) $result->getField(Field\Year::NAME);
+
+        return Year::of($year);
+    }
+
+    /**
+     * Obtains an instance of `Year` from a text string.
+     *
+     * @param string              $text   The text to parse, such as `2007`.
+     * @param DateTimeParser|null $parser The parser to use, defaults to the ISO 8601 parser.
+     *
+     * @throws DateTimeException      If the year is not valid.
+     * @throws DateTimeParseException If the text string does not follow the expected format.
+     */
+    public static function parse(string $text, ?DateTimeParser $parser = null): Year
+    {
+        if (! $parser) {
+            $parser = IsoParsers::year();
+        }
+
+        return Year::from($parser->parse($text));
     }
 
     /**
@@ -236,15 +273,33 @@ final class Year implements JsonSerializable
     }
 
     /**
-     * Serializes as a string using {@see Year::__toString()}.
+     * Serializes as a string using {@see Year::toISOString()}.
      */
     public function jsonSerialize(): string
     {
-        return (string) $this;
+        return $this->toISOString();
     }
 
+    /**
+     * Returns the ISO 8601 representation of this year.
+     */
+    public function toISOString(): string
+    {
+        // This code is optimized for high performance
+        return $this->year < 1000 && $this->year > -1000
+            ? (
+                $this->year < 0
+                ? '-' . str_pad((string) -$this->year, 4, '0', STR_PAD_LEFT)
+                : str_pad((string) $this->year, 4, '0', STR_PAD_LEFT)
+            )
+            : (string) $this->year;
+    }
+
+    /**
+     * {@see Year::toISOString()}.
+     */
     public function __toString(): string
     {
-        return (string) $this->year;
+        return $this->toISOString();
     }
 }

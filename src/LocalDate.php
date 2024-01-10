@@ -16,7 +16,9 @@ use JsonSerializable;
 
 use function intdiv;
 use function min;
-use function sprintf;
+use function str_pad;
+
+use const STR_PAD_LEFT;
 
 /**
  * A date without a time-zone in the ISO-8601 calendar system, such as `2007-12-03`.
@@ -221,7 +223,14 @@ final class LocalDate implements JsonSerializable
      */
     public static function min(): LocalDate
     {
-        return LocalDate::of(self::MIN_YEAR, 1, 1);
+        /** @var LocalDate|null $min */
+        static $min;
+
+        if ($min) {
+            return $min;
+        }
+
+        return $min = LocalDate::of(self::MIN_YEAR, 1, 1);
     }
 
     /**
@@ -231,7 +240,14 @@ final class LocalDate implements JsonSerializable
      */
     public static function max(): LocalDate
     {
-        return LocalDate::of(self::MAX_YEAR, 12, 31);
+        /** @var LocalDate|null $max */
+        static $max;
+
+        if ($max) {
+            return $max;
+        }
+
+        return $max = LocalDate::of(self::MAX_YEAR, 12, 31);
     }
 
     /**
@@ -249,10 +265,10 @@ final class LocalDate implements JsonSerializable
             throw new DateTimeException(__METHOD__ . ' does not accept less than 1 parameter.');
         }
 
-        $min = LocalDate::max();
+        $min = null;
 
         foreach ($dates as $date) {
-            if ($date->isBefore($min)) {
+            if ($min === null || $date->isBefore($min)) {
                 $min = $date;
             }
         }
@@ -275,10 +291,10 @@ final class LocalDate implements JsonSerializable
             throw new DateTimeException(__METHOD__ . ' does not accept less than 1 parameter.');
         }
 
-        $max = LocalDate::min();
+        $max = null;
 
         foreach ($dates as $date) {
-            if ($date->isAfter($max)) {
+            if ($max === null || $date->isAfter($max)) {
                 $max = $date;
             }
         }
@@ -454,6 +470,13 @@ final class LocalDate implements JsonSerializable
     {
         if ($days === 0) {
             return $this;
+        }
+
+        // Performance optimization for a common use case.
+        if ($days === 1) {
+            return $this->day >= 28 && $this->day === $this->getLengthOfMonth()
+                ? new self($this->year + intdiv($this->month, 12), ($this->month % 12) + 1, 1)
+                : new self($this->year, $this->month, $this->day + 1);
         }
 
         return LocalDate::ofEpochDay($this->toEpochDay() + $days);
@@ -726,21 +749,39 @@ final class LocalDate implements JsonSerializable
     }
 
     /**
-     * Serializes as a string using {@see LocalDate::__toString()}.
+     * Serializes as a string using {@see LocalDate::toISOString()}.
      */
     public function jsonSerialize(): string
     {
-        return (string) $this;
+        return $this->toISOString();
     }
 
     /**
-     * Returns the ISO 8601 representation of this LocalDate.
+     * Returns the ISO 8601 representation of this date.
+     */
+    public function toISOString(): string
+    {
+        // This code is optimized for high performance
+        return ($this->year < 1000 && $this->year > -1000
+                ? (
+                    $this->year < 0
+                        ? '-' . str_pad((string) -$this->year, 4, '0', STR_PAD_LEFT)
+                        : str_pad((string) $this->year, 4, '0', STR_PAD_LEFT)
+                )
+                : $this->year
+            )
+            . '-'
+            . ($this->month < 10 ? '0' . $this->month : $this->month)
+            . '-'
+            . ($this->day < 10 ? '0' . $this->day : $this->day);
+    }
+
+    /**
+     * {@see LocalDate::toISOString()}.
      */
     public function __toString(): string
     {
-        $pattern = ($this->year < 0 ? '%05d' : '%04d') . '-%02d-%02d';
-
-        return sprintf($pattern, $this->year, $this->month, $this->day);
+        return $this->toISOString();
     }
 
     /**

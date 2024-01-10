@@ -24,18 +24,18 @@ class StopwatchTest extends AbstractTestCase
     {
         $stopwatch = new Stopwatch();
 
-        $this->assertNull($stopwatch->getStartTime());
-        $this->assertFalse($stopwatch->isRunning());
-        $this->assertDurationIs(0, 0, $stopwatch->getElapsedTime());
+        self::assertNull($stopwatch->getStartTime());
+        self::assertFalse($stopwatch->isRunning());
+        self::assertDurationIs(0, 0, $stopwatch->getElapsedTime());
     }
 
     public function testNew(): Stopwatch
     {
         $stopwatch = new Stopwatch(self::$clock);
 
-        $this->assertNull($stopwatch->getStartTime());
-        $this->assertFalse($stopwatch->isRunning());
-        $this->assertDurationIs(0, 0, $stopwatch->getElapsedTime());
+        self::assertNull($stopwatch->getStartTime());
+        self::assertFalse($stopwatch->isRunning());
+        self::assertDurationIs(0, 0, $stopwatch->getElapsedTime());
 
         return $stopwatch;
     }
@@ -49,9 +49,9 @@ class StopwatchTest extends AbstractTestCase
 
         $stopwatch->start();
 
-        $this->assertInstantIs(1000, 1, $stopwatch->getStartTime());
-        $this->assertTrue($stopwatch->isRunning());
-        $this->assertDurationIs(0, 0, $stopwatch->getElapsedTime());
+        self::assertInstantIs(1000, 1, $stopwatch->getStartTime());
+        self::assertTrue($stopwatch->isRunning());
+        self::assertDurationIs(0, 0, $stopwatch->getElapsedTime());
 
         return $stopwatch;
     }
@@ -63,9 +63,9 @@ class StopwatchTest extends AbstractTestCase
     {
         self::setClockTime(2000, 0);
 
-        $this->assertInstantIs(1000, 1, $stopwatch->getStartTime());
-        $this->assertTrue($stopwatch->isRunning());
-        $this->assertDurationIs(999, 999999999, $stopwatch->getElapsedTime());
+        self::assertInstantIs(1000, 1, $stopwatch->getStartTime());
+        self::assertTrue($stopwatch->isRunning());
+        self::assertDurationIs(999, 999999999, $stopwatch->getElapsedTime());
 
         return $stopwatch;
     }
@@ -75,9 +75,9 @@ class StopwatchTest extends AbstractTestCase
         $stopwatch = new Stopwatch();
         $stopwatch->stop();
 
-        $this->assertNull($stopwatch->getStartTime());
-        $this->assertFalse($stopwatch->isRunning());
-        $this->assertDurationIs(0, 0, $stopwatch->getElapsedTime());
+        self::assertNull($stopwatch->getStartTime());
+        self::assertFalse($stopwatch->isRunning());
+        self::assertDurationIs(0, 0, $stopwatch->getElapsedTime());
     }
 
     /**
@@ -89,9 +89,9 @@ class StopwatchTest extends AbstractTestCase
 
         $stopwatch->stop();
 
-        $this->assertNull($stopwatch->getStartTime());
-        $this->assertFalse($stopwatch->isRunning());
-        $this->assertDurationIs(2000, 1, $stopwatch->getElapsedTime());
+        self::assertNull($stopwatch->getStartTime());
+        self::assertFalse($stopwatch->isRunning());
+        self::assertDurationIs(2000, 1, $stopwatch->getElapsedTime());
 
         return $stopwatch;
     }
@@ -103,9 +103,9 @@ class StopwatchTest extends AbstractTestCase
     {
         self::setClockTime(4000, 9);
 
-        $this->assertNull($stopwatch->getStartTime());
-        $this->assertFalse($stopwatch->isRunning());
-        $this->assertDurationIs(2000, 1, $stopwatch->getElapsedTime());
+        self::assertNull($stopwatch->getStartTime());
+        self::assertFalse($stopwatch->isRunning());
+        self::assertDurationIs(2000, 1, $stopwatch->getElapsedTime());
 
         return $stopwatch;
     }
@@ -119,9 +119,9 @@ class StopwatchTest extends AbstractTestCase
 
         $stopwatch->start();
 
-        $this->assertInstantIs(5000, 9, $stopwatch->getStartTime());
-        $this->assertTrue($stopwatch->isRunning());
-        $this->assertDurationIs(2000, 1, $stopwatch->getElapsedTime());
+        self::assertInstantIs(5000, 9, $stopwatch->getStartTime());
+        self::assertTrue($stopwatch->isRunning());
+        self::assertDurationIs(2000, 1, $stopwatch->getElapsedTime());
 
         return $stopwatch;
     }
@@ -133,9 +133,9 @@ class StopwatchTest extends AbstractTestCase
     {
         self::setClockTime(5001, 10);
 
-        $this->assertInstantIs(5000, 9, $stopwatch->getStartTime());
-        $this->assertTrue($stopwatch->isRunning());
-        $this->assertDurationIs(2001, 2, $stopwatch->getElapsedTime());
+        self::assertInstantIs(5000, 9, $stopwatch->getStartTime());
+        self::assertTrue($stopwatch->isRunning());
+        self::assertDurationIs(2001, 2, $stopwatch->getElapsedTime());
 
         return $stopwatch;
     }
@@ -149,9 +149,9 @@ class StopwatchTest extends AbstractTestCase
 
         $stopwatch->stop();
 
-        $this->assertNull($stopwatch->getStartTime());
-        $this->assertFalse($stopwatch->isRunning());
-        $this->assertDurationIs(2002, 12, $stopwatch->getElapsedTime());
+        self::assertNull($stopwatch->getStartTime());
+        self::assertFalse($stopwatch->isRunning());
+        self::assertDurationIs(2002, 12, $stopwatch->getElapsedTime());
 
         return $stopwatch;
     }
@@ -163,9 +163,9 @@ class StopwatchTest extends AbstractTestCase
     {
         self::setClockTime(6000, 999);
 
-        $this->assertNull($stopwatch->getStartTime());
-        $this->assertFalse($stopwatch->isRunning());
-        $this->assertDurationIs(2002, 12, $stopwatch->getElapsedTime());
+        self::assertNull($stopwatch->getStartTime());
+        self::assertFalse($stopwatch->isRunning());
+        self::assertDurationIs(2002, 12, $stopwatch->getElapsedTime());
     }
 
     private static function setClockTime(int $second, int $nano): void
