@@ -77,23 +77,13 @@ final class DefaultClock
     }
 
     /**
-     * Travels forward by a duration, but allows time to continue moving forward from there.
+     * Travels forward in time by a duration (or backward if the duration is negative).
      *
      * If the current default clock is frozen, you must `reset()` it first, or the time will stay frozen.
      */
-    public static function travelForward(Duration $duration): void
+    public static function travelBy(Duration $duration): void
     {
-        self::set(new OffsetClock(self::get(), $duration->abs()));
-    }
-
-    /**
-     * Travels backward by a duration, but allows time to continue moving forward from there.
-     *
-     * If the current default clock is frozen, you must `reset()` it first, or the time will stay frozen.
-     */
-    public static function travelBackward(Duration $duration): void
-    {
-        self::set(new OffsetClock(self::get(), $duration->abs()->negated()));
+        self::set(new OffsetClock(self::get(), $duration));
     }
 
     /**
