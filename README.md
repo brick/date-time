@@ -128,8 +128,7 @@ There are also useful shortcut methods to use clocks in your tests, inspired by 
 
 - `freeze()` freezes time to a specific point in time
 - `travel()` travels to an `Instant` in time, but allows time to continue moving forward from there
-- `travelForward()` travels forward by a `Duration`
-- `travelBackward()` travels backward by a `Duration`
+- `travelBy()` travels in time by a `Duration`, which may be forward (positive) or backward (negative)
 - `scale()` makes time move at a given pace
 
 #### Freeze the time to a specific point
