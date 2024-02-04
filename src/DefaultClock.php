@@ -77,7 +77,7 @@ final class DefaultClock
     }
 
     /**
-     * Travels forward in time by a duration (or backward if the duration is negative).
+     * Travels in time by a duration, which may be forward (positive) or backward (negative).
      *
      * If the current default clock is frozen, you must `reset()` it first, or the time will stay frozen.
      */
