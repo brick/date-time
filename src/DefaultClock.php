@@ -67,7 +67,7 @@ final class DefaultClock
      * Travels to a specific point in time, but allows time to continue moving forward from there.
      *
      * If the current default clock is frozen, you must `reset()` it first, or the time will stay frozen.
-     * 
+     *
      * @deprecated use travelTo() instead.
      */
     public static function travel(Instant $instant): void
