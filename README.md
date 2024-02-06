@@ -127,7 +127,7 @@ DefaultClock::reset(); // do not forget to reset the clock to the system clock!
 There are also useful shortcut methods to use clocks in your tests, inspired by [timecop](https://github.com/travisjeffery/timecop):
 
 - `freeze()` freezes time to a specific point in time
-- `travel()` travels to an `Instant` in time, but allows time to continue moving forward from there
+- `travelTo()` travels to an `Instant` in time, but allows time to continue moving forward from there
 - `travelBy()` travels in time by a `Duration`, which may be forward (positive) or backward (negative)
 - `scale()` makes time move at a given pace
 
@@ -154,7 +154,7 @@ DefaultClock::reset();
 use Brick\DateTime\DefaultClock;
 use Brick\DateTime\Instant;
 
-DefaultClock::travel(Instant::of(2000000000));
+DefaultClock::travelTo(Instant::of(2000000000));
 $a = Instant::now(); sleep(1);
 $b = Instant::now();
 
@@ -170,7 +170,7 @@ DefaultClock::reset();
 use Brick\DateTime\DefaultClock;
 use Brick\DateTime\Instant;
 
-DefaultClock::travel(Instant::of(2000000000));
+DefaultClock::travelTo(Instant::of(2000000000));
 DefaultClock::scale(60); // 1 second becomes 60 seconds
 
 $a = Instant::now(); sleep(1);
@@ -182,7 +182,7 @@ echo $b, PHP_EOL; // 2033-05-18T03:34:20.06632Z
 DefaultClock::reset();
 ```
 
-As you can see, you can even combine `travel()` and `scale()` methods.
+As you can see, you can even combine `travelTo()` and `scale()` methods.
 
 Be very careful to **`reset()` the DefaultClock after each of your tests!** If you're using PHPUnit, a good place to do this is in the `tearDown()` method.
 

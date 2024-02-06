@@ -31,7 +31,7 @@ class DefaultClockTest extends AbstractTestCase
         DefaultClock::set($fixedClock);
         self::assertInstantIs(1000, 0, Instant::now());
 
-        DefaultClock::travel(Instant::of(-1000));
+        DefaultClock::travelTo(Instant::of(-1000));
         self::assertInstantIs(-1000, 0, Instant::now());
 
         $fixedClock->move(2);
