@@ -7,6 +7,7 @@ namespace Brick\DateTime\Tests;
 use Brick\DateTime\Clock\FixedClock;
 use Brick\DateTime\DateTimeException;
 use Brick\DateTime\Instant;
+use Brick\DateTime\Month;
 use Brick\DateTime\MonthDay;
 use Brick\DateTime\TimeZone;
 use Brick\DateTime\Year;
@@ -432,6 +433,7 @@ class YearTest extends AbstractTestCase
     public function testAtMonth(): void
     {
         self::assertYearMonthIs(2014, 7, Year::of(2014)->atMonth(7));
+        self::assertYearMonthIs(2014, 7, Year::of(2014)->atMonth(Month::JULY));
     }
 
     /**
