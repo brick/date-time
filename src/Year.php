@@ -239,14 +239,20 @@ final class Year implements JsonSerializable, Stringable
 
     /**
      * Combines this year with a month to create a YearMonth.
-     *
-     * @param int $month The month-of-year to use, from 1 to 12.
-     *
-     * @throws DateTimeException If the month is invalid.
      */
-    public function atMonth(int $month): YearMonth
+    public function atMonth(int|Month $month): YearMonth
     {
-        return YearMonth::of($this->year, $month);
+        if (is_int($month)) {
+            // usually we don't use trigger_error() for deprecations, but we can't rely on @deprecated for a parameter type change;
+            // maybe we should revisit using trigger_error() unconditionally for deprecations in the future.
+            trigger_error('Passing an integer to Year::atMonth() is deprecated, pass a Month instance instead.', E_USER_DEPRECATED);
+
+            Field\MonthOfYear::check($month);
+
+            $month = Month::from($month);
+        }
+
+        return YearMonth::of($this->year, $month->value);
     }
 
     /**
