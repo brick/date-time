@@ -11,8 +11,11 @@ use Brick\DateTime\Parser\IsoParsers;
 use JsonSerializable;
 use Stringable;
 
+use function is_int;
 use function str_pad;
+use function trigger_error;
 
+use const E_USER_DEPRECATED;
 use const STR_PAD_LEFT;
 
 /**
