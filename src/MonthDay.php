@@ -17,25 +17,15 @@ use Stringable;
 final class MonthDay implements JsonSerializable, Stringable
 {
     /**
-     * The month-of-year, from 1 to 12.
-     */
-    private readonly int $month;
-
-    /**
-     * The day-of-month, from 1 to 31.
-     */
-    private readonly int $day;
-
-    /**
      * Private constructor. Use of() to obtain an instance.
      *
-     * @param int $month The month-of-year, validated.
-     * @param int $day   The day-of-month, validated.
+     * @param int $month The month-of-year, validated in the range of 1 to 12.
+     * @param int $day   The day-of-month, validated in the range of 1 to 31, valid for this month.
      */
-    private function __construct(int $month, int $day)
-    {
-        $this->month = $month;
-        $this->day = $day;
+    private function __construct(
+        private readonly int $month,
+        private readonly int $day
+    ) {
     }
 
     /**

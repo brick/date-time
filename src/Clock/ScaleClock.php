@@ -14,19 +14,9 @@ use Brick\DateTime\Instant;
 final class ScaleClock implements Clock
 {
     /**
-     * The reference clock.
-     */
-    private readonly Clock $referenceClock;
-
-    /**
      * The start time.
      */
     private readonly Instant $startTime;
-
-    /**
-     * The time scale.
-     */
-    private readonly int $timeScale;
 
     /**
      * - a scale > 1 makes the time move at an accelerated pace;
@@ -37,11 +27,11 @@ final class ScaleClock implements Clock
      * @param Clock $referenceClock The reference clock.
      * @param int   $timeScale      The time scale.
      */
-    public function __construct(Clock $referenceClock, int $timeScale)
-    {
-        $this->referenceClock = $referenceClock;
-        $this->startTime = $referenceClock->getTime();
-        $this->timeScale = $timeScale;
+    public function __construct(
+        private readonly Clock $referenceClock,
+        private readonly int $timeScale
+    ) {
+        $this->startTime = $this->referenceClock->getTime();
     }
 
     public function getTime(): Instant

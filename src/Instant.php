@@ -26,25 +26,15 @@ use const STR_PAD_LEFT;
 final class Instant implements JsonSerializable, Stringable
 {
     /**
-     * The number of seconds since the epoch of 1970-01-01T00:00:00Z.
-     */
-    private readonly int $epochSecond;
-
-    /**
-     * The nanoseconds adjustment to the epoch second, in the range 0 to 999,999,999.
-     */
-    private readonly int $nano;
-
-    /**
      * Private constructor. Use of() to obtain an Instant.
      *
-     * @param int $epochSecond The epoch second.
-     * @param int $nano        The nanosecond adjustment, validated in the range 0 to 999,999,999.
+     * @param int $epochSecond The number of seconds since the epoch of 1970-01-01T00:00:00Z.
+     * @param int $nano        The nanosecond adjustment to the epoch second, validated in the range 0 to 999,999,999.
      */
-    private function __construct(int $epochSecond, int $nano)
-    {
-        $this->epochSecond = $epochSecond;
-        $this->nano = $nano;
+    private function __construct(
+        private readonly int $epochSecond,
+        private readonly int $nano
+    ) {
     }
 
     /**

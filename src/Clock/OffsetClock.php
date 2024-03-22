@@ -14,23 +14,13 @@ use Brick\DateTime\Instant;
 final class OffsetClock implements Clock
 {
     /**
-     * The reference clock.
-     */
-    private readonly Clock $referenceClock;
-
-    /**
-     * The offset to apply to the clock.
-     */
-    private readonly Duration $offset;
-
-    /**
      * @param Clock    $referenceClock The reference clock.
      * @param Duration $offset         The offset to apply to the clock.
      */
-    public function __construct(Clock $referenceClock, Duration $offset)
-    {
-        $this->referenceClock = $referenceClock;
-        $this->offset = $offset;
+    public function __construct(
+        private readonly Clock $referenceClock,
+        private readonly Duration $offset
+    ) {
     }
 
     public function getTime(): Instant

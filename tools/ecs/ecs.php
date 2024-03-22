@@ -80,6 +80,7 @@ use PhpCsFixer\Fixer\Whitespace\NoWhitespaceInBlankLineFixer;
 use SlevomatCodingStandard\Sniffs\Commenting\DocCommentSpacingSniff;
 use SlevomatCodingStandard\Sniffs\Namespaces\ReferenceUsedNamesOnlySniff;
 use SlevomatCodingStandard\Sniffs\Namespaces\UseSpacingSniff;
+use Symplify\CodingStandard\Fixer\Spacing\StandaloneLinePromotedPropertyFixer;
 use Symplify\EasyCodingStandard\Config\ECSConfig;
 use Symplify\EasyCodingStandard\ValueObject\Set\SetList;
 
@@ -193,6 +194,7 @@ return static function (ECSConfig $ecsConfig): void {
             WhitespaceAfterCommaInArrayFixer::class,
             NoTrailingCommaInSinglelineArrayFixer::class,
             TrailingCommaInMultilineFixer::class,
+            StandaloneLinePromotedPropertyFixer::class,
         ]
     );
 

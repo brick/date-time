@@ -12,21 +12,14 @@ use function sprintf;
  */
 final class PatternParser implements DateTimeParser
 {
-    private readonly string $pattern;
-
-    /**
-     * @var string[]
-     */
-    private readonly array $fields;
-
     /**
      * @param string   $pattern The regular expression pattern.
      * @param string[] $fields  The fields constants to match.
      */
-    public function __construct(string $pattern, array $fields)
-    {
-        $this->pattern = $pattern;
-        $this->fields = $fields;
+    public function __construct(
+        private readonly string $pattern,
+        private readonly array $fields
+    ) {
     }
 
     public function getPattern(): string

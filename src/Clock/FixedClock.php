@@ -13,14 +13,11 @@ use Brick\DateTime\Instant;
  */
 final class FixedClock implements Clock
 {
-    private Instant $instant;
-
     /**
      * @param Instant $instant The time to set the clock at.
      */
-    public function __construct(Instant $instant)
+    public function __construct(private Instant $instant)
     {
-        $this->instant = $instant;
     }
 
     public function getTime(): Instant

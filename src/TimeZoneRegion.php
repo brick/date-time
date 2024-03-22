@@ -17,14 +17,11 @@ use Exception;
  */
 final class TimeZoneRegion extends TimeZone
 {
-    private readonly DateTimeZone $zone;
-
     /**
      * Private constructor. Use a factory method to obtain an instance.
      */
-    private function __construct(DateTimeZone $zone)
+    private function __construct(private readonly DateTimeZone $zone)
     {
-        $this->zone = $zone;
     }
 
     /**

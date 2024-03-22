@@ -25,37 +25,21 @@ use function intdiv;
 class ZonedDateTime implements JsonSerializable, Stringable
 {
     /**
-     * The local date-time.
-     */
-    private readonly LocalDateTime $localDateTime;
-
-    /**
-     * The time-zone offset from UTC/Greenwich.
-     */
-    private readonly TimeZoneOffset $timeZoneOffset;
-
-    /**
-     * The time-zone.
-     *
-     * It is either a TimeZoneRegion if this ZonedDateTime is region-based,
-     * or the same instance as the offset if this ZonedDateTime is offset-based.
-     */
-    private readonly TimeZone $timeZone;
-
-    /**
-     * The instant represented by this ZonedDateTime.
-     */
-    private readonly Instant $instant;
-
-    /**
      * Private constructor. Use a factory method to obtain an instance.
+     *
+     * @param LocalDateTime  $localDateTime  The local date-time.
+     * @param TimeZoneOffset $timeZoneOffset The time-zone offset from UTC/Greenwich.
+     * @param TimeZone       $timeZone       The time-zone. It is either a TimeZoneRegion if this ZonedDateTime is
+     *                                       region-based, or the same instance as the offset if this ZonedDateTime
+     *                                       is offset-based.
+     * @param Instant        $instant        The instant represented by this ZonedDateTime.
      */
-    private function __construct(LocalDateTime $localDateTime, TimeZoneOffset $offset, TimeZone $zone, Instant $instant)
-    {
-        $this->localDateTime = $localDateTime;
-        $this->timeZone = $zone;
-        $this->timeZoneOffset = $offset;
-        $this->instant = $instant;
+    private function __construct(
+        private readonly LocalDateTime $localDateTime,
+        private readonly TimeZoneOffset $timeZoneOffset,
+        private readonly TimeZone $timeZone,
+        private readonly Instant $instant
+    ) {
     }
 
     /**

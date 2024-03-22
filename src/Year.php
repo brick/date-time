@@ -27,16 +27,10 @@ final class Year implements JsonSerializable, Stringable
     public const MAX_VALUE = LocalDate::MAX_YEAR;
 
     /**
-     * The year being represented.
+     * @param int $year The year, validated.
      */
-    private readonly int $year;
-
-    /**
-     * @param int $year The year to represent, validated.
-     */
-    private function __construct(int $year)
+    private function __construct(private readonly int $year)
     {
-        $this->year = $year;
     }
 
     /**

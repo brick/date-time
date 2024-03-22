@@ -24,14 +24,10 @@ use function intdiv;
  */
 final class LocalDateTime implements JsonSerializable, Stringable
 {
-    private readonly LocalDate $date;
-
-    private readonly LocalTime $time;
-
-    public function __construct(LocalDate $date, LocalTime $time)
-    {
-        $this->date = $date;
-        $this->time = $time;
+    public function __construct(
+        private readonly LocalDate $date,
+        private readonly LocalTime $time
+    ) {
     }
 
     /**
