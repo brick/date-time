@@ -8,3 +8,7 @@
 /tools/ecs/*
 !/tools/ecs/composer.json
 !/tools/ecs/ecs.php
+!/tools/rector
+/tools/rector/*
+!/tools/rector/composer.json
+!/tools/rector/rector.php
