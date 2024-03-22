@@ -10,7 +10,6 @@ use Brick\DateTime\LocalDate;
 use Brick\DateTime\LocalDateRange;
 use Brick\DateTime\LocalDateTime;
 use Brick\DateTime\LocalTime;
-use Brick\DateTime\Month;
 use Brick\DateTime\MonthDay;
 use Brick\DateTime\Period;
 use Brick\DateTime\TimeZone;
