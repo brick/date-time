@@ -133,6 +133,8 @@ final class MonthDay implements JsonSerializable, Stringable
      * Returns -1 if this date is before the given date, 1 if after, 0 if the dates are equal.
      *
      * @return int [-1,0,1] If this date is before, on, or after the given date.
+     *
+     * @psalm-return -1|0|1
      */
     public function compareTo(MonthDay $that): int
     {

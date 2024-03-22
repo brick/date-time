@@ -466,6 +466,8 @@ final class Duration implements JsonSerializable, Stringable
      * @param Duration $that The other duration to compare to.
      *
      * @return int [-1,0,1] If this duration is less than, equal to, or greater than the given duration.
+     *
+     * @psalm-return -1|0|1
      */
     public function compareTo(Duration $that): int
     {

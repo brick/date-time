@@ -611,6 +611,8 @@ class ZonedDateTime implements JsonSerializable, Stringable
      * The comparison is performed on the instant.
      *
      * @return int [-1,0,1] If this zoned date-time is before, on, or after the given one.
+     *
+     * @psalm-return -1|0|1
      */
     public function compareTo(ZonedDateTime $that): int
     {

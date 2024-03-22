@@ -238,6 +238,8 @@ final class Instant implements JsonSerializable, Stringable
      * Compares this instant with another.
      *
      * @return int [-1,0,1] If this instant is before, on, or after the given instant.
+     *
+     * @psalm-return -1|0|1
      */
     public function compareTo(Instant $that): int
     {

@@ -106,6 +106,8 @@ final class YearWeek implements JsonSerializable, Stringable
 
     /**
      * @return int [-1,0,1] If this year-week is before, on, or after the given year-week.
+     *
+     * @psalm-return -1|0|1
      */
     public function compareTo(YearWeek $that): int
     {

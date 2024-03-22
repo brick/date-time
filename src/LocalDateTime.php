@@ -659,6 +659,8 @@ final class LocalDateTime implements JsonSerializable, Stringable
      * @param LocalDateTime $that The date-time to compare to.
      *
      * @return int [-1,0,1] If this date-time is before, on, or after the given date-time.
+     *
+     * @psalm-return -1|0|1
      */
     public function compareTo(LocalDateTime $that): int
     {

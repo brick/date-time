@@ -147,6 +147,8 @@ final class YearMonth implements JsonSerializable, Stringable
 
     /**
      * @return int [-1,0,1] If this year-month is before, on, or after the given year-month.
+     *
+     * @psalm-return -1|0|1
      */
     public function compareTo(YearMonth $that): int
     {
