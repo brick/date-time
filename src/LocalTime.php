@@ -643,6 +643,8 @@ final class LocalTime implements JsonSerializable, Stringable
 
     /**
      * Serializes as a string using {@see LocalTime::toISOString()}.
+     *
+     * @psalm-return non-empty-string
      */
     public function jsonSerialize(): string
     {
@@ -661,6 +663,8 @@ final class LocalTime implements JsonSerializable, Stringable
      * The format used will be the shortest that outputs the full value of
      * the time where the omitted parts are implied to be zero.
      * The nanoseconds value, if present, can be 0 to 9 digits.
+     *
+     * @psalm-return non-empty-string
      */
     public function toISOString(): string
     {
@@ -674,6 +678,8 @@ final class LocalTime implements JsonSerializable, Stringable
 
     /**
      * {@see LocalTime::toISOString()}.
+     *
+     * @psalm-return non-empty-string
      */
     public function __toString(): string
     {

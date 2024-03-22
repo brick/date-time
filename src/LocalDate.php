@@ -771,6 +771,8 @@ final class LocalDate implements JsonSerializable, Stringable
 
     /**
      * Serializes as a string using {@see LocalDate::toISOString()}.
+     *
+     * @psalm-return non-empty-string
      */
     public function jsonSerialize(): string
     {
@@ -779,6 +781,8 @@ final class LocalDate implements JsonSerializable, Stringable
 
     /**
      * Returns the ISO 8601 representation of this date.
+     *
+     * @psalm-return non-empty-string
      */
     public function toISOString(): string
     {
@@ -799,6 +803,8 @@ final class LocalDate implements JsonSerializable, Stringable
 
     /**
      * {@see LocalDate::toISOString()}.
+     *
+     * @psalm-return non-empty-string
      */
     public function __toString(): string
     {

@@ -304,6 +304,8 @@ final class YearMonth implements JsonSerializable, Stringable
 
     /**
      * Serializes as a string using {@see YearMonth::toISOString()}.
+     *
+     * @psalm-return non-empty-string
      */
     public function jsonSerialize(): string
     {
@@ -312,6 +314,8 @@ final class YearMonth implements JsonSerializable, Stringable
 
     /**
      * Returns the ISO 8601 representation of this year-month.
+     *
+     * @psalm-return non-empty-string
      */
     public function toISOString(): string
     {
@@ -330,6 +334,8 @@ final class YearMonth implements JsonSerializable, Stringable
 
     /**
      * {@see YearMonth::toISOString()}.
+     *
+     * @psalm-return non-empty-string
      */
     public function __toString(): string
     {

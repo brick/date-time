@@ -756,6 +756,8 @@ final class Duration implements JsonSerializable, Stringable
 
     /**
      * Serializes as a string using {@see Duration::toISOString()}.
+     *
+     * @psalm-return non-empty-string
      */
     public function jsonSerialize(): string
     {
@@ -772,6 +774,8 @@ final class Duration implements JsonSerializable, Stringable
      * The hours, minutes and seconds will all have the same sign.
      *
      * Note that multiples of 24 hours are not output as days to avoid confusion with Period.
+     *
+     * @psalm-return non-empty-string
      */
     public function toISOString(): string
     {
@@ -817,6 +821,8 @@ final class Duration implements JsonSerializable, Stringable
 
     /**
      * {@see Duration::toISOString()}.
+     *
+     * @psalm-return non-empty-string
      */
     public function __toString(): string
     {

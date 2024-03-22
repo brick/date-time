@@ -734,6 +734,8 @@ class ZonedDateTime implements JsonSerializable, Stringable
 
     /**
      * Serializes as a string using {@see ZonedDateTime::toISOString()}.
+     *
+     * @psalm-return non-empty-string
      */
     public function jsonSerialize(): string
     {
@@ -742,6 +744,8 @@ class ZonedDateTime implements JsonSerializable, Stringable
 
     /**
      * Returns the ISO 8601 representation of this zoned date time.
+     *
+     * @psalm-return non-empty-string
      */
     public function toISOString(): string
     {
@@ -756,6 +760,8 @@ class ZonedDateTime implements JsonSerializable, Stringable
 
     /**
      * {@see ZonedDateTime::toISOString()}.
+     *
+     * @psalm-return non-empty-string
      */
     public function __toString(): string
     {

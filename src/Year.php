@@ -284,6 +284,8 @@ final class Year implements JsonSerializable, Stringable
 
     /**
      * Serializes as a string using {@see Year::toISOString()}.
+     *
+     * @psalm-return non-empty-string
      */
     public function jsonSerialize(): string
     {
@@ -292,6 +294,8 @@ final class Year implements JsonSerializable, Stringable
 
     /**
      * Returns the ISO 8601 representation of this year.
+     *
+     * @psalm-return non-empty-string
      */
     public function toISOString(): string
     {
@@ -307,6 +311,8 @@ final class Year implements JsonSerializable, Stringable
 
     /**
      * {@see Year::toISOString()}.
+     *
+     * @psalm-return non-empty-string
      */
     public function __toString(): string
     {

@@ -368,6 +368,8 @@ final class Instant implements JsonSerializable, Stringable
 
     /**
      * Serializes as a string using {@see Instant::toISOString()}.
+     *
+     * @psalm-return non-empty-string
      */
     public function jsonSerialize(): string
     {
@@ -376,6 +378,8 @@ final class Instant implements JsonSerializable, Stringable
 
     /**
      * Returns the ISO 8601 representation of this instant.
+     *
+     * @psalm-return non-empty-string
      */
     public function toISOString(): string
     {
@@ -384,6 +388,8 @@ final class Instant implements JsonSerializable, Stringable
 
     /**
      * {@see Instant::toISOString()}.
+     *
+     * @psalm-return non-empty-string
      */
     public function __toString(): string
     {

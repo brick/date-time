@@ -201,6 +201,8 @@ enum Month : int implements JsonSerializable
 
     /**
      * Serializes as a string using {@see Month::toString()}.
+     *
+     * @psalm-return non-empty-string
      */
     public function jsonSerialize(): string
     {
@@ -209,6 +211,8 @@ enum Month : int implements JsonSerializable
 
     /**
      * Returns the capitalized English name of this Month.
+     *
+     * @psalm-return non-empty-string
      */
     public function toString(): string
     {
