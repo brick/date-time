@@ -53,10 +53,10 @@ final class Stopwatch
      *
      * If the timer is already stopped, this method does nothing.
      */
-    public function stop(): void
+    public function stop(): Duration
     {
         if ($this->startTime === null) {
-            return;
+            return Duration::zero();
         }
 
         $endTime = $this->clock->getTime();
@@ -64,6 +64,8 @@ final class Stopwatch
 
         $this->duration = $this->duration->plus($duration);
         $this->startTime = null;
+
+        return $duration;
     }
 
     /**
