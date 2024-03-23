@@ -12,8 +12,11 @@ use Brick\DateTime\Utility\Math;
 use JsonSerializable;
 use Stringable;
 
+use function is_int;
 use function str_pad;
+use function trigger_error;
 
+use const E_USER_DEPRECATED;
 use const STR_PAD_LEFT;
 
 /**
@@ -44,17 +47,25 @@ final class YearMonth implements JsonSerializable, Stringable
     /**
      * Obtains an instance of `YearMonth` from a year and month.
      *
-     * @param int $year  The year, from MIN_YEAR to MAX_YEAR.
-     * @param int $month The month-of-year, from 1 (January) to 12 (December).
+     * @param int $year The year, from MIN_YEAR to MAX_YEAR.
      *
      * @throws DateTimeException
      */
-    public static function of(int $year, int $month): YearMonth
+    public static function of(int $year, int|Month $month): YearMonth
     {
         Field\Year::check($year);
-        Field\MonthOfYear::check($month);
 
-        return new YearMonth($year, $month);
+        if (is_int($month)) {
+            // usually we don't use trigger_error() for deprecations, but we can't rely on @deprecated for a parameter type change;
+            // maybe we should revisit using trigger_error() unconditionally for deprecations in the future.
+            trigger_error('Passing an integer to YearMonth::of() second argument is deprecated, pass a Month instance instead.', E_USER_DEPRECATED);
+
+            Field\MonthOfYear::check($month);
+
+            return new YearMonth($year, $month);
+        }
+
+        return new YearMonth($year, $month->value);
     }
 
     /**
@@ -209,16 +220,22 @@ final class YearMonth implements JsonSerializable, Stringable
 
     /**
      * Returns a copy of this YearMonth with the month-of-year altered.
-     *
-     * @throws DateTimeException If the month-of-year is not valid.
      */
-    public function withMonth(int $month): YearMonth
+    public function withMonth(int|Month $month): YearMonth
     {
+        if (is_int($month)) {
+            // usually we don't use trigger_error() for deprecations, but we can't rely on @deprecated for a parameter type change;
+            // maybe we should revisit using trigger_error() unconditionally for deprecations in the future.
+            trigger_error('Passing an integer to YearMonth::withMonth() is deprecated, pass a Month instance instead.', E_USER_DEPRECATED);
+
+            Field\MonthOfYear::check($month);
+        } else {
+            $month = $month->value;
+        }
+
         if ($month === $this->month) {
             return $this;
         }
-
-        Field\MonthOfYear::check($month);
 
         return new YearMonth($this->year, $month);
     }

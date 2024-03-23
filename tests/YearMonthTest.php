@@ -7,6 +7,7 @@ namespace Brick\DateTime\Tests;
 use Brick\DateTime\Clock\FixedClock;
 use Brick\DateTime\DateTimeException;
 use Brick\DateTime\Instant;
+use Brick\DateTime\Month;
 use Brick\DateTime\TimeZone;
 use Brick\DateTime\YearMonth;
 
@@ -22,6 +23,7 @@ class YearMonthTest extends AbstractTestCase
     public function testOf(): void
     {
         self::assertYearMonthIs(2007, 7, YearMonth::of(2007, 7));
+        self::assertYearMonthIs(2007, 7, YearMonth::of(2007, Month::JULY));
     }
 
     /**
@@ -319,11 +321,13 @@ class YearMonthTest extends AbstractTestCase
     public function testWithMonth(): void
     {
         self::assertYearMonthIs(2000, 12, YearMonth::of(2000, 1)->withMonth(12));
+        self::assertYearMonthIs(2000, 12, YearMonth::of(2000, 1)->withMonth(Month::DECEMBER));
     }
 
     public function testWithMonthWithSameMonth(): void
     {
         self::assertYearMonthIs(2000, 2, YearMonth::of(2000, 2)->withMonth(2));
+        self::assertYearMonthIs(2000, 2, YearMonth::of(2000, 2)->withMonth(Month::FEBRUARY));
     }
 
     public function testGetFirstDay(): void
