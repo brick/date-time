@@ -178,6 +178,8 @@ final class Year implements JsonSerializable, Stringable
      * @param Year $that The year to compare to.
      *
      * @return int [-1, 0, 1] If this year is before, equal to, or after the given year.
+     *
+     * @psalm-return -1|0|1
      */
     public function compareTo(Year $that): int
     {
@@ -284,6 +286,8 @@ final class Year implements JsonSerializable, Stringable
 
     /**
      * Serializes as a string using {@see Year::toISOString()}.
+     *
+     * @psalm-return non-empty-string
      */
     public function jsonSerialize(): string
     {
@@ -292,6 +296,8 @@ final class Year implements JsonSerializable, Stringable
 
     /**
      * Returns the ISO 8601 representation of this year.
+     *
+     * @psalm-return non-empty-string
      */
     public function toISOString(): string
     {
@@ -307,6 +313,8 @@ final class Year implements JsonSerializable, Stringable
 
     /**
      * {@see Year::toISOString()}.
+     *
+     * @psalm-return non-empty-string
      */
     public function __toString(): string
     {

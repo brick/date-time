@@ -93,6 +93,9 @@ abstract class TimeZone implements Stringable
      */
     abstract public function toNativeDateTimeZone(): DateTimeZone;
 
+    /**
+     * @psalm-return non-empty-string
+     */
     public function __toString(): string
     {
         return $this->getId();

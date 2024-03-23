@@ -379,6 +379,8 @@ final class Period implements JsonSerializable, Stringable
 
     /**
      * Serializes as a string using {@see Period::toISOString()}.
+     *
+     * @psalm-return non-empty-string
      */
     public function jsonSerialize(): string
     {
@@ -387,6 +389,8 @@ final class Period implements JsonSerializable, Stringable
 
     /**
      * Returns the ISO 8601 representation of this period.
+     *
+     * @psalm-return non-empty-string
      */
     public function toISOString(): string
     {
@@ -411,6 +415,8 @@ final class Period implements JsonSerializable, Stringable
 
     /**
      * {@see Period::toISOString()}.
+     *
+     * @psalm-return non-empty-string
      */
     public function __toString(): string
     {

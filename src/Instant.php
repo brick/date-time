@@ -238,6 +238,8 @@ final class Instant implements JsonSerializable, Stringable
      * Compares this instant with another.
      *
      * @return int [-1,0,1] If this instant is before, on, or after the given instant.
+     *
+     * @psalm-return -1|0|1
      */
     public function compareTo(Instant $that): int
     {
@@ -368,6 +370,8 @@ final class Instant implements JsonSerializable, Stringable
 
     /**
      * Serializes as a string using {@see Instant::toISOString()}.
+     *
+     * @psalm-return non-empty-string
      */
     public function jsonSerialize(): string
     {
@@ -376,6 +380,8 @@ final class Instant implements JsonSerializable, Stringable
 
     /**
      * Returns the ISO 8601 representation of this instant.
+     *
+     * @psalm-return non-empty-string
      */
     public function toISOString(): string
     {
@@ -384,6 +390,8 @@ final class Instant implements JsonSerializable, Stringable
 
     /**
      * {@see Instant::toISOString()}.
+     *
+     * @psalm-return non-empty-string
      */
     public function __toString(): string
     {

@@ -659,6 +659,8 @@ final class LocalDateTime implements JsonSerializable, Stringable
      * @param LocalDateTime $that The date-time to compare to.
      *
      * @return int [-1,0,1] If this date-time is before, on, or after the given date-time.
+     *
+     * @psalm-return -1|0|1
      */
     public function compareTo(LocalDateTime $that): int
     {
@@ -738,6 +740,8 @@ final class LocalDateTime implements JsonSerializable, Stringable
 
     /**
      * Serializes as a string using {@see LocalDateTime::toISOString()}.
+     *
+     * @psalm-return non-empty-string
      */
     public function jsonSerialize(): string
     {
@@ -746,6 +750,8 @@ final class LocalDateTime implements JsonSerializable, Stringable
 
     /**
      * Returns the ISO 8601 representation of this date time.
+     *
+     * @psalm-return non-empty-string
      */
     public function toISOString(): string
     {
@@ -754,6 +760,8 @@ final class LocalDateTime implements JsonSerializable, Stringable
 
     /**
      * {@see LocalDateTime::toISOString()}.
+     *
+     * @psalm-return non-empty-string
      */
     public function __toString(): string
     {

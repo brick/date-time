@@ -133,6 +133,8 @@ final class MonthDay implements JsonSerializable, Stringable
      * Returns -1 if this date is before the given date, 1 if after, 0 if the dates are equal.
      *
      * @return int [-1,0,1] If this date is before, on, or after the given date.
+     *
+     * @psalm-return -1|0|1
      */
     public function compareTo(MonthDay $that): int
     {
@@ -243,6 +245,8 @@ final class MonthDay implements JsonSerializable, Stringable
 
     /**
      * Serializes as a string using {@see MonthDay::toISOString()}.
+     *
+     * @psalm-return non-empty-string
      */
     public function jsonSerialize(): string
     {
@@ -251,6 +255,8 @@ final class MonthDay implements JsonSerializable, Stringable
 
     /**
      * Returns the ISO 8601 representation of this month-day.
+     *
+     * @psalm-return non-empty-string
      */
     public function toISOString(): string
     {
@@ -263,6 +269,8 @@ final class MonthDay implements JsonSerializable, Stringable
 
     /**
      * {@see MonthDay::toISOString()}.
+     *
+     * @psalm-return non-empty-string
      */
     public function __toString(): string
     {

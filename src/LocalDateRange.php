@@ -239,6 +239,8 @@ final class LocalDateRange implements IteratorAggregate, Countable, JsonSerializ
 
     /**
      * Serializes as a string using {@see LocalDateRange::toISOString()}.
+     *
+     * @psalm-return non-empty-string
      */
     public function jsonSerialize(): string
     {
@@ -262,6 +264,8 @@ final class LocalDateRange implements IteratorAggregate, Countable, JsonSerializ
 
     /**
      * Returns the ISO 8601 representation of this date range.
+     *
+     * @psalm-return non-empty-string
      */
     public function toISOString(): string
     {
@@ -270,6 +274,8 @@ final class LocalDateRange implements IteratorAggregate, Countable, JsonSerializ
 
     /**
      * {@see LocalDateRange::toISOString()}.
+     *
+     * @psalm-return non-empty-string
      */
     public function __toString(): string
     {

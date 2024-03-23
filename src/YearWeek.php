@@ -106,6 +106,8 @@ final class YearWeek implements JsonSerializable, Stringable
 
     /**
      * @return int [-1,0,1] If this year-week is before, on, or after the given year-week.
+     *
+     * @psalm-return -1|0|1
      */
     public function compareTo(YearWeek $that): int
     {
@@ -311,6 +313,8 @@ final class YearWeek implements JsonSerializable, Stringable
 
     /**
      * Serializes as a string using {@see YearWeek::toISOString()}.
+     *
+     * @psalm-return non-empty-string
      */
     public function jsonSerialize(): string
     {
@@ -319,6 +323,8 @@ final class YearWeek implements JsonSerializable, Stringable
 
     /**
      * Returns the ISO 8601 representation of this year-week.
+     *
+     * @psalm-return non-empty-string
      */
     public function toISOString(): string
     {
@@ -337,6 +343,8 @@ final class YearWeek implements JsonSerializable, Stringable
 
     /**
      * {@see YearWeek::toISOString()}.
+     *
+     * @psalm-return non-empty-string
      */
     public function __toString(): string
     {

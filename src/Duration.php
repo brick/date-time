@@ -466,6 +466,8 @@ final class Duration implements JsonSerializable, Stringable
      * @param Duration $that The other duration to compare to.
      *
      * @return int [-1,0,1] If this duration is less than, equal to, or greater than the given duration.
+     *
+     * @psalm-return -1|0|1
      */
     public function compareTo(Duration $that): int
     {
@@ -756,6 +758,8 @@ final class Duration implements JsonSerializable, Stringable
 
     /**
      * Serializes as a string using {@see Duration::toISOString()}.
+     *
+     * @psalm-return non-empty-string
      */
     public function jsonSerialize(): string
     {
@@ -772,6 +776,8 @@ final class Duration implements JsonSerializable, Stringable
      * The hours, minutes and seconds will all have the same sign.
      *
      * Note that multiples of 24 hours are not output as days to avoid confusion with Period.
+     *
+     * @psalm-return non-empty-string
      */
     public function toISOString(): string
     {
@@ -817,6 +823,8 @@ final class Duration implements JsonSerializable, Stringable
 
     /**
      * {@see Duration::toISOString()}.
+     *
+     * @psalm-return non-empty-string
      */
     public function __toString(): string
     {
