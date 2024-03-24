@@ -29,8 +29,9 @@ final class Year implements JsonSerializable, Stringable
     /**
      * @param int $year The year, validated.
      */
-    private function __construct(private readonly int $year)
-    {
+    private function __construct(
+        private readonly int $year
+    ) {
     }
 
     /**

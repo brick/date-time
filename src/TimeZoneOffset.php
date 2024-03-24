@@ -29,8 +29,9 @@ final class TimeZoneOffset extends TimeZone
      *
      * @param int $totalSeconds The total offset in seconds, validated from -64800 to +64800.
      */
-    private function __construct(private readonly int $totalSeconds)
-    {
+    private function __construct(
+        private readonly int $totalSeconds
+    ) {
     }
 
     /**

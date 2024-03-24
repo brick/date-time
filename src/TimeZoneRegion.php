@@ -20,8 +20,9 @@ final class TimeZoneRegion extends TimeZone
     /**
      * Private constructor. Use a factory method to obtain an instance.
      */
-    private function __construct(private readonly DateTimeZone $zone)
-    {
+    private function __construct(
+        private readonly DateTimeZone $zone
+    ) {
     }
 
     /**
