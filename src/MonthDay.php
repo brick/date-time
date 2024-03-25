@@ -24,7 +24,7 @@ final class MonthDay implements JsonSerializable, Stringable
      */
     private function __construct(
         private readonly int $month,
-        private readonly int $day
+        private readonly int $day,
     ) {
     }
 
@@ -52,7 +52,7 @@ final class MonthDay implements JsonSerializable, Stringable
     {
         return MonthDay::of(
             (int) $result->getField(Field\MonthOfYear::NAME),
-            (int) $result->getField(Field\DayOfMonth::NAME)
+            (int) $result->getField(Field\DayOfMonth::NAME),
         );
     }
 

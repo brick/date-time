@@ -46,7 +46,7 @@ class IntervalTest extends AbstractTestCase
     {
         $interval = Interval::of(
             Instant::of(2000000000),
-            Instant::of(2000000001)
+            Instant::of(2000000001),
         );
 
         $newInterval = $interval->withStart(Instant::of(1999999999, 999999999));
@@ -69,7 +69,7 @@ class IntervalTest extends AbstractTestCase
     {
         $interval = Interval::of(
             Instant::of(2000000000),
-            Instant::of(2000000001)
+            Instant::of(2000000001),
         );
 
         $newInterval = $interval->withEnd(Instant::of(2000000002, 222222222));
@@ -89,7 +89,7 @@ class IntervalTest extends AbstractTestCase
     {
         $interval = Interval::of(
             Instant::of(1999999999, 555555),
-            Instant::of(2000000001, 111)
+            Instant::of(2000000001, 111),
         );
 
         $duration = $interval->getDuration();
@@ -178,7 +178,7 @@ class IntervalTest extends AbstractTestCase
         int $start2,
         int $end2,
         int $expectedStart,
-        int $expectedEnd
+        int $expectedEnd,
     ): void {
         $interval1 = Interval::of(Instant::of($start1), Instant::of($end1));
         $interval2 = Interval::of(Instant::of($start2), Instant::of($end2));
@@ -267,7 +267,7 @@ class IntervalTest extends AbstractTestCase
     {
         $interval = Interval::of(
             Instant::of($epochSecondStart),
-            Instant::of($epochSecondEnd)
+            Instant::of($epochSecondEnd),
         );
 
         self::assertSame(json_encode($expectedString, JSON_THROW_ON_ERROR), json_encode($interval, JSON_THROW_ON_ERROR));
@@ -278,7 +278,7 @@ class IntervalTest extends AbstractTestCase
     {
         $interval = Interval::of(
             Instant::of($epochSecondStart),
-            Instant::of($epochSecondEnd)
+            Instant::of($epochSecondEnd),
         );
 
         self::assertSame($expectedString, $interval->toISOString());
@@ -289,7 +289,7 @@ class IntervalTest extends AbstractTestCase
     {
         $interval = Interval::of(
             Instant::of($epochSecondStart),
-            Instant::of($epochSecondEnd)
+            Instant::of($epochSecondEnd),
         );
 
         self::assertSame($expectedString, (string) $interval);

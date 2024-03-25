@@ -58,7 +58,7 @@ final class LocalDate implements JsonSerializable, Stringable
     private function __construct(
         private readonly int $year,
         private readonly int $month,
-        private readonly int $day
+        private readonly int $day,
     ) {
     }
 
@@ -146,7 +146,7 @@ final class LocalDate implements JsonSerializable, Stringable
         return new LocalDate(
             (int) $dateTime->format('Y'),
             (int) $dateTime->format('n'),
-            (int) $dateTime->format('j')
+            (int) $dateTime->format('j'),
         );
     }
 

@@ -21,7 +21,7 @@ final class Interval implements JsonSerializable, Stringable
      */
     private function __construct(
         private readonly Instant $start,
-        private readonly Instant $end
+        private readonly Instant $end,
     ) {
     }
 

@@ -35,7 +35,7 @@ final class Duration implements JsonSerializable, Stringable
      */
     private function __construct(
         private readonly int $seconds,
-        private readonly int $nanos = 0
+        private readonly int $nanos = 0,
     ) {
     }
 

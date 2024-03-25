@@ -30,7 +30,7 @@ final class Year implements JsonSerializable, Stringable
      * @param int $year The year, validated.
      */
     private function __construct(
-        private readonly int $year
+        private readonly int $year,
     ) {
     }
 
@@ -275,7 +275,7 @@ final class Year implements JsonSerializable, Stringable
     {
         return LocalDateRange::of(
             $this->atMonth(1)->getFirstDay(),
-            $this->atMonth(12)->getLastDay()
+            $this->atMonth(12)->getLastDay(),
         );
     }
 

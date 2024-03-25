@@ -18,7 +18,7 @@ final class PatternParser implements DateTimeParser
      */
     public function __construct(
         private readonly string $pattern,
-        private readonly array $fields
+        private readonly array $fields,
     ) {
     }
 

@@ -29,7 +29,7 @@ final class Period implements JsonSerializable, Stringable
     private function __construct(
         private readonly int $years,
         private readonly int $months,
-        private readonly int $days
+        private readonly int $days,
     ) {
     }
 
@@ -297,7 +297,7 @@ final class Period implements JsonSerializable, Stringable
         return new Period(
             $this->years * $scalar,
             $this->months * $scalar,
-            $this->days * $scalar
+            $this->days * $scalar,
         );
     }
 
@@ -313,7 +313,7 @@ final class Period implements JsonSerializable, Stringable
         return new Period(
             -$this->years,
             -$this->months,
-            -$this->days
+            -$this->days,
         );
     }
 
@@ -367,7 +367,7 @@ final class Period implements JsonSerializable, Stringable
             '%d years %d months %d days',
             $this->years,
             $this->months,
-            $this->days
+            $this->days,
         ));
     }
 

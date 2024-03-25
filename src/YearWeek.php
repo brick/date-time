@@ -29,7 +29,7 @@ final class YearWeek implements JsonSerializable, Stringable
      */
     private function __construct(
         private readonly int $year,
-        private readonly int $week
+        private readonly int $week,
     ) {
     }
 
@@ -57,7 +57,7 @@ final class YearWeek implements JsonSerializable, Stringable
     {
         return YearWeek::of(
             (int) $result->getField(Field\Year::NAME),
-            (int) $result->getField(Field\WeekOfYear::NAME)
+            (int) $result->getField(Field\WeekOfYear::NAME),
         );
     }
 

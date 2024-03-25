@@ -17,7 +17,7 @@ final class FixedClock implements Clock
      * @param Instant $instant The time to set the clock at.
      */
     public function __construct(
-        private Instant $instant
+        private Instant $instant,
     ) {
     }
 

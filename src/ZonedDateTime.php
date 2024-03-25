@@ -38,7 +38,7 @@ class ZonedDateTime implements JsonSerializable, Stringable
         private readonly LocalDateTime $localDateTime,
         private readonly TimeZoneOffset $timeZoneOffset,
         private readonly TimeZone $timeZone,
-        private readonly Instant $instant
+        private readonly Instant $instant,
     ) {
     }
 
@@ -148,7 +148,7 @@ class ZonedDateTime implements JsonSerializable, Stringable
 
         return ZonedDateTime::of(
             $localDateTime,
-            $timeZone
+            $timeZone,
         );
     }
 

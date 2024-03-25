@@ -26,7 +26,7 @@ final class LocalDateTime implements JsonSerializable, Stringable
 {
     public function __construct(
         private readonly LocalDate $date,
-        private readonly LocalTime $time
+        private readonly LocalTime $time,
     ) {
     }
 
@@ -67,7 +67,7 @@ final class LocalDateTime implements JsonSerializable, Stringable
     {
         return new LocalDateTime(
             LocalDate::from($result),
-            LocalTime::from($result)
+            LocalTime::from($result),
         );
     }
 
@@ -96,7 +96,7 @@ final class LocalDateTime implements JsonSerializable, Stringable
     {
         return new LocalDateTime(
             LocalDate::fromNativeDateTime($dateTime),
-            LocalTime::fromNativeDateTime($dateTime)
+            LocalTime::fromNativeDateTime($dateTime),
         );
     }
 

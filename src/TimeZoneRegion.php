@@ -21,7 +21,7 @@ final class TimeZoneRegion extends TimeZone
      * Private constructor. Use a factory method to obtain an instance.
      */
     private function __construct(
-        private readonly DateTimeZone $zone
+        private readonly DateTimeZone $zone,
     ) {
     }
 
@@ -67,7 +67,7 @@ final class TimeZoneRegion extends TimeZone
         return DateTimeZone::listIdentifiers(
             $includeObsolete
                 ? DateTimeZone::ALL_WITH_BC
-                : DateTimeZone::ALL
+                : DateTimeZone::ALL,
         );
     }
 

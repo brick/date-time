@@ -33,7 +33,7 @@ final class Instant implements JsonSerializable, Stringable
      */
     private function __construct(
         private readonly int $epochSecond,
-        private readonly int $nano
+        private readonly int $nano,
     ) {
     }
 

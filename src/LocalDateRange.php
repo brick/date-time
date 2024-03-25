@@ -32,7 +32,7 @@ final class LocalDateRange implements IteratorAggregate, Countable, JsonSerializ
      */
     private function __construct(
         private readonly LocalDate $start,
-        private readonly LocalDate $end
+        private readonly LocalDate $end,
     ) {
     }
 

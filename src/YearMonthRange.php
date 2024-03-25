@@ -30,7 +30,7 @@ class YearMonthRange implements IteratorAggregate, Countable, JsonSerializable, 
      */
     private function __construct(
         private readonly YearMonth $start,
-        private readonly YearMonth $end
+        private readonly YearMonth $end,
     ) {
     }
 
@@ -166,7 +166,7 @@ class YearMonthRange implements IteratorAggregate, Countable, JsonSerializable, 
     {
         return LocalDateRange::of(
             $this->getStart()->getFirstDay(),
-            $this->getEnd()->getLastDay()
+            $this->getEnd()->getLastDay(),
         );
     }
 

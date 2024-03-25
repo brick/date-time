@@ -19,7 +19,7 @@ final class OffsetClock implements Clock
      */
     public function __construct(
         private readonly Clock $referenceClock,
-        private readonly Duration $offset
+        private readonly Duration $offset,
     ) {
     }
 

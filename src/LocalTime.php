@@ -55,7 +55,7 @@ final class LocalTime implements JsonSerializable, Stringable
         private readonly int $hour,
         private readonly int $minute,
         private readonly int $second,
-        private readonly int $nano
+        private readonly int $nano,
     ) {
     }
 
@@ -141,7 +141,7 @@ final class LocalTime implements JsonSerializable, Stringable
             (int) $dateTime->format('G'),
             (int) $dateTime->format('i'),
             (int) $dateTime->format('s'),
-            1000 * (int) $dateTime->format('u')
+            1000 * (int) $dateTime->format('u'),
         );
     }
 

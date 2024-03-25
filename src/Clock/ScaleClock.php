@@ -29,7 +29,7 @@ final class ScaleClock implements Clock
      */
     public function __construct(
         private readonly Clock $referenceClock,
-        private readonly int $timeScale
+        private readonly int $timeScale,
     ) {
         $this->startTime = $this->referenceClock->getTime();
     }

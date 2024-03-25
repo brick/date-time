@@ -30,7 +30,7 @@ final class YearMonth implements JsonSerializable, Stringable
      */
     private function __construct(
         private readonly int $year,
-        private readonly int $month
+        private readonly int $month,
     ) {
     }
 
@@ -66,7 +66,7 @@ final class YearMonth implements JsonSerializable, Stringable
     {
         return YearMonth::of(
             (int) $result->getField(Field\Year::NAME),
-            (int) $result->getField(Field\MonthOfYear::NAME)
+            (int) $result->getField(Field\MonthOfYear::NAME),
         );
     }
 
