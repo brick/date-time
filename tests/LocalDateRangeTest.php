@@ -25,7 +25,7 @@ class LocalDateRangeTest extends AbstractTestCase
     {
         self::assertLocalDateRangeIs(2001, 2, 3, 2004, 5, 6, LocalDateRange::of(
             LocalDate::of(2001, 2, 3),
-            LocalDate::of(2004, 5, 6)
+            LocalDate::of(2004, 5, 6),
         ));
     }
 
@@ -35,7 +35,7 @@ class LocalDateRangeTest extends AbstractTestCase
 
         LocalDateRange::of(
             LocalDate::of(2001, 2, 3),
-            LocalDate::of(2001, 2, 2)
+            LocalDate::of(2001, 2, 2),
         );
     }
 
@@ -101,7 +101,7 @@ class LocalDateRangeTest extends AbstractTestCase
     {
         self::assertSame($isEqual, LocalDateRange::of(
             LocalDate::of(2001, 2, 3),
-            LocalDate::of(2004, 5, 6)
+            LocalDate::of(2004, 5, 6),
         )->isEqualTo(LocalDateRange::parse($testRange)));
     }
 
@@ -199,11 +199,11 @@ class LocalDateRangeTest extends AbstractTestCase
         int $yearEnd,
         int $monthEnd,
         int $dayEnd,
-        string $expectedString
+        string $expectedString,
     ): void {
         $dateRange = LocalDateRange::of(
             LocalDate::of($yearStart, $monthStart, $dayStart),
-            LocalDate::of($yearEnd, $monthEnd, $dayEnd)
+            LocalDate::of($yearEnd, $monthEnd, $dayEnd),
         );
 
         self::assertSame(json_encode($expectedString, JSON_THROW_ON_ERROR), json_encode($dateRange, JSON_THROW_ON_ERROR));
@@ -217,11 +217,11 @@ class LocalDateRangeTest extends AbstractTestCase
         int $yearEnd,
         int $monthEnd,
         int $dayEnd,
-        string $expectedString
+        string $expectedString,
     ): void {
         $dateRange = LocalDateRange::of(
             LocalDate::of($yearStart, $monthStart, $dayStart),
-            LocalDate::of($yearEnd, $monthEnd, $dayEnd)
+            LocalDate::of($yearEnd, $monthEnd, $dayEnd),
         );
 
         self::assertSame($expectedString, $dateRange->toISOString());
@@ -235,11 +235,11 @@ class LocalDateRangeTest extends AbstractTestCase
         int $yearEnd,
         int $monthEnd,
         int $dayEnd,
-        string $expectedString
+        string $expectedString,
     ): void {
         $dateRange = LocalDateRange::of(
             LocalDate::of($yearStart, $monthStart, $dayStart),
-            LocalDate::of($yearEnd, $monthEnd, $dayEnd)
+            LocalDate::of($yearEnd, $monthEnd, $dayEnd),
         );
 
         self::assertSame($expectedString, (string) $dateRange);

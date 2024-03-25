@@ -49,32 +49,17 @@ final class LocalDate implements JsonSerializable, Stringable
     public const DAYS_PER_CYCLE = 146097;
 
     /**
-     * The year.
-     */
-    private readonly int $year;
-
-    /**
-     * The month-of-year.
-     */
-    private readonly int $month;
-
-    /**
-     * The day-of-month.
-     */
-    private readonly int $day;
-
-    /**
      * Private constructor. Use of() to obtain an instance.
      *
      * @param int $year  The year, validated from MIN_YEAR to MAX_YEAR.
      * @param int $month The month-of-year, validated from 1 to 12.
      * @param int $day   The day-of-month, validated from 1 to 31, valid for the year-month.
      */
-    private function __construct(int $year, int $month, int $day)
-    {
-        $this->year = $year;
-        $this->month = $month;
-        $this->day = $day;
+    private function __construct(
+        private readonly int $year,
+        private readonly int $month,
+        private readonly int $day,
+    ) {
     }
 
     /**
@@ -161,7 +146,7 @@ final class LocalDate implements JsonSerializable, Stringable
         return new LocalDate(
             (int) $dateTime->format('Y'),
             (int) $dateTime->format('n'),
-            (int) $dateTime->format('j')
+            (int) $dateTime->format('j'),
         );
     }
 

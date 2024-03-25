@@ -25,23 +25,13 @@ use const STR_PAD_LEFT;
 final class YearMonth implements JsonSerializable, Stringable
 {
     /**
-     * The year, from MIN_YEAR to MAX_YEAR.
-     */
-    private readonly int $year;
-
-    /**
-     * The month, from 1 to 12.
-     */
-    private readonly int $month;
-
-    /**
      * @param int $year  The year, validated from MIN_YEAR to MAX_YEAR.
      * @param int $month The month, validated in the range 1 to 12.
      */
-    private function __construct(int $year, int $month)
-    {
-        $this->year = $year;
-        $this->month = $month;
+    private function __construct(
+        private readonly int $year,
+        private readonly int $month,
+    ) {
     }
 
     /**
@@ -76,7 +66,7 @@ final class YearMonth implements JsonSerializable, Stringable
     {
         return YearMonth::of(
             (int) $result->getField(Field\Year::NAME),
-            (int) $result->getField(Field\MonthOfYear::NAME)
+            (int) $result->getField(Field\MonthOfYear::NAME),
         );
     }
 

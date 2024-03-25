@@ -25,23 +25,13 @@ use Stringable;
 class YearMonthRange implements IteratorAggregate, Countable, JsonSerializable, Stringable
 {
     /**
-     * The start year-month, inclusive.
-     */
-    private readonly YearMonth $start;
-
-    /**
-     * The end year-month, inclusive.
-     */
-    private readonly YearMonth $end;
-
-    /**
      * @param YearMonth $start The start year-month, inclusive.
      * @param YearMonth $end   The end year-month, inclusive, validated as not before the start year-month.
      */
-    private function __construct(YearMonth $start, YearMonth $end)
-    {
-        $this->start = $start;
-        $this->end = $end;
+    private function __construct(
+        private readonly YearMonth $start,
+        private readonly YearMonth $end,
+    ) {
     }
 
     /**
@@ -176,7 +166,7 @@ class YearMonthRange implements IteratorAggregate, Countable, JsonSerializable, 
     {
         return LocalDateRange::of(
             $this->getStart()->getFirstDay(),
-            $this->getEnd()->getLastDay()
+            $this->getEnd()->getLastDay(),
         );
     }
 

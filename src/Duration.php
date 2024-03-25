@@ -27,27 +27,16 @@ use const STR_PAD_RIGHT;
 final class Duration implements JsonSerializable, Stringable
 {
     /**
-     * The duration in seconds.
-     */
-    private readonly int $seconds;
-
-    /**
-     * The nanoseconds adjustment to the duration, in the range 0 to 999,999,999.
-     *
-     * A duration of -1 nanoseconds is stored as -1 seconds plus 999,999,999 nanoseconds.
-     */
-    private readonly int $nanos;
-
-    /**
      * Private constructor. Use one of the factory methods to obtain a Duration.
      *
      * @param int $seconds The duration in seconds.
-     * @param int $nanos   The nanoseconds adjustment, validated in the range 0 to 999,999,999.
+     * @param int $nanos   The nanoseconds adjustment to the duration, validated in the range 0 to 999,999,999.
+     *                     A duration of -1 nanoseconds is stored as -1 seconds plus 999,999,999 nanoseconds.
      */
-    private function __construct(int $seconds, int $nanos = 0)
-    {
-        $this->seconds = $seconds;
-        $this->nanos = $nanos;
+    private function __construct(
+        private readonly int $seconds,
+        private readonly int $nanos = 0,
+    ) {
     }
 
     /**

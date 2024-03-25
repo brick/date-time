@@ -44,26 +44,6 @@ final class LocalTime implements JsonSerializable, Stringable
     public const MILLIS_PER_SECOND = 1000;
 
     /**
-     * The hour, in the range 0 to 23.
-     */
-    private readonly int $hour;
-
-    /**
-     * The minute, in the range 0 to 59.
-     */
-    private readonly int $minute;
-
-    /**
-     * The second, in the range 0 to 59.
-     */
-    private readonly int $second;
-
-    /**
-     * The nanosecond, in the range 0 to 999,999,999.
-     */
-    private readonly int $nano;
-
-    /**
      * Private constructor. Use of() to obtain an instance.
      *
      * @param int $hour   The hour-of-day, validated in the range 0 to 23.
@@ -71,12 +51,12 @@ final class LocalTime implements JsonSerializable, Stringable
      * @param int $second The second-of-minute, validated in the range 0 to 59.
      * @param int $nano   The nano-of-second, validated in the range 0 to 999,999,999.
      */
-    private function __construct(int $hour, int $minute, int $second, int $nano)
-    {
-        $this->hour = $hour;
-        $this->minute = $minute;
-        $this->second = $second;
-        $this->nano = $nano;
+    private function __construct(
+        private readonly int $hour,
+        private readonly int $minute,
+        private readonly int $second,
+        private readonly int $nano,
+    ) {
     }
 
     /**
@@ -161,7 +141,7 @@ final class LocalTime implements JsonSerializable, Stringable
             (int) $dateTime->format('G'),
             (int) $dateTime->format('i'),
             (int) $dateTime->format('s'),
-            1000 * (int) $dateTime->format('u')
+            1000 * (int) $dateTime->format('u'),
         );
     }
 

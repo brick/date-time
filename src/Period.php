@@ -19,12 +19,6 @@ use function sprintf;
  */
 final class Period implements JsonSerializable, Stringable
 {
-    private readonly int $years;
-
-    private readonly int $months;
-
-    private readonly int $days;
-
     /**
      * Private constructor. Use of() to obtain an instance.
      *
@@ -32,11 +26,11 @@ final class Period implements JsonSerializable, Stringable
      * @param int $months The number of months.
      * @param int $days   The number of days.
      */
-    private function __construct(int $years, int $months, int $days)
-    {
-        $this->years = $years;
-        $this->months = $months;
-        $this->days = $days;
+    private function __construct(
+        private readonly int $years,
+        private readonly int $months,
+        private readonly int $days,
+    ) {
     }
 
     /**
@@ -303,7 +297,7 @@ final class Period implements JsonSerializable, Stringable
         return new Period(
             $this->years * $scalar,
             $this->months * $scalar,
-            $this->days * $scalar
+            $this->days * $scalar,
         );
     }
 
@@ -319,7 +313,7 @@ final class Period implements JsonSerializable, Stringable
         return new Period(
             -$this->years,
             -$this->months,
-            -$this->days
+            -$this->days,
         );
     }
 
@@ -373,7 +367,7 @@ final class Period implements JsonSerializable, Stringable
             '%d years %d months %d days',
             $this->years,
             $this->months,
-            $this->days
+            $this->days,
         ));
     }
 

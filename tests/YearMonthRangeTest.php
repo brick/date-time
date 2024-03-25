@@ -22,7 +22,7 @@ class YearMonthRangeTest extends AbstractTestCase
     {
         self::assertYearMonthRangeIs(2001, 2, 2004, 5, YearMonthRange::of(
             YearMonth::of(2001, 2),
-            YearMonth::of(2004, 5)
+            YearMonth::of(2004, 5),
         ));
     }
 
@@ -32,7 +32,7 @@ class YearMonthRangeTest extends AbstractTestCase
 
         YearMonthRange::of(
             YearMonth::of(2001, 3),
-            YearMonth::of(2001, 2)
+            YearMonth::of(2001, 2),
         );
     }
 
@@ -92,7 +92,7 @@ class YearMonthRangeTest extends AbstractTestCase
     {
         self::assertSame($isEqual, YearMonthRange::of(
             YearMonth::of(2001, 2),
-            YearMonth::of(2004, 5)
+            YearMonth::of(2004, 5),
         )->isEqualTo(YearMonthRange::parse($testRange)));
     }
 
@@ -204,7 +204,7 @@ class YearMonthRangeTest extends AbstractTestCase
     {
         $yearMonthRange = YearMonthRange::of(
             YearMonth::of($yearStart, $monthStart),
-            YearMonth::of($yearEnd, $monthEnd)
+            YearMonth::of($yearEnd, $monthEnd),
         );
 
         self::assertSame(json_encode($expectedString, JSON_THROW_ON_ERROR), json_encode($yearMonthRange, JSON_THROW_ON_ERROR));
@@ -215,7 +215,7 @@ class YearMonthRangeTest extends AbstractTestCase
     {
         $yearMonthRange = YearMonthRange::of(
             YearMonth::of($yearStart, $monthStart),
-            YearMonth::of($yearEnd, $monthEnd)
+            YearMonth::of($yearEnd, $monthEnd),
         );
 
         self::assertSame($expectedString, $yearMonthRange->toISOString());
@@ -226,7 +226,7 @@ class YearMonthRangeTest extends AbstractTestCase
     {
         $yearMonthRange = YearMonthRange::of(
             YearMonth::of($yearStart, $monthStart),
-            YearMonth::of($yearEnd, $monthEnd)
+            YearMonth::of($yearEnd, $monthEnd),
         );
 
         self::assertSame($expectedString, (string) $yearMonthRange);

@@ -16,23 +16,13 @@ use Stringable;
 final class Interval implements JsonSerializable, Stringable
 {
     /**
-     * The start instant, inclusive.
+     * @param Instant $start The start instant, inclusive.
+     * @param Instant $end   The end instant, exclusive, validated as not before the start instant.
      */
-    private readonly Instant $start;
-
-    /**
-     * The end instant, exclusive.
-     */
-    private readonly Instant $end;
-
-    /**
-     * @param Instant $startInclusive The start instant, inclusive.
-     * @param Instant $endExclusive   The end instant, exclusive, validated as not before the start instant.
-     */
-    private function __construct(Instant $startInclusive, Instant $endExclusive)
-    {
-        $this->start = $startInclusive;
-        $this->end = $endExclusive;
+    private function __construct(
+        private readonly Instant $start,
+        private readonly Instant $end,
+    ) {
     }
 
     /**

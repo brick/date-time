@@ -531,7 +531,7 @@ class InstantTest extends AbstractTestCase
     {
         self::assertSame($isBetween, Instant::of($seconds, $nanos)->isBetweenInclusive(
             Instant::of(-1, -1),
-            Instant::of(1, 1)
+            Instant::of(1, 1),
         ));
     }
 
@@ -546,7 +546,7 @@ class InstantTest extends AbstractTestCase
     {
         self::assertSame($isBetween, Instant::of($seconds, $nanos)->isBetweenExclusive(
             Instant::of(-1, -1),
-            Instant::of(1, 1)
+            Instant::of(1, 1),
         ));
     }
 

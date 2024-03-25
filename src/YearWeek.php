@@ -24,23 +24,13 @@ use const STR_PAD_LEFT;
 final class YearWeek implements JsonSerializable, Stringable
 {
     /**
-     * The year, from MIN_YEAR to MAX_YEAR.
-     */
-    private readonly int $year;
-
-    /**
-     * The week number, from 1 to 53. Must be valid for the year.
-     */
-    private readonly int $week;
-
-    /**
      * @param int $year The year, validated from MIN_YEAR to MAX_YEAR.
      * @param int $week The week number, validated in the range 1 to 53, and valid for the year.
      */
-    private function __construct(int $year, int $week)
-    {
-        $this->year = $year;
-        $this->week = $week;
+    private function __construct(
+        private readonly int $year,
+        private readonly int $week,
+    ) {
     }
 
     /**
@@ -67,7 +57,7 @@ final class YearWeek implements JsonSerializable, Stringable
     {
         return YearWeek::of(
             (int) $result->getField(Field\Year::NAME),
-            (int) $result->getField(Field\WeekOfYear::NAME)
+            (int) $result->getField(Field\WeekOfYear::NAME),
         );
     }
 
