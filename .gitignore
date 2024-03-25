@@ -8,3 +8,4 @@
 /tools/ecs/*
 !/tools/ecs/composer.json
 !/tools/ecs/ecs.php
+/.idea
