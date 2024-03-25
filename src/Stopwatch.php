@@ -81,6 +81,15 @@ final class Stopwatch
         return $this->startTime !== null;
     }
 
+    public function getLapTime(): Duration
+    {
+        if ($this->startTime === null) {
+            return Duration::zero();
+        }
+
+        return Duration::between($this->startTime, $this->clock->getTime());
+    }
+
     /**
      * Returns the total elapsed time.
      *
