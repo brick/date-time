@@ -143,8 +143,8 @@ final class Duration implements JsonSerializable, Stringable
      * For example, the following will result in exactly the same duration:
      *
      * * Duration::ofSeconds(3, 1);
-     * * Duration::ofSeconds(4, -999999999);
-     * * Duration::ofSeconds(2, 1000000001);
+     * * Duration::ofSeconds(4, -999_999_999);
+     * * Duration::ofSeconds(2, 1_000_000_001);
      *
      * @param int $seconds        The number of seconds of the duration.
      * @param int $nanoAdjustment The adjustment to the duration in nanoseconds.

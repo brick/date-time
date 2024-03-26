@@ -46,8 +46,8 @@ final class Instant implements JsonSerializable, Stringable
      * For example, the following will result in exactly the same instant:
      *
      * * Instant::of(3, 1);
-     * * Instant::of(4, -999999999);
-     * * Instant::of(2, 1000000001);
+     * * Instant::of(4, -999_999_999);
+     * * Instant::of(2, 1_000_000_001);
      *
      * @param int $epochSecond    The number of seconds since the UNIX epoch of 1970-01-01T00:00:00Z.
      * @param int $nanoAdjustment The adjustment to the epoch second in nanoseconds.
