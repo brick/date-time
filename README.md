@@ -202,6 +202,12 @@ Contributing
 Before submitting a pull request, you can check the code using the following tools.
 Your CI build will fail if any of the following tools reports any issue.
 
+First of all, install dependencies:
+
+```sh
+composer install
+```
+
 ### Unit tests
 
 Run PHPUnit tests:
