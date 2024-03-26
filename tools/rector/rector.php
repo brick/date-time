@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 use Rector\CodeQuality\Rector\FunctionLike\SimplifyUselessVariableRector;
 use Rector\Config\RectorConfig;
+use Rector\PHPUnit\Set\PHPUnitSetList;
 
 $root = dirname(__DIR__, 2);
 
@@ -21,4 +22,7 @@ return RectorConfig::configure()
         SimplifyUselessVariableRector::class,
     ])
     ->withPhpSets()
+    ->withSets([
+        PHPUnitSetList::PHPUNIT_100,
+    ])
     ->withImportNames(importNames: false, removeUnusedImports: true);
