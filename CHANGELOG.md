@@ -1,5 +1,23 @@
 # Changelog
 
+## [0.6.1](https://github.com/brick/date-time/releases/tag/0.6.1) - 2024-03-26
+
+✨ **New features**
+
+- `Year::atMonth()` now accepts a `Month` enum as parameter ([#95](https://github.com/brick/date-time/pull/95))
+- `YearMonth::of()` and `YearMonth::withMonth()` now accept a `Month` enum as parameter ([#96](https://github.com/brick/date-time/pull/96))
+
+🔧 **Improvements**
+
+- Narrower Psalm types for `compareTo()`, `__toString()`, `toISOString()`, `jsonSerialize()` methods ([#97](https://github.com/brick/date-time/pull/97))
+
+💩 **Deprecations**
+
+- Passing an `int` to `Year::atMonth()` is now deprecated, pass a `Month` enum instead ([#95](https://github.com/brick/date-time/pull/95))
+- Passing an `int` to `YearMonth::of()` and `YearMonth::withMonth()` is now deprecated, pass a `Month` enum instead ([#96](https://github.com/brick/date-time/pull/96))
+
+Thanks to [@gnutix](https://github.com/gnutix)!
+
 ## [0.6.0](https://github.com/brick/date-time/releases/tag/0.6.0) - 2023-12-05
 
 💥 **Breaking changes**
