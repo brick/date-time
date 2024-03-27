@@ -7,6 +7,7 @@ namespace Brick\DateTime\Tests;
 use Brick\DateTime\Clock\FixedClock;
 use Brick\DateTime\Instant;
 use Brick\DateTime\Stopwatch;
+use PHPUnit\Framework\Attributes\Depends;
 
 /**
  * Unit tests for class Period.
@@ -40,9 +41,7 @@ class StopwatchTest extends AbstractTestCase
         return $stopwatch;
     }
 
-    /**
-     * @depends testNew
-     */
+    #[Depends('testNew')]
     public function testStart(Stopwatch $stopwatch): Stopwatch
     {
         self::setClockTime(1000, 1);
@@ -56,9 +55,7 @@ class StopwatchTest extends AbstractTestCase
         return $stopwatch;
     }
 
-    /**
-     * @depends testStart
-     */
+    #[Depends('testStart')]
     public function testElapsedTimeWhileRunning(Stopwatch $stopwatch): Stopwatch
     {
         self::setClockTime(2000, 0);
@@ -80,9 +77,7 @@ class StopwatchTest extends AbstractTestCase
         self::assertDurationIs(0, 0, $stopwatch->getElapsedTime());
     }
 
-    /**
-     * @depends testElapsedTimeWhileRunning
-     */
+    #[Depends('testElapsedTimeWhileRunning')]
     public function testStop(Stopwatch $stopwatch): Stopwatch
     {
         self::setClockTime(3000, 2);
@@ -96,9 +91,7 @@ class StopwatchTest extends AbstractTestCase
         return $stopwatch;
     }
 
-    /**
-     * @depends testStop
-     */
+    #[Depends('testStop')]
     public function testFrozenAfterStop(Stopwatch $stopwatch): Stopwatch
     {
         self::setClockTime(4000, 9);
@@ -110,9 +103,7 @@ class StopwatchTest extends AbstractTestCase
         return $stopwatch;
     }
 
-    /**
-     * @depends testFrozenAfterStop
-     */
+    #[Depends('testFrozenAfterStop')]
     public function testRestart(Stopwatch $stopwatch): Stopwatch
     {
         self::setClockTime(5000, 9);
@@ -126,9 +117,7 @@ class StopwatchTest extends AbstractTestCase
         return $stopwatch;
     }
 
-    /**
-     * @depends testRestart
-     */
+    #[Depends('testRestart')]
     public function testElapsedTimeWhileRunningAfterRestart(Stopwatch $stopwatch): Stopwatch
     {
         self::setClockTime(5001, 10);
@@ -140,9 +129,7 @@ class StopwatchTest extends AbstractTestCase
         return $stopwatch;
     }
 
-    /**
-     * @depends testElapsedTimeWhileRunningAfterRestart
-     */
+    #[Depends('testElapsedTimeWhileRunningAfterRestart')]
     public function testStopAgain(Stopwatch $stopwatch): Stopwatch
     {
         self::setClockTime(5002, 20);
@@ -156,9 +143,7 @@ class StopwatchTest extends AbstractTestCase
         return $stopwatch;
     }
 
-    /**
-     * @depends testStopAgain
-     */
+    #[Depends('testStopAgain')]
     public function testFrozenAfterSecondStop(Stopwatch $stopwatch): void
     {
         self::setClockTime(6000, 999);

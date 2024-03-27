@@ -9,6 +9,7 @@ use Brick\DateTime\Instant;
 use Brick\DateTime\Parser\DateTimeParseException;
 use Brick\DateTime\TimeZoneOffset;
 use DateTimeImmutable;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 use const PHP_VERSION_ID;
 
@@ -18,12 +19,11 @@ use const PHP_VERSION_ID;
 class TimeZoneOffsetTest extends AbstractTestCase
 {
     /**
-     * @dataProvider providerOf
-     *
      * @param int $hours        The hours part of the offset.
      * @param int $minutes      The minutes part of the offset.
      * @param int $totalSeconds The expected total number of seconds.
      */
+    #[DataProvider('providerOf')]
     public function testOf(int $hours, int $minutes, int $seconds, int $totalSeconds): void
     {
         self::assertTimeZoneOffsetIs($totalSeconds, TimeZoneOffset::of($hours, $minutes, $seconds));
@@ -53,9 +53,7 @@ class TimeZoneOffsetTest extends AbstractTestCase
         }
     }
 
-    /**
-     * @dataProvider providerOfInvalidValuesThrowsException
-     */
+    #[DataProvider('providerOfInvalidValuesThrowsException')]
     public function testOfInvalidValuesThrowsException(int $hours, int $minutes, int $seconds): void
     {
         $this->expectException(DateTimeException::class);
@@ -81,9 +79,7 @@ class TimeZoneOffsetTest extends AbstractTestCase
         }
     }
 
-    /**
-     * @dataProvider providerTotalSeconds
-     */
+    #[DataProvider('providerTotalSeconds')]
     public function testOfTotalSeconds(int $totalSeconds): void
     {
         self::assertTimeZoneOffsetIs($totalSeconds, TimeZoneOffset::ofTotalSeconds($totalSeconds));
@@ -111,9 +107,7 @@ class TimeZoneOffsetTest extends AbstractTestCase
         }
     }
 
-    /**
-     * @dataProvider providerOfInvalidTotalSecondsThrowsException
-     */
+    #[DataProvider('providerOfInvalidTotalSecondsThrowsException')]
     public function testOfInvalidTotalSecondsThrowsException(int $totalSeconds): void
     {
         $this->expectException(DateTimeException::class);
@@ -146,11 +140,10 @@ class TimeZoneOffsetTest extends AbstractTestCase
     }
 
     /**
-     * @dataProvider providerParse
-     *
      * @param string $text         The text to parse.
      * @param int    $totalSeconds The expected total offset seconds.
      */
+    #[DataProvider('providerParse')]
     public function testParse(string $text, int $totalSeconds): void
     {
         self::assertTimeZoneOffsetIs($totalSeconds, TimeZoneOffset::parse($text));
@@ -177,9 +170,7 @@ class TimeZoneOffsetTest extends AbstractTestCase
         }
     }
 
-    /**
-     * @dataProvider providerParseInvalidStringThrowsException
-     */
+    #[DataProvider('providerParseInvalidStringThrowsException')]
     public function testParseInvalidStringThrowsException(string $text): void
     {
         $this->expectException(DateTimeParseException::class);
@@ -200,9 +191,7 @@ class TimeZoneOffsetTest extends AbstractTestCase
         ];
     }
 
-    /**
-     * @dataProvider providerParseInvalidValueThrowsException
-     */
+    #[DataProvider('providerParseInvalidValueThrowsException')]
     public function testParseInvalidValueThrowsException(string $text): void
     {
         $this->expectException(DateTimeException::class);
@@ -229,22 +218,20 @@ class TimeZoneOffsetTest extends AbstractTestCase
     }
 
     /**
-     * @dataProvider providerGetId
-     *
      * @param int    $totalSeconds The total offset seconds.
      * @param string $expectedId   The expected id.
      */
+    #[DataProvider('providerGetId')]
     public function testGetId(int $totalSeconds, string $expectedId): void
     {
         self::assertSame($expectedId, TimeZoneOffset::ofTotalSeconds($totalSeconds)->getId());
     }
 
     /**
-     * @dataProvider providerGetId
-     *
      * @param int    $totalSeconds The total offset seconds.
      * @param string $string       The expected string.
      */
+    #[DataProvider('providerGetId')]
     public function testToString(int $totalSeconds, string $string): void
     {
         self::assertSame($string, (string) TimeZoneOffset::ofTotalSeconds($totalSeconds));
@@ -289,11 +276,10 @@ class TimeZoneOffsetTest extends AbstractTestCase
     }
 
     /**
-     * @dataProvider providerToNativeDateTimeZone
-     *
      * @param int    $totalSeconds The total offset seconds.
      * @param string $string       The expected string.
      */
+    #[DataProvider('providerToNativeDateTimeZone')]
     public function testToNativeDateTimeZone(int $totalSeconds, string $string): void
     {
         $dateTimeZone = TimeZoneOffset::ofTotalSeconds($totalSeconds)->toNativeDateTimeZone();

@@ -10,6 +10,7 @@ use Brick\DateTime\Instant;
 use Brick\DateTime\Month;
 use Brick\DateTime\TimeZone;
 use Brick\DateTime\YearMonth;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 use function json_encode;
 
@@ -27,12 +28,11 @@ class YearMonthTest extends AbstractTestCase
     }
 
     /**
-     * @dataProvider providerParse
-     *
      * @param string $text  The text to parse.
      * @param int    $year  The expected year.
      * @param int    $month The expected month.
      */
+    #[DataProvider('providerParse')]
     public function testParse(string $text, int $year, int $month): void
     {
         self::assertYearMonthIs($year, $month, YearMonth::parse($text));
@@ -50,10 +50,9 @@ class YearMonthTest extends AbstractTestCase
     }
 
     /**
-     * @dataProvider providerParseInvalidStringThrowsException
-     *
      * @param string $text The text to parse.
      */
+    #[DataProvider('providerParseInvalidStringThrowsException')]
     public function testParseInvalidStringThrowsException(string $text): void
     {
         $this->expectException(DateTimeException::class);
@@ -73,10 +72,9 @@ class YearMonthTest extends AbstractTestCase
     }
 
     /**
-     * @dataProvider providerParseInvalidYearMonthThrowsException
-     *
      * @param string $text The text to parse.
      */
+    #[DataProvider('providerParseInvalidYearMonthThrowsException')]
     public function testParseInvalidYearMonthThrowsException(string $text): void
     {
         $this->expectException(DateTimeException::class);
@@ -92,13 +90,12 @@ class YearMonthTest extends AbstractTestCase
     }
 
     /**
-     * @dataProvider providerNow
-     *
      * @param int    $epochSecond The epoch second.
      * @param string $timeZone    The time-zone.
      * @param int    $year        The expected year.
      * @param int    $month       The expected month.
      */
+    #[DataProvider('providerNow')]
     public function testNow(int $epochSecond, string $timeZone, int $year, int $month): void
     {
         $clock = new FixedClock(Instant::of($epochSecond));
@@ -116,12 +113,11 @@ class YearMonthTest extends AbstractTestCase
     }
 
     /**
-     * @dataProvider providerIsLeapYear
-     *
      * @param int  $year   The year to test.
      * @param int  $month  The month to test.
      * @param bool $isLeap The expected result.
      */
+    #[DataProvider('providerIsLeapYear')]
     public function testIsLeapYear(int $year, int $month, bool $isLeap): void
     {
         self::assertSame($isLeap, YearMonth::of($year, $month)->isLeapYear());
@@ -140,12 +136,11 @@ class YearMonthTest extends AbstractTestCase
     }
 
     /**
-     * @dataProvider providerGetLengthOfMonth
-     *
      * @param int $year   The year.
      * @param int $month  The month.
      * @param int $length The expected length of month.
      */
+    #[DataProvider('providerGetLengthOfMonth')]
     public function testGetLengthOfMonth(int $year, int $month, int $length): void
     {
         self::assertSame($length, YearMonth::of($year, $month)->getLengthOfMonth());
@@ -182,12 +177,11 @@ class YearMonthTest extends AbstractTestCase
     }
 
     /**
-     * @dataProvider providerGetLengthOfYear
-     *
      * @param int $year   The year.
      * @param int $month  The month.
      * @param int $length The expected length of year.
      */
+    #[DataProvider('providerGetLengthOfYear')]
     public function testGetLengthOfYear(int $year, int $month, int $length): void
     {
         self::assertSame($length, YearMonth::of($year, $month)->getLengthOfYear());
@@ -203,84 +197,78 @@ class YearMonthTest extends AbstractTestCase
     }
 
     /**
-     * @dataProvider providerCompareTo
-     *
      * @param int $y1     The year of the base year-month.
      * @param int $m1     The month of the base year-month.
      * @param int $y2     The year of the year-month to compare to.
      * @param int $m2     The month of the year-month to compare to.
      * @param int $result The expected result.
      */
+    #[DataProvider('providerCompareTo')]
     public function testCompareTo(int $y1, int $m1, int $y2, int $m2, int $result): void
     {
         self::assertSame($result, YearMonth::of($y1, $m1)->compareTo(YearMonth::of($y2, $m2)));
     }
 
     /**
-     * @dataProvider providerCompareTo
-     *
      * @param int $y1     The year of the base year-month.
      * @param int $m1     The month of the base year-month.
      * @param int $y2     The year of the year-month to compare to.
      * @param int $m2     The month of the year-month to compare to.
      * @param int $result The comparison result.
      */
+    #[DataProvider('providerCompareTo')]
     public function testIsEqualTo(int $y1, int $m1, int $y2, int $m2, int $result): void
     {
         self::assertSame($result === 0, YearMonth::of($y1, $m1)->isEqualTo(YearMonth::of($y2, $m2)));
     }
 
     /**
-     * @dataProvider providerCompareTo
-     *
      * @param int $y1     The year of the base year-month.
      * @param int $m1     The month of the base year-month.
      * @param int $y2     The year of the year-month to compare to.
      * @param int $m2     The month of the year-month to compare to.
      * @param int $result The comparison result.
      */
+    #[DataProvider('providerCompareTo')]
     public function testIsBefore(int $y1, int $m1, int $y2, int $m2, int $result): void
     {
         self::assertSame($result === -1, YearMonth::of($y1, $m1)->isBefore(YearMonth::of($y2, $m2)));
     }
 
     /**
-     * @dataProvider providerCompareTo
-     *
      * @param int $y1     The year of the base year-month.
      * @param int $m1     The month of the base year-month.
      * @param int $y2     The year of the year-month to compare to.
      * @param int $m2     The month of the year-month to compare to.
      * @param int $result The comparison result.
      */
+    #[DataProvider('providerCompareTo')]
     public function testIsBeforeOrEqualTo(int $y1, int $m1, int $y2, int $m2, int $result): void
     {
         self::assertSame($result <= 0, YearMonth::of($y1, $m1)->isBeforeOrEqualTo(YearMonth::of($y2, $m2)));
     }
 
     /**
-     * @dataProvider providerCompareTo
-     *
      * @param int $y1     The year of the base year-month.
      * @param int $m1     The month of the base year-month.
      * @param int $y2     The year of the year-month to compare to.
      * @param int $m2     The month of the year-month to compare to.
      * @param int $result The comparison result.
      */
+    #[DataProvider('providerCompareTo')]
     public function testIsAfter(int $y1, int $m1, int $y2, int $m2, int $result): void
     {
         self::assertSame($result === 1, YearMonth::of($y1, $m1)->isAfter(YearMonth::of($y2, $m2)));
     }
 
     /**
-     * @dataProvider providerCompareTo
-     *
      * @param int $y1     The year of the base year-month.
      * @param int $m1     The month of the base year-month.
      * @param int $y2     The year of the year-month to compare to.
      * @param int $m2     The month of the year-month to compare to.
      * @param int $result The comparison result.
      */
+    #[DataProvider('providerCompareTo')]
     public function testIsAfterOrEqualTo(int $y1, int $m1, int $y2, int $m2, int $result): void
     {
         self::assertSame($result >= 0, YearMonth::of($y1, $m1)->isAfterOrEqualTo(YearMonth::of($y2, $m2)));
@@ -335,9 +323,7 @@ class YearMonthTest extends AbstractTestCase
         self::assertLocalDateIs(2023, 10, 1, YearMonth::of(2023, 10)->getFirstDay());
     }
 
-    /**
-     * @dataProvider providerGetLastDay
-     */
+    #[DataProvider('providerGetLastDay')]
     public function testGetLastDay(int $year, int $month, int $day): void
     {
         self::assertLocalDateIs($year, $month, $day, YearMonth::of($year, $month)->getLastDay());
@@ -359,9 +345,7 @@ class YearMonthTest extends AbstractTestCase
         self::assertLocalDateIs(2001, 2, 3, YearMonth::of(2001, 02)->atDay(3));
     }
 
-    /**
-     * @dataProvider providerPlusYears
-     */
+    #[DataProvider('providerPlusYears')]
     public function testPlusYears(int $year, int $month, int $plusYears, int $expectedYear, int $expectedMonth): void
     {
         $yearMonth = YearMonth::of($year, $month);
@@ -382,9 +366,7 @@ class YearMonthTest extends AbstractTestCase
         ];
     }
 
-    /**
-     * @dataProvider providerMinusYears
-     */
+    #[DataProvider('providerMinusYears')]
     public function testMinusYears(int $year, int $month, int $plusYears, int $expectedYear, int $expectedMonth): void
     {
         $yearMonth = YearMonth::of($year, $month);
@@ -399,9 +381,7 @@ class YearMonthTest extends AbstractTestCase
         ];
     }
 
-    /**
-     * @dataProvider providerPlusMonths
-     */
+    #[DataProvider('providerPlusMonths')]
     public function testPlusMonths(int $year, int $month, int $plusMonths, int $expectedYear, int $expectedMonth): void
     {
         $yearMonth = YearMonth::of($year, $month);
@@ -423,9 +403,7 @@ class YearMonthTest extends AbstractTestCase
         ];
     }
 
-    /**
-     * @dataProvider providerMinusMonths
-     */
+    #[DataProvider('providerMinusMonths')]
     public function testMinusMonths(int $year, int $month, int $plusMonths, int $expectedYear, int $expectedMonth): void
     {
         $yearMonth = YearMonth::of($year, $month);
@@ -447,9 +425,7 @@ class YearMonthTest extends AbstractTestCase
         ];
     }
 
-    /**
-     * @dataProvider providerToLocalDateRange
-     */
+    #[DataProvider('providerToLocalDateRange')]
     public function testToLocalDateRange(int $year, int $month, string $expectedRange): void
     {
         self::assertSame($expectedRange, (string) YearMonth::of($year, $month)->toLocalDateRange());
@@ -465,29 +441,24 @@ class YearMonthTest extends AbstractTestCase
         ];
     }
 
-    /**
-     * @dataProvider providerToString
-     */
+    #[DataProvider('providerToString')]
     public function testJsonSerialize(int $year, int $month, string $expectedString): void
     {
         self::assertSame(json_encode($expectedString, JSON_THROW_ON_ERROR), json_encode(YearMonth::of($year, $month), JSON_THROW_ON_ERROR));
     }
 
-    /**
-     * @dataProvider providerToString
-     */
+    #[DataProvider('providerToString')]
     public function testToISOString(int $year, int $month, string $expectedString): void
     {
         self::assertSame($expectedString, YearMonth::of($year, $month)->toISOString());
     }
 
     /**
-     * @dataProvider providerToString
-     *
      * @param int    $year     The year.
      * @param int    $month    The month.
      * @param string $expected The expected result string.
      */
+    #[DataProvider('providerToString')]
     public function testToString(int $year, int $month, string $expected): void
     {
         self::assertSame($expected, (string) YearMonth::of($year, $month));

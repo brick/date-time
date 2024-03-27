@@ -7,6 +7,7 @@ namespace Brick\DateTime\Tests;
 use Brick\DateTime\DateTimeException;
 use Brick\DateTime\Month;
 use Generator;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 use function json_encode;
 
@@ -18,11 +19,10 @@ use const JSON_THROW_ON_ERROR;
 class MonthTest extends AbstractTestCase
 {
     /**
-     * @dataProvider providerValues
-     *
      * @param int   $expectedValue The expected value of the constant.
      * @param Month $month         The month instance.
      */
+    #[DataProvider('providerValues')]
     public function testValues(int $expectedValue, Month $month): void
     {
         self::assertSame($expectedValue, $month->value);
@@ -53,9 +53,7 @@ class MonthTest extends AbstractTestCase
         self::assertSame(Month::AUGUST, Month::of(Month::AUGUST));
     }
 
-    /**
-     * @dataProvider providerOfInvalidMonthThrowsException
-     */
+    #[DataProvider('providerOfInvalidMonthThrowsException')]
     public function testOfInvalidMonthThrowsException(int $invalidMonth): void
     {
         $this->expectException(DateTimeException::class);
@@ -101,11 +99,10 @@ class MonthTest extends AbstractTestCase
     }
 
     /**
-     * @dataProvider minLengthProvider
-     *
      * @param int $month     The month value.
      * @param int $minLength The expected min length.
      */
+    #[DataProvider('minLengthProvider')]
     public function testGetMinLength(int $month, int $minLength): void
     {
         self::assertSame($minLength, Month::from($month)->getMinLength());
@@ -130,11 +127,10 @@ class MonthTest extends AbstractTestCase
     }
 
     /**
-     * @dataProvider maxLengthProvider
-     *
      * @param int $month     The month value.
      * @param int $minLength The expected min length.
      */
+    #[DataProvider('maxLengthProvider')]
     public function testGetMaxLength(int $month, int $minLength): void
     {
         self::assertSame($minLength, Month::from($month)->getMaxLength());
@@ -159,12 +155,11 @@ class MonthTest extends AbstractTestCase
     }
 
     /**
-     * @dataProvider providerFirstDayOfYear
-     *
      * @param int  $month          The month value, from 1 to 12.
      * @param bool $leapYear       Whether to test on a leap year.
      * @param int  $firstDayOfYear The expected first day of year.
      */
+    #[DataProvider('providerFirstDayOfYear')]
     public function testFirstDayOfYear(int $month, bool $leapYear, int $firstDayOfYear): void
     {
         self::assertSame($firstDayOfYear, Month::from($month)->getFirstDayOfYear($leapYear));
@@ -202,12 +197,11 @@ class MonthTest extends AbstractTestCase
     }
 
     /**
-     * @dataProvider providerGetLength
-     *
      * @param Month $month          The month to test.
      * @param bool  $leapYear       Whether to test on a leap year.
      * @param int   $expectedLength The expected month length.
      */
+    #[DataProvider('providerGetLength')]
     public function testGetLength(Month $month, bool $leapYear, int $expectedLength): void
     {
         self::assertSame($expectedLength, $month->getLength($leapYear));
@@ -255,24 +249,22 @@ class MonthTest extends AbstractTestCase
     }
 
     /**
-     * @dataProvider providerPlus
-     *
      * @param Month $month         The base month.
      * @param int   $plusMonths    The number of months to add.
      * @param Month $expectedMonth The expected.
      */
+    #[DataProvider('providerPlus')]
     public function testPlus(Month $month, int $plusMonths, Month $expectedMonth): void
     {
         self::assertSame($expectedMonth, $month->plus($plusMonths));
     }
 
     /**
-     * @dataProvider providerPlus
-     *
      * @param Month $month         The base month.
      * @param int   $plusMonths    The number of months to add.
      * @param Month $expectedMonth The expected month.
      */
+    #[DataProvider('providerPlus')]
     public function testMinus(Month $month, int $plusMonths, Month $expectedMonth): void
     {
         self::assertSame($expectedMonth, $month->minus(-$plusMonths));
@@ -297,22 +289,20 @@ class MonthTest extends AbstractTestCase
     }
 
     /**
-     * @dataProvider providerToString
-     *
      * @param Month  $month        The month.
      * @param string $expectedName The expected month name.
      */
+    #[DataProvider('providerToString')]
     public function testJsonSerialize(Month $month, string $expectedName): void
     {
         self::assertSame(json_encode($expectedName, JSON_THROW_ON_ERROR), json_encode($month, JSON_THROW_ON_ERROR));
     }
 
     /**
-     * @dataProvider providerToString
-     *
      * @param Month  $month        The month.
      * @param string $expectedName The expected month name.
      */
+    #[DataProvider('providerToString')]
     public function testToString(Month $month, string $expectedName): void
     {
         self::assertSame($expectedName, $month->toString());

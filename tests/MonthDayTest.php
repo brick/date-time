@@ -10,6 +10,7 @@ use Brick\DateTime\Instant;
 use Brick\DateTime\MonthDay;
 use Brick\DateTime\Parser\DateTimeParseException;
 use Brick\DateTime\TimeZone;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 use function json_encode;
 
@@ -20,9 +21,7 @@ use const JSON_THROW_ON_ERROR;
  */
 class MonthDayTest extends AbstractTestCase
 {
-    /**
-     * @dataProvider providerOf
-     */
+    #[DataProvider('providerOf')]
     public function testOf(int $month, int $day): void
     {
         self::assertMonthDayIs($month, $day, MonthDay::of($month, $day));
@@ -47,9 +46,7 @@ class MonthDayTest extends AbstractTestCase
         ];
     }
 
-    /**
-     * @dataProvider providerOfThrowsExceptionOnInvalidMonthDay
-     */
+    #[DataProvider('providerOfThrowsExceptionOnInvalidMonthDay')]
     public function testOfThrowsExceptionOnInvalidMonthDay(int $month, int $day): void
     {
         $this->expectException(DateTimeException::class);
@@ -78,12 +75,11 @@ class MonthDayTest extends AbstractTestCase
     }
 
     /**
-     * @dataProvider providerParse
-     *
      * @param string $text  The text to parse.
      * @param int    $month The expected month.
      * @param int    $day   The expected day.
      */
+    #[DataProvider('providerParse')]
     public function testParse(string $text, int $month, int $day): void
     {
         self::assertMonthDayIs($month, $day, MonthDay::parse($text));
@@ -98,9 +94,7 @@ class MonthDayTest extends AbstractTestCase
         ];
     }
 
-    /**
-     * @dataProvider providerParseInvalidStringThrowsException
-     */
+    #[DataProvider('providerParseInvalidStringThrowsException')]
     public function testParseInvalidStringThrowsException(string $text): void
     {
         $this->expectException(DateTimeParseException::class);
@@ -125,9 +119,7 @@ class MonthDayTest extends AbstractTestCase
         ];
     }
 
-    /**
-     * @dataProvider providerParseInvalidDateThrowsException
-     */
+    #[DataProvider('providerParseInvalidDateThrowsException')]
     public function testParseInvalidDateThrowsException(string $text): void
     {
         $this->expectException(DateTimeException::class);
@@ -145,13 +137,12 @@ class MonthDayTest extends AbstractTestCase
     }
 
     /**
-     * @dataProvider providerNow
-     *
      * @param int    $epochSecond The epoch second.
      * @param string $timeZone    The time-zone.
      * @param int    $month       The expected month.
      * @param int    $day         The expected day.
      */
+    #[DataProvider('providerNow')]
     public function testNow(int $epochSecond, string $timeZone, int $month, int $day): void
     {
         $clock = new FixedClock(Instant::of($epochSecond));
@@ -169,56 +160,52 @@ class MonthDayTest extends AbstractTestCase
     }
 
     /**
-     * @dataProvider providerCompareTo
-     *
      * @param int $m1     The month of the base month-day.
      * @param int $d1     The day of the base month-day.
      * @param int $m2     The month of the month-day to compare to.
      * @param int $d2     The day of the month-day to compare to.
      * @param int $result The expected result.
      */
+    #[DataProvider('providerCompareTo')]
     public function testCompareTo(int $m1, int $d1, int $m2, int $d2, int $result): void
     {
         self::assertSame($result, MonthDay::of($m1, $d1)->compareTo(MonthDay::of($m2, $d2)));
     }
 
     /**
-     * @dataProvider providerCompareTo
-     *
      * @param int $m1     The month of the base month-day.
      * @param int $d1     The day of the base month-day.
      * @param int $m2     The month of the month-day to compare to.
      * @param int $d2     The day of the month-day to compare to.
      * @param int $result The expected result.
      */
+    #[DataProvider('providerCompareTo')]
     public function testIsEqualTo(int $m1, int $d1, int $m2, int $d2, int $result): void
     {
         self::assertSame($result === 0, MonthDay::of($m1, $d1)->isEqualTo(MonthDay::of($m2, $d2)));
     }
 
     /**
-     * @dataProvider providerCompareTo
-     *
      * @param int $m1     The month of the base month-day.
      * @param int $d1     The day of the base month-day.
      * @param int $m2     The month of the month-day to compare to.
      * @param int $d2     The day of the month-day to compare to.
      * @param int $result The expected result.
      */
+    #[DataProvider('providerCompareTo')]
     public function testIsBefore(int $m1, int $d1, int $m2, int $d2, int $result): void
     {
         self::assertSame($result === -1, MonthDay::of($m1, $d1)->isBefore(MonthDay::of($m2, $d2)));
     }
 
     /**
-     * @dataProvider providerCompareTo
-     *
      * @param int $m1     The month of the base month-day.
      * @param int $d1     The day of the base month-day.
      * @param int $m2     The month of the month-day to compare to.
      * @param int $d2     The day of the month-day to compare to.
      * @param int $result The expected result.
      */
+    #[DataProvider('providerCompareTo')]
     public function testIsAfter(int $m1, int $d1, int $m2, int $d2, int $result): void
     {
         self::assertSame($result === 1, MonthDay::of($m1, $d1)->isAfter(MonthDay::of($m2, $d2)));
@@ -247,13 +234,12 @@ class MonthDayTest extends AbstractTestCase
     }
 
     /**
-     * @dataProvider providerIsValidYear
-     *
      * @param int  $month   The month of the month-day to test.
      * @param int  $day     The day of the month-day to test.
      * @param int  $year    The year to test against.
      * @param bool $isValid The expected result.
      */
+    #[DataProvider('providerIsValidYear')]
     public function testIsValidYear(int $month, int $day, int $year, bool $isValid): void
     {
         self::assertSame($isValid, MonthDay::of($month, $day)->isValidYear($year));
@@ -283,13 +269,12 @@ class MonthDayTest extends AbstractTestCase
     }
 
     /**
-     * @dataProvider providerWithMonth
-     *
      * @param int $month       The month of the base month-day to test.
      * @param int $day         The day of base the month-day to test.
      * @param int $newMonth    The new month to apply.
      * @param int $expectedDay The expected day of the resulting month-day.
      */
+    #[DataProvider('providerWithMonth')]
     public function testWithMonth(int $month, int $day, int $newMonth, int $expectedDay): void
     {
         $monthDay = MonthDay::of($month, $day);
@@ -322,12 +307,11 @@ class MonthDayTest extends AbstractTestCase
     }
 
     /**
-     * @dataProvider providerWithInvalidMonthThrowsException
-     *
      * @param int $month    The month of the base month-day to test.
      * @param int $day      The day of base the month-day to test.
      * @param int $newMonth The new month to apply.
      */
+    #[DataProvider('providerWithInvalidMonthThrowsException')]
     public function testWithInvalidMonthThrowsException(int $month, int $day, int $newMonth): void
     {
         $this->expectException(DateTimeException::class);
@@ -354,12 +338,11 @@ class MonthDayTest extends AbstractTestCase
     }
 
     /**
-     * @dataProvider providerWithDay
-     *
      * @param int $month  The month of the base month-day to test.
      * @param int $day    The day of base the month-day to test.
      * @param int $newDay The new day to apply.
      */
+    #[DataProvider('providerWithDay')]
     public function testWithDay(int $month, int $day, int $newDay): void
     {
         $monthDay = MonthDay::of($month, $day);
@@ -382,12 +365,11 @@ class MonthDayTest extends AbstractTestCase
     }
 
     /**
-     * @dataProvider providerWithInvalidDayThrowsException
-     *
      * @param int $month  The month of the base month-day to test.
      * @param int $day    The day of base the month-day to test.
      * @param int $newDay The new day to apply.
      */
+    #[DataProvider('providerWithInvalidDayThrowsException')]
     public function testWithInvalidDayThrowsException(int $month, int $day, int $newDay): void
     {
         $this->expectException(DateTimeException::class);
@@ -425,13 +407,12 @@ class MonthDayTest extends AbstractTestCase
     }
 
     /**
-     * @dataProvider providerAtYear
-     *
      * @param int $month       The month of the base month-day.
      * @param int $day         The day of the base month-day.
      * @param int $year        The year to combine with the month-day.
      * @param int $expectedDay The expected day of the resulting date.
      */
+    #[DataProvider('providerAtYear')]
     public function testAtYear(int $month, int $day, int $year, int $expectedDay): void
     {
         self::assertLocalDateIs($year, $month, $expectedDay, MonthDay::of($month, $day)->atYear($year));
@@ -449,9 +430,7 @@ class MonthDayTest extends AbstractTestCase
         ];
     }
 
-    /**
-     * @dataProvider providerAtInvalidYearThrowsException
-     */
+    #[DataProvider('providerAtInvalidYearThrowsException')]
     public function testAtInvalidYearThrowsException(int $year): void
     {
         $this->expectException(DateTimeException::class);
@@ -467,36 +446,33 @@ class MonthDayTest extends AbstractTestCase
     }
 
     /**
-     * @dataProvider providerToString
-     *
      * @param int    $month  The month of the month-day to test.
      * @param int    $day    The day of the month-day to test.
      * @param string $string The expected result string.
      */
+    #[DataProvider('providerToString')]
     public function testJsonSerialize(int $month, int $day, string $string): void
     {
         self::assertSame(json_encode($string, JSON_THROW_ON_ERROR), json_encode(MonthDay::of($month, $day), JSON_THROW_ON_ERROR));
     }
 
     /**
-     * @dataProvider providerToString
-     *
      * @param int    $month  The month of the month-day to test.
      * @param int    $day    The day of the month-day to test.
      * @param string $string The expected result string.
      */
+    #[DataProvider('providerToString')]
     public function testToISOString(int $month, int $day, string $string): void
     {
         self::assertSame($string, MonthDay::of($month, $day)->toISOString());
     }
 
     /**
-     * @dataProvider providerToString
-     *
      * @param int    $month  The month of the month-day to test.
      * @param int    $day    The day of the month-day to test.
      * @param string $string The expected result string.
      */
+    #[DataProvider('providerToString')]
     public function testToString(int $month, int $day, string $string): void
     {
         self::assertSame($string, (string) MonthDay::of($month, $day));

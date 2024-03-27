@@ -9,6 +9,7 @@ use Brick\DateTime\Clock\ScaleClock;
 use Brick\DateTime\Duration;
 use Brick\DateTime\Instant;
 use Brick\DateTime\Tests\AbstractTestCase;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 /**
  * Unit tests for class ScaleClock.
@@ -16,14 +17,13 @@ use Brick\DateTime\Tests\AbstractTestCase;
 class ScaleClockTest extends AbstractTestCase
 {
     /**
-     * @dataProvider providerScaleClock
-     *
      * @param int    $second          The epoch second to set the base clock to.
      * @param int    $nano            The nano to set the base clock to.
      * @param string $duration        The time elapsed, as a parsable duration string.
      * @param int    $scale           The time scale.
      * @param string $expectedInstant The expected epoch second returned by the clock.
      */
+    #[DataProvider('providerScaleClock')]
     public function testScaleClock(int $second, int $nano, string $duration, int $scale, string $expectedInstant): void
     {
         $baseInstant = Instant::of($second, $nano);
