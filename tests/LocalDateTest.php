@@ -10,6 +10,7 @@ use Brick\DateTime\DayOfWeek;
 use Brick\DateTime\Instant;
 use Brick\DateTime\LocalDate;
 use Brick\DateTime\LocalTime;
+use Brick\DateTime\Month;
 use Brick\DateTime\Period;
 use Brick\DateTime\TimeZone;
 use Brick\DateTime\Year;
@@ -540,8 +541,8 @@ class LocalDateTest extends AbstractTestCase
      */
     public function testWithMonth(int $year, int $month, int $day, int $newMonth, int $expectedDay): void
     {
-        $localDate = LocalDate::of($year, $month, $day)->withMonth($newMonth);
-        self::assertLocalDateIs($year, $newMonth, $expectedDay, $localDate);
+        self::assertLocalDateIs($year, $newMonth, $expectedDay, LocalDate::of($year, $month, $day)->withMonth($newMonth));
+        self::assertLocalDateIs($year, $newMonth, $expectedDay, LocalDate::of($year, $month, $day)->withMonth(Month::from($newMonth)));
     }
 
     public static function providerWithMonth(): array

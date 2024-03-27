@@ -11,6 +11,11 @@ use Brick\DateTime\Parser\IsoParsers;
 use JsonSerializable;
 use Stringable;
 
+use function is_int;
+use function trigger_error;
+
+use const E_USER_DEPRECATED;
+
 /**
  * A month-day in the ISO-8601 calendar system, such as `--12-03`.
  */
@@ -31,14 +36,22 @@ final class MonthDay implements JsonSerializable, Stringable
     /**
      * Obtains an instance of MonthDay.
      *
-     * @param int $month The month-of-year, from 1 (January) to 12 (December).
-     * @param int $day   The day-of-month, from 1 to 31.
+     * @param int $day The day-of-month, from 1 to 31.
      *
      * @throws DateTimeException If the month-day is not valid.
      */
-    public static function of(int $month, int $day): MonthDay
+    public static function of(Month|int $month, int $day): MonthDay
     {
-        Field\MonthOfYear::check($month);
+        if (is_int($month)) {
+            // usually we don't use trigger_error() for deprecations, but we can't rely on @deprecated for a parameter type change;
+            // maybe we should revisit using trigger_error() unconditionally for deprecations in the future.
+            trigger_error('Passing an integer to MonthDay::of() is deprecated, pass a Month instance instead.', E_USER_DEPRECATED);
+
+            Field\MonthOfYear::check($month);
+        } else {
+            $month = $month->value;
+        }
+
         Field\DayOfMonth::check($day, $month);
 
         return new MonthDay($month, $day);
@@ -50,10 +63,13 @@ final class MonthDay implements JsonSerializable, Stringable
      */
     public static function from(DateTimeParseResult $result): MonthDay
     {
-        return MonthDay::of(
-            (int) $result->getField(Field\MonthOfYear::NAME),
-            (int) $result->getField(Field\DayOfMonth::NAME),
-        );
+        $month = (int) $result->getField(Field\MonthOfYear::NAME);
+        $day = (int) $result->getField(Field\DayOfMonth::NAME);
+
+        Field\MonthOfYear::check($month);
+        Field\DayOfMonth::check($day, $month);
+
+        return new MonthDay($month, $day);
     }
 
     /**
@@ -187,13 +203,21 @@ final class MonthDay implements JsonSerializable, Stringable
      *
      * @throws DateTimeException If the month is invalid.
      */
-    public function withMonth(int $month): MonthDay
+    public function withMonth(Month|int $month): MonthDay
     {
+        if (is_int($month)) {
+            // usually we don't use trigger_error() for deprecations, but we can't rely on @deprecated for a parameter type change;
+            // maybe we should revisit using trigger_error() unconditionally for deprecations in the future.
+            trigger_error('Passing an integer to MonthDay::withMonth() is deprecated, pass a Month instance instead.', E_USER_DEPRECATED);
+
+            Field\MonthOfYear::check($month);
+        } else {
+            $month = $month->value;
+        }
+
         if ($month === $this->month) {
             return $this;
         }
-
-        Field\MonthOfYear::check($month);
 
         $lastDay = Field\MonthOfYear::getLength($month);
 
@@ -230,7 +254,7 @@ final class MonthDay implements JsonSerializable, Stringable
      */
     public function atYear(int $year): LocalDate
     {
-        return LocalDate::of($year, $this->month, $this->isValidYear($year) ? $this->day : 28);
+        return LocalDate::of($year, Month::from($this->month), $this->isValidYear($year) ? $this->day : 28);
     }
 
     /**

@@ -66,7 +66,11 @@ class YearMonthRange implements IteratorAggregate, Countable, JsonSerializable, 
         if ($result->hasField(Field\Year::NAME)) {
             $end = YearMonth::from($result);
         } else {
-            $end = $start->withMonth((int) $result->getField(Field\MonthOfYear::NAME));
+            $month = (int) $result->getField(Field\MonthOfYear::NAME);
+
+            Field\MonthOfYear::check($month);
+
+            $end = $start->withMonth(Month::from($month));
         }
 
         return YearMonthRange::of($start, $end);
