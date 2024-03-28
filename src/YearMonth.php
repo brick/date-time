@@ -64,10 +64,13 @@ final class YearMonth implements JsonSerializable, Stringable
      */
     public static function from(DateTimeParseResult $result): YearMonth
     {
-        return YearMonth::of(
-            (int) $result->getField(Field\Year::NAME),
-            (int) $result->getField(Field\MonthOfYear::NAME),
-        );
+        $year = (int) $result->getField(Field\Year::NAME);
+        $month = (int) $result->getField(Field\MonthOfYear::NAME);
+
+        Field\Year::check($year);
+        Field\MonthOfYear::check($month);
+
+        return new YearMonth($year, $month);
     }
 
     /**
@@ -253,7 +256,7 @@ final class YearMonth implements JsonSerializable, Stringable
      */
     public function atDay(int $day): LocalDate
     {
-        return LocalDate::of($this->year, $this->month, $day);
+        return LocalDate::of($this->year, Month::from($this->month), $day);
     }
 
     /**

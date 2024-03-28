@@ -16,9 +16,12 @@ use JsonSerializable;
 use Stringable;
 
 use function intdiv;
+use function is_int;
 use function min;
 use function str_pad;
+use function trigger_error;
 
+use const E_USER_DEPRECATED;
 use const STR_PAD_LEFT;
 
 /**
@@ -65,16 +68,24 @@ final class LocalDate implements JsonSerializable, Stringable
     /**
      * Obtains an instance of `LocalDate` from a year, month and day.
      *
-     * @param int $year  The year, from MIN_YEAR to MAX_YEAR.
-     * @param int $month The month-of-year, from 1 (January) to 12 (December).
-     * @param int $day   The day-of-month, from 1 to 31.
+     * @param int $year The year, from MIN_YEAR to MAX_YEAR.
+     * @param int $day  The day-of-month, from 1 to 31.
      *
      * @throws DateTimeException If the date is not valid.
      */
-    public static function of(int $year, int $month, int $day): LocalDate
+    public static function of(int $year, Month|int $month, int $day): LocalDate
     {
+        if (is_int($month)) {
+            // usually we don't use trigger_error() for deprecations, but we can't rely on @deprecated for a parameter type change;
+            // maybe we should revisit using trigger_error() unconditionally for deprecations in the future.
+            trigger_error('Passing an integer to LocalDate::of() is deprecated, pass a Month instance instead.', E_USER_DEPRECATED);
+
+            Field\MonthOfYear::check($month);
+        } else {
+            $month = $month->value;
+        }
+
         Field\Year::check($year);
-        Field\MonthOfYear::check($month);
         Field\DayOfMonth::check($day, $month, $year);
 
         return new LocalDate($year, $month, $day);
@@ -104,7 +115,7 @@ final class LocalDate implements JsonSerializable, Stringable
 
         $dayOfMonth = $dayOfYear - $monthOfYear->getFirstDayOfYear($isLeap) + 1;
 
-        return LocalDate::of($year, $monthOfYear->value, $dayOfMonth);
+        return LocalDate::of($year, $monthOfYear, $dayOfMonth);
     }
 
     /**
@@ -117,7 +128,9 @@ final class LocalDate implements JsonSerializable, Stringable
         $month = (int) $result->getField(Field\MonthOfYear::NAME);
         $day = (int) $result->getField(Field\DayOfMonth::NAME);
 
-        return LocalDate::of($year, $month, $day);
+        Field\MonthOfYear::check($month);
+
+        return LocalDate::of($year, Month::from($month), $day);
     }
 
     /**
@@ -216,7 +229,7 @@ final class LocalDate implements JsonSerializable, Stringable
             return $min;
         }
 
-        return $min = LocalDate::of(self::MIN_YEAR, 1, 1);
+        return $min = LocalDate::of(self::MIN_YEAR, Month::JANUARY, 1);
     }
 
     /**
@@ -233,7 +246,7 @@ final class LocalDate implements JsonSerializable, Stringable
             return $max;
         }
 
-        return $max = LocalDate::of(self::MAX_YEAR, 12, 31);
+        return $max = LocalDate::of(self::MAX_YEAR, Month::DECEMBER, 31);
     }
 
     /**
@@ -325,7 +338,7 @@ final class LocalDate implements JsonSerializable, Stringable
 
     public function getYearMonth(): YearMonth
     {
-        return YearMonth::of($this->year, $this->month);
+        return YearMonth::of($this->year, Month::from($this->month));
     }
 
     public function getDayOfWeek(): DayOfWeek
@@ -382,13 +395,21 @@ final class LocalDate implements JsonSerializable, Stringable
      *
      * @throws DateTimeException If the month is invalid.
      */
-    public function withMonth(int $month): LocalDate
+    public function withMonth(Month|int $month): LocalDate
     {
+        if (is_int($month)) {
+            // usually we don't use trigger_error() for deprecations, but we can't rely on @deprecated for a parameter type change;
+            // maybe we should revisit using trigger_error() unconditionally for deprecations in the future.
+            trigger_error('Passing an integer to LocalDate::withMonth() is deprecated, pass a Month instance instead.', E_USER_DEPRECATED);
+
+            Field\MonthOfYear::check($month);
+        } else {
+            $month = $month->value;
+        }
+
         if ($month === $this->month) {
             return $this;
         }
-
-        Field\MonthOfYear::check($month);
 
         return $this->resolvePreviousValid($this->year, $month, $this->day);
     }
@@ -808,7 +829,7 @@ final class LocalDate implements JsonSerializable, Stringable
     private function resolvePreviousValid(int $year, int $month, int $day): LocalDate
     {
         if ($day > 28) {
-            $day = min($day, YearMonth::of($year, $month)->getLengthOfMonth());
+            $day = min($day, YearMonth::of($year, Month::from($month))->getLengthOfMonth());
         }
 
         return new LocalDate($year, $month, $day);

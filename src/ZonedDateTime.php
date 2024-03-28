@@ -15,6 +15,10 @@ use JsonSerializable;
 use Stringable;
 
 use function intdiv;
+use function is_int;
+use function trigger_error;
+
+use const E_USER_DEPRECATED;
 
 /**
  * A date-time with a time-zone in the ISO-8601 calendar system.
@@ -347,8 +351,14 @@ class ZonedDateTime implements JsonSerializable, Stringable
     /**
      * Returns a copy of this ZonedDateTime with the month-of-year altered.
      */
-    public function withMonth(int $month): ZonedDateTime
+    public function withMonth(Month|int $month): ZonedDateTime
     {
+        if (is_int($month)) {
+            // usually we don't use trigger_error() for deprecations, but we can't rely on @deprecated for a parameter type change;
+            // maybe we should revisit using trigger_error() unconditionally for deprecations in the future.
+            trigger_error('Passing an integer to ZonedDateTime::withMonth() is deprecated, pass a Month instance instead.', E_USER_DEPRECATED);
+        }
+
         return ZonedDateTime::of($this->localDateTime->withMonth($month), $this->timeZone);
     }
 

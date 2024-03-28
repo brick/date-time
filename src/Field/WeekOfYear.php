@@ -7,6 +7,7 @@ namespace Brick\DateTime\Field;
 use Brick\DateTime\DateTimeException;
 use Brick\DateTime\DayOfWeek;
 use Brick\DateTime\LocalDate;
+use Brick\DateTime\Month;
 
 /**
  * The week-of-year field.
@@ -51,7 +52,7 @@ final class WeekOfYear
      */
     public static function is53WeekYear(int $year): bool
     {
-        $date = LocalDate::of($year, 1, 1);
+        $date = LocalDate::of($year, Month::JANUARY, 1);
         $dayOfWeek = $date->getDayOfWeek();
 
         return $dayOfWeek === DayOfWeek::THURSDAY
