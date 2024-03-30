@@ -11,6 +11,8 @@ use Brick\DateTime\Parser\IsoParsers;
 use JsonSerializable;
 use Stringable;
 
+use function is_int;
+
 /**
  * A month-day in the ISO-8601 calendar system, such as `--12-03`.
  */
@@ -31,14 +33,19 @@ final class MonthDay implements JsonSerializable, Stringable
     /**
      * Obtains an instance of MonthDay.
      *
-     * @param int $month The month-of-year, from 1 (January) to 12 (December).
-     * @param int $day   The day-of-month, from 1 to 31.
+     * @param int|Month $month The month-of-year, from 1 (January) to 12 (December).
+     * @param int       $day   The day-of-month, from 1 to 31.
      *
      * @throws DateTimeException If the month-day is not valid.
      */
-    public static function of(int $month, int $day): MonthDay
+    public static function of(Month|int $month, int $day): MonthDay
     {
-        Field\MonthOfYear::check($month);
+        if (is_int($month)) {
+            Field\MonthOfYear::check($month);
+        } else {
+            $month = $month->value;
+        }
+
         Field\DayOfMonth::check($day, $month);
 
         return new MonthDay($month, $day);
@@ -187,13 +194,17 @@ final class MonthDay implements JsonSerializable, Stringable
      *
      * @throws DateTimeException If the month is invalid.
      */
-    public function withMonth(int $month): MonthDay
+    public function withMonth(Month|int $month): MonthDay
     {
+        if (is_int($month)) {
+            Field\MonthOfYear::check($month);
+        } else {
+            $month = $month->value;
+        }
+
         if ($month === $this->month) {
             return $this;
         }
-
-        Field\MonthOfYear::check($month);
 
         $lastDay = Field\MonthOfYear::getLength($month);
 
