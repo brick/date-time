@@ -13,6 +13,7 @@ use Brick\DateTime\Instant;
 use Brick\DateTime\LocalDate;
 use Brick\DateTime\LocalDateTime;
 use Brick\DateTime\LocalTime;
+use Brick\DateTime\Month;
 use Brick\DateTime\Parser\DateTimeParseException;
 use Brick\DateTime\Period;
 use Brick\DateTime\TimeZone;
@@ -32,10 +33,8 @@ class LocalDateTimeTest extends AbstractTestCase
 {
     public function testOf(): void
     {
-        $date = LocalDate::of(2001, 12, 23);
-        $time = LocalTime::of(12, 34, 56, 987654321);
-
-        self::assertLocalDateTimeIs(2001, 12, 23, 12, 34, 56, 987654321, new LocalDateTime($date, $time));
+        self::assertLocalDateTimeIs(2001, 12, 23, 12, 34, 56, 987654321, LocalDateTime::of(2001, 12, 23, 12, 34, 56, 987654321));
+        self::assertLocalDateTimeIs(2001, 12, 23, 12, 34, 56, 987654321, LocalDateTime::of(2001, Month::DECEMBER, 23, 12, 34, 56, 987654321));
     }
 
     public function testFromNativeDateTime(): void
@@ -351,8 +350,9 @@ class LocalDateTimeTest extends AbstractTestCase
     {
         $date = LocalDate::of($year, $month, $day);
         $time = LocalTime::of(1, 2, 3, 123456789);
-        $localDateTime = $date->atTime($time)->withMonth($newMonth);
-        self::assertLocalDateTimeIs($year, $newMonth, $expectedDay, 1, 2, 3, 123456789, $localDateTime);
+
+        self::assertLocalDateTimeIs($year, $newMonth, $expectedDay, 1, 2, 3, 123456789, $date->atTime($time)->withMonth($newMonth));
+        self::assertLocalDateTimeIs($year, $newMonth, $expectedDay, 1, 2, 3, 123456789, $date->atTime($time)->withMonth(Month::from($newMonth)));
     }
 
     public static function providerWithMonth(): array
