@@ -16,6 +16,7 @@ use JsonSerializable;
 use Stringable;
 
 use function intdiv;
+use function is_int;
 use function min;
 use function str_pad;
 
@@ -65,16 +66,22 @@ final class LocalDate implements JsonSerializable, Stringable
     /**
      * Obtains an instance of `LocalDate` from a year, month and day.
      *
-     * @param int $year  The year, from MIN_YEAR to MAX_YEAR.
-     * @param int $month The month-of-year, from 1 (January) to 12 (December).
-     * @param int $day   The day-of-month, from 1 to 31.
+     * @param int       $year  The year, from MIN_YEAR to MAX_YEAR.
+     * @param int|Month $month The month-of-year, from 1 (January) to 12 (December).
+     * @param int       $day   The day-of-month, from 1 to 31.
      *
      * @throws DateTimeException If the date is not valid.
      */
-    public static function of(int $year, int $month, int $day): LocalDate
+    public static function of(int $year, Month|int $month, int $day): LocalDate
     {
         Field\Year::check($year);
-        Field\MonthOfYear::check($month);
+
+        if (is_int($month)) {
+            Field\MonthOfYear::check($month);
+        } else {
+            $month = $month->value;
+        }
+
         Field\DayOfMonth::check($day, $month, $year);
 
         return new LocalDate($year, $month, $day);
@@ -382,13 +389,17 @@ final class LocalDate implements JsonSerializable, Stringable
      *
      * @throws DateTimeException If the month is invalid.
      */
-    public function withMonth(int $month): LocalDate
+    public function withMonth(Month|int $month): LocalDate
     {
+        if (is_int($month)) {
+            Field\MonthOfYear::check($month);
+        } else {
+            $month = $month->value;
+        }
+
         if ($month === $this->month) {
             return $this;
         }
-
-        Field\MonthOfYear::check($month);
 
         return $this->resolvePreviousValid($this->year, $month, $this->day);
     }
