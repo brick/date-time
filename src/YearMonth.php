@@ -14,9 +14,7 @@ use Stringable;
 
 use function is_int;
 use function str_pad;
-use function trigger_error;
 
-use const E_USER_DEPRECATED;
 use const STR_PAD_LEFT;
 
 /**
@@ -46,16 +44,12 @@ final class YearMonth implements JsonSerializable, Stringable
         Field\Year::check($year);
 
         if (is_int($month)) {
-            // usually we don't use trigger_error() for deprecations, but we can't rely on @deprecated for a parameter type change;
-            // maybe we should revisit using trigger_error() unconditionally for deprecations in the future.
-            trigger_error('Passing an integer to YearMonth::of() second argument is deprecated, pass a Month instance instead.', E_USER_DEPRECATED);
-
             Field\MonthOfYear::check($month);
-
-            return new YearMonth($year, $month);
+        } else {
+            $month = $month->value;
         }
 
-        return new YearMonth($year, $month->value);
+        return new YearMonth($year, $month);
     }
 
     /**
@@ -216,10 +210,6 @@ final class YearMonth implements JsonSerializable, Stringable
     public function withMonth(int|Month $month): YearMonth
     {
         if (is_int($month)) {
-            // usually we don't use trigger_error() for deprecations, but we can't rely on @deprecated for a parameter type change;
-            // maybe we should revisit using trigger_error() unconditionally for deprecations in the future.
-            trigger_error('Passing an integer to YearMonth::withMonth() is deprecated, pass a Month instance instead.', E_USER_DEPRECATED);
-
             Field\MonthOfYear::check($month);
         } else {
             $month = $month->value;
