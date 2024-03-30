@@ -607,7 +607,7 @@ final class LocalTime implements JsonSerializable, Stringable
      */
     public function toNativeDateTime(): DateTime
     {
-        return $this->atDate(LocalDate::of(0, 1, 1))->toNativeDateTime();
+        return $this->atDate(LocalDate::of(0, Month::JANUARY, 1))->toNativeDateTime();
     }
 
     /**

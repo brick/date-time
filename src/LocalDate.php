@@ -111,7 +111,7 @@ final class LocalDate implements JsonSerializable, Stringable
 
         $dayOfMonth = $dayOfYear - $monthOfYear->getFirstDayOfYear($isLeap) + 1;
 
-        return LocalDate::of($year, $monthOfYear->value, $dayOfMonth);
+        return LocalDate::of($year, $monthOfYear, $dayOfMonth);
     }
 
     /**
@@ -223,7 +223,7 @@ final class LocalDate implements JsonSerializable, Stringable
             return $min;
         }
 
-        return $min = LocalDate::of(self::MIN_YEAR, 1, 1);
+        return $min = LocalDate::of(self::MIN_YEAR, Month::JANUARY, 1);
     }
 
     /**
@@ -240,7 +240,7 @@ final class LocalDate implements JsonSerializable, Stringable
             return $max;
         }
 
-        return $max = LocalDate::of(self::MAX_YEAR, 12, 31);
+        return $max = LocalDate::of(self::MAX_YEAR, Month::DECEMBER, 31);
     }
 
     /**
