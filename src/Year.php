@@ -266,8 +266,8 @@ final class Year implements JsonSerializable, Stringable
     public function toLocalDateRange(): LocalDateRange
     {
         return LocalDateRange::of(
-            $this->atMonth(1)->getFirstDay(),
-            $this->atMonth(12)->getLastDay(),
+            $this->atMonth(Month::JANUARY)->getFirstDay(),
+            $this->atMonth(Month::DECEMBER)->getLastDay(),
         );
     }
 

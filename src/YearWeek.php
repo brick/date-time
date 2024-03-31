@@ -200,7 +200,7 @@ final class YearWeek implements JsonSerializable, Stringable
             $dayOfWeek = $dayOfWeek->value;
         }
 
-        $correction = LocalDate::of($this->year, 1, 4)->getDayOfWeek()->value + 3;
+        $correction = LocalDate::of($this->year, Month::JANUARY, 4)->getDayOfWeek()->value + 3;
         $dayOfYear = $this->week * 7 + $dayOfWeek - $correction;
         $maxDaysOfYear = Field\Year::isLeap($this->year) ? 366 : 365;
 

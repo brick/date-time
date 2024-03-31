@@ -7,6 +7,7 @@ namespace Brick\DateTime\Tests;
 use Brick\DateTime\Clock\FixedClock;
 use Brick\DateTime\DateTimeException;
 use Brick\DateTime\Instant;
+use Brick\DateTime\Month;
 use Brick\DateTime\MonthDay;
 use Brick\DateTime\Parser\DateTimeParseException;
 use Brick\DateTime\TimeZone;
@@ -25,6 +26,7 @@ class MonthDayTest extends AbstractTestCase
     public function testOf(int $month, int $day): void
     {
         self::assertMonthDayIs($month, $day, MonthDay::of($month, $day));
+        self::assertMonthDayIs($month, $day, MonthDay::of(Month::from($month), $day));
     }
 
     public static function providerOf(): array
@@ -278,10 +280,10 @@ class MonthDayTest extends AbstractTestCase
     public function testWithMonth(int $month, int $day, int $newMonth, int $expectedDay): void
     {
         $monthDay = MonthDay::of($month, $day);
-        $newMonthDay = $monthDay->withMonth($newMonth);
-
         self::assertMonthDayIs($month, $day, $monthDay);
-        self::assertMonthDayIs($newMonth, $expectedDay, $newMonthDay);
+
+        self::assertMonthDayIs($newMonth, $expectedDay, $monthDay->withMonth($newMonth));
+        self::assertMonthDayIs($newMonth, $expectedDay, $monthDay->withMonth(Month::from($newMonth)));
     }
 
     public static function providerWithMonth(): array
