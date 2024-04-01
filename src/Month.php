@@ -9,7 +9,7 @@ use JsonSerializable;
 /**
  * Represents a month-of-year such as January.
  */
-enum Month : int implements JsonSerializable
+enum Month: int implements JsonSerializable
 {
     case JANUARY = 1;
     case FEBRUARY = 2;

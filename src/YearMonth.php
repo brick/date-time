@@ -320,13 +320,13 @@ final class YearMonth implements JsonSerializable, Stringable
     {
         // This code is optimized for high performance
         return ($this->year < 1000 && $this->year > -1000
-                ? (
-                    $this->year < 0
-                        ? '-' . str_pad((string) -$this->year, 4, '0', STR_PAD_LEFT)
-                        : str_pad((string) $this->year, 4, '0', STR_PAD_LEFT)
-                )
-                : $this->year
+            ? (
+                $this->year < 0
+                    ? '-' . str_pad((string) -$this->year, 4, '0', STR_PAD_LEFT)
+                    : str_pad((string) $this->year, 4, '0', STR_PAD_LEFT)
             )
+            : $this->year
+        )
             . '-'
             . ($this->month < 10 ? '0' . $this->month : $this->month);
     }
