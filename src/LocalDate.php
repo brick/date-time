@@ -72,7 +72,7 @@ final class LocalDate implements JsonSerializable, Stringable
      *
      * @throws DateTimeException If the date is not valid.
      */
-    public static function of(int $year, Month|int $month, int $day): LocalDate
+    public static function of(int $year, int|Month $month, int $day): LocalDate
     {
         Field\Year::check($year);
 
@@ -389,7 +389,7 @@ final class LocalDate implements JsonSerializable, Stringable
      *
      * @throws DateTimeException If the month is invalid.
      */
-    public function withMonth(Month|int $month): LocalDate
+    public function withMonth(int|Month $month): LocalDate
     {
         if (is_int($month)) {
             Field\MonthOfYear::check($month);

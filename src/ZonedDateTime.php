@@ -347,7 +347,7 @@ class ZonedDateTime implements JsonSerializable, Stringable
     /**
      * Returns a copy of this ZonedDateTime with the month-of-year altered.
      */
-    public function withMonth(Month|int $month): ZonedDateTime
+    public function withMonth(int|Month $month): ZonedDateTime
     {
         return ZonedDateTime::of($this->localDateTime->withMonth($month), $this->timeZone);
     }

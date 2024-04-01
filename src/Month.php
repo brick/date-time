@@ -38,7 +38,7 @@ enum Month: int implements JsonSerializable
      *
      * @throws DateTimeException
      */
-    public static function of(Month|int $value): Month
+    public static function of(int|Month $value): Month
     {
         if ($value instanceof Month) {
             return $value;
@@ -86,7 +86,7 @@ enum Month: int implements JsonSerializable
      *
      * @return bool True if this month is equal to the given value, false otherwise.
      */
-    public function is(Month|int $month): bool
+    public function is(int|Month $month): bool
     {
         if ($month instanceof Month) {
             return $this === $month;

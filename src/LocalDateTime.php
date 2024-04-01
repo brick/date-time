@@ -41,7 +41,7 @@ final class LocalDateTime implements JsonSerializable, Stringable
      *
      * @throws DateTimeException If the date or time is not valid.
      */
-    public static function of(int $year, Month|int $month, int $day, int $hour = 0, int $minute = 0, int $second = 0, int $nano = 0): LocalDateTime
+    public static function of(int $year, int|Month $month, int $day, int $hour = 0, int $minute = 0, int $second = 0, int $nano = 0): LocalDateTime
     {
         $date = LocalDate::of($year, $month, $day);
         $time = LocalTime::of($hour, $minute, $second, $nano);
@@ -306,7 +306,7 @@ final class LocalDateTime implements JsonSerializable, Stringable
      *
      * @throws DateTimeException If the month is invalid.
      */
-    public function withMonth(Month|int $month): LocalDateTime
+    public function withMonth(int|Month $month): LocalDateTime
     {
         $date = $this->date->withMonth($month);
 

@@ -38,7 +38,7 @@ final class MonthDay implements JsonSerializable, Stringable
      *
      * @throws DateTimeException If the month-day is not valid.
      */
-    public static function of(Month|int $month, int $day): MonthDay
+    public static function of(int|Month $month, int $day): MonthDay
     {
         if (is_int($month)) {
             Field\MonthOfYear::check($month);
@@ -194,7 +194,7 @@ final class MonthDay implements JsonSerializable, Stringable
      *
      * @throws DateTimeException If the month is invalid.
      */
-    public function withMonth(Month|int $month): MonthDay
+    public function withMonth(int|Month $month): MonthDay
     {
         if (is_int($month)) {
             Field\MonthOfYear::check($month);

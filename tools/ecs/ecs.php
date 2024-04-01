@@ -17,6 +17,7 @@ use PhpCsFixer\Fixer\CastNotation\ModernizeTypesCastingFixer;
 use PhpCsFixer\Fixer\CastNotation\ShortScalarCastFixer;
 use PhpCsFixer\Fixer\ClassNotation\ClassAttributesSeparationFixer;
 use PhpCsFixer\Fixer\ClassNotation\OrderedClassElementsFixer;
+use PhpCsFixer\Fixer\ClassNotation\OrderedTypesFixer;
 use PhpCsFixer\Fixer\Comment\CommentToPhpdocFixer;
 use PhpCsFixer\Fixer\Comment\SingleLineCommentStyleFixer;
 use PhpCsFixer\Fixer\ConstantNotation\NativeConstantInvocationFixer;
@@ -194,6 +195,7 @@ return static function (ECSConfig $ecsConfig): void {
             WhitespaceAfterCommaInArrayFixer::class,
             NoTrailingCommaInSinglelineArrayFixer::class,
             StandaloneLinePromotedPropertyFixer::class,
+            OrderedTypesFixer::class,
         ],
     );
 
