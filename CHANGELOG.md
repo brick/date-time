@@ -1,5 +1,22 @@
 # Changelog
 
+## [0.6.2](https://github.com/brick/date-time/releases/tag/0.6.2) - 2024-04-01
+
+✨ **New features**
+
+- `MonthDay::of()` and `MonthDay::withMonth()` now accept a `Month` enum as parameter ([#106](https://github.com/brick/date-time/pull/106))
+- `LocalDate::of()` and `LocalDate::withMonth()` now accept a `Month` enum as parameter ([#106](https://github.com/brick/date-time/pull/106))
+- `LocalDateTime::of()` and `LocalDateTime::withMonth()` now accept a `Month` enum as parameter ([#106](https://github.com/brick/date-time/pull/106))
+- `ZonedDateTime::withMonth()` now accepts a `Month` enum as parameter ([#106](https://github.com/brick/date-time/pull/106))
+
+✨ **Undeprecations**
+
+- Passing an `int` to `Year::atMonth()` is un-deprecated, and now valid again ([#103](https://github.com/brick/date-time/pull/103))
+- Passing an `int` to `YearMonth::of()` and `YearMonth::withMonth()` is un-deprecated, and now valid again ([#103](https://github.com/brick/date-time/pull/103))
+- Passing an `int` to `YearWeek::atDay()` is un-deprecated, and now valid again ([#103](https://github.com/brick/date-time/pull/103))
+
+Thanks to [@gnutix](https://github.com/gnutix)!
+
 ## [0.6.1](https://github.com/brick/date-time/releases/tag/0.6.1) - 2024-03-26
 
 ✨ **New features**
