@@ -57,7 +57,7 @@ class ZonedDateTime implements JsonSerializable, Stringable
      * - Gap: when there is no valid offset for the date-time. This happens when the clock jumps forward
      *   typically due to a DST transition from "winter" to "summer". The date-times between the two times
      *   of the transition do not exist.
-     * - Overlap: when there are two valid offets for the date-time. This happens when the clock is set back
+     * - Overlap: when there are two valid offsets for the date-time. This happens when the clock is set back
      *   typically due to a DST transition from "summer" to "winter". The date-times between the two times
      *   of the transition can be resolved to two different offsets, representing two different instants
      *   on the time-line.
