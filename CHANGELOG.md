@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.6.3](https://github.com/brick/date-time/releases/tag/0.6.3) - 2024-04-02
+
+✨ **New features**
+
+- `Stopwatch::stop()` now returns the lap duration ([#98](https://github.com/brick/date-time/pull/98))
+
+Thanks to [@rodnaph](https://github.com/rodnaph)!
+
 ## [0.6.2](https://github.com/brick/date-time/releases/tag/0.6.2) - 2024-04-01
 
 ✨ **New features**
