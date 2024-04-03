@@ -168,7 +168,7 @@ class ZonedDateTime implements JsonSerializable, Stringable
      */
     public static function parse(string $text, ?DateTimeParser $parser = null): ZonedDateTime
     {
-        if (! $parser) {
+        if ($parser === null) {
             $parser = IsoParsers::zonedDateTime();
         }
 

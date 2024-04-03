@@ -125,7 +125,7 @@ final class LocalTime implements JsonSerializable, Stringable
      */
     public static function parse(string $text, ?DateTimeParser $parser = null): LocalTime
     {
-        if (! $parser) {
+        if ($parser === null) {
             $parser = IsoParsers::localTime();
         }
 
@@ -165,7 +165,7 @@ final class LocalTime implements JsonSerializable, Stringable
         /** @var LocalTime|null $noon */
         static $noon;
 
-        if ($noon) {
+        if ($noon !== null) {
             return $noon;
         }
 
@@ -180,7 +180,7 @@ final class LocalTime implements JsonSerializable, Stringable
         /** @var LocalTime|null $min */
         static $min;
 
-        if ($min) {
+        if ($min !== null) {
             return $min;
         }
 
@@ -195,7 +195,7 @@ final class LocalTime implements JsonSerializable, Stringable
         /** @var LocalTime|null $max */
         static $max;
 
-        if ($max) {
+        if ($max !== null) {
             return $max;
         }
 
@@ -213,7 +213,7 @@ final class LocalTime implements JsonSerializable, Stringable
      */
     public static function minOf(LocalTime ...$times): LocalTime
     {
-        if (! $times) {
+        if ($times === []) {
             throw new DateTimeException(__METHOD__ . ' does not accept less than 1 parameter.');
         }
 
@@ -239,7 +239,7 @@ final class LocalTime implements JsonSerializable, Stringable
      */
     public static function maxOf(LocalTime ...$times): LocalTime
     {
-        if (! $times) {
+        if ($times === []) {
             throw new DateTimeException(__METHOD__ . ' does not accept less than 1 parameter.');
         }
 

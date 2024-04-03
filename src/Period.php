@@ -73,7 +73,7 @@ final class Period implements JsonSerializable, Stringable
         /** @var Period|null $zero */
         static $zero;
 
-        if ($zero) {
+        if ($zero !== null) {
             return $zero;
         }
 
@@ -161,7 +161,7 @@ final class Period implements JsonSerializable, Stringable
         $months = $dateInterval->m;
         $days = $dateInterval->d;
 
-        if ($dateInterval->invert) {
+        if ($dateInterval->invert === 1) {
             $years = -$years;
             $months = -$months;
             $days = -$days;

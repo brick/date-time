@@ -88,7 +88,7 @@ class YearMonthRange implements IteratorAggregate, Countable, JsonSerializable, 
      */
     public static function parse(string $text, ?DateTimeParser $parser = null): YearMonthRange
     {
-        if (! $parser) {
+        if ($parser === null) {
             $parser = IsoParsers::yearMonthRange();
         }
 

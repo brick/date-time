@@ -90,7 +90,7 @@ final class TimeZoneOffset extends TimeZone
         /** @var TimeZoneOffset|null $utc */
         static $utc;
 
-        if ($utc) {
+        if ($utc !== null) {
             return $utc;
         }
 
@@ -141,7 +141,7 @@ final class TimeZoneOffset extends TimeZone
      */
     public static function parse(string $text, ?DateTimeParser $parser = null): TimeZoneOffset
     {
-        if (! $parser) {
+        if ($parser === null) {
             $parser = IsoParsers::timeZoneOffset();
         }
 

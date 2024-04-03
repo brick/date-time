@@ -92,7 +92,7 @@ final class TimeZoneRegion extends TimeZone
      */
     public static function parse(string $text, ?DateTimeParser $parser = null): TimeZoneRegion
     {
-        if (! $parser) {
+        if ($parser === null) {
             $parser = IsoParsers::timeZoneRegion();
         }
 

@@ -71,7 +71,7 @@ final class Instant implements JsonSerializable, Stringable
         /** @var Instant|null $epoch */
         static $epoch;
 
-        if ($epoch) {
+        if ($epoch !== null) {
             return $epoch;
         }
 
@@ -97,7 +97,7 @@ final class Instant implements JsonSerializable, Stringable
         /** @var Instant|null $min */
         static $min;
 
-        if ($min) {
+        if ($min !== null) {
             return $min;
         }
 
@@ -114,7 +114,7 @@ final class Instant implements JsonSerializable, Stringable
         /** @var Instant|null $max */
         static $max;
 
-        if ($max) {
+        if ($max !== null) {
             return $max;
         }
 

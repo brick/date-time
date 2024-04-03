@@ -138,7 +138,7 @@ final class LocalDate implements JsonSerializable, Stringable
      */
     public static function parse(string $text, ?DateTimeParser $parser = null): LocalDate
     {
-        if (! $parser) {
+        if ($parser === null) {
             $parser = IsoParsers::localDate();
         }
 
@@ -219,7 +219,7 @@ final class LocalDate implements JsonSerializable, Stringable
         /** @var LocalDate|null $min */
         static $min;
 
-        if ($min) {
+        if ($min !== null) {
             return $min;
         }
 
@@ -236,7 +236,7 @@ final class LocalDate implements JsonSerializable, Stringable
         /** @var LocalDate|null $max */
         static $max;
 
-        if ($max) {
+        if ($max !== null) {
             return $max;
         }
 
@@ -254,7 +254,7 @@ final class LocalDate implements JsonSerializable, Stringable
      */
     public static function minOf(LocalDate ...$dates): LocalDate
     {
-        if (! $dates) {
+        if ($dates === []) {
             throw new DateTimeException(__METHOD__ . ' does not accept less than 1 parameter.');
         }
 
@@ -280,7 +280,7 @@ final class LocalDate implements JsonSerializable, Stringable
      */
     public static function maxOf(LocalDate ...$dates): LocalDate
     {
-        if (! $dates) {
+        if ($dates === []) {
             throw new DateTimeException(__METHOD__ . ' does not accept less than 1 parameter.');
         }
 

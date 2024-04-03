@@ -27,7 +27,7 @@ final class DateTimeParseResult
      */
     public function hasField(string $name): bool
     {
-        return isset($this->fields[$name]) && $this->fields[$name];
+        return isset($this->fields[$name]) && $this->fields[$name] !== [];
     }
 
     /**
@@ -56,7 +56,7 @@ final class DateTimeParseResult
     public function getOptionalField(string $name): string
     {
         if (isset($this->fields[$name])) {
-            if ($this->fields[$name]) {
+            if ($this->fields[$name] !== []) {
                 return array_shift($this->fields[$name]);
             }
         }

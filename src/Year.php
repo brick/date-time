@@ -64,7 +64,7 @@ final class Year implements JsonSerializable, Stringable
      */
     public static function parse(string $text, ?DateTimeParser $parser = null): Year
     {
-        if (! $parser) {
+        if ($parser === null) {
             $parser = IsoParsers::year();
         }
 

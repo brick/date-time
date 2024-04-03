@@ -74,7 +74,7 @@ final class MonthDay implements JsonSerializable, Stringable
      */
     public static function parse(string $text, ?DateTimeParser $parser = null): MonthDay
     {
-        if (! $parser) {
+        if ($parser === null) {
             $parser = IsoParsers::monthDay();
         }
 

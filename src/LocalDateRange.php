@@ -95,7 +95,7 @@ final class LocalDateRange implements IteratorAggregate, Countable, JsonSerializ
      */
     public static function parse(string $text, ?DateTimeParser $parser = null): LocalDateRange
     {
-        if (! $parser) {
+        if ($parser === null) {
             $parser = IsoParsers::localDateRange();
         }
 

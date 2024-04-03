@@ -38,7 +38,7 @@ final class IsoParsers
         /** @var PatternParser|null $parser */
         static $parser;
 
-        if ($parser) {
+        if ($parser !== null) {
             return $parser;
         }
 
@@ -61,7 +61,7 @@ final class IsoParsers
         /** @var PatternParser|null $parser */
         static $parser;
 
-        if ($parser) {
+        if ($parser !== null) {
             return $parser;
         }
 
@@ -90,7 +90,7 @@ final class IsoParsers
         /** @var PatternParser|null $parser */
         static $parser;
 
-        if ($parser) {
+        if ($parser !== null) {
             return $parser;
         }
 
@@ -109,7 +109,7 @@ final class IsoParsers
         /** @var PatternParser|null $parser */
         static $parser;
 
-        if ($parser) {
+        if ($parser !== null) {
             return $parser;
         }
 
@@ -145,7 +145,7 @@ final class IsoParsers
         /** @var PatternParser|null $parser */
         static $parser;
 
-        if ($parser) {
+        if ($parser !== null) {
             return $parser;
         }
 
@@ -174,7 +174,7 @@ final class IsoParsers
         /** @var PatternParser|null $parser */
         static $parser;
 
-        if ($parser) {
+        if ($parser !== null) {
             return $parser;
         }
 
@@ -191,7 +191,7 @@ final class IsoParsers
         /** @var PatternParser|null $parser */
         static $parser;
 
-        if ($parser) {
+        if ($parser !== null) {
             return $parser;
         }
 
@@ -210,7 +210,7 @@ final class IsoParsers
         /** @var PatternParser|null $parser */
         static $parser;
 
-        if ($parser) {
+        if ($parser !== null) {
             return $parser;
         }
 
@@ -229,7 +229,7 @@ final class IsoParsers
         /** @var PatternParser|null $parser */
         static $parser;
 
-        if ($parser) {
+        if ($parser !== null) {
             return $parser;
         }
 
@@ -249,7 +249,7 @@ final class IsoParsers
         /** @var PatternParser|null $parser */
         static $parser;
 
-        if ($parser) {
+        if ($parser !== null) {
             return $parser;
         }
 
@@ -279,7 +279,7 @@ final class IsoParsers
         /** @var PatternParser|null $parser */
         static $parser;
 
-        if ($parser) {
+        if ($parser !== null) {
             return $parser;
         }
 
@@ -296,7 +296,7 @@ final class IsoParsers
         /** @var PatternParser|null $parser */
         static $parser;
 
-        if ($parser) {
+        if ($parser !== null) {
             return $parser;
         }
 
@@ -314,7 +314,7 @@ final class IsoParsers
         /** @var PatternParser|null $parser */
         static $parser;
 
-        if ($parser) {
+        if ($parser !== null) {
             return $parser;
         }
 

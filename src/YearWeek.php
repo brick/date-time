@@ -70,7 +70,7 @@ final class YearWeek implements JsonSerializable, Stringable
      */
     public static function parse(string $text, ?DateTimeParser $parser = null): YearWeek
     {
-        if (! $parser) {
+        if ($parser === null) {
             $parser = IsoParsers::yearWeek();
         }
 
