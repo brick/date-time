@@ -246,7 +246,7 @@ final class LocalDate implements JsonSerializable, Stringable
     /**
      * Returns the smallest LocalDate among the given values.
      *
-     * @param LocalDate[] $dates The LocalDate objects to compare.
+     * @param LocalDate ...$dates The LocalDate objects to compare.
      *
      * @return LocalDate The earliest LocalDate object.
      *
@@ -272,7 +272,7 @@ final class LocalDate implements JsonSerializable, Stringable
     /**
      * Returns the highest LocalDate among the given values.
      *
-     * @param LocalDate[] $dates The LocalDate objects to compare.
+     * @param LocalDate ...$dates The LocalDate objects to compare.
      *
      * @return LocalDate The latest LocalDate object.
      *

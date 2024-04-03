@@ -133,7 +133,7 @@ final class LocalDateTime implements JsonSerializable, Stringable
     /**
      * Returns the smallest LocalDateTime among the given values.
      *
-     * @param LocalDateTime[] $times The LocalDateTime objects to compare.
+     * @param LocalDateTime ...$times The LocalDateTime objects to compare.
      *
      * @return LocalDateTime The earliest LocalDateTime object.
      *
@@ -159,7 +159,7 @@ final class LocalDateTime implements JsonSerializable, Stringable
     /**
      * Returns the highest LocalDateTime among the given values.
      *
-     * @param LocalDateTime[] $times The LocalDateTime objects to compare.
+     * @param LocalDateTime ...$times The LocalDateTime objects to compare.
      *
      * @return LocalDateTime The latest LocalDateTime object.
      *
