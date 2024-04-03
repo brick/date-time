@@ -8,6 +8,7 @@ use DateInterval;
 use JsonSerializable;
 use Stringable;
 
+use function assert;
 use function intdiv;
 use function preg_match;
 use function sprintf;
@@ -363,12 +364,16 @@ final class Period implements JsonSerializable, Stringable
      */
     public function toNativeDateInterval(): DateInterval
     {
-        return DateInterval::createFromDateString(sprintf(
+        $nativeDateInterval = DateInterval::createFromDateString(sprintf(
             '%d years %d months %d days',
             $this->years,
             $this->months,
             $this->days,
         ));
+
+        assert($nativeDateInterval !== false);
+
+        return $nativeDateInterval;
     }
 
     /**

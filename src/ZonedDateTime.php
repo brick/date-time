@@ -14,6 +14,7 @@ use DateTimeInterface;
 use JsonSerializable;
 use Stringable;
 
+use function assert;
 use function intdiv;
 
 /**
@@ -710,7 +711,11 @@ class ZonedDateTime implements JsonSerializable, Stringable
             }
         }
 
-        return DateTime::createFromFormat($format, $dateTime, $dateTimeZone);
+        $nativeDateTime = DateTime::createFromFormat($format, $dateTime, $dateTimeZone);
+
+        assert($nativeDateTime !== false);
+
+        return $nativeDateTime;
     }
 
     public function toNativeDateTimeImmutable(): DateTimeImmutable
