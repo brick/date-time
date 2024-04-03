@@ -88,13 +88,9 @@ final class TimeZoneOffset extends TimeZone
     public static function utc(): TimeZoneOffset
     {
         /** @var TimeZoneOffset|null $utc */
-        static $utc;
+        static $utc = null;
 
-        if ($utc !== null) {
-            return $utc;
-        }
-
-        return $utc = new TimeZoneOffset(0);
+        return $utc ??= new TimeZoneOffset(0);
     }
 
     /**

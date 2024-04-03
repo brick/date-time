@@ -69,13 +69,9 @@ final class Instant implements JsonSerializable, Stringable
     public static function epoch(): Instant
     {
         /** @var Instant|null $epoch */
-        static $epoch;
+        static $epoch = null;
 
-        if ($epoch !== null) {
-            return $epoch;
-        }
-
-        return $epoch = new Instant(0, 0);
+        return $epoch ??= new Instant(0, 0);
     }
 
     public static function now(?Clock $clock = null): Instant
@@ -95,13 +91,9 @@ final class Instant implements JsonSerializable, Stringable
     public static function min(): Instant
     {
         /** @var Instant|null $min */
-        static $min;
+        static $min = null;
 
-        if ($min !== null) {
-            return $min;
-        }
-
-        return $min = new Instant(PHP_INT_MIN, 0);
+        return $min ??= new Instant(PHP_INT_MIN, 0);
     }
 
     /**
@@ -112,13 +104,9 @@ final class Instant implements JsonSerializable, Stringable
     public static function max(): Instant
     {
         /** @var Instant|null $max */
-        static $max;
+        static $max = null;
 
-        if ($max !== null) {
-            return $max;
-        }
-
-        return $max = new Instant(PHP_INT_MAX, 999_999_999);
+        return $max ??= new Instant(PHP_INT_MAX, 999_999_999);
     }
 
     public function plus(Duration $duration): Instant

@@ -72,13 +72,9 @@ final class Period implements JsonSerializable, Stringable
     public static function zero(): Period
     {
         /** @var Period|null $zero */
-        static $zero;
+        static $zero = null;
 
-        if ($zero !== null) {
-            return $zero;
-        }
-
-        return $zero = new Period(0, 0, 0);
+        return $zero ??= new Period(0, 0, 0);
     }
 
     /**

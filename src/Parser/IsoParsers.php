@@ -36,13 +36,9 @@ final class IsoParsers
     public static function localDate(): PatternParser
     {
         /** @var PatternParser|null $parser */
-        static $parser;
+        static $parser = null;
 
-        if ($parser !== null) {
-            return $parser;
-        }
-
-        return $parser = (new PatternParserBuilder())
+        return $parser ??= (new PatternParserBuilder())
             ->appendCapturePattern(Year::PATTERN, Year::NAME)
             ->appendLiteral('-')
             ->appendCapturePattern(MonthOfYear::PATTERN, MonthOfYear::NAME)
@@ -59,13 +55,9 @@ final class IsoParsers
     public static function localTime(): PatternParser
     {
         /** @var PatternParser|null $parser */
-        static $parser;
+        static $parser = null;
 
-        if ($parser !== null) {
-            return $parser;
-        }
-
-        return $parser = (new PatternParserBuilder())
+        return $parser ??= (new PatternParserBuilder())
             ->appendCapturePattern(HourOfDay::PATTERN, HourOfDay::NAME)
             ->appendLiteral(':')
             ->appendCapturePattern(MinuteOfHour::PATTERN, MinuteOfHour::NAME)
@@ -88,13 +80,9 @@ final class IsoParsers
     public static function localDateTime(): PatternParser
     {
         /** @var PatternParser|null $parser */
-        static $parser;
+        static $parser = null;
 
-        if ($parser !== null) {
-            return $parser;
-        }
-
-        return $parser = (new PatternParserBuilder())
+        return $parser ??= (new PatternParserBuilder())
             ->append(self::localDate())
             ->appendLiteral('T')
             ->append(self::localTime())
@@ -107,13 +95,9 @@ final class IsoParsers
     public static function localDateRange(): PatternParser
     {
         /** @var PatternParser|null $parser */
-        static $parser;
+        static $parser = null;
 
-        if ($parser !== null) {
-            return $parser;
-        }
-
-        return $parser = (new PatternParserBuilder())
+        return $parser ??= (new PatternParserBuilder())
             ->append(self::localDate())
             ->appendLiteral('/')
 
@@ -143,13 +127,9 @@ final class IsoParsers
     public static function yearMonthRange(): PatternParser
     {
         /** @var PatternParser|null $parser */
-        static $parser;
+        static $parser = null;
 
-        if ($parser !== null) {
-            return $parser;
-        }
-
-        return $parser = (new PatternParserBuilder())
+        return $parser ??= (new PatternParserBuilder())
             ->append(self::yearMonth())
             ->appendLiteral('/')
 
@@ -172,13 +152,9 @@ final class IsoParsers
     public static function year(): PatternParser
     {
         /** @var PatternParser|null $parser */
-        static $parser;
+        static $parser = null;
 
-        if ($parser !== null) {
-            return $parser;
-        }
-
-        return $parser = (new PatternParserBuilder())
+        return $parser ??= (new PatternParserBuilder())
             ->appendCapturePattern(Year::PATTERN, Year::NAME)
             ->toParser();
     }
@@ -189,13 +165,9 @@ final class IsoParsers
     public static function yearMonth(): PatternParser
     {
         /** @var PatternParser|null $parser */
-        static $parser;
+        static $parser = null;
 
-        if ($parser !== null) {
-            return $parser;
-        }
-
-        return $parser = (new PatternParserBuilder())
+        return $parser ??= (new PatternParserBuilder())
             ->appendCapturePattern(Year::PATTERN, Year::NAME)
             ->appendLiteral('-')
             ->appendCapturePattern(MonthOfYear::PATTERN, MonthOfYear::NAME)
@@ -208,13 +180,9 @@ final class IsoParsers
     public static function yearWeek(): PatternParser
     {
         /** @var PatternParser|null $parser */
-        static $parser;
+        static $parser = null;
 
-        if ($parser !== null) {
-            return $parser;
-        }
-
-        return $parser = (new PatternParserBuilder())
+        return $parser ??= (new PatternParserBuilder())
             ->appendCapturePattern(Year::PATTERN, Year::NAME)
             ->appendLiteral('-W')
             ->appendCapturePattern(WeekOfYear::PATTERN, WeekOfYear::NAME)
@@ -227,13 +195,9 @@ final class IsoParsers
     public static function monthDay(): PatternParser
     {
         /** @var PatternParser|null $parser */
-        static $parser;
+        static $parser = null;
 
-        if ($parser !== null) {
-            return $parser;
-        }
-
-        return $parser = (new PatternParserBuilder())
+        return $parser ??= (new PatternParserBuilder())
             ->appendLiteral('--')
             ->appendCapturePattern(MonthOfYear::PATTERN, MonthOfYear::NAME)
             ->appendLiteral('-')
@@ -247,13 +211,9 @@ final class IsoParsers
     public static function timeZoneOffset(): PatternParser
     {
         /** @var PatternParser|null $parser */
-        static $parser;
+        static $parser = null;
 
-        if ($parser !== null) {
-            return $parser;
-        }
-
-        return $parser = (new PatternParserBuilder())
+        return $parser ??= (new PatternParserBuilder())
             ->startGroup()
             ->appendCapturePattern('[Zz]', TimeZoneOffsetSign::NAME)
             ->appendOr()
@@ -277,13 +237,9 @@ final class IsoParsers
     public static function timeZoneRegion(): PatternParser
     {
         /** @var PatternParser|null $parser */
-        static $parser;
+        static $parser = null;
 
-        if ($parser !== null) {
-            return $parser;
-        }
-
-        return $parser = (new PatternParserBuilder())
+        return $parser ??= (new PatternParserBuilder())
             ->appendCapturePattern(TimeZoneRegion::PATTERN, TimeZoneRegion::NAME)
             ->toParser();
     }
@@ -294,13 +250,9 @@ final class IsoParsers
     public static function offsetDateTime(): PatternParser
     {
         /** @var PatternParser|null $parser */
-        static $parser;
+        static $parser = null;
 
-        if ($parser !== null) {
-            return $parser;
-        }
-
-        return $parser = (new PatternParserBuilder())
+        return $parser ??= (new PatternParserBuilder())
             ->append(self::localDateTime())
             ->append(self::timeZoneOffset())
             ->toParser();
@@ -312,13 +264,9 @@ final class IsoParsers
     public static function zonedDateTime(): PatternParser
     {
         /** @var PatternParser|null $parser */
-        static $parser;
+        static $parser = null;
 
-        if ($parser !== null) {
-            return $parser;
-        }
-
-        return $parser = (new PatternParserBuilder())
+        return $parser ??= (new PatternParserBuilder())
             ->append(self::offsetDateTime())
             ->startOptional()
             ->appendLiteral('[')

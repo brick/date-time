@@ -163,13 +163,9 @@ final class LocalTime implements JsonSerializable, Stringable
     public static function noon(): LocalTime
     {
         /** @var LocalTime|null $noon */
-        static $noon;
+        static $noon = null;
 
-        if ($noon !== null) {
-            return $noon;
-        }
-
-        return $noon = new LocalTime(12, 0, 0, 0);
+        return $noon ??= new LocalTime(12, 0, 0, 0);
     }
 
     /**
@@ -178,13 +174,9 @@ final class LocalTime implements JsonSerializable, Stringable
     public static function min(): LocalTime
     {
         /** @var LocalTime|null $min */
-        static $min;
+        static $min = null;
 
-        if ($min !== null) {
-            return $min;
-        }
-
-        return $min = new LocalTime(0, 0, 0, 0);
+        return $min ??= new LocalTime(0, 0, 0, 0);
     }
 
     /**
@@ -193,13 +185,9 @@ final class LocalTime implements JsonSerializable, Stringable
     public static function max(): LocalTime
     {
         /** @var LocalTime|null $max */
-        static $max;
+        static $max = null;
 
-        if ($max !== null) {
-            return $max;
-        }
-
-        return $max = new LocalTime(23, 59, 59, 999_999_999);
+        return $max ??= new LocalTime(23, 59, 59, 999_999_999);
     }
 
     /**
