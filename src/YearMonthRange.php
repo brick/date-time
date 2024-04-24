@@ -25,23 +25,13 @@ use Stringable;
 class YearMonthRange implements IteratorAggregate, Countable, JsonSerializable, Stringable
 {
     /**
-     * The start year-month, inclusive.
-     */
-    private readonly YearMonth $start;
-
-    /**
-     * The end year-month, inclusive.
-     */
-    private readonly YearMonth $end;
-
-    /**
      * @param YearMonth $start The start year-month, inclusive.
      * @param YearMonth $end   The end year-month, inclusive, validated as not before the start year-month.
      */
-    private function __construct(YearMonth $start, YearMonth $end)
-    {
-        $this->start = $start;
-        $this->end = $end;
+    private function __construct(
+        private readonly YearMonth $start,
+        private readonly YearMonth $end,
+    ) {
     }
 
     /**
@@ -98,7 +88,7 @@ class YearMonthRange implements IteratorAggregate, Countable, JsonSerializable, 
      */
     public static function parse(string $text, ?DateTimeParser $parser = null): YearMonthRange
     {
-        if (! $parser) {
+        if ($parser === null) {
             $parser = IsoParsers::yearMonthRange();
         }
 
@@ -176,12 +166,14 @@ class YearMonthRange implements IteratorAggregate, Countable, JsonSerializable, 
     {
         return LocalDateRange::of(
             $this->getStart()->getFirstDay(),
-            $this->getEnd()->getLastDay()
+            $this->getEnd()->getLastDay(),
         );
     }
 
     /**
      * Serializes as a string using {@see YearMonthRange::toISOString()}.
+     *
+     * @psalm-return non-empty-string
      */
     public function jsonSerialize(): string
     {
@@ -193,6 +185,8 @@ class YearMonthRange implements IteratorAggregate, Countable, JsonSerializable, 
      *
      * ISO 8601 does not seem to provide a standard notation for year-month ranges, but we're using the same format as
      * date ranges.
+     *
+     * @psalm-return non-empty-string
      */
     public function toISOString(): string
     {
@@ -201,6 +195,8 @@ class YearMonthRange implements IteratorAggregate, Countable, JsonSerializable, 
 
     /**
      * {@see YearMonthRange::toISOString()}.
+     *
+     * @psalm-return non-empty-string
      */
     public function __toString(): string
     {

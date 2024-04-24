@@ -11,6 +11,7 @@ use Brick\DateTime\Parser\IsoParsers;
 use JsonSerializable;
 use Stringable;
 
+use function is_int;
 use function str_pad;
 
 use const STR_PAD_LEFT;
@@ -24,16 +25,11 @@ final class Year implements JsonSerializable, Stringable
     public const MAX_VALUE = LocalDate::MAX_YEAR;
 
     /**
-     * The year being represented.
+     * @param int $year The year, validated.
      */
-    private readonly int $year;
-
-    /**
-     * @param int $year The year to represent, validated.
-     */
-    private function __construct(int $year)
-    {
-        $this->year = $year;
+    private function __construct(
+        private readonly int $year,
+    ) {
     }
 
     /**
@@ -68,7 +64,7 @@ final class Year implements JsonSerializable, Stringable
      */
     public static function parse(string $text, ?DateTimeParser $parser = null): Year
     {
-        if (! $parser) {
+        if ($parser === null) {
             $parser = IsoParsers::year();
         }
 
@@ -175,6 +171,8 @@ final class Year implements JsonSerializable, Stringable
      * @param Year $that The year to compare to.
      *
      * @return int [-1, 0, 1] If this year is before, equal to, or after the given year.
+     *
+     * @psalm-return -1|0|1
      */
     public function compareTo(Year $that): int
     {
@@ -239,13 +237,13 @@ final class Year implements JsonSerializable, Stringable
 
     /**
      * Combines this year with a month to create a YearMonth.
-     *
-     * @param int $month The month-of-year to use, from 1 to 12.
-     *
-     * @throws DateTimeException If the month is invalid.
      */
-    public function atMonth(int $month): YearMonth
+    public function atMonth(int|Month $month): YearMonth
     {
+        if (is_int($month)) {
+            Field\MonthOfYear::check($month);
+        }
+
         return YearMonth::of($this->year, $month);
     }
 
@@ -268,13 +266,15 @@ final class Year implements JsonSerializable, Stringable
     public function toLocalDateRange(): LocalDateRange
     {
         return LocalDateRange::of(
-            $this->atMonth(1)->getFirstDay(),
-            $this->atMonth(12)->getLastDay()
+            $this->atMonth(Month::JANUARY)->getFirstDay(),
+            $this->atMonth(Month::DECEMBER)->getLastDay(),
         );
     }
 
     /**
      * Serializes as a string using {@see Year::toISOString()}.
+     *
+     * @psalm-return non-empty-string
      */
     public function jsonSerialize(): string
     {
@@ -283,6 +283,8 @@ final class Year implements JsonSerializable, Stringable
 
     /**
      * Returns the ISO 8601 representation of this year.
+     *
+     * @psalm-return non-empty-string
      */
     public function toISOString(): string
     {
@@ -298,6 +300,8 @@ final class Year implements JsonSerializable, Stringable
 
     /**
      * {@see Year::toISOString()}.
+     *
+     * @psalm-return non-empty-string
      */
     public function __toString(): string
     {

@@ -9,6 +9,7 @@ use Brick\DateTime\DateTimeException;
 use Brick\DateTime\Duration;
 use Brick\DateTime\Instant;
 use Brick\DateTime\Parser\DateTimeParseException;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 use function abs;
 use function count;
@@ -33,13 +34,12 @@ class DurationTest extends AbstractTestCase
     }
 
     /**
-     * @dataProvider providerOfSeconds
-     *
      * @param int $seconds         The duration in seconds.
      * @param int $nanoAdjustment  The nanoseconds adjustment to the duration.
      * @param int $expectedSeconds The expected adjusted duration seconds.
      * @param int $expectedNanos   The expected adjusted duration nanoseconds.
      */
+    #[DataProvider('providerOfSeconds')]
     public function testOfSeconds(int $seconds, int $nanoAdjustment, int $expectedSeconds, int $expectedNanos): void
     {
         $duration = Duration::ofSeconds($seconds, $nanoAdjustment);
@@ -60,9 +60,7 @@ class DurationTest extends AbstractTestCase
         ];
     }
 
-    /**
-     * @dataProvider providerOfMillis
-     */
+    #[DataProvider('providerOfMillis')]
     public function testOfMillis(int $millis): void
     {
         $duration = Duration::ofMillis($millis);
@@ -80,9 +78,7 @@ class DurationTest extends AbstractTestCase
         ];
     }
 
-    /**
-     * @dataProvider providerOfNanos
-     */
+    #[DataProvider('providerOfNanos')]
     public function testOfNanos(int $nanos, int $expectedSeconds, int $expectedNanos): void
     {
         $duration = Duration::ofNanos($nanos);
@@ -121,9 +117,7 @@ class DurationTest extends AbstractTestCase
         }
     }
 
-    /**
-     * @dataProvider providerBetween
-     */
+    #[DataProvider('providerBetween')]
     public function testBetween(int $seconds1, int $nanos1, int $seconds2, int $nanos2, int $seconds, int $nanos): void
     {
         $i1 = Instant::of($seconds1, $nanos1);
@@ -154,12 +148,11 @@ class DurationTest extends AbstractTestCase
     }
 
     /**
-     * @dataProvider providerParse
-     *
      * @param string $text    The string to test.
      * @param int    $seconds The expected seconds.
      * @param int    $nanos   The expected nanos.
      */
+    #[DataProvider('providerParse')]
     public function testParse(string $text, int $seconds, int $nanos): void
     {
         self::assertDurationIs($seconds, $nanos, Duration::parse($text));
@@ -254,10 +247,9 @@ class DurationTest extends AbstractTestCase
     }
 
     /**
-     * @dataProvider providerParseFailureThrowsException
-     *
      * @param string $text The string to test.
      */
+    #[DataProvider('providerParseFailureThrowsException')]
     public function testParseFailureThrowsException(string $text): void
     {
         $this->expectException(DateTimeParseException::class);
@@ -304,60 +296,55 @@ class DurationTest extends AbstractTestCase
     }
 
     /**
-     * @dataProvider providerCompareToZero
-     *
      * @param int $seconds The seconds of the duration.
      * @param int $nanos   The nanos of the duration.
      * @param int $cmp     The comparison value.
      */
+    #[DataProvider('providerCompareToZero')]
     public function testIsZero(int $seconds, int $nanos, int $cmp): void
     {
         self::assertSame($cmp === 0, Duration::ofSeconds($seconds, $nanos)->isZero());
     }
 
     /**
-     * @dataProvider providerCompareToZero
-     *
      * @param int $seconds The seconds of the duration.
      * @param int $nanos   The nanos of the duration.
      * @param int $cmp     The comparison value.
      */
+    #[DataProvider('providerCompareToZero')]
     public function testIsPositive(int $seconds, int $nanos, int $cmp): void
     {
         self::assertSame($cmp > 0, Duration::ofSeconds($seconds, $nanos)->isPositive());
     }
 
     /**
-     * @dataProvider providerCompareToZero
-     *
      * @param int $seconds The seconds of the duration.
      * @param int $nanos   The nanos of the duration.
      * @param int $cmp     The comparison value.
      */
+    #[DataProvider('providerCompareToZero')]
     public function testIsPositiveOrZero(int $seconds, int $nanos, int $cmp): void
     {
         self::assertSame($cmp >= 0, Duration::ofSeconds($seconds, $nanos)->isPositiveOrZero());
     }
 
     /**
-     * @dataProvider providerCompareToZero
-     *
      * @param int $seconds The seconds of the duration.
      * @param int $nanos   The nanos of the duration.
      * @param int $cmp     The comparison value.
      */
+    #[DataProvider('providerCompareToZero')]
     public function testIsNegative(int $seconds, int $nanos, int $cmp): void
     {
         self::assertSame($cmp < 0, Duration::ofSeconds($seconds, $nanos)->isNegative());
     }
 
     /**
-     * @dataProvider providerCompareToZero
-     *
      * @param int $seconds The seconds of the duration.
      * @param int $nanos   The nanos of the duration.
      * @param int $cmp     The comparison value.
      */
+    #[DataProvider('providerCompareToZero')]
     public function testIsNegativeOrZero(int $seconds, int $nanos, int $cmp): void
     {
         self::assertSame($cmp <= 0, Duration::ofSeconds($seconds, $nanos)->isNegativeOrZero());
@@ -379,14 +366,13 @@ class DurationTest extends AbstractTestCase
     }
 
     /**
-     * @dataProvider providerCompareTo
-     *
      * @param int $seconds1 The seconds of the 1st duration.
      * @param int $nanos1   The nanoseconds of the 1st duration.
      * @param int $seconds2 The seconds of the 2nd duration.
      * @param int $nanos2   The nanoseconds of the 2nd duration.
      * @param int $cmp      The comparison value.
      */
+    #[DataProvider('providerCompareTo')]
     public function testCompareTo(int $seconds1, int $nanos1, int $seconds2, int $nanos2, int $cmp): void
     {
         $duration1 = Duration::ofSeconds($seconds1, $nanos1);
@@ -456,8 +442,6 @@ class DurationTest extends AbstractTestCase
     }
 
     /**
-     * @dataProvider providerPlus
-     *
      * @param int $s1 The 1st duration's seconds.
      * @param int $n1 The 1st duration's nanoseconds.
      * @param int $s2 The 2nd duration's seconds.
@@ -465,6 +449,7 @@ class DurationTest extends AbstractTestCase
      * @param int $s  The expected seconds.
      * @param int $n  The expected nanoseconds.
      */
+    #[DataProvider('providerPlus')]
     public function testPlus(int $s1, int $n1, int $s2, int $n2, int $s, int $n): void
     {
         $duration1 = Duration::ofSeconds($s1, $n1);
@@ -474,8 +459,6 @@ class DurationTest extends AbstractTestCase
     }
 
     /**
-     * @dataProvider providerPlus
-     *
      * @param int $s1 The 1st duration's seconds.
      * @param int $n1 The 1st duration's nanoseconds.
      * @param int $s2 The 2nd duration's seconds.
@@ -483,6 +466,7 @@ class DurationTest extends AbstractTestCase
      * @param int $s  The expected seconds.
      * @param int $n  The expected nanoseconds.
      */
+    #[DataProvider('providerPlus')]
     public function testMinus(int $s1, int $n1, int $s2, int $n2, int $s, int $n): void
     {
         $duration1 = Duration::ofSeconds($s1, $n1);
@@ -551,9 +535,7 @@ class DurationTest extends AbstractTestCase
         ];
     }
 
-    /**
-     * @dataProvider providerPlusSeconds
-     */
+    #[DataProvider('providerPlusSeconds')]
     public function testPlusSeconds(int $seconds, int $nanos, int $secondsToAdd, int $expectedSeconds, int $expectedNanos): void
     {
         $duration = Duration::ofSeconds($seconds, $nanos)->plusSeconds($secondsToAdd);
@@ -586,9 +568,7 @@ class DurationTest extends AbstractTestCase
         ];
     }
 
-    /**
-     * @dataProvider providerPlusMinutes
-     */
+    #[DataProvider('providerPlusMinutes')]
     public function testPlusMinutes(int $seconds, int $minutesToAdd, int $expectedSeconds): void
     {
         $duration = Duration::ofSeconds($seconds)->plusMinutes($minutesToAdd);
@@ -614,9 +594,7 @@ class DurationTest extends AbstractTestCase
         ];
     }
 
-    /**
-     * @dataProvider providerPlusHours
-     */
+    #[DataProvider('providerPlusHours')]
     public function testPlusHours(int $seconds, int $hoursToAdd, int $expectedSeconds): void
     {
         $duration = Duration::ofSeconds($seconds)->plusHours($hoursToAdd);
@@ -642,9 +620,7 @@ class DurationTest extends AbstractTestCase
         ];
     }
 
-    /**
-     * @dataProvider providerPlusDays
-     */
+    #[DataProvider('providerPlusDays')]
     public function testPlusDays(int $seconds, int $daysToAdd, int $expectedSeconds): void
     {
         $duration = Duration::ofSeconds($seconds)->plusDays($daysToAdd);
@@ -670,9 +646,7 @@ class DurationTest extends AbstractTestCase
         ];
     }
 
-    /**
-     * @dataProvider providerMinusSeconds
-     */
+    #[DataProvider('providerMinusSeconds')]
     public function testMinusSeconds(int $seconds, int $secondsToSubtract, int $expectedSeconds): void
     {
         $duration = Duration::ofSeconds($seconds)->minusSeconds($secondsToSubtract);
@@ -701,9 +675,7 @@ class DurationTest extends AbstractTestCase
         ];
     }
 
-    /**
-     * @dataProvider providerMinusMinutes
-     */
+    #[DataProvider('providerMinusMinutes')]
     public function testMinusMinutes(int $seconds, int $minutesToSubtract, int $expectedSeconds): void
     {
         $duration = Duration::ofSeconds($seconds)->minusMinutes($minutesToSubtract);
@@ -729,9 +701,7 @@ class DurationTest extends AbstractTestCase
         ];
     }
 
-    /**
-     * @dataProvider providerMinusHours
-     */
+    #[DataProvider('providerMinusHours')]
     public function testMinusHours(int $seconds, int $hoursToSubtract, int $expectedSeconds): void
     {
         $duration = Duration::ofSeconds($seconds)->minusHours($hoursToSubtract);
@@ -757,9 +727,7 @@ class DurationTest extends AbstractTestCase
         ];
     }
 
-    /**
-     * @dataProvider providerMinusDays
-     */
+    #[DataProvider('providerMinusDays')]
     public function testMinusDays(int $seconds, int $daysToSubtract, int $expectedSeconds): void
     {
         $duration = Duration::ofSeconds($seconds)->minusDays($daysToSubtract);
@@ -785,9 +753,7 @@ class DurationTest extends AbstractTestCase
         ];
     }
 
-    /**
-     * @dataProvider providerMultipliedBy
-     */
+    #[DataProvider('providerMultipliedBy')]
     public function testMultipliedBy(int $second, int $nano, int $multiplicand, int $expectedSecond, int $expectedNano): void
     {
         $duration = Duration::ofSeconds($second, $nano);
@@ -879,9 +845,7 @@ class DurationTest extends AbstractTestCase
         ];
     }
 
-    /**
-     * @dataProvider providerDividedBy
-     */
+    #[DataProvider('providerDividedBy')]
     public function testDividedBy(int $seconds, int $nanos, int $divisor, int $expectedSeconds, int $expectedNanos): void
     {
         $duration = Duration::ofSeconds($seconds, $nanos)->dividedBy($divisor);
@@ -951,13 +915,12 @@ class DurationTest extends AbstractTestCase
     }
 
     /**
-     * @dataProvider providerNegated
-     *
      * @param int $seconds         The duration in seconds.
      * @param int $nanos           The nanoseconds adjustment to the duration.
      * @param int $expectedSeconds The expected seconds of the negated duration.
      * @param int $expectedNanos   The expected nanoseconds adjustment of the negated duration.
      */
+    #[DataProvider('providerNegated')]
     public function testNegated(int $seconds, int $nanos, int $expectedSeconds, int $expectedNanos): void
     {
         $duration = Duration::ofSeconds($seconds, $nanos);
@@ -1035,12 +998,11 @@ class DurationTest extends AbstractTestCase
     }
 
     /**
-     * @dataProvider providerGetTotalMillis
-     *
      * @param int $seconds        The duration in seconds.
      * @param int $nanos          The nanoseconds adjustment to the duration.
      * @param int $expectedMillis The expected total number of milliseconds.
      */
+    #[DataProvider('providerGetTotalMillis')]
     public function testGetTotalMillis(int $seconds, int $nanos, int $expectedMillis): void
     {
         $duration = Duration::ofSeconds($seconds, $nanos);
@@ -1058,12 +1020,11 @@ class DurationTest extends AbstractTestCase
     }
 
     /**
-     * @dataProvider providerGetTotalMicros
-     *
      * @param int $seconds        The duration in seconds.
      * @param int $nanos          The nanoseconds adjustment to the duration.
      * @param int $expectedMicros The expected total number of microseconds.
      */
+    #[DataProvider('providerGetTotalMicros')]
     public function testGetTotalMicros(int $seconds, int $nanos, int $expectedMicros): void
     {
         $duration = Duration::ofSeconds($seconds, $nanos);
@@ -1081,12 +1042,11 @@ class DurationTest extends AbstractTestCase
     }
 
     /**
-     * @dataProvider providerGetTotalNanos
-     *
      * @param int $seconds       The duration in seconds.
      * @param int $nanos         The nanoseconds adjustment to the duration.
      * @param int $expectedNanos The expected total number of nanoseconds.
      */
+    #[DataProvider('providerGetTotalNanos')]
     public function testGetTotalNanos(int $seconds, int $nanos, int $expectedNanos): void
     {
         $duration = Duration::ofSeconds($seconds, $nanos);
@@ -1103,9 +1063,7 @@ class DurationTest extends AbstractTestCase
         ];
     }
 
-    /**
-     * @dataProvider providerToDaysPart
-     */
+    #[DataProvider('providerToDaysPart')]
     public function testToDaysPart(Duration $duration, int $days): void
     {
         self::assertSame($days, $duration->toDaysPart());
@@ -1123,9 +1081,7 @@ class DurationTest extends AbstractTestCase
         ];
     }
 
-    /**
-     * @dataProvider providerToHoursPart
-     */
+    #[DataProvider('providerToHoursPart')]
     public function testToHoursPart(Duration $duration, int $hours): void
     {
         self::assertSame($hours, $duration->toHoursPart());
@@ -1142,9 +1098,7 @@ class DurationTest extends AbstractTestCase
         ];
     }
 
-    /**
-     * @dataProvider providerToMinutesPart
-     */
+    #[DataProvider('providerToMinutesPart')]
     public function testToMinutesPart(Duration $duration, int $minutes): void
     {
         self::assertSame($minutes, $duration->toMinutesPart());
@@ -1161,9 +1115,7 @@ class DurationTest extends AbstractTestCase
         ];
     }
 
-    /**
-     * @dataProvider providerToSecondsPart
-     */
+    #[DataProvider('providerToSecondsPart')]
     public function testToSecondsPart(Duration $duration, int $seconds): void
     {
         self::assertSame($seconds, $duration->toSecondsPart());
@@ -1181,9 +1133,7 @@ class DurationTest extends AbstractTestCase
         ];
     }
 
-    /**
-     * @dataProvider providerToMillis
-     */
+    #[DataProvider('providerToMillis')]
     public function testToMillis(Duration $duration, int $millis): void
     {
         self::assertSame($millis, $duration->toMillis());
@@ -1200,9 +1150,7 @@ class DurationTest extends AbstractTestCase
         ];
     }
 
-    /**
-     * @dataProvider providerToMillisOutOfRange
-     */
+    #[DataProvider('providerToMillisOutOfRange')]
     public function testToMillisOutOfRange(Duration $duration): void
     {
         $this->expectException(ArithmeticError::class);
@@ -1217,9 +1165,7 @@ class DurationTest extends AbstractTestCase
         ];
     }
 
-    /**
-     * @dataProvider providerToMillisPart
-     */
+    #[DataProvider('providerToMillisPart')]
     public function testToMillisPart(Duration $duration, int $millis): void
     {
         self::assertSame($millis, $duration->toMillisPart());
@@ -1237,9 +1183,7 @@ class DurationTest extends AbstractTestCase
         ];
     }
 
-    /**
-     * @dataProvider providerToNanos
-     */
+    #[DataProvider('providerToNanos')]
     public function testToNanos(Duration $duration, int $nanos): void
     {
         self::assertSame($nanos, $duration->toNanos());
@@ -1255,9 +1199,7 @@ class DurationTest extends AbstractTestCase
         ];
     }
 
-    /**
-     * @dataProvider providerToNanosPart
-     */
+    #[DataProvider('providerToNanosPart')]
     public function testToNanosPart(Duration $duration, int $nanos): void
     {
         self::assertSame($nanos, $duration->toNanosPart());
@@ -1275,25 +1217,19 @@ class DurationTest extends AbstractTestCase
         ];
     }
 
-    /**
-     * @dataProvider providerToString
-     */
+    #[DataProvider('providerToString')]
     public function testJsonSerialize(int $seconds, int $nanos, string $expected): void
     {
         self::assertSame(json_encode($expected, JSON_THROW_ON_ERROR), json_encode(Duration::ofSeconds($seconds, $nanos), JSON_THROW_ON_ERROR));
     }
 
-    /**
-     * @dataProvider providerToString
-     */
+    #[DataProvider('providerToString')]
     public function testToISOString(int $seconds, int $nanos, string $expected): void
     {
         self::assertSame($expected, Duration::ofSeconds($seconds, $nanos)->toISOString());
     }
 
-    /**
-     * @dataProvider providerToString
-     */
+    #[DataProvider('providerToString')]
     public function testToString(int $seconds, int $nanos, string $expected): void
     {
         self::assertSame($expected, (string) Duration::ofSeconds($seconds, $nanos));

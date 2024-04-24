@@ -27,27 +27,16 @@ use const STR_PAD_RIGHT;
 final class Duration implements JsonSerializable, Stringable
 {
     /**
-     * The duration in seconds.
-     */
-    private readonly int $seconds;
-
-    /**
-     * The nanoseconds adjustment to the duration, in the range 0 to 999,999,999.
-     *
-     * A duration of -1 nanoseconds is stored as -1 seconds plus 999,999,999 nanoseconds.
-     */
-    private readonly int $nanos;
-
-    /**
      * Private constructor. Use one of the factory methods to obtain a Duration.
      *
      * @param int $seconds The duration in seconds.
-     * @param int $nanos   The nanoseconds adjustment, validated in the range 0 to 999,999,999.
+     * @param int $nanos   The nanoseconds adjustment to the duration, validated in the range 0 to 999,999,999.
+     *                     A duration of -1 nanoseconds is stored as -1 seconds plus 999,999,999 nanoseconds.
      */
-    private function __construct(int $seconds, int $nanos = 0)
-    {
-        $this->seconds = $seconds;
-        $this->nanos = $nanos;
+    private function __construct(
+        private readonly int $seconds,
+        private readonly int $nanos = 0,
+    ) {
     }
 
     /**
@@ -56,13 +45,9 @@ final class Duration implements JsonSerializable, Stringable
     public static function zero(): Duration
     {
         /** @var Duration|null $zero */
-        static $zero;
+        static $zero = null;
 
-        if ($zero) {
-            return $zero;
-        }
-
-        return $zero = new Duration(0);
+        return $zero ??= new Duration(0);
     }
 
     /**
@@ -154,8 +139,8 @@ final class Duration implements JsonSerializable, Stringable
      * For example, the following will result in exactly the same duration:
      *
      * * Duration::ofSeconds(3, 1);
-     * * Duration::ofSeconds(4, -999999999);
-     * * Duration::ofSeconds(2, 1000000001);
+     * * Duration::ofSeconds(4, -999_999_999);
+     * * Duration::ofSeconds(2, 1_000_000_001);
      *
      * @param int $seconds        The number of seconds of the duration.
      * @param int $nanoAdjustment The adjustment to the duration in nanoseconds.
@@ -466,6 +451,8 @@ final class Duration implements JsonSerializable, Stringable
      * @param Duration $that The other duration to compare to.
      *
      * @return int [-1,0,1] If this duration is less than, equal to, or greater than the given duration.
+     *
+     * @psalm-return -1|0|1
      */
     public function compareTo(Duration $that): int
     {
@@ -756,6 +743,8 @@ final class Duration implements JsonSerializable, Stringable
 
     /**
      * Serializes as a string using {@see Duration::toISOString()}.
+     *
+     * @psalm-return non-empty-string
      */
     public function jsonSerialize(): string
     {
@@ -772,6 +761,8 @@ final class Duration implements JsonSerializable, Stringable
      * The hours, minutes and seconds will all have the same sign.
      *
      * Note that multiples of 24 hours are not output as days to avoid confusion with Period.
+     *
+     * @psalm-return non-empty-string
      */
     public function toISOString(): string
     {
@@ -817,6 +808,8 @@ final class Duration implements JsonSerializable, Stringable
 
     /**
      * {@see Duration::toISOString()}.
+     *
+     * @psalm-return non-empty-string
      */
     public function __toString(): string
     {

@@ -13,9 +13,7 @@ use Stringable;
 
 use function is_int;
 use function str_pad;
-use function trigger_error;
 
-use const E_USER_DEPRECATED;
 use const STR_PAD_LEFT;
 
 /**
@@ -24,23 +22,13 @@ use const STR_PAD_LEFT;
 final class YearWeek implements JsonSerializable, Stringable
 {
     /**
-     * The year, from MIN_YEAR to MAX_YEAR.
-     */
-    private readonly int $year;
-
-    /**
-     * The week number, from 1 to 53. Must be valid for the year.
-     */
-    private readonly int $week;
-
-    /**
      * @param int $year The year, validated from MIN_YEAR to MAX_YEAR.
      * @param int $week The week number, validated in the range 1 to 53, and valid for the year.
      */
-    private function __construct(int $year, int $week)
-    {
-        $this->year = $year;
-        $this->week = $week;
+    private function __construct(
+        private readonly int $year,
+        private readonly int $week,
+    ) {
     }
 
     /**
@@ -67,7 +55,7 @@ final class YearWeek implements JsonSerializable, Stringable
     {
         return YearWeek::of(
             (int) $result->getField(Field\Year::NAME),
-            (int) $result->getField(Field\WeekOfYear::NAME)
+            (int) $result->getField(Field\WeekOfYear::NAME),
         );
     }
 
@@ -82,7 +70,7 @@ final class YearWeek implements JsonSerializable, Stringable
      */
     public static function parse(string $text, ?DateTimeParser $parser = null): YearWeek
     {
-        if (! $parser) {
+        if ($parser === null) {
             $parser = IsoParsers::yearWeek();
         }
 
@@ -106,6 +94,8 @@ final class YearWeek implements JsonSerializable, Stringable
 
     /**
      * @return int [-1,0,1] If this year-week is before, on, or after the given year-week.
+     *
+     * @psalm-return -1|0|1
      */
     public function compareTo(YearWeek $that): int
     {
@@ -205,17 +195,13 @@ final class YearWeek implements JsonSerializable, Stringable
     public function atDay(DayOfWeek|int $dayOfWeek): LocalDate
     {
         if (is_int($dayOfWeek)) {
-            // usually we don't use trigger_error() for deprecations, but we can't rely on @deprecated for a parameter type change;
-            // maybe we should revisit using trigger_error() unconditionally for deprecations in the future.
-            trigger_error('Passing an integer to YearWeek::atDay() is deprecated, pass a DayOfWeek instance instead.', E_USER_DEPRECATED);
-
             Field\DayOfWeek::check($dayOfWeek);
-
-            $dayOfWeek = DayOfWeek::from($dayOfWeek);
+        } else {
+            $dayOfWeek = $dayOfWeek->value;
         }
 
-        $correction = LocalDate::of($this->year, 1, 4)->getDayOfWeek()->value + 3;
-        $dayOfYear = $this->week * 7 + $dayOfWeek->value - $correction;
+        $correction = LocalDate::of($this->year, Month::JANUARY, 4)->getDayOfWeek()->value + 3;
+        $dayOfYear = $this->week * 7 + $dayOfWeek - $correction;
         $maxDaysOfYear = Field\Year::isLeap($this->year) ? 366 : 365;
 
         if ($dayOfYear > $maxDaysOfYear) {
@@ -311,6 +297,8 @@ final class YearWeek implements JsonSerializable, Stringable
 
     /**
      * Serializes as a string using {@see YearWeek::toISOString()}.
+     *
+     * @psalm-return non-empty-string
      */
     public function jsonSerialize(): string
     {
@@ -319,24 +307,28 @@ final class YearWeek implements JsonSerializable, Stringable
 
     /**
      * Returns the ISO 8601 representation of this year-week.
+     *
+     * @psalm-return non-empty-string
      */
     public function toISOString(): string
     {
         // This code is optimized for high performance
         return ($this->year < 1000 && $this->year > -1000
-                ? (
-                    $this->year < 0
-                        ? '-' . str_pad((string) -$this->year, 4, '0', STR_PAD_LEFT)
-                        : str_pad((string) $this->year, 4, '0', STR_PAD_LEFT)
-                )
-                : $this->year
+            ? (
+                $this->year < 0
+                    ? '-' . str_pad((string) -$this->year, 4, '0', STR_PAD_LEFT)
+                    : str_pad((string) $this->year, 4, '0', STR_PAD_LEFT)
             )
+            : $this->year
+        )
             . '-W'
             . ($this->week < 10 ? '0' . $this->week : $this->week);
     }
 
     /**
      * {@see YearWeek::toISOString()}.
+     *
+     * @psalm-return non-empty-string
      */
     public function __toString(): string
     {

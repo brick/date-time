@@ -9,7 +9,7 @@ use JsonSerializable;
 /**
  * Represents a month-of-year such as January.
  */
-enum Month : int implements JsonSerializable
+enum Month: int implements JsonSerializable
 {
     case JANUARY = 1;
     case FEBRUARY = 2;
@@ -38,7 +38,7 @@ enum Month : int implements JsonSerializable
      *
      * @throws DateTimeException
      */
-    public static function of(Month|int $value): Month
+    public static function of(int|Month $value): Month
     {
         if ($value instanceof Month) {
             return $value;
@@ -86,7 +86,7 @@ enum Month : int implements JsonSerializable
      *
      * @return bool True if this month is equal to the given value, false otherwise.
      */
-    public function is(Month|int $month): bool
+    public function is(int|Month $month): bool
     {
         if ($month instanceof Month) {
             return $this === $month;
@@ -201,6 +201,8 @@ enum Month : int implements JsonSerializable
 
     /**
      * Serializes as a string using {@see Month::toString()}.
+     *
+     * @psalm-return non-empty-string
      */
     public function jsonSerialize(): string
     {
@@ -209,6 +211,8 @@ enum Month : int implements JsonSerializable
 
     /**
      * Returns the capitalized English name of this Month.
+     *
+     * @psalm-return non-empty-string
      */
     public function toString(): string
     {

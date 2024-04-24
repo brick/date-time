@@ -12,6 +12,7 @@ use Brick\DateTime\Instant;
 use Brick\DateTime\LocalDate;
 use Brick\DateTime\LocalDateTime;
 use Brick\DateTime\LocalTime;
+use Brick\DateTime\Month;
 use Brick\DateTime\Parser\DateTimeParseException;
 use Brick\DateTime\Period;
 use Brick\DateTime\TimeZone;
@@ -20,6 +21,8 @@ use Brick\DateTime\ZonedDateTime;
 use DateTime;
 use DateTimeImmutable;
 use DateTimeZone;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\RequiresPhp;
 
 use function json_encode;
 
@@ -32,8 +35,6 @@ use const PHP_VERSION_ID;
 class ZonedDateTimeTest extends AbstractTestCase
 {
     /**
-     * @dataProvider providerOf
-     *
      * @param string $localDateTime The local date-time as a string.
      * @param string $timeZone      The time-zone as a string.
      * @param string $offset        The expected time-zone offset of the result zoned date-time.
@@ -41,6 +42,7 @@ class ZonedDateTimeTest extends AbstractTestCase
      * @param int    $epochSecond   The expected epoch-second the result zoned date-time resolves to.
      * @param int    $nanoOfSecond  The expected nano-of-second of the result zoned date-time.
      */
+    #[DataProvider('providerOf')]
     public function testOf(string $localDateTime, string $timeZone, string $offset, int $shift, int $epochSecond, int $nanoOfSecond): void
     {
         $localDateTime = LocalDateTime::parse($localDateTime);
@@ -328,9 +330,7 @@ class ZonedDateTimeTest extends AbstractTestCase
         ];
     }
 
-    /**
-     * @dataProvider providerOfInstant
-     */
+    #[DataProvider('providerOfInstant')]
     public function testOfInstant(string $formattedDatetime, string $timeZone): void
     {
         $instant = Instant::of(1000000000);
@@ -349,14 +349,13 @@ class ZonedDateTimeTest extends AbstractTestCase
     }
 
     /**
-     * @dataProvider providerParse
-     *
      * @param string $text   The string to parse.
      * @param string $date   The expected date string.
      * @param string $time   The expected time string.
      * @param string $offset The expected time-zone offset.
      * @param string $zone   The expected time-zone, should be the same as offset when no region is specified.
      */
+    #[DataProvider('providerParse')]
     public function testParse(string $text, string $date, string $time, string $offset, string $zone): void
     {
         $zonedDateTime = ZonedDateTime::parse($text);
@@ -387,9 +386,7 @@ class ZonedDateTimeTest extends AbstractTestCase
         }
     }
 
-    /**
-     * @dataProvider providerParseInvalidStringThrowsException
-     */
+    #[DataProvider('providerParseInvalidStringThrowsException')]
     public function testParseInvalidStringThrowsException(string $text): void
     {
         $this->expectException(DateTimeParseException::class);
@@ -422,11 +419,8 @@ class ZonedDateTimeTest extends AbstractTestCase
         ];
     }
 
-    /**
-     * @dataProvider providerParseSecondsOffsetThrowsException
-     *
-     * @requires PHP < 8.1.7
-     */
+    #[RequiresPhp('< 8.1.7')]
+    #[DataProvider('providerParseSecondsOffsetThrowsException')]
     public function testParseSecondsOffsetThrowsException(string $text): void
     {
         $this->expectException(DateTimeException::class);
@@ -440,9 +434,7 @@ class ZonedDateTimeTest extends AbstractTestCase
         ];
     }
 
-    /**
-     * @dataProvider providerFromNativeDateTime
-     */
+    #[DataProvider('providerFromNativeDateTime')]
     public function testFromNativeDateTime(string $dateTimeString, string $timeZone, string $expected): void
     {
         $dateTime = new DateTime($dateTimeString, new DateTimeZone($timeZone));
@@ -478,12 +470,11 @@ class ZonedDateTimeTest extends AbstractTestCase
     }
 
     /**
-     * @dataProvider providerCompareTo
-     *
      * @param string $z1  The first zoned date-time.
      * @param string $z2  The second zoned date-time.
      * @param int    $cmp The comparison value.
      */
+    #[DataProvider('providerCompareTo')]
     public function testCompareTo(string $z1, string $z2, int $cmp): void
     {
         $z1 = ZonedDateTime::parse($z1);
@@ -591,6 +582,7 @@ class ZonedDateTimeTest extends AbstractTestCase
     public function testWithMonth(): void
     {
         self::assertIs(ZonedDateTime::class, '2000-07-20T12:34:56.123456789-07:00[America/Los_Angeles]', $this->getTestZonedDateTime()->withMonth(7));
+        self::assertIs(ZonedDateTime::class, '2000-07-20T12:34:56.123456789-07:00[America/Los_Angeles]', $this->getTestZonedDateTime()->withMonth(Month::JULY));
     }
 
     public function testWithDay(): void
@@ -751,9 +743,7 @@ class ZonedDateTimeTest extends AbstractTestCase
         self::assertFalse($fromZonedDateTime->isBetweenExclusive($fromZonedDateTime, $toZonedDateTime));
     }
 
-    /**
-     * @dataProvider providerForPastFuture
-     */
+    #[DataProvider('providerForPastFuture')]
     public function testIsFuture(int $clockTimestamp, string $zonedDateTime, bool $isFuture): void
     {
         $clock = new FixedClock(Instant::of($clockTimestamp));
@@ -761,9 +751,7 @@ class ZonedDateTimeTest extends AbstractTestCase
         self::assertSame($isFuture, $zonedDateTime->isFuture($clock));
     }
 
-    /**
-     * @dataProvider providerForPastFuture
-     */
+    #[DataProvider('providerForPastFuture')]
     public function testIsPast(int $clockTimestamp, string $zonedDateTime, bool $isFuture): void
     {
         $clock = new FixedClock(Instant::of($clockTimestamp));
@@ -782,11 +770,10 @@ class ZonedDateTimeTest extends AbstractTestCase
     }
 
     /**
-     * @dataProvider providerToNativeDateTime
-     *
      * @param string $dateTime The date-time string that will be parse()d by ZonedDateTime.
      * @param string $expected The expected output from the native DateTime object.
      */
+    #[DataProvider('providerToNativeDateTime')]
     public function testToNativeDateTime(string $dateTime, string $expected): void
     {
         $zonedDateTime = ZonedDateTime::parse($dateTime);
@@ -797,11 +784,10 @@ class ZonedDateTimeTest extends AbstractTestCase
     }
 
     /**
-     * @dataProvider providerToNativeDateTime
-     *
      * @param string $dateTime The date-time string that will be parse()d by ZonedDateTime.
      * @param string $expected The expected output from the native DateTime object.
      */
+    #[DataProvider('providerToNativeDateTime')]
     public function testToNativeDateTimeImmutable(string $dateTime, string $expected): void
     {
         $zonedDateTime = ZonedDateTime::parse($dateTime);
@@ -825,7 +811,7 @@ class ZonedDateTimeTest extends AbstractTestCase
         ];
     }
 
-    /** @dataProvider providerToString */
+    #[DataProvider('providerToString')]
     public function testJsonSerialize(string $localDateTime, string $timeZone, string $expectedString): void
     {
         $localDateTime = LocalDateTime::parse($localDateTime);
@@ -834,7 +820,7 @@ class ZonedDateTimeTest extends AbstractTestCase
         self::assertSame(json_encode($expectedString, JSON_THROW_ON_ERROR), json_encode($zonedDateTime, JSON_THROW_ON_ERROR));
     }
 
-    /** @dataProvider providerToString */
+    #[DataProvider('providerToString')]
     public function testToISOString(string $localDateTime, string $timeZone, string $expectedString): void
     {
         $localDateTime = LocalDateTime::parse($localDateTime);
@@ -843,7 +829,7 @@ class ZonedDateTimeTest extends AbstractTestCase
         self::assertSame($expectedString, $zonedDateTime->toISOString());
     }
 
-    /** @dataProvider providerToString */
+    #[DataProvider('providerToString')]
     public function testToString(string $localDateTime, string $timeZone, string $expectedString): void
     {
         $localDateTime = LocalDateTime::parse($localDateTime);
@@ -860,9 +846,7 @@ class ZonedDateTimeTest extends AbstractTestCase
         ];
     }
 
-    /**
-     * @dataProvider providerGetDurationTo
-     */
+    #[DataProvider('providerGetDurationTo')]
     public function testGetDurationTo(string $firstDate, string $secondDate, int $expectedSeconds, int $expectedNanos): void
     {
         $actualResult = ZonedDateTime::parse($firstDate)->getDurationTo(ZonedDateTime::parse($secondDate));
@@ -883,9 +867,7 @@ class ZonedDateTimeTest extends AbstractTestCase
         ];
     }
 
-    /**
-     * @dataProvider providerGetIntervalTo
-     */
+    #[DataProvider('providerGetIntervalTo')]
     public function testGetIntervalTo(string $firstDate, string $secondDate, string $expectedInterval): void
     {
         $actualResult = ZonedDateTime::parse($firstDate)->getIntervalTo(ZonedDateTime::parse($secondDate));

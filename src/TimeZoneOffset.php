@@ -15,8 +15,6 @@ use DateTimeZone;
  */
 final class TimeZoneOffset extends TimeZone
 {
-    private readonly int $totalSeconds;
-
     /**
      * The string representation of this time-zone offset.
      *
@@ -31,9 +29,9 @@ final class TimeZoneOffset extends TimeZone
      *
      * @param int $totalSeconds The total offset in seconds, validated from -64800 to +64800.
      */
-    private function __construct(int $totalSeconds)
-    {
-        $this->totalSeconds = $totalSeconds;
+    private function __construct(
+        private readonly int $totalSeconds,
+    ) {
     }
 
     /**
@@ -90,13 +88,9 @@ final class TimeZoneOffset extends TimeZone
     public static function utc(): TimeZoneOffset
     {
         /** @var TimeZoneOffset|null $utc */
-        static $utc;
+        static $utc = null;
 
-        if ($utc) {
-            return $utc;
-        }
-
-        return $utc = new TimeZoneOffset(0);
+        return $utc ??= new TimeZoneOffset(0);
     }
 
     /**
@@ -143,7 +137,7 @@ final class TimeZoneOffset extends TimeZone
      */
     public static function parse(string $text, ?DateTimeParser $parser = null): TimeZoneOffset
     {
-        if (! $parser) {
+        if ($parser === null) {
             $parser = IsoParsers::timeZoneOffset();
         }
 

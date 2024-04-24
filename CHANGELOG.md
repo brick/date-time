@@ -1,5 +1,48 @@
 # Changelog
 
+## [0.6.3](https://github.com/brick/date-time/releases/tag/0.6.3) - 2024-04-02
+
+✨ **New features**
+
+- `Stopwatch::stop()` now returns the lap duration ([#98](https://github.com/brick/date-time/pull/98))
+
+Thanks to [@rodnaph](https://github.com/rodnaph)!
+
+## [0.6.2](https://github.com/brick/date-time/releases/tag/0.6.2) - 2024-04-01
+
+✨ **New features**
+
+- `MonthDay::of()` and `MonthDay::withMonth()` now accept a `Month` enum as parameter ([#106](https://github.com/brick/date-time/pull/106))
+- `LocalDate::of()` and `LocalDate::withMonth()` now accept a `Month` enum as parameter ([#106](https://github.com/brick/date-time/pull/106))
+- `LocalDateTime::of()` and `LocalDateTime::withMonth()` now accept a `Month` enum as parameter ([#106](https://github.com/brick/date-time/pull/106))
+- `ZonedDateTime::withMonth()` now accepts a `Month` enum as parameter ([#106](https://github.com/brick/date-time/pull/106))
+
+✨ **Undeprecations**
+
+- Passing an `int` to `Year::atMonth()` is un-deprecated, and now valid again ([#103](https://github.com/brick/date-time/pull/103))
+- Passing an `int` to `YearMonth::of()` and `YearMonth::withMonth()` is un-deprecated, and now valid again ([#103](https://github.com/brick/date-time/pull/103))
+- Passing an `int` to `YearWeek::atDay()` is un-deprecated, and now valid again ([#103](https://github.com/brick/date-time/pull/103))
+
+Thanks to [@gnutix](https://github.com/gnutix)!
+
+## [0.6.1](https://github.com/brick/date-time/releases/tag/0.6.1) - 2024-03-26
+
+✨ **New features**
+
+- `Year::atMonth()` now accepts a `Month` enum as parameter ([#95](https://github.com/brick/date-time/pull/95))
+- `YearMonth::of()` and `YearMonth::withMonth()` now accept a `Month` enum as parameter ([#96](https://github.com/brick/date-time/pull/96))
+
+🔧 **Improvements**
+
+- Narrower Psalm types for `compareTo()`, `__toString()`, `toISOString()`, `jsonSerialize()` methods ([#97](https://github.com/brick/date-time/pull/97))
+
+💩 **Deprecations**
+
+- Passing an `int` to `Year::atMonth()` is now deprecated, pass a `Month` enum instead ([#95](https://github.com/brick/date-time/pull/95))
+- Passing an `int` to `YearMonth::of()` and `YearMonth::withMonth()` is now deprecated, pass a `Month` enum instead ([#96](https://github.com/brick/date-time/pull/96))
+
+Thanks to [@gnutix](https://github.com/gnutix)!
+
 ## [0.6.0](https://github.com/brick/date-time/releases/tag/0.6.0) - 2023-12-05
 
 💥 **Breaking changes**

@@ -8,6 +8,7 @@ use Brick\DateTime\DateTimeException;
 use Brick\DateTime\Parser\DateTimeParseException;
 use Brick\DateTime\YearMonth;
 use Brick\DateTime\YearMonthRange;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 use function json_encode;
 
@@ -22,7 +23,7 @@ class YearMonthRangeTest extends AbstractTestCase
     {
         self::assertYearMonthRangeIs(2001, 2, 2004, 5, YearMonthRange::of(
             YearMonth::of(2001, 2),
-            YearMonth::of(2004, 5)
+            YearMonth::of(2004, 5),
         ));
     }
 
@@ -32,19 +33,18 @@ class YearMonthRangeTest extends AbstractTestCase
 
         YearMonthRange::of(
             YearMonth::of(2001, 3),
-            YearMonth::of(2001, 2)
+            YearMonth::of(2001, 2),
         );
     }
 
     /**
-     * @dataProvider providerParse
-     *
      * @param string $text The text to parse.
      * @param int    $y1   The expected start year.
      * @param int    $m1   The expected start month.
      * @param int    $y2   The expected end year.
      * @param int    $m2   The expected end month.
      */
+    #[DataProvider('providerParse')]
     public function testParse(string $text, int $y1, int $m1, int $y2, int $m2): void
     {
         self::assertYearMonthRangeIs($y1, $m1, $y2, $m2, YearMonthRange::parse($text));
@@ -59,10 +59,9 @@ class YearMonthRangeTest extends AbstractTestCase
     }
 
     /**
-     * @dataProvider providerParseInvalidRangeThrowsException
-     *
      * @param string $text The invalid text to parse.
      */
+    #[DataProvider('providerParseInvalidRangeThrowsException')]
     public function testParseInvalidRangeThrowsException(string $text): void
     {
         $this->expectException(DateTimeParseException::class);
@@ -83,16 +82,15 @@ class YearMonthRangeTest extends AbstractTestCase
     }
 
     /**
-     * @dataProvider providerIsEqualTo
-     *
      * @param string $testRange The string representation of the range to test.
      * @param bool   $isEqual   Whether this range is expected to be equal to our range.
      */
+    #[DataProvider('providerIsEqualTo')]
     public function testIsEqualTo(string $testRange, bool $isEqual): void
     {
         self::assertSame($isEqual, YearMonthRange::of(
             YearMonth::of(2001, 2),
-            YearMonth::of(2004, 5)
+            YearMonth::of(2004, 5),
         )->isEqualTo(YearMonthRange::parse($testRange)));
     }
 
@@ -107,9 +105,7 @@ class YearMonthRangeTest extends AbstractTestCase
         ];
     }
 
-    /**
-     * @dataProvider providerContains
-     */
+    #[DataProvider('providerContains')]
     public function testContains(string $range, string $yearMonth, bool $contains): void
     {
         self::assertSame($contains, YearMonthRange::parse($range)->contains(YearMonth::parse($yearMonth)));
@@ -159,11 +155,10 @@ class YearMonthRangeTest extends AbstractTestCase
     }
 
     /**
-     * @dataProvider providerCount
-     *
      * @param string $range The year-month range string representation.
      * @param int    $count The expected day count.
      */
+    #[DataProvider('providerCount')]
     public function testCount(string $range, int $count): void
     {
         self::assertCount($count, YearMonthRange::parse($range));
@@ -180,9 +175,7 @@ class YearMonthRangeTest extends AbstractTestCase
         ];
     }
 
-    /**
-     * @dataProvider providerToLocalDateRange
-     */
+    #[DataProvider('providerToLocalDateRange')]
     public function testToLocalDateRange(string $yearMonthRange, string $expectedRange): void
     {
         self::assertSame($expectedRange, (string) YearMonthRange::parse($yearMonthRange)->toLocalDateRange());
@@ -199,34 +192,34 @@ class YearMonthRangeTest extends AbstractTestCase
         ];
     }
 
-    /** @dataProvider providerToString */
+    #[DataProvider('providerToString')]
     public function testJsonSerialize(int $yearStart, int $monthStart, int $yearEnd, int $monthEnd, string $expectedString): void
     {
         $yearMonthRange = YearMonthRange::of(
             YearMonth::of($yearStart, $monthStart),
-            YearMonth::of($yearEnd, $monthEnd)
+            YearMonth::of($yearEnd, $monthEnd),
         );
 
         self::assertSame(json_encode($expectedString, JSON_THROW_ON_ERROR), json_encode($yearMonthRange, JSON_THROW_ON_ERROR));
     }
 
-    /** @dataProvider providerToString */
+    #[DataProvider('providerToString')]
     public function testToISOString(int $yearStart, int $monthStart, int $yearEnd, int $monthEnd, string $expectedString): void
     {
         $yearMonthRange = YearMonthRange::of(
             YearMonth::of($yearStart, $monthStart),
-            YearMonth::of($yearEnd, $monthEnd)
+            YearMonth::of($yearEnd, $monthEnd),
         );
 
         self::assertSame($expectedString, $yearMonthRange->toISOString());
     }
 
-    /** @dataProvider providerToString */
+    #[DataProvider('providerToString')]
     public function testToString(int $yearStart, int $monthStart, int $yearEnd, int $monthEnd, string $expectedString): void
     {
         $yearMonthRange = YearMonthRange::of(
             YearMonth::of($yearStart, $monthStart),
-            YearMonth::of($yearEnd, $monthEnd)
+            YearMonth::of($yearEnd, $monthEnd),
         );
 
         self::assertSame($expectedString, (string) $yearMonthRange);

@@ -226,6 +226,8 @@ enum DayOfWeek: int implements JsonSerializable
 
     /**
      * Serializes as a string using {@see DayOfWeek::toString()}.
+     *
+     * @psalm-return non-empty-string
      */
     public function jsonSerialize(): string
     {
@@ -234,6 +236,8 @@ enum DayOfWeek: int implements JsonSerializable
 
     /**
      * Returns the capitalized English name of this day-of-week.
+     *
+     * @psalm-return non-empty-string
      */
     public function toString(): string
     {

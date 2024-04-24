@@ -10,6 +10,7 @@ use Brick\DateTime\DayOfWeek;
 use Brick\DateTime\Instant;
 use Brick\DateTime\TimeZone;
 use Generator;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 use function json_encode;
 
@@ -21,11 +22,10 @@ use const JSON_THROW_ON_ERROR;
 class DayOfWeekTest extends AbstractTestCase
 {
     /**
-     * @dataProvider providerValues
-     *
      * @param int       $expectedValue The expected value of the constant.
      * @param DayOfWeek $dayOfWeek     The day-of-week instance.
      */
+    #[DataProvider('providerValues')]
     public function testValues(int $expectedValue, DayOfWeek $dayOfWeek): void
     {
         self::assertSame($expectedValue, $dayOfWeek->value);
@@ -51,9 +51,7 @@ class DayOfWeekTest extends AbstractTestCase
         self::assertSame(DayOfWeek::FRIDAY, DayOfWeek::of(DayOfWeek::FRIDAY));
     }
 
-    /**
-     * @dataProvider providerOfInvalidDayOfWeekThrowsException
-     */
+    #[DataProvider('providerOfInvalidDayOfWeekThrowsException')]
     public function testOfInvalidDayOfWeekThrowsException(int $dayOfWeek): void
     {
         $this->expectException(DateTimeException::class);
@@ -70,12 +68,11 @@ class DayOfWeekTest extends AbstractTestCase
     }
 
     /**
-     * @dataProvider providerNow
-     *
      * @param int       $epochSecond       The epoch second to set the clock time to.
      * @param string    $timeZone          The time-zone to get the current day-of-week in.
      * @param DayOfWeek $expectedDayOfWeek The expected day-of-week.
      */
+    #[DataProvider('providerNow')]
     public function testNow(int $epochSecond, string $timeZone, DayOfWeek $expectedDayOfWeek): void
     {
         $clock = new FixedClock(Instant::of($epochSecond));
@@ -160,9 +157,7 @@ class DayOfWeekTest extends AbstractTestCase
         }
     }
 
-    /**
-     * @dataProvider providerIsWeekday
-     */
+    #[DataProvider('providerIsWeekday')]
     public function testIsWeekday(DayOfWeek $dayOfWeek, bool $isWeekday): void
     {
         self::assertSame($isWeekday, $dayOfWeek->isWeekday());
@@ -181,9 +176,7 @@ class DayOfWeekTest extends AbstractTestCase
         ];
     }
 
-    /**
-     * @dataProvider providerIsWeekend
-     */
+    #[DataProvider('providerIsWeekend')]
     public function testIsWeekend(DayOfWeek $dayOfWeek, bool $isWeekend): void
     {
         self::assertSame($isWeekend, $dayOfWeek->isWeekend());
@@ -203,24 +196,22 @@ class DayOfWeekTest extends AbstractTestCase
     }
 
     /**
-     * @dataProvider providerPlus
-     *
      * @param DayOfWeek $dayOfWeek         The base day-of-week.
      * @param int       $plusDays          The number of days to add.
      * @param DayOfWeek $expectedDayOfWeek The expected day-of-week.
      */
+    #[DataProvider('providerPlus')]
     public function testPlus(DayOfWeek $dayOfWeek, int $plusDays, DayOfWeek $expectedDayOfWeek): void
     {
         self::assertSame($expectedDayOfWeek, $dayOfWeek->plus($plusDays));
     }
 
     /**
-     * @dataProvider providerPlus
-     *
      * @param DayOfWeek $dayOfWeek         The base day-of-week.
      * @param int       $plusDays          The number of days to add.
      * @param DayOfWeek $expectedDayOfWeek The expected day-of-week.
      */
+    #[DataProvider('providerPlus')]
     public function testMinus(DayOfWeek $dayOfWeek, int $plusDays, DayOfWeek $expectedDayOfWeek): void
     {
         self::assertSame($expectedDayOfWeek, $dayOfWeek->minus(-$plusDays));
@@ -245,22 +236,20 @@ class DayOfWeekTest extends AbstractTestCase
     }
 
     /**
-     * @dataProvider providerToString
-     *
      * @param DayOfWeek $dayOfWeek    The day-of-week.
      * @param string    $expectedName The expected name.
      */
+    #[DataProvider('providerToString')]
     public function testJsonSerialize(DayOfWeek $dayOfWeek, string $expectedName): void
     {
         self::assertSame(json_encode($expectedName, JSON_THROW_ON_ERROR), json_encode($dayOfWeek, JSON_THROW_ON_ERROR));
     }
 
     /**
-     * @dataProvider providerToString
-     *
      * @param DayOfWeek $dayOfWeek    The day-of-week.
      * @param string    $expectedName The expected name.
      */
+    #[DataProvider('providerToString')]
     public function testToString(DayOfWeek $dayOfWeek, string $expectedName): void
     {
         self::assertSame($expectedName, $dayOfWeek->toString());

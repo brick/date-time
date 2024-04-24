@@ -26,25 +26,15 @@ use const STR_PAD_LEFT;
 final class Instant implements JsonSerializable, Stringable
 {
     /**
-     * The number of seconds since the epoch of 1970-01-01T00:00:00Z.
-     */
-    private readonly int $epochSecond;
-
-    /**
-     * The nanoseconds adjustment to the epoch second, in the range 0 to 999,999,999.
-     */
-    private readonly int $nano;
-
-    /**
      * Private constructor. Use of() to obtain an Instant.
      *
-     * @param int $epochSecond The epoch second.
-     * @param int $nano        The nanosecond adjustment, validated in the range 0 to 999,999,999.
+     * @param int $epochSecond The number of seconds since the epoch of 1970-01-01T00:00:00Z.
+     * @param int $nano        The nanosecond adjustment to the epoch second, validated in the range 0 to 999,999,999.
      */
-    private function __construct(int $epochSecond, int $nano)
-    {
-        $this->epochSecond = $epochSecond;
-        $this->nano = $nano;
+    private function __construct(
+        private readonly int $epochSecond,
+        private readonly int $nano,
+    ) {
     }
 
     /**
@@ -56,8 +46,8 @@ final class Instant implements JsonSerializable, Stringable
      * For example, the following will result in exactly the same instant:
      *
      * * Instant::of(3, 1);
-     * * Instant::of(4, -999999999);
-     * * Instant::of(2, 1000000001);
+     * * Instant::of(4, -999_999_999);
+     * * Instant::of(2, 1_000_000_001);
      *
      * @param int $epochSecond    The number of seconds since the UNIX epoch of 1970-01-01T00:00:00Z.
      * @param int $nanoAdjustment The adjustment to the epoch second in nanoseconds.
@@ -79,13 +69,9 @@ final class Instant implements JsonSerializable, Stringable
     public static function epoch(): Instant
     {
         /** @var Instant|null $epoch */
-        static $epoch;
+        static $epoch = null;
 
-        if ($epoch) {
-            return $epoch;
-        }
-
-        return $epoch = new Instant(0, 0);
+        return $epoch ??= new Instant(0, 0);
     }
 
     public static function now(?Clock $clock = null): Instant
@@ -105,13 +91,9 @@ final class Instant implements JsonSerializable, Stringable
     public static function min(): Instant
     {
         /** @var Instant|null $min */
-        static $min;
+        static $min = null;
 
-        if ($min) {
-            return $min;
-        }
-
-        return $min = new Instant(PHP_INT_MIN, 0);
+        return $min ??= new Instant(PHP_INT_MIN, 0);
     }
 
     /**
@@ -122,13 +104,9 @@ final class Instant implements JsonSerializable, Stringable
     public static function max(): Instant
     {
         /** @var Instant|null $max */
-        static $max;
+        static $max = null;
 
-        if ($max) {
-            return $max;
-        }
-
-        return $max = new Instant(PHP_INT_MAX, 999_999_999);
+        return $max ??= new Instant(PHP_INT_MAX, 999_999_999);
     }
 
     public function plus(Duration $duration): Instant
@@ -238,6 +216,8 @@ final class Instant implements JsonSerializable, Stringable
      * Compares this instant with another.
      *
      * @return int [-1,0,1] If this instant is before, on, or after the given instant.
+     *
+     * @psalm-return -1|0|1
      */
     public function compareTo(Instant $that): int
     {
@@ -368,6 +348,8 @@ final class Instant implements JsonSerializable, Stringable
 
     /**
      * Serializes as a string using {@see Instant::toISOString()}.
+     *
+     * @psalm-return non-empty-string
      */
     public function jsonSerialize(): string
     {
@@ -376,6 +358,8 @@ final class Instant implements JsonSerializable, Stringable
 
     /**
      * Returns the ISO 8601 representation of this instant.
+     *
+     * @psalm-return non-empty-string
      */
     public function toISOString(): string
     {
@@ -384,6 +368,8 @@ final class Instant implements JsonSerializable, Stringable
 
     /**
      * {@see Instant::toISOString()}.
+     *
+     * @psalm-return non-empty-string
      */
     public function __toString(): string
     {

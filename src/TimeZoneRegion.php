@@ -17,14 +17,12 @@ use Exception;
  */
 final class TimeZoneRegion extends TimeZone
 {
-    private readonly DateTimeZone $zone;
-
     /**
      * Private constructor. Use a factory method to obtain an instance.
      */
-    private function __construct(DateTimeZone $zone)
-    {
-        $this->zone = $zone;
+    private function __construct(
+        private readonly DateTimeZone $zone,
+    ) {
     }
 
     /**
@@ -69,7 +67,7 @@ final class TimeZoneRegion extends TimeZone
         return DateTimeZone::listIdentifiers(
             $includeObsolete
                 ? DateTimeZone::ALL_WITH_BC
-                : DateTimeZone::ALL
+                : DateTimeZone::ALL,
         );
     }
 
@@ -94,7 +92,7 @@ final class TimeZoneRegion extends TimeZone
      */
     public static function parse(string $text, ?DateTimeParser $parser = null): TimeZoneRegion
     {
-        if (! $parser) {
+        if ($parser === null) {
             $parser = IsoParsers::timeZoneRegion();
         }
 

@@ -24,28 +24,24 @@ use function intdiv;
  */
 final class LocalDateTime implements JsonSerializable, Stringable
 {
-    private readonly LocalDate $date;
-
-    private readonly LocalTime $time;
-
-    public function __construct(LocalDate $date, LocalTime $time)
-    {
-        $this->date = $date;
-        $this->time = $time;
+    public function __construct(
+        private readonly LocalDate $date,
+        private readonly LocalTime $time,
+    ) {
     }
 
     /**
-     * @param int $year   The year, from MIN_YEAR to MAX_YEAR.
-     * @param int $month  The month-of-year, from 1 (January) to 12 (December).
-     * @param int $day    The day-of-month, from 1 to 31.
-     * @param int $hour   The hour-of-day, from 0 to 23.
-     * @param int $minute The minute-of-hour, from 0 to 59.
-     * @param int $second The second-of-minute, from 0 to 59.
-     * @param int $nano   The nano-of-second, from 0 to 999,999,999.
+     * @param int       $year   The year, from MIN_YEAR to MAX_YEAR.
+     * @param int|Month $month  The month-of-year, from 1 (January) to 12 (December).
+     * @param int       $day    The day-of-month, from 1 to 31.
+     * @param int       $hour   The hour-of-day, from 0 to 23.
+     * @param int       $minute The minute-of-hour, from 0 to 59.
+     * @param int       $second The second-of-minute, from 0 to 59.
+     * @param int       $nano   The nano-of-second, from 0 to 999,999,999.
      *
      * @throws DateTimeException If the date or time is not valid.
      */
-    public static function of(int $year, int $month, int $day, int $hour = 0, int $minute = 0, int $second = 0, int $nano = 0): LocalDateTime
+    public static function of(int $year, int|Month $month, int $day, int $hour = 0, int $minute = 0, int $second = 0, int $nano = 0): LocalDateTime
     {
         $date = LocalDate::of($year, $month, $day);
         $time = LocalTime::of($hour, $minute, $second, $nano);
@@ -71,7 +67,7 @@ final class LocalDateTime implements JsonSerializable, Stringable
     {
         return new LocalDateTime(
             LocalDate::from($result),
-            LocalTime::from($result)
+            LocalTime::from($result),
         );
     }
 
@@ -86,7 +82,7 @@ final class LocalDateTime implements JsonSerializable, Stringable
      */
     public static function parse(string $text, ?DateTimeParser $parser = null): LocalDateTime
     {
-        if (! $parser) {
+        if ($parser === null) {
             $parser = IsoParsers::localDateTime();
         }
 
@@ -100,7 +96,7 @@ final class LocalDateTime implements JsonSerializable, Stringable
     {
         return new LocalDateTime(
             LocalDate::fromNativeDateTime($dateTime),
-            LocalTime::fromNativeDateTime($dateTime)
+            LocalTime::fromNativeDateTime($dateTime),
         );
     }
 
@@ -110,13 +106,9 @@ final class LocalDateTime implements JsonSerializable, Stringable
     public static function min(): LocalDateTime
     {
         /** @var LocalDateTime|null $min */
-        static $min;
+        static $min = null;
 
-        if ($min) {
-            return $min;
-        }
-
-        return $min = new LocalDateTime(LocalDate::min(), LocalTime::min());
+        return $min ??= new LocalDateTime(LocalDate::min(), LocalTime::min());
     }
 
     /**
@@ -125,19 +117,15 @@ final class LocalDateTime implements JsonSerializable, Stringable
     public static function max(): LocalDateTime
     {
         /** @var LocalDateTime|null $max */
-        static $max;
+        static $max = null;
 
-        if ($max) {
-            return $max;
-        }
-
-        return $max = new LocalDateTime(LocalDate::max(), LocalTime::max());
+        return $max ??= new LocalDateTime(LocalDate::max(), LocalTime::max());
     }
 
     /**
      * Returns the smallest LocalDateTime among the given values.
      *
-     * @param LocalDateTime[] $times The LocalDateTime objects to compare.
+     * @param LocalDateTime ...$times The LocalDateTime objects to compare.
      *
      * @return LocalDateTime The earliest LocalDateTime object.
      *
@@ -145,7 +133,7 @@ final class LocalDateTime implements JsonSerializable, Stringable
      */
     public static function minOf(LocalDateTime ...$times): LocalDateTime
     {
-        if (! $times) {
+        if ($times === []) {
             throw new DateTimeException(__METHOD__ . ' does not accept less than 1 parameter.');
         }
 
@@ -163,7 +151,7 @@ final class LocalDateTime implements JsonSerializable, Stringable
     /**
      * Returns the highest LocalDateTime among the given values.
      *
-     * @param LocalDateTime[] $times The LocalDateTime objects to compare.
+     * @param LocalDateTime ...$times The LocalDateTime objects to compare.
      *
      * @return LocalDateTime The latest LocalDateTime object.
      *
@@ -171,7 +159,7 @@ final class LocalDateTime implements JsonSerializable, Stringable
      */
     public static function maxOf(LocalDateTime ...$times): LocalDateTime
     {
-        if (! $times) {
+        if ($times === []) {
             throw new DateTimeException(__METHOD__ . ' does not accept less than 1 parameter.');
         }
 
@@ -310,7 +298,7 @@ final class LocalDateTime implements JsonSerializable, Stringable
      *
      * @throws DateTimeException If the month is invalid.
      */
-    public function withMonth(int $month): LocalDateTime
+    public function withMonth(int|Month $month): LocalDateTime
     {
         $date = $this->date->withMonth($month);
 
@@ -659,10 +647,18 @@ final class LocalDateTime implements JsonSerializable, Stringable
      * @param LocalDateTime $that The date-time to compare to.
      *
      * @return int [-1,0,1] If this date-time is before, on, or after the given date-time.
+     *
+     * @psalm-return -1|0|1
      */
     public function compareTo(LocalDateTime $that): int
     {
-        return $this->date->compareTo($that->date) ?: $this->time->compareTo($that->time);
+        $cmp = $this->date->compareTo($that->date);
+
+        if ($cmp !== 0) {
+            return $cmp;
+        }
+
+        return $this->time->compareTo($that->time);
     }
 
     public function isEqualTo(LocalDateTime $that): bool
@@ -738,6 +734,8 @@ final class LocalDateTime implements JsonSerializable, Stringable
 
     /**
      * Serializes as a string using {@see LocalDateTime::toISOString()}.
+     *
+     * @psalm-return non-empty-string
      */
     public function jsonSerialize(): string
     {
@@ -746,6 +744,8 @@ final class LocalDateTime implements JsonSerializable, Stringable
 
     /**
      * Returns the ISO 8601 representation of this date time.
+     *
+     * @psalm-return non-empty-string
      */
     public function toISOString(): string
     {
@@ -754,6 +754,8 @@ final class LocalDateTime implements JsonSerializable, Stringable
 
     /**
      * {@see LocalDateTime::toISOString()}.
+     *
+     * @psalm-return non-empty-string
      */
     public function __toString(): string
     {

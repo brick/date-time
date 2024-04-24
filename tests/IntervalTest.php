@@ -7,6 +7,8 @@ namespace Brick\DateTime\Tests;
 use Brick\DateTime\DateTimeException;
 use Brick\DateTime\Instant;
 use Brick\DateTime\Interval;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Depends;
 
 use function json_encode;
 
@@ -39,14 +41,12 @@ class IntervalTest extends AbstractTestCase
         self::assertInstantIs(2000000009, 123456789, $interval->getEnd());
     }
 
-    /**
-     * @depends testGetStartEnd
-     */
+    #[Depends('testGetStartEnd')]
     public function testWithStart(): void
     {
         $interval = Interval::of(
             Instant::of(2000000000),
-            Instant::of(2000000001)
+            Instant::of(2000000001),
         );
 
         $newInterval = $interval->withStart(Instant::of(1999999999, 999999999));
@@ -62,14 +62,12 @@ class IntervalTest extends AbstractTestCase
         self::assertInstantIs(2000000001, 0, $newInterval->getEnd());
     }
 
-    /**
-     * @depends testGetStartEnd
-     */
+    #[Depends('testGetStartEnd')]
     public function testWithEnd(): void
     {
         $interval = Interval::of(
             Instant::of(2000000000),
-            Instant::of(2000000001)
+            Instant::of(2000000001),
         );
 
         $newInterval = $interval->withEnd(Instant::of(2000000002, 222222222));
@@ -89,7 +87,7 @@ class IntervalTest extends AbstractTestCase
     {
         $interval = Interval::of(
             Instant::of(1999999999, 555555),
-            Instant::of(2000000001, 111)
+            Instant::of(2000000001, 111),
         );
 
         $duration = $interval->getDuration();
@@ -97,7 +95,7 @@ class IntervalTest extends AbstractTestCase
         self::assertDurationIs(1, 999444556, $duration);
     }
 
-    /** @dataProvider providerContains */
+    #[DataProvider('providerContains')]
     public function testContains(int $start, int $end, int $now, bool $expected, string $errorMessage): void
     {
         $interval = Interval::of(Instant::of($start), Instant::of($end));
@@ -132,7 +130,7 @@ class IntervalTest extends AbstractTestCase
         ];
     }
 
-    /** @dataProvider providerIntersectsWith */
+    #[DataProvider('providerIntersectsWith')]
     public function testIntersectsWith(int $start1, int $end1, int $start2, int $end2, bool $expected): void
     {
         $interval1 = Interval::of(Instant::of($start1), Instant::of($end1));
@@ -171,14 +169,14 @@ class IntervalTest extends AbstractTestCase
         ];
     }
 
-    /** @dataProvider providerGetIntersectionWith */
+    #[DataProvider('providerGetIntersectionWith')]
     public function testGetIntersectionWith(
         int $start1,
         int $end1,
         int $start2,
         int $end2,
         int $expectedStart,
-        int $expectedEnd
+        int $expectedEnd,
     ): void {
         $interval1 = Interval::of(Instant::of($start1), Instant::of($end1));
         $interval2 = Interval::of(Instant::of($start2), Instant::of($end2));
@@ -229,7 +227,7 @@ class IntervalTest extends AbstractTestCase
         $interval1->getIntersectionWith($interval2);
     }
 
-    /** @dataProvider providerIsEqualTo */
+    #[DataProvider('providerIsEqualTo')]
     public function testIsEqualTo(Interval $a, Interval $b, bool $expectedResult): void
     {
         self::assertSame($expectedResult, $a->isEqualTo($b));
@@ -262,34 +260,34 @@ class IntervalTest extends AbstractTestCase
         ];
     }
 
-    /** @dataProvider providerToString */
+    #[DataProvider('providerToString')]
     public function testJsonSerialize(int $epochSecondStart, int $epochSecondEnd, string $expectedString): void
     {
         $interval = Interval::of(
             Instant::of($epochSecondStart),
-            Instant::of($epochSecondEnd)
+            Instant::of($epochSecondEnd),
         );
 
         self::assertSame(json_encode($expectedString, JSON_THROW_ON_ERROR), json_encode($interval, JSON_THROW_ON_ERROR));
     }
 
-    /** @dataProvider providerToString */
+    #[DataProvider('providerToString')]
     public function testToISOString(int $epochSecondStart, int $epochSecondEnd, string $expectedString): void
     {
         $interval = Interval::of(
             Instant::of($epochSecondStart),
-            Instant::of($epochSecondEnd)
+            Instant::of($epochSecondEnd),
         );
 
         self::assertSame($expectedString, $interval->toISOString());
     }
 
-    /** @dataProvider providerToString */
+    #[DataProvider('providerToString')]
     public function testToString(int $epochSecondStart, int $epochSecondEnd, string $expectedString): void
     {
         $interval = Interval::of(
             Instant::of($epochSecondStart),
-            Instant::of($epochSecondEnd)
+            Instant::of($epochSecondEnd),
         );
 
         self::assertSame($expectedString, (string) $interval);

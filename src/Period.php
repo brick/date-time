@@ -8,6 +8,7 @@ use DateInterval;
 use JsonSerializable;
 use Stringable;
 
+use function assert;
 use function intdiv;
 use function preg_match;
 use function sprintf;
@@ -19,12 +20,6 @@ use function sprintf;
  */
 final class Period implements JsonSerializable, Stringable
 {
-    private readonly int $years;
-
-    private readonly int $months;
-
-    private readonly int $days;
-
     /**
      * Private constructor. Use of() to obtain an instance.
      *
@@ -32,11 +27,11 @@ final class Period implements JsonSerializable, Stringable
      * @param int $months The number of months.
      * @param int $days   The number of days.
      */
-    private function __construct(int $years, int $months, int $days)
-    {
-        $this->years = $years;
-        $this->months = $months;
-        $this->days = $days;
+    private function __construct(
+        private readonly int $years,
+        private readonly int $months,
+        private readonly int $days,
+    ) {
     }
 
     /**
@@ -77,13 +72,9 @@ final class Period implements JsonSerializable, Stringable
     public static function zero(): Period
     {
         /** @var Period|null $zero */
-        static $zero;
+        static $zero = null;
 
-        if ($zero) {
-            return $zero;
-        }
-
-        return $zero = new Period(0, 0, 0);
+        return $zero ??= new Period(0, 0, 0);
     }
 
     /**
@@ -167,7 +158,7 @@ final class Period implements JsonSerializable, Stringable
         $months = $dateInterval->m;
         $days = $dateInterval->d;
 
-        if ($dateInterval->invert) {
+        if ($dateInterval->invert === 1) {
             $years = -$years;
             $months = -$months;
             $days = -$days;
@@ -303,7 +294,7 @@ final class Period implements JsonSerializable, Stringable
         return new Period(
             $this->years * $scalar,
             $this->months * $scalar,
-            $this->days * $scalar
+            $this->days * $scalar,
         );
     }
 
@@ -319,7 +310,7 @@ final class Period implements JsonSerializable, Stringable
         return new Period(
             -$this->years,
             -$this->months,
-            -$this->days
+            -$this->days,
         );
     }
 
@@ -369,16 +360,22 @@ final class Period implements JsonSerializable, Stringable
      */
     public function toNativeDateInterval(): DateInterval
     {
-        return DateInterval::createFromDateString(sprintf(
+        $nativeDateInterval = DateInterval::createFromDateString(sprintf(
             '%d years %d months %d days',
             $this->years,
             $this->months,
-            $this->days
+            $this->days,
         ));
+
+        assert($nativeDateInterval !== false);
+
+        return $nativeDateInterval;
     }
 
     /**
      * Serializes as a string using {@see Period::toISOString()}.
+     *
+     * @psalm-return non-empty-string
      */
     public function jsonSerialize(): string
     {
@@ -387,6 +384,8 @@ final class Period implements JsonSerializable, Stringable
 
     /**
      * Returns the ISO 8601 representation of this period.
+     *
+     * @psalm-return non-empty-string
      */
     public function toISOString(): string
     {
@@ -411,6 +410,8 @@ final class Period implements JsonSerializable, Stringable
 
     /**
      * {@see Period::toISOString()}.
+     *
+     * @psalm-return non-empty-string
      */
     public function __toString(): string
     {

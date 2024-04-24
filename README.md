@@ -198,22 +198,63 @@ The following exceptions can be thrown:
 You can use `brick/date-time` types in your Doctrine entities using the [brick/date-time-doctrine](https://github.com/brick/date-time-doctrine) package.
 
 Contributing
---------
+------------
+
+Before submitting a pull request, you can check the code using the following tools.
+Your CI build will fail if any of the following tools reports any issue.
+
+First of all, install dependencies:
+
+```sh
+composer install
+```
+
+### Unit tests
+
+Run PHPUnit tests:
+
+```sh
+vendor/bin/phpunit
+```
+
+### Static analysis
+
+Run Psalm static analysis:
+
+```sh
+vendor/bin/psalm --no-cache
+```
 
 ### Coding Style
 
-Install Easy Coding Standard tool in its own folder
+Install Easy Coding Standard in its own folder:
 
 ```sh
 composer install --working-dir=tools/ecs
 ```
 
-Run coding style analysis checks
+Run coding style analysis checks:
+
 ```sh
-./tools/ecs/vendor/bin/ecs check --config tools/ecs/ecs.php
+tools/ecs/vendor/bin/ecs check --config tools/ecs/ecs.php
 ```
 
-Or fix issues found directly
+Or fix issues found directly:
+
 ```sh
-./tools/ecs/vendor/bin/ecs check --config tools/ecs/ecs.php --fix
+tools/ecs/vendor/bin/ecs check --config tools/ecs/ecs.php --fix
+```
+
+### Rector automated refactoring
+
+Install Rector in its own folder:
+
+```sh
+composer install --working-dir=tools/rector
+```
+
+Run automated refactoring:
+
+```sh
+tools/rector/vendor/bin/rector --config tools/rector/rector.php
 ```
