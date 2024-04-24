@@ -1,5 +1,17 @@
 # Changelog
 
+## [0.6.4](https://github.com/brick/date-time/releases/tag/0.6.4) - 2024-04-25
+
+✨ **New features**
+
+- `DefaultClock::travelBy()` travels in time by a duration ([#92](https://github.com/brick/date-time/pull/92))
+
+💩 **Deprecations**
+
+- `DefaultClock::travel()` is now deprecated in favour of `travelTo()` ([#92](https://github.com/brick/date-time/pull/92))
+
+Thanks to [@francislavoie](https://github.com/francislavoie)!
+
 ## [0.6.3](https://github.com/brick/date-time/releases/tag/0.6.3) - 2024-04-02
 
 ✨ **New features**
