@@ -67,13 +67,35 @@ final class DefaultClock
      * Travels to a specific point in time, but allows time to continue moving forward from there.
      *
      * If the current default clock is frozen, you must `reset()` it first, or the time will stay frozen.
+     *
+     * @deprecated use travelTo() instead.
      */
     public static function travel(Instant $instant): void
+    {
+        self::travelTo($instant);
+    }
+
+    /**
+     * Travels to a specific point in time, but allows time to continue moving forward from there.
+     *
+     * If the current default clock is frozen, you must `reset()` it first, or the time will stay frozen.
+     */
+    public static function travelTo(Instant $instant): void
     {
         $clock = self::get();
         $offset = Duration::between($clock->getTime(), $instant);
 
         self::set(new OffsetClock($clock, $offset));
+    }
+
+    /**
+     * Travels in time by a duration, which may be forward (positive) or backward (negative).
+     *
+     * If the current default clock is frozen, you must `reset()` it first, or the time will stay frozen.
+     */
+    public static function travelBy(Duration $duration): void
+    {
+        self::set(new OffsetClock(self::get(), $duration));
     }
 
     /**
