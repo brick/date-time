@@ -5,7 +5,7 @@ Brick\DateTime
 
 A powerful set of immutable classes to work with dates and times.
 
-[![Build Status](https://github.com/brick/date-time/workflows/CI/badge.svg)](https://github.com/brick/date-time/actions)
+[![Build Status](https://github.com/brick/date-time/workflows/Tests/badge.svg)](https://github.com/brick/date-time/actions)
 [![Coverage Status](https://coveralls.io/repos/github/brick/date-time/badge.svg?branch=master)](https://coveralls.io/github/brick/date-time?branch=master)
 [![Latest Stable Version](https://poser.pugx.org/brick/date-time/v/stable)](https://packagist.org/packages/brick/date-time)
 [![Total Downloads](https://poser.pugx.org/brick/date-time/downloads)](https://packagist.org/packages/brick/date-time)
