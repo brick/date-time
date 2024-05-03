@@ -9,6 +9,7 @@ use Brick\DateTime\TimeZone;
 use Brick\DateTime\UtcDateTime;
 use Brick\DateTime\ZonedDateTime;
 use InvalidArgumentException;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 /**
  * Unit tests for class ZonedDateTime.
@@ -36,7 +37,6 @@ class UtcDateTimeTest extends AbstractTestCase
     }
 
     /**
-     * @dataProvider providerParse
      *
      * @param string $text   The string to parse.
      * @param string $date   The expected date string.
@@ -44,6 +44,7 @@ class UtcDateTimeTest extends AbstractTestCase
      * @param string $offset The expected time-zone offset.
      * @param string $zone   The expected time-zone, should be the same as offset when no region is specified.
      */
+    #[DataProvider('providerParse')]
     public function testParse(string $text, string $date, string $time, string $offset, string $zone): void
     {
         $zonedDateTime = UtcDateTime::parse($text);
@@ -56,7 +57,7 @@ class UtcDateTimeTest extends AbstractTestCase
         self::assertSame($zone, (string) $zonedDateTime->getTimeZone());
     }
 
-    public function providerParse(): array
+    public static function providerParse(): array
     {
         return [
             ['2001-02-03T01:02Z', '2001-02-03', '01:02', 'Z', 'Z'],
@@ -73,9 +74,7 @@ class UtcDateTimeTest extends AbstractTestCase
         ];
     }
 
-    /**
-     * @dataProvider provideFromSqlFormat
-     */
+    #[DataProvider('provideFromSqlFormat')]
     public function testFromSqlFormat(string $input, string $expected): void
     {
         $dateTime = UtcDateTime::fromSqlFormat($input);
@@ -83,7 +82,7 @@ class UtcDateTimeTest extends AbstractTestCase
         self::assertSame($expected, (string) $dateTime);
     }
 
-    public function provideFromSqlFormat(): array
+    public static function provideFromSqlFormat(): array
     {
         return [
             [
@@ -113,9 +112,7 @@ class UtcDateTimeTest extends AbstractTestCase
         ];
     }
 
-    /**
-     * @dataProvider provideFromSqlFormatInvalidCases
-     */
+    #[DataProvider('provideFromSqlFormatInvalidCases')]
     public function testFromSqlFormatInvalidCases(string $input, string $timeZone, string $expected): void
     {
         $this->expectException(InvalidArgumentException::class);
@@ -124,7 +121,7 @@ class UtcDateTimeTest extends AbstractTestCase
         UtcDateTime::fromSqlFormat($input, TimeZone::parse($timeZone));
     }
 
-    public function provideFromSqlFormatInvalidCases(): array
+    public static function provideFromSqlFormatInvalidCases(): array
     {
         return [
             [
@@ -150,15 +147,13 @@ class UtcDateTimeTest extends AbstractTestCase
         ];
     }
 
-    /**
-     * @dataProvider providerToCanonicalFormat
-     */
+    #[DataProvider('providerToCanonicalFormat')]
     public function testToCanonicalFormat(UtcDateTime $input, int $precision, string $expected): void
     {
         self::assertSame($expected, $input->toCanonicalFormat($precision));
     }
 
-    public function providerToCanonicalFormat(): array
+    public static function providerToCanonicalFormat(): array
     {
         return [
             [

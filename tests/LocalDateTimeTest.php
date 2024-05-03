@@ -1211,9 +1211,7 @@ class LocalDateTimeTest extends AbstractTestCase
         ];
     }
 
-    /**
-     * @dataProvider provideToUtcSqlFormat
-     */
+    #[DataProvider('provideToUtcSqlFormat')]
     public function testToUtcSqlFormat(string $dateTime, int $precision, string $expected): void
     {
         $zonedDateTime = LocalDateTime::parse($dateTime);
@@ -1222,7 +1220,7 @@ class LocalDateTimeTest extends AbstractTestCase
         self::assertSame($expected, $result);
     }
 
-    public function provideToUtcSqlFormat(): array
+    public static function provideToUtcSqlFormat(): array
     {
         return [
             [
@@ -1278,9 +1276,7 @@ class LocalDateTimeTest extends AbstractTestCase
         ];
     }
 
-    /**
-     * @dataProvider provideFromSqlFormat
-     */
+    #[DataProvider('provideFromSqlFormat')]
     public function testFromSqlFormat(string $input, string $expected): void
     {
         $dateTime = LocalDateTime::fromSqlFormat($input);
@@ -1288,7 +1284,7 @@ class LocalDateTimeTest extends AbstractTestCase
         self::assertSame($expected, (string) $dateTime);
     }
 
-    public function provideFromSqlFormat(): array
+    public static function provideFromSqlFormat(): array
     {
         return [
             [

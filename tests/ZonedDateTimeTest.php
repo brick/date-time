@@ -847,9 +847,7 @@ class ZonedDateTimeTest extends AbstractTestCase
         ];
     }
 
-    /**
-     * @dataProvider provideToNativeFormat
-     */
+    #[DataProvider('provideToNativeFormat')]
     public function testToNativeFormat(string $dateTime, string $format, string $expected): void
     {
         $zonedDateTime = ZonedDateTime::parse($dateTime);
@@ -858,7 +856,7 @@ class ZonedDateTimeTest extends AbstractTestCase
         self::assertSame($expected, $result);
     }
 
-    public function provideToNativeFormat(): array
+    public static function provideToNativeFormat(): array
     {
         return [
             [
@@ -889,9 +887,7 @@ class ZonedDateTimeTest extends AbstractTestCase
         ];
     }
 
-    /**
-     * @dataProvider provideToUtcSqlFormat
-     */
+    #[DataProvider('provideToUtcSqlFormat')]
     public function testToUtcSqlFormat(string $dateTime, int $precision, string $expected): void
     {
         $zonedDateTime = ZonedDateTime::parse($dateTime);
@@ -900,7 +896,7 @@ class ZonedDateTimeTest extends AbstractTestCase
         self::assertSame($expected, $result);
     }
 
-    public function provideToUtcSqlFormat(): array
+    public static function provideToUtcSqlFormat(): array
     {
         return [
             [
@@ -941,9 +937,7 @@ class ZonedDateTimeTest extends AbstractTestCase
         ];
     }
 
-    /**
-     * @dataProvider provideFromSqlFormat
-     */
+    #[DataProvider('provideFromSqlFormat')]
     public function testFromSqlFormat(string $input, string $timeZone, string $expected): void
     {
         $dateTime = ZonedDateTime::fromSqlFormat($input, TimeZone::parse($timeZone));
@@ -951,7 +945,7 @@ class ZonedDateTimeTest extends AbstractTestCase
         self::assertSame($expected, (string) $dateTime);
     }
 
-    public function provideFromSqlFormat(): array
+    public static function provideFromSqlFormat(): array
     {
         return [
             [
@@ -992,9 +986,7 @@ class ZonedDateTimeTest extends AbstractTestCase
         ];
     }
 
-    /**
-     * @dataProvider provideFromSqlFormatInvalidCases
-     */
+    #[DataProvider('provideFromSqlFormatInvalidCases')]
     public function testFromSqlFormatInvalidCases(string $input, string $timeZone, string $expected): void
     {
         $this->expectException(InvalidArgumentException::class);
@@ -1003,7 +995,7 @@ class ZonedDateTimeTest extends AbstractTestCase
         ZonedDateTime::fromSqlFormat($input, TimeZone::parse($timeZone));
     }
 
-    public function provideFromSqlFormatInvalidCases(): array
+    public static function provideFromSqlFormatInvalidCases(): array
     {
         return [
             [
