@@ -43,19 +43,11 @@ final class MonthOfYear
      */
     public static function getLength(int $monthOfYear, ?int $year = null): int
     {
-        switch ($monthOfYear) {
-            case 2:
-                return ($year === null || Year::isLeap($year)) ? 29 : 28;
-
-            case 4:
-            case 6:
-            case 9:
-            case 11:
-                return 30;
-
-            default:
-                return 31;
-        }
+        return match ($monthOfYear) {
+            2 => ($year === null || Year::isLeap($year)) ? 29 : 28,
+            4, 6, 9, 11 => 30,
+            default => 31,
+        };
     }
 
     /**

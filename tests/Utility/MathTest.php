@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Brick\DateTime\Tests\Utility;
 
 use Brick\DateTime\Utility\Math;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -13,18 +14,17 @@ use PHPUnit\Framework\TestCase;
 class MathTest extends TestCase
 {
     /**
-     * @dataProvider providerFloorDiv
-     *
      * @param int $a        The dividend.
      * @param int $b        The divisor.
      * @param int $expected The expected floor division result.
      */
+    #[DataProvider('providerFloorDiv')]
     public function testFloorDiv(int $a, int $b, int $expected): void
     {
         self::assertSame($expected, Math::floorDiv($a, $b));
     }
 
-    public function providerFloorDiv(): array
+    public static function providerFloorDiv(): array
     {
         return [
             [3,  2,  1],
@@ -35,18 +35,17 @@ class MathTest extends TestCase
     }
 
     /**
-     * @dataProvider providerFloorMod
-     *
      * @param int $a        The dividend.
      * @param int $b        The divisor.
      * @param int $expected The expected floor modulus result.
      */
+    #[DataProvider('providerFloorMod')]
     public function testFloorMod(int $a, int $b, int $expected): void
     {
         self::assertSame($expected, Math::floorMod($a, $b));
     }
 
-    public function providerFloorMod(): array
+    public static function providerFloorMod(): array
     {
         return [
             [3,  2,  1],

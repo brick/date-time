@@ -97,7 +97,7 @@ final class PatternParserBuilder
 
     public function toParser(): PatternParser
     {
-        if ($this->stack) {
+        if ($this->stack !== []) {
             throw new RuntimeException('Builder misses call to endOptional() or endGroup().');
         }
 

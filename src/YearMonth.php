@@ -10,7 +10,9 @@ use Brick\DateTime\Parser\DateTimeParseResult;
 use Brick\DateTime\Parser\IsoParsers;
 use Brick\DateTime\Utility\Math;
 use JsonSerializable;
+use Stringable;
 
+use function is_int;
 use function str_pad;
 
 use const STR_PAD_LEFT;
@@ -18,40 +20,34 @@ use const STR_PAD_LEFT;
 /**
  * Represents the combination of a year and a month.
  */
-final class YearMonth implements JsonSerializable
+final class YearMonth implements JsonSerializable, Stringable
 {
-    /**
-     * The year, from MIN_YEAR to MAX_YEAR.
-     */
-    private int $year;
-
-    /**
-     * The month, from 1 to 12.
-     */
-    private int $month;
-
     /**
      * @param int $year  The year, validated from MIN_YEAR to MAX_YEAR.
      * @param int $month The month, validated in the range 1 to 12.
      */
-    private function __construct(int $year, int $month)
-    {
-        $this->year = $year;
-        $this->month = $month;
+    private function __construct(
+        private readonly int $year,
+        private readonly int $month,
+    ) {
     }
 
     /**
      * Obtains an instance of `YearMonth` from a year and month.
      *
-     * @param int $year  The year, from MIN_YEAR to MAX_YEAR.
-     * @param int $month The month-of-year, from 1 (January) to 12 (December).
+     * @param int $year The year, from MIN_YEAR to MAX_YEAR.
      *
      * @throws DateTimeException
      */
-    public static function of(int $year, int $month): YearMonth
+    public static function of(int $year, int|Month $month): YearMonth
     {
         Field\Year::check($year);
-        Field\MonthOfYear::check($month);
+
+        if (is_int($month)) {
+            Field\MonthOfYear::check($month);
+        } else {
+            $month = $month->value;
+        }
 
         return new YearMonth($year, $month);
     }
@@ -64,7 +60,7 @@ final class YearMonth implements JsonSerializable
     {
         return YearMonth::of(
             (int) $result->getField(Field\Year::NAME),
-            (int) $result->getField(Field\MonthOfYear::NAME)
+            (int) $result->getField(Field\MonthOfYear::NAME),
         );
     }
 
@@ -79,7 +75,7 @@ final class YearMonth implements JsonSerializable
      */
     public static function parse(string $text, ?DateTimeParser $parser = null): YearMonth
     {
-        if (! $parser) {
+        if ($parser === null) {
             $parser = IsoParsers::yearMonth();
         }
 
@@ -95,7 +91,7 @@ final class YearMonth implements JsonSerializable
     {
         $localDate = LocalDate::now($timeZone, $clock);
 
-        return new YearMonth($localDate->getYear(), $localDate->getMonth());
+        return new YearMonth($localDate->getYear(), $localDate->getMonthValue());
     }
 
     public function getYear(): int
@@ -103,7 +99,19 @@ final class YearMonth implements JsonSerializable
         return $this->year;
     }
 
+    /**
+     * @deprecated Use getMonthValue() instead.
+     *             In a future version, getMonth() will return the Month enum.
+     */
     public function getMonth(): int
+    {
+        return $this->month;
+    }
+
+    /**
+     * Returns the month-of-year value from 1 to 12.
+     */
+    public function getMonthValue(): int
     {
         return $this->month;
     }
@@ -121,7 +129,7 @@ final class YearMonth implements JsonSerializable
      */
     public function getLengthOfMonth(): int
     {
-        return Month::of($this->month)->getLength($this->isLeapYear());
+        return Month::from($this->month)->getLength($this->isLeapYear());
     }
 
     /**
@@ -134,6 +142,8 @@ final class YearMonth implements JsonSerializable
 
     /**
      * @return int [-1,0,1] If this year-month is before, on, or after the given year-month.
+     *
+     * @psalm-return -1|0|1
      */
     public function compareTo(YearMonth $that): int
     {
@@ -196,16 +206,18 @@ final class YearMonth implements JsonSerializable
 
     /**
      * Returns a copy of this YearMonth with the month-of-year altered.
-     *
-     * @throws DateTimeException If the month-of-year is not valid.
      */
-    public function withMonth(int $month): YearMonth
+    public function withMonth(int|Month $month): YearMonth
     {
+        if (is_int($month)) {
+            Field\MonthOfYear::check($month);
+        } else {
+            $month = $month->value;
+        }
+
         if ($month === $this->month) {
             return $this;
         }
-
-        Field\MonthOfYear::check($month);
 
         return new YearMonth($this->year, $month);
     }
@@ -291,6 +303,8 @@ final class YearMonth implements JsonSerializable
 
     /**
      * Serializes as a string using {@see YearMonth::toISOString()}.
+     *
+     * @psalm-return non-empty-string
      */
     public function jsonSerialize(): string
     {
@@ -299,24 +313,28 @@ final class YearMonth implements JsonSerializable
 
     /**
      * Returns the ISO 8601 representation of this year-month.
+     *
+     * @psalm-return non-empty-string
      */
     public function toISOString(): string
     {
         // This code is optimized for high performance
         return ($this->year < 1000 && $this->year > -1000
-                ? (
-                    $this->year < 0
-                        ? '-' . str_pad((string) -$this->year, 4, '0', STR_PAD_LEFT)
-                        : str_pad((string) $this->year, 4, '0', STR_PAD_LEFT)
-                )
-                : $this->year
+            ? (
+                $this->year < 0
+                    ? '-' . str_pad((string) -$this->year, 4, '0', STR_PAD_LEFT)
+                    : str_pad((string) $this->year, 4, '0', STR_PAD_LEFT)
             )
+            : $this->year
+        )
             . '-'
             . ($this->month < 10 ? '0' . $this->month : $this->month);
     }
 
     /**
      * {@see YearMonth::toISOString()}.
+     *
+     * @psalm-return non-empty-string
      */
     public function __toString(): string
     {

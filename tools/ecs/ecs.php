@@ -17,6 +17,7 @@ use PhpCsFixer\Fixer\CastNotation\ModernizeTypesCastingFixer;
 use PhpCsFixer\Fixer\CastNotation\ShortScalarCastFixer;
 use PhpCsFixer\Fixer\ClassNotation\ClassAttributesSeparationFixer;
 use PhpCsFixer\Fixer\ClassNotation\OrderedClassElementsFixer;
+use PhpCsFixer\Fixer\ClassNotation\OrderedTypesFixer;
 use PhpCsFixer\Fixer\Comment\CommentToPhpdocFixer;
 use PhpCsFixer\Fixer\Comment\SingleLineCommentStyleFixer;
 use PhpCsFixer\Fixer\ConstantNotation\NativeConstantInvocationFixer;
@@ -80,6 +81,7 @@ use PhpCsFixer\Fixer\Whitespace\NoWhitespaceInBlankLineFixer;
 use SlevomatCodingStandard\Sniffs\Commenting\DocCommentSpacingSniff;
 use SlevomatCodingStandard\Sniffs\Namespaces\ReferenceUsedNamesOnlySniff;
 use SlevomatCodingStandard\Sniffs\Namespaces\UseSpacingSniff;
+use Symplify\CodingStandard\Fixer\Spacing\StandaloneLinePromotedPropertyFixer;
 use Symplify\EasyCodingStandard\Config\ECSConfig;
 use Symplify\EasyCodingStandard\ValueObject\Set\SetList;
 
@@ -91,7 +93,7 @@ return static function (ECSConfig $ecsConfig): void {
             $libRootPath . '/src',
             $libRootPath . '/tests',
             __FILE__,
-        ]
+        ],
     );
 
     $ecsConfig->indentation('spaces');
@@ -192,10 +194,12 @@ return static function (ECSConfig $ecsConfig): void {
             UnaryOperatorSpacesFixer::class,
             WhitespaceAfterCommaInArrayFixer::class,
             NoTrailingCommaInSinglelineArrayFixer::class,
-            TrailingCommaInMultilineFixer::class,
-        ]
+            StandaloneLinePromotedPropertyFixer::class,
+            OrderedTypesFixer::class,
+        ],
     );
 
+    $ecsConfig->ruleWithConfiguration(TrailingCommaInMultilineFixer::class, ['elements' => ['arrays', 'arguments', 'parameters']]);
     $ecsConfig->ruleWithConfiguration(ListSyntaxFixer::class, ['syntax' => 'short']);
     $ecsConfig->ruleWithConfiguration(MethodArgumentSpaceFixer::class, ['on_multiline' => 'ensure_fully_multiline']);
     $ecsConfig->ruleWithConfiguration(OrderedClassElementsFixer::class, ['order' => ['use_trait', 'case', 'constant_public', 'constant_protected', 'constant_private', 'property_public', 'property_protected', 'property_private', 'construct', 'phpunit', 'method_public', 'magic', 'method_protected', 'method_private', 'destruct']]);
@@ -210,7 +214,7 @@ return static function (ECSConfig $ecsConfig): void {
     $ecsConfig->rules(
         [
             FunctionCommentSniff::class,
-        ]
+        ],
     );
 
     $ecsConfig->ruleWithConfiguration(
@@ -226,7 +230,7 @@ return static function (ECSConfig $ecsConfig): void {
                 '@return',
                 '@throws',
             ],
-        ]
+        ],
     );
 
     $ecsConfig->ruleWithConfiguration(
@@ -241,7 +245,7 @@ return static function (ECSConfig $ecsConfig): void {
             'allowFullyQualifiedNameForCollidingConstants' => true,
             'allowFullyQualifiedNameForCollidingFunctions' => true,
             'searchAnnotations' => true,
-        ]
+        ],
     );
 
     $ecsConfig->ruleWithConfiguration(
@@ -250,6 +254,6 @@ return static function (ECSConfig $ecsConfig): void {
             'linesCountAfterLastUse' => 0,
             'linesCountBetweenUseTypes' => 1,
             'linesCountBeforeFirstUse' => 0,
-        ]
+        ],
     );
 };

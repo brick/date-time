@@ -4,14 +4,12 @@ declare(strict_types=1);
 
 namespace Brick\DateTime\Tests;
 
-use Brick\DateTime\DayOfWeek;
 use Brick\DateTime\Duration;
 use Brick\DateTime\Instant;
 use Brick\DateTime\LocalDate;
 use Brick\DateTime\LocalDateRange;
 use Brick\DateTime\LocalDateTime;
 use Brick\DateTime\LocalTime;
-use Brick\DateTime\Month;
 use Brick\DateTime\MonthDay;
 use Brick\DateTime\Period;
 use Brick\DateTime\TimeZone;
@@ -64,9 +62,13 @@ abstract class AbstractTestCase extends TestCase
     {
         $this->compare([$year, $month, $day], [
             $date->getYear(),
-            $date->getMonth(),
-            $date->getDay(),
+            $date->getMonthValue(),
+            $date->getDayOfMonth(),
         ]);
+
+        // temporary assertions to test the deprecated getters as well
+        self::assertSame($month, $date->getMonth());
+        self::assertSame($day, $date->getDay());
     }
 
     /**
@@ -100,13 +102,17 @@ abstract class AbstractTestCase extends TestCase
     {
         $this->compare([$y, $m, $d, $h, $i, $s, $n], [
             $dateTime->getYear(),
-            $dateTime->getMonth(),
-            $dateTime->getDay(),
+            $dateTime->getMonthValue(),
+            $dateTime->getDayOfMonth(),
             $dateTime->getHour(),
             $dateTime->getMinute(),
             $dateTime->getSecond(),
             $dateTime->getNano(),
         ]);
+
+        // temporary assertions to test the deprecated getters as well
+        self::assertSame($m, $dateTime->getMonth());
+        self::assertSame($d, $dateTime->getDay());
     }
 
     /**
@@ -134,8 +140,11 @@ abstract class AbstractTestCase extends TestCase
     {
         $this->compare([$year, $month], [
             $yearMonth->getYear(),
-            $yearMonth->getMonth(),
+            $yearMonth->getMonthValue(),
         ]);
+
+        // temporary assertion to test the deprecated getter as well
+        self::assertSame($month, $yearMonth->getMonth());
     }
 
     /**
@@ -159,31 +168,13 @@ abstract class AbstractTestCase extends TestCase
     protected function assertMonthDayIs(int $month, int $day, MonthDay $monthDay): void
     {
         $this->compare([$month, $day], [
-            $monthDay->getMonth(),
-            $monthDay->getDay(),
+            $monthDay->getMonthValue(),
+            $monthDay->getDayOfMonth(),
         ]);
-    }
 
-    /**
-     * @param int   $monthValue The expected month-of-year value, from 1 to 12.
-     * @param Month $month      The Month instance to test.
-     */
-    protected function assertMonthIs(int $monthValue, Month $month): void
-    {
-        $this->compare([$monthValue], [
-            $month->getValue(),
-        ]);
-    }
-
-    /**
-     * @param int       $dayOfWeekValue The expected day-of-week value, from 1 to 7.
-     * @param DayOfWeek $dayOfWeek      The DayOfWeek instance to test.
-     */
-    protected function assertDayOfWeekIs(int $dayOfWeekValue, DayOfWeek $dayOfWeek): void
-    {
-        $this->compare([$dayOfWeekValue], [
-            $dayOfWeek->getValue(),
-        ]);
+        // temporary assertions to test the deprecated getters as well
+        self::assertSame($month, $monthDay->getMonth());
+        self::assertSame($day, $monthDay->getDay());
     }
 
     /**

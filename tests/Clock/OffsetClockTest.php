@@ -9,6 +9,7 @@ use Brick\DateTime\Clock\OffsetClock;
 use Brick\DateTime\Duration;
 use Brick\DateTime\Instant;
 use Brick\DateTime\Tests\AbstractTestCase;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 /**
  * Unit tests for class OffsetClock.
@@ -16,14 +17,13 @@ use Brick\DateTime\Tests\AbstractTestCase;
 class OffsetClockTest extends AbstractTestCase
 {
     /**
-     * @dataProvider providerOffsetClock
-     *
      * @param int    $second         The epoch second to set the base clock to.
      * @param int    $nano           The nano to set the base clock to.
      * @param string $duration       A parsable duration string.
      * @param int    $expectedSecond The expected epoch second returned by the clock.
      * @param int    $expectedNano   The expected nano returned by the clock.
      */
+    #[DataProvider('providerOffsetClock')]
     public function testOffsetClock(int $second, int $nano, string $duration, int $expectedSecond, int $expectedNano): void
     {
         $baseClock = new FixedClock(Instant::of($second, $nano));
@@ -32,7 +32,7 @@ class OffsetClockTest extends AbstractTestCase
         self::assertInstantIs($expectedSecond, $expectedNano, $clock->getTime());
     }
 
-    public function providerOffsetClock(): array
+    public static function providerOffsetClock(): array
     {
         return [
             [1000, 0, 'PT0.5S', 1000, 500000000],

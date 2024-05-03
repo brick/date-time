@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Brick\DateTime;
 
 use JsonSerializable;
+use Stringable;
 
 /**
  * Represents a period of time between two instants, inclusive of the start instant and exclusive of the end.
@@ -12,26 +13,16 @@ use JsonSerializable;
  *
  * This class is immutable.
  */
-final class Interval implements JsonSerializable
+final class Interval implements JsonSerializable, Stringable
 {
     /**
-     * The start instant, inclusive.
+     * @param Instant $start The start instant, inclusive.
+     * @param Instant $end   The end instant, exclusive, validated as not before the start instant.
      */
-    private Instant $start;
-
-    /**
-     * The end instant, exclusive.
-     */
-    private Instant $end;
-
-    /**
-     * @param Instant $startInclusive The start instant, inclusive.
-     * @param Instant $endExclusive   The end instant, exclusive, validated as not before the start instant.
-     */
-    private function __construct(Instant $startInclusive, Instant $endExclusive)
-    {
-        $this->start = $startInclusive;
-        $this->end = $endExclusive;
+    private function __construct(
+        private readonly Instant $start,
+        private readonly Instant $end,
+    ) {
     }
 
     /**
@@ -139,6 +130,8 @@ final class Interval implements JsonSerializable
 
     /**
      * Serializes as a string using {@see Interval::toISOString()}.
+     *
+     * @psalm-return non-empty-string
      */
     public function jsonSerialize(): string
     {
@@ -147,6 +140,8 @@ final class Interval implements JsonSerializable
 
     /**
      * Returns the ISO 8601 representation of this interval.
+     *
+     * @psalm-return non-empty-string
      */
     public function toISOString(): string
     {
@@ -155,6 +150,8 @@ final class Interval implements JsonSerializable
 
     /**
      * {@see Interval::toISOString()}.
+     *
+     * @psalm-return non-empty-string
      */
     public function __toString(): string
     {

@@ -8,11 +8,14 @@ use Brick\DateTime\DateTimeException;
 use Brick\DateTime\LocalDate;
 use Brick\DateTime\LocalDateRange;
 use Brick\DateTime\Parser\DateTimeParseException;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 use function array_map;
 use function iterator_count;
 use function iterator_to_array;
 use function json_encode;
+
+use const JSON_THROW_ON_ERROR;
 
 /**
  * Unit tests for class LocalDateRange.
@@ -23,7 +26,7 @@ class LocalDateRangeTest extends AbstractTestCase
     {
         self::assertLocalDateRangeIs(2001, 2, 3, 2004, 5, 6, LocalDateRange::of(
             LocalDate::of(2001, 2, 3),
-            LocalDate::of(2004, 5, 6)
+            LocalDate::of(2004, 5, 6),
         ));
     }
 
@@ -33,13 +36,11 @@ class LocalDateRangeTest extends AbstractTestCase
 
         LocalDateRange::of(
             LocalDate::of(2001, 2, 3),
-            LocalDate::of(2001, 2, 2)
+            LocalDate::of(2001, 2, 2),
         );
     }
 
     /**
-     * @dataProvider providerParse
-     *
      * @param string $text The text to parse.
      * @param int    $y1   The expected start year.
      * @param int    $m1   The expected start month.
@@ -48,12 +49,13 @@ class LocalDateRangeTest extends AbstractTestCase
      * @param int    $m2   The expected end month.
      * @param int    $d2   The expected end day.
      */
+    #[DataProvider('providerParse')]
     public function testParse(string $text, int $y1, int $m1, int $d1, int $y2, int $m2, int $d2): void
     {
         self::assertLocalDateRangeIs($y1, $m1, $d1, $y2, $m2, $d2, LocalDateRange::parse($text));
     }
 
-    public function providerParse(): array
+    public static function providerParse(): array
     {
         return [
             ['2001-02-03/04', 2001, 2, 3, 2001, 2, 4],
@@ -63,17 +65,16 @@ class LocalDateRangeTest extends AbstractTestCase
     }
 
     /**
-     * @dataProvider providerParseInvalidRangeThrowsException
-     *
      * @param string $text The invalid text to parse.
      */
+    #[DataProvider('providerParseInvalidRangeThrowsException')]
     public function testParseInvalidRangeThrowsException(string $text): void
     {
         $this->expectException(DateTimeParseException::class);
         LocalDateRange::parse($text);
     }
 
-    public function providerParseInvalidRangeThrowsException(): array
+    public static function providerParseInvalidRangeThrowsException(): array
     {
         return [
             ['2001-02-03'],
@@ -90,20 +91,19 @@ class LocalDateRangeTest extends AbstractTestCase
     }
 
     /**
-     * @dataProvider providerIsEqualTo
-     *
      * @param string $testRange The string representation of the range to test.
      * @param bool   $isEqual   Whether this range is expected to be equal to our range.
      */
+    #[DataProvider('providerIsEqualTo')]
     public function testIsEqualTo(string $testRange, bool $isEqual): void
     {
         self::assertSame($isEqual, LocalDateRange::of(
             LocalDate::of(2001, 2, 3),
-            LocalDate::of(2004, 5, 6)
+            LocalDate::of(2004, 5, 6),
         )->isEqualTo(LocalDateRange::parse($testRange)));
     }
 
-    public function providerIsEqualTo(): array
+    public static function providerIsEqualTo(): array
     {
         return [
             ['2001-02-03/2004-05-06', true],
@@ -116,15 +116,13 @@ class LocalDateRangeTest extends AbstractTestCase
         ];
     }
 
-    /**
-     * @dataProvider providerContains
-     */
+    #[DataProvider('providerContains')]
     public function testContains(string $range, string $date, bool $contains): void
     {
         self::assertSame($contains, LocalDateRange::parse($range)->contains(LocalDate::parse($date)));
     }
 
-    public function providerContains(): array
+    public static function providerContains(): array
     {
         return [
             ['2001-02-03/2004-05-06', '2001-02-02', false],
@@ -167,17 +165,16 @@ class LocalDateRangeTest extends AbstractTestCase
     }
 
     /**
-     * @dataProvider providerCount
-     *
      * @param string $range The date range string representation.
      * @param int    $count The expected day count.
      */
+    #[DataProvider('providerCount')]
     public function testCount(string $range, int $count): void
     {
         self::assertCount($count, LocalDateRange::parse($range));
     }
 
-    public function providerCount(): array
+    public static function providerCount(): array
     {
         return [
             ['2010-01-01/2010-01-01', 1],
@@ -189,7 +186,7 @@ class LocalDateRangeTest extends AbstractTestCase
         ];
     }
 
-    /** @dataProvider providerToString */
+    #[DataProvider('providerToString')]
     public function testJsonSerialize(
         int $yearStart,
         int $monthStart,
@@ -197,17 +194,17 @@ class LocalDateRangeTest extends AbstractTestCase
         int $yearEnd,
         int $monthEnd,
         int $dayEnd,
-        string $expectedString
+        string $expectedString,
     ): void {
         $dateRange = LocalDateRange::of(
             LocalDate::of($yearStart, $monthStart, $dayStart),
-            LocalDate::of($yearEnd, $monthEnd, $dayEnd)
+            LocalDate::of($yearEnd, $monthEnd, $dayEnd),
         );
 
-        self::assertSame(json_encode($expectedString), json_encode($dateRange));
+        self::assertSame(json_encode($expectedString, JSON_THROW_ON_ERROR), json_encode($dateRange, JSON_THROW_ON_ERROR));
     }
 
-    /** @dataProvider providerToString */
+    #[DataProvider('providerToString')]
     public function testToISOString(
         int $yearStart,
         int $monthStart,
@@ -215,17 +212,17 @@ class LocalDateRangeTest extends AbstractTestCase
         int $yearEnd,
         int $monthEnd,
         int $dayEnd,
-        string $expectedString
+        string $expectedString,
     ): void {
         $dateRange = LocalDateRange::of(
             LocalDate::of($yearStart, $monthStart, $dayStart),
-            LocalDate::of($yearEnd, $monthEnd, $dayEnd)
+            LocalDate::of($yearEnd, $monthEnd, $dayEnd),
         );
 
         self::assertSame($expectedString, $dateRange->toISOString());
     }
 
-    /** @dataProvider providerToString */
+    #[DataProvider('providerToString')]
     public function testToString(
         int $yearStart,
         int $monthStart,
@@ -233,17 +230,17 @@ class LocalDateRangeTest extends AbstractTestCase
         int $yearEnd,
         int $monthEnd,
         int $dayEnd,
-        string $expectedString
+        string $expectedString,
     ): void {
         $dateRange = LocalDateRange::of(
             LocalDate::of($yearStart, $monthStart, $dayStart),
-            LocalDate::of($yearEnd, $monthEnd, $dayEnd)
+            LocalDate::of($yearEnd, $monthEnd, $dayEnd),
         );
 
         self::assertSame($expectedString, (string) $dateRange);
     }
 
-    public function providerToString(): array
+    public static function providerToString(): array
     {
         return [
             [2008, 12, 31, 2008, 12, 31, '2008-12-31/2008-12-31'],
@@ -252,12 +249,11 @@ class LocalDateRangeTest extends AbstractTestCase
     }
 
     /**
-     * @dataProvider providerToNativeDatePeriod
-     *
      * @param string $range         The date-time string that will be parse()d by LocalDateRange.
      * @param string $expectedStart The expected output from the native DateTime object.
      * @param string $expectedEnd   The expected output from the native DateTime object.
      */
+    #[DataProvider('providerToNativeDatePeriod')]
     public function testToNativeDatePeriod(string $range, string $expectedStart, string $expectedEnd): void
     {
         $range = LocalDateRange::parse($range);
@@ -277,7 +273,7 @@ class LocalDateRangeTest extends AbstractTestCase
         self::assertSame($expectedEnd, $period->end->format('Y-m-d\TH:i:s.uO'));
     }
 
-    public function providerToNativeDatePeriod(): array
+    public static function providerToNativeDatePeriod(): array
     {
         return [
             ['2010-01-01/2010-01-01', '2010-01-01T00:00:00.000000+0000', '2010-01-01T23:59:59.999999+0000'],
@@ -286,9 +282,7 @@ class LocalDateRangeTest extends AbstractTestCase
         ];
     }
 
-    /**
-     * @dataProvider providerIntersectsWith
-     */
+    #[DataProvider('providerIntersectsWith')]
     public function testIntersectsWith(string $a, string $b, bool $expectedResult): void
     {
         $aRange = LocalDateRange::parse($a);
@@ -298,7 +292,7 @@ class LocalDateRangeTest extends AbstractTestCase
         self::assertSame($expectedResult, $bRange->intersectsWith($aRange));
     }
 
-    public function providerIntersectsWith(): array
+    public static function providerIntersectsWith(): array
     {
         return [
             ['2010-01-01/2010-01-01', '2010-01-01/2010-01-01', true],
@@ -313,9 +307,7 @@ class LocalDateRangeTest extends AbstractTestCase
         ];
     }
 
-    /**
-     * @dataProvider providerGetIntersectionWith
-     */
+    #[DataProvider('providerGetIntersectionWith')]
     public function testGetIntersectionWith(string $a, string $b, string $expectedIntersection): void
     {
         $aRange = LocalDateRange::parse($a);
@@ -325,7 +317,7 @@ class LocalDateRangeTest extends AbstractTestCase
         self::assertSame($expectedIntersection, (string) $bRange->getIntersectionWith($aRange));
     }
 
-    public function providerGetIntersectionWith(): array
+    public static function providerGetIntersectionWith(): array
     {
         return [
             ['2010-01-01/2010-01-01', '2010-01-01/2010-01-01', '2010-01-01/2010-01-01'],
@@ -347,9 +339,7 @@ class LocalDateRangeTest extends AbstractTestCase
         $aRange->getIntersectionWith($bRange);
     }
 
-    /**
-     * @dataProvider providerWithStart
-     */
+    #[DataProvider('providerWithStart')]
     public function testWithStart(string $originalRange, string $start, ?string $expectedRange): void
     {
         $originalRange = LocalDateRange::parse($originalRange);
@@ -365,7 +355,7 @@ class LocalDateRangeTest extends AbstractTestCase
         }
     }
 
-    public function providerWithStart(): array
+    public static function providerWithStart(): array
     {
         return [
             ['2021-06-15/2021-07-07', '2021-05-29', '2021-05-29/2021-07-07'],
@@ -378,9 +368,7 @@ class LocalDateRangeTest extends AbstractTestCase
         ];
     }
 
-    /**
-     * @dataProvider providerWithEnd
-     */
+    #[DataProvider('providerWithEnd')]
     public function testWithEnd(string $originalRange, string $end, ?string $expectedRange): void
     {
         $originalRange = LocalDateRange::parse($originalRange);
@@ -396,7 +384,7 @@ class LocalDateRangeTest extends AbstractTestCase
         }
     }
 
-    public function providerWithEnd(): array
+    public static function providerWithEnd(): array
     {
         return [
             ['2021-06-15/2021-07-07', '2021-06-14', null],
@@ -408,9 +396,7 @@ class LocalDateRangeTest extends AbstractTestCase
         ];
     }
 
-    /**
-     * @dataProvider providerToPeriod
-     */
+    #[DataProvider('providerToPeriod')]
     public function testToPeriod(string $dateRange, string $expectedPeriod): void
     {
         $dateRange = LocalDateRange::parse($dateRange);
@@ -418,7 +404,7 @@ class LocalDateRangeTest extends AbstractTestCase
         self::assertSame($expectedPeriod, (string) $dateRange->toPeriod());
     }
 
-    public function providerToPeriod(): array
+    public static function providerToPeriod(): array
     {
         return [
             ['2020-01-28/2020-03-01', 'P1M2D'],

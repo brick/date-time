@@ -9,6 +9,7 @@ use Brick\DateTime\Instant;
 use Brick\DateTime\Parser\DateTimeParseException;
 use Brick\DateTime\TimeZoneRegion;
 use DateTimeZone;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 use function count;
 
@@ -22,16 +23,14 @@ class TimeZoneRegionTest extends AbstractTestCase
         self::assertSame('Europe/London', TimeZoneRegion::of('Europe/London')->getId());
     }
 
-    /**
-     * @dataProvider providerOfInvalidRegionThrowsException
-     */
+    #[DataProvider('providerOfInvalidRegionThrowsException')]
     public function testOfInvalidRegionThrowsException(string $region): void
     {
         $this->expectException(DateTimeException::class);
         TimeZoneRegion::of($region);
     }
 
-    public function providerOfInvalidRegionThrowsException(): array
+    public static function providerOfInvalidRegionThrowsException(): array
     {
         return [
             [''],
@@ -48,16 +47,14 @@ class TimeZoneRegionTest extends AbstractTestCase
         self::assertSame('Europe/London', TimeZoneRegion::parse('Europe/London')->getId());
     }
 
-    /**
-     * @dataProvider providerParseInvalidStringThrowsException
-     */
+    #[DataProvider('providerParseInvalidStringThrowsException')]
     public function testParseInvalidStringThrowsException(string $text): void
     {
         $this->expectException(DateTimeParseException::class);
         TimeZoneRegion::parse($text);
     }
 
-    public function providerParseInvalidStringThrowsException(): array
+    public static function providerParseInvalidStringThrowsException(): array
     {
         return [
             [''],
@@ -65,9 +62,7 @@ class TimeZoneRegionTest extends AbstractTestCase
         ];
     }
 
-    /**
-     * @dataProvider providerGetAllTimeZones
-     */
+    #[DataProvider('providerGetAllTimeZones')]
     public function testGetAllTimeZones(bool $includeObsolete): void
     {
         $identifiers = TimeZoneRegion::getAllIdentifiers($includeObsolete);
@@ -98,7 +93,7 @@ class TimeZoneRegionTest extends AbstractTestCase
         }
     }
 
-    public function providerGetAllTimeZones(): array
+    public static function providerGetAllTimeZones(): array
     {
         return [
             [false],
@@ -106,9 +101,7 @@ class TimeZoneRegionTest extends AbstractTestCase
         ];
     }
 
-    /**
-     * @dataProvider providerGetTimeZonesForCountry
-     */
+    #[DataProvider('providerGetTimeZonesForCountry')]
     public function testGetTimeZonesForCountry(string $countryCode, string ...$expectedIdentifiers): void
     {
         $identifiers = TimeZoneRegion::getIdentifiersForCountry($countryCode);
@@ -116,7 +109,7 @@ class TimeZoneRegionTest extends AbstractTestCase
         self::assertSame($expectedIdentifiers, $identifiers);
     }
 
-    public function providerGetTimeZonesForCountry(): array
+    public static function providerGetTimeZonesForCountry(): array
     {
         return [
             ['FR', 'Europe/Paris'],
@@ -132,19 +125,18 @@ class TimeZoneRegionTest extends AbstractTestCase
     }
 
     /**
-     * @dataProvider providerGetOffset
-     *
      * @param string $region         The time-zone region.
      * @param int    $epochSecond    The instant to test.
      * @param int    $expectedOffset The expected offset in seconds.
      */
+    #[DataProvider('providerGetOffset')]
     public function testGetOffset(string $region, int $epochSecond, int $expectedOffset): void
     {
         $actualOffset = TimeZoneRegion::of($region)->getOffset(Instant::of($epochSecond));
         self::assertSame($expectedOffset, $actualOffset);
     }
 
-    public function providerGetOffset(): array
+    public static function providerGetOffset(): array
     {
         return [
             ['Europe/London', 1419984000,    0],

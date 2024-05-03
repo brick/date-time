@@ -35,7 +35,7 @@ composer require solodkiy/brick-date-time
 Requirements
 ------------
 
-This library requires PHP 7.4 or later.
+This library requires PHP 8.1 or later.
 
 About this fork
 ---------------
@@ -66,9 +66,9 @@ Overview
 
 ### Main classes
 
-The following classes represent the date-time concepts:
+The following classes/enums represent the date-time concepts:
 
-- `DayOfWeek`: a day-of-week such as Monday
+- `DayOfWeek`: a day-of-week such as Monday (`enum`)
 - `Duration`: a duration measured in seconds and nanoseconds
 - `Instant`: a point in time, with a nanosecond precision
 - `Interval`: a period of time between two instants
@@ -76,7 +76,7 @@ The following classes represent the date-time concepts:
 - `LocalDateRange`: an inclusive range of local dates, such as `2014-01-01/2014-12-31`
 - `LocalDateTime`: a date-time without a time-zone, such as `2014-08-31T10:15:30`
 - `LocalTime`: an isolated time such as `10:15:30`
-- `Month`: a month-of-year such as January
+- `Month`: a month-of-year such as January (`enum`)
 - `MonthDay`: a combination of a month and a day, without a year, such as `--12-31`
 - `Period`: a date-based amount of time, such as '2 years, 3 months and 4 days'
 - `TimeZoneOffset`: an offset-based time-zone, such as `+01:00`
@@ -97,7 +97,7 @@ All objects read the current time from a `Clock` implementation. The following i
 - `SystemClock` returns the system time; it's the default clock
 - `FixedClock`: returns a pre-configured time
 - `OffsetClock`: adds an offset to another clock
-- `ScaleClock`: makes another clock fast forward by a scale factor
+- `ScaleClock`: makes another clock fast-forward by a scale factor
 
 These classes belong to the `Brick\DateTime\Clock` namespace.
 
@@ -140,7 +140,8 @@ DefaultClock::reset(); // do not forget to reset the clock to the system clock!
 There are also useful shortcut methods to use clocks in your tests, inspired by [timecop](https://github.com/travisjeffery/timecop):
 
 - `freeze()` freezes time to a specific point in time
-- `travel()` travels to a specific point in time, but allows time to continue moving forward from there
+- `travelTo()` travels to an `Instant` in time, but allows time to continue moving forward from there
+- `travelBy()` travels in time by a `Duration`, which may be forward (positive) or backward (negative)
 - `scale()` makes time move at a given pace
 
 #### Freeze the time to a specific point
@@ -166,7 +167,7 @@ DefaultClock::reset();
 use Brick\DateTime\DefaultClock;
 use Brick\DateTime\Instant;
 
-DefaultClock::travel(Instant::of(2000000000));
+DefaultClock::travelTo(Instant::of(2000000000));
 $a = Instant::now(); sleep(1);
 $b = Instant::now();
 
@@ -182,7 +183,7 @@ DefaultClock::reset();
 use Brick\DateTime\DefaultClock;
 use Brick\DateTime\Instant;
 
-DefaultClock::travel(Instant::of(2000000000));
+DefaultClock::travelTo(Instant::of(2000000000));
 DefaultClock::scale(60); // 1 second becomes 60 seconds
 
 $a = Instant::now(); sleep(1);
@@ -194,7 +195,7 @@ echo $b, PHP_EOL; // 2033-05-18T03:34:20.06632Z
 DefaultClock::reset();
 ```
 
-As you can see, you can even combine `travel()` and `scale()` methods.
+As you can see, you can even combine `travelTo()` and `scale()` methods.
 
 Be very careful to **`reset()` the DefaultClock after each of your tests!** If you're using PHPUnit, a good place to do this is in the `tearDown()` method.
 
@@ -210,22 +211,63 @@ The following exceptions can be thrown:
 You can use `brick/date-time` types in your Doctrine entities using the [brick/date-time-doctrine](https://github.com/brick/date-time-doctrine) package.
 
 Contributing
---------
+------------
+
+Before submitting a pull request, you can check the code using the following tools.
+Your CI build will fail if any of the following tools reports any issue.
+
+First of all, install dependencies:
+
+```sh
+composer install
+```
+
+### Unit tests
+
+Run PHPUnit tests:
+
+```sh
+vendor/bin/phpunit
+```
+
+### Static analysis
+
+Run Psalm static analysis:
+
+```sh
+vendor/bin/psalm --no-cache
+```
 
 ### Coding Style
 
-Install Easy Coding Standard tool in its own folder
+Install Easy Coding Standard in its own folder:
 
 ```sh
 composer install --working-dir=tools/ecs
 ```
 
-Run coding style analysis checks
+Run coding style analysis checks:
+
 ```sh
-./tools/ecs/vendor/bin/ecs check --config tools/ecs/ecs.php
+tools/ecs/vendor/bin/ecs check --config tools/ecs/ecs.php
 ```
 
-Or fix issues found directly
+Or fix issues found directly:
+
 ```sh
-./tools/ecs/vendor/bin/ecs check --config tools/ecs/ecs.php --fix
+tools/ecs/vendor/bin/ecs check --config tools/ecs/ecs.php --fix
+```
+
+### Rector automated refactoring
+
+Install Rector in its own folder:
+
+```sh
+composer install --working-dir=tools/rector
+```
+
+Run automated refactoring:
+
+```sh
+tools/rector/vendor/bin/rector --config tools/rector/rector.php
 ```

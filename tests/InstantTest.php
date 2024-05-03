@@ -9,9 +9,11 @@ use Brick\DateTime\DateTimeException;
 use Brick\DateTime\Duration;
 use Brick\DateTime\Instant;
 use Brick\DateTime\TimeZone;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 use function json_encode;
 
+use const JSON_THROW_ON_ERROR;
 use const PHP_INT_MAX;
 use const PHP_INT_MIN;
 
@@ -21,13 +23,12 @@ use const PHP_INT_MIN;
 class InstantTest extends AbstractTestCase
 {
     /**
-     * @dataProvider providerOf
-     *
      * @param int $seconds         The duration in seconds.
      * @param int $nanoAdjustment  The nanoseconds adjustment to the duration.
      * @param int $expectedSeconds The expected adjusted duration seconds.
      * @param int $expectedNanos   The expected adjusted duration nanoseconds.
      */
+    #[DataProvider('providerOf')]
     public function testOf(int $seconds, int $nanoAdjustment, int $expectedSeconds, int $expectedNanos): void
     {
         $duration = Instant::of($seconds, $nanoAdjustment);
@@ -36,7 +37,7 @@ class InstantTest extends AbstractTestCase
         self::assertSame($expectedNanos, $duration->getNano());
     }
 
-    public function providerOf(): array
+    public static function providerOf(): array
     {
         return [
             [3, 1, 3, 1],
@@ -81,8 +82,6 @@ class InstantTest extends AbstractTestCase
     }
 
     /**
-     * @dataProvider providerPlus
-     *
      * @param int $second         The base second.
      * @param int $nano           The base nano-of-second.
      * @param int $plusSeconds    The seconds of the duration to add.
@@ -90,6 +89,7 @@ class InstantTest extends AbstractTestCase
      * @param int $expectedSecond The expected second of the result.
      * @param int $expectedNano   The expected nano of the result.
      */
+    #[DataProvider('providerPlus')]
     public function testPlus(int $second, int $nano, int $plusSeconds, int $plusNanos, int $expectedSecond, int $expectedNano): void
     {
         $result = Instant::of($second, $nano)->plus(Duration::ofSeconds($plusSeconds, $plusNanos));
@@ -97,8 +97,6 @@ class InstantTest extends AbstractTestCase
     }
 
     /**
-     * @dataProvider providerPlus
-     *
      * @param int $second         The base second.
      * @param int $nano           The base nano-of-second.
      * @param int $plusSeconds    The seconds of the duration to add.
@@ -106,13 +104,14 @@ class InstantTest extends AbstractTestCase
      * @param int $expectedSecond The expected second of the result.
      * @param int $expectedNano   The expected nano of the result.
      */
+    #[DataProvider('providerPlus')]
     public function testMinus(int $second, int $nano, int $plusSeconds, int $plusNanos, int $expectedSecond, int $expectedNano): void
     {
         $result = Instant::of($second, $nano)->minus(Duration::ofSeconds(-$plusSeconds, -$plusNanos));
         self::assertInstantIs($expectedSecond, $expectedNano, $result);
     }
 
-    public function providerPlus(): array
+    public static function providerPlus(): array
     {
         return [
             [123456, 789, 0, 0, 123456, 789],
@@ -124,13 +123,12 @@ class InstantTest extends AbstractTestCase
     }
 
     /**
-     * @dataProvider providerPlusSeconds
-     *
      * @param int $second         The base second.
      * @param int $nano           The base nano-of-second.
      * @param int $plusSeconds    The number of seconds to add.
      * @param int $expectedSecond The expected second of the result.
      */
+    #[DataProvider('providerPlusSeconds')]
     public function testPlusSeconds(int $second, int $nano, int $plusSeconds, int $expectedSecond): void
     {
         $result = Instant::of($second, $nano)->plusSeconds($plusSeconds);
@@ -138,20 +136,19 @@ class InstantTest extends AbstractTestCase
     }
 
     /**
-     * @dataProvider providerPlusSeconds
-     *
      * @param int $second         The base second.
      * @param int $nano           The base nano-of-second.
      * @param int $plusSeconds    The number of seconds to add.
      * @param int $expectedSecond The expected second of the result.
      */
+    #[DataProvider('providerPlusSeconds')]
     public function testMinusSeconds(int $second, int $nano, int $plusSeconds, int $expectedSecond): void
     {
         $result = Instant::of($second, $nano)->minusSeconds(-$plusSeconds);
         self::assertInstantIs($expectedSecond, $nano, $result);
     }
 
-    public function providerPlusSeconds(): array
+    public static function providerPlusSeconds(): array
     {
         return [
             [123456, 789, 0, 123456, 789],
@@ -165,13 +162,12 @@ class InstantTest extends AbstractTestCase
     }
 
     /**
-     * @dataProvider providerPlusMinutes
-     *
      * @param int $second         The base second.
      * @param int $nano           The base nano-of-second.
      * @param int $plusMinutes    The number of minutes to add.
      * @param int $expectedSecond The expected second of the result.
      */
+    #[DataProvider('providerPlusMinutes')]
     public function testPlusMinutes(int $second, int $nano, int $plusMinutes, int $expectedSecond): void
     {
         $result = Instant::of($second, $nano)->plusMinutes($plusMinutes);
@@ -179,20 +175,19 @@ class InstantTest extends AbstractTestCase
     }
 
     /**
-     * @dataProvider providerPlusMinutes
-     *
      * @param int $second         The base second.
      * @param int $nano           The base nano-of-second.
      * @param int $plusMinutes    The number of minutes to add.
      * @param int $expectedSecond The expected second of the result.
      */
+    #[DataProvider('providerPlusMinutes')]
     public function testMinusMinutes(int $second, int $nano, int $plusMinutes, int $expectedSecond): void
     {
         $result = Instant::of($second, $nano)->minusMinutes(-$plusMinutes);
         self::assertInstantIs($expectedSecond, $nano, $result);
     }
 
-    public function providerPlusMinutes(): array
+    public static function providerPlusMinutes(): array
     {
         return [
             [123456, 789, 0, 123456, 789],
@@ -206,13 +201,12 @@ class InstantTest extends AbstractTestCase
     }
 
     /**
-     * @dataProvider providerPlusHours
-     *
      * @param int $second         The base second.
      * @param int $nano           The base nano-of-second.
      * @param int $plusHours      The number of hours to add.
      * @param int $expectedSecond The expected second of the result.
      */
+    #[DataProvider('providerPlusHours')]
     public function testPlusHours(int $second, int $nano, int $plusHours, int $expectedSecond): void
     {
         $result = Instant::of($second, $nano)->plusHours($plusHours);
@@ -220,20 +214,19 @@ class InstantTest extends AbstractTestCase
     }
 
     /**
-     * @dataProvider providerPlusHours
-     *
      * @param int $second         The base second.
      * @param int $nano           The base nano-of-second.
      * @param int $plusHours      The number of hours to add.
      * @param int $expectedSecond The expected second of the result.
      */
+    #[DataProvider('providerPlusHours')]
     public function testMinusHours(int $second, int $nano, int $plusHours, int $expectedSecond): void
     {
         $result = Instant::of($second, $nano)->minusHours(-$plusHours);
         self::assertInstantIs($expectedSecond, $nano, $result);
     }
 
-    public function providerPlusHours(): array
+    public static function providerPlusHours(): array
     {
         return [
             [123456, 789, 0, 123456, 789],
@@ -247,13 +240,12 @@ class InstantTest extends AbstractTestCase
     }
 
     /**
-     * @dataProvider providerPlusDays
-     *
      * @param int $second         The base second.
      * @param int $nano           The base nano-of-second.
      * @param int $plusDays       The number of days to add.
      * @param int $expectedSecond The expected second of the result.
      */
+    #[DataProvider('providerPlusDays')]
     public function testPlusDays(int $second, int $nano, int $plusDays, int $expectedSecond): void
     {
         $result = Instant::of($second, $nano)->plusDays($plusDays);
@@ -261,20 +253,19 @@ class InstantTest extends AbstractTestCase
     }
 
     /**
-     * @dataProvider providerPlusDays
-     *
      * @param int $second         The base second.
      * @param int $nano           The base nano-of-second.
      * @param int $plusDays       The number of days to add.
      * @param int $expectedSecond The expected second of the result.
      */
+    #[DataProvider('providerPlusDays')]
     public function testMinusDays(int $second, int $nano, int $plusDays, int $expectedSecond): void
     {
         $result = Instant::of($second, $nano)->minusDays(-$plusDays);
         self::assertInstantIs($expectedSecond, $nano, $result);
     }
 
-    public function providerPlusDays(): array
+    public static function providerPlusDays(): array
     {
         return [
             [123456, 789, 0, 123456, 789],
@@ -299,9 +290,7 @@ class InstantTest extends AbstractTestCase
         self::assertInstantIs(1234567890, 123456789, $instant->withNano(123456789));
     }
 
-    /**
-     * @dataProvider providerWithInvalidNanoThrowsException
-     */
+    #[DataProvider('providerWithInvalidNanoThrowsException')]
     public function testWithInvalidNanoThrowsException(int $nano): void
     {
         $instant = Instant::of(1234567890, 987654321);
@@ -310,7 +299,7 @@ class InstantTest extends AbstractTestCase
         $instant->withNano($nano);
     }
 
-    public function providerWithInvalidNanoThrowsException(): array
+    public static function providerWithInvalidNanoThrowsException(): array
     {
         return [
             [-1],
@@ -319,98 +308,91 @@ class InstantTest extends AbstractTestCase
     }
 
     /**
-     * @dataProvider providerCompareTo
-     *
      * @param int $s1  The epoch second of the 1st instant.
      * @param int $n1  The nanosecond adjustment of the 1st instant.
      * @param int $s2  The epoch second of the 2nd instant.
      * @param int $n2  The nanosecond adjustment of the 2nd instant.
      * @param int $cmp The expected comparison value.
      */
+    #[DataProvider('providerCompareTo')]
     public function testCompareTo(int $s1, int $n1, int $s2, int $n2, int $cmp): void
     {
         self::assertSame($cmp, Instant::of($s1, $n1)->compareTo(Instant::of($s2, $n2)));
     }
 
     /**
-     * @dataProvider providerCompareTo
-     *
      * @param int $s1  The epoch second of the 1st instant.
      * @param int $n1  The nanosecond adjustment of the 1st instant.
      * @param int $s2  The epoch second of the 2nd instant.
      * @param int $n2  The nanosecond adjustment of the 2nd instant.
      * @param int $cmp The comparison value.
      */
+    #[DataProvider('providerCompareTo')]
     public function testIsEqualTo(int $s1, int $n1, int $s2, int $n2, int $cmp): void
     {
         self::assertSame($cmp === 0, Instant::of($s1, $n1)->isEqualTo(Instant::of($s2, $n2)));
     }
 
     /**
-     * @dataProvider providerCompareTo
-     *
      * @param int $s1  The epoch second of the 1st instant.
      * @param int $n1  The nanosecond adjustment of the 1st instant.
      * @param int $s2  The epoch second of the 2nd instant.
      * @param int $n2  The nanosecond adjustment of the 2nd instant.
      * @param int $cmp The comparison value.
      */
+    #[DataProvider('providerCompareTo')]
     public function testIsAfter(int $s1, int $n1, int $s2, int $n2, int $cmp): void
     {
         self::assertSame($cmp === 1, Instant::of($s1, $n1)->isAfter(Instant::of($s2, $n2)));
     }
 
     /**
-     * @dataProvider providerCompareTo
-     *
      * @param int $s1  The epoch second of the 1st instant.
      * @param int $n1  The nanosecond adjustment of the 1st instant.
      * @param int $s2  The epoch second of the 2nd instant.
      * @param int $n2  The nanosecond adjustment of the 2nd instant.
      * @param int $cmp The comparison value.
      */
+    #[DataProvider('providerCompareTo')]
     public function testIsAfterOrEqualTo(int $s1, int $n1, int $s2, int $n2, int $cmp): void
     {
         self::assertSame($cmp >= 0, Instant::of($s1, $n1)->isAfterOrEqualTo(Instant::of($s2, $n2)));
     }
 
     /**
-     * @dataProvider providerCompareTo
-     *
      * @param int $s1  The epoch second of the 1st instant.
      * @param int $n1  The nanosecond adjustment of the 1st instant.
      * @param int $s2  The epoch second of the 2nd instant.
      * @param int $n2  The nanosecond adjustment of the 2nd instant.
      * @param int $cmp The comparison value.
      */
+    #[DataProvider('providerCompareTo')]
     public function testIsBefore(int $s1, int $n1, int $s2, int $n2, int $cmp): void
     {
         self::assertSame($cmp === -1, Instant::of($s1, $n1)->isBefore(Instant::of($s2, $n2)));
     }
 
     /**
-     * @dataProvider providerCompareTo
-     *
      * @param int $s1  The epoch second of the 1st instant.
      * @param int $n1  The nanosecond adjustment of the 1st instant.
      * @param int $s2  The epoch second of the 2nd instant.
      * @param int $n2  The nanosecond adjustment of the 2nd instant.
      * @param int $cmp The comparison value.
      */
+    #[DataProvider('providerCompareTo')]
     public function testIsBeforeOrEqualTo(int $s1, int $n1, int $s2, int $n2, int $cmp): void
     {
         self::assertSame($cmp <= 0, Instant::of($s1, $n1)->isBeforeOrEqualTo(Instant::of($s2, $n2)));
     }
 
     /**
-     * @dataProvider providerCompareTo
-     *
      * @param int $testSecond The second of the test instant.
      * @param int $testNano   The nanosecond adjustment to the test instant.
      * @param int $nowSecond  The second of the current time.
      * @param int $nowNano    The nanosecond adjustment to the current time.
      * @param int $cmp        The comparison value.
      */
+    #[DataProvider('providerCompareTo')]
     public function testIsFuture(int $testSecond, int $testNano, int $nowSecond, int $nowNano, int $cmp): void
     {
         $clock = new FixedClock(Instant::of($nowSecond, $nowNano));
@@ -418,21 +400,20 @@ class InstantTest extends AbstractTestCase
     }
 
     /**
-     * @dataProvider providerCompareTo
-     *
      * @param int $testSecond The second of the test instant.
      * @param int $testNano   The nanosecond adjustment to the test instant.
      * @param int $nowSecond  The second of the current time.
      * @param int $nowNano    The nanosecond adjustment to the current time.
      * @param int $cmp        The comparison value.
      */
+    #[DataProvider('providerCompareTo')]
     public function testIsPast(int $testSecond, int $testNano, int $nowSecond, int $nowNano, int $cmp): void
     {
         $clock = new FixedClock(Instant::of($nowSecond, $nowNano));
         self::assertSame($cmp === -1, Instant::of($testSecond, $testNano)->isPast($clock));
     }
 
-    public function providerCompareTo(): array
+    public static function providerCompareTo(): array
     {
         return [
             [-1, -1, -1, -1,  0],
@@ -520,36 +501,34 @@ class InstantTest extends AbstractTestCase
     }
 
     /**
-     * @dataProvider providerIsBetweenInclusive
-     *
      * @param int  $seconds   The seconds value.
      * @param int  $nanos     The nano seconds value.
      * @param bool $isBetween Check the secs and nanos are between.
      */
+    #[DataProvider('providerIsBetweenInclusive')]
     public function testIsBetweenInclusive(int $seconds, int $nanos, bool $isBetween): void
     {
         self::assertSame($isBetween, Instant::of($seconds, $nanos)->isBetweenInclusive(
             Instant::of(-1, -1),
-            Instant::of(1, 1)
+            Instant::of(1, 1),
         ));
     }
 
     /**
-     * @dataProvider providerIsBetweenExclusive
-     *
      * @param int  $seconds   The seconds value.
      * @param int  $nanos     The nano seconds value.
      * @param bool $isBetween Check the secs and nanos are between.
      */
+    #[DataProvider('providerIsBetweenExclusive')]
     public function testIsBetweenExclusive(int $seconds, int $nanos, bool $isBetween): void
     {
         self::assertSame($isBetween, Instant::of($seconds, $nanos)->isBetweenExclusive(
             Instant::of(-1, -1),
-            Instant::of(1, 1)
+            Instant::of(1, 1),
         ));
     }
 
-    public function providerIsBetweenExclusive(): array
+    public static function providerIsBetweenExclusive(): array
     {
         return [
             [-1, -2, false],
@@ -566,7 +545,7 @@ class InstantTest extends AbstractTestCase
         ];
     }
 
-    public function providerIsBetweenInclusive(): array
+    public static function providerIsBetweenInclusive(): array
     {
         return [
             [-1, -2, false],
@@ -583,9 +562,7 @@ class InstantTest extends AbstractTestCase
         ];
     }
 
-    /**
-     * @dataProvider providerGetIntervalTo
-     */
+    #[DataProvider('providerGetIntervalTo')]
     public function testGetIntervalTo(int $second1, int $nano1, int $second2, int $nano2, string $expectedInterval): void
     {
         $actualResult = Instant::of($second1, $nano1)->getIntervalTo(Instant::of($second2, $nano2));
@@ -593,7 +570,7 @@ class InstantTest extends AbstractTestCase
         self::assertSame($expectedInterval, (string) $actualResult);
     }
 
-    public function providerGetIntervalTo(): array
+    public static function providerGetIntervalTo(): array
     {
         return [
             [1672567200, 0,       1672567200, 0,       '2023-01-01T10:00Z/2023-01-01T10:00Z'],
@@ -605,18 +582,17 @@ class InstantTest extends AbstractTestCase
     }
 
     /**
-     * @dataProvider providerToDecimal
-     *
      * @param int    $second   The epoch second.
      * @param int    $nano     The nano adjustment.
      * @param string $expected The expected decimal output.
      */
+    #[DataProvider('providerToDecimal')]
     public function testToDecimal(int $second, int $nano, string $expected): void
     {
         self::assertSame($expected, Instant::of($second, $nano)->toDecimal());
     }
 
-    public function providerToDecimal()
+    public static function providerToDecimal(): array
     {
         return [
             [123456789, 0, '123456789'],
@@ -634,42 +610,39 @@ class InstantTest extends AbstractTestCase
     }
 
     /**
-     * @dataProvider providerToString
-     *
      * @param int    $epochSecond    The epoch second to test.
      * @param int    $nano           The nano adjustment to the epoch second.
      * @param string $expectedString The expected string output.
      */
+    #[DataProvider('providerToString')]
     public function testJsonSerialize(int $epochSecond, int $nano, string $expectedString): void
     {
-        self::assertSame(json_encode($expectedString), json_encode(Instant::of($epochSecond, $nano)));
+        self::assertSame(json_encode($expectedString, JSON_THROW_ON_ERROR), json_encode(Instant::of($epochSecond, $nano), JSON_THROW_ON_ERROR));
     }
 
     /**
-     * @dataProvider providerToString
-     *
      * @param int    $epochSecond    The epoch second to test.
      * @param int    $nano           The nano adjustment to the epoch second.
      * @param string $expectedString The expected string output.
      */
+    #[DataProvider('providerToString')]
     public function testToISOString(int $epochSecond, int $nano, string $expectedString): void
     {
         self::assertSame($expectedString, Instant::of($epochSecond, $nano)->toISOString());
     }
 
     /**
-     * @dataProvider providerToString
-     *
      * @param int    $epochSecond    The epoch second to test.
      * @param int    $nano           The nano adjustment to the epoch second.
      * @param string $expectedString The expected string output.
      */
+    #[DataProvider('providerToString')]
     public function testToString(int $epochSecond, int $nano, string $expectedString): void
     {
         self::assertSame($expectedString, (string) Instant::of($epochSecond, $nano));
     }
 
-    public function providerToString(): array
+    public static function providerToString(): array
     {
         return [
             [-2000000000, 0, '1906-08-16T20:26:40Z'],

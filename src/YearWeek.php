@@ -9,7 +9,9 @@ use Brick\DateTime\Parser\DateTimeParser;
 use Brick\DateTime\Parser\DateTimeParseResult;
 use Brick\DateTime\Parser\IsoParsers;
 use JsonSerializable;
+use Stringable;
 
+use function is_int;
 use function str_pad;
 
 use const STR_PAD_LEFT;
@@ -17,26 +19,16 @@ use const STR_PAD_LEFT;
 /**
  * Represents the combination of a year and a week.
  */
-final class YearWeek implements JsonSerializable
+final class YearWeek implements JsonSerializable, Stringable
 {
-    /**
-     * The year, from MIN_YEAR to MAX_YEAR.
-     */
-    private int $year;
-
-    /**
-     * The week number, from 1 to 53. Must be valid for the year.
-     */
-    private int $week;
-
     /**
      * @param int $year The year, validated from MIN_YEAR to MAX_YEAR.
      * @param int $week The week number, validated in the range 1 to 53, and valid for the year.
      */
-    private function __construct(int $year, int $week)
-    {
-        $this->year = $year;
-        $this->week = $week;
+    private function __construct(
+        private readonly int $year,
+        private readonly int $week,
+    ) {
     }
 
     /**
@@ -63,7 +55,7 @@ final class YearWeek implements JsonSerializable
     {
         return YearWeek::of(
             (int) $result->getField(Field\Year::NAME),
-            (int) $result->getField(Field\WeekOfYear::NAME)
+            (int) $result->getField(Field\WeekOfYear::NAME),
         );
     }
 
@@ -78,7 +70,7 @@ final class YearWeek implements JsonSerializable
      */
     public static function parse(string $text, ?DateTimeParser $parser = null): YearWeek
     {
-        if (! $parser) {
+        if ($parser === null) {
             $parser = IsoParsers::yearWeek();
         }
 
@@ -102,6 +94,8 @@ final class YearWeek implements JsonSerializable
 
     /**
      * @return int [-1,0,1] If this year-week is before, on, or after the given year-week.
+     *
+     * @psalm-return -1|0|1
      */
     public function compareTo(YearWeek $that): int
     {
@@ -198,11 +192,15 @@ final class YearWeek implements JsonSerializable
     /**
      * Combines this year-week with a day-of-week to create a LocalDate.
      */
-    public function atDay(int $dayOfWeek): LocalDate
+    public function atDay(DayOfWeek|int $dayOfWeek): LocalDate
     {
-        Field\DayOfWeek::check($dayOfWeek);
+        if (is_int($dayOfWeek)) {
+            Field\DayOfWeek::check($dayOfWeek);
+        } else {
+            $dayOfWeek = $dayOfWeek->value;
+        }
 
-        $correction = LocalDate::of($this->year, 1, 4)->getDayOfWeek()->getValue() + 3;
+        $correction = LocalDate::of($this->year, Month::JANUARY, 4)->getDayOfWeek()->value + 3;
         $dayOfYear = $this->week * 7 + $dayOfWeek - $correction;
         $maxDaysOfYear = Field\Year::isLeap($this->year) ? 366 : 365;
 
@@ -299,6 +297,8 @@ final class YearWeek implements JsonSerializable
 
     /**
      * Serializes as a string using {@see YearWeek::toISOString()}.
+     *
+     * @psalm-return non-empty-string
      */
     public function jsonSerialize(): string
     {
@@ -307,24 +307,28 @@ final class YearWeek implements JsonSerializable
 
     /**
      * Returns the ISO 8601 representation of this year-week.
+     *
+     * @psalm-return non-empty-string
      */
     public function toISOString(): string
     {
         // This code is optimized for high performance
         return ($this->year < 1000 && $this->year > -1000
-                ? (
-                    $this->year < 0
-                        ? '-' . str_pad((string) -$this->year, 4, '0', STR_PAD_LEFT)
-                        : str_pad((string) $this->year, 4, '0', STR_PAD_LEFT)
-                )
-                : $this->year
+            ? (
+                $this->year < 0
+                    ? '-' . str_pad((string) -$this->year, 4, '0', STR_PAD_LEFT)
+                    : str_pad((string) $this->year, 4, '0', STR_PAD_LEFT)
             )
+            : $this->year
+        )
             . '-W'
             . ($this->week < 10 ? '0' . $this->week : $this->week);
     }
 
     /**
      * {@see YearWeek::toISOString()}.
+     *
+     * @psalm-return non-empty-string
      */
     public function __toString(): string
     {

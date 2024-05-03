@@ -9,45 +9,43 @@ use Brick\DateTime\Parser\DateTimeParser;
 use Brick\DateTime\Parser\DateTimeParseResult;
 use Brick\DateTime\Parser\IsoParsers;
 use JsonSerializable;
+use Stringable;
+
+use function is_int;
 
 /**
  * A month-day in the ISO-8601 calendar system, such as `--12-03`.
  */
-final class MonthDay implements JsonSerializable
+final class MonthDay implements JsonSerializable, Stringable
 {
-    /**
-     * The month-of-year, from 1 to 12.
-     */
-    private int $month;
-
-    /**
-     * The day-of-month, from 1 to 31.
-     */
-    private int $day;
-
     /**
      * Private constructor. Use of() to obtain an instance.
      *
-     * @param int $month The month-of-year, validated.
-     * @param int $day   The day-of-month, validated.
+     * @param int $month The month-of-year, validated in the range of 1 to 12.
+     * @param int $day   The day-of-month, validated in the range of 1 to 31, valid for this month.
      */
-    private function __construct(int $month, int $day)
-    {
-        $this->month = $month;
-        $this->day = $day;
+    private function __construct(
+        private readonly int $month,
+        private readonly int $day,
+    ) {
     }
 
     /**
      * Obtains an instance of MonthDay.
      *
-     * @param int $month The month-of-year, from 1 (January) to 12 (December).
-     * @param int $day   The day-of-month, from 1 to 31.
+     * @param int|Month $month The month-of-year, from 1 (January) to 12 (December).
+     * @param int       $day   The day-of-month, from 1 to 31.
      *
      * @throws DateTimeException If the month-day is not valid.
      */
-    public static function of(int $month, int $day): MonthDay
+    public static function of(int|Month $month, int $day): MonthDay
     {
-        Field\MonthOfYear::check($month);
+        if (is_int($month)) {
+            Field\MonthOfYear::check($month);
+        } else {
+            $month = $month->value;
+        }
+
         Field\DayOfMonth::check($day, $month);
 
         return new MonthDay($month, $day);
@@ -61,7 +59,7 @@ final class MonthDay implements JsonSerializable
     {
         return MonthDay::of(
             (int) $result->getField(Field\MonthOfYear::NAME),
-            (int) $result->getField(Field\DayOfMonth::NAME)
+            (int) $result->getField(Field\DayOfMonth::NAME),
         );
     }
 
@@ -76,7 +74,7 @@ final class MonthDay implements JsonSerializable
      */
     public static function parse(string $text, ?DateTimeParser $parser = null): MonthDay
     {
-        if (! $parser) {
+        if ($parser === null) {
             $parser = IsoParsers::monthDay();
         }
 
@@ -92,11 +90,12 @@ final class MonthDay implements JsonSerializable
     {
         $date = LocalDate::now($timeZone, $clock);
 
-        return new MonthDay($date->getMonth(), $date->getDay());
+        return new MonthDay($date->getMonthValue(), $date->getDayOfMonth());
     }
 
     /**
-     * Returns the month-of-year.
+     * @deprecated Use getMonthValue() instead.
+     *             In a future version, getMonth() will return the Month enum.
      */
     public function getMonth(): int
     {
@@ -104,9 +103,25 @@ final class MonthDay implements JsonSerializable
     }
 
     /**
-     * Returns the day-of-month.
+     * Returns the month-of-year value from 1 to 12.
+     */
+    public function getMonthValue(): int
+    {
+        return $this->month;
+    }
+
+    /**
+     * @deprecated Use getDayOfMonth() instead.
      */
     public function getDay(): int
+    {
+        return $this->day;
+    }
+
+    /**
+     * Returns the day-of-month.
+     */
+    public function getDayOfMonth(): int
     {
         return $this->day;
     }
@@ -115,6 +130,8 @@ final class MonthDay implements JsonSerializable
      * Returns -1 if this date is before the given date, 1 if after, 0 if the dates are equal.
      *
      * @return int [-1,0,1] If this date is before, on, or after the given date.
+     *
+     * @psalm-return -1|0|1
      */
     public function compareTo(MonthDay $that): int
     {
@@ -177,13 +194,17 @@ final class MonthDay implements JsonSerializable
      *
      * @throws DateTimeException If the month is invalid.
      */
-    public function withMonth(int $month): MonthDay
+    public function withMonth(int|Month $month): MonthDay
     {
+        if (is_int($month)) {
+            Field\MonthOfYear::check($month);
+        } else {
+            $month = $month->value;
+        }
+
         if ($month === $this->month) {
             return $this;
         }
-
-        Field\MonthOfYear::check($month);
 
         $lastDay = Field\MonthOfYear::getLength($month);
 
@@ -225,6 +246,8 @@ final class MonthDay implements JsonSerializable
 
     /**
      * Serializes as a string using {@see MonthDay::toISOString()}.
+     *
+     * @psalm-return non-empty-string
      */
     public function jsonSerialize(): string
     {
@@ -233,6 +256,8 @@ final class MonthDay implements JsonSerializable
 
     /**
      * Returns the ISO 8601 representation of this month-day.
+     *
+     * @psalm-return non-empty-string
      */
     public function toISOString(): string
     {
@@ -245,6 +270,8 @@ final class MonthDay implements JsonSerializable
 
     /**
      * {@see MonthDay::toISOString()}.
+     *
+     * @psalm-return non-empty-string
      */
     public function __toString(): string
     {

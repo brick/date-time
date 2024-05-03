@@ -13,7 +13,9 @@ use DateTimeImmutable;
 use DateTimeInterface;
 use InvalidArgumentException;
 use JsonSerializable;
+use Stringable;
 
+use function assert;
 use function intdiv;
 
 /**
@@ -22,40 +24,24 @@ use function intdiv;
  * A ZonedDateTime can be viewed as a LocalDateTime along with a time zone
  * and targets a specific point in time.
  */
-class ZonedDateTime implements JsonSerializable
+class ZonedDateTime implements JsonSerializable, Stringable
 {
     /**
-     * The local date-time.
-     */
-    private LocalDateTime $localDateTime;
-
-    /**
-     * The time-zone offset from UTC/Greenwich.
-     */
-    private TimeZoneOffset $timeZoneOffset;
-
-    /**
-     * The time-zone.
-     *
-     * It is either a TimeZoneRegion if this ZonedDateTime is region-based,
-     * or the same instance as the offset if this ZonedDateTime is offset-based.
-     */
-    private TimeZone $timeZone;
-
-    /**
-     * The instant represented by this ZonedDateTime.
-     */
-    private Instant $instant;
-
-    /**
      * Private constructor. Use a factory method to obtain an instance.
+     *
+     * @param LocalDateTime  $localDateTime  The local date-time.
+     * @param TimeZoneOffset $timeZoneOffset The time-zone offset from UTC/Greenwich.
+     * @param TimeZone       $timeZone       The time-zone. It is either a TimeZoneRegion if this ZonedDateTime is
+     *                                       region-based, or the same instance as the offset if this ZonedDateTime
+     *                                       is offset-based.
+     * @param Instant        $instant        The instant represented by this ZonedDateTime.
      */
-    private function __construct(LocalDateTime $localDateTime, TimeZoneOffset $offset, TimeZone $zone, Instant $instant)
-    {
-        $this->localDateTime = $localDateTime;
-        $this->timeZone = $zone;
-        $this->timeZoneOffset = $offset;
-        $this->instant = $instant;
+    private function __construct(
+        private readonly LocalDateTime $localDateTime,
+        private readonly TimeZoneOffset $timeZoneOffset,
+        private readonly TimeZone $timeZone,
+        private readonly Instant $instant,
+    ) {
     }
 
     /**
@@ -73,7 +59,7 @@ class ZonedDateTime implements JsonSerializable
      * - Gap: when there is no valid offset for the date-time. This happens when the clock jumps forward
      *   typically due to a DST transition from "winter" to "summer". The date-times between the two times
      *   of the transition do not exist.
-     * - Overlap: when there are two valid offets for the date-time. This happens when the clock is set back
+     * - Overlap: when there are two valid offsets for the date-time. This happens when the clock is set back
      *   typically due to a DST transition from "summer" to "winter". The date-times between the two times
      *   of the transition can be resolved to two different offsets, representing two different instants
      *   on the time-line.
@@ -172,7 +158,7 @@ class ZonedDateTime implements JsonSerializable
 
         return ZonedDateTime::of(
             $localDateTime,
-            $timeZone
+            $timeZone,
         );
     }
 
@@ -200,7 +186,7 @@ class ZonedDateTime implements JsonSerializable
      */
     public static function parse(string $text, ?DateTimeParser $parser = null): ZonedDateTime
     {
-        if (! $parser) {
+        if ($parser === null) {
             $parser = IsoParsers::zonedDateTime();
         }
 
@@ -219,7 +205,9 @@ class ZonedDateTime implements JsonSerializable
         $dateTimeZone = $dateTime->getTimezone();
 
         if ($dateTimeZone === false) {
+            // @codeCoverageIgnoreStart
             throw new DateTimeException('This DateTime object has no timezone.');
+            // @codeCoverageIgnoreEnd
         }
 
         $timeZone = TimeZone::fromNativeDateTimeZone($dateTimeZone);
@@ -268,14 +256,34 @@ class ZonedDateTime implements JsonSerializable
         return $this->localDateTime->getYear();
     }
 
+    /**
+     * @deprecated Use getMonthValue() instead.
+     *             In a future version, getMonth() will return the Month enum.
+     */
     public function getMonth(): int
     {
-        return $this->localDateTime->getMonth();
+        return $this->localDateTime->getMonthValue();
     }
 
+    /**
+     * Returns the month-of-year value from 1 to 12.
+     */
+    public function getMonthValue(): int
+    {
+        return $this->localDateTime->getMonthValue();
+    }
+
+    /**
+     * @deprecated Use getDayOfMonth() instead.
+     */
     public function getDay(): int
     {
-        return $this->localDateTime->getDay();
+        return $this->localDateTime->getDayOfMonth();
+    }
+
+    public function getDayOfMonth(): int
+    {
+        return $this->localDateTime->getDayOfMonth();
     }
 
     public function getDayOfWeek(): DayOfWeek
@@ -361,7 +369,7 @@ class ZonedDateTime implements JsonSerializable
     /**
      * Returns a copy of this ZonedDateTime with the month-of-year altered.
      */
-    public function withMonth(int $month): ZonedDateTime
+    public function withMonth(int|Month $month): ZonedDateTime
     {
         return ZonedDateTime::of($this->localDateTime->withMonth($month), $this->timeZone);
     }
@@ -609,6 +617,8 @@ class ZonedDateTime implements JsonSerializable
      * The comparison is performed on the instant.
      *
      * @return int [-1,0,1] If this zoned date-time is before, on, or after the given one.
+     *
+     * @psalm-return -1|0|1
      */
     public function compareTo(ZonedDateTime $that): int
     {
@@ -722,7 +732,11 @@ class ZonedDateTime implements JsonSerializable
             }
         }
 
-        return DateTime::createFromFormat($format, $dateTime, $dateTimeZone);
+        $nativeDateTime = DateTime::createFromFormat($format, $dateTime, $dateTimeZone);
+
+        assert($nativeDateTime !== false);
+
+        return $nativeDateTime;
     }
 
     public function toNativeDateTimeImmutable(): DateTimeImmutable
@@ -767,6 +781,8 @@ class ZonedDateTime implements JsonSerializable
 
     /**
      * Serializes as a string using {@see ZonedDateTime::toISOString()}.
+     *
+     * @psalm-return non-empty-string
      */
     public function jsonSerialize(): string
     {
@@ -775,6 +791,8 @@ class ZonedDateTime implements JsonSerializable
 
     /**
      * Returns the ISO 8601 representation of this zoned date time.
+     *
+     * @psalm-return non-empty-string
      */
     public function toISOString(): string
     {
@@ -789,6 +807,8 @@ class ZonedDateTime implements JsonSerializable
 
     /**
      * {@see ZonedDateTime::toISOString()}.
+     *
+     * @psalm-return non-empty-string
      */
     public function __toString(): string
     {

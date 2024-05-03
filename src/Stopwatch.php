@@ -9,7 +9,7 @@ namespace Brick\DateTime;
  */
 final class Stopwatch
 {
-    private Clock $clock;
+    private readonly Clock $clock;
 
     /**
      * The total time the stopwatch has been running, excluding the time elapsed since it was started.
@@ -49,14 +49,14 @@ final class Stopwatch
     }
 
     /**
-     * Stops the timer.
+     * Stops the timer and returns the lap duration.
      *
-     * If the timer is already stopped, this method does nothing.
+     * If the timer is already stopped, this method does nothing, and returns a zero duration.
      */
-    public function stop(): void
+    public function stop(): Duration
     {
         if ($this->startTime === null) {
-            return;
+            return Duration::zero();
         }
 
         $endTime = $this->clock->getTime();
@@ -64,6 +64,8 @@ final class Stopwatch
 
         $this->duration = $this->duration->plus($duration);
         $this->startTime = null;
+
+        return $duration;
     }
 
     /**

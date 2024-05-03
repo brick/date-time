@@ -12,22 +12,17 @@ use DateTime;
 use DateTimeZone;
 use Exception;
 
-use function assert;
-use function is_array;
-
 /**
  * A geographical region where the same time-zone rules apply, such as `Europe/London`.
  */
 final class TimeZoneRegion extends TimeZone
 {
-    private DateTimeZone $zone;
-
     /**
      * Private constructor. Use a factory method to obtain an instance.
      */
-    private function __construct(DateTimeZone $zone)
-    {
-        $this->zone = $zone;
+    private function __construct(
+        private readonly DateTimeZone $zone,
+    ) {
     }
 
     /**
@@ -44,7 +39,7 @@ final class TimeZoneRegion extends TimeZone
 
         try {
             return new TimeZoneRegion(new DateTimeZone($id));
-        } catch (Exception $e) {
+        } catch (Exception) {
             throw DateTimeException::unknownTimeZoneRegion($id);
         }
     }
@@ -69,15 +64,11 @@ final class TimeZoneRegion extends TimeZone
      */
     public static function getAllIdentifiers(bool $includeObsolete = false): array
     {
-        $identifiers = DateTimeZone::listIdentifiers(
+        return DateTimeZone::listIdentifiers(
             $includeObsolete
                 ? DateTimeZone::ALL_WITH_BC
-                : DateTimeZone::ALL
+                : DateTimeZone::ALL,
         );
-
-        assert(is_array($identifiers));
-
-        return $identifiers;
     }
 
     /**
@@ -91,11 +82,7 @@ final class TimeZoneRegion extends TimeZone
      */
     public static function getIdentifiersForCountry(string $countryCode): array
     {
-        $identifiers = DateTimeZone::listIdentifiers(DateTimeZone::PER_COUNTRY, $countryCode);
-
-        assert(is_array($identifiers));
-
-        return $identifiers;
+        return DateTimeZone::listIdentifiers(DateTimeZone::PER_COUNTRY, $countryCode);
     }
 
     /**
@@ -105,7 +92,7 @@ final class TimeZoneRegion extends TimeZone
      */
     public static function parse(string $text, ?DateTimeParser $parser = null): TimeZoneRegion
     {
-        if (! $parser) {
+        if ($parser === null) {
             $parser = IsoParsers::timeZoneRegion();
         }
 

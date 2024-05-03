@@ -4,6 +4,9 @@ on:
   push:
   pull_request:
 
+env:
+  COVERAGE_PHP_VERSION: "8.3"
+
 jobs:
   phpunit:
     name: PHPUnit
@@ -12,15 +15,18 @@ jobs:
     strategy:
       matrix:
         php-version:
-          - "7.4"
-          - "8.0"
           - "8.1"
           - "8.2"
           - "8.3"
+        deps:
+          - "highest"
+        include:
+          - php-version: "8.1"
+            deps: "lowest"
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
 
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
@@ -29,20 +35,22 @@ jobs:
           coverage: xdebug
 
       - name: Install composer dependencies
-        uses: "ramsey/composer-install@v1"
+        uses: ramsey/composer-install@v2
+        with:
+          dependency-versions: ${{ matrix.deps }}
 
       - name: Run PHPUnit
         run: vendor/bin/phpunit
-        if: ${{ matrix.php-version != '8.1' }}
+        if: ${{ matrix.php-version != env.COVERAGE_PHP_VERSION }}
 
       - name: Run PHPUnit with coverage
         run: |
           mkdir -p mkdir -p build/logs
           vendor/bin/phpunit --coverage-clover build/logs/clover.xml
-        if: ${{ matrix.php-version == '8.1' }}
+        if: ${{ matrix.php-version == env.COVERAGE_PHP_VERSION }}
 
       - name: Upload coverage report to Coveralls
         run: vendor/bin/php-coveralls --coverage_clover=build/logs/clover.xml -v
         env:
           COVERALLS_REPO_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        if: ${{ matrix.php-version == '8.1' }}
+        if: ${{ matrix.php-version == env.COVERAGE_PHP_VERSION }}

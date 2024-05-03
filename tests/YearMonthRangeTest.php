@@ -8,8 +8,11 @@ use Brick\DateTime\DateTimeException;
 use Brick\DateTime\Parser\DateTimeParseException;
 use Brick\DateTime\YearMonth;
 use Brick\DateTime\YearMonthRange;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 use function json_encode;
+
+use const JSON_THROW_ON_ERROR;
 
 /**
  * Unit tests for class YearMonthRange.
@@ -20,7 +23,7 @@ class YearMonthRangeTest extends AbstractTestCase
     {
         self::assertYearMonthRangeIs(2001, 2, 2004, 5, YearMonthRange::of(
             YearMonth::of(2001, 2),
-            YearMonth::of(2004, 5)
+            YearMonth::of(2004, 5),
         ));
     }
 
@@ -30,25 +33,24 @@ class YearMonthRangeTest extends AbstractTestCase
 
         YearMonthRange::of(
             YearMonth::of(2001, 3),
-            YearMonth::of(2001, 2)
+            YearMonth::of(2001, 2),
         );
     }
 
     /**
-     * @dataProvider providerParse
-     *
      * @param string $text The text to parse.
      * @param int    $y1   The expected start year.
      * @param int    $m1   The expected start month.
      * @param int    $y2   The expected end year.
      * @param int    $m2   The expected end month.
      */
+    #[DataProvider('providerParse')]
     public function testParse(string $text, int $y1, int $m1, int $y2, int $m2): void
     {
         self::assertYearMonthRangeIs($y1, $m1, $y2, $m2, YearMonthRange::parse($text));
     }
 
-    public function providerParse(): array
+    public static function providerParse(): array
     {
         return [
             ['2001-02/04', 2001, 2, 2001, 4],
@@ -57,17 +59,16 @@ class YearMonthRangeTest extends AbstractTestCase
     }
 
     /**
-     * @dataProvider providerParseInvalidRangeThrowsException
-     *
      * @param string $text The invalid text to parse.
      */
+    #[DataProvider('providerParseInvalidRangeThrowsException')]
     public function testParseInvalidRangeThrowsException(string $text): void
     {
         $this->expectException(DateTimeParseException::class);
         YearMonthRange::parse($text);
     }
 
-    public function providerParseInvalidRangeThrowsException(): array
+    public static function providerParseInvalidRangeThrowsException(): array
     {
         return [
             ['2001-02'],
@@ -81,20 +82,19 @@ class YearMonthRangeTest extends AbstractTestCase
     }
 
     /**
-     * @dataProvider providerIsEqualTo
-     *
      * @param string $testRange The string representation of the range to test.
      * @param bool   $isEqual   Whether this range is expected to be equal to our range.
      */
+    #[DataProvider('providerIsEqualTo')]
     public function testIsEqualTo(string $testRange, bool $isEqual): void
     {
         self::assertSame($isEqual, YearMonthRange::of(
             YearMonth::of(2001, 2),
-            YearMonth::of(2004, 5)
+            YearMonth::of(2004, 5),
         )->isEqualTo(YearMonthRange::parse($testRange)));
     }
 
-    public function providerIsEqualTo(): array
+    public static function providerIsEqualTo(): array
     {
         return [
             ['2001-02/2004-05', true],
@@ -105,15 +105,13 @@ class YearMonthRangeTest extends AbstractTestCase
         ];
     }
 
-    /**
-     * @dataProvider providerContains
-     */
+    #[DataProvider('providerContains')]
     public function testContains(string $range, string $yearMonth, bool $contains): void
     {
         self::assertSame($contains, YearMonthRange::parse($range)->contains(YearMonth::parse($yearMonth)));
     }
 
-    public function providerContains(): array
+    public static function providerContains(): array
     {
         return [
             ['2001-05/2004-02', '2001-04', false],
@@ -157,17 +155,16 @@ class YearMonthRangeTest extends AbstractTestCase
     }
 
     /**
-     * @dataProvider providerCount
-     *
      * @param string $range The year-month range string representation.
      * @param int    $count The expected day count.
      */
+    #[DataProvider('providerCount')]
     public function testCount(string $range, int $count): void
     {
         self::assertCount($count, YearMonthRange::parse($range));
     }
 
-    public function providerCount(): array
+    public static function providerCount(): array
     {
         return [
             ['2010-01/2010-01', 1],
@@ -178,15 +175,13 @@ class YearMonthRangeTest extends AbstractTestCase
         ];
     }
 
-    /**
-     * @dataProvider providerToLocalDateRange
-     */
+    #[DataProvider('providerToLocalDateRange')]
     public function testToLocalDateRange(string $yearMonthRange, string $expectedRange): void
     {
         self::assertSame($expectedRange, (string) YearMonthRange::parse($yearMonthRange)->toLocalDateRange());
     }
 
-    public function providerToLocalDateRange(): array
+    public static function providerToLocalDateRange(): array
     {
         return [
             ['1900-01/1900-12', '1900-01-01/1900-12-31'],
@@ -197,40 +192,40 @@ class YearMonthRangeTest extends AbstractTestCase
         ];
     }
 
-    /** @dataProvider providerToString */
+    #[DataProvider('providerToString')]
     public function testJsonSerialize(int $yearStart, int $monthStart, int $yearEnd, int $monthEnd, string $expectedString): void
     {
         $yearMonthRange = YearMonthRange::of(
             YearMonth::of($yearStart, $monthStart),
-            YearMonth::of($yearEnd, $monthEnd)
+            YearMonth::of($yearEnd, $monthEnd),
         );
 
-        self::assertSame(json_encode($expectedString), json_encode($yearMonthRange));
+        self::assertSame(json_encode($expectedString, JSON_THROW_ON_ERROR), json_encode($yearMonthRange, JSON_THROW_ON_ERROR));
     }
 
-    /** @dataProvider providerToString */
+    #[DataProvider('providerToString')]
     public function testToISOString(int $yearStart, int $monthStart, int $yearEnd, int $monthEnd, string $expectedString): void
     {
         $yearMonthRange = YearMonthRange::of(
             YearMonth::of($yearStart, $monthStart),
-            YearMonth::of($yearEnd, $monthEnd)
+            YearMonth::of($yearEnd, $monthEnd),
         );
 
         self::assertSame($expectedString, $yearMonthRange->toISOString());
     }
 
-    /** @dataProvider providerToString */
+    #[DataProvider('providerToString')]
     public function testToString(int $yearStart, int $monthStart, int $yearEnd, int $monthEnd, string $expectedString): void
     {
         $yearMonthRange = YearMonthRange::of(
             YearMonth::of($yearStart, $monthStart),
-            YearMonth::of($yearEnd, $monthEnd)
+            YearMonth::of($yearEnd, $monthEnd),
         );
 
         self::assertSame($expectedString, (string) $yearMonthRange);
     }
 
-    public function providerToString(): array
+    public static function providerToString(): array
     {
         return [
             [2008, 12, 2008, 12, '2008-12/2008-12'],

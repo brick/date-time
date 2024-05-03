@@ -16,6 +16,7 @@ use DateTime;
 use DateTimeImmutable;
 use DateTimeInterface;
 use JsonSerializable;
+use Stringable;
 
 use function intdiv;
 use function rtrim;
@@ -28,7 +29,7 @@ use const STR_PAD_LEFT;
  *
  * This class is immutable.
  */
-final class LocalTime implements JsonSerializable
+final class LocalTime implements JsonSerializable, Stringable
 {
     public const MONTHS_PER_YEAR = 12;
     public const DAYS_PER_WEEK = 7;
@@ -43,26 +44,6 @@ final class LocalTime implements JsonSerializable
     public const MILLIS_PER_SECOND = 1000;
 
     /**
-     * The hour, in the range 0 to 23.
-     */
-    private int $hour;
-
-    /**
-     * The minute, in the range 0 to 59.
-     */
-    private int $minute;
-
-    /**
-     * The second, in the range 0 to 59.
-     */
-    private int $second;
-
-    /**
-     * The nanosecond, in the range 0 to 999,999,999.
-     */
-    private int $nano;
-
-    /**
      * Private constructor. Use of() to obtain an instance.
      *
      * @param int $hour   The hour-of-day, validated in the range 0 to 23.
@@ -70,12 +51,12 @@ final class LocalTime implements JsonSerializable
      * @param int $second The second-of-minute, validated in the range 0 to 59.
      * @param int $nano   The nano-of-second, validated in the range 0 to 999,999,999.
      */
-    private function __construct(int $hour, int $minute, int $second, int $nano)
-    {
-        $this->hour = $hour;
-        $this->minute = $minute;
-        $this->second = $second;
-        $this->nano = $nano;
+    private function __construct(
+        private readonly int $hour,
+        private readonly int $minute,
+        private readonly int $second,
+        private readonly int $nano,
+    ) {
     }
 
     /**
@@ -144,7 +125,7 @@ final class LocalTime implements JsonSerializable
      */
     public static function parse(string $text, ?DateTimeParser $parser = null): LocalTime
     {
-        if (! $parser) {
+        if ($parser === null) {
             $parser = IsoParsers::localTime();
         }
 
@@ -160,7 +141,7 @@ final class LocalTime implements JsonSerializable
             (int) $dateTime->format('G'),
             (int) $dateTime->format('i'),
             (int) $dateTime->format('s'),
-            1000 * (int) $dateTime->format('u')
+            1000 * (int) $dateTime->format('u'),
         );
     }
 
@@ -182,13 +163,9 @@ final class LocalTime implements JsonSerializable
     public static function noon(): LocalTime
     {
         /** @var LocalTime|null $noon */
-        static $noon;
+        static $noon = null;
 
-        if ($noon) {
-            return $noon;
-        }
-
-        return $noon = new LocalTime(12, 0, 0, 0);
+        return $noon ??= new LocalTime(12, 0, 0, 0);
     }
 
     /**
@@ -197,13 +174,9 @@ final class LocalTime implements JsonSerializable
     public static function min(): LocalTime
     {
         /** @var LocalTime|null $min */
-        static $min;
+        static $min = null;
 
-        if ($min) {
-            return $min;
-        }
-
-        return $min = new LocalTime(0, 0, 0, 0);
+        return $min ??= new LocalTime(0, 0, 0, 0);
     }
 
     /**
@@ -212,19 +185,15 @@ final class LocalTime implements JsonSerializable
     public static function max(): LocalTime
     {
         /** @var LocalTime|null $max */
-        static $max;
+        static $max = null;
 
-        if ($max) {
-            return $max;
-        }
-
-        return $max = new LocalTime(23, 59, 59, 999_999_999);
+        return $max ??= new LocalTime(23, 59, 59, 999_999_999);
     }
 
     /**
      * Returns the smallest LocalTime among the given values.
      *
-     * @param LocalTime[] $times The LocalTime objects to compare.
+     * @param LocalTime ...$times The LocalTime objects to compare.
      *
      * @return LocalTime The earliest LocalTime object.
      *
@@ -232,7 +201,7 @@ final class LocalTime implements JsonSerializable
      */
     public static function minOf(LocalTime ...$times): LocalTime
     {
-        if (! $times) {
+        if ($times === []) {
             throw new DateTimeException(__METHOD__ . ' does not accept less than 1 parameter.');
         }
 
@@ -250,7 +219,7 @@ final class LocalTime implements JsonSerializable
     /**
      * Returns the highest LocalTime among the given values.
      *
-     * @param LocalTime[] $times The LocalTime objects to compare.
+     * @param LocalTime ...$times The LocalTime objects to compare.
      *
      * @return LocalTime The latest LocalTime object.
      *
@@ -258,7 +227,7 @@ final class LocalTime implements JsonSerializable
      */
     public static function maxOf(LocalTime ...$times): LocalTime
     {
-        if (! $times) {
+        if ($times === []) {
             throw new DateTimeException(__METHOD__ . ' does not accept less than 1 parameter.');
         }
 
@@ -526,6 +495,8 @@ final class LocalTime implements JsonSerializable
      * @param LocalTime $that The time to compare to.
      *
      * @return int [-1,0,1] If this time is before, on, or after the given time.
+     *
+     * @psalm-return -1|0|1
      */
     public function compareTo(LocalTime $that): int
     {
@@ -624,7 +595,7 @@ final class LocalTime implements JsonSerializable
      */
     public function toNativeDateTime(): DateTime
     {
-        return $this->atDate(LocalDate::of(0, 1, 1))->toNativeDateTime();
+        return $this->atDate(LocalDate::of(0, Month::JANUARY, 1))->toNativeDateTime();
     }
 
     /**
@@ -642,6 +613,8 @@ final class LocalTime implements JsonSerializable
 
     /**
      * Serializes as a string using {@see LocalTime::toISOString()}.
+     *
+     * @psalm-return non-empty-string
      */
     public function jsonSerialize(): string
     {
@@ -660,6 +633,8 @@ final class LocalTime implements JsonSerializable
      * The format used will be the shortest that outputs the full value of
      * the time where the omitted parts are implied to be zero.
      * The nanoseconds value, if present, can be 0 to 9 digits.
+     *
+     * @psalm-return non-empty-string
      */
     public function toISOString(): string
     {
@@ -673,6 +648,8 @@ final class LocalTime implements JsonSerializable
 
     /**
      * {@see LocalTime::toISOString()}.
+     *
+     * @psalm-return non-empty-string
      */
     public function __toString(): string
     {

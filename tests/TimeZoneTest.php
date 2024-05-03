@@ -9,6 +9,7 @@ use Brick\DateTime\TimeZone;
 use Brick\DateTime\TimeZoneOffset;
 use Brick\DateTime\TimeZoneRegion;
 use DateTimeZone;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 use const PHP_VERSION_ID;
 
@@ -18,12 +19,11 @@ use const PHP_VERSION_ID;
 class TimeZoneTest extends AbstractTestCase
 {
     /**
-     * @dataProvider providerParse
-     *
      * @param string $text  The text to parse.
      * @param string $class The expected class name.
      * @param string $id    The expected id.
      */
+    #[DataProvider('providerParse')]
     public function testParse(string $text, string $class, string $id): void
     {
         $timeZone = TimeZone::parse($text);
@@ -32,7 +32,7 @@ class TimeZoneTest extends AbstractTestCase
         self::assertSame($id, $timeZone->getId());
     }
 
-    public function providerParse(): iterable
+    public static function providerParse(): iterable
     {
         yield from [
             ['Z', TimeZoneOffset::class, 'Z'],
@@ -48,16 +48,14 @@ class TimeZoneTest extends AbstractTestCase
         }
     }
 
-    /**
-     * @dataProvider providerParseInvalidStringThrowsException
-     */
+    #[DataProvider('providerParseInvalidStringThrowsException')]
     public function testParseInvalidStringThrowsException(string $text): void
     {
         $this->expectException(DateTimeParseException::class);
         TimeZone::parse($text);
     }
 
-    public function providerParseInvalidStringThrowsException(): array
+    public static function providerParseInvalidStringThrowsException(): array
     {
         return [
             [''],
@@ -81,17 +79,16 @@ class TimeZoneTest extends AbstractTestCase
     }
 
     /**
-     * @dataProvider providerFromNativeDateTimeZone
-     *
      * @param string $tz The time-zone name.
      */
+    #[DataProvider('providerFromNativeDateTimeZone')]
     public function testFromNativeDateTimeZone(string $tz): void
     {
         $dateTimeZone = new DateTimeZone($tz);
         self::assertSame($tz, TimeZone::fromNativeDateTimeZone($dateTimeZone)->getId());
     }
 
-    public function providerFromNativeDateTimeZone(): iterable
+    public static function providerFromNativeDateTimeZone(): iterable
     {
         yield from [
             ['Z'],

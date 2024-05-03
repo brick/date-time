@@ -14,6 +14,7 @@ use DatePeriod;
 use Generator;
 use IteratorAggregate;
 use JsonSerializable;
+use Stringable;
 
 /**
  * Represents an inclusive range of local dates.
@@ -23,26 +24,16 @@ use JsonSerializable;
  *
  * @template-implements IteratorAggregate<LocalDate>
  */
-final class LocalDateRange implements IteratorAggregate, Countable, JsonSerializable
+final class LocalDateRange implements IteratorAggregate, Countable, JsonSerializable, Stringable
 {
-    /**
-     * The start date, inclusive.
-     */
-    private LocalDate $start;
-
-    /**
-     * The end date, inclusive.
-     */
-    private LocalDate $end;
-
     /**
      * @param LocalDate $start The start date, inclusive.
      * @param LocalDate $end   The end date, inclusive, validated as not before the start date.
      */
-    private function __construct(LocalDate $start, LocalDate $end)
-    {
-        $this->start = $start;
-        $this->end = $end;
+    private function __construct(
+        private readonly LocalDate $start,
+        private readonly LocalDate $end,
+    ) {
     }
 
     /**
@@ -104,7 +95,7 @@ final class LocalDateRange implements IteratorAggregate, Countable, JsonSerializ
      */
     public static function parse(string $text, ?DateTimeParser $parser = null): LocalDateRange
     {
-        if (! $parser) {
+        if ($parser === null) {
             $parser = IsoParsers::localDateRange();
         }
 
@@ -238,6 +229,8 @@ final class LocalDateRange implements IteratorAggregate, Countable, JsonSerializ
 
     /**
      * Serializes as a string using {@see LocalDateRange::toISOString()}.
+     *
+     * @psalm-return non-empty-string
      */
     public function jsonSerialize(): string
     {
@@ -261,6 +254,8 @@ final class LocalDateRange implements IteratorAggregate, Countable, JsonSerializ
 
     /**
      * Returns the ISO 8601 representation of this date range.
+     *
+     * @psalm-return non-empty-string
      */
     public function toISOString(): string
     {
@@ -269,6 +264,8 @@ final class LocalDateRange implements IteratorAggregate, Countable, JsonSerializ
 
     /**
      * {@see LocalDateRange::toISOString()}.
+     *
+     * @psalm-return non-empty-string
      */
     public function __toString(): string
     {

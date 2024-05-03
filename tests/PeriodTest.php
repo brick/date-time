@@ -11,8 +11,11 @@ use Brick\DateTime\Period;
 use DateInterval;
 use DateTimeImmutable;
 use Generator;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 use function json_encode;
+
+use const JSON_THROW_ON_ERROR;
 
 /**
  * Unit tests for class Period.
@@ -53,19 +56,18 @@ class PeriodTest extends AbstractTestCase
     }
 
     /**
-     * @dataProvider providerParse
-     *
      * @param string $text   The text to parse.
      * @param int    $years  The expected years in the period.
      * @param int    $months The expected months in the period.
      * @param int    $days   The expected days in the period.
      */
+    #[DataProvider('providerParse')]
     public function testParse(string $text, int $years, int $months, int $days): void
     {
         self::assertPeriodIs($years, $months, $days, Period::parse($text));
     }
 
-    public function providerParse(): array
+    public static function providerParse(): array
     {
         return [
             ['P0Y', 0, 0, 0],
@@ -85,16 +87,14 @@ class PeriodTest extends AbstractTestCase
         ];
     }
 
-    /**
-     * @dataProvider providerParseInvalidStringThrowsException
-     */
+    #[DataProvider('providerParseInvalidStringThrowsException')]
     public function testParseInvalidStringThrowsException(string $text): void
     {
         $this->expectException(DateTimeParseException::class);
         Period::parse($text);
     }
 
-    public function providerParseInvalidStringThrowsException(): array
+    public static function providerParseInvalidStringThrowsException(): array
     {
         return [
             [' P0D'],
@@ -112,16 +112,14 @@ class PeriodTest extends AbstractTestCase
         ];
     }
 
-    /**
-     * @dataProvider providerFromNativeDateInterval
-     */
+    #[DataProvider('providerFromNativeDateInterval')]
     public function testFromNativeDateInterval(DateInterval $dateInterval, int $years, int $months, int $days): void
     {
         $period = Period::fromNativeDateInterval($dateInterval);
         self::assertPeriodIs($years, $months, $days, $period);
     }
 
-    public function providerFromNativeDateInterval(): Generator
+    public static function providerFromNativeDateInterval(): Generator
     {
         $withConstructor = [
             ['P0Y', 0, 0, 0],
@@ -158,9 +156,7 @@ class PeriodTest extends AbstractTestCase
         }
     }
 
-    /**
-     * @dataProvider providerFromInvalidNativeDateInterval
-     */
+    #[DataProvider('providerFromInvalidNativeDateInterval')]
     public function testFromInvalidNativeDateInterval(string $dateTime1, string $dateTime2, string $expectedMessage): void
     {
         $dateTime1 = new DateTimeImmutable($dateTime1);
@@ -174,7 +170,7 @@ class PeriodTest extends AbstractTestCase
         Period::fromNativeDateInterval($dateInterval);
     }
 
-    public function providerFromInvalidNativeDateInterval(): array
+    public static function providerFromInvalidNativeDateInterval(): array
     {
         return [
             ['2020-01-01 00:00:00', '2020-01-01 01:00:00', 'Cannot create a Period from a DateInterval with a non-zero hour.'],
@@ -288,20 +284,19 @@ class PeriodTest extends AbstractTestCase
     }
 
     /**
-     * @dataProvider providerNormalized
-     *
      * @param int $y  The years of the period to normalize.
      * @param int $m  The months of the period to normalize.
      * @param int $d  The days of the period to normalize.
      * @param int $ny The years of the normalized period.
      * @param int $nm The months of the normalized period.
      */
+    #[DataProvider('providerNormalized')]
     public function testNormalized(int $y, int $m, int $d, int $ny, int $nm): void
     {
         self::assertPeriodIs($ny, $nm, $d, Period::of($y, $m, $d)->normalized());
     }
 
-    public function providerNormalized(): array
+    public static function providerNormalized(): array
     {
         return [
             [1, 2, 3, 1, 2],
@@ -316,19 +311,18 @@ class PeriodTest extends AbstractTestCase
     }
 
     /**
-     * @dataProvider providerIsZero
-     *
      * @param int  $years  The number of years in the period.
      * @param int  $months The number of months in the period.
      * @param int  $days   The number of days in the period.
      * @param bool $isZero The expected return value.
      */
+    #[DataProvider('providerIsZero')]
     public function testIsZero(int $years, int $months, int $days, bool $isZero): void
     {
         self::assertSame($isZero, Period::of($years, $months, $days)->isZero());
     }
 
-    public function providerIsZero(): array
+    public static function providerIsZero(): array
     {
         return [
             [0, 0, 0, true],
@@ -339,8 +333,6 @@ class PeriodTest extends AbstractTestCase
     }
 
     /**
-     * @dataProvider providerIsEqualTo
-     *
      * @param int  $y1      The number of years in the 1st period.
      * @param int  $m1      The number of months in the 1st period.
      * @param int  $d1      The number of days in the 1st period.
@@ -349,6 +341,7 @@ class PeriodTest extends AbstractTestCase
      * @param int  $d2      The number of days in the 2nd period.
      * @param bool $isEqual The expected return value.
      */
+    #[DataProvider('providerIsEqualTo')]
     public function testIsEqualTo(int $y1, int $m1, int $d1, int $y2, int $m2, int $d2, bool $isEqual): void
     {
         $p1 = Period::of($y1, $m1, $d1);
@@ -358,7 +351,7 @@ class PeriodTest extends AbstractTestCase
         self::assertSame($isEqual, $p2->isEqualTo($p1));
     }
 
-    public function providerIsEqualTo(): array
+    public static function providerIsEqualTo(): array
     {
         return [
             [0, 0, 0, 0, 0, 0, true],
@@ -375,9 +368,7 @@ class PeriodTest extends AbstractTestCase
         ];
     }
 
-    /**
-     * @dataProvider providerToNativeDateInterval
-     */
+    #[DataProvider('providerToNativeDateInterval')]
     public function testToNativeDateInterval(int $years, int $months, int $days): void
     {
         $period = Period::of($years, $months, $days);
@@ -388,7 +379,7 @@ class PeriodTest extends AbstractTestCase
         self::assertSame($days, $dateInterval->d);
     }
 
-    public function providerToNativeDateInterval(): array
+    public static function providerToNativeDateInterval(): array
     {
         return [
             [1, -2, 3],
@@ -397,45 +388,42 @@ class PeriodTest extends AbstractTestCase
     }
 
     /**
-     * @dataProvider providerToString
-     *
      * @param int    $years    The number of years in the period.
      * @param int    $months   The number of months in the period.
      * @param int    $days     The number of days in the period.
      * @param string $expected The expected string output.
      */
+    #[DataProvider('providerToString')]
     public function testJsonSerialize(int $years, int $months, int $days, string $expected): void
     {
-        self::assertSame(json_encode($expected), json_encode(Period::of($years, $months, $days)));
+        self::assertSame(json_encode($expected, JSON_THROW_ON_ERROR), json_encode(Period::of($years, $months, $days), JSON_THROW_ON_ERROR));
     }
 
     /**
-     * @dataProvider providerToString
-     *
      * @param int    $years    The number of years in the period.
      * @param int    $months   The number of months in the period.
      * @param int    $days     The number of days in the period.
      * @param string $expected The expected string output.
      */
+    #[DataProvider('providerToString')]
     public function testToISOString(int $years, int $months, int $days, string $expected): void
     {
         self::assertSame($expected, Period::of($years, $months, $days)->toISOString());
     }
 
     /**
-     * @dataProvider providerToString
-     *
      * @param int    $years    The number of years in the period.
      * @param int    $months   The number of months in the period.
      * @param int    $days     The number of days in the period.
      * @param string $expected The expected string output.
      */
+    #[DataProvider('providerToString')]
     public function testToString(int $years, int $months, int $days, string $expected): void
     {
         self::assertSame($expected, (string) Period::of($years, $months, $days));
     }
 
-    public function providerToString(): array
+    public static function providerToString(): array
     {
         return [
             [0, 0, 0, 'P0D'],

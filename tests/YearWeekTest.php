@@ -12,15 +12,25 @@ use Brick\DateTime\LocalDate;
 use Brick\DateTime\LocalDateRange;
 use Brick\DateTime\TimeZone;
 use Brick\DateTime\YearWeek;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 use function json_encode;
+
+use const JSON_THROW_ON_ERROR;
 
 /**
  * Unit tests for class YearWeek.
  */
 class YearWeekTest extends AbstractTestCase
 {
-    public function provider53WeekYear(): array
+    #[DataProvider('provider53WeekYear')]
+    public function testIs53WeekYear(int $year): void
+    {
+        $yearWeek = YearWeek::of($year, 1);
+        self::assertTrue($yearWeek->is53WeekYear());
+    }
+
+    public static function provider53WeekYear(): array
     {
         return [
             [4],
@@ -97,27 +107,19 @@ class YearWeekTest extends AbstractTestCase
         ];
     }
 
-    /**
-     * @dataProvider provider53WeekYear
-     */
-    public function testIs53WeekYear(int $year): void
-    {
-        $yearWeek = YearWeek::of($year, 1);
-        self::assertTrue($yearWeek->is53WeekYear());
-    }
-
-    /**
-     * @dataProvider providerAtDay
-     */
-    public function testAtDay(int $weekBasedYear, int $weekOfWeekBasedYear, int $dayOfWeek, int $year, int $month, int $dayOfMonth): void
+    #[DataProvider('providerAtDay')]
+    public function testAtDay(int $weekBasedYear, int $weekOfWeekBasedYear, DayOfWeek $dayOfWeek, int $year, int $month, int $dayOfMonth): void
     {
         $yearWeek = YearWeek::of($weekBasedYear, $weekOfWeekBasedYear);
-        $actual = $yearWeek->atDay($dayOfWeek);
 
+        $actual = $yearWeek->atDay($dayOfWeek);
+        self::assertLocalDateIs($year, $month, $dayOfMonth, $actual);
+
+        $actual = $yearWeek->atDay($dayOfWeek->value);
         self::assertLocalDateIs($year, $month, $dayOfMonth, $actual);
     }
 
-    public function providerAtDay(): array
+    public static function providerAtDay(): array
     {
         return [
             [2014, 52, DayOfWeek::MONDAY,    2014, 12, 22],
@@ -193,7 +195,7 @@ class YearWeekTest extends AbstractTestCase
         }
     }
 
-    public function providerWithYear(): array
+    public static function providerWithYear(): array
     {
         return [
             [2015,  1, 2015, 2015,  1],
@@ -203,16 +205,14 @@ class YearWeekTest extends AbstractTestCase
         ];
     }
 
-    /**
-     * @dataProvider providerWithYear
-     */
+    #[DataProvider('providerWithYear')]
     public function testWithYear(int $year, int $week, int $withYear, int $expectedYear, int $expectedWeek): void
     {
         $yearWeek = YearWeek::of($year, $week)->withYear($withYear);
         self::assertYearWeekIs($expectedYear, $expectedWeek, $yearWeek);
     }
 
-    public function providerWithWeek(): array
+    public static function providerWithWeek(): array
     {
         return [
             [2014,  1, 53, 2015,  1],
@@ -221,16 +221,14 @@ class YearWeekTest extends AbstractTestCase
         ];
     }
 
-    /**
-     * @dataProvider providerWithWeek
-     */
+    #[DataProvider('providerWithWeek')]
     public function testWithWeek(int $year, int $week, int $withWeek, int $expectedYear, int $expectedWeek): void
     {
         $yearWeek = YearWeek::of($year, $week)->withWeek($withWeek);
         self::assertYearWeekIs($expectedYear, $expectedWeek, $yearWeek);
     }
 
-    public function providerPlusYears(): array
+    public static function providerPlusYears(): array
     {
         return [
             [2015, 1, -2, 2013, 1],
@@ -246,25 +244,21 @@ class YearWeekTest extends AbstractTestCase
         ];
     }
 
-    /**
-     * @dataProvider providerPlusYears
-     */
+    #[DataProvider('providerPlusYears')]
     public function testPlusYears(int $year, int $week, int $delta, int $expectedYear, int $expectedWeek): void
     {
         $yearWeek = YearWeek::of($year, $week)->plusYears($delta);
         self::assertYearWeekIs($expectedYear, $expectedWeek, $yearWeek);
     }
 
-    /**
-     * @dataProvider providerPlusYears
-     */
+    #[DataProvider('providerPlusYears')]
     public function testMinusYears(int $year, int $week, int $delta, int $expectedYear, int $expectedWeek): void
     {
         $yearWeek = YearWeek::of($year, $week)->minusYears(-$delta);
         self::assertYearWeekIs($expectedYear, $expectedWeek, $yearWeek);
     }
 
-    public function providerPlusWeeks(): array
+    public static function providerPlusWeeks(): array
     {
         return [
             [2015, 1, -261, 2009, 53],
@@ -283,25 +277,21 @@ class YearWeekTest extends AbstractTestCase
         ];
     }
 
-    /**
-     * @dataProvider providerPlusWeeks
-     */
+    #[DataProvider('providerPlusWeeks')]
     public function testPlusWeeks(int $year, int $week, int $delta, int $expectedYear, int $expectedWeek): void
     {
         $yearWeek = YearWeek::of($year, $week)->plusWeeks($delta);
         self::assertYearWeekIs($expectedYear, $expectedWeek, $yearWeek);
     }
 
-    /**
-     * @dataProvider providerPlusWeeks
-     */
+    #[DataProvider('providerPlusWeeks')]
     public function testMinusWeeks(int $year, int $week, int $delta, int $expectedYear, int $expectedWeek): void
     {
         $yearWeek = YearWeek::of($year, $week)->minusWeeks(-$delta);
         self::assertYearWeekIs($expectedYear, $expectedWeek, $yearWeek);
     }
 
-    public function providerToString(): array
+    public static function providerToString(): array
     {
         return [
             [-12345,  1, '-12345-W01'],
@@ -318,43 +308,35 @@ class YearWeekTest extends AbstractTestCase
         ];
     }
 
-    /**
-     * @dataProvider providerToString
-     */
+    #[DataProvider('providerToString')]
     public function testJsonSerialize(int $year, int $week, string $expected): void
     {
         $yearWeek = YearWeek::of($year, $week);
-        self::assertSame(json_encode($expected), json_encode($yearWeek));
+        self::assertSame(json_encode($expected, JSON_THROW_ON_ERROR), json_encode($yearWeek, JSON_THROW_ON_ERROR));
     }
 
-    /**
-     * @dataProvider providerToString
-     */
+    #[DataProvider('providerToString')]
     public function testToISOString(int $year, int $week, string $expected): void
     {
         $yearWeek = YearWeek::of($year, $week);
         self::assertSame($expected, $yearWeek->toISOString());
     }
 
-    /**
-     * @dataProvider providerToString
-     */
+    #[DataProvider('providerToString')]
     public function testToString(int $year, int $week, string $expected): void
     {
         $yearWeek = YearWeek::of($year, $week);
         self::assertSame($expected, (string) $yearWeek);
     }
 
-    /**
-     * @dataProvider providerParse
-     */
+    #[DataProvider('providerParse')]
     public function testParse(string $string, int $expectedYear, int $expectedWeek): void
     {
         $yearWeek = YearWeek::parse($string);
         self::assertYearWeekIs($expectedYear, $expectedWeek, $yearWeek);
     }
 
-    public function providerParse(): array
+    public static function providerParse(): array
     {
         return [
             ['-2000-W12', -2000, 12],
@@ -366,9 +348,7 @@ class YearWeekTest extends AbstractTestCase
         ];
     }
 
-    /**
-     * @dataProvider providerParseInvalidYearWeekThrowsException
-     */
+    #[DataProvider('providerParseInvalidYearWeekThrowsException')]
     public function testParseInvalidYearWeekThrowsException(string $invalidValue, ?string $error = null): void
     {
         $this->expectException(DateTimeException::class);
@@ -377,7 +357,7 @@ class YearWeekTest extends AbstractTestCase
         YearWeek::parse($invalidValue);
     }
 
-    public function providerParseInvalidYearWeekThrowsException(): array
+    public static function providerParseInvalidYearWeekThrowsException(): array
     {
         return [
             [''],
@@ -398,13 +378,12 @@ class YearWeekTest extends AbstractTestCase
     }
 
     /**
-     * @dataProvider providerGetFirstLastDay
-     *
      * @param int    $year     The year.
      * @param int    $week     The week-of-year.
      * @param string $firstDay The expected first day of the week.
      * @param string $lastDay  The expected last day of the week.
      */
+    #[DataProvider('providerGetFirstLastDay')]
     public function testGetFirstLastDay(int $year, int $week, string $firstDay, string $lastDay): void
     {
         $yearWeek = YearWeek::of($year, $week);
@@ -413,9 +392,7 @@ class YearWeekTest extends AbstractTestCase
         self::assertIs(LocalDate::class, $lastDay, $yearWeek->getLastDay());
     }
 
-    /**
-     * @dataProvider providerGetFirstLastDay
-     */
+    #[DataProvider('providerGetFirstLastDay')]
     public function testToLocalDateRange(int $year, int $week, string $firstDay, string $lastDay): void
     {
         $yearWeek = YearWeek::of($year, $week);
@@ -424,7 +401,7 @@ class YearWeekTest extends AbstractTestCase
         self::assertSame($expectedDateRange, (string) $yearWeek->toLocalDateRange());
     }
 
-    public function providerGetFirstLastDay(): array
+    public static function providerGetFirstLastDay(): array
     {
         return [
             [2000,  1, '2000-01-03', '2000-01-09'],
