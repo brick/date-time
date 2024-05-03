@@ -21,6 +21,7 @@ use Brick\DateTime\ZonedDateTime;
 use DateTime;
 use DateTimeImmutable;
 use DateTimeZone;
+use InvalidArgumentException;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\RequiresPhp;
 
@@ -846,7 +847,6 @@ class ZonedDateTimeTest extends AbstractTestCase
         ];
     }
 
-
     /**
      * @dataProvider provideToPhpFormat
      */
@@ -855,7 +855,7 @@ class ZonedDateTimeTest extends AbstractTestCase
         $zonedDateTime = ZonedDateTime::parse($dateTime);
         $result = $zonedDateTime->toNativeFormat($format);
 
-        $this->assertSame($expected, $result);
+        self::assertSame($expected, $result);
     }
 
     /**
@@ -866,7 +866,7 @@ class ZonedDateTimeTest extends AbstractTestCase
         $zonedDateTime = ZonedDateTime::parse($dateTime);
         $result = $zonedDateTime->toPhpFormat($format);
 
-        $this->assertSame($expected, $result);
+        self::assertSame($expected, $result);
     }
 
     public function provideToPhpFormat(): array
@@ -874,28 +874,28 @@ class ZonedDateTimeTest extends AbstractTestCase
         return [
             [
                 '2018-10-13T12:34+01:00[Europe/London]',
-                \DateTime::ATOM,
-                '2018-10-13T12:34:00+01:00'
+                DateTime::ATOM,
+                '2018-10-13T12:34:00+01:00',
             ],
             [
                 '2018-10-13T12:34:00.15+01:00[Europe/London]',
-                \DateTime::RFC3339_EXTENDED,
-                '2018-10-13T12:34:00.150+01:00'
+                DateTime::RFC3339_EXTENDED,
+                '2018-10-13T12:34:00.150+01:00',
             ],
             [
                 '2018-10-13T12:34:00.15+01:00[Europe/London]',
-                \DateTime::RSS,
-                'Sat, 13 Oct 2018 12:34:00 +0100'
+                DateTime::RSS,
+                'Sat, 13 Oct 2018 12:34:00 +0100',
             ],
             [
                 '2018-10-13T12:34:00.15+01:00[Europe/London]',
-                \DateTime::W3C,
-                '2018-10-13T12:34:00+01:00'
+                DateTime::W3C,
+                '2018-10-13T12:34:00+01:00',
             ],
             [
                 '2018-10-13T12:34:00.15+01:00[Europe/London]',
                 'e',
-                'Europe/London'
+                'Europe/London',
             ],
         ];
     }
@@ -908,7 +908,7 @@ class ZonedDateTimeTest extends AbstractTestCase
         $zonedDateTime = ZonedDateTime::parse($dateTime);
         $result = $zonedDateTime->toUtcSqlFormat($precision);
 
-        $this->assertSame($expected, $result);
+        self::assertSame($expected, $result);
     }
 
     public function provideToUtcSqlFormat(): array
@@ -917,37 +917,37 @@ class ZonedDateTimeTest extends AbstractTestCase
             [
                 '2018-10-13T12:34+01:00[Europe/London]',
                 0,
-                '2018-10-13 11:34:00'
+                '2018-10-13 11:34:00',
             ],
             [
                 '2018-10-13T12:34:15.153+01:00',
                 3,
-                '2018-10-13 11:34:15.153'
+                '2018-10-13 11:34:15.153',
             ],
             [
                 '2018-10-13T12:34:15.153456+01:00',
                 6,
-                '2018-10-13 11:34:15.153456'
+                '2018-10-13 11:34:15.153456',
             ],
             [
                 '2018-10-13T12:34:15.153456789+01:00',
                 9,
-                '2018-10-13 11:34:15.153456789'
+                '2018-10-13 11:34:15.153456789',
             ],
             [
                 '2018-10-13T12:34:15.15956+01:00',
                 2,
-                '2018-10-13 11:34:15.15'
+                '2018-10-13 11:34:15.15',
             ],
             [
                 '2018-10-13T12:34:15.15956Z',
                 3,
-                '2018-10-13 12:34:15.159'
+                '2018-10-13 12:34:15.159',
             ],
             [
                 '2018-10-13T12:34:15.15956Z',
                 9,
-                '2018-10-13 12:34:15.159560000'
+                '2018-10-13 12:34:15.159560000',
             ],
         ];
     }
@@ -959,7 +959,7 @@ class ZonedDateTimeTest extends AbstractTestCase
     {
         $dateTime = ZonedDateTime::fromSqlFormat($input, TimeZone::parse($timeZone));
 
-        $this->assertSame($expected, (string)$dateTime);
+        self::assertSame($expected, (string) $dateTime);
     }
 
     public function provideFromSqlFormat(): array
@@ -968,37 +968,37 @@ class ZonedDateTimeTest extends AbstractTestCase
             [
                 '2018-10-13 12:13:14',
                 'Europe/Minsk',
-                '2018-10-13T12:13:14+03:00[Europe/Minsk]'
+                '2018-10-13T12:13:14+03:00[Europe/Minsk]',
             ],
             [
                 '2018-10-13 12:13:14.000',
                 'Europe/London',
-                '2018-10-13T12:13:14+01:00[Europe/London]'
+                '2018-10-13T12:13:14+01:00[Europe/London]',
             ],
             [
                 '2018-10-13 12:13:14.000000',
                 'Europe/London',
-                '2018-10-13T12:13:14+01:00[Europe/London]'
+                '2018-10-13T12:13:14+01:00[Europe/London]',
             ],
             [
                 '2018-10-13 12:13:14.000000001',
                 'Z',
-                '2018-10-13T12:13:14.000000001Z'
+                '2018-10-13T12:13:14.000000001Z',
             ],
             [
                 '2018-10-13 12:13:14.0000000059',
                 'Z',
-                '2018-10-13T12:13:14.000000005Z'
+                '2018-10-13T12:13:14.000000005Z',
             ],
             [
                 '2018-10-13 12:13:14.0000000009',
                 'Z',
-                '2018-10-13T12:13:14Z'
+                '2018-10-13T12:13:14Z',
             ],
             [
                 '2018-10-13 12:13:14.00203',
                 'Z',
-                '2018-10-13T12:13:14.00203Z'
+                '2018-10-13T12:13:14.00203Z',
             ],
         ];
     }
@@ -1008,7 +1008,7 @@ class ZonedDateTimeTest extends AbstractTestCase
      */
     public function testFromSqlFormatInvalidCases(string $input, string $timeZone, string $expected): void
     {
-        $this->expectException(\InvalidArgumentException::class);
+        $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage($expected);
 
         ZonedDateTime::fromSqlFormat($input, TimeZone::parse($timeZone));
@@ -1020,17 +1020,17 @@ class ZonedDateTimeTest extends AbstractTestCase
             [
                 '2018-10-23 12:13:14 ',
                 'Europe/Minsk',
-                'Input expected to be in "Y-m-d H:i:s" format. Got "2018-10-23 12:13:14 "'
+                'Input expected to be in "Y-m-d H:i:s" format. Got "2018-10-23 12:13:14 "',
             ],
             [
                 '2018-10-23 12:13:14.abba',
                 'Europe/Minsk',
-                'Incorrect fractional part in format. Got "2018-10-23 12:13:14.abba"'
+                'Incorrect fractional part in format. Got "2018-10-23 12:13:14.abba"',
             ],
             [
                 '2018-10-23T12:13:14Z',
                 'Europe/Minsk',
-                'Input expected to be in "Y-m-d H:i:s" format. Got "2018-10-23T12:13:14Z"'
+                'Input expected to be in "Y-m-d H:i:s" format. Got "2018-10-23T12:13:14Z"',
             ],
         ];
     }

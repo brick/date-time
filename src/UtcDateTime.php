@@ -157,7 +157,7 @@ final class UtcDateTime extends ZonedDateTime
     {
         if ($precision < 0 || $precision > 9) {
             throw new InvalidArgumentException(
-                'Incorrect precision. Expected value between 0 and 9, got: ' . $precision
+                'Incorrect precision. Expected value between 0 and 9, got: ' . $precision,
             );
         }
         $result = $this->toNativeFormat('Y-m-d\TH:i:s');
