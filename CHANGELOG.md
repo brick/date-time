@@ -1,5 +1,9 @@
 # Changelog
 
+## [103.0.0](https://github.com/solodkiy/brick-date-time/releases/tag/103.0.0)
+* Replaces [brick/date-time 0.6.4](https://github.com/brick/date-time/releases/tag/0.6.4)
+* Removed deprecated methods `UtcDateTime::fromDateTime()`, `ZonedDateTime::toPhpFormat()`
+
 ## [102.1.0](https://github.com/solodkiy/brick-date-time/releases/tag/102.1.0)
 * Replaces [brick/date-time 0.5.5](https://github.com/brick/date-time/releases/tag/0.5.5)
 

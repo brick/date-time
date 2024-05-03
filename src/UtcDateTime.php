@@ -113,14 +113,6 @@ final class UtcDateTime extends ZonedDateTime
         return $result;
     }
 
-    /**
-     * @deprecated please use fromNativeDateTime instead
-     */
-    public static function fromDateTime(DateTimeInterface $dateTime): UtcDateTime
-    {
-        return self::fromNativeDateTime($dateTime);
-    }
-
     public static function fromNativeDateTime(DateTimeInterface $dateTime): UtcDateTime
     {
         $result = parent::fromNativeDateTime($dateTime);

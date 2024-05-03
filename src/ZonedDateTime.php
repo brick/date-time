@@ -760,14 +760,6 @@ class ZonedDateTime implements JsonSerializable, Stringable
     }
 
     /**
-     * @deprecated please use toNativeFormat instead
-     */
-    public function toPhpFormat(string $format): string
-    {
-        return $this->toNativeFormat($format);
-    }
-
-    /**
      * @return string "Y-m-d H:i:s.u" or "Y-m-d H:i:s"
      */
     public function toUtcSqlFormat(int $precision): string

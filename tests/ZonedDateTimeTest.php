@@ -848,7 +848,7 @@ class ZonedDateTimeTest extends AbstractTestCase
     }
 
     /**
-     * @dataProvider provideToPhpFormat
+     * @dataProvider provideToNativeFormat
      */
     public function testToNativeFormat(string $dateTime, string $format, string $expected): void
     {
@@ -858,18 +858,7 @@ class ZonedDateTimeTest extends AbstractTestCase
         self::assertSame($expected, $result);
     }
 
-    /**
-     * @dataProvider provideToPhpFormat
-     */
-    public function testToPhpFormat(string $dateTime, string $format, string $expected): void
-    {
-        $zonedDateTime = ZonedDateTime::parse($dateTime);
-        $result = $zonedDateTime->toPhpFormat($format);
-
-        self::assertSame($expected, $result);
-    }
-
-    public function provideToPhpFormat(): array
+    public function provideToNativeFormat(): array
     {
         return [
             [

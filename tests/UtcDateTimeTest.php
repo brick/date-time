@@ -8,9 +8,6 @@ use Brick\DateTime\LocalDateTime;
 use Brick\DateTime\TimeZone;
 use Brick\DateTime\UtcDateTime;
 use Brick\DateTime\ZonedDateTime;
-use DateTime;
-use DateTimeZone;
-use Exception;
 use InvalidArgumentException;
 
 /**
@@ -36,26 +33,6 @@ class UtcDateTimeTest extends AbstractTestCase
     {
         $this->expectException(InvalidArgumentException::class);
         UtcDateTime::of(LocalDateTime::of(2020, 1, 2), TimeZone::parse('Europe/Moscow'));
-    }
-
-    /**
-     * @dataProvider providerFromDateTime
-     *
-     * @throws Exception
-     */
-    public function testFromDateTime(string $dateTimeString, string $timeZone, string $expected): void
-    {
-        $dateTime = new DateTime($dateTimeString, new DateTimeZone($timeZone));
-        $this->assertIs(UtcDateTime::class, $expected, UtcDateTime::fromDateTime($dateTime));
-    }
-
-    public function providerFromDateTime(): array
-    {
-        return [
-            ['2018-07-21 14:09:10.23456', 'America/Los_Angeles', '2018-07-21T21:09:10.23456Z'],
-            ['2019-01-21 17:59', 'America/Los_Angeles', '2019-01-22T01:59Z'],
-            ['2019-01-23 09:10:11.123', '+05:30', '2019-01-23T03:40:11.123Z'],
-        ];
     }
 
     /**
