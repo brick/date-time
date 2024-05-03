@@ -5,10 +5,10 @@ Brick\DateTime (solodkiy fork)
 
 A powerful set of immutable classes to work with dates and times.
 
-[![Build Status](https://github.com/brick/date-time/workflows/CI/badge.svg)](https://github.com/brick/date-time/actions)
-[![Coverage Status](https://coveralls.io/repos/github/brick/date-time/badge.svg?branch=master)](https://coveralls.io/github/brick/date-time?branch=master)
-[![Latest Stable Version](https://poser.pugx.org/brick/date-time/v/stable)](https://packagist.org/packages/brick/date-time)
-[![Total Downloads](https://poser.pugx.org/brick/date-time/downloads)](https://packagist.org/packages/brick/date-time)
+[![Build Status](https://github.com/solodkiy/brick-date-time/workflows/CI/badge.svg)](https://github.com/solodkiy/brick-date-time/actions)
+[![Coverage Status](https://coveralls.io/repos/github/solodkiy/brick-date-time/badge.svg?branch=master)](https://coveralls.io/github/solodkiy/brick-date-time?branch=master)
+[![Latest Stable Version](https://poser.pugx.org/solodkiy/brick-date-time/v/stable)](https://packagist.org/packages/solodkiy/brick-date-time)
+[![Total Downloads](https://poser.pugx.org/solodkiy/brick-date-time/downloads)](https://packagist.org/packages/solodkiy/brick-date-time)
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](http://opensource.org/licenses/MIT)
 
 Introduction
