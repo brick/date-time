@@ -56,6 +56,7 @@ While this library is still under development, it is well tested and should be s
 
 | solodkiy/brick-date-time | brick/date-time |
 |--------------------------|-----------------|
+| 103.\*.\*                | 0.6.\*          |
 | 102.\*.\*                | 0.5.\*          |
 | 101.\*.\*                | 0.4.\*          |
 | 100.\*.\*                | 0.3.2           |
