@@ -18,7 +18,7 @@ use const STR_PAD_LEFT;
  * @method UtcDateTime withDate(LocalDate $date)
  * @method UtcDateTime withTime(LocalTime $time)
  * @method UtcDateTime withYear(int $year)
- * @method UtcDateTime withMonth(int $month)
+ * @method UtcDateTime withMonth(int|Month $month)
  * @method UtcDateTime withDay(int $day)
  * @method UtcDateTime withHour(int $hour)
  * @method UtcDateTime withMinute(int $minute)

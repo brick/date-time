@@ -751,12 +751,7 @@ class ZonedDateTime implements JsonSerializable, Stringable
 
     public function toNativeFormat(string $format): string
     {
-        $result = $this->toNativeDateTime()->format($format);
-        if ($result === false) {
-            throw new DateTimeException('Cannot format date to "' . $format . '"');
-        }
-
-        return $result;
+        return $this->toNativeDateTime()->format($format);
     }
 
     /**

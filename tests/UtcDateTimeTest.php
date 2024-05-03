@@ -37,7 +37,6 @@ class UtcDateTimeTest extends AbstractTestCase
     }
 
     /**
-     *
      * @param string $text   The string to parse.
      * @param string $date   The expected date string.
      * @param string $time   The expected time string.
