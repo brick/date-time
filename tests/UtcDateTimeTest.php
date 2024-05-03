@@ -20,14 +20,15 @@ class UtcDateTimeTest extends AbstractTestCase
     {
         $a = ZonedDateTime::of(LocalDateTime::of(2020, 1, 2), TimeZone::utc());
         self::assertInstanceOf(UtcDateTime::class, $a);
+        self::assertSame('2020-01-02T00:00Z', (string)$a);
+
         $b = UtcDateTime::of(LocalDateTime::of(2020, 1, 2), TimeZone::utc());
         self::assertInstanceOf(UtcDateTime::class, $b);
+        self::assertSame('2020-01-02T00:00Z', (string)$b);
+
         $c = UtcDateTime::of(LocalDateTime::of(2020, 1, 2));
         self::assertInstanceOf(UtcDateTime::class, $c);
-
-        self::assertEquals($b, $a);
-        self::assertEquals($c, $a);
-        self::assertEquals($c, $b);
+        self::assertSame('2020-01-02T00:00Z', (string)$c);
     }
 
     public function testOfError(): void
