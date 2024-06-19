@@ -739,6 +739,9 @@ final class LocalDate implements JsonSerializable, Stringable
         return $total - self::DAYS_0000_TO_1970;
     }
 
+    /**
+     * Returns the date of the first occurrence of the specified day-of-week before the current date.
+     */
     public function previousDayOfWeek(DayOfWeek $dayOfWeek): LocalDate
     {
         $daysToSubtract = $this->getDayOfWeek()->value - $dayOfWeek->value;
@@ -749,6 +752,10 @@ final class LocalDate implements JsonSerializable, Stringable
         return $this->minusDays($daysToSubtract);
     }
 
+    /**
+     * Returns the date of the first occurrence of the specified day-of-week before the current date,
+     * unless it is already on that day in which case the current date is returned.
+     */
     public function previousOrSameDayOfWeek(DayOfWeek $dayOfWeek): LocalDate
     {
         $daysToSubtract = $this->getDayOfWeek()->value - $dayOfWeek->value;
@@ -759,6 +766,9 @@ final class LocalDate implements JsonSerializable, Stringable
         return $this->minusDays($daysToSubtract);
     }
 
+    /**
+     * Returns the date of the first occurrence of the specified day-of-week after the current date.
+     */
     public function nextDayOfWeek(DayOfWeek $dayOfWeek): LocalDate
     {
         $daysToAdd = $dayOfWeek->value - $this->getDayOfWeek()->value;
@@ -769,6 +779,10 @@ final class LocalDate implements JsonSerializable, Stringable
         return $this->plusDays($daysToAdd);
     }
 
+    /**
+     * Returns the date of the first occurrence of the specified day-of-week after the current date,
+     * unless it is already on that day in which case the current date is returned.
+     */
     public function nextOrSameDayOfWeek(DayOfWeek $dayOfWeek): LocalDate
     {
         $daysToAdd = $dayOfWeek->value - $this->getDayOfWeek()->value;
