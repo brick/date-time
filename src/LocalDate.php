@@ -739,6 +739,26 @@ final class LocalDate implements JsonSerializable, Stringable
         return $total - self::DAYS_0000_TO_1970;
     }
 
+    public function nextDayOfWeek(DayOfWeek $dayOfWeek): LocalDate
+    {
+        $daysToAdd = $dayOfWeek->value - $this->getDayOfWeek()->value;
+        if ($daysToAdd <= 0) {
+            $daysToAdd += 7;
+        }
+
+        return $this->plusDays($daysToAdd);
+    }
+
+    public function nextOrSameDayOfWeek(DayOfWeek $dayOfWeek): LocalDate
+    {
+        $daysToAdd = $dayOfWeek->value - $this->getDayOfWeek()->value;
+        if ($daysToAdd < 0) {
+            $daysToAdd += 7;
+        }
+
+        return $this->plusDays($daysToAdd);
+    }
+
     /**
      * Converts this LocalDate to a native DateTime object.
      *
