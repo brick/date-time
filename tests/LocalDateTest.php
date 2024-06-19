@@ -134,6 +134,142 @@ class LocalDateTest extends AbstractTestCase
         ];
     }
 
+    #[DataProvider('providerNextDayOfWeek')]
+    public function testNextDayOfWeek(string $date, DayOfWeek $dayOfWeek, string $expectedDate): void
+    {
+        $actualDate = LocalDate::parse($date)->nextDayOfWeek($dayOfWeek);
+        self::assertSame($expectedDate, $actualDate->toISOString());
+    }
+
+    public static function providerNextDayOfWeek(): array
+    {
+        return [
+            ['2024-06-23', DayOfWeek::MONDAY, '2024-06-24'],
+            ['2024-06-23', DayOfWeek::TUESDAY, '2024-06-25'],
+            ['2024-06-23', DayOfWeek::WEDNESDAY, '2024-06-26'],
+            ['2024-06-23', DayOfWeek::THURSDAY, '2024-06-27'],
+            ['2024-06-23', DayOfWeek::FRIDAY, '2024-06-28'],
+            ['2024-06-23', DayOfWeek::SATURDAY, '2024-06-29'],
+            ['2024-06-23', DayOfWeek::SUNDAY, '2024-06-30'],
+
+            ['2024-06-24', DayOfWeek::TUESDAY, '2024-06-25'],
+            ['2024-06-24', DayOfWeek::WEDNESDAY, '2024-06-26'],
+            ['2024-06-24', DayOfWeek::THURSDAY, '2024-06-27'],
+            ['2024-06-24', DayOfWeek::FRIDAY, '2024-06-28'],
+            ['2024-06-24', DayOfWeek::SATURDAY, '2024-06-29'],
+            ['2024-06-24', DayOfWeek::SUNDAY, '2024-06-30'],
+            ['2024-06-24', DayOfWeek::MONDAY, '2024-07-01'],
+
+            ['2024-06-25', DayOfWeek::WEDNESDAY, '2024-06-26'],
+            ['2024-06-25', DayOfWeek::THURSDAY, '2024-06-27'],
+            ['2024-06-25', DayOfWeek::FRIDAY, '2024-06-28'],
+            ['2024-06-25', DayOfWeek::SATURDAY, '2024-06-29'],
+            ['2024-06-25', DayOfWeek::SUNDAY, '2024-06-30'],
+            ['2024-06-25', DayOfWeek::MONDAY, '2024-07-01'],
+            ['2024-06-25', DayOfWeek::TUESDAY, '2024-07-02'],
+
+            ['2024-06-26', DayOfWeek::THURSDAY, '2024-06-27'],
+            ['2024-06-26', DayOfWeek::FRIDAY, '2024-06-28'],
+            ['2024-06-26', DayOfWeek::SATURDAY, '2024-06-29'],
+            ['2024-06-26', DayOfWeek::SUNDAY, '2024-06-30'],
+            ['2024-06-26', DayOfWeek::MONDAY, '2024-07-01'],
+            ['2024-06-26', DayOfWeek::TUESDAY, '2024-07-02'],
+            ['2024-06-26', DayOfWeek::WEDNESDAY, '2024-07-03'],
+
+            ['2024-06-27', DayOfWeek::FRIDAY, '2024-06-28'],
+            ['2024-06-27', DayOfWeek::SATURDAY, '2024-06-29'],
+            ['2024-06-27', DayOfWeek::SUNDAY, '2024-06-30'],
+            ['2024-06-27', DayOfWeek::MONDAY, '2024-07-01'],
+            ['2024-06-27', DayOfWeek::TUESDAY, '2024-07-02'],
+            ['2024-06-27', DayOfWeek::WEDNESDAY, '2024-07-03'],
+            ['2024-06-27', DayOfWeek::THURSDAY, '2024-07-04'],
+
+            ['2024-06-28', DayOfWeek::SATURDAY, '2024-06-29'],
+            ['2024-06-28', DayOfWeek::SUNDAY, '2024-06-30'],
+            ['2024-06-28', DayOfWeek::MONDAY, '2024-07-01'],
+            ['2024-06-28', DayOfWeek::TUESDAY, '2024-07-02'],
+            ['2024-06-28', DayOfWeek::WEDNESDAY, '2024-07-03'],
+            ['2024-06-28', DayOfWeek::THURSDAY, '2024-07-04'],
+            ['2024-06-28', DayOfWeek::FRIDAY, '2024-07-05'],
+
+            ['2024-06-29', DayOfWeek::SUNDAY, '2024-06-30'],
+            ['2024-06-29', DayOfWeek::MONDAY, '2024-07-01'],
+            ['2024-06-29', DayOfWeek::TUESDAY, '2024-07-02'],
+            ['2024-06-29', DayOfWeek::WEDNESDAY, '2024-07-03'],
+            ['2024-06-29', DayOfWeek::THURSDAY, '2024-07-04'],
+            ['2024-06-29', DayOfWeek::FRIDAY, '2024-07-05'],
+            ['2024-06-29', DayOfWeek::SATURDAY, '2024-07-06'],
+        ];
+    }
+
+    #[DataProvider('providerNextOrSameDayOfWeek')]
+    public function testNextOrSameDayOfWeek(string $date, DayOfWeek $dayOfWeek, string $expectedDate): void
+    {
+        $actualDate = LocalDate::parse($date)->nextOrSameDayOfWeek($dayOfWeek);
+        self::assertSame($expectedDate, $actualDate->toISOString());
+    }
+
+    public static function providerNextOrSameDayOfWeek(): array
+    {
+        return [
+            ['2024-06-24', DayOfWeek::MONDAY, '2024-06-24'],
+            ['2024-06-24', DayOfWeek::TUESDAY, '2024-06-25'],
+            ['2024-06-24', DayOfWeek::WEDNESDAY, '2024-06-26'],
+            ['2024-06-24', DayOfWeek::THURSDAY, '2024-06-27'],
+            ['2024-06-24', DayOfWeek::FRIDAY, '2024-06-28'],
+            ['2024-06-24', DayOfWeek::SATURDAY, '2024-06-29'],
+            ['2024-06-24', DayOfWeek::SUNDAY, '2024-06-30'],
+
+            ['2024-06-25', DayOfWeek::TUESDAY, '2024-06-25'],
+            ['2024-06-25', DayOfWeek::WEDNESDAY, '2024-06-26'],
+            ['2024-06-25', DayOfWeek::THURSDAY, '2024-06-27'],
+            ['2024-06-25', DayOfWeek::FRIDAY, '2024-06-28'],
+            ['2024-06-25', DayOfWeek::SATURDAY, '2024-06-29'],
+            ['2024-06-25', DayOfWeek::SUNDAY, '2024-06-30'],
+            ['2024-06-25', DayOfWeek::MONDAY, '2024-07-01'],
+
+            ['2024-06-26', DayOfWeek::WEDNESDAY, '2024-06-26'],
+            ['2024-06-26', DayOfWeek::THURSDAY, '2024-06-27'],
+            ['2024-06-26', DayOfWeek::FRIDAY, '2024-06-28'],
+            ['2024-06-26', DayOfWeek::SATURDAY, '2024-06-29'],
+            ['2024-06-26', DayOfWeek::SUNDAY, '2024-06-30'],
+            ['2024-06-26', DayOfWeek::MONDAY, '2024-07-01'],
+            ['2024-06-26', DayOfWeek::TUESDAY, '2024-07-02'],
+
+            ['2024-06-27', DayOfWeek::THURSDAY, '2024-06-27'],
+            ['2024-06-27', DayOfWeek::FRIDAY, '2024-06-28'],
+            ['2024-06-27', DayOfWeek::SATURDAY, '2024-06-29'],
+            ['2024-06-27', DayOfWeek::SUNDAY, '2024-06-30'],
+            ['2024-06-27', DayOfWeek::MONDAY, '2024-07-01'],
+            ['2024-06-27', DayOfWeek::TUESDAY, '2024-07-02'],
+            ['2024-06-27', DayOfWeek::WEDNESDAY, '2024-07-03'],
+
+            ['2024-06-28', DayOfWeek::FRIDAY, '2024-06-28'],
+            ['2024-06-28', DayOfWeek::SATURDAY, '2024-06-29'],
+            ['2024-06-28', DayOfWeek::SUNDAY, '2024-06-30'],
+            ['2024-06-28', DayOfWeek::MONDAY, '2024-07-01'],
+            ['2024-06-28', DayOfWeek::TUESDAY, '2024-07-02'],
+            ['2024-06-28', DayOfWeek::WEDNESDAY, '2024-07-03'],
+            ['2024-06-28', DayOfWeek::THURSDAY, '2024-07-04'],
+
+            ['2024-06-29', DayOfWeek::SATURDAY, '2024-06-29'],
+            ['2024-06-29', DayOfWeek::SUNDAY, '2024-06-30'],
+            ['2024-06-29', DayOfWeek::MONDAY, '2024-07-01'],
+            ['2024-06-29', DayOfWeek::TUESDAY, '2024-07-02'],
+            ['2024-06-29', DayOfWeek::WEDNESDAY, '2024-07-03'],
+            ['2024-06-29', DayOfWeek::THURSDAY, '2024-07-04'],
+            ['2024-06-29', DayOfWeek::FRIDAY, '2024-07-05'],
+
+            ['2024-06-30', DayOfWeek::SUNDAY, '2024-06-30'],
+            ['2024-06-30', DayOfWeek::MONDAY, '2024-07-01'],
+            ['2024-06-30', DayOfWeek::TUESDAY, '2024-07-02'],
+            ['2024-06-30', DayOfWeek::WEDNESDAY, '2024-07-03'],
+            ['2024-06-30', DayOfWeek::THURSDAY, '2024-07-04'],
+            ['2024-06-30', DayOfWeek::FRIDAY, '2024-07-05'],
+            ['2024-06-30', DayOfWeek::SATURDAY, '2024-07-06'],
+        ];
+    }
+
     public function testFromNativeDateTime(): void
     {
         $dateTime = new DateTime('2018-07-21');
