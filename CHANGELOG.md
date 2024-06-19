@@ -1,5 +1,14 @@
 # Changelog
 
+## [0.6.5](https://github.com/brick/date-time/releases/tag/0.6.5) - 2024-06-19
+
+✨ **New methods**
+
+- `LocalDate::previousDayOfWeek()`
+- `LocalDate::previousOrSameDayOfWeek()`
+- `LocalDate::nextDayOfWeek()`
+- `LocalDate::nextOrSameDayOfWeek()`
+
 ## [0.6.4](https://github.com/brick/date-time/releases/tag/0.6.4) - 2024-04-25
 
 ✨ **New features**
