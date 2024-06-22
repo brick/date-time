@@ -17,6 +17,8 @@
   - deprecated method `getValue()` has been removed, use `$dayOfWeek->value` instead
   - deprecated method `is()` has been removed, compare values with `$dayOfWeek` or `$dayOfWeek->value` instead
   - deprecated method `isEqualTo()` has been removed, use strict equality `===` between `DayOfWeek` instances instead.
+- `DefaultClock`:
+  - deprecated method `travel()` has been removed, use `travelTo()` instead
 - `LocalDate`:
   - `getMonth()` now returns a `Month` enum; use `getMonthValue()` if you want the month number
 - `LocalDateTime`:
