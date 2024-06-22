@@ -4,6 +4,19 @@
 
 💥 **Breaking changes**
 
+- `DayOfWeek`:
+  - deprecated method `of()` has been removed, use `DayOfWeek::from()` instead
+  - the following deprecated methods have been removed, use enum values instead:
+    - `DayOfWeek::monday()` → `DayOfWeek::MONDAY`
+    - `DayOfWeek::tuesday()` → `DayOfWeek::TUESDAY`
+    - `DayOfWeek::wednesday()` → `DayOfWeek::WEDNESDAY`
+    - `DayOfWeek::thursday()` → `DayOfWeek::THURSDAY`
+    - `DayOfWeek::friday()` → `DayOfWeek::FRIDAY`
+    - `DayOfWeek::saturday()` → `DayOfWeek::SATURDAY`
+    - `DayOfWeek::sunday()` → `DayOfWeek::SUNDAY`
+  - deprecated method `getValue()` has been removed, use `$dayOfWeek->value` instead
+  - deprecated method `is()` has been removed, compare values with `$dayOfWeek` or `$dayOfWeek->value` instead
+  - deprecated method `isEqualTo()` has been removed, use strict equality `===` between `DayOfWeek` instances instead.
 - `LocalDate`:
   - `getMonth()` now returns a `Month` enum; use `getMonthValue()` if you want the month number
 - `LocalDateTime`:

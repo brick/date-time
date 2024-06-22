@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Brick\DateTime\Tests;
 
 use Brick\DateTime\Clock\FixedClock;
-use Brick\DateTime\DateTimeException;
 use Brick\DateTime\DayOfWeek;
 use Brick\DateTime\Instant;
 use Brick\DateTime\TimeZone;
@@ -29,7 +28,6 @@ class DayOfWeekTest extends AbstractTestCase
     public function testValues(int $expectedValue, DayOfWeek $dayOfWeek): void
     {
         self::assertSame($expectedValue, $dayOfWeek->value);
-        self::assertSame($expectedValue, $dayOfWeek->getValue());
     }
 
     public static function providerValues(): array
@@ -42,28 +40,6 @@ class DayOfWeekTest extends AbstractTestCase
             [5, DayOfWeek::FRIDAY],
             [6, DayOfWeek::SATURDAY],
             [7, DayOfWeek::SUNDAY],
-        ];
-    }
-
-    public function testOf(): void
-    {
-        self::assertSame(DayOfWeek::FRIDAY, DayOfWeek::of(5));
-        self::assertSame(DayOfWeek::FRIDAY, DayOfWeek::of(DayOfWeek::FRIDAY));
-    }
-
-    #[DataProvider('providerOfInvalidDayOfWeekThrowsException')]
-    public function testOfInvalidDayOfWeekThrowsException(int $dayOfWeek): void
-    {
-        $this->expectException(DateTimeException::class);
-        DayOfWeek::of($dayOfWeek);
-    }
-
-    public static function providerOfInvalidDayOfWeekThrowsException(): array
-    {
-        return [
-            [-1],
-            [0],
-            [8],
         ];
     }
 
@@ -99,60 +75,6 @@ class DayOfWeekTest extends AbstractTestCase
             foreach (DayOfWeek::all($dayOfWeek) as $dow) {
                 self::assertSame($dayOfWeek, $dow);
                 $dayOfWeek = $dayOfWeek->plus(1);
-            }
-        }
-    }
-
-    public function testMonday(): void
-    {
-        self::assertSame(DayOfWeek::MONDAY, DayOfWeek::monday());
-    }
-
-    public function testTuesday(): void
-    {
-        self::assertSame(DayOfWeek::TUESDAY, DayOfWeek::tuesday());
-    }
-
-    public function testWednesday(): void
-    {
-        self::assertSame(DayOfWeek::WEDNESDAY, DayOfWeek::wednesday());
-    }
-
-    public function testThursday(): void
-    {
-        self::assertSame(DayOfWeek::THURSDAY, DayOfWeek::thursday());
-    }
-
-    public function testFriday(): void
-    {
-        self::assertSame(DayOfWeek::FRIDAY, DayOfWeek::friday());
-    }
-
-    public function testSaturday(): void
-    {
-        self::assertSame(DayOfWeek::SATURDAY, DayOfWeek::saturday());
-    }
-
-    public function testSunday(): void
-    {
-        self::assertSame(DayOfWeek::SUNDAY, DayOfWeek::sunday());
-    }
-
-    public function testIs(): void
-    {
-        for ($i = DayOfWeek::MONDAY->value; $i <= DayOfWeek::SUNDAY->value; $i++) {
-            for ($j = DayOfWeek::MONDAY->value; $j <= DayOfWeek::SUNDAY->value; $j++) {
-                self::assertSame($i === $j, DayOfWeek::from($i)->is($j));
-                self::assertSame($i === $j, DayOfWeek::from($i)->is(DayOfWeek::from($j)));
-            }
-        }
-    }
-
-    public function testIsEqualTo(): void
-    {
-        for ($i = DayOfWeek::MONDAY->value; $i <= DayOfWeek::SUNDAY->value; $i++) {
-            for ($j = DayOfWeek::MONDAY->value; $j <= DayOfWeek::SUNDAY->value; $j++) {
-                self::assertSame($i === $j, DayOfWeek::from($i)->isEqualTo(DayOfWeek::from($j)));
             }
         }
     }
