@@ -25,7 +25,7 @@ class DefaultClockTest extends AbstractTestCase
         self::assertInstantIs(123456, 5000, Instant::now());
     }
 
-    public function testTravel(): void
+    public function testTravelTo(): void
     {
         $fixedClock = new FixedClock(Instant::of(1000, 0));
         DefaultClock::set($fixedClock);
@@ -33,13 +33,6 @@ class DefaultClockTest extends AbstractTestCase
 
         DefaultClock::travelTo(Instant::of(-1000));
         self::assertInstantIs(-1000, 0, Instant::now());
-
-        // TODO: Remove deprecated function
-        DefaultClock::travel(Instant::of(-2000));
-        self::assertInstantIs(-2000, 0, Instant::now());
-
-        $fixedClock->move(2);
-        self::assertInstantIs(-1998, 0, Instant::now());
     }
 
     public function testTravelBy(): void
