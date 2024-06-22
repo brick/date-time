@@ -140,9 +140,6 @@ abstract class AbstractTestCase extends TestCase
             $yearMonth->getYear(),
             $yearMonth->getMonthValue(),
         ]);
-
-        // temporary assertion to test the deprecated getter as well
-        self::assertSame($month, $yearMonth->getMonth());
     }
 
     /**

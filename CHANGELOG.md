@@ -8,6 +8,8 @@
   - `getMonth()` now returns a `Month` enum; use `getMonthValue()` if you want the month number
 - `LocalDateTime`:
   - `getMonth()` now returns a `Month` enum; use `getMonthValue()` if you want the month number
+- `YearMonth`:
+  - `getMonth()` now returns a `Month` enum; use `getMonthValue()` if you want the month number
 - `ZonedDateTime`:
   - `getMonth()` now returns a `Month` enum; use `getMonthValue()` if you want the month number
 
