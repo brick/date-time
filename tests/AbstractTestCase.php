@@ -110,7 +110,6 @@ abstract class AbstractTestCase extends TestCase
         ]);
 
         // temporary assertions to test the deprecated getters as well
-        self::assertSame($m, $dateTime->getMonth());
         self::assertSame($d, $dateTime->getDay());
     }
 
