@@ -57,7 +57,7 @@ final class MonthOfYear
      */
     public static function getName(int $monthOfYear): string
     {
-        $names = [
+        return match ($monthOfYear) {
             1 => 'January',
             2 => 'February',
             3 => 'March',
@@ -70,8 +70,6 @@ final class MonthOfYear
             10 => 'October',
             11 => 'November',
             12 => 'December',
-        ];
-
-        return $names[$monthOfYear];
+        };
     }
 }
