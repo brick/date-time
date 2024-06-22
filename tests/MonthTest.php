@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Brick\DateTime\Tests;
 
-use Brick\DateTime\DateTimeException;
 use Brick\DateTime\Month;
 use Generator;
 use PHPUnit\Framework\Attributes\DataProvider;
@@ -26,7 +25,6 @@ class MonthTest extends AbstractTestCase
     public function testValues(int $expectedValue, Month $month): void
     {
         self::assertSame($expectedValue, $month->value);
-        self::assertSame($expectedValue, $month->getValue());
     }
 
     public static function providerValues(): array
@@ -45,57 +43,6 @@ class MonthTest extends AbstractTestCase
             [11, Month::NOVEMBER],
             [12, Month::DECEMBER],
         ];
-    }
-
-    public function testOf(): void
-    {
-        self::assertSame(Month::AUGUST, Month::of(8));
-        self::assertSame(Month::AUGUST, Month::of(Month::AUGUST));
-    }
-
-    #[DataProvider('providerOfInvalidMonthThrowsException')]
-    public function testOfInvalidMonthThrowsException(int $invalidMonth): void
-    {
-        $this->expectException(DateTimeException::class);
-        Month::of($invalidMonth);
-    }
-
-    public static function providerOfInvalidMonthThrowsException(): array
-    {
-        return [
-            [-1],
-            [0],
-            [13],
-        ];
-    }
-
-    public function testGetAll(): void
-    {
-        $currentMonth = Month::JANUARY->value;
-
-        foreach (Month::getAll() as $month) {
-            self::assertSame($currentMonth, $month->value);
-            $currentMonth++;
-        }
-    }
-
-    public function testIs(): void
-    {
-        for ($i = Month::JANUARY->value; $i <= Month::DECEMBER->value; $i++) {
-            for ($j = Month::JANUARY->value; $j <= Month::DECEMBER->value; $j++) {
-                self::assertSame($i === $j, Month::from($i)->is($j));
-                self::assertSame($i === $j, Month::from($i)->is(Month::from($j)));
-            }
-        }
-    }
-
-    public function testIsEqualTo(): void
-    {
-        for ($i = Month::JANUARY->value; $i <= Month::DECEMBER->value; $i++) {
-            for ($j = Month::JANUARY->value; $j <= Month::DECEMBER->value; $j++) {
-                self::assertSame($i === $j, Month::from($i)->isEqualTo(Month::from($j)));
-            }
-        }
     }
 
     /**
