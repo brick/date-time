@@ -65,9 +65,6 @@ abstract class AbstractTestCase extends TestCase
             $date->getMonthValue(),
             $date->getDayOfMonth(),
         ]);
-
-        // temporary assertions to test the deprecated getters as well
-        self::assertSame($day, $date->getDay());
     }
 
     /**
@@ -108,9 +105,6 @@ abstract class AbstractTestCase extends TestCase
             $dateTime->getSecond(),
             $dateTime->getNano(),
         ]);
-
-        // temporary assertions to test the deprecated getters as well
-        self::assertSame($d, $dateTime->getDay());
     }
 
     /**
@@ -166,9 +160,6 @@ abstract class AbstractTestCase extends TestCase
             $monthDay->getMonthValue(),
             $monthDay->getDayOfMonth(),
         ]);
-
-        // temporary assertions to test the deprecated getters as well
-        self::assertSame($day, $monthDay->getDay());
     }
 
     /**

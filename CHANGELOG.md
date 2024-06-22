@@ -20,8 +20,10 @@
 - `DefaultClock`:
   - deprecated method `travel()` has been removed, use `travelTo()` instead
 - `LocalDate`:
+  - deprecated method `getDay()` has been removed, use `getDayOfMonth()` instead
   - `getMonth()` now returns a `Month` enum; use `getMonthValue()` if you want the month number
 - `LocalDateTime`:
+  - deprecated method `getDay()` has been removed, use `getDayOfMonth()` instead
   - `getMonth()` now returns a `Month` enum; use `getMonthValue()` if you want the month number
 - `Month`:
   - deprecated method `of()` has been removed, use `Month::from()` instead
@@ -30,10 +32,12 @@
   - deprecated method `is()` has been removed, compare values with `$month` or `$month->value` instead
   - deprecated method `isEqualTo()` has been removed, use strict equality `===` between `Month` instances instead
 - `MonthDay`:
+  - deprecated method `getDay()` has been removed, use `getDayOfMonth()` instead
   - `getMonth()` now returns a `Month` enum; use `getMonthValue()` if you want the month number
 - `YearMonth`:
   - `getMonth()` now returns a `Month` enum; use `getMonthValue()` if you want the month number
 - `ZonedDateTime`:
+  - deprecated method `getDay()` has been removed, use `getDayOfMonth()` instead
   - `getMonth()` now returns a `Month` enum; use `getMonthValue()` if you want the month number
 
 ## [0.6.5](https://github.com/brick/date-time/releases/tag/0.6.5) - 2024-06-19

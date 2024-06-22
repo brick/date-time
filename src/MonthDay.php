@@ -112,14 +112,6 @@ final class MonthDay implements JsonSerializable, Stringable
     }
 
     /**
-     * @deprecated Use getDayOfMonth() instead.
-     */
-    public function getDay(): int
-    {
-        return $this->day;
-    }
-
-    /**
      * Returns the day-of-month.
      *
      * @return int<1, 31>
