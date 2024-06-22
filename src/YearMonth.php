@@ -23,8 +23,8 @@ use const STR_PAD_LEFT;
 final class YearMonth implements JsonSerializable, Stringable
 {
     /**
-     * @param int $year  The year, validated from MIN_YEAR to MAX_YEAR.
-     * @param int $month The month, validated in the range 1 to 12.
+     * @param int        $year  The year, validated from MIN_YEAR to MAX_YEAR.
+     * @param int<1, 12> $month The month.
      */
     private function __construct(
         private readonly int $year,
@@ -110,6 +110,8 @@ final class YearMonth implements JsonSerializable, Stringable
 
     /**
      * Returns the month-of-year value from 1 to 12.
+     *
+     * @return int<1, 12>
      */
     public function getMonthValue(): int
     {
@@ -126,6 +128,8 @@ final class YearMonth implements JsonSerializable, Stringable
 
     /**
      * Returns the length of the month in days, taking account of the year.
+     *
+     * @return int<28, 31>
      */
     public function getLengthOfMonth(): int
     {
@@ -270,6 +274,8 @@ final class YearMonth implements JsonSerializable, Stringable
         $month = $this->month + $months - 1;
 
         $yearDiff = Math::floorDiv($month, 12);
+
+        /** @var int<1, 12> $month */
         $month = Math::floorMod($month, 12) + 1;
 
         $year = $this->year + $yearDiff;

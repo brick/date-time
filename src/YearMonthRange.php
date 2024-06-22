@@ -150,10 +150,11 @@ class YearMonthRange implements IteratorAggregate, Countable, JsonSerializable, 
     /**
      * Returns the number of year-months in this range.
      *
-     * @return int The number of year-months, >= 1.
+     * @return int<1, max> The number of year-months.
      */
     public function count(): int
     {
+        /** @var int<1, max> */
         return 12 * ($this->end->getYear() - $this->start->getYear())
             + ($this->end->getMonthValue() - $this->start->getMonthValue())
             + 1;
