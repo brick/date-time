@@ -22,11 +22,13 @@ final class DayOfMonth
     public const PATTERN = '[0-9]{2}';
 
     /**
-     * @param int      $dayOfMonth  The day-of-month to check.
-     * @param int|null $monthOfYear An optional month-of-year to check against, validated.
-     * @param int|null $year        An optional year to check against, validated.
+     * @param int             $dayOfMonth  The day-of-month to check.
+     * @param int<1, 12>|null $monthOfYear An optional month-of-year to check against.
+     * @param int|null        $year        An optional year to check against, validated.
      *
      * @throws DateTimeException If the day-of-month is not valid.
+     *
+     * @psalm-assert int<1, 31> $dayOfMonth
      */
     public static function check(int $dayOfMonth, ?int $monthOfYear = null, ?int $year = null): void
     {

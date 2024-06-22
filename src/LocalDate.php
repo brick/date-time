@@ -52,9 +52,9 @@ final class LocalDate implements JsonSerializable, Stringable
     /**
      * Private constructor. Use of() to obtain an instance.
      *
-     * @param int $year  The year, validated from MIN_YEAR to MAX_YEAR.
-     * @param int $month The month-of-year, validated from 1 to 12.
-     * @param int $day   The day-of-month, validated from 1 to 31, valid for the year-month.
+     * @param int        $year  The year, validated from MIN_YEAR to MAX_YEAR.
+     * @param int<1, 12> $month The month-of-year.
+     * @param int<1, 31> $day   The day-of-month, validated from 1 to 31, valid for the year-month.
      */
     private function __construct(
         private readonly int $year,
@@ -150,11 +150,15 @@ final class LocalDate implements JsonSerializable, Stringable
      */
     public static function fromNativeDateTime(DateTimeInterface $dateTime): LocalDate
     {
-        return new LocalDate(
-            (int) $dateTime->format('Y'),
-            (int) $dateTime->format('n'),
-            (int) $dateTime->format('j'),
-        );
+        $year = (int) $dateTime->format('Y');
+
+        /** @var int<1, 12> $month */
+        $month = (int) $dateTime->format('n');
+
+        /** @var int<1, 31> $day */
+        $day = (int) $dateTime->format('j');
+
+        return new LocalDate($year, $month, $day);
     }
 
     /**
@@ -189,8 +193,13 @@ final class LocalDate implements JsonSerializable, Stringable
 
         // Convert march-based values back to January-based.
         $marchMonth0 = intdiv($marchDoy0 * 5 + 2, 153);
+
+        /** @var int<1, 12> $month */
         $month = ($marchMonth0 + 2) % 12 + 1;
+
+        /** @var int<1, 31> $dom */
         $dom = $marchDoy0 - intdiv($marchMonth0 * 306 + 5, 10) + 1;
+
         $yearEst += intdiv($marchMonth0, 10);
 
         // Check year now we are certain it is correct.
@@ -303,6 +312,8 @@ final class LocalDate implements JsonSerializable, Stringable
 
     /**
      * Returns the month-of-year value from 1 to 12.
+     *
+     * @return int<1, 12>
      */
     public function getMonthValue(): int
     {
@@ -317,6 +328,9 @@ final class LocalDate implements JsonSerializable, Stringable
         return $this->day;
     }
 
+    /**
+     * @return int<1, 31>
+     */
     public function getDayOfMonth(): int
     {
         return $this->day;
@@ -334,6 +348,8 @@ final class LocalDate implements JsonSerializable, Stringable
 
     /**
      * Returns the day-of-year, from 1 to 365, or 366 in a leap year.
+     *
+     * @return int<1, 366>
      */
     public function getDayOfYear(): int
     {
@@ -453,6 +469,8 @@ final class LocalDate implements JsonSerializable, Stringable
         $month = $this->month + $months - 1;
 
         $yearDiff = Math::floorDiv($month, 12);
+
+        /** @var int<1, 12> $month */
         $month = Math::floorMod($month, 12) + 1;
 
         $year = $this->year + $yearDiff;
@@ -483,9 +501,12 @@ final class LocalDate implements JsonSerializable, Stringable
 
         // Performance optimization for a common use case.
         if ($days === 1) {
-            return $this->day >= 28 && $this->day === $this->getLengthOfMonth()
-                ? new self($this->year + intdiv($this->month, 12), ($this->month % 12) + 1, 1)
-                : new self($this->year, $this->month, $this->day + 1);
+            if ($this->day >= 28 && $this->day === $this->getLengthOfMonth()) {
+                return new self($this->year + intdiv($this->month, 12), ($this->month % 12) + 1, 1);
+            }
+
+            /** @psalm-suppress InvalidArgument $this->day + 1 is not int<2, 32> as Psalm thinks */
+            return new self($this->year, $this->month, $this->day + 1);
         }
 
         return LocalDate::ofEpochDay($this->toEpochDay() + $days);
@@ -704,6 +725,8 @@ final class LocalDate implements JsonSerializable, Stringable
 
     /**
      * Returns the length of the month represented by this date, in days.
+     *
+     * @return int<28, 31>
      */
     public function getLengthOfMonth(): int
     {
@@ -858,9 +881,9 @@ final class LocalDate implements JsonSerializable, Stringable
     /**
      * Resolves the date, resolving days past the end of month.
      *
-     * @param int $year  The year to represent, validated from MIN_YEAR to MAX_YEAR.
-     * @param int $month The month-of-year to represent, validated from 1 to 12.
-     * @param int $day   The day-of-month to represent, validated from 1 to 31.
+     * @param int        $year  The year to represent, validated from MIN_YEAR to MAX_YEAR.
+     * @param int<1, 12> $month The month-of-year to represent.
+     * @param int<1, 31> $day   The day-of-month to represent, validated from 1 to 31.
      */
     private function resolvePreviousValid(int $year, int $month, int $day): LocalDate
     {

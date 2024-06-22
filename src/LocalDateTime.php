@@ -200,6 +200,8 @@ final class LocalDateTime implements JsonSerializable, Stringable
 
     /**
      * Returns the month-of-year value from 1 to 12.
+     *
+     * @return int<1, 12>
      */
     public function getMonthValue(): int
     {
@@ -214,6 +216,9 @@ final class LocalDateTime implements JsonSerializable, Stringable
         return $this->date->getDayOfMonth();
     }
 
+    /**
+     * @return int<1, 31>
+     */
     public function getDayOfMonth(): int
     {
         return $this->date->getDayOfMonth();
@@ -224,6 +229,9 @@ final class LocalDateTime implements JsonSerializable, Stringable
         return $this->date->getDayOfWeek();
     }
 
+    /**
+     * @return int<1, 366>
+     */
     public function getDayOfYear(): int
     {
         return $this->date->getDayOfYear();
