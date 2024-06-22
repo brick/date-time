@@ -1,5 +1,12 @@
 # Changelog
 
+## UNRELEASED (0.7.0)
+
+💥 **Breaking changes**
+
+- `LocalDate`:
+  - `getMonth()` now returns a `Month` enum; use `getMonthValue()` if you want the month number
+
 ## [0.6.5](https://github.com/brick/date-time/releases/tag/0.6.5) - 2024-06-19
 
 ✨ **New methods**
