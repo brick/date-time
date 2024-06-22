@@ -21,6 +21,12 @@
   - `getMonth()` now returns a `Month` enum; use `getMonthValue()` if you want the month number
 - `LocalDateTime`:
   - `getMonth()` now returns a `Month` enum; use `getMonthValue()` if you want the month number
+- `Month`:
+  - deprecated method `of()` has been removed, use `Month::from()` instead
+  - deprecated method `getAll()` has been removed, use `Month::cases()` instead
+  - deprecated method `getValue()` has been removed, use `$month->value` instead
+  - deprecated method `is()` has been removed, compare values with `$month` or `$month->value` instead
+  - deprecated method `isEqualTo()` has been removed, use strict equality `===` between `Month` instances instead
 - `MonthDay`:
   - `getMonth()` now returns a `Month` enum; use `getMonthValue()` if you want the month number
 - `YearMonth`:
