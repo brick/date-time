@@ -35,6 +35,30 @@ class LocalDateTest extends AbstractTestCase
         self::assertLocalDateIs(2007, 7, 15, LocalDate::of(2007, Month::JULY, 15));
     }
 
+    #[DataProvider('providerGetMonth')]
+    public function testGetMonth(int $monthValue, Month $month): void
+    {
+        self::assertSame($month, LocalDate::of(2000, $monthValue, 1)->getMonth());
+    }
+
+    public static function providerGetMonth(): array
+    {
+        return [
+            [1, Month::JANUARY],
+            [2, Month::FEBRUARY],
+            [3, Month::MARCH],
+            [4, Month::APRIL],
+            [5, Month::MAY],
+            [6, Month::JUNE],
+            [7, Month::JULY],
+            [8, Month::AUGUST],
+            [9, Month::SEPTEMBER],
+            [10, Month::OCTOBER],
+            [11, Month::NOVEMBER],
+            [12, Month::DECEMBER],
+        ];
+    }
+
     /**
      * @param int $year  The year of the invalid date.
      * @param int $month The month of the invalid date.

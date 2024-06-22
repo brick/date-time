@@ -302,12 +302,11 @@ final class LocalDate implements JsonSerializable, Stringable
     }
 
     /**
-     * @deprecated Use getMonthValue() instead.
-     *             In a future version, getMonth() will return the Month enum.
+     * Returns the month-of-year as a Month enum.
      */
-    public function getMonth(): int
+    public function getMonth(): Month
     {
-        return $this->month;
+        return Month::from($this->month);
     }
 
     /**
