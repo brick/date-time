@@ -516,9 +516,33 @@ class ZonedDateTimeTest extends AbstractTestCase
         self::assertSame(2000, $this->getTestZonedDateTime()->getYear());
     }
 
-    public function testGetMonth(): void
+    #[DataProvider('providerGetMonth')]
+    public function testGetMonth(int $monthValue, Month $month): void
     {
-        self::assertSame(1, $this->getTestZonedDateTime()->getMonth());
+        $zonedDateTime = ZonedDateTime::of(
+            LocalDateTime::of(2000, $monthValue, 1),
+            TimeZone::utc(),
+        );
+
+        self::assertSame($month, $zonedDateTime->getMonth());
+    }
+
+    public static function providerGetMonth(): array
+    {
+        return [
+            [1, Month::JANUARY],
+            [2, Month::FEBRUARY],
+            [3, Month::MARCH],
+            [4, Month::APRIL],
+            [5, Month::MAY],
+            [6, Month::JUNE],
+            [7, Month::JULY],
+            [8, Month::AUGUST],
+            [9, Month::SEPTEMBER],
+            [10, Month::OCTOBER],
+            [11, Month::NOVEMBER],
+            [12, Month::DECEMBER],
+        ];
     }
 
     public function testGetMonthValue(): void
