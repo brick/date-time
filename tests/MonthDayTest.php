@@ -161,6 +161,30 @@ class MonthDayTest extends AbstractTestCase
         ];
     }
 
+    #[DataProvider('providerGetMonth')]
+    public function testGetMonth(int $monthValue, Month $month): void
+    {
+        self::assertSame($month, MonthDay::of($monthValue, 1)->getMonth());
+    }
+
+    public static function providerGetMonth(): array
+    {
+        return [
+            [1, Month::JANUARY],
+            [2, Month::FEBRUARY],
+            [3, Month::MARCH],
+            [4, Month::APRIL],
+            [5, Month::MAY],
+            [6, Month::JUNE],
+            [7, Month::JULY],
+            [8, Month::AUGUST],
+            [9, Month::SEPTEMBER],
+            [10, Month::OCTOBER],
+            [11, Month::NOVEMBER],
+            [12, Month::DECEMBER],
+        ];
+    }
+
     /**
      * @param int $m1     The month of the base month-day.
      * @param int $d1     The day of the base month-day.
