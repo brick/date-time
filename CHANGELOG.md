@@ -40,6 +40,10 @@
   - deprecated method `getDay()` has been removed, use `getDayOfMonth()` instead
   - `getMonth()` now returns a `Month` enum; use `getMonthValue()` if you want the month number
 
+🔧 **Improvements**
+
+- Methods returning `int` are now type-annotated with int ranges
+
 ## [0.6.5](https://github.com/brick/date-time/releases/tag/0.6.5) - 2024-06-19
 
 ✨ **New methods**
