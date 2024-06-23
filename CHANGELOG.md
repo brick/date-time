@@ -1,6 +1,6 @@
 # Changelog
 
-## UNRELEASED (0.7.0)
+## [0.7.0](https://github.com/brick/date-time/releases/tag/0.7.0) - 2024-06-23
 
 💥 **Breaking changes**
 
