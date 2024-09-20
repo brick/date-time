@@ -12,3 +12,7 @@
 /tools/rector/*
 !/tools/rector/composer.json
 !/tools/rector/rector.php
+!/tools/psalm
+/tools/psalm/*
+!/tools/psalm/composer.json
+!/tools/psalm/psalm.xml

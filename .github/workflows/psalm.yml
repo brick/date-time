@@ -18,8 +18,13 @@ jobs:
         with:
           php-version: "8.3"
 
-      - name: Install composer dependencies
+      - name: Install composer dependencies (date-time)
         uses: ramsey/composer-install@v3
 
+      - name: Install composer dependencies (psalm)
+        uses: ramsey/composer-install@v3
+        with:
+          working-directory: "tools/psalm"
+
       - name: Run Psalm
-        run: vendor/bin/psalm --show-info=false --find-unused-psalm-suppress --no-progress
+        run: tools/psalm/vendor/bin/psalm --show-info=false --no-progress --config=tools/psalm/psalm.xml

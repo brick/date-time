@@ -219,10 +219,16 @@ vendor/bin/phpunit
 
 ### Static analysis
 
+Install Psalm in its own folder:
+
+```sh
+composer install --working-dir=tools/psalm
+```
+
 Run Psalm static analysis:
 
 ```sh
-vendor/bin/psalm --no-cache
+tools/psalm/vendor/bin/psalm --no-cache --config=tools/psalm/psalm.xml
 ```
 
 ### Coding Style
