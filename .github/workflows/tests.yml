@@ -5,7 +5,7 @@ on:
   pull_request:
 
 env:
-  COVERAGE_PHP_VERSION: "8.3"
+  COVERAGE_PHP_VERSION: "8.4"
 
 jobs:
   phpunit:
