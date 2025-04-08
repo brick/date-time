@@ -482,7 +482,7 @@ class ZonedDateTime implements JsonSerializable, Stringable
      */
     public function plusWeeks(int $weeks): ZonedDateTime
     {
-        return ZonedDateTime::of($this->localDateTime->plusWeeks($weeks), $this->timeZone);
+        return ZonedDateTime::ofInstant($this->instant->plusDays($weeks * 7), $this->timeZone);
     }
 
     /**
@@ -490,7 +490,7 @@ class ZonedDateTime implements JsonSerializable, Stringable
      */
     public function plusDays(int $days): ZonedDateTime
     {
-        return ZonedDateTime::of($this->localDateTime->plusDays($days), $this->timeZone);
+        return ZonedDateTime::ofInstant($this->instant->plusDays($days), $this->timeZone);
     }
 
     /**
@@ -498,7 +498,7 @@ class ZonedDateTime implements JsonSerializable, Stringable
      */
     public function plusHours(int $hours): ZonedDateTime
     {
-        return ZonedDateTime::of($this->localDateTime->plusHours($hours), $this->timeZone);
+        return ZonedDateTime::ofInstant($this->instant->plusHours($hours), $this->timeZone);
     }
 
     /**
@@ -506,7 +506,7 @@ class ZonedDateTime implements JsonSerializable, Stringable
      */
     public function plusMinutes(int $minutes): ZonedDateTime
     {
-        return ZonedDateTime::of($this->localDateTime->plusMinutes($minutes), $this->timeZone);
+        return ZonedDateTime::ofInstant($this->instant->plusMinutes($minutes), $this->timeZone);
     }
 
     /**
@@ -514,7 +514,7 @@ class ZonedDateTime implements JsonSerializable, Stringable
      */
     public function plusSeconds(int $seconds): ZonedDateTime
     {
-        return ZonedDateTime::of($this->localDateTime->plusSeconds($seconds), $this->timeZone);
+        return ZonedDateTime::ofInstant($this->instant->plusSeconds($seconds), $this->timeZone);
     }
 
     /**

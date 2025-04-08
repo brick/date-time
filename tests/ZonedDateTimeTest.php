@@ -669,9 +669,21 @@ class ZonedDateTimeTest extends AbstractTestCase
         self::assertIs(ZonedDateTime::class, '2000-01-20T14:34:56.123456789-08:00[America/Los_Angeles]', $this->getTestZonedDateTime()->plusHours(2));
     }
 
-    public function testPlusMinutes(): void
+    #[DataProvider('providerPlusMinutes')]
+    public function testPlusMinutes(string $zonedDateTime, int $plusMinutes, string $expected): void
     {
-        self::assertIs(ZonedDateTime::class, '2000-01-20T12:36:56.123456789-08:00[America/Los_Angeles]', $this->getTestZonedDateTime()->plusMinutes(2));
+        $actual = ZonedDateTime::parse($zonedDateTime)->plusMinutes($plusMinutes);
+        self::assertIs(ZonedDateTime::class, $expected, $actual);
+    }
+
+    public function providerPlusMinutes(): array
+    {
+        return [
+            ['2000-01-20T12:34:56.123456789-08:00[America/Los_Angeles]', 2, '2000-01-20T12:36:56.123456789-08:00[America/Los_Angeles]'],
+            // https://github.com/brick/date-time/issues/115
+            ['2025-03-30T01:30+01:00[Europe/Prague]', 50, '2025-03-30T03:20+02:00[Europe/Prague]'],
+            ['2025-03-30T01:30+01:00[Europe/Prague]', 100, '2025-03-30T04:10+02:00[Europe/Prague]'],
+        ];
     }
 
     public function testPlusSeconds(): void
