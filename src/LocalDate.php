@@ -15,6 +15,7 @@ use DateTimeInterface;
 use JsonSerializable;
 use Stringable;
 
+use function ceil;
 use function intdiv;
 use function is_int;
 use function min;
@@ -361,6 +362,27 @@ final class LocalDate implements JsonSerializable, Stringable
         }
 
         return YearWeek::of($year, $week);
+    }
+
+    /**
+     * Returns the quarter value as a Quarter enum.
+     */
+    public function getQuarter(): Quarter
+    {
+        return Quarter::from($this->getQuarterValue());
+    }
+
+    /**
+     * Returns the quarter value from 1 to 12.
+     *
+     * @return int<1,4>
+     */
+    public function getQuarterValue(): int
+    {
+        /** @var int<1, 4> $quarter */
+        $quarter = (int) ceil($this->getMonthValue() / 3);
+
+        return $quarter;
     }
 
     /**
