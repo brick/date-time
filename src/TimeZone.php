@@ -9,6 +9,8 @@ use DateTimeImmutable;
 use DateTimeZone;
 use Stringable;
 
+use function date_default_timezone_get;
+
 use const PHP_VERSION_ID;
 
 /**
@@ -86,6 +88,11 @@ abstract class TimeZone implements Stringable
         }
 
         return $parsed;
+    }
+
+    public static function fromDefaultTimeZone(): TimeZone
+    {
+        return static::fromNativeDateTimeZone(new DateTimeZone(date_default_timezone_get()));
     }
 
     /**
