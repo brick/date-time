@@ -676,7 +676,7 @@ class ZonedDateTimeTest extends AbstractTestCase
         self::assertIs(ZonedDateTime::class, $expected, $actual);
     }
 
-    public function providerPlusMinutes(): array
+    public static function providerPlusMinutes(): array
     {
         return [
             ['2000-01-20T12:34:56.123456789-08:00[America/Los_Angeles]', 2, '2000-01-20T12:36:56.123456789-08:00[America/Los_Angeles]'],
