@@ -1751,7 +1751,7 @@ class LocalDateTest extends AbstractTestCase
 
     /**
      * @param string  $localDate The local date to test, as a string.
-     * @param Quarter $quarter   The expected quarter numbered from 1 to 4.
+     * @param Quarter $quarter   The expected quarter.
      */
     #[DataProvider('providerQuarter')]
     public function testGetQuarter(string $localDate, Quarter $quarter): void
@@ -1762,16 +1762,16 @@ class LocalDateTest extends AbstractTestCase
     public static function providerQuarter(): array
     {
         return [
-            ['2000-01-01', Quarter::FIRST],
-            ['2000-02-15', Quarter::FIRST],
-            ['2000-03-31', Quarter::FIRST],
-            ['2000-04-01', Quarter::SECOND],
-            ['2000-06-30', Quarter::SECOND],
-            ['2000-07-01', Quarter::THIRD],
-            ['2000-09-30', Quarter::THIRD],
-            ['2000-10-01', Quarter::FOURTH],
-            ['2000-12-31', Quarter::FOURTH],
-            ['2001-01-01', Quarter::FIRST],
+            ['2000-01-01', Quarter::Q1],
+            ['2000-02-15', Quarter::Q1],
+            ['2000-03-31', Quarter::Q1],
+            ['2000-04-01', Quarter::Q2],
+            ['2000-06-30', Quarter::Q2],
+            ['2000-07-01', Quarter::Q3],
+            ['2000-09-30', Quarter::Q3],
+            ['2000-10-01', Quarter::Q4],
+            ['2000-12-31', Quarter::Q4],
+            ['2001-01-01', Quarter::Q1],
         ];
     }
 }

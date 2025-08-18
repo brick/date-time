@@ -11,13 +11,28 @@ use JsonSerializable;
  */
 enum Quarter: int implements JsonSerializable
 {
-    case FIRST = 1;
-    case SECOND = 2;
-    case THIRD = 3;
-    case FOURTH = 4;
+    /**
+     * January 1 to March 31.
+     */
+    case Q1 = 1;
 
     /**
-     * Returns the current day-of-week in the given time-zone, according to the given clock.
+     * April 1 to June 30.
+     */
+    case Q2 = 2;
+
+    /**
+     * July 1 to September 30.
+     */
+    case Q3 = 3;
+
+    /**
+     * October 1 to December 31.
+     */
+    case Q4 = 4;
+
+    /**
+     * Returns the current quarter in the given time-zone, according to the given clock.
      *
      * If no clock is provided, the system clock is used.
      */
@@ -27,17 +42,9 @@ enum Quarter: int implements JsonSerializable
     }
 
     /**
-     * Serializes as an integer using {@see DayOfWeek::toInteger()}.
+     * Serializes as an integer.
      */
     public function jsonSerialize(): int
-    {
-        return $this->toInteger();
-    }
-
-    /**
-     * Returns the number of the quarter {1,4}.
-     */
-    public function toInteger(): int
     {
         return $this->value;
     }

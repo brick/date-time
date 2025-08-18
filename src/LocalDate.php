@@ -15,7 +15,7 @@ use DateTimeInterface;
 use JsonSerializable;
 use Stringable;
 
-use function ceil;
+use function assert;
 use function intdiv;
 use function is_int;
 use function min;
@@ -373,7 +373,7 @@ final class LocalDate implements JsonSerializable, Stringable
     }
 
     /**
-     * Returns the quarter value from 1 to 12.
+     * Returns the quarter value from 1 to 4.
      *
      * @return int<1,4>
      */
