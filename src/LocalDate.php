@@ -379,8 +379,8 @@ final class LocalDate implements JsonSerializable, Stringable
      */
     public function getQuarterValue(): int
     {
-        /** @var int<1, 4> $quarter */
-        $quarter = (int) ceil($this->getMonthValue() / 3);
+        $quarter = intdiv($this->month - 1, 3) + 1;
+        assert($quarter >= 1 && $quarter <= 4);
 
         return $quarter;
     }
