@@ -12,6 +12,7 @@ use Brick\DateTime\LocalDate;
 use Brick\DateTime\LocalTime;
 use Brick\DateTime\Month;
 use Brick\DateTime\Period;
+use Brick\DateTime\Quarter;
 use Brick\DateTime\TimeZone;
 use Brick\DateTime\Year;
 use DateTime;
@@ -1745,6 +1746,32 @@ class LocalDateTest extends AbstractTestCase
         return [
             ['2011-07-31', '2011-07-31T00:00:00.000000+0000'],
             ['2018-10-18', '2018-10-18T00:00:00.000000+0000'],
+        ];
+    }
+
+    /**
+     * @param string  $localDate The local date to test, as a string.
+     * @param Quarter $quarter   The expected quarter.
+     */
+    #[DataProvider('providerQuarter')]
+    public function testGetQuarter(string $localDate, Quarter $quarter): void
+    {
+        self::assertSame($quarter, LocalDate::parse($localDate)->getQuarter());
+    }
+
+    public static function providerQuarter(): array
+    {
+        return [
+            ['2000-01-01', Quarter::Q1],
+            ['2000-02-15', Quarter::Q1],
+            ['2000-03-31', Quarter::Q1],
+            ['2000-04-01', Quarter::Q2],
+            ['2000-06-30', Quarter::Q2],
+            ['2000-07-01', Quarter::Q3],
+            ['2000-09-30', Quarter::Q3],
+            ['2000-10-01', Quarter::Q4],
+            ['2000-12-31', Quarter::Q4],
+            ['2001-01-01', Quarter::Q1],
         ];
     }
 }
