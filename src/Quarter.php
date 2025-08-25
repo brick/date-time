@@ -7,7 +7,7 @@ namespace Brick\DateTime;
 use JsonSerializable;
 
 /**
- * Represents a quarter of the year.
+ * Represents a quarter-of-year.
  */
 enum Quarter: int implements JsonSerializable
 {

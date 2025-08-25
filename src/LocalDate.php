@@ -365,7 +365,7 @@ final class LocalDate implements JsonSerializable, Stringable
     }
 
     /**
-     * Returns the quarter value as a Quarter enum.
+     * Returns the quarter-of-year value as a Quarter enum.
      */
     public function getQuarter(): Quarter
     {
@@ -373,7 +373,7 @@ final class LocalDate implements JsonSerializable, Stringable
     }
 
     /**
-     * Returns the quarter value from 1 to 4.
+     * Returns the quarter-of-year value from 1 to 4.
      *
      * @return int<1,4>
      */
