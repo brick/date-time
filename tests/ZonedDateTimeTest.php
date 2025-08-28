@@ -21,6 +21,7 @@ use Brick\DateTime\ZonedDateTime;
 use DateTime;
 use DateTimeImmutable;
 use DateTimeZone;
+use Generator;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\RequiresPhp;
 
@@ -634,43 +635,207 @@ class ZonedDateTimeTest extends AbstractTestCase
         self::assertIs(ZonedDateTime::class, '2000-01-20T12:34:56.123456789-08:00', $this->getTestZonedDateTime()->withFixedOffsetTimeZone());
     }
 
-    public function testPlusPeriod(): void
+    #[DataProvider('providerPlusPeriod')]
+    public function testPlusPeriod(string $zonedDateTime, Period $plusPeriod, string $expected): void
     {
-        self::assertIs(ZonedDateTime::class, '2000-04-06T12:34:56.123456789-07:00[America/Los_Angeles]', $this->getTestZonedDateTime()->plusPeriod(Period::ofWeeks(11)));
+        $actual = ZonedDateTime::parse($zonedDateTime)->plusPeriod($plusPeriod);
+        self::assertIs(ZonedDateTime::class, $expected, $actual);
     }
 
-    public function testPlusDuration(): void
+    public static function providerPlusPeriod(): Generator
     {
-        self::assertIs(ZonedDateTime::class, '2000-01-20T12:35:01.123456789-08:00[America/Los_Angeles]', $this->getTestZonedDateTime()->plusDuration(Duration::ofSeconds(5)));
+        yield from [
+            ['2000-03-29T12:34:56.123456789-08:00[America/Los_Angeles]', Period::ofDays(3), '2000-04-01T12:34:56.123456789-08:00[America/Los_Angeles]'],
+            ['2000-03-29T12:34:56.123456789-08:00[America/Los_Angeles]', Period::ofDays(4), '2000-04-02T12:34:56.123456789-07:00[America/Los_Angeles]'],
+            ['2000-04-03T12:34:56.123456789-07:00[America/Los_Angeles]', Period::ofDays(-1), '2000-04-02T12:34:56.123456789-07:00[America/Los_Angeles]'],
+            ['2000-04-03T12:34:56.123456789-07:00[America/Los_Angeles]', Period::ofDays(-2), '2000-04-01T12:34:56.123456789-08:00[America/Los_Angeles]'],
+            ['2000-01-20T12:34:56.123456789-08:00[America/Los_Angeles]', Period::ofWeeks(10), '2000-03-30T12:34:56.123456789-08:00[America/Los_Angeles]'],
+            ['2000-01-20T12:34:56.123456789-08:00[America/Los_Angeles]', Period::ofWeeks(11), '2000-04-06T12:34:56.123456789-07:00[America/Los_Angeles]'],
+            ['2000-04-06T12:34:56.123456789-07:00[America/Los_Angeles]', Period::ofWeeks(-2), '2000-03-23T12:34:56.123456789-08:00[America/Los_Angeles]'],
+            ['2000-02-16T12:34:56.123456789-08:00[America/Los_Angeles]', Period::ofMonths(1), '2000-03-16T12:34:56.123456789-08:00[America/Los_Angeles]'],
+            ['2000-02-16T12:34:56.123456789-08:00[America/Los_Angeles]', Period::ofMonths(2), '2000-04-16T12:34:56.123456789-07:00[America/Los_Angeles]'],
+            ['2000-05-16T12:34:56.123456789-07:00[America/Los_Angeles]', Period::ofMonths(-1), '2000-04-16T12:34:56.123456789-07:00[America/Los_Angeles]'],
+            ['2000-05-16T12:34:56.123456789-07:00[America/Los_Angeles]', Period::ofMonths(-2), '2000-03-16T12:34:56.123456789-08:00[America/Los_Angeles]'],
+            ['2000-02-16T12:34:56.123456789-07:00[America/Los_Angeles]', Period::of(1, -2, 3), '2000-12-19T12:34:56.123456789-08:00[America/Los_Angeles]'],
+        ];
+
+        foreach (self::providerPlusDays() as [$zonedDateTime, $plusDays, $expected]) {
+            yield [$zonedDateTime, Period::ofDays($plusDays), $expected];
+        }
+
+        foreach (self::providerPlusWeeks() as [$zonedDateTime, $plusWeeks, $expected]) {
+            yield [$zonedDateTime, Period::ofWeeks($plusWeeks), $expected];
+        }
+
+        foreach (self::providerPlusMonths() as [$zonedDateTime, $plusMonths, $expected]) {
+            yield [$zonedDateTime, Period::ofMonths($plusMonths), $expected];
+        }
+
+        foreach (self::providerPlusYears() as [$zonedDateTime, $plusYears, $expected]) {
+            yield [$zonedDateTime, Period::ofYears($plusYears), $expected];
+        }
     }
 
-    public function testPlusYears(): void
+    #[DataProvider('providerPlusDuration')]
+    public function testPlusDuration(string $zonedDateTime, Duration $plusDuration, string $expected): void
     {
-        self::assertIs(ZonedDateTime::class, '2002-01-20T12:34:56.123456789-08:00[America/Los_Angeles]', $this->getTestZonedDateTime()->plusYears(2));
+        $actual = ZonedDateTime::parse($zonedDateTime)->plusDuration($plusDuration);
+        self::assertIs(ZonedDateTime::class, $expected, $actual);
     }
 
-    public function testPlusMonths(): void
+    public static function providerPlusDuration(): Generator
     {
-        self::assertIs(ZonedDateTime::class, '2000-03-20T12:34:56.123456789-08:00[America/Los_Angeles]', $this->getTestZonedDateTime()->plusMonths(2));
+        yield ['2000-01-20T12:34:56.123456789-08:00[America/Los_Angeles]', Duration::ofSeconds(-5), '2000-01-20T12:34:51.123456789-08:00[America/Los_Angeles]'];
+        yield ['2000-01-20T12:34:56.123456789-08:00[America/Los_Angeles]', Duration::ofSeconds(5), '2000-01-20T12:35:01.123456789-08:00[America/Los_Angeles]'];
+        yield ['2000-01-20T12:34:56.123456789-08:00[America/Los_Angeles]', Duration::ofMinutes(-10), '2000-01-20T12:24:56.123456789-08:00[America/Los_Angeles]'];
+        yield ['2000-01-20T12:34:56.123456789-08:00[America/Los_Angeles]', Duration::ofMinutes(10), '2000-01-20T12:44:56.123456789-08:00[America/Los_Angeles]'];
+        yield ['2000-01-20T12:34:56.123456789-08:00[America/Los_Angeles]', Duration::ofHours(-24), '2000-01-19T12:34:56.123456789-08:00[America/Los_Angeles]'];
+        yield ['2000-01-20T12:34:56.123456789-08:00[America/Los_Angeles]', Duration::ofHours(24), '2000-01-21T12:34:56.123456789-08:00[America/Los_Angeles]'];
+        yield ['2000-01-20T12:34:56.123456789-08:00[America/Los_Angeles]', Duration::ofSeconds(1, 5000), '2000-01-20T12:34:57.123461789-08:00[America/Los_Angeles]'];
+
+        foreach (self::providerPlusSeconds() as [$zonedDateTime, $plusSeconds, $expected]) {
+            yield [$zonedDateTime, Duration::ofSeconds($plusSeconds), $expected];
+        }
+
+        foreach (self::providerPlusMinutes() as [$zonedDateTime, $plusMinutes, $expected]) {
+            yield [$zonedDateTime, Duration::ofMinutes($plusMinutes), $expected];
+        }
+
+        foreach (self::providerPlusHours() as [$zonedDateTime, $plusHours, $expected]) {
+            yield [$zonedDateTime, Duration::ofHours($plusHours), $expected];
+        }
     }
 
-    public function testPlusWeeks(): void
+    #[DataProvider('providerPlusYears')]
+    public function testPlusYears(string $zonedDateTime, int $plusYears, string $expected): void
     {
-        self::assertIs(ZonedDateTime::class, '2000-02-03T12:34:56.123456789-08:00[America/Los_Angeles]', $this->getTestZonedDateTime()->plusWeeks(2));
+        $actual = ZonedDateTime::parse($zonedDateTime)->plusYears($plusYears);
+        self::assertIs(ZonedDateTime::class, $expected, $actual);
     }
 
-    public function testPlusDays(): void
+    public static function providerPlusYears(): array
     {
-        self::assertIs(ZonedDateTime::class, '2000-01-22T12:34:56.123456789-08:00[America/Los_Angeles]', $this->getTestZonedDateTime()->plusDays(2));
+        return [
+            ['2000-01-20T12:34:56.123456789-08:00[America/Los_Angeles]', -2, '1998-01-20T12:34:56.123456789-08:00[America/Los_Angeles]'],
+            ['2000-01-20T12:34:56.123456789-08:00[America/Los_Angeles]', -1, '1999-01-20T12:34:56.123456789-08:00[America/Los_Angeles]'],
+            ['2000-01-20T12:34:56.123456789-08:00[America/Los_Angeles]', 0, '2000-01-20T12:34:56.123456789-08:00[America/Los_Angeles]'],
+            ['2000-01-20T12:34:56.123456789-08:00[America/Los_Angeles]', 1, '2001-01-20T12:34:56.123456789-08:00[America/Los_Angeles]'],
+            ['2000-01-20T12:34:56.123456789-08:00[America/Los_Angeles]', 2, '2002-01-20T12:34:56.123456789-08:00[America/Los_Angeles]'],
+        ];
     }
 
-    public function testPlusHours(): void
+    #[DataProvider('providerPlusMonths')]
+    public function testPlusMonths(string $zonedDateTime, int $plusMonths, string $expected): void
     {
-        self::assertIs(ZonedDateTime::class, '2000-01-20T14:34:56.123456789-08:00[America/Los_Angeles]', $this->getTestZonedDateTime()->plusHours(2));
+        $actual = ZonedDateTime::parse($zonedDateTime)->plusMonths($plusMonths);
+        self::assertIs(ZonedDateTime::class, $expected, $actual);
+    }
+
+    public static function providerPlusMonths(): array
+    {
+        return [
+            ['2000-01-20T12:34:56.123456789-08:00[America/Los_Angeles]', -4, '1999-09-20T12:34:56.123456789-07:00[America/Los_Angeles]'],
+            ['2000-01-20T12:34:56.123456789-08:00[America/Los_Angeles]', -3, '1999-10-20T12:34:56.123456789-07:00[America/Los_Angeles]'],
+            ['2000-01-20T12:34:56.123456789-08:00[America/Los_Angeles]', -2, '1999-11-20T12:34:56.123456789-08:00[America/Los_Angeles]'],
+            ['2000-01-20T12:34:56.123456789-08:00[America/Los_Angeles]', -1, '1999-12-20T12:34:56.123456789-08:00[America/Los_Angeles]'],
+            ['2000-01-20T12:34:56.123456789-08:00[America/Los_Angeles]', 0, '2000-01-20T12:34:56.123456789-08:00[America/Los_Angeles]'],
+            ['2000-01-20T12:34:56.123456789-08:00[America/Los_Angeles]', 1, '2000-02-20T12:34:56.123456789-08:00[America/Los_Angeles]'],
+            ['2000-01-20T12:34:56.123456789-08:00[America/Los_Angeles]', 2, '2000-03-20T12:34:56.123456789-08:00[America/Los_Angeles]'],
+            ['2000-01-20T12:34:56.123456789-08:00[America/Los_Angeles]', 3, '2000-04-20T12:34:56.123456789-07:00[America/Los_Angeles]'],
+            ['2000-01-20T12:34:56.123456789-08:00[America/Los_Angeles]', 4, '2000-05-20T12:34:56.123456789-07:00[America/Los_Angeles]'],
+        ];
+    }
+
+    #[DataProvider('providerPlusWeeks')]
+    public function testPlusWeeks(string $zonedDateTime, int $plusWeeks, string $expected): void
+    {
+        $actual = ZonedDateTime::parse($zonedDateTime)->plusWeeks($plusWeeks);
+        self::assertIs(ZonedDateTime::class, $expected, $actual);
+    }
+
+    public static function providerPlusWeeks(): array
+    {
+        return [
+            ['2000-01-01T12:34:56.123456789-08:00[America/Los_Angeles]', -25, '1999-07-10T12:34:56.123456789-07:00[America/Los_Angeles]'],
+            ['2000-01-01T12:34:56.123456789-08:00[America/Los_Angeles]', -1, '1999-12-25T12:34:56.123456789-08:00[America/Los_Angeles]'],
+            ['2000-01-01T12:34:56.123456789-08:00[America/Los_Angeles]', 0, '2000-01-01T12:34:56.123456789-08:00[America/Los_Angeles]'],
+            ['2000-01-01T12:34:56.123456789-08:00[America/Los_Angeles]', 1, '2000-01-08T12:34:56.123456789-08:00[America/Los_Angeles]'],
+            ['2000-01-01T12:34:56.123456789-08:00[America/Los_Angeles]', 25, '2000-06-24T12:34:56.123456789-07:00[America/Los_Angeles]'],
+
+            // https://github.com/brick/date-time/issues/115
+            ['2025-03-23T01:00+01:00[Europe/Prague]', 1, '2025-03-30T01:00+01:00[Europe/Prague]'],
+            ['2025-03-23T01:30+01:00[Europe/Prague]', 1, '2025-03-30T01:30+01:00[Europe/Prague]'],
+            ['2025-03-23T02:00+01:00[Europe/Prague]', 1, '2025-03-30T03:00+02:00[Europe/Prague]'],
+            ['2025-03-23T02:30+01:00[Europe/Prague]', 1, '2025-03-30T03:30+02:00[Europe/Prague]'],
+            ['2025-03-23T03:00+01:00[Europe/Prague]', 1, '2025-03-30T03:00+02:00[Europe/Prague]'],
+            ['2025-03-23T03:30+01:00[Europe/Prague]', 1, '2025-03-30T03:30+02:00[Europe/Prague]'],
+        ];
+    }
+
+    #[DataProvider('providerPlusDays')]
+    public function testPlusDays(string $zonedDateTime, int $plusDays, string $expected): void
+    {
+        $actual = ZonedDateTime::parse($zonedDateTime)->plusDays($plusDays);
+        self::assertIs(ZonedDateTime::class, $expected, $actual);
+    }
+
+    public static function providerPlusDays(): array
+    {
+        return [
+            ['2000-03-31T12:34:56.123456789-08:00[America/Los_Angeles]', -1, '2000-03-30T12:34:56.123456789-08:00[America/Los_Angeles]'],
+            ['2000-03-31T12:34:56.123456789-08:00[America/Los_Angeles]', 0, '2000-03-31T12:34:56.123456789-08:00[America/Los_Angeles]'],
+            ['2000-03-31T12:34:56.123456789-08:00[America/Los_Angeles]', 1, '2000-04-01T12:34:56.123456789-08:00[America/Los_Angeles]'],
+            ['2000-03-31T12:34:56.123456789-08:00[America/Los_Angeles]', 2, '2000-04-02T12:34:56.123456789-07:00[America/Los_Angeles]'],
+            ['2000-03-31T12:34:56.123456789-08:00[America/Los_Angeles]', 3, '2000-04-03T12:34:56.123456789-07:00[America/Los_Angeles]'],
+
+            ['2000-04-03T12:34:56.123456789-07:00[America/Los_Angeles]', -1, '2000-04-02T12:34:56.123456789-07:00[America/Los_Angeles]'],
+            ['2000-04-03T12:34:56.123456789-07:00[America/Los_Angeles]', -2, '2000-04-01T12:34:56.123456789-08:00[America/Los_Angeles]'],
+
+            // https://github.com/brick/date-time/issues/115
+            ['2025-03-29T01:00+01:00[Europe/Prague]', 1, '2025-03-30T01:00+01:00[Europe/Prague]'],
+            ['2025-03-29T01:30+01:00[Europe/Prague]', 1, '2025-03-30T01:30+01:00[Europe/Prague]'],
+            ['2025-03-29T02:00+01:00[Europe/Prague]', 1, '2025-03-30T03:00+02:00[Europe/Prague]'],
+            ['2025-03-29T02:30+01:00[Europe/Prague]', 1, '2025-03-30T03:30+02:00[Europe/Prague]'],
+            ['2025-03-29T03:00+01:00[Europe/Prague]', 1, '2025-03-30T03:00+02:00[Europe/Prague]'],
+            ['2025-03-29T03:30+01:00[Europe/Prague]', 1, '2025-03-30T03:30+02:00[Europe/Prague]'],
+        ];
+    }
+
+    #[DataProvider('providerPlusHours')]
+    public function testPlusHours(string $zonedDateTime, int $plusHours, string $expected): void
+    {
+        $actual = ZonedDateTime::parse($zonedDateTime)->plusHours($plusHours);
+        self::assertIs(ZonedDateTime::class, $expected, $actual);
+    }
+
+    public static function providerPlusHours(): array
+    {
+        return [
+            ['2000-04-01T23:12:34.123456789-08:00[America/Los_Angeles]', -1, '2000-04-01T22:12:34.123456789-08:00[America/Los_Angeles]'],
+            ['2000-04-01T23:12:34.123456789-08:00[America/Los_Angeles]', 0, '2000-04-01T23:12:34.123456789-08:00[America/Los_Angeles]'],
+            ['2000-04-01T23:12:34.123456789-08:00[America/Los_Angeles]', 1, '2000-04-02T00:12:34.123456789-08:00[America/Los_Angeles]'],
+            ['2000-04-01T23:12:34.123456789-08:00[America/Los_Angeles]', 2, '2000-04-02T01:12:34.123456789-08:00[America/Los_Angeles]'],
+            ['2000-04-01T23:12:34.123456789-08:00[America/Los_Angeles]', 3, '2000-04-02T03:12:34.123456789-07:00[America/Los_Angeles]'],
+            ['2000-04-01T23:12:34.123456789-08:00[America/Los_Angeles]', 4, '2000-04-02T04:12:34.123456789-07:00[America/Los_Angeles]'],
+
+            ['2000-04-02T04:12:34.123456789-07:00[America/Los_Angeles]', -3, '2000-04-02T00:12:34.123456789-08:00[America/Los_Angeles]'],
+            ['2000-04-02T04:12:34.123456789-07:00[America/Los_Angeles]', -2, '2000-04-02T01:12:34.123456789-08:00[America/Los_Angeles]'],
+            ['2000-04-02T04:12:34.123456789-07:00[America/Los_Angeles]', -1, '2000-04-02T03:12:34.123456789-07:00[America/Los_Angeles]'],
+            ['2000-04-02T04:12:34.123456789-07:00[America/Los_Angeles]', 0, '2000-04-02T04:12:34.123456789-07:00[America/Los_Angeles]'],
+            ['2000-04-02T04:12:34.123456789-07:00[America/Los_Angeles]', 1, '2000-04-02T05:12:34.123456789-07:00[America/Los_Angeles]'],
+
+            // https://github.com/brick/date-time/issues/115
+            ['2025-03-29T01:00+01:00[Europe/Prague]', 24, '2025-03-30T01:00+01:00[Europe/Prague]'],
+            ['2025-03-29T01:30+01:00[Europe/Prague]', 24, '2025-03-30T01:30+01:00[Europe/Prague]'],
+            ['2025-03-29T02:00+01:00[Europe/Prague]', 24, '2025-03-30T03:00+02:00[Europe/Prague]'],
+            ['2025-03-29T02:30+01:00[Europe/Prague]', 24, '2025-03-30T03:30+02:00[Europe/Prague]'],
+            ['2025-03-29T03:00+01:00[Europe/Prague]', 24, '2025-03-30T04:00+02:00[Europe/Prague]'],
+            ['2025-03-29T03:30+01:00[Europe/Prague]', 24, '2025-03-30T04:30+02:00[Europe/Prague]'],
+        ];
     }
 
     #[DataProvider('providerPlusMinutes')]
-    public function testPlusMinutes(string $zonedDateTime, int $plusMinutes, string $expected): void
+    public static function testPlusMinutes(string $zonedDateTime, int $plusMinutes, string $expected): void
     {
         $actual = ZonedDateTime::parse($zonedDateTime)->plusMinutes($plusMinutes);
         self::assertIs(ZonedDateTime::class, $expected, $actual);
@@ -679,61 +844,118 @@ class ZonedDateTimeTest extends AbstractTestCase
     public static function providerPlusMinutes(): array
     {
         return [
-            ['2000-01-20T12:34:56.123456789-08:00[America/Los_Angeles]', 2, '2000-01-20T12:36:56.123456789-08:00[America/Los_Angeles]'],
+            ['2000-04-02T01:59:59.654321-08:00[America/Los_Angeles]', -2, '2000-04-02T01:57:59.654321-08:00[America/Los_Angeles]'],
+            ['2000-04-02T01:59:59.654321-08:00[America/Los_Angeles]', -1, '2000-04-02T01:58:59.654321-08:00[America/Los_Angeles]'],
+            ['2000-04-02T01:59:59.654321-08:00[America/Los_Angeles]', 0, '2000-04-02T01:59:59.654321-08:00[America/Los_Angeles]'],
+            ['2000-04-02T01:59:59.654321-08:00[America/Los_Angeles]', 1, '2000-04-02T03:00:59.654321-07:00[America/Los_Angeles]'],
+            ['2000-04-02T01:59:59.654321-08:00[America/Los_Angeles]', 2, '2000-04-02T03:01:59.654321-07:00[America/Los_Angeles]'],
+            ['2000-04-02T01:59:59.654321-08:00[America/Los_Angeles]', 3, '2000-04-02T03:02:59.654321-07:00[America/Los_Angeles]'],
+
+            ['2000-04-02T03:01:01.654321-07:00[America/Los_Angeles]', -3, '2000-04-02T01:58:01.654321-08:00[America/Los_Angeles]'],
+            ['2000-04-02T03:01:01.654321-07:00[America/Los_Angeles]', -2, '2000-04-02T01:59:01.654321-08:00[America/Los_Angeles]'],
+            ['2000-04-02T03:01:01.654321-07:00[America/Los_Angeles]', -1, '2000-04-02T03:00:01.654321-07:00[America/Los_Angeles]'],
+            ['2000-04-02T03:01:01.654321-07:00[America/Los_Angeles]', 0, '2000-04-02T03:01:01.654321-07:00[America/Los_Angeles]'],
+            ['2000-04-02T03:01:01.654321-07:00[America/Los_Angeles]', 1, '2000-04-02T03:02:01.654321-07:00[America/Los_Angeles]'],
+
             // https://github.com/brick/date-time/issues/115
             ['2025-03-30T01:30+01:00[Europe/Prague]', 50, '2025-03-30T03:20+02:00[Europe/Prague]'],
             ['2025-03-30T01:30+01:00[Europe/Prague]', 100, '2025-03-30T04:10+02:00[Europe/Prague]'],
+            ['2025-03-30T03:20+02:00[Europe/Prague]', -50, '2025-03-30T01:30+01:00[Europe/Prague]'],
+            ['2025-03-30T04:10+02:00[Europe/Prague]', -100, '2025-03-30T01:30+01:00[Europe/Prague]'],
         ];
     }
 
-    public function testPlusSeconds(): void
+    #[DataProvider('providerPlusSeconds')]
+    public function testPlusSeconds(string $zonedDateTime, int $plusSeconds, string $expected): void
     {
-        self::assertIs(ZonedDateTime::class, '2000-01-20T12:34:58.123456789-08:00[America/Los_Angeles]', $this->getTestZonedDateTime()->plusSeconds(2));
+        $actual = ZonedDateTime::parse($zonedDateTime)->plusSeconds($plusSeconds);
+        self::assertIs(ZonedDateTime::class, $expected, $actual);
     }
 
-    public function testMinusPeriod(): void
+    public static function providerPlusSeconds(): array
     {
-        self::assertIs(ZonedDateTime::class, '1999-11-04T12:34:56.123456789-08:00[America/Los_Angeles]', $this->getTestZonedDateTime()->minusPeriod(Period::ofWeeks(11)));
+        return [
+            ['2000-04-02T01:59:59.654321-08:00[America/Los_Angeles]', -2, '2000-04-02T01:59:57.654321-08:00[America/Los_Angeles]'],
+            ['2000-04-02T01:59:59.654321-08:00[America/Los_Angeles]', -1, '2000-04-02T01:59:58.654321-08:00[America/Los_Angeles]'],
+            ['2000-04-02T01:59:59.654321-08:00[America/Los_Angeles]', 0, '2000-04-02T01:59:59.654321-08:00[America/Los_Angeles]'],
+            ['2000-04-02T01:59:59.654321-08:00[America/Los_Angeles]', 1, '2000-04-02T03:00:00.654321-07:00[America/Los_Angeles]'],
+            ['2000-04-02T01:59:59.654321-08:00[America/Los_Angeles]', 2, '2000-04-02T03:00:01.654321-07:00[America/Los_Angeles]'],
+
+            ['2000-04-02T03:00:01.654321-07:00[America/Los_Angeles]', -3, '2000-04-02T01:59:58.654321-08:00[America/Los_Angeles]'],
+            ['2000-04-02T03:00:01.654321-07:00[America/Los_Angeles]', -2, '2000-04-02T01:59:59.654321-08:00[America/Los_Angeles]'],
+            ['2000-04-02T03:00:01.654321-07:00[America/Los_Angeles]', -1, '2000-04-02T03:00:00.654321-07:00[America/Los_Angeles]'],
+            ['2000-04-02T03:00:01.654321-07:00[America/Los_Angeles]', 0, '2000-04-02T03:00:01.654321-07:00[America/Los_Angeles]'],
+            ['2000-04-02T03:00:01.654321-07:00[America/Los_Angeles]', 1, '2000-04-02T03:00:02.654321-07:00[America/Los_Angeles]'],
+
+            // https://github.com/brick/date-time/issues/115
+            ['2025-03-30T01:30+01:00[Europe/Prague]', 3000, '2025-03-30T03:20+02:00[Europe/Prague]'],
+            ['2025-03-30T01:30+01:00[Europe/Prague]', 6000, '2025-03-30T04:10+02:00[Europe/Prague]'],
+            ['2025-03-30T03:20+02:00[Europe/Prague]', -3000, '2025-03-30T01:30+01:00[Europe/Prague]'],
+            ['2025-03-30T04:10+02:00[Europe/Prague]', -6000, '2025-03-30T01:30+01:00[Europe/Prague]'],
+        ];
     }
 
-    public function testMinusDuration(): void
+    #[DataProvider('providerPlusPeriod')]
+    public function testMinusPeriod(string $dateTime, Period $plusPeriod, string $expected): void
     {
-        self::assertIs(ZonedDateTime::class, '2000-01-20T12:34:51.123456789-08:00[America/Los_Angeles]', $this->getTestZonedDateTime()->minusDuration(Duration::ofSeconds(5)));
+        $actual = ZonedDateTime::parse($dateTime)->minusPeriod($plusPeriod->negated());
+        self::assertIs(ZonedDateTime::class, $expected, $actual);
     }
 
-    public function testMinusYears(): void
+    #[DataProvider('providerPlusDuration')]
+    public function testMinusDuration(string $dateTime, Duration $plusDuration, string $expected): void
     {
-        self::assertIs(ZonedDateTime::class, '1999-01-20T12:34:56.123456789-08:00[America/Los_Angeles]', $this->getTestZonedDateTime()->minusYears(1));
+        $actual = ZonedDateTime::parse($dateTime)->minusDuration($plusDuration->negated());
+        self::assertIs(ZonedDateTime::class, $expected, $actual);
     }
 
-    public function testMinusMonths(): void
+    #[DataProvider('providerPlusYears')]
+    public function testMinusYears(string $dateTime, int $plusYears, string $expected): void
     {
-        self::assertIs(ZonedDateTime::class, '1999-12-20T12:34:56.123456789-08:00[America/Los_Angeles]', $this->getTestZonedDateTime()->minusMonths(1));
+        $actual = ZonedDateTime::parse($dateTime)->minusYears(-$plusYears);
+        self::assertIs(ZonedDateTime::class, $expected, $actual);
     }
 
-    public function testMinusWeeks(): void
+    #[DataProvider('providerPlusMonths')]
+    public function testMinusMonths(string $dateTime, int $plusMonths, string $expected): void
     {
-        self::assertIs(ZonedDateTime::class, '2000-01-06T12:34:56.123456789-08:00[America/Los_Angeles]', $this->getTestZonedDateTime()->minusWeeks(2));
+        $actual = ZonedDateTime::parse($dateTime)->minusMonths(-$plusMonths);
+        self::assertIs(ZonedDateTime::class, $expected, $actual);
     }
 
-    public function testMinusDays(): void
+    #[DataProvider('providerPlusWeeks')]
+    public function testMinusWeeks(string $dateTime, int $plusWeeks, string $expected): void
     {
-        self::assertIs(ZonedDateTime::class, '2000-01-18T12:34:56.123456789-08:00[America/Los_Angeles]', $this->getTestZonedDateTime()->minusDays(2));
+        $actual = ZonedDateTime::parse($dateTime)->minusWeeks(-$plusWeeks);
+        self::assertIs(ZonedDateTime::class, $expected, $actual);
     }
 
-    public function testMinusHours(): void
+    #[DataProvider('providerPlusDays')]
+    public function testMinusDays(string $dateTime, int $plusDays, string $expected): void
     {
-        self::assertIs(ZonedDateTime::class, '2000-01-20T10:34:56.123456789-08:00[America/Los_Angeles]', $this->getTestZonedDateTime()->minusHours(2));
+        $actual = ZonedDateTime::parse($dateTime)->minusDays(-$plusDays);
+        self::assertIs(ZonedDateTime::class, $expected, $actual);
     }
 
-    public function testMinusMinutes(): void
+    #[DataProvider('providerPlusHours')]
+    public function testMinusHours(string $dateTime, int $plusHours, string $expected): void
     {
-        self::assertIs(ZonedDateTime::class, '2000-01-20T12:32:56.123456789-08:00[America/Los_Angeles]', $this->getTestZonedDateTime()->minusMinutes(2));
+        $actual = ZonedDateTime::parse($dateTime)->minusHours(-$plusHours);
+        self::assertIs(ZonedDateTime::class, $expected, $actual);
     }
 
-    public function testMinusSeconds(): void
+    #[DataProvider('providerPlusMinutes')]
+    public function testMinusMinutes(string $dateTime, int $plusMinutes, string $expected): void
     {
-        self::assertIs(ZonedDateTime::class, '2000-01-20T12:34:54.123456789-08:00[America/Los_Angeles]', $this->getTestZonedDateTime()->minusSeconds(2));
+        $actual = ZonedDateTime::parse($dateTime)->minusMinutes(-$plusMinutes);
+        self::assertIs(ZonedDateTime::class, $expected, $actual);
+    }
+
+    #[DataProvider('providerPlusSeconds')]
+    public function testMinusSeconds(string $dateTime, int $plusSeconds, string $expected): void
+    {
+        $actual = ZonedDateTime::parse($dateTime)->minusSeconds(-$plusSeconds);
+        self::assertIs(ZonedDateTime::class, $expected, $actual);
     }
 
     public function testIsBetweenInclusive(): void

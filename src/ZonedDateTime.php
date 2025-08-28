@@ -482,7 +482,7 @@ class ZonedDateTime implements JsonSerializable, Stringable
      */
     public function plusWeeks(int $weeks): ZonedDateTime
     {
-        return ZonedDateTime::ofInstant($this->instant->plusDays($weeks * 7), $this->timeZone);
+        return ZonedDateTime::of($this->localDateTime->plusWeeks($weeks), $this->timeZone);
     }
 
     /**
@@ -490,7 +490,7 @@ class ZonedDateTime implements JsonSerializable, Stringable
      */
     public function plusDays(int $days): ZonedDateTime
     {
-        return ZonedDateTime::ofInstant($this->instant->plusDays($days), $this->timeZone);
+        return ZonedDateTime::of($this->localDateTime->plusDays($days), $this->timeZone);
     }
 
     /**
