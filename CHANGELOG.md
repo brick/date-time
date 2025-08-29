@@ -1,5 +1,15 @@
 # Changelog
 
+## [0.7.1](https://github.com/brick/date-time/releases/tag/0.7.1) - 2025-08-29
+
+🐛 **Bug fixes**
+
+- `ZoneDateTime` incorrectly handled DST Transitions with relative time addition (#115)
+
+✨ **New features**
+
+- `LocalDate::getQuarter()` and `getQuarterValue()` return the quarter of the year (#114 by @pscheit)
+
 ## [0.7.0](https://github.com/brick/date-time/releases/tag/0.7.0) - 2024-06-23
 
 💥 **Breaking changes**
