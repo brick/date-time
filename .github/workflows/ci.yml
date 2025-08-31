@@ -1,4 +1,4 @@
-name: Tests
+name: CI
 
 on:
   push:
@@ -56,3 +56,33 @@ jobs:
         env:
           COVERALLS_REPO_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         if: ${{ matrix.php-version == env.COVERAGE_PHP_VERSION }}
+
+  psalm:
+    name: Psalm
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: "8.3"
+
+      - name: Install composer dependencies (date-time)
+        uses: ramsey/composer-install@v3
+
+      - name: Install composer dependencies (psalm)
+        uses: ramsey/composer-install@v3
+        with:
+          working-directory: "tools/psalm"
+
+      - name: Run Psalm
+        run: tools/psalm/vendor/bin/psalm --show-info=false --no-progress --config=tools/psalm/psalm.xml
+
+  coding-standard:
+    name: Coding Standard
+    uses: brick/coding-standard/.github/workflows/coding-standard.yml@v1
+    with:
+      working-directory: "tools/ecs"
