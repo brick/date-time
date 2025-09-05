@@ -55,6 +55,11 @@ final class TimeZoneRegion extends TimeZone
         return TimeZoneRegion::of($region);
     }
 
+    public static function utc() : TimeZoneRegion
+    {
+        return TimeZoneRegion::of('UTC');
+    }
+
     /**
      * Returns all the available time-zone identifiers.
      *

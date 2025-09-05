@@ -521,7 +521,7 @@ class ZonedDateTimeTest extends AbstractTestCase
     {
         $zonedDateTime = ZonedDateTime::of(
             LocalDateTime::of(2000, $monthValue, 1),
-            TimeZone::utc(),
+            TimeZoneOffset::utc(),
         );
 
         self::assertSame($month, $zonedDateTime->getMonth());
