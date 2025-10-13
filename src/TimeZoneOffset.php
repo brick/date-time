@@ -106,7 +106,7 @@ final class TimeZoneOffset extends TimeZone
         }
 
         $hour = $result->getField(Field\TimeZoneOffsetHour::NAME);
-        $minute = $result->getField(Field\TimeZoneOffsetMinute::NAME);
+        $minute = $result->getOptionalField(Field\TimeZoneOffsetMinute::NAME);
         $second = $result->getOptionalField(Field\TimeZoneOffsetSecond::NAME);
 
         $hour = (int) $hour;
