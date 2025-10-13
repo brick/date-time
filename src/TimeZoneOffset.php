@@ -128,6 +128,7 @@ final class TimeZoneOffset extends TimeZone
      * The following ISO 8601 formats are accepted:
      *
      * * `Z` - for UTC
+     * * `±hh`
      * * `±hh:mm`
      * * `±hh:mm:ss`
      *
