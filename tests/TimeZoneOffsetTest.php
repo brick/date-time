@@ -153,13 +153,9 @@ class TimeZoneOffsetTest extends AbstractTestCase
     {
         yield from [
             ['+00:00', 0],
-            ['+00', 0],
             ['-00:00', 0],
-            ['-00', 0],
             ['+01:00', 3600],
-            ['+01', 3600],
             ['-01:00', -3600],
-            ['-01', -3600],
             ['+01:30', 5400],
             ['-01:30', -5400],
             ['+18:00', 64800],
@@ -186,6 +182,7 @@ class TimeZoneOffsetTest extends AbstractTestCase
         return [
             [''],
             ['00:00'],
+            ['+00'],
             ['+00:'],
             ['+00:00:'],
             ['+1:00'],
@@ -247,13 +244,11 @@ class TimeZoneOffsetTest extends AbstractTestCase
             [60, '+00:01'],
             [120, '+00:02'],
             [3600, '+01:00'],
-            [3600, '+01'],
             [7380, '+02:03'],
             [64800, '+18:00'],
             [-60, '-00:01'],
             [-120, '-00:02'],
             [-3600, '-01:00'],
-            [-3600, '-01'],
             [-7380, '-02:03'],
             [-64800, '-18:00'],
         ];
@@ -297,7 +292,6 @@ class TimeZoneOffsetTest extends AbstractTestCase
     {
         yield from [
             [-18000, '-05:00'],
-            [-18000, '-05'],
         ];
 
         if ((PHP_VERSION_ID >= 80107 && PHP_VERSION_ID < 80120)
@@ -305,9 +299,7 @@ class TimeZoneOffsetTest extends AbstractTestCase
         ) {
             yield from [
                 [-1, '-00:00'],
-                [-1, '-00'],
                 [3630, '+01:00'],
-                [3630, '+01'],
             ];
         }
 
