@@ -1,5 +1,6 @@
 /vendor
 /composer.lock
+/.idea
 /.phpunit.cache
 
 # https://stackoverflow.com/a/16318111
