@@ -1,5 +1,10 @@
 # Changelog
 
+## [104.0.0](https://github.com/solodkiy/brick-date-time/releases/tag/104.0.0)
+* Replaces [brick/date-time 0.7.0](https://github.com/brick/date-time/releases/tag/0.7.0)
+
+Be aware of [breaking changes](https://github.com/brick/date-time/releases/tag/0.7.0)
+
 ## [103.1.0](https://github.com/solodkiy/brick-date-time/releases/tag/103.1.0)
 * Replaces [brick/date-time 0.6.5](https://github.com/brick/date-time/releases/tag/0.6.5)
 

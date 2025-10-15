@@ -37,7 +37,7 @@
         "guzzlehttp/guzzle": "^7.0"
     },
     "replace": {
-        "brick/date-time": "0.6.5"
+        "brick/date-time": "0.7.0"
     },
     "conflict": {
         "solodkiy/date-time": "*"
