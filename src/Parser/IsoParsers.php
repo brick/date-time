@@ -206,7 +206,7 @@ final class IsoParsers
     }
 
     /**
-     * Returns a parser for a time-zone offset such as `Z` or `+01:00`.
+     * Returns a parser for a time-zone offset such as `Z`, `+01:00` or `+01`.
      */
     public static function timeZoneOffset(): PatternParser
     {
