@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.8.0](https://github.com/brick/date-time/releases/tag/0.8.0) - 2025-11-11
+
+💥 **Breaking changes**
+
+- `Duration::toISOString()` and `__toString()` now output negative durations as `-P...` (#122 by @BastienClement)  
+  Example: `-PT2H21M` instead of `PT-2H-21M`.  
+  This aligns with ISO 8601-2:2019 and improves compatibility with the JavaScript Temporal API.
+
 ## [0.7.1](https://github.com/brick/date-time/releases/tag/0.7.1) - 2025-08-29
 
 🐛 **Bug fixes**
