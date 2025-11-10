@@ -775,9 +775,12 @@ final class Duration implements JsonSerializable, Stringable
 
         $negative = ($seconds < 0);
 
-        if ($seconds < 0 && $nanos !== 0) {
-            $seconds++;
-            $nanos = LocalTime::NANOS_PER_SECOND - $nanos;
+        if ($negative) {
+            if ($nanos !== 0) {
+                $seconds++;
+                $nanos = LocalTime::NANOS_PER_SECOND - $nanos;
+            }
+            $seconds = -$seconds;
         }
 
         $hours = intdiv($seconds, LocalTime::SECONDS_PER_HOUR);
@@ -794,16 +797,18 @@ final class Duration implements JsonSerializable, Stringable
         }
 
         if ($seconds === 0 && $nanos === 0) {
-            return $string;
+            return $negative ? '-' . $string : $string;
         }
 
-        $string .= (($seconds === 0 && $negative) ? '-0' : $seconds);
+        $string .= $seconds;
 
         if ($nanos !== 0) {
             $string .= '.' . rtrim(str_pad((string) $nanos, 9, '0', STR_PAD_LEFT), '0');
         }
 
-        return $string . 'S';
+        $string .= 'S';
+
+        return $negative ? '-' . $string : $string;
     }
 
     /**
