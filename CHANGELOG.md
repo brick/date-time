@@ -4,7 +4,7 @@
 
 ✨ **Compatibility improvements**
 
-- The following parser and parse methods now accept hours only in timezone offsets, such as `+01` equivalent to `+01:00`:
+- The following parser and parse methods now accept hours only in timezone offsets, such as `+01` equivalent to `+01:00` (#123 by @antonkomarev):
   - `IsoParsers:timeZoneOffset()`
   - `TimeZoneOffset::parse()`
   - `ZonedDateTime::parse()`
