@@ -1,5 +1,14 @@
 # Changelog
 
+## [0.8.1](https://github.com/brick/date-time/releases/tag/0.8.1) - 2025-11-11
+
+✨ **Compatibility improvements**
+
+- The following parser and parse methods now accept hours only in timezone offsets, such as `+01` equivalent to `+01:00`:
+  - `IsoParsers:timeZoneOffset()`
+  - `TimeZoneOffset::parse()`
+  - `ZonedDateTime::parse()`
+
 ## [0.8.0](https://github.com/brick/date-time/releases/tag/0.8.0) - 2025-11-11
 
 💥 **Breaking changes**
