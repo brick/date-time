@@ -152,6 +152,13 @@ class TimeZoneOffsetTest extends AbstractTestCase
     public static function providerParse(): iterable
     {
         yield from [
+            ['+00', 0],
+            ['-00', 0],
+            ['+01', 3600],
+            ['-01', -3600],
+            ['+18', 64800],
+            ['-18', -64800],
+
             ['+00:00', 0],
             ['-00:00', 0],
             ['+01:00', 3600],
@@ -182,7 +189,6 @@ class TimeZoneOffsetTest extends AbstractTestCase
         return [
             [''],
             ['00:00'],
-            ['+00'],
             ['+00:'],
             ['+00:00:'],
             ['+1:00'],
