@@ -1,8 +1,6 @@
 <?php
 
 declare(strict_types=1);
-
-use Rector\CodeQuality\Rector\FunctionLike\SimplifyUselessVariableRector;
 use Rector\Config\RectorConfig;
 use Rector\PHPUnit\Set\PHPUnitSetList;
 
@@ -18,12 +16,9 @@ return RectorConfig::configure()
         $root . '/tools/ecs/vendor',
         $root . '/tools/psalm/vendor',
         $root . '/tools/rector/vendor',
-
-        // This one does not really match with the project's code style
-        SimplifyUselessVariableRector::class,
     ])
-    ->withPhpSets()
+    ->withPhpSets(php82: true)
     ->withSets([
-        PHPUnitSetList::PHPUNIT_100,
+        PHPUnitSetList::PHPUNIT_110,
     ])
     ->withImportNames(importNames: false, removeUnusedImports: true);
