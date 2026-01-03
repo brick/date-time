@@ -36,13 +36,13 @@ final class TimeZoneOffset extends TimeZone
     }
 
     /**
-     * Obtains an instance of `TimeZoneOffset` using an offset in hours, minutes and seconds. Seconds are only supported since PHP 8.1.7.
+     * Obtains an instance of `TimeZoneOffset` using an offset in hours, minutes and seconds.
      *
      * The total number of seconds must not exceed 64,800 seconds.
      *
      * @param int $hours   The time-zone offset in hours.
      * @param int $minutes The time-zone offset in minutes, from 0 to 59, sign matching hours.
-     * @param int $seconds The time-zone offset in seconds, from 0 to 59, sign matching hours and minute. This is only supported since PHP 8.1.7.
+     * @param int $seconds The time-zone offset in seconds, from 0 to 59, sign matching hours and minute.
      *
      * @throws DateTimeException If the values are not in range or the signs don't match.
      */
