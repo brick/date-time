@@ -5,7 +5,6 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xmlns="https://getpsalm.org/schema/config"
     xsi:schemaLocation="https://getpsalm.org/schema/config vendor/vimeo/psalm/config.xsd"
-    findUnusedBaselineEntry="true"
     findUnusedPsalmSuppress="true"
     findUnusedCode="false"
 >
@@ -15,4 +14,11 @@
             <directory name="vendor" />
         </ignoreFiles>
     </projectFiles>
+    <issueHandlers>
+        <ImplicitToStringCast>
+            <errorLevel type="suppress">
+                <directory name="src" />
+            </errorLevel>
+        </ImplicitToStringCast>
+    </issueHandlers>
 </psalm>
