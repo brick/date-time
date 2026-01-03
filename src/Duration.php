@@ -10,9 +10,7 @@ use JsonSerializable;
 use Override;
 use Stringable;
 
-use function assert;
 use function intdiv;
-use function is_int;
 use function preg_match;
 use function rtrim;
 use function str_pad;
@@ -149,8 +147,7 @@ final class Duration implements JsonSerializable, Stringable
     public static function ofSeconds(int $seconds, int $nanoAdjustment = 0): Duration
     {
         $nanoseconds = $nanoAdjustment % LocalTime::NANOS_PER_SECOND;
-        $seconds += ($nanoAdjustment - $nanoseconds) / LocalTime::NANOS_PER_SECOND;
-        assert(is_int($seconds));
+        $seconds += intdiv($nanoAdjustment - $nanoseconds, LocalTime::NANOS_PER_SECOND);
 
         if ($nanoseconds < 0) {
             $nanoseconds += LocalTime::NANOS_PER_SECOND;

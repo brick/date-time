@@ -8,8 +8,7 @@ use JsonSerializable;
 use Override;
 use Stringable;
 
-use function assert;
-use function is_int;
+use function intdiv;
 use function rtrim;
 use function str_pad;
 
@@ -56,8 +55,7 @@ final class Instant implements JsonSerializable, Stringable
     public static function of(int $epochSecond, int $nanoAdjustment = 0): Instant
     {
         $nanos = $nanoAdjustment % LocalTime::NANOS_PER_SECOND;
-        $epochSecond += ($nanoAdjustment - $nanos) / LocalTime::NANOS_PER_SECOND;
-        assert(is_int($epochSecond));
+        $epochSecond += intdiv($nanoAdjustment - $nanos, LocalTime::NANOS_PER_SECOND);
 
         if ($nanos < 0) {
             $nanos += LocalTime::NANOS_PER_SECOND;
