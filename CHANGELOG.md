@@ -1,5 +1,15 @@
 # Changelog
 
+## [0.9.0](https://github.com/brick/date-time/releases/tag/0.9.0) - 2026-01-03
+
+💥 **Breaking changes**
+
+- Minimum PHP version is now 8.2
+- The following classes are now `final`:
+  - `YearMonthRange`
+  - `ZonedDateTime`
+  - `Parser\DateTimeParseException`
+
 ## [0.8.1](https://github.com/brick/date-time/releases/tag/0.8.1) - 2025-11-11
 
 ✨ **Compatibility improvements**
