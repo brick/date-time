@@ -16,6 +16,7 @@ return RectorConfig::configure()
     ])
     ->withSkip([
         $root . '/tools/ecs/vendor',
+        $root . '/tools/psalm/vendor',
         $root . '/tools/rector/vendor',
 
         // This one does not really match with the project's code style
