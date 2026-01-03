@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Brick\DateTime\Tests;
 
 use Brick\DateTime\Clock\FixedClock;
-use Brick\DateTime\DateTimeException;
 use Brick\DateTime\DayOfWeek;
 use Brick\DateTime\Duration;
 use Brick\DateTime\Instant;
@@ -23,7 +22,6 @@ use DateTimeImmutable;
 use DateTimeZone;
 use Generator;
 use PHPUnit\Framework\Attributes\DataProvider;
-use PHPUnit\Framework\Attributes\RequiresPhp;
 
 use function json_encode;
 
@@ -418,14 +416,6 @@ class ZonedDateTimeTest extends AbstractTestCase
             [' 2001-02-03T01:02:03Z'],
             ['2001-02-03T01:02:03Z '],
         ];
-    }
-
-    #[RequiresPhp('< 8.1.7')]
-    #[DataProvider('providerParseSecondsOffsetThrowsException')]
-    public function testParseSecondsOffsetThrowsException(string $text): void
-    {
-        $this->expectException(DateTimeException::class);
-        ZonedDateTime::parse($text);
     }
 
     public static function providerParseSecondsOffsetThrowsException(): array
