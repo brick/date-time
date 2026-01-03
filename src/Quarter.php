@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Brick\DateTime;
 
 use JsonSerializable;
+use Override;
 
 /**
  * Represents a quarter-of-year.
@@ -44,6 +45,7 @@ enum Quarter: int implements JsonSerializable
     /**
      * Serializes as an integer.
      */
+    #[Override]
     public function jsonSerialize(): int
     {
         return $this->value;

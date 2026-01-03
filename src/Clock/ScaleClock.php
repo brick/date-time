@@ -7,6 +7,7 @@ namespace Brick\DateTime\Clock;
 use Brick\DateTime\Clock;
 use Brick\DateTime\Duration;
 use Brick\DateTime\Instant;
+use Override;
 
 /**
  * This clock makes the time move at a given pace.
@@ -34,6 +35,7 @@ final class ScaleClock implements Clock
         $this->startTime = $this->referenceClock->getTime();
     }
 
+    #[Override]
     public function getTime(): Instant
     {
         $duration = Duration::between($this->startTime, $this->referenceClock->getTime());

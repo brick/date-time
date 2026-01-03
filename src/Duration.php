@@ -7,6 +7,7 @@ namespace Brick\DateTime;
 use ArithmeticError;
 use Brick\DateTime\Utility\Math;
 use JsonSerializable;
+use Override;
 use Stringable;
 
 use function assert;
@@ -746,6 +747,7 @@ final class Duration implements JsonSerializable, Stringable
      *
      * @psalm-return non-empty-string
      */
+    #[Override]
     public function jsonSerialize(): string
     {
         return $this->toISOString();
@@ -816,6 +818,7 @@ final class Duration implements JsonSerializable, Stringable
      *
      * @psalm-return non-empty-string
      */
+    #[Override]
     public function __toString(): string
     {
         return $this->toISOString();

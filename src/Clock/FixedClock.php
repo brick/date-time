@@ -7,6 +7,7 @@ namespace Brick\DateTime\Clock;
 use Brick\DateTime\Clock;
 use Brick\DateTime\Duration;
 use Brick\DateTime\Instant;
+use Override;
 
 /**
  * This clock always returns the same instant. It is typically used for testing.
@@ -21,6 +22,7 @@ final class FixedClock implements Clock
     ) {
     }
 
+    #[Override]
     public function getTime(): Instant
     {
         return $this->instant;

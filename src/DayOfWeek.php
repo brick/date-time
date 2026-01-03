@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Brick\DateTime;
 
 use JsonSerializable;
+use Override;
 
 /**
  * Represents a day-of-week such as Tuesday.
@@ -86,6 +87,7 @@ enum DayOfWeek: int implements JsonSerializable
      *
      * @psalm-return non-empty-string
      */
+    #[Override]
     public function jsonSerialize(): string
     {
         return $this->toString();

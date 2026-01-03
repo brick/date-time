@@ -7,6 +7,7 @@ namespace Brick\DateTime\Clock;
 use Brick\DateTime\Clock;
 use Brick\DateTime\Duration;
 use Brick\DateTime\Instant;
+use Override;
 
 /**
  * This clock adds an offset to an underlying clock.
@@ -23,6 +24,7 @@ final class OffsetClock implements Clock
     ) {
     }
 
+    #[Override]
     public function getTime(): Instant
     {
         return $this->referenceClock->getTime()->plus($this->offset);

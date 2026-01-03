@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Brick\DateTime\Parser;
 
+use Override;
+
 use function preg_match;
 use function sprintf;
 
@@ -35,6 +37,7 @@ final class PatternParser implements DateTimeParser
         return $this->fields;
     }
 
+    #[Override]
     public function parse(string $text): DateTimeParseResult
     {
         $pattern = '/^' . $this->pattern . '$/';

@@ -14,6 +14,7 @@ use DatePeriod;
 use Generator;
 use IteratorAggregate;
 use JsonSerializable;
+use Override;
 use Stringable;
 
 /**
@@ -210,6 +211,7 @@ final class LocalDateRange implements IteratorAggregate, Countable, JsonSerializ
      *
      * @return Generator<LocalDate>
      */
+    #[Override]
     public function getIterator(): Generator
     {
         for ($current = $this->start; $current->isBeforeOrEqualTo($this->end); $current = $current->plusDays(1)) {
@@ -222,6 +224,7 @@ final class LocalDateRange implements IteratorAggregate, Countable, JsonSerializ
      *
      * @return int The number of days, >= 1.
      */
+    #[Override]
     public function count(): int
     {
         return $this->end->toEpochDay() - $this->start->toEpochDay() + 1;
@@ -232,6 +235,7 @@ final class LocalDateRange implements IteratorAggregate, Countable, JsonSerializ
      *
      * @psalm-return non-empty-string
      */
+    #[Override]
     public function jsonSerialize(): string
     {
         return $this->toISOString();
@@ -267,6 +271,7 @@ final class LocalDateRange implements IteratorAggregate, Countable, JsonSerializ
      *
      * @psalm-return non-empty-string
      */
+    #[Override]
     public function __toString(): string
     {
         return $this->toISOString();

@@ -7,6 +7,7 @@ namespace Brick\DateTime;
 use Brick\DateTime\Parser\DateTimeParseException;
 use DateTimeImmutable;
 use DateTimeZone;
+use Override;
 use Stringable;
 
 use const PHP_VERSION_ID;
@@ -96,6 +97,7 @@ abstract class TimeZone implements Stringable
     /**
      * @psalm-return non-empty-string
      */
+    #[Override]
     public function __toString(): string
     {
         return $this->getId();

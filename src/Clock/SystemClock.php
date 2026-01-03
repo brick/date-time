@@ -14,6 +14,7 @@ use Brick\DateTime\Instant;
  */
 final class SystemClock implements Clock
 {
+    #[\Override]
     public function getTime(): Instant
     {
         [$fraction, $epochSecond] = \explode(' ', microtime());

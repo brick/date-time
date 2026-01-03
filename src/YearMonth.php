@@ -10,6 +10,7 @@ use Brick\DateTime\Parser\DateTimeParseResult;
 use Brick\DateTime\Parser\IsoParsers;
 use Brick\DateTime\Utility\Math;
 use JsonSerializable;
+use Override;
 use Stringable;
 
 use function is_int;
@@ -311,6 +312,7 @@ final class YearMonth implements JsonSerializable, Stringable
      *
      * @psalm-return non-empty-string
      */
+    #[Override]
     public function jsonSerialize(): string
     {
         return $this->toISOString();
@@ -341,6 +343,7 @@ final class YearMonth implements JsonSerializable, Stringable
      *
      * @psalm-return non-empty-string
      */
+    #[Override]
     public function __toString(): string
     {
         return $this->toISOString();

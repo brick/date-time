@@ -11,6 +11,7 @@ use Brick\DateTime\Parser\IsoParsers;
 use DateTime;
 use DateTimeZone;
 use Exception;
+use Override;
 
 /**
  * A geographical region where the same time-zone rules apply, such as `Europe/London`.
@@ -90,6 +91,7 @@ final class TimeZoneRegion extends TimeZone
      *
      * @throws DateTimeParseException
      */
+    #[Override]
     public static function parse(string $text, ?DateTimeParser $parser = null): TimeZoneRegion
     {
         if ($parser === null) {
@@ -99,11 +101,13 @@ final class TimeZoneRegion extends TimeZone
         return TimeZoneRegion::from($parser->parse($text));
     }
 
+    #[Override]
     public function getId(): string
     {
         return $this->zone->getName();
     }
 
+    #[Override]
     public function getOffset(Instant $pointInTime): int
     {
         $dateTime = new DateTime('@' . $pointInTime->getEpochSecond(), new DateTimeZone('UTC'));
@@ -111,6 +115,7 @@ final class TimeZoneRegion extends TimeZone
         return $this->zone->getOffset($dateTime);
     }
 
+    #[Override]
     public function toNativeDateTimeZone(): DateTimeZone
     {
         return clone $this->zone;

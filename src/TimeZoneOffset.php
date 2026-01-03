@@ -9,6 +9,7 @@ use Brick\DateTime\Parser\DateTimeParser;
 use Brick\DateTime\Parser\DateTimeParseResult;
 use Brick\DateTime\Parser\IsoParsers;
 use DateTimeZone;
+use Override;
 
 /**
  * A time-zone offset from Greenwich/UTC, such as `+02:00`.
@@ -85,6 +86,7 @@ final class TimeZoneOffset extends TimeZone
         return new TimeZoneOffset($totalSeconds);
     }
 
+    #[Override]
     public static function utc(): TimeZoneOffset
     {
         /** @var TimeZoneOffset|null $utc */
@@ -136,6 +138,7 @@ final class TimeZoneOffset extends TimeZone
      *
      * @throws DateTimeParseException
      */
+    #[Override]
     public static function parse(string $text, ?DateTimeParser $parser = null): TimeZoneOffset
     {
         if ($parser === null) {
@@ -159,6 +162,7 @@ final class TimeZoneOffset extends TimeZone
         return $this->totalSeconds;
     }
 
+    #[Override]
     public function getId(): string
     {
         if ($this->id === null) {
@@ -174,11 +178,13 @@ final class TimeZoneOffset extends TimeZone
         return $this->id;
     }
 
+    #[Override]
     public function getOffset(Instant $pointInTime): int
     {
         return $this->totalSeconds;
     }
 
+    #[Override]
     public function toNativeDateTimeZone(): DateTimeZone
     {
         return new DateTimeZone($this->getId());

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Brick\DateTime;
 
 use JsonSerializable;
+use Override;
 use Stringable;
 
 use function assert;
@@ -351,6 +352,7 @@ final class Instant implements JsonSerializable, Stringable
      *
      * @psalm-return non-empty-string
      */
+    #[Override]
     public function jsonSerialize(): string
     {
         return $this->toISOString();
@@ -371,6 +373,7 @@ final class Instant implements JsonSerializable, Stringable
      *
      * @psalm-return non-empty-string
      */
+    #[Override]
     public function __toString(): string
     {
         return $this->toISOString();
