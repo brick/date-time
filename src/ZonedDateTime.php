@@ -24,7 +24,7 @@ use function intdiv;
  * A ZonedDateTime can be viewed as a LocalDateTime along with a time zone
  * and targets a specific point in time.
  */
-class ZonedDateTime implements JsonSerializable, Stringable
+final class ZonedDateTime implements JsonSerializable, Stringable
 {
     /**
      * Private constructor. Use a factory method to obtain an instance.

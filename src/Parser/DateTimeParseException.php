@@ -9,7 +9,7 @@ use Brick\DateTime\DateTimeException;
 /**
  * Exception thrown when a parse error occurs.
  */
-class DateTimeParseException extends DateTimeException
+final class DateTimeParseException extends DateTimeException
 {
     public static function invalidDuration(string $textToParse): self
     {

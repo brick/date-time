@@ -23,7 +23,7 @@ use Stringable;
  *
  * @template-implements IteratorAggregate<YearMonth>
  */
-class YearMonthRange implements IteratorAggregate, Countable, JsonSerializable, Stringable
+final class YearMonthRange implements IteratorAggregate, Countable, JsonSerializable, Stringable
 {
     /**
      * @param YearMonth $start The start year-month, inclusive.
