@@ -24,7 +24,7 @@ use function intdiv;
  * A ZonedDateTime can be viewed as a LocalDateTime along with a time zone
  * and targets a specific point in time.
  */
-final class ZonedDateTime implements JsonSerializable, Stringable
+final readonly class ZonedDateTime implements JsonSerializable, Stringable
 {
     /**
      * Private constructor. Use a factory method to obtain an instance.
@@ -37,10 +37,10 @@ final class ZonedDateTime implements JsonSerializable, Stringable
      * @param Instant        $instant        The instant represented by this ZonedDateTime.
      */
     private function __construct(
-        private readonly LocalDateTime $localDateTime,
-        private readonly TimeZoneOffset $timeZoneOffset,
-        private readonly TimeZone $timeZone,
-        private readonly Instant $instant,
+        private LocalDateTime $localDateTime,
+        private TimeZoneOffset $timeZoneOffset,
+        private TimeZone $timeZone,
+        private Instant $instant,
     ) {
     }
 

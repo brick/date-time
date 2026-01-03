@@ -17,7 +17,7 @@ use function is_int;
 /**
  * A month-day in the ISO-8601 calendar system, such as `--12-03`.
  */
-final class MonthDay implements JsonSerializable, Stringable
+final readonly class MonthDay implements JsonSerializable, Stringable
 {
     /**
      * Private constructor. Use of() to obtain an instance.
@@ -26,8 +26,8 @@ final class MonthDay implements JsonSerializable, Stringable
      * @param int<1, 31> $day   The day-of-month, valid for this month.
      */
     private function __construct(
-        private readonly int $month,
-        private readonly int $day,
+        private int $month,
+        private int $day,
     ) {
     }
 

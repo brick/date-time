@@ -23,15 +23,15 @@ use Stringable;
  *
  * @template-implements IteratorAggregate<YearMonth>
  */
-final class YearMonthRange implements IteratorAggregate, Countable, JsonSerializable, Stringable
+final readonly class YearMonthRange implements IteratorAggregate, Countable, JsonSerializable, Stringable
 {
     /**
      * @param YearMonth $start The start year-month, inclusive.
      * @param YearMonth $end   The end year-month, inclusive, validated as not before the start year-month.
      */
     private function __construct(
-        private readonly YearMonth $start,
-        private readonly YearMonth $end,
+        private YearMonth $start,
+        private YearMonth $end,
     ) {
     }
 

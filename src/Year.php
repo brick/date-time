@@ -20,7 +20,7 @@ use const STR_PAD_LEFT;
 /**
  * Represents a year in the proleptic calendar.
  */
-final class Year implements JsonSerializable, Stringable
+final readonly class Year implements JsonSerializable, Stringable
 {
     public const MIN_VALUE = LocalDate::MIN_YEAR;
     public const MAX_VALUE = LocalDate::MAX_YEAR;
@@ -29,7 +29,7 @@ final class Year implements JsonSerializable, Stringable
      * @param int $year The year, validated.
      */
     private function __construct(
-        private readonly int $year,
+        private int $year,
     ) {
     }
 

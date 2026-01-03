@@ -29,7 +29,7 @@ use const STR_PAD_LEFT;
  *
  * This class is immutable.
  */
-final class LocalDate implements JsonSerializable, Stringable
+final readonly class LocalDate implements JsonSerializable, Stringable
 {
     /**
      * The minimum supported year for instances of `LocalDate`, -999,999.
@@ -59,9 +59,9 @@ final class LocalDate implements JsonSerializable, Stringable
      * @param int<1, 31> $day   The day-of-month, validated from 1 to 31, valid for the year-month.
      */
     private function __construct(
-        private readonly int $year,
-        private readonly int $month,
-        private readonly int $day,
+        private int $year,
+        private int $month,
+        private int $day,
     ) {
     }
 

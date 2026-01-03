@@ -23,11 +23,11 @@ use function intdiv;
  *
  * This class is immutable.
  */
-final class LocalDateTime implements JsonSerializable, Stringable
+final readonly class LocalDateTime implements JsonSerializable, Stringable
 {
     public function __construct(
-        private readonly LocalDate $date,
-        private readonly LocalTime $time,
+        private LocalDate $date,
+        private LocalTime $time,
     ) {
     }
 

@@ -19,7 +19,7 @@ use function sprintf;
  *
  * This class is immutable.
  */
-final class Period implements JsonSerializable, Stringable
+final readonly class Period implements JsonSerializable, Stringable
 {
     /**
      * Private constructor. Use of() to obtain an instance.
@@ -29,9 +29,9 @@ final class Period implements JsonSerializable, Stringable
      * @param int $days   The number of days.
      */
     private function __construct(
-        private readonly int $years,
-        private readonly int $months,
-        private readonly int $days,
+        private int $years,
+        private int $months,
+        private int $days,
     ) {
     }
 

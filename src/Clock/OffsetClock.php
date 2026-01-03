@@ -12,15 +12,15 @@ use Override;
 /**
  * This clock adds an offset to an underlying clock.
  */
-final class OffsetClock implements Clock
+final readonly class OffsetClock implements Clock
 {
     /**
      * @param Clock    $referenceClock The reference clock.
      * @param Duration $offset         The offset to apply to the clock.
      */
     public function __construct(
-        private readonly Clock $referenceClock,
-        private readonly Duration $offset,
+        private Clock $referenceClock,
+        private Duration $offset,
     ) {
     }
 

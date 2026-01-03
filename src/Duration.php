@@ -23,7 +23,7 @@ use const STR_PAD_RIGHT;
  *
  * This class is immutable.
  */
-final class Duration implements JsonSerializable, Stringable
+final readonly class Duration implements JsonSerializable, Stringable
 {
     /**
      * Private constructor. Use one of the factory methods to obtain a Duration.
@@ -33,8 +33,8 @@ final class Duration implements JsonSerializable, Stringable
      *                     A duration of -1 nanoseconds is stored as -1 seconds plus 999,999,999 nanoseconds.
      */
     private function __construct(
-        private readonly int $seconds,
-        private readonly int $nanos = 0,
+        private int $seconds,
+        private int $nanos = 0,
     ) {
     }
 

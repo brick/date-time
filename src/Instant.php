@@ -23,7 +23,7 @@ use const STR_PAD_LEFT;
  * without any calendar concept of date, time or time zone. It is not very meaningful to humans,
  * but can be converted to a `ZonedDateTime` by providing a time zone.
  */
-final class Instant implements JsonSerializable, Stringable
+final readonly class Instant implements JsonSerializable, Stringable
 {
     /**
      * Private constructor. Use of() to obtain an Instant.
@@ -32,8 +32,8 @@ final class Instant implements JsonSerializable, Stringable
      * @param int $nano        The nanosecond adjustment to the epoch second, validated in the range 0 to 999,999,999.
      */
     private function __construct(
-        private readonly int $epochSecond,
-        private readonly int $nano,
+        private int $epochSecond,
+        private int $nano,
     ) {
     }
 

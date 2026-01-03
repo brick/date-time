@@ -25,15 +25,15 @@ use Stringable;
  *
  * @template-implements IteratorAggregate<LocalDate>
  */
-final class LocalDateRange implements IteratorAggregate, Countable, JsonSerializable, Stringable
+final readonly class LocalDateRange implements IteratorAggregate, Countable, JsonSerializable, Stringable
 {
     /**
      * @param LocalDate $start The start date, inclusive.
      * @param LocalDate $end   The end date, inclusive, validated as not before the start date.
      */
     private function __construct(
-        private readonly LocalDate $start,
-        private readonly LocalDate $end,
+        private LocalDate $start,
+        private LocalDate $end,
     ) {
     }
 

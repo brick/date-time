@@ -14,15 +14,15 @@ use Stringable;
  *
  * This class is immutable.
  */
-final class Interval implements JsonSerializable, Stringable
+final readonly class Interval implements JsonSerializable, Stringable
 {
     /**
      * @param Instant $start The start instant, inclusive.
      * @param Instant $end   The end instant, exclusive, validated as not before the start instant.
      */
     private function __construct(
-        private readonly Instant $start,
-        private readonly Instant $end,
+        private Instant $start,
+        private Instant $end,
     ) {
     }
 
