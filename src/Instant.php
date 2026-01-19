@@ -363,7 +363,7 @@ final readonly class Instant implements JsonSerializable, Stringable
      */
     public function toISOString(): string
     {
-        return (string) ZonedDateTime::ofInstant($this, TimeZone::utc());
+        return (string) ZonedDateTime::ofInstant($this, TimeZoneOffset::utc());
     }
 
     /**
