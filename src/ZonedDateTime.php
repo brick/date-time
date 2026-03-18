@@ -188,7 +188,7 @@ final readonly class ZonedDateTime implements JsonSerializable, Stringable
 
         $dateTimeZone = $dateTime->getTimezone();
 
-        if ($dateTimeZone === false) {
+        if ($dateTimeZone === false) { // @phpstan-ignore identical.alwaysFalse
             // @codeCoverageIgnoreStart
             throw new DateTimeException('This DateTime object has no timezone.');
             // @codeCoverageIgnoreEnd
@@ -595,9 +595,7 @@ final readonly class ZonedDateTime implements JsonSerializable, Stringable
      *
      * The comparison is performed on the instant.
      *
-     * @return int [-1,0,1] If this zoned date-time is before, on, or after the given one.
-     *
-     * @psalm-return -1|0|1
+     * @return -1|0|1 If this zoned date-time is before, on, or after the given one.
      */
     public function compareTo(ZonedDateTime $that): int
     {
@@ -726,7 +724,7 @@ final readonly class ZonedDateTime implements JsonSerializable, Stringable
     /**
      * Serializes as a string using {@see ZonedDateTime::toISOString()}.
      *
-     * @psalm-return non-empty-string
+     * @return non-empty-string
      */
     #[Override]
     public function jsonSerialize(): string
@@ -737,7 +735,7 @@ final readonly class ZonedDateTime implements JsonSerializable, Stringable
     /**
      * Returns the ISO 8601 representation of this zoned date time.
      *
-     * @psalm-return non-empty-string
+     * @return non-empty-string
      */
     public function toISOString(): string
     {
@@ -753,7 +751,7 @@ final readonly class ZonedDateTime implements JsonSerializable, Stringable
     /**
      * {@see ZonedDateTime::toISOString()}.
      *
-     * @psalm-return non-empty-string
+     * @return non-empty-string
      */
     #[Override]
     public function __toString(): string

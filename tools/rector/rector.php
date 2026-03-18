@@ -14,7 +14,7 @@ return RectorConfig::configure()
     ])
     ->withSkip([
         $root . '/tools/ecs/vendor',
-        $root . '/tools/psalm/vendor',
+        $root . '/tools/phpstan/vendor',
         $root . '/tools/rector/vendor',
     ])
     ->withPhpSets(php82: true)

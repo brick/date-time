@@ -55,8 +55,8 @@ jobs:
           CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
         if: ${{ matrix.php-version == env.COVERAGE_PHP_VERSION }}
 
-  psalm:
-    name: Psalm
+  phpstan:
+    name: PHPStan
     runs-on: ubuntu-latest
 
     steps:
@@ -71,13 +71,13 @@ jobs:
       - name: Install composer dependencies (date-time)
         uses: ramsey/composer-install@v3
 
-      - name: Install composer dependencies (psalm)
+      - name: Install composer dependencies (phpstan)
         uses: ramsey/composer-install@v3
         with:
-          working-directory: "tools/psalm"
+          working-directory: "tools/phpstan"
 
-      - name: Run Psalm
-        run: tools/psalm/vendor/bin/psalm --show-info=false --no-progress --config=tools/psalm/psalm.xml
+      - name: Run PHPStan
+        run: tools/phpstan/vendor/bin/phpstan --no-progress --configuration=tools/phpstan/phpstan.neon
 
   coding-standard:
     name: Coding Standard

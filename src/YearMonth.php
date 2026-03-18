@@ -145,9 +145,7 @@ final readonly class YearMonth implements JsonSerializable, Stringable
     }
 
     /**
-     * @return int [-1,0,1] If this year-month is before, on, or after the given year-month.
-     *
-     * @psalm-return -1|0|1
+     * @return -1|0|1 If this year-month is before, on, or after the given year-month.
      */
     public function compareTo(YearMonth $that): int
     {
@@ -310,7 +308,7 @@ final readonly class YearMonth implements JsonSerializable, Stringable
     /**
      * Serializes as a string using {@see YearMonth::toISOString()}.
      *
-     * @psalm-return non-empty-string
+     * @return non-empty-string
      */
     #[Override]
     public function jsonSerialize(): string
@@ -321,7 +319,7 @@ final readonly class YearMonth implements JsonSerializable, Stringable
     /**
      * Returns the ISO 8601 representation of this year-month.
      *
-     * @psalm-return non-empty-string
+     * @return non-empty-string
      */
     public function toISOString(): string
     {
@@ -341,7 +339,7 @@ final readonly class YearMonth implements JsonSerializable, Stringable
     /**
      * {@see YearMonth::toISOString()}.
      *
-     * @psalm-return non-empty-string
+     * @return non-empty-string
      */
     #[Override]
     public function __toString(): string

@@ -104,7 +104,7 @@ final class TimeZoneRegion extends TimeZone
     #[Override]
     public function getId(): string
     {
-        return $this->zone->getName();
+        return $this->zone->getName(); // @phpstan-ignore return.type
     }
 
     #[Override]

@@ -4,9 +4,15 @@
 
 # https://stackoverflow.com/a/16318111
 /tools/*
+!/tools/ecs/
+/tools/ecs/*
 !/tools/ecs/composer.json
 !/tools/ecs/ecs.php
+!/tools/rector/
+/tools/rector/*
 !/tools/rector/composer.json
 !/tools/rector/rector.php
-!/tools/psalm/composer.json
-!/tools/psalm/psalm.xml
+!/tools/phpstan/
+/tools/phpstan/*
+!/tools/phpstan/composer.json
+!/tools/phpstan/phpstan.neon

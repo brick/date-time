@@ -219,16 +219,16 @@ vendor/bin/phpunit
 
 ### Static analysis
 
-Install Psalm in its own folder:
+Install PHPStan in its own folder:
 
 ```sh
-composer install --working-dir=tools/psalm
+composer install --working-dir=tools/phpstan
 ```
 
-Run Psalm static analysis:
+Run PHPStan static analysis:
 
 ```sh
-tools/psalm/vendor/bin/psalm --no-cache --config=tools/psalm/psalm.xml
+tools/phpstan/vendor/bin/phpstan --configuration=tools/phpstan/phpstan.neon
 ```
 
 ### Coding Style

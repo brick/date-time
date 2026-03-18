@@ -28,7 +28,7 @@ final class DayOfMonth
      *
      * @throws DateTimeException If the day-of-month is not valid.
      *
-     * @psalm-assert int<1, 31> $dayOfMonth
+     * @phpstan-assert int<1, 31> $dayOfMonth
      */
     public static function check(int $dayOfMonth, ?int $monthOfYear = null, ?int $year = null): void
     {

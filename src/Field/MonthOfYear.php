@@ -26,7 +26,7 @@ final class MonthOfYear
      *
      * @throws DateTimeException If the month-of-year is not valid.
      *
-     * @psalm-assert int<1, 12> $monthOfYear
+     * @phpstan-assert int<1, 12> $monthOfYear
      */
     public static function check(int $monthOfYear): void
     {

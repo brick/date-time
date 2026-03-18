@@ -177,7 +177,7 @@ final readonly class YearMonthRange implements IteratorAggregate, Countable, Jso
     /**
      * Serializes as a string using {@see YearMonthRange::toISOString()}.
      *
-     * @psalm-return non-empty-string
+     * @return non-empty-string
      */
     #[Override]
     public function jsonSerialize(): string
@@ -191,7 +191,7 @@ final readonly class YearMonthRange implements IteratorAggregate, Countable, Jso
      * ISO 8601 does not seem to provide a standard notation for year-month ranges, but we're using the same format as
      * date ranges.
      *
-     * @psalm-return non-empty-string
+     * @return non-empty-string
      */
     public function toISOString(): string
     {
@@ -201,7 +201,7 @@ final readonly class YearMonthRange implements IteratorAggregate, Countable, Jso
     /**
      * {@see YearMonthRange::toISOString()}.
      *
-     * @psalm-return non-empty-string
+     * @return non-empty-string
      */
     #[Override]
     public function __toString(): string

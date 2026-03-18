@@ -23,7 +23,7 @@ final class Math
     {
         $result = $a + $b;
 
-        if (is_float($result)) {
+        if (is_float($result)) { // @phpstan-ignore function.impossibleType
             throw new ArithmeticError('The result of the operation overflows an integer on this platform.');
         }
 
@@ -37,7 +37,7 @@ final class Math
     {
         $result = $a * $b;
 
-        if (is_float($result)) {
+        if (is_float($result)) { // @phpstan-ignore function.impossibleType
             throw new ArithmeticError('The result of the operation overflows an integer on this platform.');
         }
 

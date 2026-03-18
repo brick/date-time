@@ -239,7 +239,7 @@ final readonly class MonthDay implements JsonSerializable, Stringable
     /**
      * Serializes as a string using {@see MonthDay::toISOString()}.
      *
-     * @psalm-return non-empty-string
+     * @return non-empty-string
      */
     #[Override]
     public function jsonSerialize(): string
@@ -250,7 +250,7 @@ final readonly class MonthDay implements JsonSerializable, Stringable
     /**
      * Returns the ISO 8601 representation of this month-day.
      *
-     * @psalm-return non-empty-string
+     * @return non-empty-string
      */
     public function toISOString(): string
     {
@@ -264,7 +264,7 @@ final readonly class MonthDay implements JsonSerializable, Stringable
     /**
      * {@see MonthDay::toISOString()}.
      *
-     * @psalm-return non-empty-string
+     * @return non-empty-string
      */
     #[Override]
     public function __toString(): string

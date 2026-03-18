@@ -495,9 +495,7 @@ final readonly class LocalTime implements JsonSerializable, Stringable
      *
      * @param LocalTime $that The time to compare to.
      *
-     * @return int [-1,0,1] If this time is before, on, or after the given time.
-     *
-     * @psalm-return -1|0|1
+     * @return -1|0|1 If this time is before, on, or after the given time.
      */
     public function compareTo(LocalTime $that): int
     {
@@ -615,7 +613,7 @@ final readonly class LocalTime implements JsonSerializable, Stringable
     /**
      * Serializes as a string using {@see LocalTime::toISOString()}.
      *
-     * @psalm-return non-empty-string
+     * @return non-empty-string
      */
     #[Override]
     public function jsonSerialize(): string
@@ -636,7 +634,7 @@ final readonly class LocalTime implements JsonSerializable, Stringable
      * the time where the omitted parts are implied to be zero.
      * The nanoseconds value, if present, can be 0 to 9 digits.
      *
-     * @psalm-return non-empty-string
+     * @return non-empty-string
      */
     public function toISOString(): string
     {
@@ -651,7 +649,7 @@ final readonly class LocalTime implements JsonSerializable, Stringable
     /**
      * {@see LocalTime::toISOString()}.
      *
-     * @psalm-return non-empty-string
+     * @return non-empty-string
      */
     #[Override]
     public function __toString(): string

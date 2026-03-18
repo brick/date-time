@@ -519,7 +519,7 @@ final readonly class LocalDate implements JsonSerializable, Stringable
                 return new self($this->year + intdiv($this->month, 12), ($this->month % 12) + 1, 1);
             }
 
-            /** @psalm-suppress InvalidArgument $this->day + 1 is not int<2, 32> as Psalm thinks */
+            /** @phpstan-ignore argument.type ($this->day + 1 is at most 31, but PHPStan infers int<2, 32>) */
             return new self($this->year, $this->month, $this->day + 1);
         }
 
@@ -613,9 +613,7 @@ final readonly class LocalDate implements JsonSerializable, Stringable
     /**
      * Returns -1 if this date is before the given date, 1 if after, 0 if the dates are equal.
      *
-     * @return int [-1,0,1] If this date is before, on, or after the given date.
-     *
-     * @psalm-return -1|0|1
+     * @return -1|0|1 If this date is before, on, or after the given date.
      */
     public function compareTo(LocalDate $that): int
     {
@@ -853,7 +851,7 @@ final readonly class LocalDate implements JsonSerializable, Stringable
     /**
      * Serializes as a string using {@see LocalDate::toISOString()}.
      *
-     * @psalm-return non-empty-string
+     * @return non-empty-string
      */
     #[Override]
     public function jsonSerialize(): string
@@ -864,7 +862,7 @@ final readonly class LocalDate implements JsonSerializable, Stringable
     /**
      * Returns the ISO 8601 representation of this date.
      *
-     * @psalm-return non-empty-string
+     * @return non-empty-string
      */
     public function toISOString(): string
     {
@@ -886,7 +884,7 @@ final readonly class LocalDate implements JsonSerializable, Stringable
     /**
      * {@see LocalDate::toISOString()}.
      *
-     * @psalm-return non-empty-string
+     * @return non-empty-string
      */
     #[Override]
     public function __toString(): string

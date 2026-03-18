@@ -11,6 +11,7 @@ use Brick\DateTime\Parser\IsoParsers;
 use Countable;
 use DateInterval;
 use DatePeriod;
+use DateTime;
 use Generator;
 use IteratorAggregate;
 use JsonSerializable;
@@ -233,7 +234,7 @@ final readonly class LocalDateRange implements IteratorAggregate, Countable, Jso
     /**
      * Serializes as a string using {@see LocalDateRange::toISOString()}.
      *
-     * @psalm-return non-empty-string
+     * @return non-empty-string
      */
     #[Override]
     public function jsonSerialize(): string
@@ -246,6 +247,8 @@ final readonly class LocalDateRange implements IteratorAggregate, Countable, Jso
      *
      * The result is a DatePeriod->start with time 00:00 and a DatePeriod->end
      * with time 23:59:59.999999 in the UTC time-zone.
+     *
+     * @phpstan-return DatePeriod<DateTime, DateTime, null>
      */
     public function toNativeDatePeriod(): DatePeriod
     {
@@ -259,7 +262,7 @@ final readonly class LocalDateRange implements IteratorAggregate, Countable, Jso
     /**
      * Returns the ISO 8601 representation of this date range.
      *
-     * @psalm-return non-empty-string
+     * @return non-empty-string
      */
     public function toISOString(): string
     {
@@ -269,7 +272,7 @@ final readonly class LocalDateRange implements IteratorAggregate, Countable, Jso
     /**
      * {@see LocalDateRange::toISOString()}.
      *
-     * @psalm-return non-empty-string
+     * @return non-empty-string
      */
     #[Override]
     public function __toString(): string

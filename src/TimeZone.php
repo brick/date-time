@@ -50,7 +50,7 @@ abstract class TimeZone implements Stringable
     /**
      * Returns the unique time-zone ID.
      *
-     * @psalm-return non-empty-string
+     * @return non-empty-string
      */
     abstract public function getId(): string;
 
@@ -90,7 +90,7 @@ abstract class TimeZone implements Stringable
     abstract public function toNativeDateTimeZone(): DateTimeZone;
 
     /**
-     * @psalm-return non-empty-string
+     * @return non-empty-string
      */
     #[Override]
     public function __toString(): string

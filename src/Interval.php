@@ -132,7 +132,7 @@ final readonly class Interval implements JsonSerializable, Stringable
     /**
      * Serializes as a string using {@see Interval::toISOString()}.
      *
-     * @psalm-return non-empty-string
+     * @return non-empty-string
      */
     #[Override]
     public function jsonSerialize(): string
@@ -143,7 +143,7 @@ final readonly class Interval implements JsonSerializable, Stringable
     /**
      * Returns the ISO 8601 representation of this interval.
      *
-     * @psalm-return non-empty-string
+     * @return non-empty-string
      */
     public function toISOString(): string
     {
@@ -153,7 +153,7 @@ final readonly class Interval implements JsonSerializable, Stringable
     /**
      * {@see Interval::toISOString()}.
      *
-     * @psalm-return non-empty-string
+     * @return non-empty-string
      */
     #[Override]
     public function __toString(): string

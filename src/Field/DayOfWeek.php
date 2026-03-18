@@ -21,7 +21,7 @@ final class DayOfWeek
      *
      * @throws DateTimeException If the day-of-week is not valid.
      *
-     * @psalm-assert int<1, 7> $dayOfWeek
+     * @phpstan-assert int<1, 7> $dayOfWeek
      */
     public static function check(int $dayOfWeek): void
     {

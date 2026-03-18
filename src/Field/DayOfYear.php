@@ -22,7 +22,7 @@ final class DayOfYear
      *
      * @throws DateTimeException If the day-of-year is not valid.
      *
-     * @psalm-assert int<1, 366> $dayOfYear
+     * @phpstan-assert int<1, 366> $dayOfYear
      */
     public static function check(int $dayOfYear, ?int $year = null): void
     {
