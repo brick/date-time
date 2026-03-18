@@ -6,8 +6,6 @@ namespace Brick\DateTime\Field;
 
 use Brick\DateTime\DateTimeException;
 
-use const PHP_VERSION_ID;
-
 /**
  * The total number of seconds in a time-zone offset, from -64800 to 64800 (-18:00 to +18:00).
  *
@@ -34,10 +32,6 @@ final class TimeZoneOffsetTotalSeconds
     {
         if ($offsetSeconds < -self::MAX_SECONDS || $offsetSeconds > self::MAX_SECONDS) {
             throw DateTimeException::fieldNotInRange(self::NAME, $offsetSeconds, -self::MAX_SECONDS, self::MAX_SECONDS);
-        }
-
-        if ($offsetSeconds % 60 !== 0 && PHP_VERSION_ID < 8_01_07) {
-            throw DateTimeException::timeZoneOffsetSecondsMustBeMultipleOf60($offsetSeconds);
         }
     }
 }
