@@ -320,6 +320,14 @@ class InstantTest extends AbstractTestCase
         self::assertSame($cmp, Instant::of($s1, $n1)->compareTo(Instant::of($s2, $n2)));
     }
 
+    public function testCompareToSameInstance(): void
+    {
+        $instant = Instant::of(1500000000, 123456789);
+
+        self::assertSame(0, $instant->compareTo($instant));
+        self::assertTrue($instant->isEqualTo($instant));
+    }
+
     /**
      * @param int $s1  The epoch second of the 1st instant.
      * @param int $n1  The nanosecond adjustment of the 1st instant.

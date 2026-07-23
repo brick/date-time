@@ -499,6 +499,10 @@ final readonly class LocalTime implements JsonSerializable, Stringable
      */
     public function compareTo(LocalTime $that): int
     {
+        if ($this === $that) {
+            return 0;
+        }
+
         $seconds = $this->toSecondOfDay() - $that->toSecondOfDay();
 
         if ($seconds !== 0) {
@@ -521,7 +525,7 @@ final readonly class LocalTime implements JsonSerializable, Stringable
      */
     public function isEqualTo(LocalTime $that): bool
     {
-        return $this->compareTo($that) === 0;
+        return $this === $that || $this->compareTo($that) === 0;
     }
 
     /**

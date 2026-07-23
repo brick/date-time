@@ -650,6 +650,10 @@ final readonly class LocalDateTime implements JsonSerializable, Stringable
      */
     public function compareTo(LocalDateTime $that): int
     {
+        if ($this === $that) {
+            return 0;
+        }
+
         $cmp = $this->date->compareTo($that->date);
 
         if ($cmp !== 0) {
@@ -661,7 +665,7 @@ final readonly class LocalDateTime implements JsonSerializable, Stringable
 
     public function isEqualTo(LocalDateTime $that): bool
     {
-        return $this->compareTo($that) === 0;
+        return $this === $that || $this->compareTo($that) === 0;
     }
 
     public function isBefore(LocalDateTime $that): bool

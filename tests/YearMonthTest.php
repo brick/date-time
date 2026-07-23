@@ -246,6 +246,14 @@ class YearMonthTest extends AbstractTestCase
         self::assertSame($result === 0, YearMonth::of($y1, $m1)->isEqualTo(YearMonth::of($y2, $m2)));
     }
 
+    public function testCompareToSameInstance(): void
+    {
+        $yearMonth = YearMonth::of(2015, 6);
+
+        self::assertSame(0, $yearMonth->compareTo($yearMonth));
+        self::assertTrue($yearMonth->isEqualTo($yearMonth));
+    }
+
     /**
      * @param int $y1     The year of the base year-month.
      * @param int $m1     The month of the base year-month.

@@ -149,6 +149,10 @@ final readonly class YearMonth implements JsonSerializable, Stringable
      */
     public function compareTo(YearMonth $that): int
     {
+        if ($this === $that) {
+            return 0;
+        }
+
         if ($this->year < $that->year) {
             return -1;
         }
@@ -167,7 +171,7 @@ final readonly class YearMonth implements JsonSerializable, Stringable
 
     public function isEqualTo(YearMonth $that): bool
     {
-        return $this->compareTo($that) === 0;
+        return $this === $that || $this->compareTo($that) === 0;
     }
 
     public function isBefore(YearMonth $that): bool

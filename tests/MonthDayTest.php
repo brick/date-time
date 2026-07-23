@@ -211,6 +211,14 @@ class MonthDayTest extends AbstractTestCase
         self::assertSame($result === 0, MonthDay::of($m1, $d1)->isEqualTo(MonthDay::of($m2, $d2)));
     }
 
+    public function testCompareToSameInstance(): void
+    {
+        $monthDay = MonthDay::of(6, 15);
+
+        self::assertSame(0, $monthDay->compareTo($monthDay));
+        self::assertTrue($monthDay->isEqualTo($monthDay));
+    }
+
     /**
      * @param int $m1     The month of the base month-day.
      * @param int $d1     The day of the base month-day.

@@ -386,6 +386,14 @@ class DurationTest extends AbstractTestCase
         self::assertSame($cmp >= 0, $duration1->isGreaterThanOrEqualTo($duration2));
     }
 
+    public function testCompareToSameInstance(): void
+    {
+        $duration = Duration::ofSeconds(123, 456);
+
+        self::assertSame(0, $duration->compareTo($duration));
+        self::assertTrue($duration->isEqualTo($duration));
+    }
+
     public static function providerCompareTo(): array
     {
         return [

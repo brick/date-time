@@ -1618,6 +1618,14 @@ class LocalDateTest extends AbstractTestCase
         self::assertSame($cmp >= 0, $date1->isAfterOrEqualTo($date2));
     }
 
+    public function testCompareToSameInstance(): void
+    {
+        $date = LocalDate::of(2015, 6, 15);
+
+        self::assertSame(0, $date->compareTo($date));
+        self::assertTrue($date->isEqualTo($date));
+    }
+
     public static function providerCompareTo(): array
     {
         return [

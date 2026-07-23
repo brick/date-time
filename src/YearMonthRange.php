@@ -121,7 +121,7 @@ final readonly class YearMonthRange implements IteratorAggregate, Countable, Jso
      */
     public function isEqualTo(YearMonthRange $that): bool
     {
-        return $this->start->isEqualTo($that->start) && $this->end->isEqualTo($that->end);
+        return $this === $that || ($this->start->isEqualTo($that->start) && $this->end->isEqualTo($that->end));
     }
 
     /**

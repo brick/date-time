@@ -348,9 +348,11 @@ final readonly class Period implements JsonSerializable, Stringable
 
     public function isEqualTo(Period $that): bool
     {
-        return $this->years === $that->years
+        return $this === $that || (
+            $this->years === $that->years
             && $this->months === $that->months
-            && $this->days === $that->days;
+            && $this->days === $that->days
+        );
     }
 
     /**

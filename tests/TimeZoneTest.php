@@ -78,6 +78,13 @@ class TimeZoneTest extends AbstractTestCase
         self::assertFalse(TimeZone::utc()->isEqualTo(TimeZoneOffset::ofTotalSeconds(3600)));
     }
 
+    public function testIsEqualToSameInstance(): void
+    {
+        $timeZone = TimeZone::parse('Europe/Zurich');
+
+        self::assertTrue($timeZone->isEqualTo($timeZone));
+    }
+
     /**
      * @param string $tz The time-zone name.
      */

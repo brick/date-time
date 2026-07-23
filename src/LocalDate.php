@@ -617,6 +617,10 @@ final readonly class LocalDate implements JsonSerializable, Stringable
      */
     public function compareTo(LocalDate $that): int
     {
+        if ($this === $that) {
+            return 0;
+        }
+
         if ($this->year < $that->year) {
             return -1;
         }
@@ -641,7 +645,7 @@ final readonly class LocalDate implements JsonSerializable, Stringable
 
     public function isEqualTo(LocalDate $that): bool
     {
-        return $this->compareTo($that) === 0;
+        return $this === $that || $this->compareTo($that) === 0;
     }
 
     public function isBefore(LocalDate $that): bool
