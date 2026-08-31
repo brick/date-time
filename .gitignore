@@ -1,6 +1,7 @@
 /vendor
 /composer.lock
 /.phpunit.cache
+.DS_Store
 
 # https://stackoverflow.com/a/16318111
 /tools/*
