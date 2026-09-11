@@ -11,6 +11,8 @@ use Brick\DateTime\TimeZoneRegion;
 use DateTimeZone;
 use PHPUnit\Framework\Attributes\DataProvider;
 
+use function date_default_timezone_get;
+
 use const PHP_VERSION_ID;
 
 /**
@@ -100,5 +102,15 @@ class TimeZoneTest extends AbstractTestCase
         if (PHP_VERSION_ID >= 80107) {
             yield ['-02:30:30'];
         }
+    }
+
+    public function testFromDefaultTimeZone(): void
+    {
+        $defaultTimeZone = date_default_timezone_get();
+
+        $timeZone = TimeZone::fromDefaultTimeZone();
+
+        self::assertInstanceOf(TimeZone::class, $timeZone);
+        self::assertSame($defaultTimeZone, $timeZone->getId());
     }
 }
