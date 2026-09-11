@@ -163,4 +163,11 @@ class TimeZoneRegionTest extends AbstractTestCase
     {
         self::assertSame('America/Los_Angeles', (string) TimeZoneRegion::of('America/Los_Angeles'));
     }
+
+    public function testUTC(): void
+    {
+        $utcTimeZoneRegion = TimeZoneRegion::utc();
+        $this->assertInstanceOf(TimeZoneRegion::class, $utcTimeZoneRegion);
+        $this->assertSame('UTC', $utcTimeZoneRegion->getId());
+    }
 }

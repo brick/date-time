@@ -10,6 +10,7 @@ use Brick\DateTime\Parser\DateTimeParseException;
 use Brick\DateTime\TimeZoneOffset;
 use DateTimeImmutable;
 use PHPUnit\Framework\Attributes\DataProvider;
+use Brick\DateTime\TimeZoneRegion;
 
 use const PHP_VERSION_ID;
 
