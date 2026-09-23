@@ -848,10 +848,10 @@ class ZonedDateTimeTest extends AbstractTestCase
             ['2000-04-02T03:01:01.654321-07:00[America/Los_Angeles]', 1, '2000-04-02T03:02:01.654321-07:00[America/Los_Angeles]'],
 
             // https://github.com/brick/date-time/issues/115
-            ['2025-03-30T01:30:00+01:00[Europe/Prague]', 50, '2025-03-30T03:20:00+02:00[Europe/Prague]'],
-            ['2025-03-30T01:30:00+01:00[Europe/Prague]', 100, '2025-03-30T04:10:00+02:00[Europe/Prague]'],
-            ['2025-03-30T03:20:00+02:00[Europe/Prague]', -50, '2025-03-30T01:30:00+01:00[Europe/Prague]'],
-            ['2025-03-30T04:10:00+02:00[Europe/Prague]', -100, '2025-03-30T01:30:00+01:00[Europe/Prague]'],
+            ['2025-03-30T01:30:00+01[Europe/Prague]', 50, '2025-03-30T03:20:00+02:00[Europe/Prague]'],
+            ['2025-03-30T01:30:00+01[Europe/Prague]', 100, '2025-03-30T04:10:00+02:00[Europe/Prague]'],
+            ['2025-03-30T03:20:00+02[Europe/Prague]', -50, '2025-03-30T01:30:00+01:00[Europe/Prague]'],
+            ['2025-03-30T04:10:00+02[Europe/Prague]', -100, '2025-03-30T01:30:00+01:00[Europe/Prague]'],
         ];
     }
 
@@ -878,10 +878,10 @@ class ZonedDateTimeTest extends AbstractTestCase
             ['2000-04-02T03:00:01.654321-07:00[America/Los_Angeles]', 1, '2000-04-02T03:00:02.654321-07:00[America/Los_Angeles]'],
 
             // https://github.com/brick/date-time/issues/115
-            ['2025-03-30T01:30:00+01:00[Europe/Prague]', 3000, '2025-03-30T03:20:00+02:00[Europe/Prague]'],
-            ['2025-03-30T01:30:00+01:00[Europe/Prague]', 6000, '2025-03-30T04:10:00+02:00[Europe/Prague]'],
-            ['2025-03-30T03:20:00+02:00[Europe/Prague]', -3000, '2025-03-30T01:30:00+01:00[Europe/Prague]'],
-            ['2025-03-30T04:10:00+02:00[Europe/Prague]', -6000, '2025-03-30T01:30:00+01:00[Europe/Prague]'],
+            ['2025-03-30T01:30:00+01[Europe/Prague]', 3000, '2025-03-30T03:20:00+02:00[Europe/Prague]'],
+            ['2025-03-30T01:30:00+01[Europe/Prague]', 6000, '2025-03-30T04:10:00+02:00[Europe/Prague]'],
+            ['2025-03-30T03:20:00+02[Europe/Prague]', -3000, '2025-03-30T01:30:00+01:00[Europe/Prague]'],
+            ['2025-03-30T04:10:00+02[Europe/Prague]', -6000, '2025-03-30T01:30:00+01:00[Europe/Prague]'],
         ];
     }
 
