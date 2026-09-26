@@ -9,6 +9,7 @@ use Brick\DateTime\Clock\ScaleClock;
 use Brick\DateTime\Duration;
 use Brick\DateTime\Instant;
 use Brick\DateTime\Tests\AbstractTestCase;
+use Brick\DateTime\TimeZone;
 use PHPUnit\Framework\Attributes\DataProvider;
 
 /**
@@ -37,6 +38,36 @@ class ScaleClockTest extends AbstractTestCase
 
         self::assertInstanceOf(Instant::class, $actualTime);
         self::assertSame($expectedInstant, $actualTime->toDecimal());
+    }
+
+    public function testNow(): void
+    {
+        $baseInstant = Instant::of(1000000, 123456789);
+
+        $baseClock = new FixedClock($baseInstant);
+        $scaleClock = new ScaleClock($baseClock, -11);
+
+        $baseClock->setTime($baseInstant->plus(Duration::parse('PT5M30.9S')));
+
+        $now = $scaleClock->now();
+
+        self::assertSame('996360.223456', $now->format('U.u'));
+        self::assertSame(0, $now->getOffset());
+    }
+
+    public function testNowUsesReferenceClockTimeZone(): void
+    {
+        $baseInstant = Instant::of(1000000, 123456789);
+
+        $baseClock = new FixedClock($baseInstant, TimeZone::parse('Asia/Tokyo'));
+        $scaleClock = new ScaleClock($baseClock, -11);
+
+        $baseClock->setTime($baseInstant->plus(Duration::parse('PT5M30.9S')));
+
+        $now = $scaleClock->now();
+
+        self::assertSame('1970-01-12T21:46:00.223456+09:00', $now->format('Y-m-d\TH:i:s.uP'));
+        self::assertSame('Asia/Tokyo', $now->getTimezone()->getName());
     }
 
     public static function providerScaleClock(): array

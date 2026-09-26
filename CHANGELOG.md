@@ -1,5 +1,18 @@
 # Changelog
 
+## Unreleased
+
+💥 **Breaking changes**
+
+- `Clock` now extends PSR-20 `Psr\Clock\ClockInterface`: custom `Clock` implementations must implement `now(): DateTimeImmutable`
+- `brick/date-time` now requires `psr/clock`
+
+✨ **New features**
+
+- All built-in clocks implement PSR-20 `now()`, returning a `DateTimeImmutable` with microsecond precision (nanoseconds are rounded down)
+- `SystemClock` and `FixedClock` accept an optional `TimeZone` for the dates returned by `now()`, defaulting to UTC
+- `OffsetClock` and `ScaleClock` return dates from `now()` in the time zone of their reference clock
+
 ## [0.9.0](https://github.com/brick/date-time/releases/tag/0.9.0) - 2026-01-03
 
 💥 **Breaking changes**

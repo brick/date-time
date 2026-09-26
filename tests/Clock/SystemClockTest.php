@@ -18,6 +18,7 @@ namespace Brick\DateTime\Tests\Clock
 {
     use Brick\DateTime\Clock\SystemClock;
     use Brick\DateTime\Tests\AbstractTestCase;
+    use Brick\DateTime\TimeZone;
 
     /**
      * Unit tests for class SystemClock.
@@ -29,6 +30,24 @@ namespace Brick\DateTime\Tests\Clock
             $clock = new SystemClock();
 
             self::assertInstantIs(14079491701, 555276000, $clock->getTime());
+        }
+
+        public function testNow(): void
+        {
+            $clock = new SystemClock();
+            $now = $clock->now();
+
+            self::assertSame('14079491701.555276', $now->format('U.u'));
+            self::assertSame(0, $now->getOffset());
+        }
+
+        public function testNowWithTimeZone(): void
+        {
+            $clock = new SystemClock(TimeZone::parse('Asia/Tokyo'));
+            $now = $clock->now();
+
+            self::assertSame('14079491701.555276', $now->format('U.u'));
+            self::assertSame('Asia/Tokyo', $now->getTimezone()->getName());
         }
     }
 }

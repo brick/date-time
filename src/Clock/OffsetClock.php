@@ -7,6 +7,8 @@ namespace Brick\DateTime\Clock;
 use Brick\DateTime\Clock;
 use Brick\DateTime\Duration;
 use Brick\DateTime\Instant;
+use Brick\DateTime\TimeZone;
+use DateTimeImmutable;
 use Override;
 
 /**
@@ -28,5 +30,13 @@ final readonly class OffsetClock implements Clock
     public function getTime(): Instant
     {
         return $this->referenceClock->getTime()->plus($this->offset);
+    }
+
+    #[Override]
+    public function now(): DateTimeImmutable
+    {
+        $timeZone = TimeZone::fromNativeDateTimeZone($this->referenceClock->now()->getTimezone());
+
+        return $this->getTime()->atTimeZone($timeZone)->toNativeDateTimeImmutable();
     }
 }

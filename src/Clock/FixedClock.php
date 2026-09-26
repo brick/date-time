@@ -7,6 +7,8 @@ namespace Brick\DateTime\Clock;
 use Brick\DateTime\Clock;
 use Brick\DateTime\Duration;
 use Brick\DateTime\Instant;
+use Brick\DateTime\TimeZone;
+use DateTimeImmutable;
 use Override;
 
 /**
@@ -14,18 +16,29 @@ use Override;
  */
 final class FixedClock implements Clock
 {
+    private readonly TimeZone $timeZone;
+
     /**
-     * @param Instant $instant The time to set the clock at.
+     * @param Instant       $instant  The time to set the clock at.
+     * @param TimeZone|null $timeZone The time zone of the dates returned by now(), defaults to UTC.
      */
     public function __construct(
         private Instant $instant,
+        ?TimeZone $timeZone = null,
     ) {
+        $this->timeZone = $timeZone ?? TimeZone::utc();
     }
 
     #[Override]
     public function getTime(): Instant
     {
         return $this->instant;
+    }
+
+    #[Override]
+    public function now(): DateTimeImmutable
+    {
+        return $this->instant->atTimeZone($this->timeZone)->toNativeDateTimeImmutable();
     }
 
     public function setTime(Instant $instant): void
