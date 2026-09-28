@@ -6,6 +6,8 @@ namespace Brick\DateTime\Clock;
 
 use Brick\DateTime\Clock;
 use Brick\DateTime\Instant;
+use Brick\DateTime\TimeZone;
+use Brick\DateTime\ZonedClock;
 
 /**
  * This clock returns the system time. It is the default clock.
@@ -23,5 +25,11 @@ final class SystemClock implements Clock
         $nanoAdjustment = 10 * (int) \substr($fraction, 2, 8);
 
         return Instant::of($epochSecond, $nanoAdjustment);
+    }
+
+    #[\Override]
+    public function withTimeZone(TimeZone $timeZone): ZonedClock
+    {
+        return new ZonedClock($this, $timeZone);
     }
 }

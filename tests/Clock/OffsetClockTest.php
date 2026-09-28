@@ -9,6 +9,7 @@ use Brick\DateTime\Clock\OffsetClock;
 use Brick\DateTime\Duration;
 use Brick\DateTime\Instant;
 use Brick\DateTime\Tests\AbstractTestCase;
+use Brick\DateTime\TimeZone;
 use PHPUnit\Framework\Attributes\DataProvider;
 
 /**
@@ -30,6 +31,18 @@ class OffsetClockTest extends AbstractTestCase
         $clock = new OffsetClock($baseClock, Duration::parse($duration));
 
         self::assertInstantIs($expectedSecond, $expectedNano, $clock->getTime());
+    }
+
+    public function testWithTimeZone(): void
+    {
+        $baseClock = new FixedClock(Instant::of(1000000, 123456789));
+        $clock = new OffsetClock($baseClock, Duration::parse('PT5M30.9S'));
+        $timeZone = TimeZone::parse('Europe/Paris');
+        $zonedClock = $clock->withTimeZone($timeZone);
+
+        self::assertSame($clock, $zonedClock->getClock());
+        self::assertSame($timeZone, $zonedClock->getTimeZone());
+        self::assertSame('1970-01-12T14:52:11.023456789+01:00[Europe/Paris]', $zonedClock->getCurrentZonedDateTime()->toISOString());
     }
 
     public static function providerOffsetClock(): array

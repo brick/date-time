@@ -186,6 +186,36 @@ As you can see, you can even combine `travelTo()` and `scale()` methods.
 
 Be very careful to **`reset()` the DefaultClock after each of your tests!** If you're using PHPUnit, a good place to do this is in the `tearDown()` method.
 
+#### Zoned clocks
+
+A `Clock` only provides the current instant, and knows nothing about time zones. To get the current date or time in a given time zone, bind a clock to a time zone with `withTimeZone()`, which returns a `ZonedClock`:
+
+```php
+use Brick\DateTime\Clock\SystemClock;
+use Brick\DateTime\TimeZone;
+
+$clock = (new SystemClock())->withTimeZone(TimeZone::parse('Europe/Paris'));
+
+echo $clock->getCurrentLocalDate(); // 2017-10-04
+echo $clock->getCurrentLocalTime(); // 14:03:25.123456
+```
+
+This is useful in applications that deal with a single time zone: inject a `ZonedClock` in your services, and configure its time zone once. Applications that deal with multiple time zones can inject a `Clock` instead, and provide the time zone every time.
+
+`ZonedClock` also implements [PSR-20](https://www.php-fig.org/psr/psr-20/), so it can be used wherever a `Psr\Clock\ClockInterface` is expected. Its `now()` method returns a `DateTimeImmutable` in the clock's time zone.
+
+To control the time in your tests, wrap a `FixedClock`: there is no need to fake the `ZonedClock` itself.
+
+```php
+use Brick\DateTime\Clock\FixedClock;
+use Brick\DateTime\Instant;
+use Brick\DateTime\TimeZone;
+
+$clock = (new FixedClock(Instant::of(1000000000)))->withTimeZone(TimeZone::utc());
+
+echo $clock->getCurrentLocalDate(); // 2001-09-09
+```
+
 ### Exceptions
 
 The following exceptions can be thrown:

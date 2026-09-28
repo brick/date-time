@@ -1,5 +1,20 @@
 # Changelog
 
+## Unreleased
+
+💥 **Breaking changes**
+
+- `Clock` has a new method, `withTimeZone(TimeZone): ZonedClock`: custom `Clock` implementations must implement it
+- `brick/date-time` now requires `psr/clock`
+
+✨ **New features**
+
+- New class `ZonedClock`, which wraps a `Clock` and a `TimeZone`:
+  - it implements PSR-20 `Psr\Clock\ClockInterface`: `now()` returns a `DateTimeImmutable` in its time zone, with microsecond precision (nanoseconds are rounded down)
+  - `getCurrentZonedDateTime()`, `getCurrentLocalDateTime()`, `getCurrentLocalDate()` and `getCurrentLocalTime()` return the current date and time in its time zone
+  - `withTimeZone()` returns a copy in another time zone
+- All built-in clocks can be bound to a time zone with `withTimeZone()`, e.g. `(new SystemClock())->withTimeZone(TimeZone::utc())`
+
 ## [0.10.1](https://github.com/brick/date-time/releases/tag/0.10.1) - 2026-10-03
 
 ✨ **New features**
