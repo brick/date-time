@@ -33,13 +33,11 @@ enum Quarter: int implements JsonSerializable
     case Q4 = 4;
 
     /**
-     * Returns the current quarter in the given time-zone, according to the given clock.
-     *
-     * If no clock is provided, the system clock is used.
+     * Returns the current quarter, according to the given clock, in its time-zone.
      */
-    public static function now(TimeZone $timeZone, ?Clock $clock = null): self
+    public static function now(ZonedClock $clock): self
     {
-        return LocalDate::now($timeZone, $clock)->getQuarter();
+        return LocalDate::now($clock)->getQuarter();
     }
 
     /**

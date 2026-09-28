@@ -78,9 +78,12 @@ final readonly class YearWeek implements JsonSerializable, Stringable
         return YearWeek::from($parser->parse($text));
     }
 
-    public static function now(TimeZone $timeZone, ?Clock $clock = null): YearWeek
+    /**
+     * Returns the current year-week, according to the given clock, in its time-zone.
+     */
+    public static function now(ZonedClock $clock): YearWeek
     {
-        return LocalDate::now($timeZone, $clock)->getYearWeek();
+        return LocalDate::now($clock)->getYearWeek();
     }
 
     public function getYear(): int

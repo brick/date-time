@@ -99,7 +99,7 @@ class YearMonthTest extends AbstractTestCase
     public function testNow(int $epochSecond, string $timeZone, int $year, int $month): void
     {
         $clock = new FixedClock(Instant::of($epochSecond));
-        self::assertYearMonthIs($year, $month, YearMonth::now(TimeZone::parse($timeZone), $clock));
+        self::assertYearMonthIs($year, $month, YearMonth::now($clock->withTimeZone(TimeZone::parse($timeZone))));
     }
 
     public static function providerNow(): array

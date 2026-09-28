@@ -48,7 +48,7 @@ class QuarterTest extends AbstractTestCase
     public function testNow(int $epochSecond, string $timeZone, Quarter $expectedQuarter): void
     {
         $clock = new FixedClock(Instant::of($epochSecond));
-        self::assertSame($expectedQuarter, Quarter::now(TimeZone::parse($timeZone), $clock));
+        self::assertSame($expectedQuarter, Quarter::now($clock->withTimeZone(TimeZone::parse($timeZone))));
     }
 
     public static function providerNow(): array

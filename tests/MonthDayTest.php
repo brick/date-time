@@ -148,7 +148,7 @@ class MonthDayTest extends AbstractTestCase
     public function testNow(int $epochSecond, string $timeZone, int $month, int $day): void
     {
         $clock = new FixedClock(Instant::of($epochSecond));
-        self::assertMonthDayIs($month, $day, MonthDay::now(TimeZone::parse($timeZone), $clock));
+        self::assertMonthDayIs($month, $day, MonthDay::now($clock->withTimeZone(TimeZone::parse($timeZone))));
     }
 
     public static function providerNow(): array

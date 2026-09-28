@@ -84,13 +84,11 @@ final readonly class YearMonth implements JsonSerializable, Stringable
     }
 
     /**
-     * Returns the current year-month in the given time-zone, according to the given clock.
-     *
-     * If no clock is provided, the system clock is used.
+     * Returns the current year-month, according to the given clock, in its time-zone.
      */
-    public static function now(TimeZone $timeZone, ?Clock $clock = null): YearMonth
+    public static function now(ZonedClock $clock): YearMonth
     {
-        $localDate = LocalDate::now($timeZone, $clock);
+        $localDate = LocalDate::now($clock);
 
         return new YearMonth($localDate->getYear(), $localDate->getMonthValue());
     }

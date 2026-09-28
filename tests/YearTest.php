@@ -91,7 +91,7 @@ class YearTest extends AbstractTestCase
     public function testNow(int $epochSecond, string $timeZone, int $expectedYear): void
     {
         $clock = new FixedClock(Instant::of($epochSecond));
-        self::assertYearIs($expectedYear, Year::now(TimeZone::parse($timeZone), $clock));
+        self::assertYearIs($expectedYear, Year::now($clock->withTimeZone(TimeZone::parse($timeZone))));
     }
 
     public static function providerNow(): array

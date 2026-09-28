@@ -88,16 +88,19 @@ All objects read the current time from a `Clock` implementation. The following i
 
 These classes belong to the `Brick\DateTime\Clock` namespace.
 
-In your application, you will most likely never touch the defaults, and always use the default clock:
+Methods that return the current date or time, such as `LocalDate::now()`, take a `ZonedClock`: a clock bound to a time zone (see [Zoned clocks](#zoned-clocks)). The time zone is always explicit:
 
 ```php
+use Brick\DateTime\Clock\SystemClock;
 use Brick\DateTime\LocalDate;
 use Brick\DateTime\TimeZone;
 
-echo LocalDate::now(TimeZone::utc()); // 2017-10-04
+$clock = (new SystemClock())->withTimeZone(TimeZone::utc());
+
+echo LocalDate::now($clock); // 2017-10-04
 ```
 
-In your tests however, you might need to set the current time to test your application in known conditions. To do this, you can either explicitly pass a `Clock` instance to  `now()` methods:
+In your tests, you might need to set the current time to test your application in known conditions. To do this, wrap a `FixedClock`:
 
 ```php
 use Brick\DateTime\Clock\FixedClock;
@@ -105,21 +108,19 @@ use Brick\DateTime\Instant;
 use Brick\DateTime\LocalDate;
 use Brick\DateTime\TimeZone;
 
-$clock = new FixedClock(Instant::of(1000000000));
-echo LocalDate::now(TimeZone::utc(), $clock); // 2001-09-09
+$clock = (new FixedClock(Instant::of(1000000000)))->withTimeZone(TimeZone::utc());
+echo LocalDate::now($clock); // 2001-09-09
 ```
 
-Or you can change the *default* clock for all date-time classes. All methods such as `now()`, unless provided with an explicit Clock, will use the default clock you provide:
+Methods that only read the current instant, such as `Instant::now()`, take an optional `Clock`. If no clock is provided, they use the *default* clock, which you can change:
 
 ```php
 use Brick\DateTime\Clock\FixedClock;
 use Brick\DateTime\DefaultClock;
 use Brick\DateTime\Instant;
-use Brick\DateTime\LocalDate;
-use Brick\DateTime\TimeZone;
 
 DefaultClock::set(new FixedClock(Instant::of(1000000000)));
-echo LocalDate::now(TimeZone::utc()); // 2001-09-09
+echo Instant::now(); // 2001-09-09T01:46:40Z
 
 DefaultClock::reset(); // do not forget to reset the clock to the system clock!
 ```
@@ -200,7 +201,14 @@ echo $clock->getCurrentLocalDate(); // 2017-10-04
 echo $clock->getCurrentLocalTime(); // 14:03:25.123456
 ```
 
-This is useful in applications that deal with a single time zone: inject a `ZonedClock` in your services, and configure its time zone once. Applications that deal with multiple time zones can inject a `Clock` instead, and provide the time zone every time.
+This is useful in applications that deal with a single time zone: inject a `ZonedClock` in your services, and configure its time zone once. Applications that deal with multiple time zones can inject a `Clock` instead, and bind it to a time zone every time:
+
+```php
+use Brick\DateTime\LocalDate;
+
+LocalDate::now($this->zonedClock);                     // single time zone
+LocalDate::now($this->clock->withTimeZone($timeZone)); // multiple time zones
+```
 
 `ZonedClock` also implements [PSR-20](https://www.php-fig.org/psr/psr-20/), so it can be used wherever a `Psr\Clock\ClockInterface` is expected. Its `now()` method returns a `DateTimeImmutable` in the clock's time zone.
 

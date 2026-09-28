@@ -73,13 +73,11 @@ final readonly class Year implements JsonSerializable, Stringable
     }
 
     /**
-     * Returns the current year in the given time-zone, according to the given clock.
-     *
-     * If no clock is provided, the system clock is used.
+     * Returns the current year, according to the given clock, in its time-zone.
      */
-    public static function now(TimeZone $timeZone, ?Clock $clock = null): Year
+    public static function now(ZonedClock $clock): Year
     {
-        return new Year(LocalDate::now($timeZone, $clock)->getYear());
+        return new Year(LocalDate::now($clock)->getYear());
     }
 
     public function getValue(): int
