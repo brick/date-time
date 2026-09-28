@@ -123,13 +123,11 @@ final readonly class ZonedDateTime implements JsonSerializable, Stringable
     }
 
     /**
-     * Returns the current date-time in the given time-zone, according to the given clock.
-     *
-     * If no clock is provided, the system clock is used.
+     * Returns the current date-time, according to the given clock, in its time-zone.
      */
-    public static function now(TimeZone $timeZone, ?Clock $clock = null): ZonedDateTime
+    public static function now(ZonedClock $clock): ZonedDateTime
     {
-        return ZonedDateTime::ofInstant(Instant::now($clock), $timeZone);
+        return $clock->getCurrentZonedDateTime();
     }
 
     /**

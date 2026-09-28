@@ -52,7 +52,7 @@ class DayOfWeekTest extends AbstractTestCase
     public function testNow(int $epochSecond, string $timeZone, DayOfWeek $expectedDayOfWeek): void
     {
         $clock = new FixedClock(Instant::of($epochSecond));
-        self::assertSame($expectedDayOfWeek, DayOfWeek::now(TimeZone::parse($timeZone), $clock));
+        self::assertSame($expectedDayOfWeek, DayOfWeek::now($clock->withTimeZone(TimeZone::parse($timeZone))));
     }
 
     public static function providerNow(): array

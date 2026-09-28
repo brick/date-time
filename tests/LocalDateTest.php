@@ -448,7 +448,7 @@ class LocalDateTest extends AbstractTestCase
     public function testNow(int $epochSecond, string $timeZone, int $year, int $month, int $day): void
     {
         $clock = new FixedClock(Instant::of($epochSecond));
-        self::assertLocalDateIs($year, $month, $day, LocalDate::now(TimeZone::parse($timeZone), $clock));
+        self::assertLocalDateIs($year, $month, $day, LocalDate::now($clock->withTimeZone(TimeZone::parse($timeZone))));
     }
 
     public static function providerNow(): array

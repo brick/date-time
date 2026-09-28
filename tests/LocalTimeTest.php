@@ -166,7 +166,7 @@ class LocalTimeTest extends AbstractTestCase
     {
         $clock = new FixedClock(Instant::of($second, $nano));
         $timeZone = TimeZoneOffset::ofTotalSeconds($offset);
-        self::assertLocalTimeIs($h, $m, $s, $n, LocalTime::now($timeZone, $clock));
+        self::assertLocalTimeIs($h, $m, $s, $n, LocalTime::now($clock->withTimeZone($timeZone)));
     }
 
     public static function providerNow(): array

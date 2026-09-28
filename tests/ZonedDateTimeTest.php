@@ -986,6 +986,14 @@ class ZonedDateTimeTest extends AbstractTestCase
         self::assertFalse($fromZonedDateTime->isBetweenExclusive($fromZonedDateTime, $toZonedDateTime));
     }
 
+    public function testNow(): void
+    {
+        $clock = new FixedClock(Instant::of(1000000000, 123456789));
+        $now = ZonedDateTime::now($clock->withTimeZone(TimeZone::parse('Asia/Tokyo')));
+
+        self::assertSame('2001-09-09T10:46:40.123456789+09:00[Asia/Tokyo]', $now->toISOString());
+    }
+
     #[DataProvider('providerForPastFuture')]
     public function testIsFuture(int $clockTimestamp, string $zonedDateTime, bool $isFuture): void
     {

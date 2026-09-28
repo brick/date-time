@@ -6,6 +6,10 @@
 
 - `Clock` has a new method, `withTimeZone(TimeZone): ZonedClock`: custom `Clock` implementations must implement it
 - `brick/date-time` now requires `psr/clock`
+- Methods that return the current date or time now take a single, required `ZonedClock` instead of a `TimeZone` and an optional `Clock`: `now(TimeZone $timeZone, ?Clock $clock = null)` becomes `now(ZonedClock $clock)`
+  - this applies to `now()` on `DayOfWeek`, `LocalDate`, `LocalDateTime`, `LocalTime`, `MonthDay`, `Quarter`, `Year`, `YearMonth`, `YearWeek` and `ZonedDateTime`, and to `LocalDateTime::isFuture()` and `isPast()`
+  - to migrate, replace `LocalDate::now($timeZone, $clock)` with `LocalDate::now($clock->withTimeZone($timeZone))`
+  - these methods no longer use `DefaultClock`, which now only affects `Instant::now()`, `Instant::isFuture()`, `Instant::isPast()`, `ZonedDateTime::isFuture()`, `ZonedDateTime::isPast()` and `Stopwatch`
 
 ✨ **New features**
 
