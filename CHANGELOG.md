@@ -5,7 +5,6 @@
 💥 **Breaking changes**
 
 - `Clock` has a new method, `withTimeZone(TimeZone): ZonedClock`: custom `Clock` implementations must implement it
-- `brick/date-time` now requires `psr/clock`
 - Methods that return the current date or time now take a single, required `ZonedClock` instead of a `TimeZone` and an optional `Clock`: `now(TimeZone $timeZone, ?Clock $clock = null)` becomes `now(ZonedClock $clock)`
   - this applies to `now()` on `DayOfWeek`, `LocalDate`, `LocalDateTime`, `LocalTime`, `MonthDay`, `Quarter`, `Year`, `YearMonth`, `YearWeek` and `ZonedDateTime`, and to `LocalDateTime::isFuture()` and `isPast()`
   - to migrate, replace `LocalDate::now($timeZone, $clock)` with `LocalDate::now($clock->withTimeZone($timeZone))`
@@ -14,7 +13,6 @@
 ✨ **New features**
 
 - New class `ZonedClock`, which wraps a `Clock` and a `TimeZone`:
-  - it implements PSR-20 `Psr\Clock\ClockInterface`: `now()` returns a `DateTimeImmutable` in its time zone, with microsecond precision (nanoseconds are rounded down)
   - `getCurrentZonedDateTime()`, `getCurrentLocalDateTime()`, `getCurrentLocalDate()` and `getCurrentLocalTime()` return the current date and time in its time zone
   - `withTimeZone()` returns a copy in another time zone
 - All built-in clocks can be bound to a time zone with `withTimeZone()`, e.g. `(new SystemClock())->withTimeZone(TimeZone::utc())`

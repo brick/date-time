@@ -210,8 +210,6 @@ LocalDate::now($this->zonedClock);                     // single time zone
 LocalDate::now($this->clock->withTimeZone($timeZone)); // multiple time zones
 ```
 
-`ZonedClock` also implements [PSR-20](https://www.php-fig.org/psr/psr-20/), so it can be used wherever a `Psr\Clock\ClockInterface` is expected. Its `now()` method returns a `DateTimeImmutable` in the clock's time zone.
-
 To control the time in your tests, wrap a `FixedClock`: there is no need to fake the `ZonedClock` itself.
 
 ```php
