@@ -9,7 +9,6 @@ use Brick\DateTime\Instant;
 use Brick\DateTime\TimeZone;
 use Brick\DateTime\ZonedClock;
 use PHPUnit\Framework\Attributes\DataProvider;
-use Psr\Clock\ClockInterface;
 
 /**
  * Unit tests for class ZonedClock.
@@ -53,30 +52,12 @@ class ZonedClockTest extends AbstractTestCase
         self::assertSame($paris, $zonedClock->getTimeZone());
     }
 
-    public function testIsPsrClock(): void
-    {
-        $zonedClock = new ZonedClock(new FixedClock(Instant::of(1000000000)), TimeZone::utc());
-
-        self::assertInstanceOf(ClockInterface::class, $zonedClock);
-    }
-
-    public function testNow(): void
-    {
-        $clock = new FixedClock(Instant::of(123456789, 987654321));
-        $zonedClock = new ZonedClock($clock, TimeZone::parse('America/New_York'));
-        $now = $zonedClock->now();
-
-        self::assertSame('1973-11-29T16:33:09.987654-05:00', $now->format('Y-m-d\TH:i:s.uP'));
-        self::assertSame('America/New_York', $now->getTimezone()->getName());
-    }
-
-    public function testNowWithOffsetTimeZone(): void
+    public function testGetCurrentZonedDateTimeWithOffsetTimeZone(): void
     {
         $clock = new FixedClock(Instant::of(123456789, 987654321));
         $zonedClock = new ZonedClock($clock, TimeZone::parse('+05:30'));
-        $now = $zonedClock->now();
 
-        self::assertSame('1973-11-30T03:03:09.987654+05:30', $now->format('Y-m-d\TH:i:s.uP'));
+        self::assertSame('1973-11-30T03:03:09.987654321+05:30', $zonedClock->getCurrentZonedDateTime()->toISOString());
     }
 
     #[DataProvider('providerGetCurrent')]

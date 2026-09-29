@@ -4,19 +4,16 @@ declare(strict_types=1);
 
 namespace Brick\DateTime;
 
-use DateTimeImmutable;
 use Override;
-use Psr\Clock\ClockInterface;
 
 /**
  * A clock bound to a time zone.
  *
  * This clock reads the current time from an underlying clock, and provides the current date and time in its time zone.
- * It also implements PSR-20, returning the current date and time in its time zone.
  *
  * To fake the current time in tests, wrap a FixedClock: there is no need to fake this class.
  */
-final readonly class ZonedClock implements Clock, ClockInterface
+final readonly class ZonedClock implements Clock
 {
     /**
      * @param Clock    $clock    The underlying clock.
@@ -54,17 +51,6 @@ final readonly class ZonedClock implements Clock, ClockInterface
     public function withTimeZone(TimeZone $timeZone): ZonedClock
     {
         return new ZonedClock($this->clock, $timeZone);
-    }
-
-    /**
-     * Returns the current date and time in this clock's time zone, as a native DateTimeImmutable.
-     *
-     * Native dates have microsecond precision: nanoseconds are rounded down.
-     */
-    #[Override]
-    public function now(): DateTimeImmutable
-    {
-        return $this->getCurrentZonedDateTime()->toNativeDateTimeImmutable();
     }
 
     public function getCurrentZonedDateTime(): ZonedDateTime

@@ -7,7 +7,7 @@ namespace Brick\DateTime;
 /**
  * A source of the current instant, independent of any time zone.
  *
- * To get the current date or time in a time zone, or a PSR-20 clock, call withTimeZone().
+ * To get the current date or time in a time zone, call withTimeZone().
  */
 interface Clock
 {
