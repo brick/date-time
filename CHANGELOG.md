@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.10.0](https://github.com/brick/date-time/releases/tag/0.10.0) - 2026-09-30
+
+💥 **Breaking changes**
+
+- `Instant::toISOString()` and `ZonedDateTime::toISOString()` now always include seconds, to be RFC 3339 compliant (#131 by @dualfroz)
+
 ## [0.9.0](https://github.com/brick/date-time/releases/tag/0.9.0) - 2026-01-03
 
 💥 **Breaking changes**
