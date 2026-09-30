@@ -17,6 +17,10 @@ use Stringable;
 
 use function assert;
 use function intdiv;
+use function rtrim;
+use function str_pad;
+
+use const STR_PAD_LEFT;
 
 /**
  * A date-time with a time-zone in the ISO-8601 calendar system.
@@ -735,11 +739,29 @@ final readonly class ZonedDateTime implements JsonSerializable, Stringable
     /**
      * Returns the ISO 8601 representation of this zoned date time.
      *
+     * Unlike {@see LocalTime::toISOString()}, the time part always includes the
+     * seconds, as RFC 3339 section 5.6 requires, even when they are zero.
+     *
      * @return non-empty-string
      */
     public function toISOString(): string
     {
-        $string = $this->localDateTime . $this->timeZoneOffset;
+        $time = $this->localDateTime->getTime();
+
+        $hour = $time->getHour();
+        $minute = $time->getMinute();
+        $second = $time->getSecond();
+        $nano = $time->getNano();
+
+        $string = $this->localDateTime->getDate()
+            . 'T'
+            . ($hour < 10 ? '0' . $hour : $hour)
+            . ':'
+            . ($minute < 10 ? '0' . $minute : $minute)
+            . ':'
+            . ($second < 10 ? '0' . $second : $second)
+            . ($nano !== 0 ? '.' . rtrim(str_pad((string) $nano, 9, '0', STR_PAD_LEFT), '0') : '')
+            . $this->timeZoneOffset;
 
         if ($this->timeZone instanceof TimeZoneRegion) {
             $string .= '[' . $this->timeZone . ']';

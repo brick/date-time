@@ -357,6 +357,9 @@ final readonly class Instant implements JsonSerializable, Stringable
     /**
      * Returns the ISO 8601 representation of this instant.
      *
+     * The time part always includes the seconds, as RFC 3339 section 5.6
+     * requires, even when they are zero.
+     *
      * @return non-empty-string
      */
     public function toISOString(): string
