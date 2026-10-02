@@ -34,13 +34,13 @@ final readonly class ScaleClock implements Clock
         private Clock $referenceClock,
         private int $timeScale,
     ) {
-        $this->startTime = $this->referenceClock->getTime();
+        $this->startTime = $this->referenceClock->getInstant();
     }
 
     #[Override]
-    public function getTime(): Instant
+    public function getInstant(): Instant
     {
-        $duration = Duration::between($this->startTime, $this->referenceClock->getTime());
+        $duration = Duration::between($this->startTime, $this->referenceClock->getInstant());
         $duration = $duration->multipliedBy($this->timeScale);
 
         return $this->startTime->plus($duration);

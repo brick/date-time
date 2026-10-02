@@ -17,7 +17,7 @@ class FixedClockTest extends AbstractTestCase
     public function testFixedClock(): void
     {
         $clock = new FixedClock(Instant::of(123456789, 987654321));
-        self::assertInstantIs(123456789, 987654321, $clock->getTime());
+        self::assertInstantIs(123456789, 987654321, $clock->getInstant());
     }
 
     public function testWithTimeZone(): void
@@ -28,6 +28,6 @@ class FixedClockTest extends AbstractTestCase
 
         self::assertSame($clock, $zonedClock->getClock());
         self::assertSame($timeZone, $zonedClock->getTimeZone());
-        self::assertSame('1973-11-29T16:33:09.987654321-05:00[America/New_York]', $zonedClock->getCurrentZonedDateTime()->toISOString());
+        self::assertSame('1973-11-29T16:33:09.987654321-05:00[America/New_York]', $zonedClock->getZonedDateTime()->toISOString());
     }
 }

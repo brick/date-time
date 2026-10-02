@@ -4,13 +4,10 @@ declare(strict_types=1);
 
 namespace Brick\DateTime\Tests;
 
-use Brick\DateTime\Clock\FixedClock;
 use Brick\DateTime\DateTimeException;
-use Brick\DateTime\Instant;
 use Brick\DateTime\Month;
 use Brick\DateTime\MonthDay;
 use Brick\DateTime\Parser\DateTimeParseException;
-use Brick\DateTime\TimeZone;
 use PHPUnit\Framework\Attributes\DataProvider;
 
 use function json_encode;
@@ -135,29 +132,6 @@ class MonthDayTest extends AbstractTestCase
             ['--01-00'],
             ['--01-32'],
             ['--02-30'],
-        ];
-    }
-
-    /**
-     * @param int    $epochSecond The epoch second.
-     * @param string $timeZone    The time-zone.
-     * @param int    $month       The expected month.
-     * @param int    $day         The expected day.
-     */
-    #[DataProvider('providerNow')]
-    public function testNow(int $epochSecond, string $timeZone, int $month, int $day): void
-    {
-        $clock = new FixedClock(Instant::of($epochSecond));
-        self::assertMonthDayIs($month, $day, MonthDay::now($clock->withTimeZone(TimeZone::parse($timeZone))));
-    }
-
-    public static function providerNow(): array
-    {
-        return [
-            [946684799, '+00:00', 12, 31],
-            [946684799, 'America/Los_Angeles', 12, 31],
-            [946684799, '+01:00', 1, 1],
-            [946684799, 'Europe/Paris', 1, 1],
         ];
     }
 

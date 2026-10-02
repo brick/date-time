@@ -119,14 +119,6 @@ final readonly class ZonedDateTime implements JsonSerializable, Stringable
     }
 
     /**
-     * Returns the current date-time, according to the given clock, in its time-zone.
-     */
-    public static function now(ZonedClock $clock): ZonedDateTime
-    {
-        return $clock->getCurrentZonedDateTime();
-    }
-
-    /**
      * Obtains an instance of `ZonedDateTime` from a set of date-time fields.
      *
      * This method is only useful to parsers.
@@ -658,26 +650,6 @@ final readonly class ZonedDateTime implements JsonSerializable, Stringable
     public function isBetweenExclusive(ZonedDateTime $from, ZonedDateTime $to): bool
     {
         return $this->isAfter($from) && $this->isBefore($to);
-    }
-
-    /**
-     * Returns whether this ZonedDateTime is in the future, according to the given clock.
-     *
-     * If no clock is provided, the system clock is used.
-     */
-    public function isFuture(?Clock $clock = null): bool
-    {
-        return $this->instant->isFuture($clock);
-    }
-
-    /**
-     * Returns whether this ZonedDateTime is in the past, according to the given clock.
-     *
-     * If no clock is provided, the system clock is used.
-     */
-    public function isPast(?Clock $clock = null): bool
-    {
-        return $this->instant->isPast($clock);
     }
 
     /**

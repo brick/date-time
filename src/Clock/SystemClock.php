@@ -10,14 +10,14 @@ use Brick\DateTime\TimeZone;
 use Brick\DateTime\ZonedClock;
 
 /**
- * This clock returns the system time. It is the default clock.
+ * This clock returns the system time.
  *
  * This clock has a microsecond precision on most systems.
  */
 final class SystemClock implements Clock
 {
     #[\Override]
-    public function getTime(): Instant
+    public function getInstant(): Instant
     {
         [$fraction, $epochSecond] = \explode(' ', microtime());
 

@@ -72,14 +72,6 @@ final readonly class Year implements JsonSerializable, Stringable
         return Year::from($parser->parse($text));
     }
 
-    /**
-     * Returns the current year, according to the given clock, in its time-zone.
-     */
-    public static function now(ZonedClock $clock): Year
-    {
-        return new Year(LocalDate::now($clock)->getYear());
-    }
-
     public function getValue(): int
     {
         return $this->year;

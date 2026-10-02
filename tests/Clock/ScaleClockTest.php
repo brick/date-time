@@ -34,7 +34,7 @@ class ScaleClockTest extends AbstractTestCase
 
         $baseClock->setTime($baseInstant->plus(Duration::parse($duration)));
 
-        $actualTime = $scaleClock->getTime();
+        $actualTime = $scaleClock->getInstant();
 
         self::assertInstanceOf(Instant::class, $actualTime);
         self::assertSame($expectedInstant, $actualTime->toDecimal());
@@ -54,7 +54,7 @@ class ScaleClockTest extends AbstractTestCase
 
         self::assertSame($scaleClock, $zonedClock->getClock());
         self::assertSame($timeZone, $zonedClock->getTimeZone());
-        self::assertSame('1970-01-12T21:46:00.223456789+09:00[Asia/Tokyo]', $zonedClock->getCurrentZonedDateTime()->toISOString());
+        self::assertSame('1970-01-12T21:46:00.223456789+09:00[Asia/Tokyo]', $zonedClock->getZonedDateTime()->toISOString());
     }
 
     public static function providerScaleClock(): array

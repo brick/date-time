@@ -4,11 +4,8 @@ declare(strict_types=1);
 
 namespace Brick\DateTime\Tests;
 
-use Brick\DateTime\Clock\FixedClock;
 use Brick\DateTime\DateTimeException;
-use Brick\DateTime\Instant;
 use Brick\DateTime\Month;
-use Brick\DateTime\TimeZone;
 use Brick\DateTime\YearMonth;
 use PHPUnit\Framework\Attributes\DataProvider;
 
@@ -86,29 +83,6 @@ class YearMonthTest extends AbstractTestCase
         return [
             ['2000-00'],
             ['2000-13'],
-        ];
-    }
-
-    /**
-     * @param int    $epochSecond The epoch second.
-     * @param string $timeZone    The time-zone.
-     * @param int    $year        The expected year.
-     * @param int    $month       The expected month.
-     */
-    #[DataProvider('providerNow')]
-    public function testNow(int $epochSecond, string $timeZone, int $year, int $month): void
-    {
-        $clock = new FixedClock(Instant::of($epochSecond));
-        self::assertYearMonthIs($year, $month, YearMonth::now($clock->withTimeZone(TimeZone::parse($timeZone))));
-    }
-
-    public static function providerNow(): array
-    {
-        return [
-            [946684799, '+00:00', 1999, 12],
-            [946684799, 'America/Los_Angeles', 1999, 12],
-            [946684799, '+01:00', 2000, 1],
-            [946684799, 'Europe/Paris', 2000, 1],
         ];
     }
 

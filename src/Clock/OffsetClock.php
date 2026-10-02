@@ -27,9 +27,9 @@ final readonly class OffsetClock implements Clock
     }
 
     #[Override]
-    public function getTime(): Instant
+    public function getInstant(): Instant
     {
-        return $this->referenceClock->getTime()->plus($this->offset);
+        return $this->referenceClock->getInstant()->plus($this->offset);
     }
 
     #[Override]

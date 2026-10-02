@@ -21,15 +21,6 @@ class StopwatchTest extends AbstractTestCase
         self::$clock = new FixedClock(Instant::of(0));
     }
 
-    public function testConstructorWithNullClock(): void
-    {
-        $stopwatch = new Stopwatch();
-
-        self::assertNull($stopwatch->getStartTime());
-        self::assertFalse($stopwatch->isRunning());
-        self::assertDurationIs(0, 0, $stopwatch->getElapsedTime());
-    }
-
     public function testNew(): Stopwatch
     {
         $stopwatch = new Stopwatch(self::$clock);
@@ -69,7 +60,7 @@ class StopwatchTest extends AbstractTestCase
 
     public function testStopWithNullStartTime(): void
     {
-        $stopwatch = new Stopwatch();
+        $stopwatch = new Stopwatch(new FixedClock(Instant::of(0)));
 
         $duration = $stopwatch->stop();
 

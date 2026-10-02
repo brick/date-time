@@ -25,7 +25,7 @@ final class FixedClock implements Clock
     }
 
     #[Override]
-    public function getTime(): Instant
+    public function getInstant(): Instant
     {
         return $this->instant;
     }

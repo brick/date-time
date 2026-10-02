@@ -4,16 +4,28 @@
 
 💥 **Breaking changes**
 
+- `Clock::getTime()` has been renamed to `getInstant()`
 - `Clock` has a new method, `withTimeZone(TimeZone): ZonedClock`: custom `Clock` implementations must implement it
-- Methods that return the current date or time now take a single, required `ZonedClock` instead of a `TimeZone` and an optional `Clock`: `now(TimeZone $timeZone, ?Clock $clock = null)` becomes `now(ZonedClock $clock)`
-  - this applies to `now()` on `DayOfWeek`, `LocalDate`, `LocalDateTime`, `LocalTime`, `MonthDay`, `Quarter`, `Year`, `YearMonth`, `YearWeek` and `ZonedDateTime`, and to `LocalDateTime::isFuture()` and `isPast()`
-  - to migrate, replace `LocalDate::now($timeZone, $clock)` with `LocalDate::now($clock->withTimeZone($timeZone))`
-  - these methods no longer use `DefaultClock`, which now only affects `Instant::now()`, `Instant::isFuture()`, `Instant::isPast()`, `ZonedDateTime::isFuture()`, `ZonedDateTime::isPast()` and `Stopwatch`
+- `DefaultClock` has been removed: inject a `Clock` or `ZonedClock` instead, and use `FixedClock`, `OffsetClock` or `ScaleClock` in tests
+- All `now()` methods have been removed, use a `ZonedClock` instead:
+  - `ZonedDateTime::now()` → `ZonedClock::getZonedDateTime()`
+  - `LocalDateTime::now()` → `ZonedClock::getLocalDateTime()`
+  - `LocalDate::now()` → `ZonedClock::getLocalDate()`
+  - `LocalTime::now()` → `ZonedClock::getLocalTime()`
+  - `YearMonth::now()` → `ZonedClock::getLocalDate()->getYearMonth()`
+  - `YearWeek::now()` → `ZonedClock::getLocalDate()->getYearWeek()`
+  - `Quarter::now()` → `ZonedClock::getLocalDate()->getQuarter()`
+  - `DayOfWeek::now()` → `ZonedClock::getLocalDate()->getDayOfWeek()`
+  - `MonthDay::now()` → `MonthDay::of($date->getMonth(), $date->getDayOfMonth())`, where `$date = ZonedClock::getLocalDate()`
+  - `Year::now()` → `Year::of(ZonedClock::getLocalDate()->getYear())`
+  - `Instant::now()` → `Clock::getInstant()`
+- `isFuture()` and `isPast()` have been removed from `Instant`, `LocalDateTime` and `ZonedDateTime`: compare with `isAfter()` / `isBefore()` instead, e.g. `$instant->isAfter($clock->getInstant())`
+- `Stopwatch`'s constructor now requires a `Clock`
 
 ✨ **New features**
 
 - New class `ZonedClock`, which wraps a `Clock` and a `TimeZone`:
-  - `getCurrentZonedDateTime()`, `getCurrentLocalDateTime()`, `getCurrentLocalDate()` and `getCurrentLocalTime()` return the current date and time in its time zone
+  - `getZonedDateTime()`, `getLocalDateTime()`, `getLocalDate()` and `getLocalTime()` return the current date and time in its time zone
   - `withTimeZone()` returns a copy in another time zone
 - All built-in clocks can be bound to a time zone with `withTimeZone()`, e.g. `(new SystemClock())->withTimeZone(TimeZone::utc())`
 

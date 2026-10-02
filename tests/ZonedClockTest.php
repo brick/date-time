@@ -25,16 +25,16 @@ class ZonedClockTest extends AbstractTestCase
         self::assertSame($timeZone, $zonedClock->getTimeZone());
     }
 
-    public function testGetTimeReadsTheUnderlyingClock(): void
+    public function testGetInstantReadsTheUnderlyingClock(): void
     {
         $clock = new FixedClock(Instant::of(1000000000, 123456789));
         $zonedClock = new ZonedClock($clock, TimeZone::parse('Asia/Tokyo'));
 
-        self::assertInstantIs(1000000000, 123456789, $zonedClock->getTime());
+        self::assertInstantIs(1000000000, 123456789, $zonedClock->getInstant());
 
         $clock->move(60);
 
-        self::assertInstantIs(1000000060, 123456789, $zonedClock->getTime());
+        self::assertInstantIs(1000000060, 123456789, $zonedClock->getInstant());
     }
 
     public function testWithTimeZone(): void
@@ -52,27 +52,27 @@ class ZonedClockTest extends AbstractTestCase
         self::assertSame($paris, $zonedClock->getTimeZone());
     }
 
-    public function testGetCurrentZonedDateTimeWithOffsetTimeZone(): void
+    public function testGetZonedDateTimeWithOffsetTimeZone(): void
     {
         $clock = new FixedClock(Instant::of(123456789, 987654321));
         $zonedClock = new ZonedClock($clock, TimeZone::parse('+05:30'));
 
-        self::assertSame('1973-11-30T03:03:09.987654321+05:30', $zonedClock->getCurrentZonedDateTime()->toISOString());
+        self::assertSame('1973-11-30T03:03:09.987654321+05:30', $zonedClock->getZonedDateTime()->toISOString());
     }
 
-    #[DataProvider('providerGetCurrent')]
-    public function testGetCurrent(int $epochSecond, string $timeZone, string $expectedZonedDateTime, string $expectedLocalDateTime, string $expectedLocalDate, string $expectedLocalTime): void
+    #[DataProvider('providerGetters')]
+    public function testGetters(int $epochSecond, string $timeZone, string $expectedZonedDateTime, string $expectedLocalDateTime, string $expectedLocalDate, string $expectedLocalTime): void
     {
         $clock = new FixedClock(Instant::of($epochSecond));
         $zonedClock = new ZonedClock($clock, TimeZone::parse($timeZone));
 
-        self::assertSame($expectedZonedDateTime, $zonedClock->getCurrentZonedDateTime()->toISOString());
-        self::assertSame($expectedLocalDateTime, $zonedClock->getCurrentLocalDateTime()->toISOString());
-        self::assertSame($expectedLocalDate, $zonedClock->getCurrentLocalDate()->toISOString());
-        self::assertSame($expectedLocalTime, $zonedClock->getCurrentLocalTime()->toISOString());
+        self::assertSame($expectedZonedDateTime, $zonedClock->getZonedDateTime()->toISOString());
+        self::assertSame($expectedLocalDateTime, $zonedClock->getLocalDateTime()->toISOString());
+        self::assertSame($expectedLocalDate, $zonedClock->getLocalDate()->toISOString());
+        self::assertSame($expectedLocalTime, $zonedClock->getLocalTime()->toISOString());
     }
 
-    public static function providerGetCurrent(): array
+    public static function providerGetters(): array
     {
         return [
             [1000000000, 'UTC', '2001-09-09T01:46:40Z[UTC]', '2001-09-09T01:46:40', '2001-09-09', '01:46:40'],

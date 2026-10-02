@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Brick\DateTime\Tests;
 
-use Brick\DateTime\Clock\FixedClock;
 use Brick\DateTime\DateTimeException;
 use Brick\DateTime\Duration;
 use Brick\DateTime\Instant;
@@ -57,12 +56,6 @@ class InstantTest extends AbstractTestCase
 
         self::assertInstantIs(0, 0, $epoch);
         self::assertSame($epoch, Instant::epoch());
-    }
-
-    public function testNow(): void
-    {
-        $clock = new FixedClock(Instant::of(123456789, 987654321));
-        self::assertInstantIs(123456789, 987654321, Instant::now($clock));
     }
 
     public function testMin(): void
@@ -383,34 +376,6 @@ class InstantTest extends AbstractTestCase
     public function testIsBeforeOrEqualTo(int $s1, int $n1, int $s2, int $n2, int $cmp): void
     {
         self::assertSame($cmp <= 0, Instant::of($s1, $n1)->isBeforeOrEqualTo(Instant::of($s2, $n2)));
-    }
-
-    /**
-     * @param int $testSecond The second of the test instant.
-     * @param int $testNano   The nanosecond adjustment to the test instant.
-     * @param int $nowSecond  The second of the current time.
-     * @param int $nowNano    The nanosecond adjustment to the current time.
-     * @param int $cmp        The comparison value.
-     */
-    #[DataProvider('providerCompareTo')]
-    public function testIsFuture(int $testSecond, int $testNano, int $nowSecond, int $nowNano, int $cmp): void
-    {
-        $clock = new FixedClock(Instant::of($nowSecond, $nowNano));
-        self::assertSame($cmp === 1, Instant::of($testSecond, $testNano)->isFuture($clock));
-    }
-
-    /**
-     * @param int $testSecond The second of the test instant.
-     * @param int $testNano   The nanosecond adjustment to the test instant.
-     * @param int $nowSecond  The second of the current time.
-     * @param int $nowNano    The nanosecond adjustment to the current time.
-     * @param int $cmp        The comparison value.
-     */
-    #[DataProvider('providerCompareTo')]
-    public function testIsPast(int $testSecond, int $testNano, int $nowSecond, int $nowNano, int $cmp): void
-    {
-        $clock = new FixedClock(Instant::of($nowSecond, $nowNano));
-        self::assertSame($cmp === -1, Instant::of($testSecond, $testNano)->isPast($clock));
     }
 
     public static function providerCompareTo(): array

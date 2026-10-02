@@ -30,7 +30,7 @@ class OffsetClockTest extends AbstractTestCase
         $baseClock = new FixedClock(Instant::of($second, $nano));
         $clock = new OffsetClock($baseClock, Duration::parse($duration));
 
-        self::assertInstantIs($expectedSecond, $expectedNano, $clock->getTime());
+        self::assertInstantIs($expectedSecond, $expectedNano, $clock->getInstant());
     }
 
     public function testWithTimeZone(): void
@@ -42,7 +42,7 @@ class OffsetClockTest extends AbstractTestCase
 
         self::assertSame($clock, $zonedClock->getClock());
         self::assertSame($timeZone, $zonedClock->getTimeZone());
-        self::assertSame('1970-01-12T14:52:11.023456789+01:00[Europe/Paris]', $zonedClock->getCurrentZonedDateTime()->toISOString());
+        self::assertSame('1970-01-12T14:52:11.023456789+01:00[Europe/Paris]', $zonedClock->getZonedDateTime()->toISOString());
     }
 
     public static function providerOffsetClock(): array

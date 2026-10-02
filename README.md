@@ -79,117 +79,26 @@ These classes belong to the `Brick\DateTime` namespace.
 
 ### Clocks
 
-All objects read the current time from a `Clock` implementation. The following implementations are available:
+The current time is read from a `Clock` implementation. The following implementations are available:
 
-- `SystemClock` returns the system time; it's the default clock
+- `SystemClock` returns the system time
 - `FixedClock`: returns a pre-configured time
 - `OffsetClock`: adds an offset to another clock
 - `ScaleClock`: makes another clock fast-forward by a scale factor
 
 These classes belong to the `Brick\DateTime\Clock` namespace.
 
-Methods that return the current date or time, such as `LocalDate::now()`, take a `ZonedClock`: a clock bound to a time zone (see [Zoned clocks](#zoned-clocks)). The time zone is always explicit:
+A `Clock` only provides the current `Instant`, and knows nothing about time zones:
 
 ```php
 use Brick\DateTime\Clock\SystemClock;
-use Brick\DateTime\LocalDate;
-use Brick\DateTime\TimeZone;
 
-$clock = (new SystemClock())->withTimeZone(TimeZone::utc());
+$clock = new SystemClock();
 
-echo LocalDate::now($clock); // 2017-10-04
+echo $clock->getInstant(); // 2017-10-04T12:03:25.123456Z
 ```
 
-In your tests, you might need to set the current time to test your application in known conditions. To do this, wrap a `FixedClock`:
-
-```php
-use Brick\DateTime\Clock\FixedClock;
-use Brick\DateTime\Instant;
-use Brick\DateTime\LocalDate;
-use Brick\DateTime\TimeZone;
-
-$clock = (new FixedClock(Instant::of(1000000000)))->withTimeZone(TimeZone::utc());
-echo LocalDate::now($clock); // 2001-09-09
-```
-
-Methods that only read the current instant, such as `Instant::now()`, take an optional `Clock`. If no clock is provided, they use the *default* clock, which you can change:
-
-```php
-use Brick\DateTime\Clock\FixedClock;
-use Brick\DateTime\DefaultClock;
-use Brick\DateTime\Instant;
-
-DefaultClock::set(new FixedClock(Instant::of(1000000000)));
-echo Instant::now(); // 2001-09-09T01:46:40Z
-
-DefaultClock::reset(); // do not forget to reset the clock to the system clock!
-```
-
-There are also useful shortcut methods to use clocks in your tests, inspired by [timecop](https://github.com/travisjeffery/timecop):
-
-- `freeze()` freezes time to a specific point in time
-- `travelTo()` travels to an `Instant` in time, but allows time to continue moving forward from there
-- `travelBy()` travels in time by a `Duration`, which may be forward (positive) or backward (negative)
-- `scale()` makes time move at a given pace
-
-#### Freeze the time to a specific point
-
-```php
-use Brick\DateTime\DefaultClock;
-use Brick\DateTime\Instant;
-
-DefaultClock::freeze(Instant::of(2000000000));
-
-$a = Instant::now(); sleep(1);
-$b = Instant::now();
-
-echo $a, PHP_EOL; // 2033-05-18T03:33:20Z
-echo $b, PHP_EOL; // 2033-05-18T03:33:20Z
-
-DefaultClock::reset();
-```
-
-#### Travel to a specific point in time
-
-```php
-use Brick\DateTime\DefaultClock;
-use Brick\DateTime\Instant;
-
-DefaultClock::travelTo(Instant::of(2000000000));
-$a = Instant::now(); sleep(1);
-$b = Instant::now();
-
-echo $a, PHP_EOL; // 2033-05-18T03:33:20.000342Z
-echo $b, PHP_EOL; // 2033-05-18T03:33:21.000606Z
-
-DefaultClock::reset();
-```
-
-#### Make time move at a given pace
-
-```php
-use Brick\DateTime\DefaultClock;
-use Brick\DateTime\Instant;
-
-DefaultClock::travelTo(Instant::of(2000000000));
-DefaultClock::scale(60); // 1 second becomes 60 seconds
-
-$a = Instant::now(); sleep(1);
-$b = Instant::now();
-
-echo $a, PHP_EOL; // 2033-05-18T03:33:20.00188Z
-echo $b, PHP_EOL; // 2033-05-18T03:34:20.06632Z
-
-DefaultClock::reset();
-```
-
-As you can see, you can even combine `travelTo()` and `scale()` methods.
-
-Be very careful to **`reset()` the DefaultClock after each of your tests!** If you're using PHPUnit, a good place to do this is in the `tearDown()` method.
-
-#### Zoned clocks
-
-A `Clock` only provides the current instant, and knows nothing about time zones. To get the current date or time in a given time zone, bind a clock to a time zone with `withTimeZone()`, which returns a `ZonedClock`:
+To get the current date or time, bind a clock to a time zone with `withTimeZone()`, which returns a `ZonedClock`:
 
 ```php
 use Brick\DateTime\Clock\SystemClock;
@@ -197,20 +106,37 @@ use Brick\DateTime\TimeZone;
 
 $clock = (new SystemClock())->withTimeZone(TimeZone::parse('Europe/Paris'));
 
-echo $clock->getCurrentLocalDate(); // 2017-10-04
-echo $clock->getCurrentLocalTime(); // 14:03:25.123456
+echo $clock->getZonedDateTime(); // 2017-10-04T14:03:25.123456+02:00[Europe/Paris]
+echo $clock->getLocalDateTime(); // 2017-10-04T14:03:25.123456
+echo $clock->getLocalDate();     // 2017-10-04
+echo $clock->getLocalTime();     // 14:03:25.123456
 ```
+
+Other values are one hop away from a `LocalDate`:
+
+```php
+$date = $clock->getLocalDate();
+
+$date->getYearMonth();
+$date->getYearWeek();
+$date->getQuarter();
+$date->getDayOfWeek();
+```
+
+The time zone is always explicit: there is no default clock, and the system time zone is never used implicitly.
 
 This is useful in applications that deal with a single time zone: inject a `ZonedClock` in your services, and configure its time zone once. Applications that deal with multiple time zones can inject a `Clock` instead, and bind it to a time zone every time:
 
 ```php
-use Brick\DateTime\LocalDate;
-
-LocalDate::now($this->zonedClock);                     // single time zone
-LocalDate::now($this->clock->withTimeZone($timeZone)); // multiple time zones
+$this->zonedClock->getLocalDate();                     // single time zone
+$this->clock->withTimeZone($timeZone)->getLocalDate(); // multiple time zones
 ```
 
-To control the time in your tests, wrap a `FixedClock`: there is no need to fake the `ZonedClock` itself.
+#### Testing
+
+In your tests, you might need to set the current time to test your application in known conditions. To do this, inject one of the test clocks instead of a `SystemClock`; there is no need to fake the `ZonedClock` itself.
+
+Freeze the time to a specific point:
 
 ```php
 use Brick\DateTime\Clock\FixedClock;
@@ -219,7 +145,40 @@ use Brick\DateTime\TimeZone;
 
 $clock = (new FixedClock(Instant::of(1000000000)))->withTimeZone(TimeZone::utc());
 
-echo $clock->getCurrentLocalDate(); // 2001-09-09
+echo $clock->getLocalDate(); // 2001-09-09
+```
+
+Travel to a specific point in time, but allow time to continue moving forward from there:
+
+```php
+use Brick\DateTime\Clock\OffsetClock;
+use Brick\DateTime\Clock\SystemClock;
+use Brick\DateTime\Duration;
+use Brick\DateTime\Instant;
+
+$systemClock = new SystemClock();
+$offset = Duration::between($systemClock->getInstant(), Instant::of(2000000000));
+$clock = new OffsetClock($systemClock, $offset);
+
+$a = $clock->getInstant(); sleep(1);
+$b = $clock->getInstant();
+
+echo $a, PHP_EOL; // 2033-05-18T03:33:20.000342Z
+echo $b, PHP_EOL; // 2033-05-18T03:33:21.000606Z
+```
+
+Make time move at a given pace:
+
+```php
+use Brick\DateTime\Clock\ScaleClock;
+
+$clock = new ScaleClock($clock, 60); // 1 second becomes 60 seconds
+
+$a = $clock->getInstant(); sleep(1);
+$b = $clock->getInstant();
+
+echo $a, PHP_EOL; // 2033-05-18T03:33:20.00188Z
+echo $b, PHP_EOL; // 2033-05-18T03:34:20.06632Z
 ```
 
 ### Exceptions

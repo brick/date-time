@@ -4,12 +4,9 @@ declare(strict_types=1);
 
 namespace Brick\DateTime\Tests;
 
-use Brick\DateTime\Clock\FixedClock;
 use Brick\DateTime\DateTimeException;
-use Brick\DateTime\Instant;
 use Brick\DateTime\Month;
 use Brick\DateTime\MonthDay;
-use Brick\DateTime\TimeZone;
 use Brick\DateTime\Year;
 use PHPUnit\Framework\Attributes\DataProvider;
 
@@ -79,30 +76,6 @@ class YearTest extends AbstractTestCase
             [PHP_INT_MAX],
             [-1000000000],
             [1000000000],
-        ];
-    }
-
-    /**
-     * @param int    $epochSecond  The epoch second to set the clock time to.
-     * @param string $timeZone     The time-zone to get the current year in.
-     * @param int    $expectedYear The expected year.
-     */
-    #[DataProvider('providerNow')]
-    public function testNow(int $epochSecond, string $timeZone, int $expectedYear): void
-    {
-        $clock = new FixedClock(Instant::of($epochSecond));
-        self::assertYearIs($expectedYear, Year::now($clock->withTimeZone(TimeZone::parse($timeZone))));
-    }
-
-    public static function providerNow(): array
-    {
-        return [
-            [1388534399, '-01:00', 2013],
-            [1388534399, '+00:00', 2013],
-            [1388534399, '+01:00', 2014],
-            [1388534400, '-01:00', 2013],
-            [1388534400, '+00:00', 2014],
-            [1388534400, '+01:00', 2014],
         ];
     }
 
