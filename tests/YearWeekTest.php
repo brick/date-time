@@ -195,6 +195,14 @@ class YearWeekTest extends AbstractTestCase
         }
     }
 
+    public function testCompareToSameInstance(): void
+    {
+        $yearWeek = YearWeek::of(2015, 15);
+
+        self::assertSame(0, $yearWeek->compareTo($yearWeek));
+        self::assertTrue($yearWeek->isEqualTo($yearWeek));
+    }
+
     public static function providerWithYear(): array
     {
         return [

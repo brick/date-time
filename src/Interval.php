@@ -125,8 +125,10 @@ final readonly class Interval implements JsonSerializable, Stringable
 
     public function isEqualTo(Interval $that): bool
     {
-        return $this->start->isEqualTo($that->start)
-            && $this->end->isEqualTo($that->end);
+        return $this === $that || (
+            $this->start->isEqualTo($that->start)
+            && $this->end->isEqualTo($that->end)
+        );
     }
 
     /**

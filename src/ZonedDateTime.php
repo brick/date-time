@@ -603,6 +603,10 @@ final readonly class ZonedDateTime implements JsonSerializable, Stringable
      */
     public function compareTo(ZonedDateTime $that): int
     {
+        if ($this === $that) {
+            return 0;
+        }
+
         return $this->instant->compareTo($that->instant);
     }
 
@@ -613,7 +617,7 @@ final readonly class ZonedDateTime implements JsonSerializable, Stringable
      */
     public function isEqualTo(ZonedDateTime $that): bool
     {
-        return $this->compareTo($that) === 0;
+        return $this === $that || $this->compareTo($that) === 0;
     }
 
     /**

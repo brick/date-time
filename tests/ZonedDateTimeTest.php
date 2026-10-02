@@ -486,6 +486,14 @@ class ZonedDateTimeTest extends AbstractTestCase
         self::assertSame($cmp <= 0, $z2->isAfterOrEqualTo($z1));
     }
 
+    public function testCompareToSameInstance(): void
+    {
+        $zonedDateTime = ZonedDateTime::parse('2015-06-15T12:30:45Z');
+
+        self::assertSame(0, $zonedDateTime->compareTo($zonedDateTime));
+        self::assertTrue($zonedDateTime->isEqualTo($zonedDateTime));
+    }
+
     public static function providerCompareTo(): array
     {
         return [

@@ -65,7 +65,7 @@ abstract class TimeZone implements Stringable
 
     public function isEqualTo(TimeZone $other): bool
     {
-        return $this->getId() === $other->getId();
+        return $this === $other || $this->getId() === $other->getId();
     }
 
     public static function fromNativeDateTimeZone(DateTimeZone $dateTimeZone): TimeZone
