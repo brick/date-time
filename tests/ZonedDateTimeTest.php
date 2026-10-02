@@ -435,7 +435,7 @@ class ZonedDateTimeTest extends AbstractTestCase
     {
         return [
             ['2018-07-21 14:09:10.23456', 'America/Los_Angeles', '2018-07-21T14:09:10.23456-07:00[America/Los_Angeles]'],
-            ['2019-01-21 17:59', 'America/Los_Angeles', '2019-01-21T17:59-08:00[America/Los_Angeles]'],
+            ['2019-01-21 17:59', 'America/Los_Angeles', '2019-01-21T17:59:00-08:00[America/Los_Angeles]'],
             ['2019-01-23 09:10:11.123', '+05:30', '2019-01-23T09:10:11.123+05:30'],
         ];
     }
@@ -752,12 +752,12 @@ class ZonedDateTimeTest extends AbstractTestCase
             ['2000-01-01T12:34:56.123456789-08:00[America/Los_Angeles]', 25, '2000-06-24T12:34:56.123456789-07:00[America/Los_Angeles]'],
 
             // https://github.com/brick/date-time/issues/115
-            ['2025-03-23T01:00+01:00[Europe/Prague]', 1, '2025-03-30T01:00+01:00[Europe/Prague]'],
-            ['2025-03-23T01:30+01:00[Europe/Prague]', 1, '2025-03-30T01:30+01:00[Europe/Prague]'],
-            ['2025-03-23T02:00+01:00[Europe/Prague]', 1, '2025-03-30T03:00+02:00[Europe/Prague]'],
-            ['2025-03-23T02:30+01:00[Europe/Prague]', 1, '2025-03-30T03:30+02:00[Europe/Prague]'],
-            ['2025-03-23T03:00+01:00[Europe/Prague]', 1, '2025-03-30T03:00+02:00[Europe/Prague]'],
-            ['2025-03-23T03:30+01:00[Europe/Prague]', 1, '2025-03-30T03:30+02:00[Europe/Prague]'],
+            ['2025-03-23T01:00+01:00[Europe/Prague]', 1, '2025-03-30T01:00:00+01:00[Europe/Prague]'],
+            ['2025-03-23T01:30+01:00[Europe/Prague]', 1, '2025-03-30T01:30:00+01:00[Europe/Prague]'],
+            ['2025-03-23T02:00+01:00[Europe/Prague]', 1, '2025-03-30T03:00:00+02:00[Europe/Prague]'],
+            ['2025-03-23T02:30+01:00[Europe/Prague]', 1, '2025-03-30T03:30:00+02:00[Europe/Prague]'],
+            ['2025-03-23T03:00+01:00[Europe/Prague]', 1, '2025-03-30T03:00:00+02:00[Europe/Prague]'],
+            ['2025-03-23T03:30+01:00[Europe/Prague]', 1, '2025-03-30T03:30:00+02:00[Europe/Prague]'],
         ];
     }
 
@@ -781,12 +781,12 @@ class ZonedDateTimeTest extends AbstractTestCase
             ['2000-04-03T12:34:56.123456789-07:00[America/Los_Angeles]', -2, '2000-04-01T12:34:56.123456789-08:00[America/Los_Angeles]'],
 
             // https://github.com/brick/date-time/issues/115
-            ['2025-03-29T01:00+01:00[Europe/Prague]', 1, '2025-03-30T01:00+01:00[Europe/Prague]'],
-            ['2025-03-29T01:30+01:00[Europe/Prague]', 1, '2025-03-30T01:30+01:00[Europe/Prague]'],
-            ['2025-03-29T02:00+01:00[Europe/Prague]', 1, '2025-03-30T03:00+02:00[Europe/Prague]'],
-            ['2025-03-29T02:30+01:00[Europe/Prague]', 1, '2025-03-30T03:30+02:00[Europe/Prague]'],
-            ['2025-03-29T03:00+01:00[Europe/Prague]', 1, '2025-03-30T03:00+02:00[Europe/Prague]'],
-            ['2025-03-29T03:30+01:00[Europe/Prague]', 1, '2025-03-30T03:30+02:00[Europe/Prague]'],
+            ['2025-03-29T01:00+01:00[Europe/Prague]', 1, '2025-03-30T01:00:00+01:00[Europe/Prague]'],
+            ['2025-03-29T01:30+01:00[Europe/Prague]', 1, '2025-03-30T01:30:00+01:00[Europe/Prague]'],
+            ['2025-03-29T02:00+01:00[Europe/Prague]', 1, '2025-03-30T03:00:00+02:00[Europe/Prague]'],
+            ['2025-03-29T02:30+01:00[Europe/Prague]', 1, '2025-03-30T03:30:00+02:00[Europe/Prague]'],
+            ['2025-03-29T03:00+01:00[Europe/Prague]', 1, '2025-03-30T03:00:00+02:00[Europe/Prague]'],
+            ['2025-03-29T03:30+01:00[Europe/Prague]', 1, '2025-03-30T03:30:00+02:00[Europe/Prague]'],
         ];
     }
 
@@ -814,12 +814,12 @@ class ZonedDateTimeTest extends AbstractTestCase
             ['2000-04-02T04:12:34.123456789-07:00[America/Los_Angeles]', 1, '2000-04-02T05:12:34.123456789-07:00[America/Los_Angeles]'],
 
             // https://github.com/brick/date-time/issues/115
-            ['2025-03-29T01:00+01:00[Europe/Prague]', 24, '2025-03-30T01:00+01:00[Europe/Prague]'],
-            ['2025-03-29T01:30+01:00[Europe/Prague]', 24, '2025-03-30T01:30+01:00[Europe/Prague]'],
-            ['2025-03-29T02:00+01:00[Europe/Prague]', 24, '2025-03-30T03:00+02:00[Europe/Prague]'],
-            ['2025-03-29T02:30+01:00[Europe/Prague]', 24, '2025-03-30T03:30+02:00[Europe/Prague]'],
-            ['2025-03-29T03:00+01:00[Europe/Prague]', 24, '2025-03-30T04:00+02:00[Europe/Prague]'],
-            ['2025-03-29T03:30+01:00[Europe/Prague]', 24, '2025-03-30T04:30+02:00[Europe/Prague]'],
+            ['2025-03-29T01:00+01:00[Europe/Prague]', 24, '2025-03-30T01:00:00+01:00[Europe/Prague]'],
+            ['2025-03-29T01:30+01:00[Europe/Prague]', 24, '2025-03-30T01:30:00+01:00[Europe/Prague]'],
+            ['2025-03-29T02:00+01:00[Europe/Prague]', 24, '2025-03-30T03:00:00+02:00[Europe/Prague]'],
+            ['2025-03-29T02:30+01:00[Europe/Prague]', 24, '2025-03-30T03:30:00+02:00[Europe/Prague]'],
+            ['2025-03-29T03:00+01:00[Europe/Prague]', 24, '2025-03-30T04:00:00+02:00[Europe/Prague]'],
+            ['2025-03-29T03:30+01:00[Europe/Prague]', 24, '2025-03-30T04:30:00+02:00[Europe/Prague]'],
         ];
     }
 
@@ -847,10 +847,10 @@ class ZonedDateTimeTest extends AbstractTestCase
             ['2000-04-02T03:01:01.654321-07:00[America/Los_Angeles]', 1, '2000-04-02T03:02:01.654321-07:00[America/Los_Angeles]'],
 
             // https://github.com/brick/date-time/issues/115
-            ['2025-03-30T01:30+01:00[Europe/Prague]', 50, '2025-03-30T03:20+02:00[Europe/Prague]'],
-            ['2025-03-30T01:30+01:00[Europe/Prague]', 100, '2025-03-30T04:10+02:00[Europe/Prague]'],
-            ['2025-03-30T03:20+02:00[Europe/Prague]', -50, '2025-03-30T01:30+01:00[Europe/Prague]'],
-            ['2025-03-30T04:10+02:00[Europe/Prague]', -100, '2025-03-30T01:30+01:00[Europe/Prague]'],
+            ['2025-03-30T01:30:00+01[Europe/Prague]', 50, '2025-03-30T03:20:00+02:00[Europe/Prague]'],
+            ['2025-03-30T01:30:00+01[Europe/Prague]', 100, '2025-03-30T04:10:00+02:00[Europe/Prague]'],
+            ['2025-03-30T03:20:00+02[Europe/Prague]', -50, '2025-03-30T01:30:00+01:00[Europe/Prague]'],
+            ['2025-03-30T04:10:00+02[Europe/Prague]', -100, '2025-03-30T01:30:00+01:00[Europe/Prague]'],
         ];
     }
 
@@ -877,10 +877,10 @@ class ZonedDateTimeTest extends AbstractTestCase
             ['2000-04-02T03:00:01.654321-07:00[America/Los_Angeles]', 1, '2000-04-02T03:00:02.654321-07:00[America/Los_Angeles]'],
 
             // https://github.com/brick/date-time/issues/115
-            ['2025-03-30T01:30+01:00[Europe/Prague]', 3000, '2025-03-30T03:20+02:00[Europe/Prague]'],
-            ['2025-03-30T01:30+01:00[Europe/Prague]', 6000, '2025-03-30T04:10+02:00[Europe/Prague]'],
-            ['2025-03-30T03:20+02:00[Europe/Prague]', -3000, '2025-03-30T01:30+01:00[Europe/Prague]'],
-            ['2025-03-30T04:10+02:00[Europe/Prague]', -6000, '2025-03-30T01:30+01:00[Europe/Prague]'],
+            ['2025-03-30T01:30:00+01[Europe/Prague]', 3000, '2025-03-30T03:20:00+02:00[Europe/Prague]'],
+            ['2025-03-30T01:30:00+01[Europe/Prague]', 6000, '2025-03-30T04:10:00+02:00[Europe/Prague]'],
+            ['2025-03-30T03:20:00+02[Europe/Prague]', -3000, '2025-03-30T01:30:00+01:00[Europe/Prague]'],
+            ['2025-03-30T04:10:00+02[Europe/Prague]', -6000, '2025-03-30T01:30:00+01:00[Europe/Prague]'],
         ];
     }
 
@@ -1059,6 +1059,9 @@ class ZonedDateTimeTest extends AbstractTestCase
         return [
             ['2000-01-20T12:34:56.123456789', 'America/Los_Angeles', '2000-01-20T12:34:56.123456789-08:00[America/Los_Angeles]'],
             ['2000-01-20T12:34:56.123456789', '-07:00', '2000-01-20T12:34:56.123456789-07:00'],
+            // whole minute and whole hour must keep the full ":00" seconds (RFC 3339 section 5.6)
+            ['2000-01-20T12:34', '-07:00', '2000-01-20T12:34:00-07:00'],
+            ['2000-01-20T12:00', 'America/Los_Angeles', '2000-01-20T12:00:00-08:00[America/Los_Angeles]'],
         ];
     }
 
@@ -1094,13 +1097,13 @@ class ZonedDateTimeTest extends AbstractTestCase
     public static function providerGetIntervalTo(): array
     {
         return [
-            ['2023-01-01T10:00:00Z',           '2023-01-01T10:00:00Z',           '2023-01-01T10:00Z/2023-01-01T10:00Z'],
-            ['2023-01-01T10:00:00Z',           '2023-01-01T10:00:10Z',           '2023-01-01T10:00Z/2023-01-01T10:00:10Z'],
+            ['2023-01-01T10:00:00Z',           '2023-01-01T10:00:00Z',           '2023-01-01T10:00:00Z/2023-01-01T10:00:00Z'],
+            ['2023-01-01T10:00:00Z',           '2023-01-01T10:00:10Z',           '2023-01-01T10:00:00Z/2023-01-01T10:00:10Z'],
             ['2023-01-01T10:00:00.001Z',       '2023-01-01T10:00:10.002Z',       '2023-01-01T10:00:00.001Z/2023-01-01T10:00:10.002Z'],
             ['2023-01-01T10:00:00.001Z',       '2023-01-01T13:00:10.002+03:00',  '2023-01-01T10:00:00.001Z/2023-01-01T10:00:10.002Z'],
             ['2023-01-01T10:00:00.001+03:00',  '2023-01-01T13:00:10.002+03:00',  '2023-01-01T07:00:00.001Z/2023-01-01T10:00:10.002Z'],
             ['2023-01-01T10:00:00.000000001Z', '2023-01-01T10:00:00.000000009Z', '2023-01-01T10:00:00.000000001Z/2023-01-01T10:00:00.000000009Z'],
-            ['2023-01-01T10:00:00Z',           '2023-01-02T10:00:00Z',           '2023-01-01T10:00Z/2023-01-02T10:00Z'],
+            ['2023-01-01T10:00:00Z',           '2023-01-02T10:00:00Z',           '2023-01-01T10:00:00Z/2023-01-02T10:00:00Z'],
         ];
     }
 

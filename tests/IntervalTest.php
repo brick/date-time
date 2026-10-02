@@ -222,7 +222,7 @@ class IntervalTest extends AbstractTestCase
         $interval2 = Interval::of(Instant::of(300000), Instant::of(400000));
 
         $this->expectException(DateTimeException::class);
-        $this->expectExceptionMessage('Intervals "1970-01-02T03:46:40Z/1970-01-03T07:33:20Z" and "1970-01-04T11:20Z/1970-01-05T15:06:40Z" do not intersect.');
+        $this->expectExceptionMessage('Intervals "1970-01-02T03:46:40Z/1970-01-03T07:33:20Z" and "1970-01-04T11:20:00Z/1970-01-05T15:06:40Z" do not intersect.');
 
         $interval1->getIntersectionWith($interval2);
     }

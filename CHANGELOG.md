@@ -28,6 +28,11 @@
   - `getZonedDateTime()`, `getLocalDateTime()`, `getLocalDate()` and `getLocalTime()` return the current date and time in its time zone
   - `withTimeZone()` returns a copy in another time zone
 - All built-in clocks can be bound to a time zone with `withTimeZone()`, e.g. `(new SystemClock())->withTimeZone(TimeZone::utc())`
+## [0.10.0](https://github.com/brick/date-time/releases/tag/0.10.0) - 2026-09-30
+
+💥 **Breaking changes**
+
+- `Instant::toISOString()` and `ZonedDateTime::toISOString()` now always include seconds, to be RFC 3339 compliant (#131 by @dualfroz)
 
 ## [0.9.0](https://github.com/brick/date-time/releases/tag/0.9.0) - 2026-01-03
 
