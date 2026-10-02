@@ -12,9 +12,9 @@ namespace Brick\DateTime;
 interface Clock
 {
     /**
-     * Returns the current time.
+     * Returns the current instant.
      */
-    public function getTime(): Instant;
+    public function getInstant(): Instant;
 
     /**
      * Returns a clock that reads the current time from this clock, in the given time zone.

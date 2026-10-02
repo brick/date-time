@@ -73,15 +73,6 @@ final readonly class Instant implements JsonSerializable, Stringable
         return $epoch ??= new Instant(0, 0);
     }
 
-    public static function now(?Clock $clock = null): Instant
-    {
-        if ($clock === null) {
-            $clock = DefaultClock::get();
-        }
-
-        return $clock->getTime();
-    }
-
     /**
      * Returns the minimum supported instant.
      *
@@ -281,26 +272,6 @@ final readonly class Instant implements JsonSerializable, Stringable
     public function isBetweenExclusive(Instant $from, Instant $to): bool
     {
         return $this->isAfter($from) && $this->isBefore($to);
-    }
-
-    /**
-     * Returns whether this instant is in the future, according to the given clock.
-     *
-     * If no clock is provided, the system clock is used.
-     */
-    public function isFuture(?Clock $clock = null): bool
-    {
-        return $this->isAfter(Instant::now($clock));
-    }
-
-    /**
-     * Returns whether this instant is in the past, according to the given clock.
-     *
-     * If no clock is provided, the system clock is used.
-     */
-    public function isPast(?Clock $clock = null): bool
-    {
-        return $this->isBefore(Instant::now($clock));
     }
 
     /**

@@ -4,16 +4,13 @@ declare(strict_types=1);
 
 namespace Brick\DateTime\Tests;
 
-use Brick\DateTime\Clock\FixedClock;
 use Brick\DateTime\DateTimeException;
 use Brick\DateTime\DayOfWeek;
-use Brick\DateTime\Instant;
 use Brick\DateTime\LocalDate;
 use Brick\DateTime\LocalTime;
 use Brick\DateTime\Month;
 use Brick\DateTime\Period;
 use Brick\DateTime\Quarter;
-use Brick\DateTime\TimeZone;
 use Brick\DateTime\Year;
 use DateTime;
 use DateTimeImmutable;
@@ -435,30 +432,6 @@ class LocalDateTest extends AbstractTestCase
     {
         $dateTime = new DateTime('2018-07-21');
         self::assertLocalDateIs(2018, 7, 21, LocalDate::fromNativeDateTime($dateTime));
-    }
-
-    /**
-     * @param int    $epochSecond The epoch second to set the clock to.
-     * @param string $timeZone    The time-zone to get the date in.
-     * @param int    $year        The expected year.
-     * @param int    $month       The expected month.
-     * @param int    $day         The expected day.
-     */
-    #[DataProvider('providerNow')]
-    public function testNow(int $epochSecond, string $timeZone, int $year, int $month, int $day): void
-    {
-        $clock = new FixedClock(Instant::of($epochSecond));
-        self::assertLocalDateIs($year, $month, $day, LocalDate::now($clock->withTimeZone(TimeZone::parse($timeZone))));
-    }
-
-    public static function providerNow(): array
-    {
-        return [
-            [0, '-01:00', 1969, 12, 31],
-            [0, '+00:00', 1970, 1, 1],
-            [1407970800, '+01:00', 2014, 8, 14],
-            [1407970800, '-01:00', 2014, 8, 13],
-        ];
     }
 
     public function testMin(): void

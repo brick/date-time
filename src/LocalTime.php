@@ -146,14 +146,6 @@ final readonly class LocalTime implements JsonSerializable, Stringable
         );
     }
 
-    /**
-     * Returns the current local time, according to the given clock, in its time-zone.
-     */
-    public static function now(ZonedClock $clock): LocalTime
-    {
-        return ZonedDateTime::now($clock)->getTime();
-    }
-
     public static function midnight(): LocalTime
     {
         return self::min();

@@ -39,9 +39,9 @@ final readonly class ZonedClock implements Clock
     }
 
     #[Override]
-    public function getTime(): Instant
+    public function getInstant(): Instant
     {
-        return $this->clock->getTime();
+        return $this->clock->getInstant();
     }
 
     /**
@@ -53,23 +53,23 @@ final readonly class ZonedClock implements Clock
         return new ZonedClock($this->clock, $timeZone);
     }
 
-    public function getCurrentZonedDateTime(): ZonedDateTime
+    public function getZonedDateTime(): ZonedDateTime
     {
-        return $this->clock->getTime()->atTimeZone($this->timeZone);
+        return $this->clock->getInstant()->atTimeZone($this->timeZone);
     }
 
-    public function getCurrentLocalDateTime(): LocalDateTime
+    public function getLocalDateTime(): LocalDateTime
     {
-        return $this->getCurrentZonedDateTime()->getDateTime();
+        return $this->getZonedDateTime()->getDateTime();
     }
 
-    public function getCurrentLocalDate(): LocalDate
+    public function getLocalDate(): LocalDate
     {
-        return $this->getCurrentZonedDateTime()->getDate();
+        return $this->getZonedDateTime()->getDate();
     }
 
-    public function getCurrentLocalTime(): LocalTime
+    public function getLocalTime(): LocalTime
     {
-        return $this->getCurrentZonedDateTime()->getTime();
+        return $this->getZonedDateTime()->getTime();
     }
 }

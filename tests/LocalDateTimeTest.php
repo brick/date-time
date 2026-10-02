@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Brick\DateTime\Tests;
 
-use Brick\DateTime\Clock\FixedClock;
 use Brick\DateTime\DateTimeException;
 use Brick\DateTime\DayOfWeek;
 use Brick\DateTime\Duration;
@@ -17,7 +16,6 @@ use Brick\DateTime\Month;
 use Brick\DateTime\Parser\DateTimeParseException;
 use Brick\DateTime\Period;
 use Brick\DateTime\TimeZone;
-use Brick\DateTime\TimeZoneOffset;
 use DateTime;
 use DateTimeImmutable;
 use PHPUnit\Framework\Attributes\DataProvider;
@@ -41,36 +39,6 @@ class LocalDateTimeTest extends AbstractTestCase
     {
         $dateTime = new DateTime('2018-07-21 14:09:10.23456');
         self::assertLocalDateTimeIs(2018, 7, 21, 14, 9, 10, 234560000, LocalDateTime::fromNativeDateTime($dateTime));
-    }
-
-    /**
-     * @param int $second The second to set the clock to.
-     * @param int $nano   The nanosecond adjustment to the clock.
-     * @param int $offset The time-zone offset to get the time at.
-     * @param int $y      The expected year.
-     * @param int $m      The expected month.
-     * @param int $d      The expected day.
-     * @param int $h      The expected hour.
-     * @param int $i      The expected minute.
-     * @param int $s      The expected second.
-     * @param int $n      The expected nano.
-     */
-    #[DataProvider('providerNow')]
-    public function testNow(int $second, int $nano, int $offset, int $y, int $m, int $d, int $h, int $i, int $s, int $n): void
-    {
-        $clock = new FixedClock(Instant::of($second, $nano));
-        $timeZone = TimeZoneOffset::ofTotalSeconds($offset);
-        self::assertLocalDateTimeIs($y, $m, $d, $h, $i, $s, $n, LocalDateTime::now($clock->withTimeZone($timeZone)));
-    }
-
-    public static function providerNow(): array
-    {
-        return [
-            [1409574896, 0,         0, 2014, 9, 1, 12, 34, 56,      0],
-            [1409574896, 123,       0, 2014, 9, 1, 12, 34, 56,    123],
-            [1409574896, 0,      3600, 2014, 9, 1, 13, 34, 56,      0],
-            [1409574896, 123456, 5400, 2014, 9, 1, 14,  4, 56, 123456],
-        ];
     }
 
     /**
@@ -1103,34 +1071,6 @@ class LocalDateTimeTest extends AbstractTestCase
             ['0000-01-01T00:00:59.0', '9999-12-31T23:59:00.9', -1],
             ['9999-12-31T23:59:59.0', '0000-01-01T00:00:00.9',  1],
             ['0000-01-01T00:00:00.9', '9999-12-31T23:59:59.0', -1],
-        ];
-    }
-
-    #[DataProvider('providerForPastFuture')]
-    public function testIsFuture(int $clockTimestamp, string $localDateTime, string $offset, bool $isFuture): void
-    {
-        $clock = new FixedClock(Instant::of($clockTimestamp));
-        $localDateTime = LocalDateTime::parse($localDateTime);
-        $timeZone = TimeZoneOffset::parse($offset);
-        self::assertSame($isFuture, $localDateTime->isFuture($clock->withTimeZone($timeZone)));
-    }
-
-    #[DataProvider('providerForPastFuture')]
-    public function testIsPast(int $clockTimestamp, string $localDateTime, string $offset, bool $isFuture): void
-    {
-        $clock = new FixedClock(Instant::of($clockTimestamp));
-        $localDateTime = LocalDateTime::parse($localDateTime);
-        $timeZone = TimeZoneOffset::parse($offset);
-        self::assertSame(! $isFuture, $localDateTime->isPast($clock->withTimeZone($timeZone)));
-    }
-
-    public static function providerForPastFuture(): array
-    {
-        return [
-            [1234567890, '2009-02-14T00:31:29', '+01:00', false],
-            [1234567890, '2009-02-14T00:31:31', '+01:00', true],
-            [2345678901, '2044-04-30T17:28:20', '-08:00', false],
-            [2345678901, '2044-04-30T17:28:22', '-08:00', true],
         ];
     }
 

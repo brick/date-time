@@ -29,7 +29,7 @@ namespace Brick\DateTime\Tests\Clock
         {
             $clock = new SystemClock();
 
-            self::assertInstantIs(14079491701, 555276000, $clock->getTime());
+            self::assertInstantIs(14079491701, 555276000, $clock->getInstant());
         }
 
         public function testWithTimeZone(): void
@@ -40,7 +40,7 @@ namespace Brick\DateTime\Tests\Clock
 
             self::assertSame($clock, $zonedClock->getClock());
             self::assertSame($timeZone, $zonedClock->getTimeZone());
-            self::assertInstantIs(14079491701, 555276000, $zonedClock->getTime());
+            self::assertInstantIs(14079491701, 555276000, $zonedClock->getInstant());
         }
     }
 }
