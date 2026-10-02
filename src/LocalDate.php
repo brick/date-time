@@ -334,6 +334,11 @@ final readonly class LocalDate implements JsonSerializable, Stringable
         return YearMonth::of($this->year, $this->month);
     }
 
+    public function getMonthDay(): MonthDay
+    {
+        return MonthDay::of($this->month, $this->day);
+    }
+
     public function getDayOfWeek(): DayOfWeek
     {
         return DayOfWeek::from(Math::floorMod($this->toEpochDay() + 3, 7) + 1);
