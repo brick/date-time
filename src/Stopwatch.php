@@ -9,8 +9,6 @@ namespace Brick\DateTime;
  */
 final class Stopwatch
 {
-    private readonly Clock $clock;
-
     /**
      * The total time the stopwatch has been running, excluding the time elapsed since it was started.
      *
@@ -24,15 +22,11 @@ final class Stopwatch
     private ?Instant $startTime = null;
 
     /**
-     * @param Clock|null $clock An optional clock to use.
+     * @param Clock $clock The clock to use.
      */
-    public function __construct(?Clock $clock = null)
-    {
-        if ($clock === null) {
-            $clock = DefaultClock::get();
-        }
-
-        $this->clock = $clock;
+    public function __construct(
+        private readonly Clock $clock,
+    ) {
         $this->duration = Duration::zero();
     }
 
@@ -44,7 +38,7 @@ final class Stopwatch
     public function start(): void
     {
         if ($this->startTime === null) {
-            $this->startTime = $this->clock->getTime();
+            $this->startTime = $this->clock->getInstant();
         }
     }
 
@@ -59,7 +53,7 @@ final class Stopwatch
             return Duration::zero();
         }
 
-        $endTime = $this->clock->getTime();
+        $endTime = $this->clock->getInstant();
         $duration = Duration::between($this->startTime, $endTime);
 
         $this->duration = $this->duration->plus($duration);
@@ -93,6 +87,6 @@ final class Stopwatch
             return $this->duration;
         }
 
-        return $this->duration->plus(Duration::between($this->startTime, $this->clock->getTime()));
+        return $this->duration->plus(Duration::between($this->startTime, $this->clock->getInstant()));
     }
 }

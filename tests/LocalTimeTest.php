@@ -4,14 +4,11 @@ declare(strict_types=1);
 
 namespace Brick\DateTime\Tests;
 
-use Brick\DateTime\Clock\FixedClock;
 use Brick\DateTime\DateTimeException;
 use Brick\DateTime\Duration;
-use Brick\DateTime\Instant;
 use Brick\DateTime\LocalDate;
 use Brick\DateTime\LocalTime;
 use Brick\DateTime\Parser\DateTimeParseException;
-use Brick\DateTime\TimeZoneOffset;
 use DateTime;
 use DateTimeImmutable;
 use PHPUnit\Framework\Attributes\DataProvider;
@@ -150,33 +147,6 @@ class LocalTimeTest extends AbstractTestCase
     {
         $dateTime = new DateTime('2018-07-21 14:09:10.23456');
         self::assertLocalTimeIs(14, 9, 10, 234560000, LocalTime::fromNativeDateTime($dateTime));
-    }
-
-    /**
-     * @param int $second The second to set the clock to.
-     * @param int $nano   The nanosecond adjustment to the clock.
-     * @param int $offset The time-zone offset to get the time at.
-     * @param int $h      The expected hour.
-     * @param int $m      The expected minute.
-     * @param int $s      The expected second.
-     * @param int $n      The expected nano.
-     */
-    #[DataProvider('providerNow')]
-    public function testNow(int $second, int $nano, int $offset, int $h, int $m, int $s, int $n): void
-    {
-        $clock = new FixedClock(Instant::of($second, $nano));
-        $timeZone = TimeZoneOffset::ofTotalSeconds($offset);
-        self::assertLocalTimeIs($h, $m, $s, $n, LocalTime::now($timeZone, $clock));
-    }
-
-    public static function providerNow(): array
-    {
-        return [
-            [1409574896, 0, 0, 12, 34, 56, 0],
-            [1409574896, 123, 0, 12, 34, 56, 123],
-            [1409574896, 0, 3600, 13, 34, 56, 0],
-            [1409574896, 123456, 5400, 14, 4, 56, 123456],
-        ];
     }
 
     public function testMidnight(): void

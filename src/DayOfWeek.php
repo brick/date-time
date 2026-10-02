@@ -21,16 +21,6 @@ enum DayOfWeek: int implements JsonSerializable
     case SUNDAY = 7;
 
     /**
-     * Returns the current day-of-week in the given time-zone, according to the given clock.
-     *
-     * If no clock is provided, the system clock is used.
-     */
-    public static function now(TimeZone $timeZone, ?Clock $clock = null): DayOfWeek
-    {
-        return LocalDate::now($timeZone, $clock)->getDayOfWeek();
-    }
-
-    /**
      * Returns the seven days of the week in an array.
      *
      * @param DayOfWeek $first The day to return first. Optional, defaults to Monday.

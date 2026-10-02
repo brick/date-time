@@ -79,112 +79,107 @@ These classes belong to the `Brick\DateTime` namespace.
 
 ### Clocks
 
-All objects read the current time from a `Clock` implementation. The following implementations are available:
+The current time is read from a `Clock` implementation. The following implementations are available:
 
-- `SystemClock` returns the system time; it's the default clock
+- `SystemClock` returns the system time
 - `FixedClock`: returns a pre-configured time
 - `OffsetClock`: adds an offset to another clock
 - `ScaleClock`: makes another clock fast-forward by a scale factor
 
 These classes belong to the `Brick\DateTime\Clock` namespace.
 
-In your application, you will most likely never touch the defaults, and always use the default clock:
+A `Clock` only provides the current `Instant`, and knows nothing about time zones:
 
 ```php
-use Brick\DateTime\LocalDate;
-use Brick\DateTime\TimeZone;
+use Brick\DateTime\Clock\SystemClock;
 
-echo LocalDate::now(TimeZone::utc()); // 2017-10-04
+$clock = new SystemClock();
+
+echo $clock->getInstant(); // 2017-10-04T12:03:25.123456Z
 ```
 
-In your tests however, you might need to set the current time to test your application in known conditions. To do this, you can either explicitly pass a `Clock` instance to  `now()` methods:
+To get the current date or time, bind a clock to a time zone with `withTimeZone()`, which returns a `ZonedClock`:
+
+```php
+use Brick\DateTime\Clock\SystemClock;
+use Brick\DateTime\TimeZone;
+
+$clock = (new SystemClock())->withTimeZone(TimeZone::parse('Europe/Paris'));
+
+echo $clock->getZonedDateTime(); // 2017-10-04T14:03:25.123456+02:00[Europe/Paris]
+echo $clock->getLocalDateTime(); // 2017-10-04T14:03:25.123456
+echo $clock->getLocalDate();     // 2017-10-04
+echo $clock->getLocalTime();     // 14:03:25.123456
+```
+
+Other values are one hop away from a `LocalDate`:
+
+```php
+$date = $clock->getLocalDate();
+
+$date->getYearMonth();
+$date->getYearWeek();
+$date->getQuarter();
+$date->getDayOfWeek();
+```
+
+The time zone is always explicit: there is no default clock, and the system time zone is never used implicitly.
+
+This is useful in applications that deal with a single time zone: inject a `ZonedClock` in your services, and configure its time zone once. Applications that deal with multiple time zones can inject a `Clock` instead, and bind it to a time zone every time:
+
+```php
+$this->zonedClock->getLocalDate();                     // single time zone
+$this->clock->withTimeZone($timeZone)->getLocalDate(); // multiple time zones
+```
+
+#### Testing
+
+In your tests, you might need to set the current time to test your application in known conditions. To do this, inject one of the test clocks instead of a `SystemClock`; there is no need to fake the `ZonedClock` itself.
+
+Freeze the time to a specific point:
 
 ```php
 use Brick\DateTime\Clock\FixedClock;
 use Brick\DateTime\Instant;
-use Brick\DateTime\LocalDate;
 use Brick\DateTime\TimeZone;
 
-$clock = new FixedClock(Instant::of(1000000000));
-echo LocalDate::now(TimeZone::utc(), $clock); // 2001-09-09
+$clock = (new FixedClock(Instant::of(1000000000)))->withTimeZone(TimeZone::utc());
+
+echo $clock->getLocalDate(); // 2001-09-09
 ```
 
-Or you can change the *default* clock for all date-time classes. All methods such as `now()`, unless provided with an explicit Clock, will use the default clock you provide:
+Travel to a specific point in time, but allow time to continue moving forward from there:
 
 ```php
-use Brick\DateTime\Clock\FixedClock;
-use Brick\DateTime\DefaultClock;
-use Brick\DateTime\Instant;
-use Brick\DateTime\LocalDate;
-use Brick\DateTime\TimeZone;
-
-DefaultClock::set(new FixedClock(Instant::of(1000000000)));
-echo LocalDate::now(TimeZone::utc()); // 2001-09-09
-
-DefaultClock::reset(); // do not forget to reset the clock to the system clock!
-```
-
-There are also useful shortcut methods to use clocks in your tests, inspired by [timecop](https://github.com/travisjeffery/timecop):
-
-- `freeze()` freezes time to a specific point in time
-- `travelTo()` travels to an `Instant` in time, but allows time to continue moving forward from there
-- `travelBy()` travels in time by a `Duration`, which may be forward (positive) or backward (negative)
-- `scale()` makes time move at a given pace
-
-#### Freeze the time to a specific point
-
-```php
-use Brick\DateTime\DefaultClock;
+use Brick\DateTime\Clock\OffsetClock;
+use Brick\DateTime\Clock\SystemClock;
+use Brick\DateTime\Duration;
 use Brick\DateTime\Instant;
 
-DefaultClock::freeze(Instant::of(2000000000));
+$systemClock = new SystemClock();
+$offset = Duration::between($systemClock->getInstant(), Instant::of(2000000000));
+$clock = new OffsetClock($systemClock, $offset);
 
-$a = Instant::now(); sleep(1);
-$b = Instant::now();
-
-echo $a, PHP_EOL; // 2033-05-18T03:33:20Z
-echo $b, PHP_EOL; // 2033-05-18T03:33:20Z
-
-DefaultClock::reset();
-```
-
-#### Travel to a specific point in time
-
-```php
-use Brick\DateTime\DefaultClock;
-use Brick\DateTime\Instant;
-
-DefaultClock::travelTo(Instant::of(2000000000));
-$a = Instant::now(); sleep(1);
-$b = Instant::now();
+$a = $clock->getInstant(); sleep(1);
+$b = $clock->getInstant();
 
 echo $a, PHP_EOL; // 2033-05-18T03:33:20.000342Z
 echo $b, PHP_EOL; // 2033-05-18T03:33:21.000606Z
-
-DefaultClock::reset();
 ```
 
-#### Make time move at a given pace
+Make time move at a given pace:
 
 ```php
-use Brick\DateTime\DefaultClock;
-use Brick\DateTime\Instant;
+use Brick\DateTime\Clock\ScaleClock;
 
-DefaultClock::travelTo(Instant::of(2000000000));
-DefaultClock::scale(60); // 1 second becomes 60 seconds
+$clock = new ScaleClock($clock, 60); // 1 second becomes 60 seconds
 
-$a = Instant::now(); sleep(1);
-$b = Instant::now();
+$a = $clock->getInstant(); sleep(1);
+$b = $clock->getInstant();
 
 echo $a, PHP_EOL; // 2033-05-18T03:33:20.00188Z
 echo $b, PHP_EOL; // 2033-05-18T03:34:20.06632Z
-
-DefaultClock::reset();
 ```
-
-As you can see, you can even combine `travelTo()` and `scale()` methods.
-
-Be very careful to **`reset()` the DefaultClock after each of your tests!** If you're using PHPUnit, a good place to do this is in the `tearDown()` method.
 
 ### Exceptions
 

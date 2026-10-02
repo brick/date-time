@@ -51,16 +51,6 @@ final readonly class LocalDateTime implements JsonSerializable, Stringable
     }
 
     /**
-     * Returns the current local date-time in the given time-zone, according to the given clock.
-     *
-     * If no clock is provided, the system clock is used.
-     */
-    public static function now(TimeZone $timeZone, ?Clock $clock = null): LocalDateTime
-    {
-        return ZonedDateTime::now($timeZone, $clock)->getDateTime();
-    }
-
-    /**
      * @throws DateTimeException      If the date-time is not valid.
      * @throws DateTimeParseException If required fields are missing from the result.
      */
@@ -682,26 +672,6 @@ final readonly class LocalDateTime implements JsonSerializable, Stringable
     public function isAfterOrEqualTo(LocalDateTime $that): bool
     {
         return $this->compareTo($that) >= 0;
-    }
-
-    /**
-     * Returns whether this LocalDateTime is in the future, in the given time-zone, according to the given clock.
-     *
-     * If no clock is provided, the system clock is used.
-     */
-    public function isFuture(TimeZone $timeZone, ?Clock $clock = null): bool
-    {
-        return $this->isAfter(LocalDateTime::now($timeZone, $clock));
-    }
-
-    /**
-     * Returns whether this LocalDateTime is in the past, in the given time-zone, according to the given clock.
-     *
-     * If no clock is provided, the system clock is used.
-     */
-    public function isPast(TimeZone $timeZone, ?Clock $clock = null): bool
-    {
-        return $this->isBefore(LocalDateTime::now($timeZone, $clock));
     }
 
     /**

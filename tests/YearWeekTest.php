@@ -4,13 +4,10 @@ declare(strict_types=1);
 
 namespace Brick\DateTime\Tests;
 
-use Brick\DateTime\Clock\FixedClock;
 use Brick\DateTime\DateTimeException;
 use Brick\DateTime\DayOfWeek;
-use Brick\DateTime\Instant;
 use Brick\DateTime\LocalDate;
 use Brick\DateTime\LocalDateRange;
-use Brick\DateTime\TimeZone;
 use Brick\DateTime\YearWeek;
 use PHPUnit\Framework\Attributes\DataProvider;
 
@@ -366,15 +363,6 @@ class YearWeekTest extends AbstractTestCase
             ['2000-W54', 'Invalid week-of-year: 54 is not in the range 1 to 53.'],
             ['2025-W53', 'Year 2025 does not have 53 weeks'],
         ];
-    }
-
-    public function testNow(): void
-    {
-        $now = new FixedClock(Instant::of(2000000000));
-        $timeZone = TimeZone::parse('Asia/Taipei');
-        $yearWeek = YearWeek::now($timeZone, $now);
-
-        self::assertYearWeekIs(2033, 20, $yearWeek);
     }
 
     /**

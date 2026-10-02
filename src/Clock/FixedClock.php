@@ -7,6 +7,8 @@ namespace Brick\DateTime\Clock;
 use Brick\DateTime\Clock;
 use Brick\DateTime\Duration;
 use Brick\DateTime\Instant;
+use Brick\DateTime\TimeZone;
+use Brick\DateTime\ZonedClock;
 use Override;
 
 /**
@@ -23,9 +25,15 @@ final class FixedClock implements Clock
     }
 
     #[Override]
-    public function getTime(): Instant
+    public function getInstant(): Instant
     {
         return $this->instant;
+    }
+
+    #[Override]
+    public function withTimeZone(TimeZone $timeZone): ZonedClock
+    {
+        return new ZonedClock($this, $timeZone);
     }
 
     public function setTime(Instant $instant): void
