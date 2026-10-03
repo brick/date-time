@@ -1,10 +1,11 @@
 # Changelog
 
-## Unreleased
+## [0.10.1](https://github.com/brick/date-time/releases/tag/0.10.1) - 2026-10-03
 
 ✨ **New features**
 
 - `LocalDate::getMonthDay()` returns the month-day of the date
+
 ## [0.10.0](https://github.com/brick/date-time/releases/tag/0.10.0) - 2026-09-30
 
 💥 **Breaking changes**
