@@ -492,6 +492,22 @@ class LocalDateTest extends AbstractTestCase
         ];
     }
 
+    #[DataProvider('providerGetMonthDay')]
+    public function testGetMonthDay(int $year, int $month, int $day): void
+    {
+        self::assertMonthDayIs($month, $day, LocalDate::of($year, $month, $day)->getMonthDay());
+    }
+
+    public static function providerGetMonthDay(): array
+    {
+        return [
+            [2001, 2, 28],
+            [2004, 2, 29],
+            [2002, 3, 1],
+            [2018, 12, 31],
+        ];
+    }
+
     /**
      * @param string    $localDate The local date to test, as a string.
      * @param DayOfWeek $dayOfWeek The expected day-of-week.
