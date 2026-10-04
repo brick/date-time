@@ -32,11 +32,11 @@ namespace Brick\DateTime\Tests\Clock
             self::assertInstantIs(14079491701, 555276000, $clock->getInstant());
         }
 
-        public function testWithTimeZone(): void
+        public function testAtTimeZone(): void
         {
             $clock = new SystemClock();
             $timeZone = TimeZone::parse('Asia/Tokyo');
-            $zonedClock = $clock->withTimeZone($timeZone);
+            $zonedClock = $clock->atTimeZone($timeZone);
 
             self::assertSame($clock, $zonedClock->getClock());
             self::assertSame($timeZone, $zonedClock->getTimeZone());

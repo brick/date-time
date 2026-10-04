@@ -98,13 +98,13 @@ $clock = new SystemClock();
 echo $clock->getInstant(); // 2017-10-04T12:03:25.123456Z
 ```
 
-To get the current date or time, bind a clock to a time zone with `withTimeZone()`, which returns a `ZonedClock`:
+To get the current date or time, bind a clock to a time zone with `atTimeZone()`, which returns a `ZonedClock`:
 
 ```php
 use Brick\DateTime\Clock\SystemClock;
 use Brick\DateTime\TimeZone;
 
-$clock = (new SystemClock())->withTimeZone(TimeZone::parse('Europe/Paris'));
+$clock = (new SystemClock())->atTimeZone(TimeZone::parse('Europe/Paris'));
 
 echo $clock->getZonedDateTime(); // 2017-10-04T14:03:25.123456+02:00[Europe/Paris]
 echo $clock->getLocalDateTime(); // 2017-10-04T14:03:25.123456
@@ -119,6 +119,7 @@ $date = $clock->getLocalDate();
 
 $date->getYearMonth();
 $date->getYearWeek();
+$date->getMonthDay();
 $date->getQuarter();
 $date->getDayOfWeek();
 ```
@@ -129,7 +130,7 @@ This is useful in applications that deal with a single time zone: inject a `Zone
 
 ```php
 $this->zonedClock->getLocalDate();                     // single time zone
-$this->clock->withTimeZone($timeZone)->getLocalDate(); // multiple time zones
+$this->clock->atTimeZone($timeZone)->getLocalDate(); // multiple time zones
 ```
 
 #### Testing
@@ -143,7 +144,7 @@ use Brick\DateTime\Clock\FixedClock;
 use Brick\DateTime\Instant;
 use Brick\DateTime\TimeZone;
 
-$clock = (new FixedClock(Instant::of(1000000000)))->withTimeZone(TimeZone::utc());
+$clock = (new FixedClock(Instant::of(1000000000)))->atTimeZone(TimeZone::utc());
 
 echo $clock->getLocalDate(); // 2001-09-09
 ```

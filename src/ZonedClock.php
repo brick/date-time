@@ -48,7 +48,7 @@ final readonly class ZonedClock implements Clock
      * Returns a copy of this clock with a different time zone, and the same underlying clock.
      */
     #[Override]
-    public function withTimeZone(TimeZone $timeZone): ZonedClock
+    public function atTimeZone(TimeZone $timeZone): ZonedClock
     {
         return new ZonedClock($this->clock, $timeZone);
     }

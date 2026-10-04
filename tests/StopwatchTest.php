@@ -150,6 +150,6 @@ class StopwatchTest extends AbstractTestCase
 
     private static function setClockTime(int $second, int $nano): void
     {
-        self::$clock->setTime(Instant::of($second, $nano));
+        self::$clock->setInstant(Instant::of($second, $nano));
     }
 }

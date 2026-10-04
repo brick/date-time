@@ -32,7 +32,7 @@ class ScaleClockTest extends AbstractTestCase
         $baseClock = new FixedClock($baseInstant);
         $scaleClock = new ScaleClock($baseClock, $scale);
 
-        $baseClock->setTime($baseInstant->plus(Duration::parse($duration)));
+        $baseClock->setInstant($baseInstant->plus(Duration::parse($duration)));
 
         $actualTime = $scaleClock->getInstant();
 
@@ -40,17 +40,17 @@ class ScaleClockTest extends AbstractTestCase
         self::assertSame($expectedInstant, $actualTime->toDecimal());
     }
 
-    public function testWithTimeZone(): void
+    public function testAtTimeZone(): void
     {
         $baseInstant = Instant::of(1000000, 123456789);
 
         $baseClock = new FixedClock($baseInstant);
         $scaleClock = new ScaleClock($baseClock, -11);
 
-        $baseClock->setTime($baseInstant->plus(Duration::parse('PT5M30.9S')));
+        $baseClock->setInstant($baseInstant->plus(Duration::parse('PT5M30.9S')));
 
         $timeZone = TimeZone::parse('Asia/Tokyo');
-        $zonedClock = $scaleClock->withTimeZone($timeZone);
+        $zonedClock = $scaleClock->atTimeZone($timeZone);
 
         self::assertSame($scaleClock, $zonedClock->getClock());
         self::assertSame($timeZone, $zonedClock->getTimeZone());

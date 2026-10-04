@@ -37,14 +37,14 @@ class ZonedClockTest extends AbstractTestCase
         self::assertInstantIs(1000000060, 123456789, $zonedClock->getInstant());
     }
 
-    public function testWithTimeZone(): void
+    public function testAtTimeZone(): void
     {
         $clock = new FixedClock(Instant::of(1000000000));
         $paris = TimeZone::parse('Europe/Paris');
         $tokyo = TimeZone::parse('Asia/Tokyo');
 
         $zonedClock = new ZonedClock($clock, $paris);
-        $newZonedClock = $zonedClock->withTimeZone($tokyo);
+        $newZonedClock = $zonedClock->atTimeZone($tokyo);
 
         self::assertNotSame($zonedClock, $newZonedClock);
         self::assertSame($clock, $newZonedClock->getClock());
@@ -81,7 +81,7 @@ class ZonedClockTest extends AbstractTestCase
 
             // Europe/London moves from GMT to BST at 2026-03-29T01:00:00Z
             [1774745999, 'Europe/London', '2026-03-29T00:59:59Z[Europe/London]', '2026-03-29T00:59:59', '2026-03-29', '00:59:59'],
-            [1774746000, 'Europe/London', '2026-03-29T02:00+01:00[Europe/London]', '2026-03-29T02:00', '2026-03-29', '02:00'],
+            [1774746000, 'Europe/London', '2026-03-29T02:00:00+01:00[Europe/London]', '2026-03-29T02:00', '2026-03-29', '02:00'],
         ];
     }
 }

@@ -5,7 +5,7 @@
 💥 **Breaking changes**
 
 - `Clock::getTime()` has been renamed to `getInstant()`
-- `Clock` has a new method, `withTimeZone(TimeZone): ZonedClock`: custom `Clock` implementations must implement it
+- `Clock` has a new method, `atTimeZone(TimeZone): ZonedClock`: custom `Clock` implementations must implement it
 - `DefaultClock` has been removed: inject a `Clock` or `ZonedClock` instead, and use `FixedClock`, `OffsetClock` or `ScaleClock` in tests
 - All `now()` methods have been removed, use a `ZonedClock` instead:
   - `ZonedDateTime::now()` → `ZonedClock::getZonedDateTime()`
@@ -16,18 +16,19 @@
   - `YearWeek::now()` → `ZonedClock::getLocalDate()->getYearWeek()`
   - `Quarter::now()` → `ZonedClock::getLocalDate()->getQuarter()`
   - `DayOfWeek::now()` → `ZonedClock::getLocalDate()->getDayOfWeek()`
-  - `MonthDay::now()` → `MonthDay::of($date->getMonth(), $date->getDayOfMonth())`, where `$date = ZonedClock::getLocalDate()`
+  - `MonthDay::now()` → `ZonedClock::getLocalDate()->getMonthDay()`
   - `Year::now()` → `Year::of(ZonedClock::getLocalDate()->getYear())`
   - `Instant::now()` → `Clock::getInstant()`
 - `isFuture()` and `isPast()` have been removed from `Instant`, `LocalDateTime` and `ZonedDateTime`: compare with `isAfter()` / `isBefore()` instead, e.g. `$instant->isAfter($clock->getInstant())`
 - `Stopwatch`'s constructor now requires a `Clock`
+- `FixedClock::setTime()` has been renamed to `setInstant()`
 
 ✨ **New features**
 
 - New class `ZonedClock`, which wraps a `Clock` and a `TimeZone`:
   - `getZonedDateTime()`, `getLocalDateTime()`, `getLocalDate()` and `getLocalTime()` return the current date and time in its time zone
-  - `withTimeZone()` returns a copy in another time zone
-- All built-in clocks can be bound to a time zone with `withTimeZone()`, e.g. `(new SystemClock())->withTimeZone(TimeZone::utc())`
+  - `atTimeZone()` returns a copy in another time zone
+- All built-in clocks can be bound to a time zone with `atTimeZone()`, e.g. `(new SystemClock())->atTimeZone(TimeZone::utc())`
 
 ## [0.10.1](https://github.com/brick/date-time/releases/tag/0.10.1) - 2026-10-03
 

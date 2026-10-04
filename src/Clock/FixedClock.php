@@ -31,12 +31,12 @@ final class FixedClock implements Clock
     }
 
     #[Override]
-    public function withTimeZone(TimeZone $timeZone): ZonedClock
+    public function atTimeZone(TimeZone $timeZone): ZonedClock
     {
         return new ZonedClock($this, $timeZone);
     }
 
-    public function setTime(Instant $instant): void
+    public function setInstant(Instant $instant): void
     {
         $this->instant = $instant;
     }

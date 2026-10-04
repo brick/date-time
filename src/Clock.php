@@ -7,7 +7,7 @@ namespace Brick\DateTime;
 /**
  * A source of the current instant, independent of any time zone.
  *
- * To get the current date or time in a time zone, call withTimeZone().
+ * To get the current date or time in a time zone, call atTimeZone().
  */
 interface Clock
 {
@@ -19,5 +19,5 @@ interface Clock
     /**
      * Returns a clock that reads the current time from this clock, in the given time zone.
      */
-    public function withTimeZone(TimeZone $timeZone): ZonedClock;
+    public function atTimeZone(TimeZone $timeZone): ZonedClock;
 }
