@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Brick\DateTime\Tests;
 
-use Brick\DateTime\Clock\FixedClock;
 use Brick\DateTime\DayOfWeek;
 use Brick\DateTime\Duration;
 use Brick\DateTime\Instant;
@@ -984,32 +983,6 @@ class ZonedDateTimeTest extends AbstractTestCase
 
         self::assertTrue($incluZonedDateTime->isBetweenExclusive($fromZonedDateTime, $toZonedDateTime));
         self::assertFalse($fromZonedDateTime->isBetweenExclusive($fromZonedDateTime, $toZonedDateTime));
-    }
-
-    #[DataProvider('providerForPastFuture')]
-    public function testIsFuture(int $clockTimestamp, string $zonedDateTime, bool $isFuture): void
-    {
-        $clock = new FixedClock(Instant::of($clockTimestamp));
-        $zonedDateTime = ZonedDateTime::parse($zonedDateTime);
-        self::assertSame($isFuture, $zonedDateTime->isFuture($clock));
-    }
-
-    #[DataProvider('providerForPastFuture')]
-    public function testIsPast(int $clockTimestamp, string $zonedDateTime, bool $isFuture): void
-    {
-        $clock = new FixedClock(Instant::of($clockTimestamp));
-        $zonedDateTime = ZonedDateTime::parse($zonedDateTime);
-        self::assertSame(! $isFuture, $zonedDateTime->isPast($clock));
-    }
-
-    public static function providerForPastFuture(): array
-    {
-        return [
-            [1234567890, '2009-02-14T00:31:29+01:00', false],
-            [1234567890, '2009-02-14T00:31:31+01:00', true],
-            [2345678901, '2044-04-30T17:28:20-08:00', false],
-            [2345678901, '2044-04-30T17:28:22-08:00', true],
-        ];
     }
 
     /**

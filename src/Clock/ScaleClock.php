@@ -7,6 +7,8 @@ namespace Brick\DateTime\Clock;
 use Brick\DateTime\Clock;
 use Brick\DateTime\Duration;
 use Brick\DateTime\Instant;
+use Brick\DateTime\TimeZone;
+use Brick\DateTime\ZonedClock;
 use Override;
 
 /**
@@ -32,15 +34,21 @@ final readonly class ScaleClock implements Clock
         private Clock $referenceClock,
         private int $timeScale,
     ) {
-        $this->startTime = $this->referenceClock->getTime();
+        $this->startTime = $this->referenceClock->getInstant();
     }
 
     #[Override]
-    public function getTime(): Instant
+    public function getInstant(): Instant
     {
-        $duration = Duration::between($this->startTime, $this->referenceClock->getTime());
+        $duration = Duration::between($this->startTime, $this->referenceClock->getInstant());
         $duration = $duration->multipliedBy($this->timeScale);
 
         return $this->startTime->plus($duration);
+    }
+
+    #[Override]
+    public function atTimeZone(TimeZone $timeZone): ZonedClock
+    {
+        return new ZonedClock($this, $timeZone);
     }
 }

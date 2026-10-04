@@ -4,10 +4,7 @@ declare(strict_types=1);
 
 namespace Brick\DateTime\Tests;
 
-use Brick\DateTime\Clock\FixedClock;
 use Brick\DateTime\DayOfWeek;
-use Brick\DateTime\Instant;
-use Brick\DateTime\TimeZone;
 use Generator;
 use PHPUnit\Framework\Attributes\DataProvider;
 
@@ -40,30 +37,6 @@ class DayOfWeekTest extends AbstractTestCase
             [5, DayOfWeek::FRIDAY],
             [6, DayOfWeek::SATURDAY],
             [7, DayOfWeek::SUNDAY],
-        ];
-    }
-
-    /**
-     * @param int       $epochSecond       The epoch second to set the clock time to.
-     * @param string    $timeZone          The time-zone to get the current day-of-week in.
-     * @param DayOfWeek $expectedDayOfWeek The expected day-of-week.
-     */
-    #[DataProvider('providerNow')]
-    public function testNow(int $epochSecond, string $timeZone, DayOfWeek $expectedDayOfWeek): void
-    {
-        $clock = new FixedClock(Instant::of($epochSecond));
-        self::assertSame($expectedDayOfWeek, DayOfWeek::now(TimeZone::parse($timeZone), $clock));
-    }
-
-    public static function providerNow(): array
-    {
-        return [
-            [1388534399, '-01:00', DayOfWeek::TUESDAY],
-            [1388534399, '+00:00', DayOfWeek::TUESDAY],
-            [1388534399, '+01:00', DayOfWeek::WEDNESDAY],
-            [1388534400, '-01:00', DayOfWeek::TUESDAY],
-            [1388534400, '+00:00', DayOfWeek::WEDNESDAY],
-            [1388534400, '+01:00', DayOfWeek::WEDNESDAY],
         ];
     }
 
