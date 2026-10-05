@@ -1085,6 +1085,14 @@ class LocalDateTimeTest extends AbstractTestCase
         self::assertSame($result <= 0, $dateTime1->isBeforeOrEqualTo($dateTime2));
     }
 
+    public function testCompareToSameInstance(): void
+    {
+        $dateTime = LocalDateTime::of(2015, 6, 15, 12, 30, 45);
+
+        self::assertSame(0, $dateTime->compareTo($dateTime));
+        self::assertTrue($dateTime->isEqualTo($dateTime));
+    }
+
     public static function providerCompareTo(): array
     {
         return [

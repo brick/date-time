@@ -351,6 +351,13 @@ class PeriodTest extends AbstractTestCase
         self::assertSame($isEqual, $p2->isEqualTo($p1));
     }
 
+    public function testIsEqualToSameInstance(): void
+    {
+        $period = Period::of(1, 2, 3);
+
+        self::assertTrue($period->isEqualTo($period));
+    }
+
     public static function providerIsEqualTo(): array
     {
         return [

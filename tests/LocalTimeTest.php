@@ -708,6 +708,14 @@ class LocalTimeTest extends AbstractTestCase
         self::assertSame($cmp >= 0, $t1->isAfterOrEqualTo($t2));
     }
 
+    public function testCompareToSameInstance(): void
+    {
+        $time = LocalTime::of(12, 30, 45, 123456789);
+
+        self::assertSame(0, $time->compareTo($time));
+        self::assertTrue($time->isEqualTo($time));
+    }
+
     public static function providerCompareTo(): array
     {
         return [

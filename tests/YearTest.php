@@ -327,6 +327,14 @@ class YearTest extends AbstractTestCase
         self::assertSame($cmp === 0, Year::of($year1)->isEqualTo(Year::of($year2)));
     }
 
+    public function testCompareToSameInstance(): void
+    {
+        $year = Year::of(2015);
+
+        self::assertSame(0, $year->compareTo($year));
+        self::assertTrue($year->isEqualTo($year));
+    }
+
     /**
      * @param int $year1 The base year.
      * @param int $year2 The year to compare to.

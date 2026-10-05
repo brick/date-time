@@ -452,6 +452,10 @@ final readonly class Duration implements JsonSerializable, Stringable
      */
     public function compareTo(Duration $that): int
     {
+        if ($this === $that) {
+            return 0;
+        }
+
         $seconds = $this->seconds - $that->seconds;
 
         if ($seconds !== 0) {
@@ -472,7 +476,7 @@ final readonly class Duration implements JsonSerializable, Stringable
      */
     public function isEqualTo(Duration $that): bool
     {
-        return $this->compareTo($that) === 0;
+        return $this === $that || $this->compareTo($that) === 0;
     }
 
     /**

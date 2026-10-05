@@ -234,6 +234,13 @@ class IntervalTest extends AbstractTestCase
         self::assertSame($expectedResult, $b->isEqualTo($a));
     }
 
+    public function testIsEqualToSameInstance(): void
+    {
+        $interval = Interval::of(Instant::of(2000000000, 987654321), Instant::of(2000000009, 123456789));
+
+        self::assertTrue($interval->isEqualTo($interval));
+    }
+
     public static function providerIsEqualTo(): array
     {
         return [
