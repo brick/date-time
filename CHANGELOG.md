@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.10.2](https://github.com/brick/date-time/releases/tag/0.10.2) - 2026-10-05
+
+⚡️ **Performance optimizations**
+
+- Object-identity short-circuit in isEqualTo() and compareTo() (#130 by @gnutix)
+
 ## [0.10.1](https://github.com/brick/date-time/releases/tag/0.10.1) - 2026-10-03
 
 ✨ **New features**
