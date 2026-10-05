@@ -129,10 +129,12 @@ final readonly class LocalDateRange implements IteratorAggregate, Countable, Jso
      */
     public function isEqualTo(LocalDateRange $that): bool
     {
-        return $this === $that || (
-            $this->start->isEqualTo($that->start)
-            && $this->end->isEqualTo($that->end)
-        );
+        if ($this === $that) {
+            return true;
+        }
+
+        return $this->start->isEqualTo($that->start)
+            && $this->end->isEqualTo($that->end);
     }
 
     /**
