@@ -4,7 +4,7 @@
 
 ⚡️ **Performance optimizations**
 
-- Object-identity short-circuit in isEqualTo() and compareTo() (#130 by @gnutix)
+- Object-identity short-circuit in `isEqualTo()` and `compareTo()` (#130 by @gnutix)
 
 ## [0.10.1](https://github.com/brick/date-time/releases/tag/0.10.1) - 2026-10-03
 
