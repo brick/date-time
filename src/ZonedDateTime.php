@@ -8,6 +8,7 @@ use Brick\DateTime\Parser\DateTimeParseException;
 use Brick\DateTime\Parser\DateTimeParser;
 use Brick\DateTime\Parser\DateTimeParseResult;
 use Brick\DateTime\Parser\IsoParsers;
+use Brick\DateTime\Utility\Math;
 use DateTime;
 use DateTimeImmutable;
 use DateTimeInterface;
@@ -117,22 +118,24 @@ final readonly class ZonedDateTime implements JsonSerializable, Stringable
      */
     public static function ofInstant(Instant $instant, TimeZone $timeZone): ZonedDateTime
     {
-        $dateTimeZone = $timeZone->toNativeDateTimeZone();
-
-        // We need to pass a DateTimeZone to avoid a PHP warning...
-        $dateTime = new DateTime('@' . $instant->getEpochSecond(), $dateTimeZone);
-
-        // ... but this DateTimeZone is ignored because of the timestamp, so we set it again.
-        $dateTime->setTimezone($dateTimeZone);
-
-        $localDateTime = LocalDateTime::parse($dateTime->format('Y-m-d\TH:i:s'));
-        $localDateTime = $localDateTime->withNano($instant->getNano());
-
         if ($timeZone instanceof TimeZoneOffset) {
             $timeZoneOffset = $timeZone;
         } else {
-            $timeZoneOffset = TimeZoneOffset::ofTotalSeconds($dateTime->getOffset());
+            $timeZoneOffset = TimeZoneOffset::ofTotalSeconds($timeZone->getOffset($instant));
         }
+
+        // Split before adding the offset, to avoid overflowing.
+        $epochSecond = $instant->getEpochSecond();
+        $epochDay = Math::floorDiv($epochSecond, LocalTime::SECONDS_PER_DAY);
+        $secondOfDay = Math::floorMod($epochSecond, LocalTime::SECONDS_PER_DAY) + $timeZoneOffset->getTotalSeconds();
+
+        $epochDay += Math::floorDiv($secondOfDay, LocalTime::SECONDS_PER_DAY);
+        $secondOfDay = Math::floorMod($secondOfDay, LocalTime::SECONDS_PER_DAY);
+
+        $localDateTime = new LocalDateTime(
+            LocalDate::ofEpochDay($epochDay),
+            LocalTime::ofSecondOfDay($secondOfDay, $instant->getNano()),
+        );
 
         return new ZonedDateTime($localDateTime, $timeZoneOffset, $timeZone, $instant);
     }

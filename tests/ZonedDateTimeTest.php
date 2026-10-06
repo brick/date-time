@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Brick\DateTime\Tests;
 
 use Brick\DateTime\Clock\FixedClock;
+use Brick\DateTime\DateTimeException;
 use Brick\DateTime\DayOfWeek;
 use Brick\DateTime\Duration;
 use Brick\DateTime\Instant;
@@ -26,6 +27,8 @@ use PHPUnit\Framework\Attributes\DataProvider;
 use function json_encode;
 
 use const JSON_THROW_ON_ERROR;
+use const PHP_INT_MAX;
+use const PHP_INT_MIN;
 use const PHP_VERSION_ID;
 
 /**
@@ -398,6 +401,53 @@ class ZonedDateTimeTest extends AbstractTestCase
         return [
             ['2001-09-09T01:46:40', 'UTC'],
             ['2001-09-08T18:46:40', 'America/Los_Angeles'],
+        ];
+    }
+
+    #[DataProvider('providerOfInstantEdgeCases')]
+    public function testOfInstantEdgeCases(int $epochSecond, int $nano, string $timeZone, string $expected): void
+    {
+        $zonedDateTime = ZonedDateTime::ofInstant(Instant::of($epochSecond, $nano), TimeZone::parse($timeZone));
+
+        self::assertSame($expected, (string) $zonedDateTime);
+        self::assertSame($epochSecond, $zonedDateTime->getEpochSecond());
+        self::assertSame($nano, $zonedDateTime->getNano());
+    }
+
+    public static function providerOfInstantEdgeCases(): array
+    {
+        return [
+            [-1, 999999999, 'Z', '1969-12-31T23:59:59.999999999Z'],
+            [0, 0, '+05:30:45', '1970-01-01T05:30:45+05:30:45'],
+            [0, 0, '-18:00', '1969-12-31T06:00:00-18:00'],
+            [1711846799, 0, 'Europe/Paris', '2024-03-31T01:59:59+01:00[Europe/Paris]'],
+            [1711846800, 0, 'Europe/Paris', '2024-03-31T03:00:00+02:00[Europe/Paris]'],
+            [1729989000, 0, 'Europe/Paris', '2024-10-27T02:30:00+02:00[Europe/Paris]'],
+            [1729992600, 0, 'Europe/Paris', '2024-10-27T02:30:00+01:00[Europe/Paris]'],
+            [-62167219200, 0, 'Z', '0000-01-01T00:00:00Z'],
+            [253402300800, 0, 'Europe/Paris', '10000-01-01T01:00:00+01:00[Europe/Paris]'],
+            [31494784780799, 999999999, 'Z', '999999-12-31T23:59:59.999999999Z'],
+            [-31619087596800, 0, '+18:00', '-999999-01-01T18:00:00+18:00'],
+        ];
+    }
+
+    #[DataProvider('providerOfInstantOutOfRangeThrowsException')]
+    public function testOfInstantOutOfRangeThrowsException(int $epochSecond, string $timeZone): void
+    {
+        $this->expectException(DateTimeException::class);
+
+        ZonedDateTime::ofInstant(Instant::of($epochSecond), TimeZone::parse($timeZone));
+    }
+
+    public static function providerOfInstantOutOfRangeThrowsException(): array
+    {
+        return [
+            [PHP_INT_MIN, 'Z'],
+            [PHP_INT_MIN, '-18:00'],
+            [PHP_INT_MAX, '+18:00'],
+            [PHP_INT_MAX, 'Europe/Paris'],
+            [31494784780800, 'Z'],
+            [-31619087596801, '-18:00'],
         ];
     }
 
