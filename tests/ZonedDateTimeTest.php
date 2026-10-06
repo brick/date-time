@@ -1113,7 +1113,30 @@ class ZonedDateTimeTest extends AbstractTestCase
             ['2011-07-31T23:59:59.02-05:30',             '2011-07-31T23:59:59.020000-0530'],
             ['2011-07-31T23:59:59+01:00[Europe/London]', '2011-07-31T23:59:59.000000+0100'],
             ['2011-07-31T23:59:59.000123456-07:00',      '2011-07-31T23:59:59.000123-0700'],
+            ['-999999-01-01T00:00Z',                     '-999999-01-01T00:00:00.000000+0000'],
+            ['-0001-12-31T23:59:59.5+01:00',             '-0001-12-31T23:59:59.500000+0100'],
+            ['10000-01-01T00:00Z',                       '10000-01-01T00:00:00.000000+0000'],
+            ['10000-07-01T12:00+02:00[Europe/Paris]',    '10000-07-01T12:00:00.000000+0200'],
+            ['999999-12-31T23:59:59.999999999Z',         '999999-12-31T23:59:59.999999+0000'],
         ];
+    }
+
+    public function testToNativeDateTimeDuringOverlap(): void
+    {
+        $timeZone = TimeZone::parse('Europe/Paris');
+
+        // 2024-10-27T02:30 occurs twice in Europe/Paris: first at +02:00, then at +01:00
+        $first = ZonedDateTime::ofInstant(Instant::of(1729989000), $timeZone)->toNativeDateTime();
+        $second = ZonedDateTime::ofInstant(Instant::of(1729992600), $timeZone)->toNativeDateTime();
+
+        self::assertSame('2024-10-27T02:30:00+02:00', $first->format('Y-m-d\TH:i:sP'));
+        self::assertSame('2024-10-27T02:30:00+01:00', $second->format('Y-m-d\TH:i:sP'));
+
+        self::assertSame(1729989000, $first->getTimestamp());
+        self::assertSame(1729992600, $second->getTimestamp());
+
+        self::assertSame('Europe/Paris', $first->getTimezone()->getName());
+        self::assertSame('Europe/Paris', $second->getTimezone()->getName());
     }
 
     #[DataProvider('providerToString')]

@@ -713,28 +713,18 @@ final readonly class ZonedDateTime implements JsonSerializable, Stringable
      */
     public function toNativeDateTime(): DateTime
     {
-        $second = $this->localDateTime->getSecond();
-
         // round down to the microsecond
-        $nano = $this->localDateTime->getNano();
-        $nano = 1000 * intdiv($nano, 1000);
+        $micro = intdiv($this->instant->getNano(), 1000);
 
-        $dateTime = (string) $this->localDateTime->withNano($nano);
-        $dateTimeZone = $this->timeZone->toNativeDateTimeZone();
+        // The DateTime is created from the instant rather than from the local date-time, as the latter
+        // is ambiguous during a DST overlap, and DateTime only parses years 0000 to 9999.
+        $timestamp = $this->instant->getEpochSecond() . '.' . str_pad((string) $micro, 6, '0', STR_PAD_LEFT);
 
-        $format = 'Y-m-d\TH:i';
-
-        if ($second !== 0 || $nano !== 0) {
-            $format .= ':s';
-
-            if ($nano !== 0) {
-                $format .= '.u';
-            }
-        }
-
-        $nativeDateTime = DateTime::createFromFormat($format, $dateTime, $dateTimeZone);
+        $nativeDateTime = DateTime::createFromFormat('U.u', $timestamp);
 
         assert($nativeDateTime !== false);
+
+        $nativeDateTime->setTimezone($this->timeZone->toNativeDateTimeZone());
 
         return $nativeDateTime;
     }
