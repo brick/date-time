@@ -80,7 +80,7 @@ final readonly class ZonedDateTime implements JsonSerializable, Stringable
             + $dateTime->getTime()->toSecondOfDay();
 
         if ($timeZone instanceof TimeZoneOffset) {
-            // A fixed offset has no DST transition: every local date-time is valid, and maps to a single instant.
+            // A fixed offset has no DST gap or overlap.
             $instant = Instant::of($localEpochSecond - $timeZone->getTotalSeconds(), $dateTime->getNano());
 
             return new ZonedDateTime($dateTime, $timeZone, $timeZone, $instant);
@@ -98,7 +98,7 @@ final readonly class ZonedDateTime implements JsonSerializable, Stringable
         $epochSecond = $dt->getTimestamp();
         $timeZoneOffset = TimeZoneOffset::ofTotalSeconds($dt->getOffset());
 
-        // The time is shifted forward if the date-time falls in a DST gap.
+        // Shifted forward in a DST gap.
         $shift = $epochSecond + $timeZoneOffset->getTotalSeconds() - $localEpochSecond;
 
         if ($shift !== 0) {
@@ -716,8 +716,7 @@ final readonly class ZonedDateTime implements JsonSerializable, Stringable
         // round down to the microsecond
         $micro = intdiv($this->instant->getNano(), 1000);
 
-        // The DateTime is created from the instant rather than from the local date-time, as the latter
-        // is ambiguous during a DST overlap, and DateTime only parses years 0000 to 9999.
+        // From the instant, as the local date-time is ambiguous in a DST overlap.
         $timestamp = $this->instant->getEpochSecond() . '.' . str_pad((string) $micro, 6, '0', STR_PAD_LEFT);
 
         $nativeDateTime = DateTime::createFromFormat('U.u', $timestamp);
