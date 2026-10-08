@@ -26,11 +26,6 @@ final class TimeZoneOffset extends TimeZone
     private ?string $id = null;
 
     /**
-     * Cached, as creating a DateTimeZone for `Z` is slow.
-     */
-    private ?DateTimeZone $nativeDateTimeZone = null;
-
-    /**
      * Private constructor. Use a factory method to obtain an instance.
      *
      * @param int $totalSeconds The total offset in seconds, validated from -64800 to +64800.
@@ -192,8 +187,20 @@ final class TimeZoneOffset extends TimeZone
     #[Override]
     public function toNativeDateTimeZone(): DateTimeZone
     {
-        $this->nativeDateTimeZone ??= new DateTimeZone($this->getId());
+        $id = $this->getId();
 
-        return clone $this->nativeDateTimeZone;
+        if ($id === 'Z') {
+            return clone self::z();
+        }
+
+        return new DateTimeZone($id);
+    }
+
+    private static function z(): DateTimeZone
+    {
+        /** @var DateTimeZone|null $z */
+        static $z = null;
+
+        return $z ??= new DateTimeZone('Z');
     }
 }
