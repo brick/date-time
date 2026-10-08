@@ -801,7 +801,9 @@ final readonly class LocalDateTime implements JsonSerializable, Stringable
         $newSoD = Math::floorMod($totSeconds, LocalTime::SECONDS_PER_DAY);
 
         $newDate = $this->date->plusDays($totDays);
-        $newTime = ($newSoD === $curSoD ? $this->time : LocalTime::ofSecondOfDay($newSoD, $newNano));
+        $newTime = ($newSoD === $curSoD && $newNano === $this->time->getNano())
+            ? $this->time
+            : LocalTime::ofSecondOfDay($newSoD, $newNano);
 
         return new LocalDateTime($newDate, $newTime);
     }
