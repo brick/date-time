@@ -196,6 +196,9 @@ final class TimeZoneOffset extends TimeZone
         return new DateTimeZone($id);
     }
 
+    /**
+     * Returns a cached DateTimeZone for `Z`, which is slow to create.
+     */
     private static function z(): DateTimeZone
     {
         /** @var DateTimeZone|null $z */
