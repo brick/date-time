@@ -394,7 +394,7 @@ final readonly class LocalDateTime implements JsonSerializable, Stringable
     /**
      * Returns a zoned date-time formed from this date-time and the specified time-zone.
      *
-     * @param TimeZone $zone The zime-zone to use.
+     * @param TimeZone $zone The time-zone to use.
      *
      * @return ZonedDateTime The zoned date-time formed from this date-time.
      */
