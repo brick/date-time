@@ -1,5 +1,17 @@
 # Changelog
 
+## [0.10.3](https://github.com/brick/date-time/releases/tag/0.10.3) - 2026-10-08
+
+🐛 **Bug fixes**
+
+- `ZonedDateTime::of()` and `LocalDateTime::atTimeZone()` failed for years beyond `9999` (#135 by @gnutix)
+- `toNativeDateTime()` and `toNativeDateTimeImmutable()` on `LocalDateTime` and `ZonedDateTime` failed for years beyond `9999` and negative years (#135 by @gnutix)
+- `ZonedDateTime::toNativeDateTime()` and `toNativeDateTimeImmutable()` returned the wrong offset during a DST overlap (#135 by @gnutix)
+
+⚡️ **Performance optimizations**
+
+- Faster `ZonedDateTime::of()`, `ofInstant()` and `toNativeDateTime()`, and `TimeZoneOffset::toNativeDateTimeZone()` for UTC (#135 by @gnutix)
+
 ## [0.10.2](https://github.com/brick/date-time/releases/tag/0.10.2) - 2026-10-05
 
 ⚡️ **Performance optimizations**
