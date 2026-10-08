@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Brick\DateTime\Tests;
 
 use Brick\DateTime\Clock\FixedClock;
+use Brick\DateTime\DateTimeException;
 use Brick\DateTime\DayOfWeek;
 use Brick\DateTime\Duration;
 use Brick\DateTime\Instant;
@@ -26,6 +27,8 @@ use PHPUnit\Framework\Attributes\DataProvider;
 use function json_encode;
 
 use const JSON_THROW_ON_ERROR;
+use const PHP_INT_MAX;
+use const PHP_INT_MIN;
 use const PHP_VERSION_ID;
 
 /**
@@ -99,6 +102,20 @@ class ZonedDateTimeTest extends AbstractTestCase
             ['2011-05-29T12:34:56.123456789', '+16:00', '+16:00', 0, 1306614896, 123456789],
             ['2011-06-30T12:34:56.123456789', '+17:00', '+17:00', 0, 1309376096, 123456789],
             ['2011-07-31T12:34:56.123456789', '+18:00', '+18:00', 0, 1312050896, 123456789],
+
+            // WITH OFFSET FROM UTC, EDGE CASES
+
+            ['2020-01-01T00:00:00.000000000',    '+05:30:45', '+05:30:45', 0,  1577816955,      0],
+            ['0000-01-01T00:00:00.000000000',    '+00:00', '+00:00', 0,    -62167219200,         0],
+            ['9999-12-31T23:59:59.999999999',    '+18:00', '+18:00', 0,    253402235999, 999999999],
+            ['10000-02-29T12:00:00.000000000',   '-01:00', '-01:00', 0,    253407445200,         0],
+            ['-999999-01-01T00:00:00.000000000', '-18:00', '-18:00', 0, -31619087532000,         0],
+            ['-999999-01-01T00:00:00.000000000', '+00:00', '+00:00', 0, -31619087596800,         0],
+            ['-0001-12-31T23:59:59.999999999',   '+01:00', '+01:00', 0,    -62167222801, 999999999],
+            ['10000-01-01T00:00:00.000000000',   '+00:00', '+00:00', 0,    253402300800,         0],
+            ['10000-01-01T00:00:00.000000000',   '-18:00', '-18:00', 0,    253402365600,         0],
+            ['999999-12-31T23:59:59.999999999',  '+00:00', '+00:00', 0,  31494784780799, 999999999],
+            ['999999-12-31T23:59:59.999999999',  '+18:00', '+18:00', 0,  31494784715999, 999999999],
 
             // WITH REGION, NORMAL: NOT WITHIN A DST TRANSITION
             // The region is resolved to an offset without ambiguity.
@@ -326,7 +343,47 @@ class ZonedDateTimeTest extends AbstractTestCase
             ['2014-10-05T02:59:59.999999999', 'Australia/Sydney', '+11:00', 3600, 1412441999, 999999999],
             ['2014-10-05T03:00:00.000000000', 'Australia/Sydney', '+11:00',    0, 1412438400,         0],
             ['2014-10-05T03:59:59.999999999', 'Australia/Sydney', '+11:00',    0, 1412441999, 999999999],
+
+            // WITH REGION, EDGE CASES
+
+            // Pacific/Apia: at midnight (-10:00) on 2011-12-30, clocks jumped forward 24 hours (+14:00), skipping that day
+            ['2011-12-29T23:59:59.999999999', 'Pacific/Apia',        '-10:00',      0, 1325239199, 999999999],
+            ['2011-12-30T12:00:00.000000000', 'Pacific/Apia',        '+14:00',  86400, 1325282400,         0],
+            // Australia/Lord_Howe: 30-minute DST, gap from 2:00 AM to 2:30 AM, overlap from 1:30 AM to 2:00 AM
+            ['2013-10-06T02:15:00.000000000', 'Australia/Lord_Howe', '+11:00',   1800, 1380987900,         0],
+            ['2014-04-06T01:45:00.000000000', 'Australia/Lord_Howe', '+10:30',      0, 1396710900,         0],
+            // America/Sao_Paulo: gap at midnight, from 0:00 AM to 1:00 AM
+            ['2008-10-19T00:30:00.000000000', 'America/Sao_Paulo',   '-02:00',   3600, 1224387000,         0],
+            // Local mean time, with an offset in seconds
+            ['1900-01-01T00:00:00.000000000', 'Europe/Paris',        '+00:09:21',   0, -2208989361,        0],
+            ['-0001-12-31T23:59:59.999999999', 'America/New_York',   '-04:56:02',   0, -62167201439, 999999999],
+            ['-999999-01-01T00:00:00.000000000', 'Europe/Paris',     '+00:09:21',   0, -31619087597361,    0],
+            // Years 9999 to 10000, and up to the max
+            ['9999-12-31T23:59:59.999999999', 'Europe/Paris',        '+01:00',      0, 253402297199, 999999999],
+            ['10000-01-01T00:00:00.000000000', 'Europe/Paris',       '+01:00',      0, 253402297200,         0],
+            ['999999-12-31T23:59:59.999999999', 'Europe/Paris',      '+01:00',      0, 31494784777199, 999999999],
+
+            // Europe/Paris beyond year 9999: DST transitions on the last Sunday of March and October at 01:00 UTC.
+
+            ['10000-07-01T12:00:00.123456789', 'Europe/Paris', '+02:00',    0, 253418061600, 123456789],
+            ['10000-03-26T01:59:59.999999999', 'Europe/Paris', '+01:00',    0, 253409648399, 999999999],
+            ['10000-03-26T02:00:00.000000000', 'Europe/Paris', '+02:00', 3600, 253409648400,         0],
+            ['10000-03-26T02:59:59.999999999', 'Europe/Paris', '+02:00', 3600, 253409651999, 999999999],
+            ['10000-03-26T03:00:00.000000000', 'Europe/Paris', '+02:00',    0, 253409648400,         0],
+            ['10000-10-29T01:59:59.999999999', 'Europe/Paris', '+02:00',    0, 253428393599, 999999999],
+            ['10000-10-29T02:00:00.000000000', 'Europe/Paris', '+01:00',    0, 253428397200,         0],
+            ['10000-10-29T02:59:59.999999999', 'Europe/Paris', '+01:00',    0, 253428400799, 999999999],
+            ['10000-10-29T03:00:00.000000000', 'Europe/Paris', '+01:00',    0, 253428400800,         0],
         ];
+    }
+
+    public function testOfWithOffsetUsesOffsetAsTimeZone(): void
+    {
+        $offset = TimeZoneOffset::of(2);
+        $zonedDateTime = ZonedDateTime::of(LocalDateTime::of(2020, 1, 1), $offset);
+
+        self::assertSame($offset, $zonedDateTime->getTimeZone());
+        self::assertSame($offset, $zonedDateTime->getTimeZoneOffset());
     }
 
     #[DataProvider('providerOfInstant')]
@@ -344,6 +401,53 @@ class ZonedDateTimeTest extends AbstractTestCase
         return [
             ['2001-09-09T01:46:40', 'UTC'],
             ['2001-09-08T18:46:40', 'America/Los_Angeles'],
+        ];
+    }
+
+    #[DataProvider('providerOfInstantEdgeCases')]
+    public function testOfInstantEdgeCases(int $epochSecond, int $nano, string $timeZone, string $expected): void
+    {
+        $zonedDateTime = ZonedDateTime::ofInstant(Instant::of($epochSecond, $nano), TimeZone::parse($timeZone));
+
+        self::assertSame($expected, (string) $zonedDateTime);
+        self::assertSame($epochSecond, $zonedDateTime->getEpochSecond());
+        self::assertSame($nano, $zonedDateTime->getNano());
+    }
+
+    public static function providerOfInstantEdgeCases(): array
+    {
+        return [
+            [-1, 999999999, 'Z', '1969-12-31T23:59:59.999999999Z'],
+            [0, 0, '+05:30:45', '1970-01-01T05:30:45+05:30:45'],
+            [0, 0, '-18:00', '1969-12-31T06:00:00-18:00'],
+            [1711846799, 0, 'Europe/Paris', '2024-03-31T01:59:59+01:00[Europe/Paris]'],
+            [1711846800, 0, 'Europe/Paris', '2024-03-31T03:00:00+02:00[Europe/Paris]'],
+            [1729989000, 0, 'Europe/Paris', '2024-10-27T02:30:00+02:00[Europe/Paris]'],
+            [1729992600, 0, 'Europe/Paris', '2024-10-27T02:30:00+01:00[Europe/Paris]'],
+            [-62167219200, 0, 'Z', '0000-01-01T00:00:00Z'],
+            [253402300800, 0, 'Europe/Paris', '10000-01-01T01:00:00+01:00[Europe/Paris]'],
+            [31494784780799, 999999999, 'Z', '999999-12-31T23:59:59.999999999Z'],
+            [-31619087596800, 0, '+18:00', '-999999-01-01T18:00:00+18:00'],
+        ];
+    }
+
+    #[DataProvider('providerOfInstantOutOfRangeThrowsException')]
+    public function testOfInstantOutOfRangeThrowsException(int $epochSecond, string $timeZone): void
+    {
+        $this->expectException(DateTimeException::class);
+
+        ZonedDateTime::ofInstant(Instant::of($epochSecond), TimeZone::parse($timeZone));
+    }
+
+    public static function providerOfInstantOutOfRangeThrowsException(): array
+    {
+        return [
+            [PHP_INT_MIN, 'Z'],
+            [PHP_INT_MIN, '-18:00'],
+            [PHP_INT_MAX, '+18:00'],
+            [PHP_INT_MAX, 'Europe/Paris'],
+            [31494784780800, 'Z'],
+            [-31619087596801, '-18:00'],
         ];
     }
 
@@ -1059,7 +1163,30 @@ class ZonedDateTimeTest extends AbstractTestCase
             ['2011-07-31T23:59:59.02-05:30',             '2011-07-31T23:59:59.020000-0530'],
             ['2011-07-31T23:59:59+01:00[Europe/London]', '2011-07-31T23:59:59.000000+0100'],
             ['2011-07-31T23:59:59.000123456-07:00',      '2011-07-31T23:59:59.000123-0700'],
+            ['-999999-01-01T00:00Z',                     '-999999-01-01T00:00:00.000000+0000'],
+            ['-0001-12-31T23:59:59.5+01:00',             '-0001-12-31T23:59:59.500000+0100'],
+            ['10000-01-01T00:00Z',                       '10000-01-01T00:00:00.000000+0000'],
+            ['10000-07-01T12:00+02:00[Europe/Paris]',    '10000-07-01T12:00:00.000000+0200'],
+            ['999999-12-31T23:59:59.999999999Z',         '999999-12-31T23:59:59.999999+0000'],
         ];
+    }
+
+    public function testToNativeDateTimeDuringOverlap(): void
+    {
+        $timeZone = TimeZone::parse('Europe/Paris');
+
+        // 2024-10-27T02:30 occurs twice in Europe/Paris: first at +02:00, then at +01:00
+        $first = ZonedDateTime::ofInstant(Instant::of(1729989000), $timeZone)->toNativeDateTime();
+        $second = ZonedDateTime::ofInstant(Instant::of(1729992600), $timeZone)->toNativeDateTime();
+
+        self::assertSame('2024-10-27T02:30:00+02:00', $first->format('Y-m-d\TH:i:sP'));
+        self::assertSame('2024-10-27T02:30:00+01:00', $second->format('Y-m-d\TH:i:sP'));
+
+        self::assertSame(1729989000, $first->getTimestamp());
+        self::assertSame(1729992600, $second->getTimestamp());
+
+        self::assertSame('Europe/Paris', $first->getTimezone()->getName());
+        self::assertSame('Europe/Paris', $second->getTimezone()->getName());
     }
 
     #[DataProvider('providerToString')]

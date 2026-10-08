@@ -294,6 +294,18 @@ class TimeZoneOffsetTest extends AbstractTestCase
         self::assertSame($totalSeconds, $dateTimeZone->getOffset(new DateTimeImmutable()));
     }
 
+    public function testToNativeDateTimeZoneReturnsNewInstance(): void
+    {
+        $timeZoneOffset = TimeZoneOffset::utc();
+
+        $first = $timeZoneOffset->toNativeDateTimeZone();
+        $second = $timeZoneOffset->toNativeDateTimeZone();
+
+        self::assertNotSame($first, $second);
+        self::assertSame('Z', $first->getName());
+        self::assertSame('Z', $second->getName());
+    }
+
     public static function providerToNativeDateTimeZone(): iterable
     {
         yield from [

@@ -187,6 +187,20 @@ final class TimeZoneOffset extends TimeZone
     #[Override]
     public function toNativeDateTimeZone(): DateTimeZone
     {
-        return new DateTimeZone($this->getId());
+        $id = $this->getId();
+
+        if ($id === 'Z') {
+            return clone self::z();
+        }
+
+        return new DateTimeZone($id);
+    }
+
+    private static function z(): DateTimeZone
+    {
+        /** @var DateTimeZone|null $z */
+        static $z = null;
+
+        return $z ??= new DateTimeZone('Z');
     }
 }

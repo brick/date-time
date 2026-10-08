@@ -8,6 +8,7 @@ use Brick\DateTime\Parser\DateTimeParseException;
 use Brick\DateTime\Parser\DateTimeParser;
 use Brick\DateTime\Parser\DateTimeParseResult;
 use Brick\DateTime\Parser\IsoParsers;
+use Brick\DateTime\Utility\Math;
 use DateTime;
 use DateTimeImmutable;
 use DateTimeInterface;
@@ -76,21 +77,36 @@ final readonly class ZonedDateTime implements JsonSerializable, Stringable
      */
     public static function of(LocalDateTime $dateTime, TimeZone $timeZone): ZonedDateTime
     {
-        $dtz = $timeZone->toNativeDateTimeZone();
-        $dt = new DateTime((string) $dateTime->withNano(0), $dtz);
-
-        $instant = Instant::of($dt->getTimestamp(), $dateTime->getNano());
+        $localEpochSecond = $dateTime->getDate()->toEpochDay() * LocalTime::SECONDS_PER_DAY
+            + $dateTime->getTime()->toSecondOfDay();
 
         if ($timeZone instanceof TimeZoneOffset) {
-            $timeZoneOffset = $timeZone;
-        } else {
-            $timeZoneOffset = TimeZoneOffset::ofTotalSeconds($dt->getOffset());
+            // A fixed offset has no DST gap or overlap.
+            $instant = Instant::of($localEpochSecond - $timeZone->getTotalSeconds(), $dateTime->getNano());
+
+            return new ZonedDateTime($dateTime, $timeZone, $timeZone, $instant);
         }
 
-        // The time can be affected if the date-time is not valid for the given time-zone due to a DST transition,
-        // so we have to re-compute the local date-time from the DateTime object.
-        // DateTime does not support nanos of seconds, so we just copy the nanos back from the original date-time.
-        $dateTime = LocalDateTime::parse($dt->format('Y-m-d\TH:i:s'))->withNano($dateTime->getNano());
+        $text = (string) $dateTime->withNano(0);
+
+        // DateTime requires an explicit sign for years beyond 9999.
+        if ($dateTime->getYear() > 9999) {
+            $text = '+' . $text;
+        }
+
+        $dt = new DateTime($text, $timeZone->toNativeDateTimeZone());
+
+        $epochSecond = $dt->getTimestamp();
+        $timeZoneOffset = TimeZoneOffset::ofTotalSeconds($dt->getOffset());
+
+        // Shifted forward in a DST gap.
+        $shift = $epochSecond + $timeZoneOffset->getTotalSeconds() - $localEpochSecond;
+
+        if ($shift !== 0) {
+            $dateTime = $dateTime->plusSeconds($shift);
+        }
+
+        $instant = Instant::of($epochSecond, $dateTime->getNano());
 
         return new ZonedDateTime($dateTime, $timeZoneOffset, $timeZone, $instant);
     }
@@ -102,22 +118,24 @@ final readonly class ZonedDateTime implements JsonSerializable, Stringable
      */
     public static function ofInstant(Instant $instant, TimeZone $timeZone): ZonedDateTime
     {
-        $dateTimeZone = $timeZone->toNativeDateTimeZone();
-
-        // We need to pass a DateTimeZone to avoid a PHP warning...
-        $dateTime = new DateTime('@' . $instant->getEpochSecond(), $dateTimeZone);
-
-        // ... but this DateTimeZone is ignored because of the timestamp, so we set it again.
-        $dateTime->setTimezone($dateTimeZone);
-
-        $localDateTime = LocalDateTime::parse($dateTime->format('Y-m-d\TH:i:s'));
-        $localDateTime = $localDateTime->withNano($instant->getNano());
-
         if ($timeZone instanceof TimeZoneOffset) {
             $timeZoneOffset = $timeZone;
         } else {
-            $timeZoneOffset = TimeZoneOffset::ofTotalSeconds($dateTime->getOffset());
+            $timeZoneOffset = TimeZoneOffset::ofTotalSeconds($timeZone->getOffset($instant));
         }
+
+        // Split before adding the offset, to avoid overflowing.
+        $epochSecond = $instant->getEpochSecond();
+        $epochDay = Math::floorDiv($epochSecond, LocalTime::SECONDS_PER_DAY);
+        $secondOfDay = Math::floorMod($epochSecond, LocalTime::SECONDS_PER_DAY) + $timeZoneOffset->getTotalSeconds();
+
+        $epochDay += Math::floorDiv($secondOfDay, LocalTime::SECONDS_PER_DAY);
+        $secondOfDay = Math::floorMod($secondOfDay, LocalTime::SECONDS_PER_DAY);
+
+        $localDateTime = new LocalDateTime(
+            LocalDate::ofEpochDay($epochDay),
+            LocalTime::ofSecondOfDay($secondOfDay, $instant->getNano()),
+        );
 
         return new ZonedDateTime($localDateTime, $timeZoneOffset, $timeZone, $instant);
     }
@@ -698,28 +716,17 @@ final readonly class ZonedDateTime implements JsonSerializable, Stringable
      */
     public function toNativeDateTime(): DateTime
     {
-        $second = $this->localDateTime->getSecond();
-
         // round down to the microsecond
-        $nano = $this->localDateTime->getNano();
-        $nano = 1000 * intdiv($nano, 1000);
+        $micro = intdiv($this->instant->getNano(), 1000);
 
-        $dateTime = (string) $this->localDateTime->withNano($nano);
-        $dateTimeZone = $this->timeZone->toNativeDateTimeZone();
+        // From the instant, as the local date-time is ambiguous in a DST overlap.
+        $timestamp = $this->instant->getEpochSecond() . '.' . str_pad((string) $micro, 6, '0', STR_PAD_LEFT);
 
-        $format = 'Y-m-d\TH:i';
-
-        if ($second !== 0 || $nano !== 0) {
-            $format .= ':s';
-
-            if ($nano !== 0) {
-                $format .= '.u';
-            }
-        }
-
-        $nativeDateTime = DateTime::createFromFormat($format, $dateTime, $dateTimeZone);
+        $nativeDateTime = DateTime::createFromFormat('U.u', $timestamp);
 
         assert($nativeDateTime !== false);
+
+        $nativeDateTime->setTimezone($this->timeZone->toNativeDateTimeZone());
 
         return $nativeDateTime;
     }
