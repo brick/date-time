@@ -5,7 +5,8 @@ on:
   pull_request:
 
 env:
-  COVERAGE_PHP_VERSION: "8.4"
+  COVERAGE_PHP_VERSION: "8.5"
+  PHPSTAN_PHP_VERSION: "8.5"
 
 jobs:
   phpunit:
@@ -67,7 +68,7 @@ jobs:
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
-          php-version: "8.3"
+          php-version: ${{ env.PHPSTAN_PHP_VERSION }}
 
       - name: Install composer dependencies (date-time)
         uses: ramsey/composer-install@v3
