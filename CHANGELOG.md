@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.10.4](https://github.com/brick/date-time/releases/tag/0.10.4) - 2026-10-09
+
+🐛 **Bug fixes**
+
+- Fix `LocalDateTime::plusNanos()` and `minusNanos()` within the same second (#136 by @gnutix)
+
 ## [0.10.3](https://github.com/brick/date-time/releases/tag/0.10.3) - 2026-10-08
 
 🐛 **Bug fixes**
