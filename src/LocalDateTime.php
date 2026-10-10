@@ -426,7 +426,10 @@ final readonly class LocalDateTime implements JsonSerializable, Stringable
             return $this;
         }
 
-        $days = Math::floorDiv($this->time->toSecondOfDay() + $duration->getSeconds(), LocalTime::SECONDS_PER_DAY);
+        $seconds = $this->time->toSecondOfDay() + $duration->getSeconds()
+            + intdiv($this->time->getNano() + $duration->getNanos(), LocalTime::NANOS_PER_SECOND);
+
+        $days = Math::floorDiv($seconds, LocalTime::SECONDS_PER_DAY);
 
         return new LocalDateTime($this->date->plusDays($days), $this->time->plusDuration($duration));
     }
