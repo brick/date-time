@@ -455,8 +455,7 @@ final readonly class LocalDate implements JsonSerializable, Stringable
     public function plusPeriod(Period $period): LocalDate
     {
         return $this
-            ->plusYears($period->getYears())
-            ->plusMonths($period->getMonths())
+            ->plusMonths($period->getYears() * 12 + $period->getMonths())
             ->plusDays($period->getDays());
     }
 
