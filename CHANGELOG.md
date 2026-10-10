@@ -1,11 +1,16 @@
 # Changelog
 
-## UNRELEASED (0.10.5)
+## UNRELEASED (0.11.0)
+
+💥 **Breaking changes**
+
+- `ZonedDateTime::parse()` now throws a `DateTimeException` when the offset is not valid for the region, instead of silently replacing it (#140 by @gnutix)
 
 🐛 **Bug fixes**
 
 - `plusPeriod()` on `LocalDate`, `LocalDateTime` and `ZonedDateTime` now adds the years and months in one step, fixing wrong results from Feb 29 (#141 by @gnutix)
 - `LocalDateTime::plusDuration()` and `minusDuration()` did not move the date when the nanos carry crossed midnight (#142 by @gnutix)
+- `ZonedDateTime::parse()` ignored the offset when a region was present (#140 by @gnutix)
 
 ## [0.10.4](https://github.com/brick/date-time/releases/tag/0.10.4) - 2026-10-09
 
