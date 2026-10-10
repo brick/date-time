@@ -482,11 +482,34 @@ class ZonedDateTimeTest extends AbstractTestCase
             ['2001-02-03T01:02+00:00[Europe/London]', '2001-02-03', '01:02', 'Z', 'Europe/London'],
             ['2001-02-03T01:02:03-00:00[Europe/London]', '2001-02-03', '01:02:03', 'Z', 'Europe/London'],
             ['2001-02-03T01:02:03.456+00:00[Europe/London]', '2001-02-03', '01:02:03.456', 'Z', 'Europe/London'],
+            ['2001-07-03T01:02+01:00[Europe/London]', '2001-07-03', '01:02', '+01:00', 'Europe/London'],
+            ['2024-10-27T02:30+02:00[Europe/Zurich]', '2024-10-27', '02:30', '+02:00', 'Europe/Zurich'],
+            ['2024-10-27T02:30+01:00[Europe/Zurich]', '2024-10-27', '02:30', '+01:00', 'Europe/Zurich'],
         ];
 
         if (PHP_VERSION_ID >= 80107) {
             yield ['2001-02-03T01:02:03.456+12:34:56', '2001-02-03', '01:02:03.456', '+12:34:56', '+12:34:56'];
         }
+    }
+
+    #[DataProvider('providerParseWithOffsetNotValidForRegionThrowsException')]
+    public function testParseWithOffsetNotValidForRegionThrowsException(string $text, string $expectedMessage): void
+    {
+        $this->expectException(DateTimeException::class);
+        $this->expectExceptionMessage($expectedMessage);
+
+        ZonedDateTime::parse($text);
+    }
+
+    public static function providerParseWithOffsetNotValidForRegionThrowsException(): array
+    {
+        return [
+            ['2001-02-03T01:02+01:00[Europe/London]', 'The offset +01:00 is not valid for 2001-02-03T01:02 in Europe/London.'],
+            ['2024-06-01T12:00Z[Europe/Zurich]', 'The offset Z is not valid for 2024-06-01T12:00 in Europe/Zurich.'],
+            ['2024-06-01T12:00+05:00[Europe/Zurich]', 'The offset +05:00 is not valid for 2024-06-01T12:00 in Europe/Zurich.'],
+            ['2024-03-31T02:30+01:00[Europe/Zurich]', 'The offset +01:00 is not valid for 2024-03-31T02:30 in Europe/Zurich.'],
+            ['2024-03-31T02:30+02:00[Europe/Zurich]', 'The offset +02:00 is not valid for 2024-03-31T02:30 in Europe/Zurich.'],
+        ];
     }
 
     #[DataProvider('providerParseInvalidStringThrowsException')]
@@ -758,7 +781,7 @@ class ZonedDateTimeTest extends AbstractTestCase
             ['2000-02-16T12:34:56.123456789-08:00[America/Los_Angeles]', Period::ofMonths(2), '2000-04-16T12:34:56.123456789-07:00[America/Los_Angeles]'],
             ['2000-05-16T12:34:56.123456789-07:00[America/Los_Angeles]', Period::ofMonths(-1), '2000-04-16T12:34:56.123456789-07:00[America/Los_Angeles]'],
             ['2000-05-16T12:34:56.123456789-07:00[America/Los_Angeles]', Period::ofMonths(-2), '2000-03-16T12:34:56.123456789-08:00[America/Los_Angeles]'],
-            ['2000-02-16T12:34:56.123456789-07:00[America/Los_Angeles]', Period::of(1, -2, 3), '2000-12-19T12:34:56.123456789-08:00[America/Los_Angeles]'],
+            ['2000-02-16T12:34:56.123456789-08:00[America/Los_Angeles]', Period::of(1, -2, 3), '2000-12-19T12:34:56.123456789-08:00[America/Los_Angeles]'],
         ];
 
         foreach (self::providerPlusDays() as [$zonedDateTime, $plusDays, $expected]) {

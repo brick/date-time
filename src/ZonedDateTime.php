@@ -19,6 +19,7 @@ use Stringable;
 use function assert;
 use function intdiv;
 use function rtrim;
+use function sprintf;
 use function str_pad;
 
 use const STR_PAD_LEFT;
@@ -165,15 +166,24 @@ final readonly class ZonedDateTime implements JsonSerializable, Stringable
         $timeZoneOffset = TimeZoneOffset::from($result);
 
         if ($result->hasField(Field\TimeZoneRegion::NAME)) {
-            $timeZone = TimeZoneRegion::from($result);
-        } else {
-            $timeZone = $timeZoneOffset;
+            $zonedDateTime = ZonedDateTime::ofInstant(
+                ZonedDateTime::of($localDateTime, $timeZoneOffset)->getInstant(),
+                TimeZoneRegion::from($result),
+            );
+
+            if (! $zonedDateTime->getTimeZoneOffset()->isEqualTo($timeZoneOffset)) {
+                throw new DateTimeException(sprintf(
+                    'The offset %s is not valid for %s in %s.',
+                    $timeZoneOffset,
+                    $localDateTime,
+                    $zonedDateTime->getTimeZone(),
+                ));
+            }
+
+            return $zonedDateTime;
         }
 
-        return ZonedDateTime::of(
-            $localDateTime,
-            $timeZone,
-        );
+        return ZonedDateTime::of($localDateTime, $timeZoneOffset);
     }
 
     /**
