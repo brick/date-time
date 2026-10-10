@@ -485,6 +485,10 @@ class ZonedDateTimeTest extends AbstractTestCase
             ['2001-07-03T01:02+01:00[Europe/London]', '2001-07-03', '01:02', '+01:00', 'Europe/London'],
             ['2024-10-27T02:30+02:00[Europe/Zurich]', '2024-10-27', '02:30', '+02:00', 'Europe/Zurich'],
             ['2024-10-27T02:30+01:00[Europe/Zurich]', '2024-10-27', '02:30', '+01:00', 'Europe/Zurich'],
+            ['2024-10-27T02:30:00.123456789+02:00[Europe/Zurich]', '2024-10-27', '02:30:00.123456789', '+02:00', 'Europe/Zurich'],
+            ['2024-04-07T01:45+11:00[Australia/Lord_Howe]', '2024-04-07', '01:45', '+11:00', 'Australia/Lord_Howe'],
+            ['2024-04-07T01:45+10:30[Australia/Lord_Howe]', '2024-04-07', '01:45', '+10:30', 'Australia/Lord_Howe'],
+            ['1900-01-01T00:00+00:09:21[Europe/Paris]', '1900-01-01', '00:00', '+00:09:21', 'Europe/Paris'],
         ];
 
         if (PHP_VERSION_ID >= 80107) {
@@ -509,6 +513,42 @@ class ZonedDateTimeTest extends AbstractTestCase
             ['2024-06-01T12:00+05:00[Europe/Zurich]', 'The offset +05:00 is not valid for 2024-06-01T12:00 in Europe/Zurich.'],
             ['2024-03-31T02:30+01:00[Europe/Zurich]', 'The local date-time 2024-03-31T02:30 does not exist in Europe/Zurich.'],
             ['2024-03-31T02:30+02:00[Europe/Zurich]', 'The local date-time 2024-03-31T02:30 does not exist in Europe/Zurich.'],
+            ['2024-03-31T02:30+05:00[Europe/Zurich]', 'The local date-time 2024-03-31T02:30 does not exist in Europe/Zurich.'],
+            ['2024-10-27T02:30+05:00[Europe/Zurich]', 'The offset +05:00 is not valid for 2024-10-27T02:30 in Europe/Zurich.'],
+            ['2024-06-01T12:00:00.123456789+05:00[Europe/Zurich]', 'The offset +05:00 is not valid for 2024-06-01T12:00:00.123456789 in Europe/Zurich.'],
+            ['1900-01-01T00:00+00:09[Europe/Paris]', 'The offset +00:09 is not valid for 1900-01-01T00:00 in Europe/Paris.'],
+        ];
+    }
+
+    #[DataProvider('providerParseRoundTrip')]
+    public function testParseRoundTrip(int $epochSecond, string $timeZone, string $expectedString): void
+    {
+        $zonedDateTime = ZonedDateTime::ofInstant(Instant::of($epochSecond), TimeZone::parse($timeZone));
+        self::assertSame($expectedString, (string) $zonedDateTime);
+
+        $parsed = ZonedDateTime::parse((string) $zonedDateTime);
+        self::assertTrue($parsed->isEqualTo($zonedDateTime));
+        self::assertSame($expectedString, (string) $parsed);
+    }
+
+    public static function providerParseRoundTrip(): array
+    {
+        return [
+            [1729989000, 'Europe/Zurich', '2024-10-27T02:30:00+02:00[Europe/Zurich]'],
+            [1729992600, 'Europe/Zurich', '2024-10-27T02:30:00+01:00[Europe/Zurich]'],
+            [1712414700, 'Australia/Lord_Howe', '2024-04-07T01:45:00+11:00[Australia/Lord_Howe]'],
+            [1712416500, 'Australia/Lord_Howe', '2024-04-07T01:45:00+10:30[Australia/Lord_Howe]'],
+            [1730611800, 'America/New_York', '2024-11-03T01:30:00-04:00[America/New_York]'],
+            [1730615400, 'America/New_York', '2024-11-03T01:30:00-05:00[America/New_York]'],
+            [1729987200, 'Antarctica/Troll', '2024-10-27T02:00:00+02:00[Antarctica/Troll]'],
+            [1729994400, 'Antarctica/Troll', '2024-10-27T02:00:00Z[Antarctica/Troll]'],
+            [1414272600, 'Europe/Moscow', '2014-10-26T01:30:00+04:00[Europe/Moscow]'],
+            [1414276200, 'Europe/Moscow', '2014-10-26T01:30:00+03:00[Europe/Moscow]'],
+            [1729989000, 'Europe/Dublin', '2024-10-27T01:30:00+01:00[Europe/Dublin]'],
+            [1729992600, 'Europe/Dublin', '2024-10-27T01:30:00Z[Europe/Dublin]'],
+            [4128625800, 'Europe/Zurich', '2100-10-31T02:30:00+02:00[Europe/Zurich]'],
+            [4128629400, 'Europe/Zurich', '2100-10-31T02:30:00+01:00[Europe/Zurich]'],
+            [-2208988800, 'Europe/Paris', '1900-01-01T00:09:21+00:09:21[Europe/Paris]'],
         ];
     }
 
