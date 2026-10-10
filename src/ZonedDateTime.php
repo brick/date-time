@@ -166,17 +166,28 @@ final readonly class ZonedDateTime implements JsonSerializable, Stringable
         $timeZoneOffset = TimeZoneOffset::from($result);
 
         if ($result->hasField(Field\TimeZoneRegion::NAME)) {
+            $timeZone = TimeZoneRegion::from($result);
+
             $zonedDateTime = ZonedDateTime::ofInstant(
                 ZonedDateTime::of($localDateTime, $timeZoneOffset)->getInstant(),
-                TimeZoneRegion::from($result),
+                $timeZone,
             );
 
             if (! $zonedDateTime->getTimeZoneOffset()->isEqualTo($timeZoneOffset)) {
+                // In a gap, of() shifts the local date-time forward.
+                if (! ZonedDateTime::of($localDateTime, $timeZone)->getDateTime()->isEqualTo($localDateTime)) {
+                    throw new DateTimeException(sprintf(
+                        'The local date-time %s does not exist in %s.',
+                        $localDateTime,
+                        $timeZone,
+                    ));
+                }
+
                 throw new DateTimeException(sprintf(
                     'The offset %s is not valid for %s in %s.',
                     $timeZoneOffset,
                     $localDateTime,
-                    $zonedDateTime->getTimeZone(),
+                    $timeZone,
                 ));
             }
 

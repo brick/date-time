@@ -507,8 +507,8 @@ class ZonedDateTimeTest extends AbstractTestCase
             ['2001-02-03T01:02+01:00[Europe/London]', 'The offset +01:00 is not valid for 2001-02-03T01:02 in Europe/London.'],
             ['2024-06-01T12:00Z[Europe/Zurich]', 'The offset Z is not valid for 2024-06-01T12:00 in Europe/Zurich.'],
             ['2024-06-01T12:00+05:00[Europe/Zurich]', 'The offset +05:00 is not valid for 2024-06-01T12:00 in Europe/Zurich.'],
-            ['2024-03-31T02:30+01:00[Europe/Zurich]', 'The offset +01:00 is not valid for 2024-03-31T02:30 in Europe/Zurich.'],
-            ['2024-03-31T02:30+02:00[Europe/Zurich]', 'The offset +02:00 is not valid for 2024-03-31T02:30 in Europe/Zurich.'],
+            ['2024-03-31T02:30+01:00[Europe/Zurich]', 'The local date-time 2024-03-31T02:30 does not exist in Europe/Zurich.'],
+            ['2024-03-31T02:30+02:00[Europe/Zurich]', 'The local date-time 2024-03-31T02:30 does not exist in Europe/Zurich.'],
         ];
     }
 
