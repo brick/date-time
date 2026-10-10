@@ -1,5 +1,12 @@
 # Changelog
 
+## UNRELEASED (0.10.5)
+
+🐛 **Bug fixes**
+
+- `plusPeriod()` on `LocalDate`, `LocalDateTime` and `ZonedDateTime` now adds the years and months in one step, fixing wrong results from Feb 29 (#141 by @gnutix)
+- `LocalDateTime::plusDuration()` and `minusDuration()` did not move the date when the nanos carry crossed midnight (#142 by @gnutix)
+
 ## [0.10.4](https://github.com/brick/date-time/releases/tag/0.10.4) - 2026-10-09
 
 🐛 **Bug fixes**
