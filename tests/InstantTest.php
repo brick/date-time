@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace Brick\DateTime\Tests;
 
-use Brick\DateTime\Clock\FixedClock;
 use Brick\DateTime\DateTimeException;
 use Brick\DateTime\Duration;
 use Brick\DateTime\Instant;
+use Brick\DateTime\Parser\DateTimeParseException;
 use Brick\DateTime\TimeZone;
 use PHPUnit\Framework\Attributes\DataProvider;
 
@@ -57,12 +57,6 @@ class InstantTest extends AbstractTestCase
 
         self::assertInstantIs(0, 0, $epoch);
         self::assertSame($epoch, Instant::epoch());
-    }
-
-    public function testNow(): void
-    {
-        $clock = new FixedClock(Instant::of(123456789, 987654321));
-        self::assertInstantIs(123456789, 987654321, Instant::now($clock));
     }
 
     public function testMin(): void
@@ -393,34 +387,6 @@ class InstantTest extends AbstractTestCase
         self::assertSame($cmp <= 0, Instant::of($s1, $n1)->isBeforeOrEqualTo(Instant::of($s2, $n2)));
     }
 
-    /**
-     * @param int $testSecond The second of the test instant.
-     * @param int $testNano   The nanosecond adjustment to the test instant.
-     * @param int $nowSecond  The second of the current time.
-     * @param int $nowNano    The nanosecond adjustment to the current time.
-     * @param int $cmp        The comparison value.
-     */
-    #[DataProvider('providerCompareTo')]
-    public function testIsFuture(int $testSecond, int $testNano, int $nowSecond, int $nowNano, int $cmp): void
-    {
-        $clock = new FixedClock(Instant::of($nowSecond, $nowNano));
-        self::assertSame($cmp === 1, Instant::of($testSecond, $testNano)->isFuture($clock));
-    }
-
-    /**
-     * @param int $testSecond The second of the test instant.
-     * @param int $testNano   The nanosecond adjustment to the test instant.
-     * @param int $nowSecond  The second of the current time.
-     * @param int $nowNano    The nanosecond adjustment to the current time.
-     * @param int $cmp        The comparison value.
-     */
-    #[DataProvider('providerCompareTo')]
-    public function testIsPast(int $testSecond, int $testNano, int $nowSecond, int $nowNano, int $cmp): void
-    {
-        $clock = new FixedClock(Instant::of($nowSecond, $nowNano));
-        self::assertSame($cmp === -1, Instant::of($testSecond, $testNano)->isPast($clock));
-    }
-
     public static function providerCompareTo(): array
     {
         return [
@@ -614,6 +580,43 @@ class InstantTest extends AbstractTestCase
             [123456789, 10000000, '123456789.01'],
             [123456789, 100000000, '123456789.1'],
             [123456789, 550000000, '123456789.55'],
+        ];
+    }
+
+    #[DataProvider('providerParse')]
+    public function testParse(string $text, int $expectedSeconds, int $expectedNanos): void
+    {
+        self::assertInstantIs($expectedSeconds, $expectedNanos, Instant::parse($text));
+    }
+
+    public static function providerParse(): array
+    {
+        return [
+            ['1970-01-01T00:00Z', 0, 0],
+            ['2001-09-09T01:46:40Z', 1000000000, 0],
+            ['2001-09-09T01:46:40.123456789z', 1000000000, 123456789],
+            ['2001-09-09T03:46:40+02:00', 1000000000, 0],
+            ['2001-09-08T20:16:40.5-05:30', 1000000000, 500000000],
+            ['1969-12-31T23:59:59.999999999Z', -1, 999999999],
+        ];
+    }
+
+    #[DataProvider('providerParseInvalidStringThrowsException')]
+    public function testParseInvalidStringThrowsException(string $text): void
+    {
+        $this->expectException(DateTimeParseException::class);
+        Instant::parse($text);
+    }
+
+    public static function providerParseInvalidStringThrowsException(): array
+    {
+        return [
+            [''],
+            ['2001-09-09'],
+            ['2001-09-09T01:46:40'],
+            ['2001-09-09T01:46:40Z[Europe/London]'],
+            [' 2001-09-09T01:46:40Z'],
+            ['2001-09-09T01:46:40Z '],
         ];
     }
 

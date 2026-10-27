@@ -83,18 +83,6 @@ final readonly class MonthDay implements JsonSerializable, Stringable
     }
 
     /**
-     * Returns the current month-day in the given time-zone, according to the given clock.
-     *
-     * If no clock is provided, the system clock is used.
-     */
-    public static function now(TimeZone $timeZone, ?Clock $clock = null): MonthDay
-    {
-        $date = LocalDate::now($timeZone, $clock);
-
-        return new MonthDay($date->getMonthValue(), $date->getDayOfMonth());
-    }
-
-    /**
      * Returns the month-of-year as a Month enum.
      */
     public function getMonth(): Month

@@ -7,6 +7,8 @@ namespace Brick\DateTime\Clock;
 use Brick\DateTime\Clock;
 use Brick\DateTime\Duration;
 use Brick\DateTime\Instant;
+use Brick\DateTime\TimeZone;
+use Brick\DateTime\ZonedClock;
 use Override;
 
 /**
@@ -25,8 +27,14 @@ final readonly class OffsetClock implements Clock
     }
 
     #[Override]
-    public function getTime(): Instant
+    public function getInstant(): Instant
     {
-        return $this->referenceClock->getTime()->plus($this->offset);
+        return $this->referenceClock->getInstant()->plus($this->offset);
+    }
+
+    #[Override]
+    public function atTimeZone(TimeZone $timeZone): ZonedClock
+    {
+        return new ZonedClock($this, $timeZone);
     }
 }

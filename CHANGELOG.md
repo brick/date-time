@@ -5,6 +5,33 @@
 💥 **Breaking changes**
 
 - `ZonedDateTime::parse()` now throws a `DateTimeException` when the offset is not valid for the region, instead of silently replacing it (#140 by @gnutix)
+- `Clock::getTime()` has been renamed to `getInstant()`
+- `Clock` has a new method, `atTimeZone(TimeZone): ZonedClock`: custom `Clock` implementations must implement it
+- `DefaultClock` has been removed: inject a `Clock` or `ZonedClock` instead, and use `FixedClock`, `OffsetClock` or `ScaleClock` in tests
+- All `now()` methods have been removed, use a `ZonedClock` instead:
+  - `ZonedDateTime::now()` → `ZonedClock::getZonedDateTime()`
+  - `LocalDateTime::now()` → `ZonedClock::getLocalDateTime()`
+  - `LocalDate::now()` → `ZonedClock::getLocalDate()`
+  - `LocalTime::now()` → `ZonedClock::getLocalTime()`
+  - `YearMonth::now()` → `ZonedClock::getLocalDate()->getYearMonth()`
+  - `YearWeek::now()` → `ZonedClock::getLocalDate()->getYearWeek()`
+  - `Quarter::now()` → `ZonedClock::getLocalDate()->getQuarter()`
+  - `DayOfWeek::now()` → `ZonedClock::getLocalDate()->getDayOfWeek()`
+  - `MonthDay::now()` → `ZonedClock::getLocalDate()->getMonthDay()`
+  - `Year::now()` → `Year::of(ZonedClock::getLocalDate()->getYear())`
+  - `Instant::now()` → `Clock::getInstant()`
+- `isFuture()` and `isPast()` have been removed from `Instant`, `LocalDateTime` and `ZonedDateTime`: compare with `isAfter()` / `isBefore()` instead, e.g. `$instant->isAfter($clock->getInstant())`
+- `Stopwatch`'s constructor now requires a `Clock`
+- `FixedClock::setTime()` has been renamed to `setInstant()`
+
+✨ **New features**
+
+- New class `ZonedClock`, which wraps a `Clock` and a `TimeZone`:
+  - `getZonedDateTime()`, `getLocalDateTime()`, `getLocalDate()` and `getLocalTime()` return the current date and time in its time zone
+  - `atTimeZone()` returns a copy in another time zone
+  - `ZonedClock::fixed(ZonedDateTime)` returns a clock fixed at the given date-time, in its time zone
+- All built-in clocks can be bound to a time zone with `atTimeZone()`, e.g. `(new SystemClock())->atTimeZone(TimeZone::utc())`
+- New method `Instant::parse()`, which parses an ISO 8601 date-time with an offset, such as `2026-10-10T08:00:00Z`
 
 🐛 **Bug fixes**
 

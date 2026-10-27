@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace Brick\DateTime;
 
+use Brick\DateTime\Parser\DateTimeParseException;
+use Brick\DateTime\Parser\DateTimeParser;
+use Brick\DateTime\Parser\IsoParsers;
 use JsonSerializable;
 use Override;
 use Stringable;
@@ -73,13 +76,25 @@ final readonly class Instant implements JsonSerializable, Stringable
         return $epoch ??= new Instant(0, 0);
     }
 
-    public static function now(?Clock $clock = null): Instant
+    /**
+     * Obtains an instance of `Instant` from a text string.
+     *
+     * The default parser accepts an ISO 8601 date-time with an offset, such as `2007-12-03T10:15:30Z`
+     * or `2007-12-03T11:15:30+01:00`.
+     *
+     * @param string              $text   The text to parse.
+     * @param DateTimeParser|null $parser The parser to use, defaults to the ISO 8601 parser.
+     *
+     * @throws DateTimeException      If the date-time is not valid.
+     * @throws DateTimeParseException If the text string does not follow the expected format.
+     */
+    public static function parse(string $text, ?DateTimeParser $parser = null): Instant
     {
-        if ($clock === null) {
-            $clock = DefaultClock::get();
+        if ($parser === null) {
+            $parser = IsoParsers::offsetDateTime();
         }
 
-        return $clock->getTime();
+        return ZonedDateTime::from($parser->parse($text))->getInstant();
     }
 
     /**
@@ -285,26 +300,6 @@ final readonly class Instant implements JsonSerializable, Stringable
     public function isBetweenExclusive(Instant $from, Instant $to): bool
     {
         return $this->isAfter($from) && $this->isBefore($to);
-    }
-
-    /**
-     * Returns whether this instant is in the future, according to the given clock.
-     *
-     * If no clock is provided, the system clock is used.
-     */
-    public function isFuture(?Clock $clock = null): bool
-    {
-        return $this->isAfter(Instant::now($clock));
-    }
-
-    /**
-     * Returns whether this instant is in the past, according to the given clock.
-     *
-     * If no clock is provided, the system clock is used.
-     */
-    public function isPast(?Clock $clock = null): bool
-    {
-        return $this->isBefore(Instant::now($clock));
     }
 
     /**
