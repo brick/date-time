@@ -16,3 +16,4 @@
 /tools/phpstan/*
 !/tools/phpstan/composer.json
 !/tools/phpstan/phpstan.neon
+!/tools/phpstan/src/

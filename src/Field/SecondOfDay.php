@@ -8,6 +8,8 @@ use Brick\DateTime\DateTimeException;
 
 /**
  * The second-of-day field.
+ *
+ * @phpstan-all-methods-pure
  */
 final class SecondOfDay
 {
@@ -20,6 +22,8 @@ final class SecondOfDay
      * @param int $secondOfDay The second-of-day to check.
      *
      * @throws DateTimeException If the second-of-day is not valid.
+     *
+     * @phpstan-pure
      */
     public static function check(int $secondOfDay): void
     {

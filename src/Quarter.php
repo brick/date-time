@@ -9,6 +9,8 @@ use Override;
 
 /**
  * Represents a quarter-of-year.
+ *
+ * @phpstan-all-methods-pure
  */
 enum Quarter: int implements JsonSerializable
 {
@@ -36,6 +38,8 @@ enum Quarter: int implements JsonSerializable
      * Returns the current quarter in the given time-zone, according to the given clock.
      *
      * If no clock is provided, the system clock is used.
+     *
+     * @phpstan-impure
      */
     public static function now(TimeZone $timeZone, ?Clock $clock = null): self
     {

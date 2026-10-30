@@ -13,6 +13,8 @@ use Stringable;
  * The end instant is always greater than or equal to the start instant.
  *
  * This class is immutable.
+ *
+ * @phpstan-all-methods-pure
  */
 final readonly class Interval implements JsonSerializable, Stringable
 {

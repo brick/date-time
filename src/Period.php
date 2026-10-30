@@ -18,6 +18,8 @@ use function sprintf;
  * A date-based amount of time in the ISO-8601 calendar system, such as '2 years, 3 months and 4 days'.
  *
  * This class is immutable.
+ *
+ * @phpstan-all-methods-pure
  */
 final readonly class Period implements JsonSerializable, Stringable
 {

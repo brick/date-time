@@ -22,6 +22,8 @@ use Stringable;
  * in the range, while `count()` returns the total number of year-months contained in the range.
  *
  * @template-implements IteratorAggregate<YearMonth>
+ *
+ * @phpstan-all-methods-pure
  */
 final readonly class YearMonthRange implements IteratorAggregate, Countable, JsonSerializable, Stringable
 {
@@ -59,6 +61,8 @@ final readonly class YearMonthRange implements IteratorAggregate, Countable, Jso
      *
      * @throws DateTimeException      If the year-month range is not valid.
      * @throws DateTimeParseException If required fields are missing from the result.
+     *
+     * @phpstan-impure
      */
     public static function from(DateTimeParseResult $result): YearMonthRange
     {
@@ -145,6 +149,8 @@ final readonly class YearMonthRange implements IteratorAggregate, Countable, Jso
      * Returns an iterator for all the year-months contained in this range.
      *
      * @return Generator<YearMonth>
+     *
+     * @phpstan-impure
      */
     #[Override]
     public function getIterator(): Generator

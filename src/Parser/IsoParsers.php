@@ -20,6 +20,8 @@ use Brick\DateTime\Field\Year;
 
 /**
  * Provides ISO 8601 parser implementations.
+ *
+ * @phpstan-all-methods-pure
  */
 final class IsoParsers
 {

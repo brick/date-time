@@ -13,6 +13,8 @@ use Brick\DateTime\Clock\SystemClock;
  * This is where the default clock is set for all methods such as `now()`.
  *
  * The default clock is the system clock by default, but can be changed for testing.
+ *
+ * @phpstan-all-methods-impure
  */
 final class DefaultClock
 {
@@ -20,6 +22,8 @@ final class DefaultClock
 
     /**
      * Private constructor. This class is not instantiable.
+     *
+     * @phpstan-pure
      */
     private function __construct()
     {

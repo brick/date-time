@@ -28,6 +28,8 @@ use const STR_PAD_LEFT;
  * A date without a time-zone in the ISO-8601 calendar system, such as `2007-12-03`.
  *
  * This class is immutable.
+ *
+ * @phpstan-all-methods-pure
  */
 final readonly class LocalDate implements JsonSerializable, Stringable
 {
@@ -119,6 +121,8 @@ final readonly class LocalDate implements JsonSerializable, Stringable
     /**
      * @throws DateTimeException      If the date is not valid.
      * @throws DateTimeParseException If required fields are missing from the result.
+     *
+     * @phpstan-impure
      */
     public static function from(DateTimeParseResult $result): LocalDate
     {
@@ -214,6 +218,8 @@ final readonly class LocalDate implements JsonSerializable, Stringable
      * Returns the current date in the given time-zone, according to the given clock.
      *
      * If no clock is provided, the system clock is used.
+     *
+     * @phpstan-impure
      */
     public static function now(TimeZone $timeZone, ?Clock $clock = null): LocalDate
     {

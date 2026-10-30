@@ -16,6 +16,7 @@ return static function (ECSConfig $ecsConfig): void {
         [
             $libRootPath . '/src',
             $libRootPath . '/tests',
+            $libRootPath . '/tools/phpstan/src',
             __FILE__,
         ],
     );

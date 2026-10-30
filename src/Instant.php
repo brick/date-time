@@ -22,6 +22,8 @@ use const STR_PAD_LEFT;
  * Instant represents the computer view of the timeline. It unambiguously represents a point in time,
  * without any calendar concept of date, time or time zone. It is not very meaningful to humans,
  * but can be converted to a `ZonedDateTime` by providing a time zone.
+ *
+ * @phpstan-all-methods-pure
  */
 final readonly class Instant implements JsonSerializable, Stringable
 {
@@ -73,6 +75,9 @@ final readonly class Instant implements JsonSerializable, Stringable
         return $epoch ??= new Instant(0, 0);
     }
 
+    /**
+     * @phpstan-impure
+     */
     public static function now(?Clock $clock = null): Instant
     {
         if ($clock === null) {
@@ -291,6 +296,8 @@ final readonly class Instant implements JsonSerializable, Stringable
      * Returns whether this instant is in the future, according to the given clock.
      *
      * If no clock is provided, the system clock is used.
+     *
+     * @phpstan-impure
      */
     public function isFuture(?Clock $clock = null): bool
     {
@@ -301,6 +308,8 @@ final readonly class Instant implements JsonSerializable, Stringable
      * Returns whether this instant is in the past, according to the given clock.
      *
      * If no clock is provided, the system clock is used.
+     *
+     * @phpstan-impure
      */
     public function isPast(?Clock $clock = null): bool
     {

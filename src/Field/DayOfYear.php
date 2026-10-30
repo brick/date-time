@@ -8,6 +8,8 @@ use Brick\DateTime\DateTimeException;
 
 /**
  * The day-of-year field.
+ *
+ * @phpstan-all-methods-pure
  */
 final class DayOfYear
 {
@@ -23,6 +25,8 @@ final class DayOfYear
      * @throws DateTimeException If the day-of-year is not valid.
      *
      * @phpstan-assert int<1, 366> $dayOfYear
+     *
+     * @phpstan-pure
      */
     public static function check(int $dayOfYear, ?int $year = null): void
     {

@@ -9,6 +9,8 @@ use Override;
 
 /**
  * Represents a month-of-year such as January.
+ *
+ * @phpstan-all-methods-pure
  */
 enum Month: int implements JsonSerializable
 {

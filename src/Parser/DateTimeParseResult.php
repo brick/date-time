@@ -17,6 +17,9 @@ final class DateTimeParseResult
      */
     private array $fields = [];
 
+    /**
+     * @phpstan-impure
+     */
     public function addField(string $name, string $value): void
     {
         $this->fields[$name][] = $value;
@@ -24,6 +27,8 @@ final class DateTimeParseResult
 
     /**
      * Returns whether this result has at least one value for the given field.
+     *
+     * @phpstan-pure
      */
     public function hasField(string $name): bool
     {
@@ -38,6 +43,8 @@ final class DateTimeParseResult
      * @return string The value for this field.
      *
      * @throws DateTimeParseException If the field is not present in this set.
+     *
+     * @phpstan-impure
      */
     public function getField(string $name): string
     {
@@ -52,6 +59,8 @@ final class DateTimeParseResult
 
     /**
      * Returns the first value for the given field, or an empty string if not present.
+     *
+     * @phpstan-impure
      */
     public function getOptionalField(string $name): string
     {

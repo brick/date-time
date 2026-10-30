@@ -15,6 +15,8 @@ interface DateTimeParser
      * @return DateTimeParseResult The parse result.
      *
      * @throws DateTimeParseException If the given text could not be parsed.
+     *
+     * @phpstan-pure
      */
     public function parse(string $text): DateTimeParseResult;
 }

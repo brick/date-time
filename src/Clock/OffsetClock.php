@@ -17,6 +17,8 @@ final readonly class OffsetClock implements Clock
     /**
      * @param Clock    $referenceClock The reference clock.
      * @param Duration $offset         The offset to apply to the clock.
+     *
+     * @phpstan-pure
      */
     public function __construct(
         private Clock $referenceClock,

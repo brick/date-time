@@ -8,6 +8,8 @@ use Brick\DateTime\DateTimeException;
 
 /**
  * The nano-of-second field.
+ *
+ * @phpstan-all-methods-pure
  */
 final class NanoOfSecond
 {
@@ -20,6 +22,8 @@ final class NanoOfSecond
      * @param int $nanoOfSecond The nano-of-second to check.
      *
      * @throws DateTimeException If the nano-of-second is not valid.
+     *
+     * @phpstan-pure
      */
     public static function check(int $nanoOfSecond): void
     {

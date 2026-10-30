@@ -8,6 +8,8 @@ use Brick\DateTime\DateTimeException;
 
 /**
  * Exception thrown when a parse error occurs.
+ *
+ * @phpstan-all-methods-pure
  */
 final class DateTimeParseException extends DateTimeException
 {

@@ -10,6 +10,8 @@ namespace Brick\DateTime\Field;
  * This is used together with nano-of-second: fraction-of-second is used during parsing
  * as its length can range anywhere from 1 to 9; the number is then padded right with
  * zeros to make it 9 digits long, effectively becoming a nano-of-second.
+ *
+ * @phpstan-all-methods-pure
  */
 final class FractionOfSecond
 {

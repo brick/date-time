@@ -13,6 +13,8 @@ use Override;
 
 /**
  * A time-zone offset from Greenwich/UTC, such as `+02:00`.
+ *
+ * @phpstan-all-methods-pure
  */
 final class TimeZoneOffset extends TimeZone
 {
@@ -98,6 +100,8 @@ final class TimeZoneOffset extends TimeZone
     /**
      * @throws DateTimeException      If the offset is not valid.
      * @throws DateTimeParseException If required fields are missing from the result.
+     *
+     * @phpstan-impure
      */
     public static function from(DateTimeParseResult $result): TimeZoneOffset
     {

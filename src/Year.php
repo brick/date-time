@@ -19,6 +19,8 @@ use const STR_PAD_LEFT;
 
 /**
  * Represents a year in the proleptic calendar.
+ *
+ * @phpstan-all-methods-pure
  */
 final readonly class Year implements JsonSerializable, Stringable
 {
@@ -46,6 +48,8 @@ final readonly class Year implements JsonSerializable, Stringable
     /**
      * @throws DateTimeException      If the year is not valid.
      * @throws DateTimeParseException If required fields are missing from the result.
+     *
+     * @phpstan-impure
      */
     public static function from(DateTimeParseResult $result): Year
     {
@@ -76,6 +80,8 @@ final readonly class Year implements JsonSerializable, Stringable
      * Returns the current year in the given time-zone, according to the given clock.
      *
      * If no clock is provided, the system clock is used.
+     *
+     * @phpstan-impure
      */
     public static function now(TimeZone $timeZone, ?Clock $clock = null): Year
     {

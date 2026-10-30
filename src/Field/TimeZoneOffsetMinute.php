@@ -8,6 +8,8 @@ use Brick\DateTime\DateTimeException;
 
 /**
  * The minute part of the time-zone offset.
+ *
+ * @phpstan-all-methods-pure
  */
 final class TimeZoneOffsetMinute
 {
@@ -25,6 +27,8 @@ final class TimeZoneOffsetMinute
      * @param int $offsetMinute The offset-minute to check.
      *
      * @throws DateTimeException If the offset-minute is not valid.
+     *
+     * @phpstan-pure
      */
     public static function check(int $offsetMinute): void
     {

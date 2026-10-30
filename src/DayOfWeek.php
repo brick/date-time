@@ -9,6 +9,8 @@ use Override;
 
 /**
  * Represents a day-of-week such as Tuesday.
+ *
+ * @phpstan-all-methods-pure
  */
 enum DayOfWeek: int implements JsonSerializable
 {
@@ -24,6 +26,8 @@ enum DayOfWeek: int implements JsonSerializable
      * Returns the current day-of-week in the given time-zone, according to the given clock.
      *
      * If no clock is provided, the system clock is used.
+     *
+     * @phpstan-impure
      */
     public static function now(TimeZone $timeZone, ?Clock $clock = null): DayOfWeek
     {

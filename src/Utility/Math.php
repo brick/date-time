@@ -13,6 +13,8 @@ use function is_float;
  * Internal utility class for calculations on integers.
  *
  * @internal
+ *
+ * @phpstan-all-methods-pure
  */
 final class Math
 {
