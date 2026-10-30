@@ -16,6 +16,8 @@ use function is_int;
 
 /**
  * A month-day in the ISO-8601 calendar system, such as `--12-03`.
+ *
+ * @phpstan-all-methods-pure
  */
 final readonly class MonthDay implements JsonSerializable, Stringable
 {
@@ -55,6 +57,8 @@ final readonly class MonthDay implements JsonSerializable, Stringable
     /**
      * @throws DateTimeException      If the month-day is not valid.
      * @throws DateTimeParseException If required fields are missing from the result.
+     *
+     * @phpstan-impure
      */
     public static function from(DateTimeParseResult $result): MonthDay
     {
@@ -86,6 +90,8 @@ final readonly class MonthDay implements JsonSerializable, Stringable
      * Returns the current month-day in the given time-zone, according to the given clock.
      *
      * If no clock is provided, the system clock is used.
+     *
+     * @phpstan-impure
      */
     public static function now(TimeZone $timeZone, ?Clock $clock = null): MonthDay
     {

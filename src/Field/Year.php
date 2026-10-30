@@ -8,6 +8,8 @@ use Brick\DateTime\DateTimeException;
 
 /**
  * The proleptic year field.
+ *
+ * @phpstan-all-methods-pure
  */
 final class Year
 {
@@ -35,6 +37,8 @@ final class Year
      * @param int $year The year to check.
      *
      * @throws DateTimeException If the year is not valid.
+     *
+     * @phpstan-pure
      */
     public static function check(int $year): void
     {

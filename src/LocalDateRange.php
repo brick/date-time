@@ -25,6 +25,8 @@ use Stringable;
  * in the range, while `count()` returns the total number of dates contained in the range.
  *
  * @template-implements IteratorAggregate<LocalDate>
+ *
+ * @phpstan-all-methods-pure
  */
 final readonly class LocalDateRange implements IteratorAggregate, Countable, JsonSerializable, Stringable
 {
@@ -62,6 +64,8 @@ final readonly class LocalDateRange implements IteratorAggregate, Countable, Jso
      *
      * @throws DateTimeException      If the date range is not valid.
      * @throws DateTimeParseException If required fields are missing from the result.
+     *
+     * @phpstan-impure
      */
     public static function from(DateTimeParseResult $result): LocalDateRange
     {
@@ -215,6 +219,8 @@ final readonly class LocalDateRange implements IteratorAggregate, Countable, Jso
      * Returns an iterator for all the dates contained in this range.
      *
      * @return Generator<LocalDate>
+     *
+     * @phpstan-impure
      */
     #[Override]
     public function getIterator(): Generator

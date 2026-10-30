@@ -29,6 +29,8 @@ use const STR_PAD_LEFT;
  *
  * A ZonedDateTime can be viewed as a LocalDateTime along with a time zone
  * and targets a specific point in time.
+ *
+ * @phpstan-all-methods-pure
  */
 final readonly class ZonedDateTime implements JsonSerializable, Stringable
 {
@@ -145,6 +147,8 @@ final readonly class ZonedDateTime implements JsonSerializable, Stringable
      * Returns the current date-time in the given time-zone, according to the given clock.
      *
      * If no clock is provided, the system clock is used.
+     *
+     * @phpstan-impure
      */
     public static function now(TimeZone $timeZone, ?Clock $clock = null): ZonedDateTime
     {
@@ -158,6 +162,8 @@ final readonly class ZonedDateTime implements JsonSerializable, Stringable
      *
      * @throws DateTimeException      If the zoned date-time is not valid.
      * @throws DateTimeParseException If required fields are missing from the result.
+     *
+     * @phpstan-impure
      */
     public static function from(DateTimeParseResult $result): ZonedDateTime
     {
@@ -713,6 +719,8 @@ final readonly class ZonedDateTime implements JsonSerializable, Stringable
      * Returns whether this ZonedDateTime is in the future, according to the given clock.
      *
      * If no clock is provided, the system clock is used.
+     *
+     * @phpstan-impure
      */
     public function isFuture(?Clock $clock = null): bool
     {
@@ -723,6 +731,8 @@ final readonly class ZonedDateTime implements JsonSerializable, Stringable
      * Returns whether this ZonedDateTime is in the past, according to the given clock.
      *
      * If no clock is provided, the system clock is used.
+     *
+     * @phpstan-impure
      */
     public function isPast(?Clock $clock = null): bool
     {
@@ -747,6 +757,7 @@ final readonly class ZonedDateTime implements JsonSerializable, Stringable
 
         assert($nativeDateTime !== false);
 
+        // @phpstan-ignore impure.methodCall (the DateTime was created just above)
         $nativeDateTime->setTimezone($this->timeZone->toNativeDateTimeZone());
 
         return $nativeDateTime;

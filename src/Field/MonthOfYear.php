@@ -8,6 +8,8 @@ use Brick\DateTime\DateTimeException;
 
 /**
  * The month-of-year field.
+ *
+ * @phpstan-all-methods-pure
  */
 final class MonthOfYear
 {
@@ -27,6 +29,8 @@ final class MonthOfYear
      * @throws DateTimeException If the month-of-year is not valid.
      *
      * @phpstan-assert int<1, 12> $monthOfYear
+     *
+     * @phpstan-pure
      */
     public static function check(int $monthOfYear): void
     {

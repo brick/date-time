@@ -22,6 +22,8 @@ use const STR_PAD_RIGHT;
  * Represents a duration of time measured in seconds.
  *
  * This class is immutable.
+ *
+ * @phpstan-all-methods-pure
  */
 final readonly class Duration implements JsonSerializable, Stringable
 {

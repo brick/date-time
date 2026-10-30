@@ -11,6 +11,8 @@ use Override;
 
 /**
  * This clock makes the time move at a given pace.
+ *
+ * @phpstan-all-methods-impure
  */
 final readonly class ScaleClock implements Clock
 {

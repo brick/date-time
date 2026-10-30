@@ -1,5 +1,42 @@
 parameters:
     level: 10
     checkUninitializedProperties: true
+    phpVersion:
+        min: 80200
+        max: 80699
     paths:
         - ../../src
+    ignoreErrors:
+        # The methods below are pure as far as their callers can tell, which PHPStan cannot see.
+
+        # A static variable memoizes a value that never changes
+        -
+            identifier: impure.static
+            path: ../../src/*
+
+        # parse() hands from() the result it has just created, so from() consuming it has no effect outside
+        -
+            message: '#^Impure call to method Brick\\DateTime\\\w+::from\(\) in pure method Brick\\DateTime\\\w+::parse\(\)\.$#'
+            identifier: impure.methodCall
+            path: ../../src/*
+
+        # PHPStan counts any call to a void method as impure, even to a validator that it accepts as pure
+        -
+            message: '#^Impure call to method Brick\\DateTime\\Field\\\w+::check\(\) in pure method #'
+            identifier: impure.methodCall
+            path: ../../src/*
+
+        # Each parser is built with a builder created on the spot
+        -
+            identifier: impure.methodCall
+            path: ../../src/Parser/IsoParsers.php
+
+        # getId() caches the ID it computes
+        -
+            identifier: impure.propertyAssign
+            path: ../../src/TimeZoneOffset.php
+
+        # PHPStan does not know whether these native functions and classes are pure
+        -
+            message: '#^Possibly impure (call to function (assert|preg_match)\(\)|instantiation of class Date\w+|call to method Date\w+::\w+\(\)) in pure method #'
+            path: ../../src/*

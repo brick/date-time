@@ -8,6 +8,8 @@ use Brick\DateTime\DateTimeException;
 
 /**
  * The hour-of-day field.
+ *
+ * @phpstan-all-methods-pure
  */
 final class HourOfDay
 {
@@ -25,6 +27,8 @@ final class HourOfDay
      * @param int $hourOfDay The hour-of-day to check.
      *
      * @throws DateTimeException If the hour-of-day is not valid.
+     *
+     * @phpstan-pure
      */
     public static function check(int $hourOfDay): void
     {

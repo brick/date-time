@@ -15,6 +15,8 @@ use Override;
 
 /**
  * A geographical region where the same time-zone rules apply, such as `Europe/London`.
+ *
+ * @phpstan-all-methods-pure
  */
 final class TimeZoneRegion extends TimeZone
 {
@@ -48,6 +50,8 @@ final class TimeZoneRegion extends TimeZone
     /**
      * @throws DateTimeException      If the region is not valid.
      * @throws DateTimeParseException If required fields are missing from the result.
+     *
+     * @phpstan-impure
      */
     public static function from(DateTimeParseResult $result): TimeZoneRegion
     {

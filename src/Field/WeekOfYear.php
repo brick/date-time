@@ -11,6 +11,8 @@ use Brick\DateTime\Month;
 
 /**
  * The week-of-year field.
+ *
+ * @phpstan-all-methods-pure
  */
 final class WeekOfYear
 {
@@ -29,6 +31,8 @@ final class WeekOfYear
      * @param int|null $year       An optional year to check against, validated.
      *
      * @throws DateTimeException If the week-of-year is not valid.
+     *
+     * @phpstan-pure
      */
     public static function check(int $weekOfYear, ?int $year = null): void
     {

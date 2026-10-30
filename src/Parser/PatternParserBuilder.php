@@ -27,6 +27,9 @@ final class PatternParserBuilder
      */
     private array $stack = [];
 
+    /**
+     * @phpstan-impure
+     */
     public function append(PatternParser $parser): self
     {
         $this->pattern .= $parser->getPattern();
@@ -35,6 +38,9 @@ final class PatternParserBuilder
         return $this;
     }
 
+    /**
+     * @phpstan-impure
+     */
     public function appendLiteral(string $literal): self
     {
         $this->pattern .= preg_quote($literal, '/');
@@ -42,6 +48,9 @@ final class PatternParserBuilder
         return $this;
     }
 
+    /**
+     * @phpstan-impure
+     */
     public function appendCapturePattern(string $pattern, string $field): self
     {
         $this->pattern .= '(' . $pattern . ')';
@@ -50,6 +59,9 @@ final class PatternParserBuilder
         return $this;
     }
 
+    /**
+     * @phpstan-impure
+     */
     public function startOptional(): self
     {
         $this->pattern .= '(?:';
@@ -58,6 +70,9 @@ final class PatternParserBuilder
         return $this;
     }
 
+    /**
+     * @phpstan-impure
+     */
     public function endOptional(): self
     {
         if (array_pop($this->stack) !== 'O') {
@@ -69,6 +84,9 @@ final class PatternParserBuilder
         return $this;
     }
 
+    /**
+     * @phpstan-impure
+     */
     public function startGroup(): self
     {
         $this->pattern .= '(?:';
@@ -77,6 +95,9 @@ final class PatternParserBuilder
         return $this;
     }
 
+    /**
+     * @phpstan-impure
+     */
     public function endGroup(): self
     {
         if (array_pop($this->stack) !== 'G') {
@@ -88,6 +109,9 @@ final class PatternParserBuilder
         return $this;
     }
 
+    /**
+     * @phpstan-impure
+     */
     public function appendOr(): self
     {
         $this->pattern .= '|';
@@ -95,6 +119,9 @@ final class PatternParserBuilder
         return $this;
     }
 
+    /**
+     * @phpstan-pure
+     */
     public function toParser(): PatternParser
     {
         if ($this->stack !== []) {

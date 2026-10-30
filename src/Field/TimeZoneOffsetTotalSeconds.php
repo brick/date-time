@@ -10,6 +10,8 @@ use Brick\DateTime\DateTimeException;
  * The total number of seconds in a time-zone offset, from -64800 to 64800 (-18:00 to +18:00).
  *
  * The offset is relative to UTC/Greenwich.
+ *
+ * @phpstan-all-methods-pure
  */
 final class TimeZoneOffsetTotalSeconds
 {
@@ -27,6 +29,8 @@ final class TimeZoneOffsetTotalSeconds
      * @param int $offsetSeconds The offset-seconds to check.
      *
      * @throws DateTimeException If the offset-seconds is not valid.
+     *
+     * @phpstan-pure
      */
     public static function check(int $offsetSeconds): void
     {

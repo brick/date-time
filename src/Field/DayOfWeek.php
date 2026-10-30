@@ -8,6 +8,8 @@ use Brick\DateTime\DateTimeException;
 
 /**
  * The day-of-week field.
+ *
+ * @phpstan-all-methods-pure
  */
 final class DayOfWeek
 {
@@ -22,6 +24,8 @@ final class DayOfWeek
      * @throws DateTimeException If the day-of-week is not valid.
      *
      * @phpstan-assert int<1, 7> $dayOfWeek
+     *
+     * @phpstan-pure
      */
     public static function check(int $dayOfWeek): void
     {

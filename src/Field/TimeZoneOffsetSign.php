@@ -6,6 +6,8 @@ namespace Brick\DateTime\Field;
 
 /**
  * The time-zone offset sign, '+', '-', 'Z' or 'z'.
+ *
+ * @phpstan-all-methods-pure
  */
 final class TimeZoneOffsetSign
 {

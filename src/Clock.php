@@ -8,6 +8,8 @@ interface Clock
 {
     /**
      * Returns the current time.
+     *
+     * @phpstan-impure
      */
     public function getTime(): Instant;
 }

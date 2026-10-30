@@ -20,6 +20,8 @@ use const STR_PAD_LEFT;
 
 /**
  * Represents the combination of a year and a month.
+ *
+ * @phpstan-all-methods-pure
  */
 final readonly class YearMonth implements JsonSerializable, Stringable
 {
@@ -56,6 +58,8 @@ final readonly class YearMonth implements JsonSerializable, Stringable
     /**
      * @throws DateTimeException      If the year-month is not valid.
      * @throws DateTimeParseException If required fields are missing from the result.
+     *
+     * @phpstan-impure
      */
     public static function from(DateTimeParseResult $result): YearMonth
     {
@@ -87,6 +91,8 @@ final readonly class YearMonth implements JsonSerializable, Stringable
      * Returns the current year-month in the given time-zone, according to the given clock.
      *
      * If no clock is provided, the system clock is used.
+     *
+     * @phpstan-impure
      */
     public static function now(TimeZone $timeZone, ?Clock $clock = null): YearMonth
     {

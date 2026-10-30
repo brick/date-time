@@ -8,6 +8,8 @@ use Brick\DateTime\DateTimeException;
 
 /**
  * The second part of the time-zone offset.
+ *
+ * @phpstan-all-methods-pure
  */
 final class TimeZoneOffsetSecond
 {
@@ -25,6 +27,8 @@ final class TimeZoneOffsetSecond
      * @param int $offsetSecond The offset-second to check.
      *
      * @throws DateTimeException If the offset-second is not valid.
+     *
+     * @phpstan-pure
      */
     public static function check(int $offsetSecond): void
     {

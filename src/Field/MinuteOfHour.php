@@ -8,6 +8,8 @@ use Brick\DateTime\DateTimeException;
 
 /**
  * The minute-of-hour field.
+ *
+ * @phpstan-all-methods-pure
  */
 final class MinuteOfHour
 {
@@ -25,6 +27,8 @@ final class MinuteOfHour
      * @param int $minuteOfHour The minute-of-hour to check.
      *
      * @throws DateTimeException If the minute-of-hour is not valid.
+     *
+     * @phpstan-pure
      */
     public static function check(int $minuteOfHour): void
     {

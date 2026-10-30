@@ -17,6 +17,8 @@ use const PHP_VERSION_ID;
  *
  * * `TimeZoneOffset` represents a fixed offset from UTC such as `+02:00`.
  * * `TimeZoneRegion` represents a geographical region such as `Europe/London`.
+ *
+ * @phpstan-all-methods-pure
  */
 abstract class TimeZone implements Stringable
 {

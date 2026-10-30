@@ -19,6 +19,8 @@ use const STR_PAD_LEFT;
 
 /**
  * Represents the combination of a year and a week.
+ *
+ * @phpstan-all-methods-pure
  */
 final readonly class YearWeek implements JsonSerializable, Stringable
 {
@@ -51,6 +53,8 @@ final readonly class YearWeek implements JsonSerializable, Stringable
     /**
      * @throws DateTimeException      If the year-week is not valid.
      * @throws DateTimeParseException If required fields are missing from the result.
+     *
+     * @phpstan-impure
      */
     public static function from(DateTimeParseResult $result): YearWeek
     {
@@ -78,6 +82,9 @@ final readonly class YearWeek implements JsonSerializable, Stringable
         return YearWeek::from($parser->parse($text));
     }
 
+    /**
+     * @phpstan-impure
+     */
     public static function now(TimeZone $timeZone, ?Clock $clock = null): YearWeek
     {
         return LocalDate::now($timeZone, $clock)->getYearWeek();

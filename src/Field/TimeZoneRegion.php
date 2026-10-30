@@ -6,6 +6,8 @@ namespace Brick\DateTime\Field;
 
 /**
  * The time-zone region, such as 'Europe/London'.
+ *
+ * @phpstan-all-methods-pure
  */
 final class TimeZoneRegion
 {

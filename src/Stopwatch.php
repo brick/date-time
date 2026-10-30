@@ -25,6 +25,8 @@ final class Stopwatch
 
     /**
      * @param Clock|null $clock An optional clock to use.
+     *
+     * @phpstan-impure
      */
     public function __construct(?Clock $clock = null)
     {
@@ -40,6 +42,8 @@ final class Stopwatch
      * Starts the timer.
      *
      * If the timer is already started, this method does nothing.
+     *
+     * @phpstan-impure
      */
     public function start(): void
     {
@@ -52,6 +56,8 @@ final class Stopwatch
      * Stops the timer and returns the lap duration.
      *
      * If the timer is already stopped, this method does nothing, and returns a zero duration.
+     *
+     * @phpstan-impure
      */
     public function stop(): Duration
     {
@@ -70,12 +76,17 @@ final class Stopwatch
 
     /**
      * Returns the time this stopwatch has been started at, or null if it is not running.
+     *
+     * @phpstan-pure
      */
     public function getStartTime(): ?Instant
     {
         return $this->startTime;
     }
 
+    /**
+     * @phpstan-pure
+     */
     public function isRunning(): bool
     {
         return $this->startTime !== null;
@@ -86,6 +97,8 @@ final class Stopwatch
      *
      * This includes the times between previous start() and stop() calls if any,
      * as well as the time since the stopwatch was last started if it is running.
+     *
+     * @phpstan-impure
      */
     public function getElapsedTime(): Duration
     {

@@ -16,18 +16,26 @@ final class FixedClock implements Clock
 {
     /**
      * @param Instant $instant The time to set the clock at.
+     *
+     * @phpstan-pure
      */
     public function __construct(
         private Instant $instant,
     ) {
     }
 
+    /**
+     * @phpstan-pure
+     */
     #[Override]
     public function getTime(): Instant
     {
         return $this->instant;
     }
 
+    /**
+     * @phpstan-impure
+     */
     public function setTime(Instant $instant): void
     {
         $this->instant = $instant;
@@ -35,6 +43,8 @@ final class FixedClock implements Clock
 
     /**
      * Moves the clock by a number of seconds and/or nanos.
+     *
+     * @phpstan-impure
      */
     public function move(int $seconds, int $nanos = 0): void
     {

@@ -11,6 +11,8 @@ use function sprintf;
 
 /**
  * Matches a regular expression pattern to a set of date-time fields.
+ *
+ * @phpstan-all-methods-pure
  */
 final readonly class PatternParser implements DateTimeParser
 {
@@ -52,6 +54,7 @@ final readonly class PatternParser implements DateTimeParser
 
         foreach ($this->fields as $field) {
             if (isset($matches[$index]) && $matches[$index] !== '') {
+                // @phpstan-ignore impure.methodCall (the result was created just above)
                 $result->addField($field, $matches[$index]);
             }
 

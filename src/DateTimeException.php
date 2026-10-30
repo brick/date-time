@@ -10,6 +10,8 @@ use function sprintf;
 
 /**
  * This exception is used to indicate problems with creating, querying and manipulating date-time objects.
+ *
+ * @phpstan-all-methods-pure
  */
 class DateTimeException extends RuntimeException
 {
