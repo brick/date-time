@@ -165,6 +165,7 @@ class DurationTest extends AbstractTestCase
             ['pT-0S', 0, 0],
             ['Pt0S', 0, 0],
             ['PT-0s', 0, 0],
+            ['p1dt2h', 93600, 0],
 
             ['PT0.1S', 0, 100000000],
             ['PT-0.1S', -1, 900000000],
@@ -270,6 +271,9 @@ class DurationTest extends AbstractTestCase
             ['-PT'],
             ['+PT'],
             ['P1DT'],
+            ['P1Dt'],
+            ['p1dt'],
+            ['-P1Dt'],
             ['P1DTS'],
             ['PTS'],
             ['PT0'],
