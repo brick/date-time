@@ -330,21 +330,24 @@ final readonly class Instant implements JsonSerializable, Stringable
      *
      * The output does not have trailing decimal zeros.
      *
-     * Examples: `123456789`, `123456789.5`, `123456789.000000001`.
+     * Examples: `123456789`, `123456789.5`, `123456789.000000001`, `-0.5`.
      */
     public function toDecimal(): string
     {
-        $result = (string) $this->epochSecond;
-
-        if ($this->nano !== 0) {
-            $nano = (string) $this->nano;
-            $nano = str_pad($nano, 9, '0', STR_PAD_LEFT);
-            $nano = rtrim($nano, '0');
-
-            $result .= '.' . $nano;
+        if ($this->nano === 0) {
+            return (string) $this->epochSecond;
         }
 
-        return $result;
+        // The nano adjustment is always positive: -0.5 is stored as -1 second and 500000000 nanos.
+        if ($this->epochSecond < 0) {
+            $result = '-' . -($this->epochSecond + 1);
+            $nano = LocalTime::NANOS_PER_SECOND - $this->nano;
+        } else {
+            $result = (string) $this->epochSecond;
+            $nano = $this->nano;
+        }
+
+        return $result . '.' . rtrim(str_pad((string) $nano, 9, '0', STR_PAD_LEFT), '0');
     }
 
     /**
