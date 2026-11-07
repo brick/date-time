@@ -61,6 +61,9 @@ class TimeZoneTest extends AbstractTestCase
             [''],
             ['+'],
             ['-'],
+            ["Z\n"],
+            ["+01:00\n"],
+            ["Europe/London\n"],
         ];
     }
 

@@ -582,6 +582,8 @@ class ZonedDateTimeTest extends AbstractTestCase
 
             [' 2001-02-03T01:02:03Z'],
             ['2001-02-03T01:02:03Z '],
+            ["2001-02-03T01:02:03Z\n"],
+            ["2001-02-03T01:02:03+01:00[Europe/Paris]\n"],
         ];
     }
 

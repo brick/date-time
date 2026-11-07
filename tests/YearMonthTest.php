@@ -67,6 +67,7 @@ class YearMonthTest extends AbstractTestCase
             ['2010-01-01'],
             [' 2010-10'],
             ['2010-10 '],
+            ["2010-10\n"],
             ['2010.10'],
         ];
     }

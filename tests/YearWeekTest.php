@@ -371,6 +371,7 @@ class YearWeekTest extends AbstractTestCase
             [''],
             ['+2000-W01'],
             ['2000W01'],
+            ["2000-W01\n"],
             ['2000-W54', 'Invalid week-of-year: 54 is not in the range 1 to 53.'],
             ['2025-W53', 'Year 2025 does not have 53 weeks'],
         ];

@@ -99,6 +99,8 @@ class PeriodTest extends AbstractTestCase
         return [
             [' P0D'],
             ['P0D '],
+            ["P0D\n"],
+            ["P1Y2M3D\n"],
             ['P'],
             ['-P'],
             ['+P'],

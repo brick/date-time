@@ -59,6 +59,7 @@ class TimeZoneRegionTest extends AbstractTestCase
         return [
             [''],
             ['Europe.London'],
+            ["Europe/London\n"],
         ];
     }
 

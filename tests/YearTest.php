@@ -68,6 +68,7 @@ class YearTest extends AbstractTestCase
             ['+2000'],
             ['-100'],
             ['ABC'],
+            ["2000\n"],
             ['9999999999'],
         ];
     }
