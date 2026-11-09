@@ -104,7 +104,7 @@ final readonly class Period implements JsonSerializable, Stringable
             '(?:([\-\+]?[0-9]+)M)?' .
             '(?:([\-\+]?[0-9]+)W)?' .
             '(?:([\-\+]?[0-9]+)D)?' .
-            '()$/i';
+            '()$/iD';
 
         if (preg_match($pattern, $text, $matches) !== 1) {
             throw Parser\DateTimeParseException::invalidPeriod($text);

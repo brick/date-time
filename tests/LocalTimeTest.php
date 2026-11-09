@@ -143,6 +143,7 @@ class LocalTimeTest extends AbstractTestCase
             [' 12:34'],
             ['12:34:56 '],
             ['12:34:56.7 '],
+            ["12:34:56\n"],
         ];
     }
 

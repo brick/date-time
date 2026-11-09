@@ -11,6 +11,7 @@ use Brick\DateTime\Instant;
 use Brick\DateTime\LocalDate;
 use Brick\DateTime\LocalTime;
 use Brick\DateTime\Month;
+use Brick\DateTime\Parser\DateTimeParseException;
 use Brick\DateTime\Period;
 use Brick\DateTime\Quarter;
 use Brick\DateTime\TimeZone;
@@ -428,6 +429,27 @@ class LocalDateTest extends AbstractTestCase
             ['2024-06-30', DayOfWeek::THURSDAY, '2024-07-04'],
             ['2024-06-30', DayOfWeek::FRIDAY, '2024-07-05'],
             ['2024-06-30', DayOfWeek::SATURDAY, '2024-07-06'],
+        ];
+    }
+
+    #[DataProvider('providerParseInvalidStringThrowsException')]
+    public function testParseInvalidStringThrowsException(string $text): void
+    {
+        $this->expectException(DateTimeParseException::class);
+        LocalDate::parse($text);
+    }
+
+    public static function providerParseInvalidStringThrowsException(): array
+    {
+        return [
+            [''],
+            ['2014-12'],
+            ['2014-12-1'],
+            ['14-12-31'],
+            ['2014/12/31'],
+            [' 2014-12-31'],
+            ['2014-12-31 '],
+            ["2014-12-31\n"],
         ];
     }
 

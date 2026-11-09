@@ -285,6 +285,8 @@ class DurationTest extends AbstractTestCase
 
             [' PT0S'],
             ['PT0S '],
+            ["PT0S\n"],
+            ["P1DT2H3M4.5S\n"],
 
             ['PT-.S'],
             ['PT+.S'],

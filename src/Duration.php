@@ -79,7 +79,7 @@ final readonly class Duration implements JsonSerializable, Stringable
             '(?:([\-\+]?[0-9]+)M)?' .
             '(?:([\-\+]?[0-9]+)(?:\.([0-9]{1,9}))?S)?' .
             ')?' .
-            '()$/i';
+            '()$/iD';
 
         if (preg_match($pattern, $text, $matches) !== 1) {
             throw Parser\DateTimeParseException::invalidDuration($text);

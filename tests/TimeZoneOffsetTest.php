@@ -194,6 +194,8 @@ class TimeZoneOffsetTest extends AbstractTestCase
             ['+1:00'],
             ['+01:1'],
             ['+01:01:1'],
+            ["+01:00\n"],
+            ["Z\n"],
         ];
     }
 

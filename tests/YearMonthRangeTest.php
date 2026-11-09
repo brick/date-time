@@ -78,6 +78,8 @@ class YearMonthRangeTest extends AbstractTestCase
             ['2001-02/-05'],
             ['2001-02/05-'],
             [' 2001-02/03'],
+            ["2001-02/2004-05\n"],
+            ["2001-02/03\n"],
         ];
     }
 
