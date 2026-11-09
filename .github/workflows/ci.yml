@@ -32,6 +32,10 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
+      # Ubuntu 26.04 no longer installs legacy time zone names such as CET and Asia/Rangoon, which the tests use
+      - name: Install legacy time zones
+        run: sudo apt-get update && sudo apt-get install -y tzdata-legacy
+
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:

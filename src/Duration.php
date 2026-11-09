@@ -88,7 +88,7 @@ final readonly class Duration implements JsonSerializable, Stringable
         [, $sign, $days, $t, $hours, $minutes, $seconds, $nanos] = $matches;
 
         if ($hours === '' && $minutes === '' && $seconds === '') {
-            if ($days === '' || $t === 'T') {
+            if ($days === '' || $t !== '') {
                 throw Parser\DateTimeParseException::invalidDuration($text);
             }
         }
